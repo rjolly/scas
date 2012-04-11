@@ -1,0 +1,17 @@
+package scas.polynomial.ordering
+
+class Lexicographic[@specialized(Int, Long) N](implicit val nm: scala.math.Ordering[N]) extends Ordering[N] {
+  import scala.math.Ordering.Implicits.infixOrderingOps
+  def compare(x: Array[N], y: Array[N]): Int = {
+    val n = x.length - 1
+    for (i <- 0 until n) {
+      if (x(i) < y(i)) return -1
+      else if (x(i) > y(i)) return 1
+    }
+    0
+  }
+}
+
+object Lexicographic {
+  def apply[@specialized(Int, Long) N](implicit nm: scala.math.Ordering[N]) = new Lexicographic[N]
+}
