@@ -22,8 +22,6 @@ object MyApp extends App {
   module
   syzygy
   gcdSimple
-  gcdPrimitive
-  gcdSubres
   gcdMultivariate
 
   def pp1 = {
@@ -107,9 +105,9 @@ object MyApp extends App {
 
   def product = {
     implicit val r = Product(ModInteger(3), ModInteger(5))
-    val a = r(1,3)
+    val a = r(1, 3)
     val b = a + a
-    assert (b >< r(2,1))
+    assert (b >< r(2, 1))
     assert (r.toString == "ZZ(3)*ZZ(5)")
     assert (r.characteristic.intValue == 15)
   }
@@ -131,8 +129,8 @@ object MyApp extends App {
   def univariatePolynomial = {
     import Implicits.QQ
     implicit val r = UnivariatePolynomial(QQ, "x")
-    import r.{generator, gcd, monic, modInverse}
-    val x = generator(0)
+    import r.{generators, gcd, monic, modInverse}
+    val Array(x) = generators
     assert (monic(gcd((1+x)*(1+frac(1, 2)*x), (1+frac(1, 2)*x)*(1-x))) >< 2+x)
     assert (modInverse(1-x, pow(1+x, 2)) >< frac(1, 4)*x+frac(3, 4))
   }
@@ -157,7 +155,7 @@ object MyApp extends App {
   def an = {
     import Implicits.QQ
     implicit val r = AlgebraicNumber(QQ, "x")
-    val x = r.generator
+    val Array(x) = r.generators
     r.update(pow(x, 2) - 2)
     assert (pow(x, 2) >< 2)
     assert (r.toString == "QQ(pow(x, 2)-2)")
@@ -189,28 +187,12 @@ object MyApp extends App {
 
   def gcdSimple = {
     import Implicits.ZZ
-    implicit val r = PolynomialWithSimpleGCD(ZZ, PowerProduct[Int]('x))
+    implicit val r = MultivariatePolynomial(ZZ, PowerProduct[Int]('x))
     import r.{generators, gcd}
     val Array(x) = generators
     assert (gcd(0, 0) >< 0)
     assert (gcd(x, 0) >< x)
     assert (gcd(1, x) >< 1)
-    assert (gcd((1+x)*(1+x), (1+x)*(1-x)) >< 1+x)
-  }
-
-  def gcdPrimitive = {
-    import Implicits.ZZ
-    implicit val r = PolynomialWithPrimitiveGCD(ZZ, PowerProduct[Int]('x))
-    import r.{generators, gcd}
-    val Array(x) = generators
-    assert (gcd((1+x)*(1+x), (1+x)*(1-x)) >< 1+x)
-  }
-
-  def gcdSubres = {
-    import Implicits.ZZ
-    implicit val r = PolynomialWithSubresGCD(ZZ, PowerProduct[Int]('x))
-    import r.{generators, gcd}
-    val Array(x) = generators
     assert (gcd((1+x)*(1+x), (1+x)*(1-x)) >< 1+x)
   }
 

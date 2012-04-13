@@ -18,6 +18,7 @@ abstract class Residue[T, R](implicit val ring: UniqueFactorizationDomain[R]) ex
   def times(x: T, y: T) = fromRing(toRing(x) * toRing(y))
   def compare(x: T, y: T) = ring.compare(toRing(x), toRing(y))
   override def toCode(x: T, precedence: Int) = toRing(x).toCode(precedence)
+  def toMathML(x: T) = toRing(x).toMathML
 }
 
 object Residue {

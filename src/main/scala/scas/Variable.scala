@@ -5,6 +5,7 @@ import Ordering.{Int, Iterable, String}
 class Variable(val name: String, val subscript: Array[Int]) extends Ordered[Variable] {
   def compare (that: Variable) = Variable.compare(this, that)
   override def toString = name + subscript.map("(" + _ + ")").mkString
+  def toMathML = if (subscript.length == 0) <ci>{name}</ci> else <ci><msub><mi>{name}</mi><mrow>{subscript.map(a => <mn>{a}</mn>)}</mrow></msub></ci>
 }
 
 object Variable extends Ordering[Variable] {

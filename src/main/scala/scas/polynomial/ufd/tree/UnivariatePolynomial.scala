@@ -4,6 +4,7 @@ import scala.collection.SortedMap
 import scas.polynomial.{TreePolynomial, PowerProduct}
 import scas.structure.Field
 import scas.module.Module
+import scas.ordering
 import UnivariatePolynomial.Element
 
 class UnivariatePolynomial[C, @specialized(Int, Long) N](val ring: Field[C], val pp: PowerProduct[N], val module: Module[Element[C, N]])(implicit val cm: ClassManifest[Element[C, N]]) extends TreePolynomial[Element[C, N], C, N] with scas.polynomial.ufd.UnivariatePolynomial[Element[C, N], C, N] {
@@ -15,6 +16,7 @@ class UnivariatePolynomial[C, @specialized(Int, Long) N](val ring: Field[C], val
 
 object UnivariatePolynomial {
   def apply[C, @specialized(Int, Long) N](ring: Field[C], pp: PowerProduct[N]) = new UnivariatePolynomial(ring, pp)
+  def apply[C](ring: Field[C], name: String) = new UnivariatePolynomial(ring, PowerProduct[Int](name))
 
   class Element[C, @specialized(Int, Long) N](val value: SortedMap[Array[N], C], val syzygy: Module.Element[Element[C, N]])(val factory: UnivariatePolynomial[C, N]) extends TreePolynomial.Element[Element[C, N], C, N] with scas.polynomial.ufd.UnivariatePolynomial.Element[Element[C, N], C, N]
   implicit def coef2polynomial[D, C, @specialized(Int, Long) N](value: D)(implicit f: D => C, factory: UnivariatePolynomial[C, N]) = factory(value)

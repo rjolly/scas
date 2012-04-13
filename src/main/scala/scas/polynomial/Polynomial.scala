@@ -9,12 +9,8 @@ trait Polynomial[T <: Element[T, C, N], C, N] extends Ring[T] {
   implicit val ring: Ring[C]
   implicit val pp: PowerProduct[N]
   implicit val cm: ClassManifest[T]
-  def generator(n: Int) = fromPowerProduct(pp.generator(n))
-  def generators = (for (i <- 0 until length) yield generator(i)).toArray
-  def generatorsBy(n: Int) = {
-    val m = length/n
-    (for (i <- 0 until m) yield (for (j <- 0 until n) yield generator(i * n + j)).toArray).toArray
-  }
+  def generators = pp.generators.map(fromPowerProduct)
+  def generatorsBy(n: Int) = pp.generatorsBy(n).map(_.map(fromPowerProduct))
   def characteristic = ring.characteristic
   def apply(l: Long) = apply(ring(l))
   def random(numbits: Int)(implicit rnd: java.util.Random) = zero
@@ -50,8 +46,14 @@ trait Polynomial[T <: Element[T, C, N], C, N] extends Ring[T] {
         else if (c.isOne) (a.toCode(0), pp.size(a))
         else (c.toCode(1) + "*" + a.toCode(1), 1 + pp.size(a))
       }
-      s = s + (if (ring.signum(b) < 0) "-" else (if (n == 0) "" else "+")) + t
-      m = u + (if (ring.signum(b) < 0) 1 else 0)
+      s = {
+        if (n == 0) {
+          if (ring.signum(b) < 0) "-" + t else t
+        } else {
+          if (ring.signum(b) < 0) s + "-" + t else s + "+" + t
+        }
+      }
+      m = if (ring.signum(b) < 0) u + 1 else u
       n += 1
     }
     if (n == 0) ring.zero.toCode(0) else {
@@ -65,6 +67,28 @@ trait Polynomial[T <: Element[T, C, N], C, N] extends Ring[T] {
     }
   }
   override def toString = ring.toString + pp.toString
+  def toMathML(x: T) = {
+    var s = <sep/>
+    var n = 0
+    for ((a, b) <- iterator(x)) {
+      val c = ring.abs(b)
+      val t = {
+        if (a.isOne) c.toMathML
+        else if (c.isOne) a.toMathML
+        else <apply><times/>{c.toMathML}{a.toMathML}</apply>
+      }
+      s = {
+        if (n == 0) {
+          if (ring.signum(b) < 0) <apply><minus/>{t}</apply> else t
+        } else {
+          if (ring.signum(b) < 0) <apply><minus/>{s}{t}</apply> else <apply><plus/>{s}{t}</apply>
+        }
+      }
+      n += 1
+    }
+    if (n == 0) ring.zero.toMathML else s
+  }
+  def toMathML = <mrow>{ring.toMathML}{pp.toMathML}</mrow>
   def apply(value: C): T
   def fromPowerProduct(value: Array[N]): T
 

@@ -6,7 +6,7 @@ import scas.Implicits.infixRingOps
 import Module.Element
 
 class Module[R](val variables: Array[Variable])(implicit val ring: Ring[R], val cm: ClassManifest[R]) extends scas.structure.Module[Element[R], R] {
-  def generator(n: Int) = apply((for (i <- 0 until length) yield if (i == n) ring.one else ring.zero).toArray)
+  protected def generator(n: Int) = apply((for (i <- 0 until length) yield if (i == n) ring.one else ring.zero).toArray)
   def generators = (for (i <- 0 until length) yield generator(i)).toArray
   def apply(x: Element[R]) = apply(x.value)
   def apply(l: Long) = apply((for (i <- 0 until length) yield ring(l)).toArray)
@@ -29,14 +29,19 @@ class Module[R](val variables: Array[Variable])(implicit val ring: Ring[R], val 
     var m = 0
     for (i <- 0 until length) {
       val c = ring.abs(x.value(i))
-      val (t, u) = {
-        if (c.isZero) ("", 0)
-        else if (c.isOne) (variables(i), 1)
-        else (c.toCode(1) + "*" + variables(i), 2)
-      }
-      if (u > 0) {
-        s = s + (if (ring.signum(x.value(i)) < 0) "-" else (if (n == 0) "" else "+")) + t
-        m = u + (if (ring.signum(x.value(i)) < 0) 1 else 0)
+      if (!c.isZero) {
+        val (t, u) = {
+          if (c.isOne) (variables(i).toString, 1)
+          else (c.toCode(1) + "*" + variables(i).toString, 2)
+        }
+        s = {
+          if (n == 0) {
+            if (ring.signum(x.value(i)) < 0) "-" + t else t
+          } else {
+            if (ring.signum(x.value(i)) < 0) s + "-" + t else s + "+" + t
+          }
+        }
+        m = if (ring.signum(x.value(i)) < 0) u + 1 else u
         n += 1
       }
     }
@@ -51,6 +56,29 @@ class Module[R](val variables: Array[Variable])(implicit val ring: Ring[R], val 
     }
   }
   override def toString = ring.toString + "^" + length
+  def toMathML(x: Element[R]) = {
+    var s = <sep/>
+    var n = 0
+    for (i <- 0 until length) {
+      val c = ring.abs(x.value(i))
+      if (!c.isZero) {
+        val t = {
+          if (c.isOne) variables(i).toMathML
+          else <apply><times/>{c.toMathML}{variables(i).toMathML}</apply>
+        }
+        s = {
+          if (n == 0) {
+            if (ring.signum(x.value(i)) < 0) <apply><minus/>{t}</apply> else t
+          } else {
+            if (ring.signum(x.value(i)) < 0) <apply><minus/>{s}{t}</apply> else <apply><plus/>{s}{t}</apply>
+          }
+        }
+        n += 1
+      }
+    }
+    if (n == 0) ring.zero.toMathML else s
+  }
+  def toMathML = <msup>{ring.toMathML}<mn>{length}</mn></msup>
   def apply(value: Array[R]) = new Element((for (i <- 0 until length) yield if (i < value.length) ring(value(i)) else ring.zero).toArray)(this)
 
   def length = variables.length

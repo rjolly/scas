@@ -20,8 +20,14 @@ object Rational extends Quotient[java.math.BigInteger] {
   }
   override def toCode(x: Element[java.math.BigInteger], precedence: Int) = {
     val Element(n, d) = x
-    if (ring.isOne(d)) ring.toCode(n, precedence)
-    else "frac(" + ring.toCode(n, 0) + ", " + ring.toCode(d, 0) + ")"
+    if (d.isOne) n.toCode(precedence)
+    else "frac(" + n.toCode(0) + ", " + d.toCode(0) + ")"
   }
   override def toString = "QQ"
+  override def toMathML(x: Element[java.math.BigInteger]) = {
+    val Element(n, d) = x
+    if (d.isOne) n.toMathML
+    else <cn type="rational">{n.toMathML}<sep/>{d.toMathML}</cn>
+  }
+  override def toMathML = <rationals/>
 }

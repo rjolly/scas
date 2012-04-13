@@ -14,6 +14,7 @@ class ModInteger(val mod: java.math.BigInteger) extends Residue[java.math.BigInt
   override def pow(x: java.math.BigInteger, exp: java.math.BigInteger) = x.modPow(exp, mod)
   def divide(x: java.math.BigInteger, y: java.math.BigInteger) = x * y.modInverse(mod)
   override def toString = ring.toString + "(" + mod + ")"
+  def toMathML = <msub>{ring.toMathML}<mn>{mod}</mn></msub>
 }
 
 object ModInteger {

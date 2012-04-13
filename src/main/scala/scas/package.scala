@@ -22,12 +22,9 @@ package object scas {
   val SolvablePolynomial = scas.polynomial.tree.SolvablePolynomial
   val WeylAlgebra = scas.polynomial.tree.WeylAlgebra
   val MultivariatePolynomial = scas.polynomial.ufd.tree.MultivariatePolynomial
-  val PolynomialWithSimpleGCD = scas.polynomial.ufd.tree.PolynomialWithSimpleGCD
-  val PolynomialWithPrimitiveGCD = scas.polynomial.ufd.tree.PolynomialWithPrimitiveGCD
-  val PolynomialWithSubresGCD = scas.polynomial.ufd.tree.PolynomialWithSubresGCD
-  val UnivariatePolynomial = scas.polynomial.ufd.tree.int.UnivariatePolynomial
-  val AlgebraicNumber = scas.polynomial.ufd.tree.int.AlgebraicNumber
+  val UnivariatePolynomial = scas.polynomial.ufd.tree.UnivariatePolynomial
   val RationalFunction = scas.polynomial.ufd.RationalFunction
+  val AlgebraicNumber = scas.polynomial.ufd.AlgebraicNumber
   val Product = scas.structure.Product
   val Module = scas.module.Module
   implicit def int2bigInteger(i: Int) = java.math.BigInteger.valueOf(i)

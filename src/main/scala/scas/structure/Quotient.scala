@@ -67,13 +67,20 @@ class Quotient[R](implicit val ring: UniqueFactorizationDomain[R]) extends Field
   }
   override def toCode(x: Element[R], precedence: Int) = {
     val Element(n, d) = x
-    if (ring.isOne(d)) ring.toCode(n, precedence)
+    if (d.isOne) n.toCode(precedence)
     else {
-      val s = ring.toCode(n, 2) + "/" + ring.toCode(d, 2)
+      val s = n.toCode(2) + "/" + d.toCode(2)
       val fenced = precedence > 1
       if (fenced) "(" + s + ")" else s
     }
   }
+  override def toString = ring.toString + "/" + ring.toString
+  def toMathML(x: Element[R]) = {
+    val Element(n, d) = x
+    if (d.isOne) n.toMathML
+    else <apply><divide/>{n.toMathML}{d.toMathML}</apply>
+  }
+  def toMathML = <apply><divide/>{ring.toMathML}{ring.toMathML}</apply>
 }
 
 object Quotient {

@@ -10,18 +10,20 @@ class AlgebraicNumber[R <: UnivariatePolynomial.Element[R, C, N], C, @specialize
     // assert mod is irreducible
     this.mod = mod
   }
-  def generator = fromRing(ring.generator)
+  def generators = ring.generators.map(fromRing)
   def apply(value: C) = fromRing(ring(value))
   def fromRing(x: R) = new Element[R, C, N](if (mod.isZero) x else ring.remainder(x, mod))(this)
   def toRing(x: Element[R, C, N]) = x.value
   def characteristic = ring.characteristic
   def divide(x: Element[R, C, N], y: Element[R, C, N]) = x * inverse(y)
   override def inverse(x: Element[R, C, N]) = fromRing(ring.modInverse(toRing(x), mod))
-  override def toString = ring.ring.toString + "(" + mod + ")"
+  override def toString = ring.ring.toString + "(" + mod.toString + ")"
+  def toMathML = <msub>{ring.ring.toMathML}{mod.toMathML}</msub>
 }
 
 object AlgebraicNumber {
   def apply[R <: UnivariatePolynomial.Element[R, C, N], C, @specialized(Int, Long) N](ring: UnivariatePolynomial[R, C, N]) = new AlgebraicNumber(ring)
+  def apply[C](ring: Field[C], name: String) = new AlgebraicNumber(scas.polynomial.ufd.tree.UnivariatePolynomial(ring, name))
 
   class Element[R <: UnivariatePolynomial.Element[R, C, N], C, @specialized(Int, Long) N](value: R)(override val factory: AlgebraicNumber[R, C, N]) extends Residue.Element[Element[R, C, N], R](value)(factory) with UniqueFactorizationDomain.Element[Element[R, C, N]]
   implicit def coef2algebraicNumber[D, R <: UnivariatePolynomial.Element[R, C, N], C, @specialized(Int, Long) N](value: D)(implicit f: D => C, factory: AlgebraicNumber[R, C, N]) = factory(value)

@@ -35,4 +35,6 @@ object BigInteger extends EuclidianDomain[java.math.BigInteger] {
     else "BigInteger(\"" + n + "\")"
   }
   override def toString = "ZZ"
+  def toMathML(x: java.math.BigInteger) = <cn>{x}</cn>
+  def toMathML = <integers/>
 }

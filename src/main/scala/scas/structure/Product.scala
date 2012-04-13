@@ -49,6 +49,11 @@ class Product[R1, R2](implicit val ring1: Ring[R1], ring2: Ring[R2]) extends Rin
     (a, b).toString
   }
   override def toString = ring1.toString + "*" + ring2.toString
+  def toMathML(x: Element[R1, R2]) = {
+    val Element(a, b) = x
+    <mfenced>{a.toMathML}{b.toMathML}</mfenced>
+  }
+  def toMathML = <apply><cartesianproduct/>{ring1.toMathML}{ring2.toMathML}</apply>
 }
 
 object Product {

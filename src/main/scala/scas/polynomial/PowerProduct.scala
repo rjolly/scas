@@ -11,7 +11,7 @@ class PowerProduct[@specialized(Int, Long) N](val variables: Array[Variable])(im
   def take(n: Int) = new PowerProduct[N](variables.take(n))
   def drop(n: Int) = new PowerProduct[N](variables.drop(n))
   override def one = new Array[N](length + 1)
-  def generator(n: Int) = (for (i <- 0 until length + 1) yield fromInt(if (i == n || i == length) 1 else 0)).toArray
+  protected def generator(n: Int) = (for (i <- 0 until length + 1) yield fromInt(if (i == n || i == length) 1 else 0)).toArray
   def generators = (for (i <- 0 until length) yield generator(i)).toArray
   def generatorsBy(n: Int) = {
     val m = length/n
@@ -64,14 +64,28 @@ class PowerProduct[@specialized(Int, Long) N](val variables: Array[Variable])(im
     for (i <- 0 until length) if (x(i) > fromInt(0)) {
       val t = {
         if (x(i) equiv fromInt(1)) variables(i).toString
-        else "pow(" + variables(i) + ", " + x(i) + ")"
+        else "pow(" + variables(i).toString + ", " + x(i) + ")"
       }
-      s = s + (if (m == 0) "" else "*") + t
+      s = if (m == 0) t else s + "*" + t
       m += 1
     }
     if (m == 0) "1" else s
   }
   override def toString = "["+variables.mkString(", ")+"]"
+  def toMathML(x: Array[N]) = {
+    var s = <sep/>
+    var m = 0
+    for (i <- 0 until length) if (x(i) > fromInt(0)) {
+      val t = {
+        if (x(i) equiv fromInt(1)) variables(i).toMathML
+        else <apply><power/>{variables(i).toMathML}<cn>{x(i)}</cn></apply>
+      }
+      s = if (m == 0) t else <apply><times/>{s}{t}</apply>
+      m += 1
+    }
+    if (m == 0) <cn>1</cn> else s
+  }
+  def toMathML = <list>{variables.map(_.toMathML)}</list>
 
   def converter(from: Array[Variable]): Array[N] => Array[N] = { x =>
     val r = new Array[N](length + 1)
