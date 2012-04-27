@@ -1,7 +1,7 @@
 package scas.polynomial.tree
 
 import scala.collection.SortedMap
-import scas.polynomial.{TreePolynomial, PowerProduct}
+import scas.polynomial.{TreePolynomial, PowerProduct, WeylAlgebra}
 import scas.structure.Ring
 import SolvablePolynomial.Element
 
@@ -11,6 +11,7 @@ class SolvablePolynomial[C, @specialized(Int, Long) N](val ring: Ring[C], val pp
 
 object SolvablePolynomial {
   def apply[C, @specialized(Int, Long) N](ring: Ring[C], pp: PowerProduct[N]) = new SolvablePolynomial(ring, pp)
+  def weylAlgebra[C, @specialized(Int, Long) N](ring: Ring[C], pp: PowerProduct[N]): SolvablePolynomial[C, N] = new SolvablePolynomial(ring, pp) with WeylAlgebra[Element[C, N], C, N]
 
   class Element[C, @specialized(Int, Long) N](val value: SortedMap[Array[N], C])(val factory: SolvablePolynomial[C, N]) extends TreePolynomial.Element[Element[C, N], C, N]
   implicit def coef2polynomial[D, C, @specialized(Int, Long) N](value: D)(implicit f: D => C, factory: SolvablePolynomial[C, N]) = factory(value)

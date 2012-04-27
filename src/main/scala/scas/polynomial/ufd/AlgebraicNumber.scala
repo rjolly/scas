@@ -1,5 +1,6 @@
 package scas.polynomial.ufd
 
+import scas.Variable
 import scas.structure.{Residue, Field, UniqueFactorizationDomain}
 import AlgebraicNumber.Element
 
@@ -22,8 +23,8 @@ class AlgebraicNumber[R <: UnivariatePolynomial.Element[R, C, N], C, @specialize
 }
 
 object AlgebraicNumber {
+  def apply[C](ring: Field[C], s: Variable): AlgebraicNumber[scas.polynomial.ufd.tree.UnivariatePolynomial.Element[C, Int], C, Int] = apply(scas.polynomial.ufd.tree.UnivariatePolynomial(ring, s))
   def apply[R <: UnivariatePolynomial.Element[R, C, N], C, @specialized(Int, Long) N](ring: UnivariatePolynomial[R, C, N]) = new AlgebraicNumber(ring)
-  def apply[C](ring: Field[C], name: String) = new AlgebraicNumber(scas.polynomial.ufd.tree.UnivariatePolynomial(ring, name))
 
   class Element[R <: UnivariatePolynomial.Element[R, C, N], C, @specialized(Int, Long) N](value: R)(override val factory: AlgebraicNumber[R, C, N]) extends Residue.Element[Element[R, C, N], R](value)(factory) with UniqueFactorizationDomain.Element[Element[R, C, N]]
   implicit def coef2algebraicNumber[D, R <: UnivariatePolynomial.Element[R, C, N], C, @specialized(Int, Long) N](value: D)(implicit f: D => C, factory: AlgebraicNumber[R, C, N]) = factory(value)

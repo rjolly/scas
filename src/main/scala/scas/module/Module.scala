@@ -29,6 +29,7 @@ class Module[R](val variables: Array[Variable])(implicit val ring: Ring[R], val 
     var m = 0
     for (i <- 0 until length) {
       val c = ring.abs(x.value(i))
+      val g = ring.signum(x.value(i)) < 0
       if (!c.isZero) {
         val (t, u) = {
           if (c.isOne) (variables(i).toString, 1)
@@ -36,12 +37,12 @@ class Module[R](val variables: Array[Variable])(implicit val ring: Ring[R], val 
         }
         s = {
           if (n == 0) {
-            if (ring.signum(x.value(i)) < 0) "-" + t else t
+            if (g) "-" + t else t
           } else {
-            if (ring.signum(x.value(i)) < 0) s + "-" + t else s + "+" + t
+            if (g) s + "-" + t else s + "+" + t
           }
         }
-        m = if (ring.signum(x.value(i)) < 0) u + 1 else u
+        m = if (g) u + 1 else u
         n += 1
       }
     }

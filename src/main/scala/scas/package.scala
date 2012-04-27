@@ -20,13 +20,13 @@ package object scas {
   val PowerProduct = scas.polynomial.PowerProduct
   val Polynomial = scas.polynomial.tree.Polynomial
   val SolvablePolynomial = scas.polynomial.tree.SolvablePolynomial
-  val WeylAlgebra = scas.polynomial.tree.WeylAlgebra
   val MultivariatePolynomial = scas.polynomial.ufd.tree.MultivariatePolynomial
   val UnivariatePolynomial = scas.polynomial.ufd.tree.UnivariatePolynomial
   val RationalFunction = scas.polynomial.ufd.RationalFunction
   val AlgebraicNumber = scas.polynomial.ufd.AlgebraicNumber
-  val Product = scas.structure.Product
+  val Syzygy = scas.polynomial.Syzygy
   val Module = scas.module.Module
+  val Product = scas.structure.Product
   implicit def int2bigInteger(i: Int) = java.math.BigInteger.valueOf(i)
   implicit def int2bigIntegerOps(i: Int)(implicit factory: UniqueFactorizationDomain[java.math.BigInteger]): UniqueFactorizationDomain[java.math.BigInteger]#Ops = factory.mkOps(i)
   implicit def int2bigIntegerOrderingOps(i: Int)(implicit factory: UniqueFactorizationDomain[java.math.BigInteger]): Ordering[java.math.BigInteger]#Ops = factory.mkOrderingOps(i)
@@ -37,6 +37,6 @@ package object scas {
   implicit def int2powerProductOps[N: PowerProduct](i: Int) = implicitly[PowerProduct[N]].mkOps(i)
   implicit def int2powerProductOrderingOps[N: PowerProduct](i: Int) = implicitly[PowerProduct[N]].mkOrderingOps(i)
   def pow[T: Monoid](x: T, exp: java.math.BigInteger) = implicitly[Monoid[T]].pow(x, exp)
-  implicit val ordering = Lexicographic[Int]
+  def pow(x: java.math.BigInteger, exp: java.math.BigInteger)(implicit factory: Monoid[java.math.BigInteger]) = factory.pow(x, exp)
   implicit val random = new java.util.Random()
 }

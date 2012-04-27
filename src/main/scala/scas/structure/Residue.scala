@@ -11,7 +11,7 @@ abstract class Residue[T, R](implicit val ring: UniqueFactorizationDomain[R]) ex
   def isUnit(x: T) = toRing(x).isUnit
   override def pow(x: T, exp: java.math.BigInteger) = fromRing(ring.pow(toRing(x), exp))
   override def negate(x: T) = fromRing(-toRing(x))
-  override def abs(x: T) = x
+  override def abs(x: T) = fromRing(ring.abs(toRing(x)))
   override def signum(x: T) = ring.signum(toRing(x))
   def plus(x: T, y: T) = fromRing(toRing(x) + toRing(y))
   def minus(x: T, y: T) = fromRing(toRing(x) - toRing(y))

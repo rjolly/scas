@@ -5,8 +5,8 @@ import scas.Implicits.{infixRingOps, infixPowerProductOps}
 import Polynomial.Element
 
 trait SolvablePolynomial[T <: Element[T, C, N], C, N] extends Polynomial[T, C, N] {
-  type Key = Pair[Int, Int]
-  type Relation = Triple[Array[N], Array[N], T]
+  type Key = (Int, Int)
+  type Relation = (Array[N], Array[N], T)
   var table = SortedMap.empty[Key, List[Relation]]
   def update(e: T, f: T, p: T): Unit = update(headPowerProduct(e), headPowerProduct(f), p)
   def update(e: Array[N], f: Array[N], p: T) = {

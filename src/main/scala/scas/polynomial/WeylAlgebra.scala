@@ -7,6 +7,6 @@ trait WeylAlgebra[T <: Element[T, C, N], C, N] extends SolvablePolynomial[T, C, 
   for (i <- 0 until n; j = i + n) {
     val xi = generators(i)
     val xj = generators(j)
-    update(headPowerProduct(xj), headPowerProduct(xi), xi * xj + one)
+    update(xj, xi, xi * xj + one)
   }
 }

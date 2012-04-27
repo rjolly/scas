@@ -9,7 +9,7 @@ class Quotient[R](implicit val ring: UniqueFactorizationDomain[R]) extends Field
     reduce(n, d)
   }
   def reduce(n: R, d: R) = {
-    val gcd = ring.gcd(n, d) match { case gcd => if (ring.signum(d) < 0) -gcd else gcd }
+    val gcd = { val gcd = ring.abs(ring.gcd(n, d)) ; if (ring.signum(d) < 0) -gcd else gcd }
     apply(n / gcd, d / gcd)
   }
   def apply(n: R, d: R) = new Element(n, d)(this)

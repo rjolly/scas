@@ -4,7 +4,8 @@ class KthElimination[@specialized(Int, Long) N](val k: Int)(implicit val nm: sca
   import scala.math.Ordering.Implicits.infixOrderingOps
   val ordering = DegreeReverseLexicographic[N]
   override def compare(x: Array[N], y: Array[N]): Int = {
-    for (i <- 0 until k) {
+    val n = x.length - 1
+    for (i <- n - 1 to n - k by -1) {
       if (x(i) < y(i)) return -1
       else if (x(i) > y(i)) return 1
     }
