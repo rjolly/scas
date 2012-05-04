@@ -1,9 +1,11 @@
 package scas.structure
 
-trait Ring[T] extends AbelianGroup[T] with Monoid[T] {
+trait Ring[T] extends AbelianGroup[T] with Monoid[T] { outer =>
   def characteristic: java.math.BigInteger
-  trait Ops extends super[AbelianGroup].Ops with super[Monoid].Ops
-  override implicit def mkOps(value: T): Ops = new Ops { val lhs = value }
+  override implicit def mkOps(value: T): Ring.Ops[T] = new Ring.Ops[T] {
+    val lhs = value
+    val factory = outer
+  }
 }
 
 object Ring {
@@ -12,7 +14,9 @@ object Ring {
   }
   object Implicits extends ExtraImplicits
 
-  trait Element[T <: Element[T]] extends AbelianGroup.Element[T] with Monoid.Element[T] { this: T =>
+  trait Element[T <: Element[T]] extends AbelianGroup.Element[T] with Monoid.Element[T] with Ops[T] { this: T =>
+  }
+  trait Ops[T] extends AbelianGroup.Ops[T] with Monoid.Ops[T] {
     val factory: Ring[T]
   }
 }

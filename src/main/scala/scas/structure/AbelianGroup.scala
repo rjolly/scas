@@ -8,14 +8,10 @@ trait AbelianGroup[T] extends Structure[T] { outer =>
   def abs(x: T) = if (signum(x) < 0) -x else x
   def signum(x: T) = if (x < zero) -1 else if (x > zero) 1 else 0
   def isZero(x: T) = x >< zero
-  trait Ops extends super.Ops {
-    def isZero = outer.isZero(lhs)
-    def +(rhs: T) = plus(lhs, rhs)
-    def -(rhs: T) = minus(lhs, rhs)
-    def unary_- = negate(lhs)
-    def unary_+ = lhs
+  override implicit def mkOps(value: T): AbelianGroup.Ops[T] = new AbelianGroup.Ops[T] {
+    val lhs = value
+    val factory = outer
   }
-  override implicit def mkOps(value: T): Ops = new Ops { val lhs = value }
 }
 
 object AbelianGroup {
@@ -24,12 +20,14 @@ object AbelianGroup {
   }
   object Implicits extends ExtraImplicits
 
-  trait Element[T <: Element[T]] extends Structure.Element[T] { this: T =>
+  trait Element[T <: Element[T]] extends Structure.Element[T] with Ops[T] { this: T =>
+  }
+  trait Ops[T] extends Structure.Ops[T] {
     val factory: AbelianGroup[T]
-    def isZero = factory.isZero(this)
-    def +(that: T) = factory.plus(this, that)
-    def -(that: T) = factory.minus(this, that)
-    def unary_- = factory.negate(this)
-    def unary_+ = this
+    def isZero = factory.isZero(lhs)
+    def +(rhs: T) = factory.plus(lhs, rhs)
+    def -(rhs: T) = factory.minus(lhs, rhs)
+    def unary_- = factory.negate(lhs)
+    def unary_+ = lhs
   }
 }

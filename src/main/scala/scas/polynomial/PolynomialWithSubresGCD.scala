@@ -1,4 +1,4 @@
-package scas.polynomial.ufd
+package scas.polynomial
 
 import scas.long2bigInteger
 import scas.Implicits.infixUFDOps

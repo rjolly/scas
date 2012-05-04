@@ -8,11 +8,10 @@ trait Monoid[T] extends SemiGroup[T] { outer =>
   }
   def isUnit(x: T): Boolean
   def isOne(x: T) = x >< one
-  trait Ops extends super.Ops {
-    def isUnit = outer.isUnit(lhs)
-    def isOne = outer.isOne(lhs)
+  override implicit def mkOps(value: T): Monoid.Ops[T] = new Monoid.Ops[T] {
+    val lhs = value
+    val factory = outer
   }
-  override implicit def mkOps(value: T): Ops = new Ops { val lhs = value }
 }
 
 object Monoid {
@@ -21,9 +20,11 @@ object Monoid {
   }
   object Implicits extends ExtraImplicits
 
-  trait Element[T <: Element[T]] extends SemiGroup.Element[T] { this: T =>
+  trait Element[T <: Element[T]] extends SemiGroup.Element[T] with Ops[T] { this: T =>
+  }
+  trait Ops[T] extends SemiGroup.Ops[T] {
     val factory: Monoid[T]
-    def isUnit = factory.isUnit(this)
-    def isOne = factory.isOne(this)
+    def isUnit = factory.isUnit(lhs)
+    def isOne = factory.isOne(lhs)
   }
 }

@@ -17,7 +17,13 @@
 	</xsl:call-template>
 </xsl:template>
 
-<xsl:template match="m:cn[@type='rational']">
+<xsl:template match="m:cn[@type='rational' and count(text()) = 1]">
+	<xsl:call-template name="integer">
+		<xsl:with-param name="value" select="text()"/>
+	</xsl:call-template>
+</xsl:template>
+
+<xsl:template match="m:cn[@type='rational' and count(text()) = 2]">
 	<xsl:text>frac(</xsl:text>
 	<xsl:call-template name="integer">
 		<xsl:with-param name="value" select="text()[1]"/>

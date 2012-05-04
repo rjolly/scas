@@ -1,6 +1,5 @@
-package scas.polynomial.ufd
+package scas.polynomial
 
-import scas.polynomial.Polynomial
 import scas.structure.UniqueFactorizationDomain
 import scas.Implicits.{infixUFDOps, infixPowerProductOps}
 import PolynomialOverUFD.Element
@@ -17,7 +16,8 @@ trait PolynomialOverUFD[T <: Element[T, C, N], C, N] extends Polynomial[T, C, N]
       val (t, b) = head(y)
       if (!(t | s) || !(b | a)) (zero, x) else {
         val c = multiply(one, s / t, a / b)
-        divideAndRemainder(x - c * y, y) match { case (q, r) => (c + q, r) }
+        val (q, r) = divideAndRemainder(x - c * y, y)
+        (c + q, r)
       }
     }
   }
@@ -39,9 +39,9 @@ trait PolynomialOverUFD[T <: Element[T, C, N], C, N] extends Polynomial[T, C, N]
       }
     }
   }
-  def content(x: T) = (ring.zero /: iterator(x)) { (l, r) =>
-    val (a, b) = r
-    ring.gcd(l, b) match { case gcd => if (ring.signum(b) < 0) -gcd else gcd }
+  def content(x: T) = {
+    val c = (ring.zero /: iterator(x)) { (l, r) => val (a, b) = r ; ring.gcd(l, b) }
+    ring.abs(c) * ring(signum(x))
   }
   def contentAndPrimitivePart(x: T) = {
     val c = content(x)

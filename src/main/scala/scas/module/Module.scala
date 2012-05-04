@@ -8,7 +8,7 @@ import Module.Element
 class Module[R](val variables: Array[Variable])(implicit val ring: Ring[R], val cm: ClassManifest[R]) extends scas.structure.Module[Element[R], R] {
   protected def generator(n: Int) = apply((for (i <- 0 until length) yield if (i == n) ring.one else ring.zero).toArray)
   def generators = (for (i <- 0 until length) yield generator(i)).toArray
-  def apply(x: Element[R]) = apply(x.value)
+  def convert(x: Element[R]) = apply(x.value)
   def apply(l: Long) = apply((for (i <- 0 until length) yield ring(l)).toArray)
   override def random(numbits: Int)(implicit rnd: java.util.Random) = apply((for (i <- 0 until length) yield ring.random(numbits)).toArray)
   def compare(x: Element[R], y: Element[R]): Int = {
@@ -80,7 +80,7 @@ class Module[R](val variables: Array[Variable])(implicit val ring: Ring[R], val 
     if (n == 0) ring.zero.toMathML else s
   }
   def toMathML = <msup>{ring.toMathML}<mn>{length}</mn></msup>
-  def apply(value: Array[R]) = new Element((for (i <- 0 until length) yield if (i < value.length) ring(value(i)) else ring.zero).toArray)(this)
+  def apply(value: Array[R]) = new Element((for (i <- 0 until length) yield if (i < value.length) ring.convert(value(i)) else ring.zero).toArray)(this)
 
   def length = variables.length
 }
@@ -89,5 +89,5 @@ object Module {
   def apply[R](name: String, dimension: Int, ring: Ring[R])(implicit cm: ClassManifest[R]) = new Module((for (i <- 0 until dimension) yield Variable(name, i)).toArray)(ring, cm)
 
   class Element[R](val value: Array[R])(val factory: Module[R]) extends scas.structure.Module.Element[Element[R], R]
-  implicit def ring2scalar[S <% R, R: Module](value: S) = implicitly[Module[R]].scalar(value)
+  implicit def ring2scalar[S <% R, R: Module](value: S) = implicitly[Module[R]].apply(value)
 }

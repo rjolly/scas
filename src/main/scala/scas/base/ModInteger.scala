@@ -5,6 +5,7 @@ import scas.Implicits.{ZZ, infixUFDOps}
 import scas.long2bigInteger
 
 class ModInteger(val mod: java.math.BigInteger) extends Residue[java.math.BigInteger, java.math.BigInteger] with Field[java.math.BigInteger] {
+  val ring = ZZ
   assert (mod.isProbablePrime(100))
   def fromRing(x: java.math.BigInteger) = x.mod(mod)
   def toRing(x: java.math.BigInteger) = x

@@ -4,7 +4,7 @@ import scas.structure.EuclidianDomain
 import scas.{int2bigInteger, long2bigInteger}
 
 object BigInteger extends EuclidianDomain[java.math.BigInteger] {
-  def apply(x: java.math.BigInteger) = x
+  def convert(x: java.math.BigInteger) = x
   def apply(s: String) = new java.math.BigInteger(s)
   def apply(l: Long) = l
   def random(numbits: Int)(implicit rnd: java.util.Random) = {
@@ -29,10 +29,10 @@ object BigInteger extends EuclidianDomain[java.math.BigInteger] {
   def minus(x: java.math.BigInteger, y: java.math.BigInteger) = x.subtract(y)
   def times(x: java.math.BigInteger, y: java.math.BigInteger) = x.multiply(y)
   def compare(x: java.math.BigInteger, y: java.math.BigInteger) = x.compareTo(y)
-  override def toCode(x: java.math.BigInteger, precedence: Int) = x match {
-    case n => if (n.bitLength < 32) n.toString
-    else if (n.bitLength < 64) n.toString + "l"
-    else "BigInteger(\"" + n + "\")"
+  override def toCode(x: java.math.BigInteger, precedence: Int) = {
+    if (x.bitLength < 32) x.toString
+    else if (x.bitLength < 64) x.toString + "l"
+    else "BigInteger(\"" + x + "\")"
   }
   override def toString = "ZZ"
   def toMathML(x: java.math.BigInteger) = <cn>{x}</cn>

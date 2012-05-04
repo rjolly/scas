@@ -2,8 +2,9 @@ package scas.structure
 
 import scas.Implicits.infixUFDOps
 
-abstract class Residue[T, R](implicit val ring: UniqueFactorizationDomain[R]) extends Ring[T] {
-  def apply(x: T) = fromRing(toRing(x))
+trait Residue[T, R] extends Ring[T] {
+  implicit val ring: UniqueFactorizationDomain[R]
+  def convert(x: T) = fromRing(toRing(x))
   def apply(l: Long) = fromRing(ring(l))
   def fromRing(x: R): T
   def toRing(x: T): R
@@ -22,6 +23,8 @@ abstract class Residue[T, R](implicit val ring: UniqueFactorizationDomain[R]) ex
 }
 
 object Residue {
-  abstract class Element[T <: Element[T, R], R](val value: R)(val factory: Residue[T, R]) extends Ring.Element[T] { this: T =>
+  trait Element[T <: Element[T, R], R] extends Ring.Element[T] { this: T =>
+    val factory: Residue[T, R]
+    val value: R
   }
 }

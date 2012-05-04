@@ -6,9 +6,9 @@ import TreePolynomial.Element
 
 trait TreePolynomial[T <: Element[T, C, N], C, N] extends Polynomial[T, C, N] {
   override def zero = apply(SortedMap.empty[Array[N], C](pp.ordering.reverse))
-  def apply(x: T) = apply((zero.value /: x.value.iterator) { (l, r) =>
+  def convert(x: T) = apply((zero.value /: x.value.iterator) { (l, r) =>
     val (a, b) = r
-    val (m, c) = (pp.converter(x.factory.variables)(a), ring(b))
+    val (m, c) = (pp.converter(x.factory.variables)(a), ring.convert(b))
     if (c.isZero) l else l.updated(m, c)
   })
   override def isZero(x: T) = x.value.isEmpty

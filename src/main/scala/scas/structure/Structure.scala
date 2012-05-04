@@ -3,20 +3,16 @@ package scas.structure
 import scala.xml.Elem
 
 trait Structure[T] extends Ordering[T] { outer =>
-  def apply(x: T): T
+  def convert(x: T): T
   def apply(l: Long): T
   def random(numbits: Int)(implicit rnd: java.util.Random): T
   def toCode(x: T, precedence: Int) = x.toString
   def toMathML(x: T): Elem
   def toMathML: Elem
-  trait Ops {
-    val lhs: T
-    def ><(rhs: T) = equiv(lhs, rhs)
-    def <>(rhs: T) = !equiv(lhs, rhs)
-    def toCode(precedence: Int) = outer.toCode(lhs, precedence)
-    def toMathML = outer.toMathML(lhs)
+  implicit def mkOps(value: T): Structure.Ops[T] = new Structure.Ops[T] {
+    val lhs = value
+    val factory = outer
   }
-  implicit def mkOps(value: T): Ops = new Ops { val lhs = value }
 }
 
 object Structure {
@@ -25,13 +21,17 @@ object Structure {
   }
   object Implicits extends ExtraImplicits
 
-  trait Element[T <: Element[T]] extends Ordered[T] { this: T =>
-    val factory: Structure[T]
-    def compare(that: T) = factory.compare(this, that)
-    def ><(that: T) = factory.equiv(this, that)
-    def <>(that: T) = !factory.equiv(this, that)
-    def toCode(precedence: Int) = factory.toCode(this, precedence)
-    def toMathML = factory.toMathML(this)
+  trait Element[T <: Element[T]] extends Ordered[T] with Ops[T] { this: T =>
+    val lhs = this
+    def compare(rhs: T) = factory.compare(lhs, rhs)
     override def toString = toCode(0)
+  }
+  trait Ops[T] {
+    val lhs: T
+    val factory: Structure[T]
+    def ><(rhs: T) = factory.equiv(lhs, rhs)
+    def <>(rhs: T) = !factory.equiv(lhs, rhs)
+    def toCode(precedence: Int) = factory.toCode(lhs, precedence)
+    def toMathML = factory.toMathML(lhs)
   }
 }

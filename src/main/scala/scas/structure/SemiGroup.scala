@@ -1,11 +1,11 @@
 package scas.structure
 
-trait SemiGroup[T] extends Structure[T] {
+trait SemiGroup[T] extends Structure[T] { outer =>
   def times(x: T, y: T): T
-  trait Ops extends super.Ops {
-    def *(rhs: T) = times(lhs, rhs)
+  override implicit def mkOps(value: T): SemiGroup.Ops[T] = new SemiGroup.Ops[T] {
+    val lhs = value
+    val factory = outer
   }
-  override implicit def mkOps(value: T): Ops = new Ops { val lhs = value }
 }
 
 object SemiGroup {
@@ -14,8 +14,10 @@ object SemiGroup {
   }
   object Implicits extends ExtraImplicits
 
-  trait Element[T <: Element[T]] extends Structure.Element[T] { this: T =>
+  trait Element[T <: Element[T]] extends Structure.Element[T] with Ops[T] { this: T =>
+  }
+  trait Ops[T] extends Structure.Ops[T] {
     val factory: SemiGroup[T]
-    def *(that: T) = factory.times(this, that)
+    def *(rhs: T) = factory.times(lhs, rhs)
   }
 }

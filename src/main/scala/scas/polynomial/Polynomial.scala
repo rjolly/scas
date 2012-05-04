@@ -5,7 +5,7 @@ import scas.polynomial.ordering.Ordering
 import scas.Implicits.{infixRingOps, infixPowerProductOps}
 import Polynomial.Element
 
-trait Polynomial[T <: Element[T, C, N], C, N] extends Ring[T] {
+trait Polynomial[T <: Element[T, C, N], C, N] extends Ring[T] with (C => T) {
   implicit val ring: Ring[C]
   implicit val pp: PowerProduct[N]
   implicit val cm: ClassManifest[T]
@@ -110,6 +110,8 @@ trait Polynomial[T <: Element[T, C, N], C, N] extends Ring[T] {
   def headCoefficient(x: T) = { val (a, b) = head(x) ; b }
 
   def tail(x: T): (Array[N], C)
+
+  def tailCoefficient(x: T) = { val (a, b) = tail(x) ; b }
 
   def degree(x: T) = (0l /: iterator(x)) { (l, r) =>
     val (a, b) = r

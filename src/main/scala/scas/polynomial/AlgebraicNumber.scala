@@ -1,10 +1,10 @@
-package scas.polynomial.ufd
+package scas.polynomial
 
 import scas.Variable
 import scas.structure.{Residue, Field, UniqueFactorizationDomain}
 import AlgebraicNumber.Element
 
-class AlgebraicNumber[R <: UnivariatePolynomial.Element[R, C, N], C, @specialized(Int, Long) N](override val ring: UnivariatePolynomial[R, C, N]) extends Residue[Element[R, C, N], R]()(ring) with Field[Element[R, C, N]] {
+class AlgebraicNumber[R <: UnivariatePolynomial.Element[R, C, N], C, @specialized(Int, Long) N](val ring: UnivariatePolynomial[R, C, N]) extends Residue[Element[R, C, N], R] with Field[Element[R, C, N]] with (C => Element[R, C, N]) {
   var mod = ring.zero
   def update(mod: Element[R, C, N]): Unit = update(toRing(mod))
   def update(mod: R) = {
@@ -23,9 +23,9 @@ class AlgebraicNumber[R <: UnivariatePolynomial.Element[R, C, N], C, @specialize
 }
 
 object AlgebraicNumber {
-  def apply[C](ring: Field[C], s: Variable): AlgebraicNumber[scas.polynomial.ufd.tree.UnivariatePolynomial.Element[C, Int], C, Int] = apply(scas.polynomial.ufd.tree.UnivariatePolynomial(ring, s))
+  def apply[C](ring: Field[C], s: Variable): AlgebraicNumber[tree.UnivariatePolynomial.Element[C, Int], C, Int] = apply(tree.UnivariatePolynomial(ring, s))
   def apply[R <: UnivariatePolynomial.Element[R, C, N], C, @specialized(Int, Long) N](ring: UnivariatePolynomial[R, C, N]) = new AlgebraicNumber(ring)
 
-  class Element[R <: UnivariatePolynomial.Element[R, C, N], C, @specialized(Int, Long) N](value: R)(override val factory: AlgebraicNumber[R, C, N]) extends Residue.Element[Element[R, C, N], R](value)(factory) with UniqueFactorizationDomain.Element[Element[R, C, N]]
+  class Element[R <: UnivariatePolynomial.Element[R, C, N], C, @specialized(Int, Long) N](val value: R)(val factory: AlgebraicNumber[R, C, N]) extends Residue.Element[Element[R, C, N], R] with UniqueFactorizationDomain.Element[Element[R, C, N]]
   implicit def coef2algebraicNumber[D, R <: UnivariatePolynomial.Element[R, C, N], C, @specialized(Int, Long) N](value: D)(implicit f: D => C, factory: AlgebraicNumber[R, C, N]) = factory(value)
 }

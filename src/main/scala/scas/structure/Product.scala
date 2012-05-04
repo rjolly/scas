@@ -5,9 +5,9 @@ import scas.Implicits.infixRingOps
 import Product.Element
 
 class Product[R1, R2](val name: String)(implicit val ring1: Ring[R1], ring2: Ring[R2]) extends Ring[Element[R1, R2]] {
-  def apply(x: Element[R1, R2]) = {
+  def convert(x: Element[R1, R2]) = {
     val Element(a, b) = x
-    apply(ring1(a), ring2(b))
+    apply(ring1.convert(a), ring2.convert(b))
   }
   def apply(a: R1, b: R2) = new Element(a, b)(this)
   def apply(l: Long) = apply(ring1(l), ring2(l))

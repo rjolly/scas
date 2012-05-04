@@ -1,6 +1,6 @@
 package scas.polynomial
 
-import scas.{Variable, int2powerProduct}
+import scas.Variable
 import scas.polynomial.ordering.{Ordering, Lexicographic}
 import scas.structure.Monoid
 
@@ -30,7 +30,7 @@ class PowerProduct[@specialized(Int, Long) N](val variables: Array[Variable], va
     assert (l == 1)
     one
   }
-  def apply(x: Array[N]) = x
+  def convert(x: Array[N]) = x
   def random(numbits: Int)(implicit rnd: java.util.Random) = one
   def gcd(x: Array[N], y: Array[N]): Array[N] = {
     val r = new Array[N](length + 1)
@@ -109,11 +109,7 @@ class PowerProduct[@specialized(Int, Long) N](val variables: Array[Variable], va
     m
   }
 
-  class Ops(val lhs: Array[N]) extends super[Monoid].Ops {
-    def /(rhs: Array[N]) = divide(lhs, rhs)
-    def |(rhs: Array[N]) = factorOf(lhs, rhs)
-  }
-  override implicit def mkOps(lhs: Array[N]): Ops = new Ops(lhs)
+  override implicit def mkOps(value: Array[N]) = new PowerProduct.Ops(value)(this)
 }
 
 object PowerProduct {
@@ -126,4 +122,9 @@ object PowerProduct {
   def apply(s: Variable, ss: Variable*): PowerProduct[Int] = apply(Array(s) ++ ss, Lexicographic[Int])
   def apply[@specialized(Int, Long) N](variables: Array[Variable], ordering: Ordering[N])(implicit nm: Numeric[N], m: Manifest[N], cm: ClassManifest[Array[N]]) = new PowerProduct[N](variables, ordering)
   def apply[@specialized(Int, Long) N](sss: Array[Array[Variable]], ordering: Ordering[N])(implicit nm: Numeric[N], m: Manifest[N], cm: ClassManifest[Array[N]]): PowerProduct[N] = apply(for (ss <- sss ; s <- ss) yield s, ordering)
+
+  class Ops[@specialized(Int, Long) N](val lhs: Array[N])(val factory: PowerProduct[N]) extends Monoid.Ops[Array[N]] {
+    def /(rhs: Array[N]) = factory.divide(lhs, rhs)
+    def |(rhs: Array[N]) = factory.factorOf(lhs, rhs)
+  }
 }

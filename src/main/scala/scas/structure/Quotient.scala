@@ -1,72 +1,72 @@
 package scas.structure
 
 import scas.Implicits.infixUFDOps
-import Quotient.Element
 
-class Quotient[R](implicit val ring: UniqueFactorizationDomain[R]) extends Field[Element[R]] {
-  def apply(x: Element[R]) = {
-    val Element(n, d) = x
+trait Quotient[T <: Product2[R, R], R] extends Field[T] {
+  implicit val ring: UniqueFactorizationDomain[R]
+  def convert(x: T) = {
+    val (n, d) = (x._1, x._2)
     reduce(n, d)
   }
   def reduce(n: R, d: R) = {
-    val gcd = { val gcd = ring.abs(ring.gcd(n, d)) ; if (ring.signum(d) < 0) -gcd else gcd }
+    val gcd = ring.abs(ring.gcd(n, d)) * ring(ring.signum(d))
     apply(n / gcd, d / gcd)
   }
-  def apply(n: R, d: R) = new Element(n, d)(this)
-  def apply(n: R): Element[R] = apply(n, ring.one)
+  def apply(n: R, d: R): T
+  def apply(n: R): T = apply(n, ring.one)
   def apply(l: Long) = apply(ring(l))
   def random(numbits: Int)(implicit rnd: java.util.Random) = {
     val n = ring.random(numbits)
     val d = ring.random(numbits)
     reduce(if (rnd.nextBoolean()) -n else n, d + ring.one)
   }
-  override def pow(x: Element[R], exp: java.math.BigInteger) = if (exp.signum() < 0) pow(inverse(x), exp.negate()) else {
-    val Element(n, d) = x
+  override def pow(x: T, exp: java.math.BigInteger) = if (exp.signum() < 0) pow(inverse(x), exp.negate()) else {
+    val (n, d) = (x._1, x._2)
     apply(ring.pow(n, exp), ring.pow(d, exp))
   }
-  override def abs(x: Element[R]) = {
-    val Element(n, d) = x
+  override def abs(x: T) = {
+    val (n, d) = (x._1, x._2)
     apply(ring.abs(n), d)
   }
-  override def signum(x: Element[R]) = {
-    val Element(n, d) = x
+  override def signum(x: T) = {
+    val (n, d) = (x._1, x._2)
     ring.signum(n)
   }
   def characteristic = ring.characteristic
-  def plus(x: Element[R], y: Element[R]) = {
-    val Element(a, b) = x
-    val Element(c, d) = y
+  def plus(x: T, y: T) = {
+    val (a, b) = (x._1, x._2)
+    val (c, d) = (y._1, y._2)
     reduce(a * d + c * b, b * d)
   }
-  def minus(x: Element[R], y: Element[R]) = {
-    val Element(a, b) = x
-    val Element(c, d) = y
+  def minus(x: T, y: T) = {
+    val (a, b) = (x._1, x._2)
+    val (c, d) = (y._1, y._2)
     reduce(a * d - c * b, b * d)
   }
-  def times(x: Element[R], y: Element[R]) = {
-    val Element(a, b) = x
-    val Element(c, d) = y
+  def times(x: T, y: T) = {
+    val (a, b) = (x._1, x._2)
+    val (c, d) = (y._1, y._2)
     reduce(a * c, b * d)
   }
-  def divide(x: Element[R], y: Element[R]) = {
-    val Element(a, b) = x
-    val Element(c, d) = y
+  def divide(x: T, y: T) = {
+    val (a, b) = (x._1, x._2)
+    val (c, d) = (y._1, y._2)
     reduce(a * d, b * c)
   }
-  override def negate(x: Element[R]) = {
-    val Element(n, d) = x
+  override def negate(x: T) = {
+    val (n, d) = (x._1, x._2)
     apply(-n, d)
   }
-  def compare(x: Element[R], y: Element[R]) = {
-    val Element(a, b) = x
-    val Element(c, d) = y
+  def compare(x: T, y: T) = {
+    val (a, b) = (x._1, x._2)
+    val (c, d) = (y._1, y._2)
     val s = ring.compare(a, c)
     if (s < 0) -1
     else if (s > 0) 1
     else ring.compare(b, d)
   }
-  override def toCode(x: Element[R], precedence: Int) = {
-    val Element(n, d) = x
+  override def toCode(x: T, precedence: Int) = {
+    val (n, d) = (x._1, x._2)
     if (d.isOne) n.toCode(precedence)
     else {
       val s = n.toCode(2) + "/" + d.toCode(2)
@@ -75,8 +75,8 @@ class Quotient[R](implicit val ring: UniqueFactorizationDomain[R]) extends Field
     }
   }
   override def toString = ring.toString + "/" + ring.toString
-  def toMathML(x: Element[R]) = {
-    val Element(n, d) = x
+  def toMathML(x: T) = {
+    val (n, d) = (x._1, x._2)
     if (d.isOne) n.toMathML
     else <apply><divide/>{n.toMathML}{d.toMathML}</apply>
   }
@@ -84,6 +84,7 @@ class Quotient[R](implicit val ring: UniqueFactorizationDomain[R]) extends Field
 }
 
 object Quotient {
-  case class Element[R](_1: R, _2: R)(val factory: Quotient[R]) extends Product2[R, R] with UniqueFactorizationDomain.Element[Element[R]]
-  implicit def ring2quotient[S <% R, R: Quotient](value: S) = implicitly[Quotient[R]].apply(value)
+  trait Element[T <: Element[T, R], R] extends Product2[R, R] with UniqueFactorizationDomain.Element[T] { this: T =>
+    val factory: Quotient[T, R]
+  }
 }

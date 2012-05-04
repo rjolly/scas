@@ -1,10 +1,8 @@
 package scas.application
 
 import scas._
-import Predef.{any2stringadd => _, _}
 
 object MyApp extends App {
-
   pp1
   pp2
   polynomial
@@ -20,6 +18,7 @@ object MyApp extends App {
   complex
   an
   module
+  rationalModule
   syzygy
   gcdSubres
   gcdMultivariate
@@ -28,10 +27,10 @@ object MyApp extends App {
     import Implicits.{infixOrderingOps, infixPowerProductOps}
     implicit val m = PowerProduct('x)
     val Array(x) = m.generators
-    assert (x > 1)
-    assert (1 < x)
-    assert (1 | x)
-    assert (x * 1 >< x)
+    assert (x > m(1))
+    assert (m(1) < x)
+    assert (m(1) | x)
+    assert (x * m(1) >< x)
     assert (x * x >< pow(x, 2))
   }
 
@@ -50,6 +49,7 @@ object MyApp extends App {
     val Array(x) = r.generators
     val Array(y) = s.generators
     assert (x + 1 >< 1 + x)
+    assert (x + BigInteger(1) >< BigInteger(1) + x)
     assert (y + x >< x + y)
     assert (y + 1 >< 1 + y)
   }
@@ -69,17 +69,16 @@ object MyApp extends App {
     val c = pow(b, 32)
     val d = pow(c, 2)
     val e = BigInteger("18446744073709551616")
-    assert (b >< 2)
-    assert (2 >< b)
-    assert (a + 1 >< b)
-    assert (1 + a >< b)
-    assert (b > 1)
-    assert (1 < b)
+    assert (b >< BigInteger(2))
+    assert (BigInteger(2) >< b)
+    assert (a + BigInteger(1) >< b)
+    assert (BigInteger(1) + a >< b)
+    assert (b > BigInteger(1))
+    assert (BigInteger(1) < b)
     assert (b.toCode(0) == "2")
     assert (c.toCode(0) == "4294967296l")
     assert (d.toCode(0) == "BigInteger(\"18446744073709551616\")")
     assert (d >< e)
-    assert (pow(2, 2) >< 4)
   }
 
   def modint = {
@@ -88,13 +87,12 @@ object MyApp extends App {
     val a = r(4)
     val b = a + a
     val c = pow(a, 2)
-    assert (b >< 1)
-    assert (1 >< b)
+    assert (b >< r(1))
+    assert (r(1) >< b)
     assert (b.toString == "1")
     assert (c.toString == "2")
     assert (r.toString == "ZZ(7)")
     assert (r.characteristic.intValue == 7)
-    assert (pow(4, 2) >< 2)
   }
 
   def modPolynomial = {
@@ -115,9 +113,10 @@ object MyApp extends App {
   }
 
   def rational = {
-    import Implicits.QQ
-    assert (1 + frac(1, 2) >< frac(1, 2) + 1)
+    import Implicits.{QQ, infixUFDOps}
+    assert (Rational(1) + frac(1, 2) >< frac(1, 2) + Rational(1))
     assert (frac(1, 2) + frac(3, 4) >< frac(5, 4))
+    assert (pow(frac(3, 2), 2) >< frac(9, 4))
   }
 
   def rationalPolynomial = {
@@ -139,8 +138,7 @@ object MyApp extends App {
 
   def rf = {
     import Implicits.QQ
-    implicit val r = UnivariatePolynomial(QQ, "x")
-    implicit val q = RationalFunction(r)
+    implicit val q = RationalFunction(QQ, "x")
     val Array(x) = q.generators
     assert (x + frac(1, 2) >< frac(1, 2) + x)
     assert (x + 1 >< 1 + x)
@@ -160,7 +158,8 @@ object MyApp extends App {
     implicit val r = AlgebraicNumber(QQ, "x")
     val Array(x) = r.generators
     r.update(2 - pow(x, 2))
-    assert (2 >< pow(x, 2))
+    assert (pow(x, 2) >< 2)
+    assert (Rational(2) - pow(x, 2) >< 0)
     assert (r.toString == "QQ(2-pow(x, 2))")
   }
 
@@ -172,6 +171,15 @@ object MyApp extends App {
     assert (e(0) + e(1) >< e(0) + e(1))
     assert ((2 * e(0) + e(1)).value.deep.toString == "Array(2, 1)")
     assert (m.toString == "ZZ^2")
+  }
+
+  def rationalModule = {
+    import Implicits.QQ
+    implicit val m = Module("e", 2, QQ)
+    val e = m.generators
+    assert (frac(1, 2) * e(0) >< e(0) * frac(1, 2))
+    assert ((frac(1, 2) * e(0) + e(1)).value.deep.toString == "Array((1,2), (1,1))")
+    assert (m.toString == "QQ^2")
   }
 
   def syzygy = {

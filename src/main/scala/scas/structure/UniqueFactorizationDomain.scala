@@ -1,19 +1,16 @@
 package scas.structure
 
-trait UniqueFactorizationDomain[T] extends Ring[T] {
+trait UniqueFactorizationDomain[T] extends Ring[T] { outer =>
   def gcd(x: T, y: T): T
   def lcm(x: T, y: T) = (x * y) / gcd(x, y)
   def divide(x: T, y: T): T
   def remainder(x: T, y: T): T
   def divideAndRemainder(x: T, y: T): (T, T)
   def factorOf(x: T, y: T) = (x % y).isZero
-  trait Ops extends super.Ops {
-    def /  (rhs: T) = divide(lhs, rhs)
-    def %  (rhs: T) = remainder(lhs, rhs)
-    def /% (rhs: T) = divideAndRemainder(lhs, rhs)
-    def |  (rhs: T) = factorOf(lhs, rhs)
+  override implicit def mkOps(value: T): UniqueFactorizationDomain.Ops[T] = new UniqueFactorizationDomain.Ops[T] {
+    val lhs = value
+    val factory = outer
   }
-  override implicit def mkOps(value: T): Ops = new Ops { val lhs = value }
 }
 
 object UniqueFactorizationDomain {
@@ -22,11 +19,13 @@ object UniqueFactorizationDomain {
   }
   object Implicits extends ExtraImplicits
 
-  trait Element[T <: Element[T]] extends Ring.Element[T] { this: T =>
+  trait Element[T <: Element[T]] extends Ring.Element[T] with Ops[T] { this: T =>
+  }
+  trait Ops[T] extends Ring.Ops[T] {
     val factory: UniqueFactorizationDomain[T]
-    def /  (that: T) = factory.divide(this, that)
-    def %  (that: T) = factory.remainder(this, that)
-    def /% (that: T) = factory.divideAndRemainder(this, that)
-    def |  (that: T) = factory.factorOf(this, that)
+    def /  (rhs: T) = factory.divide(lhs, rhs)
+    def %  (rhs: T) = factory.remainder(lhs, rhs)
+    def /% (rhs: T) = factory.divideAndRemainder(lhs, rhs)
+    def |  (rhs: T) = factory.factorOf(lhs, rhs)
   }
 }
