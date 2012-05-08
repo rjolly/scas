@@ -3,7 +3,7 @@ package scas.base
 import scas.structure.EuclidianDomain
 import scas.{int2bigInteger, long2bigInteger}
 
-object BigInteger extends EuclidianDomain[java.math.BigInteger] {
+class BigInteger extends EuclidianDomain[java.math.BigInteger] {
   def convert(x: java.math.BigInteger) = x
   def apply(s: String) = new java.math.BigInteger(s)
   def apply(l: Long) = l
@@ -19,8 +19,8 @@ object BigInteger extends EuclidianDomain[java.math.BigInteger] {
   override def signum(x: java.math.BigInteger) = x.signum()
   def norm(x: java.math.BigInteger) = abs(x).shiftLeft(1).add(if (signum(x) < 0) 1 else 0)
   def gcd(x: java.math.BigInteger, y: java.math.BigInteger) = x.gcd(y)
-  def divide(x: java.math.BigInteger, y: java.math.BigInteger) = x.divide(y)
-  def remainder(x: java.math.BigInteger, y: java.math.BigInteger) = x.remainder(y)
+  override def divide(x: java.math.BigInteger, y: java.math.BigInteger) = x.divide(y)
+  override def remainder(x: java.math.BigInteger, y: java.math.BigInteger) = x.remainder(y)
   def divideAndRemainder(x: java.math.BigInteger, y: java.math.BigInteger) = {
     val Array(q, r) = x.divideAndRemainder(y)
     (q, r)
@@ -38,3 +38,5 @@ object BigInteger extends EuclidianDomain[java.math.BigInteger] {
   def toMathML(x: java.math.BigInteger) = <cn>{x}</cn>
   def toMathML = <integers/>
 }
+
+object BigInteger extends BigInteger

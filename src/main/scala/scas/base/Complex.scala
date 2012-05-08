@@ -1,10 +1,11 @@
 package scas.base
 
-import scas.polynomial.AlgebraicNumber
-import scas.{int2bigInteger, bigInteger2rational, UnivariatePolynomial}
+import scas.polynomial.PowerProduct
+import scas.polynomial.tree.AlgebraicNumber
+import scas.{int2bigInteger, bigInteger2rational}
 import scas.Implicits.QQ
 
-object Complex extends AlgebraicNumber(UnivariatePolynomial(QQ, "I")) {
+object Complex extends AlgebraicNumber(QQ, PowerProduct('I)) {
   implicit val self = this
   val I = generators(0)
   update(1 + pow(I, 2))

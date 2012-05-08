@@ -21,5 +21,9 @@ object MultivariatePolynomial {
   }
 
   class Element[C, @specialized(Int, Long) N](val value: SortedMap[Array[N], C])(val factory: MultivariatePolynomial[C, N]) extends TreePolynomial.Element[Element[C, N], C, N] with PolynomialOverUFD.Element[Element[C, N], C, N]
-  implicit def coef2polynomial[D, C, @specialized(Int, Long) N](value: D)(implicit f: D => C, factory: MultivariatePolynomial[C, N]) = factory(value)
+  object Element extends ExtraImplicits
+
+  trait ExtraImplicits {
+    implicit def coef2multivariatePolynomial[D, C, @specialized(Int, Long) N](value: D)(implicit f: D => C, factory: MultivariatePolynomial[C, N]) = factory(value)
+  }
 }

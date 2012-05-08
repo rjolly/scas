@@ -10,7 +10,12 @@ trait MultivariatePolynomial[T[C, N] <: Element[T[C, N], C, N], C, N] extends Po
   override def gcd(x: T[C, N], y: T[C, N]) = if (length > 1) {
     val s = split
     convertFrom(s, s.gcd(convertTo(s, x), convertTo(s, y)))
-  } else super.gcd(x, y)
+  } else {
+    val (a, p) = contentAndPrimitivePart(x)
+    val (b, q) = contentAndPrimitivePart(y)
+    multiply(primitivePart(gcd1(p, q)), ring.gcd(a, b))
+  }
+  def gcd1(x: T[C, N], y: T[C, N]): T[C, N]
   def convertTo(s: MultivariatePolynomial[T, T[C, N], N], w: T[C, N]): T[T[C, N], N] = (s.zero /: iterator(w)) { (l, r) =>
     val (a, b) = r
     val x = pp.projection(a, location)

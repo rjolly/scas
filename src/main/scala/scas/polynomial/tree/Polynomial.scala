@@ -17,5 +17,9 @@ object Polynomial {
   def apply[C, @specialized(Int, Long) N](ring: Ring[C], pp: PowerProduct[N]) = new Polynomial(ring, pp)
 
   class Element[C, @specialized(Int, Long) N](val value: SortedMap[Array[N], C])(val factory: Polynomial[C, N]) extends TreePolynomial.Element[Element[C, N], C, N]
-  implicit def coef2polynomial[D, C, @specialized(Int, Long) N](value: D)(implicit f: D => C, factory: Polynomial[C, N]) = factory(value)
+  object Element extends ExtraImplicits
+
+  trait ExtraImplicits {
+    implicit def coef2polynomial[D, C, @specialized(Int, Long) N](value: D)(implicit f: D => C, factory: Polynomial[C, N]) = factory(value)
+  }
 }

@@ -2,7 +2,7 @@ package scas.structure
 
 import Module.{Element, Scalar}
 
-trait Module[T <: Element[T, R], R] extends AbelianGroup[T] with (R => Scalar[T, R]) { outer =>
+trait Module[T <: Element[T, R], R] extends AbelianGroup[T] { outer =>
   implicit val ring: Ring[R]
   def rtimes(x: T, y: R): T
   def ltimes(x: R, y: T): T
@@ -14,6 +14,7 @@ trait Module[T <: Element[T, R], R] extends AbelianGroup[T] with (R => Scalar[T,
 
 object Module {
   trait Element[T <: Element[T, R], R] extends AbelianGroup.Element[T] with Ops[T, R] { this: T =>
+    def apply(n: Int): R
   }
   trait Ops[T <: Element[T, R], R] extends AbelianGroup.Ops[T] {
     val factory: Module[T, R]

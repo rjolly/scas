@@ -5,13 +5,13 @@ import scas.polynomial.ordering.Ordering
 import scas.Implicits.{infixRingOps, infixPowerProductOps}
 import Polynomial.Element
 
-trait Polynomial[T <: Element[T, C, N], C, N] extends Ring[T] with (C => T) {
+trait Polynomial[T <: Element[T, C, N], C, N] extends Ring[T] {
   implicit val ring: Ring[C]
   implicit val pp: PowerProduct[N]
   implicit val cm: ClassManifest[T]
   def generators = pp.generators.map(fromPowerProduct)
   def generatorsBy(n: Int) = pp.generatorsBy(n).map(_.map(fromPowerProduct))
-  override def signum(x: T) = if (x.isZero) 0 else { val (a, b) = tail(x) ; ring.signum(b) }
+  override def signum(x: T) = if (x.isZero) 0 else { val (a, b) = last(x) ; ring.signum(b) }
   def characteristic = ring.characteristic
   def apply(l: Long) = apply(ring(l))
   def random(numbits: Int)(implicit rnd: java.util.Random) = zero
@@ -109,9 +109,9 @@ trait Polynomial[T <: Element[T, C, N], C, N] extends Ring[T] with (C => T) {
 
   def headCoefficient(x: T) = { val (a, b) = head(x) ; b }
 
-  def tail(x: T): (Array[N], C)
+  def last(x: T): (Array[N], C)
 
-  def tailCoefficient(x: T) = { val (a, b) = tail(x) ; b }
+  def lastCoefficient(x: T) = { val (a, b) = last(x) ; b }
 
   def degree(x: T) = (0l /: iterator(x)) { (l, r) =>
     val (a, b) = r

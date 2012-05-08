@@ -18,8 +18,6 @@ object MyApp extends App {
   complex
   an
   module
-  rationalModule
-  syzygy
   gcdSubres
   gcdMultivariate
 
@@ -43,7 +41,7 @@ object MyApp extends App {
   }
 
   def polynomial = {
-    import Implicits.ZZ
+    import Implicits.{ZZ, coef2polynomial}
     implicit val r = Polynomial(ZZ, 'x)
     implicit val s = Polynomial(r, 'y)
     val Array(x) = r.generators
@@ -52,6 +50,7 @@ object MyApp extends App {
     assert (x + BigInteger(1) >< BigInteger(1) + x)
     assert (y + x >< x + y)
     assert (y + 1 >< 1 + y)
+    assert (y + BigInteger(1) >< BigInteger(1) + y)
   }
 
   def solvablePolynomial = {
@@ -120,7 +119,7 @@ object MyApp extends App {
   }
 
   def rationalPolynomial = {
-    import Implicits.QQ
+    import Implicits.{QQ, coef2polynomial}
     implicit val r = Polynomial(QQ, 'x)
     val Array(x) = r.generators
     assert (x + frac(1, 2) >< frac(1, 2) + x)
@@ -128,16 +127,15 @@ object MyApp extends App {
   }
 
   def univariatePolynomial = {
-    import Implicits.QQ
+    import Implicits.{QQ, coef2univariatePolynomial}
     implicit val r = UnivariatePolynomial(QQ, "x")
-    import r.{generators, gcd, monic, modInverse}
+    import r.{generators, gcd, monic}
     val Array(x) = generators
     assert (monic(gcd((1+x)*(1+frac(1, 2)*x), (1+frac(1, 2)*x)*(1-x))) >< 2+x)
-    assert (modInverse(1-x, pow(1+x, 2)) >< frac(1, 4)*x+frac(3, 4))
   }
 
   def rf = {
-    import Implicits.QQ
+    import Implicits.{QQ, coef2rationalFunction}
     implicit val q = RationalFunction(QQ, "x")
     val Array(x) = q.generators
     assert (x + frac(1, 2) >< frac(1, 2) + x)
@@ -154,46 +152,30 @@ object MyApp extends App {
   }
 
   def an = {
-    import Implicits.QQ
+    import Implicits.{QQ, coef2algebraicNumber}
     implicit val r = AlgebraicNumber(QQ, "x")
     val Array(x) = r.generators
     r.update(2 - pow(x, 2))
-    assert (pow(x, 2) >< 2)
+    assert (2 >< pow(x, 2))
     assert (Rational(2) - pow(x, 2) >< 0)
     assert (r.toString == "QQ(2-pow(x, 2))")
   }
 
   def module = {
-    import Implicits.ZZ
-    implicit val m = Module("e", 2, ZZ)
-    val e = m.generators
-    assert (2 * e(0) >< e(0) * 2)
-    assert (e(0) + e(1) >< e(0) + e(1))
-    assert ((2 * e(0) + e(1)).value.deep.toString == "Array(2, 1)")
-    assert (m.toString == "ZZ^2")
-  }
-
-  def rationalModule = {
-    import Implicits.QQ
-    implicit val m = Module("e", 2, QQ)
-    val e = m.generators
-    assert (frac(1, 2) * e(0) >< e(0) * frac(1, 2))
-    assert ((frac(1, 2) * e(0) + e(1)).value.deep.toString == "Array((1,2), (1,1))")
-    assert (m.toString == "QQ^2")
-  }
-
-  def syzygy = {
-    import Implicits.ZZ
-    implicit val r = Polynomial(ZZ, 'x)
-    implicit val m = Syzygy("e", 2, r)
+    import Implicits.{QQ, coef2polynomial, ring2scalar}
+    implicit val r = Polynomial(QQ, 'x)
+    implicit val m = Module("e", 2, r)
     val Array(x) = r.generators
     val e = m.generators
     assert (2 * e(0) >< e(0) * 2)
+    assert (frac(1, 2) * e(0) >< e(0) * frac(1, 2))
     assert (x * e(0) >< e(0) * x)
     assert (2 * x * e(0) >< e(0) * 2 * x)
+    assert (frac(1, 2) * x * e(0) >< e(0) * frac(1, 2) * x)
     assert (e(0) + e(1) >< e(0) + e(1))
     assert ((2 * e(0) + e(1)).toCode(0) == "2*e(0)+e(1)")
-    assert (m.toString == "ZZ[x]^2")
+    assert ((frac(1, 2) * e(0) + e(1)).value.deep.toString == "Array(frac(1, 2), 1)")
+    assert (m.toString == "QQ[x]^2")
   }
 
   def gcdSubres = {

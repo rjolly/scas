@@ -88,6 +88,12 @@ class Module[R](val variables: Array[Variable])(implicit val ring: Ring[R], val 
 object Module {
   def apply[R](name: String, dimension: Int, ring: Ring[R])(implicit cm: ClassManifest[R]) = new Module((for (i <- 0 until dimension) yield Variable(name, i)).toArray)(ring, cm)
 
-  class Element[R](val value: Array[R])(val factory: Module[R]) extends scas.structure.Module.Element[Element[R], R]
-  implicit def ring2scalar[S <% R, R: Module](value: S) = implicitly[Module[R]].apply(value)
+  class Element[R](val value: Array[R])(val factory: Module[R]) extends scas.structure.Module.Element[Element[R], R] {
+    def apply(n: Int) = value(n)
+  }
+  object Element extends ExtraImplicits
+
+  trait ExtraImplicits {
+    implicit def ring2scalar[S <% R, R: Module](value: S) = implicitly[Module[R]].apply(value)
+  }
 }

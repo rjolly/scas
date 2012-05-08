@@ -32,7 +32,7 @@ trait TreePolynomial[T <: Element[T, C, N], C, N] extends Polynomial[T, C, N] {
 
   def head(x: T) = x.value.head
 
-  def tail(x: T) = x.value.last
+  def last(x: T) = x.value.last
 
   def map(w: T, f: (Array[N], C) => (Array[N], C)) = apply((zero.value /: iterator(w)) { (l, r) =>
     val (a, b) = r

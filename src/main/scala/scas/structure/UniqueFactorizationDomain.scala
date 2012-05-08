@@ -3,8 +3,8 @@ package scas.structure
 trait UniqueFactorizationDomain[T] extends Ring[T] { outer =>
   def gcd(x: T, y: T): T
   def lcm(x: T, y: T) = (x * y) / gcd(x, y)
-  def divide(x: T, y: T): T
-  def remainder(x: T, y: T): T
+  def divide(x: T, y: T) = { val (q, r) = divideAndRemainder(x, y) ; q }
+  def remainder(x: T, y: T) = { val (q, r) = divideAndRemainder(x, y) ; r }
   def divideAndRemainder(x: T, y: T): (T, T)
   def factorOf(x: T, y: T) = (x % y).isZero
   override implicit def mkOps(value: T): UniqueFactorizationDomain.Ops[T] = new UniqueFactorizationDomain.Ops[T] {

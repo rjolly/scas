@@ -1,5 +1,4 @@
 import scas.structure.{Monoid, Ring, UniqueFactorizationDomain}
-import scas.base.Rational
 
 package object scas {
   trait ExtraImplicits {
@@ -7,7 +6,7 @@ package object scas {
     implicit val QQ = base.Rational
     implicit val CC = base.Complex
   }
-  object Implicits extends ExtraImplicits with Ordering.ExtraImplicits with Ring.ExtraImplicits with UniqueFactorizationDomain.ExtraImplicits with PowerProduct.ExtraImplicits
+  object Implicits extends ExtraImplicits with Ordering.ExtraImplicits with Ring.ExtraImplicits with UniqueFactorizationDomain.ExtraImplicits with PowerProduct.ExtraImplicits with Polynomial.ExtraImplicits with SolvablePolynomial.ExtraImplicits with UnivariatePolynomial.ExtraImplicits with MultivariatePolynomial.ExtraImplicits with AlgebraicNumber.ExtraImplicits with RationalFunction.ExtraImplicits with Module.ExtraImplicits
 
   val BigInteger = base.BigInteger
   val ModInteger = base.ModInteger
@@ -23,9 +22,8 @@ package object scas {
   val SolvablePolynomial = polynomial.tree.SolvablePolynomial
   val MultivariatePolynomial = polynomial.tree.MultivariatePolynomial
   val UnivariatePolynomial = polynomial.tree.UnivariatePolynomial
+  val AlgebraicNumber = polynomial.tree.AlgebraicNumber
   val RationalFunction = polynomial.RationalFunction
-  val AlgebraicNumber = polynomial.AlgebraicNumber
-  val Syzygy = polynomial.Syzygy
   val Module = module.Module
   val Product = structure.Product
   implicit val random = new java.util.Random()

@@ -6,10 +6,10 @@ trait Quotient[T <: Product2[R, R], R] extends Field[T] {
   implicit val ring: UniqueFactorizationDomain[R]
   def convert(x: T) = {
     val (n, d) = (x._1, x._2)
-    reduce(n, d)
+    reduce(ring.convert(n), ring.convert(d))
   }
   def reduce(n: R, d: R) = {
-    val gcd = ring.abs(ring.gcd(n, d)) * ring(ring.signum(d))
+    val gcd = ring.gcd(n, d)
     apply(n / gcd, d / gcd)
   }
   def apply(n: R, d: R): T
@@ -36,22 +36,39 @@ trait Quotient[T <: Product2[R, R], R] extends Field[T] {
   def plus(x: T, y: T) = {
     val (a, b) = (x._1, x._2)
     val (c, d) = (y._1, y._2)
-    reduce(a * d + c * b, b * d)
+    val gcd = ring.gcd(b, d)
+    val (b0, d0) = (b / gcd, d / gcd)
+    reduce(a * d0 + c * b0, b0 * d)
   }
   def minus(x: T, y: T) = {
     val (a, b) = (x._1, x._2)
     val (c, d) = (y._1, y._2)
-    reduce(a * d - c * b, b * d)
+    val gcd = ring.gcd(b, d)
+    val (b0, d0) = (b / gcd, d / gcd)
+    reduce(a * d0 - c * b0, b0 * d)
   }
   def times(x: T, y: T) = {
     val (a, b) = (x._1, x._2)
     val (c, d) = (y._1, y._2)
-    reduce(a * c, b * d)
+    val gcd1 = ring.gcd(a, d)
+    val gcd2 = ring.gcd(c, b)
+    val (a0, d0) = (a / gcd1, d / gcd1)
+    val (c0, b0) = (c / gcd2, b / gcd2)
+    apply(a0 * c0, b0 * d0)
   }
-  def divide(x: T, y: T) = {
+  def inverse(x: T) = {
+    val (n, d) = (x._1, x._2)
+    apply(d, n)
+  }
+  override def gcd(x: T, y: T) = {
     val (a, b) = (x._1, x._2)
     val (c, d) = (y._1, y._2)
-    reduce(a * d, b * c)
+    apply(ring.gcd(a, c), ring.lcm(b, d))
+  }
+  override def lcm(x: T, y: T) = {
+    val (a, b) = (x._1, x._2)
+    val (c, d) = (y._1, y._2)
+    apply(ring.lcm(a, c), ring.gcd(b, d))
   }
   override def negate(x: T) = {
     val (n, d) = (x._1, x._2)

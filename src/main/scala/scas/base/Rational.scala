@@ -7,7 +7,7 @@ import Quotient.Element
 
 object Rational extends Quotient[(java.math.BigInteger, java.math.BigInteger), java.math.BigInteger] {
   val ring = ZZ
-  def apply(n: java.math.BigInteger, d: java.math.BigInteger) = (n, d)
+  def apply(n: java.math.BigInteger, d: java.math.BigInteger) = if (ring.signum(d) < 0) (-n, -d) else (n, d)
   def apply(n: String, d: String): (java.math.BigInteger, java.math.BigInteger) = apply(BigInteger(n), BigInteger(d))
   def apply(s: String): (java.math.BigInteger, java.math.BigInteger) = apply(BigInteger(s))
   override def apply(l: Long) = apply(l, 1)
@@ -23,18 +23,16 @@ object Rational extends Quotient[(java.math.BigInteger, java.math.BigInteger), j
   }
   override def toCode(x: (java.math.BigInteger, java.math.BigInteger), precedence: Int) = {
     val (n, d) = x
-    if (n.bitLength < 64 && d.bitLength < 64) {
-      if (d.isOne) n.toCode(precedence)
-      else "frac(" + n.toCode(0) + ", " + d.toCode(0) + ")"
-    } else {
-      if (d.isOne) "Rational(\"" + n + "\")"
+    if (d.isOne) n.toCode(precedence)
+    else {
+      if (n.bitLength < 64 && d.bitLength < 64) "frac(" + n.toCode(0) + ", " + d.toCode(0) + ")"
       else "Rational(\"" + n + "\", \"" + d + "\")"
     }
   }
   override def toString = "QQ"
   override def toMathML(x: (java.math.BigInteger, java.math.BigInteger)) = {
     val (n, d) = x
-    if (d.isOne) <cn type="rational">{n}</cn>
+    if (d.isOne) n.toMathML
     else <cn type="rational">{n}<sep/>{d}</cn>
   }
   override def toMathML = <rationals/>
