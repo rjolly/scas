@@ -5,14 +5,15 @@ import scas.Implicits.{infixUFDOps, infixPowerProductOps}
 import AlgebraicNumber.Element
 
 trait AlgebraicNumber[S[C, N] <: Polynomial.Element[S[C, N], C, N], T <: Element[S, T, C, N], C, @specialized(Int, Long) N] extends UnivariatePolynomial[T, C, N] with PolynomialWithSyzygy[S, T, C, N] with Residue[T] with Field[T] {
-  var mod = zero
+  var list = List[T]()
   def update(mod: T) = {
     // assert mod is irreducible
-    this.mod = mod
+    list = List(mod)
   }
-  def reduce(x: T) = if (mod.isZero) x else reduce(x, mod)
+  def mod = list(0)
+  def reduce(x: T) = if (list.isEmpty) x else reduce(x, mod)
   def inverse(x: T) = {
-    val w = monic(gcd(apply(x, 0), mod))
+    val w = primitivePart(gcd(apply(x, 0), mod))
     assert (w.isOne)
     fromPolynomial(w.element(0))
   }

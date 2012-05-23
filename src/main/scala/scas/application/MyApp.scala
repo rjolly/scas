@@ -147,7 +147,7 @@ object MyApp extends App {
   }
 
   def complex = {
-    import Implicits.{QQ, CC}
+    import Implicits.CC
     assert ((1+I)/(1-I) >< I)
   }
 
