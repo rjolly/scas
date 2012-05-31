@@ -11,7 +11,3 @@ class Lexicographic[@specialized(Int, Long) N](implicit val nm: scala.math.Order
     0
   }
 }
-
-object Lexicographic {
-  def apply[@specialized(Int, Long) N](implicit nm: scala.math.Ordering[N]) = new Lexicographic[N]
-}

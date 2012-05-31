@@ -4,7 +4,7 @@ import scala.collection.SortedMap
 import scas.Implicits.{infixRingOps, infixPowerProductOps}
 import Polynomial.Element
 
-trait SolvablePolynomial[T <: Element[T, C, N], C, N] extends Polynomial[T, C, N] {
+trait SolvablePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Polynomial[T, C, N] {
   type Key = (Int, Int)
   type Relation = (Array[N], Array[N], T)
   var table = SortedMap.empty[Key, List[Relation]]

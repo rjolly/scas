@@ -34,7 +34,7 @@ object MyApp extends App {
 
   def pp2 = {
     import Implicits.infixPowerProductOps
-    implicit val m = PowerProduct((for (i <- 0 until 4) yield (for (j <- 0 until 2) yield Variable("a", i, j)).toArray).toArray, Lexicographic[Int])
+    implicit val m = PowerProduct((for (i <- 0 until 4) yield (for (j <- 0 until 2) yield Variable("a", i, j)).toArray).toArray, Ordering.lexicographic[Int])
     val a = m.generatorsBy(2)
     val s = (for (i <- 0 until 4) yield (for (j <- 0 until 2) yield a(i)(j).toCode(0)).toArray).toArray
     assert (s.deep.toString == "Array(Array(a(0)(0), a(0)(1)), Array(a(1)(0), a(1)(1)), Array(a(2)(0), a(2)(1)), Array(a(3)(0), a(3)(1)))");
@@ -55,7 +55,7 @@ object MyApp extends App {
 
   def solvablePolynomial = {
     import Implicits.ZZ
-    implicit val r = SolvablePolynomial.weylAlgebra(ZZ, PowerProduct('a, 'x, 'b, 'y))
+    implicit val r = Polynomial.weylAlgebra(ZZ, PowerProduct('a, 'x, 'b, 'y))
     val Array(a, x, b, y) = r.generators
     assert (b*a+y*x >< 2+a*b+x*y)
     assert (r.toString == "ZZ[a, x, b, y][[b*a = 1+a*b], [y*x = 1+x*y]]")
@@ -129,9 +129,10 @@ object MyApp extends App {
   def univariatePolynomial = {
     import Implicits.{QQ, coef2univariatePolynomial}
     implicit val r = UnivariatePolynomial(QQ, "x")
-    import r.{generators, gcd, monic}
+    import r.{generators, gcd, modInverse}
     val Array(x) = generators
-    assert (monic(gcd((1+x)*(1+frac(1, 2)*x), (1+frac(1, 2)*x)*(1-x))) >< 2+x)
+    assert (gcd((1+x)*(1+frac(1, 2)*x), (1+frac(1, 2)*x)*(1-x)) >< 2+x)
+    assert (modInverse(1-x, pow(1+x, 2)) >< frac(3, 4)+frac(1, 4)*x)
   }
 
   def rf = {
@@ -152,8 +153,8 @@ object MyApp extends App {
   }
 
   def an = {
-    import Implicits.{QQ, coef2algebraicNumber}
-    implicit val r = AlgebraicNumber(QQ, "x")
+    import Implicits.{QQ, coef2residue}
+    implicit val r = Residue(QQ, "x")
     val Array(x) = r.generators
     r.update(2 - pow(x, 2))
     assert (2 >< pow(x, 2))
@@ -180,7 +181,7 @@ object MyApp extends App {
 
   def gcdSubres = {
     import Implicits.ZZ
-    implicit val r = MultivariatePolynomial.withSubresGCD(ZZ, PowerProduct('x))
+    implicit val r = MultivariatePolynomial(ZZ, PowerProduct('x))
     import r.{generators, gcd}
     val Array(x) = generators
     assert (gcd(0, 0) >< 0)

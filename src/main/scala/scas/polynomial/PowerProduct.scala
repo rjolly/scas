@@ -1,7 +1,7 @@
 package scas.polynomial
 
 import scas.Variable
-import scas.polynomial.ordering.{Ordering, Lexicographic}
+import scas.polynomial.ordering.Ordering
 import scas.structure.Monoid
 
 class PowerProduct[@specialized(Int, Long) N](val variables: Array[Variable], val ordering: Ordering[N])(implicit nm: Numeric[N], m: Manifest[N], cm: ClassManifest[Array[N]]) extends Monoid[Array[N]] {
@@ -114,12 +114,12 @@ class PowerProduct[@specialized(Int, Long) N](val variables: Array[Variable], va
 
 object PowerProduct {
   trait ExtraImplicits {
-    implicit def infixPowerProductOps[N: PowerProduct](lhs: Array[N]) = implicitly[PowerProduct[N]].mkOps(lhs)
+    implicit def infixPowerProductOps[@specialized(Int, Long) N: PowerProduct](lhs: Array[N]) = implicitly[PowerProduct[N]].mkOps(lhs)
   }
   object Implicits extends ExtraImplicits
 
-  def apply(s: Variable): PowerProduct[Int] = apply(Array(s), Lexicographic[Int])
-  def apply(s: Variable, ss: Variable*): PowerProduct[Int] = apply(Array(s) ++ ss, Lexicographic[Int])
+  def apply(s: Variable): PowerProduct[Int] = apply(Array(s), Ordering.lexicographic[Int])
+  def apply(s: Variable, ss: Variable*): PowerProduct[Int] = apply(Array(s) ++ ss, Ordering.lexicographic[Int])
   def apply[@specialized(Int, Long) N](variables: Array[Variable], ordering: Ordering[N])(implicit nm: Numeric[N], m: Manifest[N], cm: ClassManifest[Array[N]]) = new PowerProduct[N](variables, ordering)
   def apply[@specialized(Int, Long) N](sss: Array[Array[Variable]], ordering: Ordering[N])(implicit nm: Numeric[N], m: Manifest[N], cm: ClassManifest[Array[N]]): PowerProduct[N] = apply(for (ss <- sss ; s <- ss) yield s, ordering)
 

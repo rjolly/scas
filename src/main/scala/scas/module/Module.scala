@@ -5,7 +5,9 @@ import scas.structure.Ring
 import scas.Implicits.infixRingOps
 import Module.Element
 
-class Module[R](val variables: Array[Variable])(implicit val ring: Ring[R], val cm: ClassManifest[R]) extends scas.structure.Module[Element[R], R] {
+trait Module[R] extends scas.structure.Module[Element[R], R] {
+  val variables: Array[Variable]
+  implicit val cm: ClassManifest[R]
   protected def generator(n: Int) = apply((for (i <- 0 until length) yield if (i == n) ring.one else ring.zero).toArray)
   def generators = (for (i <- 0 until length) yield generator(i)).toArray
   def convert(x: Element[R]) = apply(x.value)
@@ -86,7 +88,7 @@ class Module[R](val variables: Array[Variable])(implicit val ring: Ring[R], val 
 }
 
 object Module {
-  def apply[R](name: String, dimension: Int, ring: Ring[R])(implicit cm: ClassManifest[R]) = new Module((for (i <- 0 until dimension) yield Variable(name, i)).toArray)(ring, cm)
+  def apply[R](name: String, dimension: Int, ring: Ring[R])(implicit cm: ClassManifest[R]) = new ModuleImpl((for (i <- 0 until dimension) yield Variable(name, i)).toArray)(ring, cm)
 
   class Element[R](val value: Array[R])(val factory: Module[R]) extends scas.structure.Module.Element[Element[R], R] {
     def apply(n: Int) = value(n)

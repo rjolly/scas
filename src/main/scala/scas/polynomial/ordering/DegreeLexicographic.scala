@@ -11,7 +11,3 @@ class DegreeLexicographic[@specialized(Int, Long) N](implicit val nm: scala.math
     0
   }
 }
-
-object DegreeLexicographic {
-  def apply[@specialized(Int, Long) N](implicit nm: scala.math.Ordering[N]) = new DegreeLexicographic[N]
-}

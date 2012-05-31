@@ -1,6 +1,6 @@
 package scas
 
-import Ordering.{Int, Iterable, String}
+import scala.math.Ordering.{Int, Iterable, String}
 
 class Variable(val name: String, val subscript: Array[Int]) extends Ordered[Variable] {
   def compare (that: Variable) = Variable.compare(this, that)

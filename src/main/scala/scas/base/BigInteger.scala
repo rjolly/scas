@@ -3,7 +3,7 @@ package scas.base
 import scas.structure.EuclidianDomain
 import scas.{int2bigInteger, long2bigInteger}
 
-class BigInteger extends EuclidianDomain[java.math.BigInteger] {
+object BigInteger extends EuclidianDomain[java.math.BigInteger] {
   def convert(x: java.math.BigInteger) = x
   def apply(s: String) = new java.math.BigInteger(s)
   def apply(l: Long) = l
@@ -38,5 +38,3 @@ class BigInteger extends EuclidianDomain[java.math.BigInteger] {
   def toMathML(x: java.math.BigInteger) = <cn>{x}</cn>
   def toMathML = <integers/>
 }
-
-object BigInteger extends BigInteger

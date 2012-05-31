@@ -13,7 +13,3 @@ class DegreeReverseLexicographic[@specialized(Int, Long) N](implicit val nm: sca
     0
   }
 }
-
-object DegreeReverseLexicographic {
-  def apply[@specialized(Int, Long) N](implicit nm: scala.math.Ordering[N]) = new DegreeReverseLexicographic[N]
-}
