@@ -4,7 +4,7 @@ import scas.BigInteger.lcm
 import scas.Implicits.infixRingOps
 import Product.Element
 
-class Product[R1, R2](val name: String)(implicit val ring1: Ring[R1], ring2: Ring[R2]) extends Ring[Element[R1, R2]] {
+class Product[R1, R2](implicit val ring1: Ring[R1], ring2: Ring[R2]) extends Ring[Element[R1, R2]] {
   def convert(x: Element[R1, R2]) = {
     val Element(a, b) = x
     apply(ring1.convert(a), ring2.convert(b))
@@ -46,18 +46,18 @@ class Product[R1, R2](val name: String)(implicit val ring1: Ring[R1], ring2: Rin
   }
   override def toCode(x: Element[R1, R2], precedence: Int) = {
     val Element(a, b) = x
-    name + "(" + a.toCode(0) + ", " + b.toCode(0) + ")"
+    "product(" + a.toCode(0) + ", " + b.toCode(0) + ")"
   }
   override def toString = ring1.toString + "*" + ring2.toString
   def toMathML(x: Element[R1, R2]) = {
     val Element(a, b) = x
-    <apply><ci>{name}</ci>{a.toMathML}{b.toMathML}</apply>
+    <apply><cartesianproduct/>{a.toMathML}{b.toMathML}</apply>
   }
   def toMathML = <apply><cartesianproduct/>{ring1.toMathML}{ring2.toMathML}</apply>
 }
 
 object Product {
-  def apply[R1, R2](name: String, ring1: Ring[R1], ring2: Ring[R2]) = new Product[R1, R2](name)(ring1, ring2)
+  def apply[R1, R2](implicit ring1: Ring[R1], ring2: Ring[R2]) = new Product[R1, R2]
 
   case class Element[R1, R2](_1: R1, _2: R2)(val factory: Product[R1, R2]) extends Product2[R1, R2] with Ring.Element[Element[R1, R2]]
 }

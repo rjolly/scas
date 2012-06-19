@@ -12,10 +12,11 @@ trait Polynomial[C, @specialized(Int, Long) N] extends TreePolynomial[Element[C,
 }
 
 object Polynomial {
-  def apply[C](ring: Ring[C], s: Variable): Polynomial[C, Int] = apply(ring, PowerProduct(Array(s), Ordering.lexicographic[Int]))
-  def apply[C](ring: Ring[C], s: Variable, ss: Variable*): Polynomial[C, Int] = apply(ring, PowerProduct(Array(s) ++ ss, Ordering.lexicographic[Int]))
+  def apply[C](ring: Ring[C], variables: Variable*): Polynomial[C, Int] = apply(ring, PowerProduct(variables.toArray, Ordering.lexicographic[Int]))
   def apply[C, @specialized(Int, Long) N](ring: Ring[C], pp: PowerProduct[N]) = new PolynomialImpl(ring, pp)
-  def solvable[C, @specialized(Int, Long) N](ring: Ring[C], pp: PowerProduct[N]) = new SolvablePolynomialImpl(ring, pp)
+  def solvable[C](ring: Ring[C], variables: Variable*): Polynomial[C, Int] = solvable(ring, PowerProduct(variables.toArray, Ordering.lexicographic[Int]))
+  def solvable[C, @specialized(Int, Long) N](ring: Ring[C], pp: PowerProduct[N]) = new SolvablePolynomial(ring, pp)
+  def weylAlgebra[C](ring: Ring[C], variables: Variable*): Polynomial[C, Int] = weylAlgebra(ring, PowerProduct(variables.toArray, Ordering.lexicographic[Int]))
   def weylAlgebra[C, @specialized(Int, Long) N](ring: Ring[C], pp: PowerProduct[N]) = new WeylAlgebra(ring, pp)
 
   class Element[C, @specialized(Int, Long) N](val value: SortedMap[Array[N], C])(val factory: Polynomial[C, N]) extends TreePolynomial.Element[Element[C, N], C, N]

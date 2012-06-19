@@ -12,21 +12,16 @@
 </xsl:template>
 
 <xsl:template match="m:cn">
-	<xsl:call-template name="integer">
-		<xsl:with-param name="value" select="text()"/>
-	</xsl:call-template>
+	<xsl:apply-templates/>
 </xsl:template>
 
 <xsl:template match="m:cn[@type='rational']">
-	<xsl:text>frac(</xsl:text>
-	<xsl:call-template name="integer">
-		<xsl:with-param name="value" select="text()[1]"/>
-	</xsl:call-template>
-	<xsl:text>, </xsl:text>
-	<xsl:call-template name="integer">
-		<xsl:with-param name="value" select="text()[2]"/>
-	</xsl:call-template>
-	<xsl:text>)</xsl:text>
+	<xsl:param name="p" select="0"/>
+	<xsl:if test="1 &lt; $p"><xsl:text>(</xsl:text></xsl:if>
+	<xsl:apply-templates select="*[1]"/>
+	<xsl:text>/</xsl:text>
+	<xsl:apply-templates select="*[2]"/>
+	<xsl:if test="1 &lt; $p"><xsl:text>)</xsl:text></xsl:if>
 </xsl:template>
 
 <xsl:template match="m:ci | m:mi">
@@ -84,28 +79,28 @@
 <xsl:template match="m:ci[*[1][self::m:msub[*[1][self::m:mi] and *[2][self::m:mrow]]]]">
 	<xsl:apply-templates select="*[1]/*[1]"/>
 	<xsl:for-each select="*[1]/*[2]/*">
-		<xsl:text>(</xsl:text>
-		<xsl:apply-templates select="text()"/>
-		<xsl:text>)</xsl:text>
+		<xsl:text>[</xsl:text>
+		<xsl:apply-templates/>
+		<xsl:text>]</xsl:text>
 	</xsl:for-each>
 </xsl:template>
 
 <xsl:template match="m:ci[*[1][self::m:msubsup[*[1][self::m:mi] and *[2][self::m:mrow] and *[3][self::m:mrow]]]]">
 	<xsl:apply-templates select="*[1]/*[1]"/>
 	<xsl:for-each select="*[1]/*[3]/*">
-		<xsl:text>I</xsl:text>
+		<xsl:text>'</xsl:text>
 	</xsl:for-each>
 	<xsl:for-each select="*[1]/*[2]/*">
-		<xsl:text>(</xsl:text>
-		<xsl:apply-templates select="text()"/>
-		<xsl:text>)</xsl:text>
+		<xsl:text>[</xsl:text>
+		<xsl:apply-templates/>
+		<xsl:text>]</xsl:text>
 	</xsl:for-each>
 </xsl:template>
 
 <xsl:template match="m:ci[*[1][self::m:msup[*[1][self::m:mi] and *[2][self::m:mrow]]]]">
 	<xsl:apply-templates select="*[1]/*[1]"/>
 	<xsl:for-each select="*[1]/*[2]/*">
-		<xsl:text>I</xsl:text>
+		<xsl:text>'</xsl:text>
 	</xsl:for-each>
 </xsl:template>
 
@@ -172,62 +167,22 @@
 </xsl:template>
 
 <xsl:template match="m:apply[*[1][self::m:power]]">
-	<xsl:text>pow(</xsl:text>
-	<xsl:apply-templates select="*[2]"/>
-	<xsl:text>, </xsl:text>
-	<xsl:apply-templates select="*[3]"/>
-	<xsl:text>)</xsl:text>
+	<xsl:apply-templates select="*[2]">
+	    	<xsl:with-param name="p" select="2"/>
+	</xsl:apply-templates>
+	<xsl:text>^</xsl:text>
+	<xsl:apply-templates select="*[3]">
+	    	<xsl:with-param name="p" select="2"/>
+	</xsl:apply-templates>
 </xsl:template>
 
-<xsl:template match="m:vector">
-	<xsl:text>vector(</xsl:text>
+<xsl:template match="m:vector | m:matrix | m:matrixrow">
+	<xsl:text>{</xsl:text>
 	<xsl:for-each select="*">
 		<xsl:apply-templates/>
 		<xsl:if test="position() &lt; last()"><xsl:text>, </xsl:text></xsl:if>
 	</xsl:for-each>
-	<xsl:text>)</xsl:text>
-</xsl:template>
-
-<xsl:template match="m:matrix">
-	<xsl:text>matrix(</xsl:text>
-	<xsl:for-each select="*">
-		<xsl:apply-templates/>
-		<xsl:if test="position() &lt; last()"><xsl:text>, </xsl:text></xsl:if>
-	</xsl:for-each>
-	<xsl:text>)</xsl:text>
-</xsl:template>
-
-<xsl:template match="m:matrixrow">
-	<xsl:for-each select="*">
-		<xsl:apply-templates/>
-		<xsl:if test="position() &lt; last()"><xsl:text>, </xsl:text></xsl:if>
-	</xsl:for-each>
-</xsl:template>
-
-<xsl:template match="m:apply[*[1][self::m:cartesianproduct]]">
-	<xsl:text>product(</xsl:text>
-	<xsl:apply-templates select="*[2]"/>
-	<xsl:text>, </xsl:text>
-	<xsl:apply-templates select="*[3]"/>
-	<xsl:text>)</xsl:text>
-</xsl:template>
-
-<xsl:template match="m:integers">
-	<xsl:text>ZZ</xsl:text>
-</xsl:template>
-
-<xsl:template match="m:rationals">
-	<xsl:text>QQ</xsl:text>
-</xsl:template>
-
-<xsl:template match="m:complexes">
-	<xsl:text>CC</xsl:text>
-</xsl:template>
-
-<xsl:template name="integer">
-	<xsl:param name="value"/>
-	<xsl:value-of select="$value"/>
-	<xsl:if test="number($value) &gt; 2147483647 or number($value) &lt;= -2147483648"><xsl:text>l</xsl:text></xsl:if>
+	<xsl:text>}</xsl:text>
 </xsl:template>
 
 </xsl:stylesheet>

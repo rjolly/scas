@@ -1,5 +1,6 @@
 package scas.base
 
+import scala.collection.SortedMap
 import scas.structure.EuclidianDomain
 import scas.{int2bigInteger, long2bigInteger}
 
@@ -37,4 +38,19 @@ object BigInteger extends EuclidianDomain[java.math.BigInteger] {
   override def toString = "ZZ"
   def toMathML(x: java.math.BigInteger) = <cn>{x}</cn>
   def toMathML = <integers/>
+
+  def factorial(x: java.math.BigInteger): java.math.BigInteger = if (x > 1) x * factorial(x - 1) else 1
+
+  def factor(x: java.math.BigInteger): Map[java.math.BigInteger, Int] = factor(x, SortedMap.empty[java.math.BigInteger, Int], primes)
+
+  def factor(x: java.math.BigInteger, map: Map[java.math.BigInteger, Int], primes: Stream[Int]): Map[java.math.BigInteger, Int] = {
+    val y = apply(primes.head)
+    if (x >< 1) map
+    else if (y | x) factor(x / y, map.updated(y, map.getOrElse(y, 0) + 1), primes)
+    else factor(x, map, primes.tail)
+  }
+
+  def sieve(s: Stream[Int]): Stream[Int] = Stream.cons(s.head, sieve(s.tail filter { _ % s.head != 0 }))
+
+  def primes = sieve(Stream.from(2))
 }

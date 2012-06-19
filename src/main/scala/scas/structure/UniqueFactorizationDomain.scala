@@ -6,7 +6,7 @@ trait UniqueFactorizationDomain[T] extends Ring[T] { outer =>
   def divide(x: T, y: T) = { val (q, r) = x /% y ; q }
   def remainder(x: T, y: T) = { val (q, r) = x /% y ; r }
   def divideAndRemainder(x: T, y: T): (T, T)
-  def factorOf(x: T, y: T) = (x % y).isZero
+  def factorOf(x: T, y: T) = (y % x).isZero
   override implicit def mkOps(value: T): UniqueFactorizationDomain.Ops[T] = new UniqueFactorizationDomain.Ops[T] {
     val lhs = value
     val factory = outer

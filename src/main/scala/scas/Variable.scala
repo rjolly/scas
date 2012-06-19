@@ -2,10 +2,17 @@ package scas
 
 import scala.math.Ordering.{Int, Iterable, String}
 
-class Variable(val name: String, val subscript: Array[Int]) extends Ordered[Variable] {
+class Variable(val name: String, val prime: Int, val subscript: Array[Int]) extends Ordered[Variable] with MathObject {
   def compare (that: Variable) = Variable.compare(this, that)
-  override def toString = name + subscript.map("(" + _ + ")").mkString
-  def toMathML = if (subscript.length == 0) <ci>{mname}</ci> else <ci><msub><mi>{mname}</mi><mrow>{subscript.map(a => <mn>{a}</mn>)}</mrow></msub></ci>
+  override lazy val hashCode = (name.hashCode /: (Array(prime)++subscript)) {
+    (l, r) => l * 31 + r
+  }
+  override def equals(other: Any) = other match {
+    case other: Variable => this.compare(other) == 0
+    case _ => super.equals(other)
+  }
+  override def toString = name + (for (i <- 0 until prime) yield "I").mkString + subscript.map("(" + _ + ")").mkString
+  def toMathML = if (prime == 0) (if (subscript.length == 0) <ci>{mname}</ci> else <ci><msub><mi>{mname}</mi><mrow>{subscript.map(a => <mn>{a}</mn>)}</mrow></msub></ci>) else (if (subscript.length == 0) <ci><msup><mi>{mname}</mi><mrow>{for (i <- 0 until prime) yield <mo>I</mo>}</mrow></msup></ci> else <ci><msubsup><mi>{mname}</mi><mrow>{subscript.map(a => <mn>{a}</mn>)}</mrow><mrow>{for (i <- 0 until prime) yield <mo>I</mo>}</mrow></msubsup></ci>)
   def mname = greek.getOrElse(name, name)
   val greek = Map(
     "Alpha"   -> "\u0391",
@@ -62,9 +69,15 @@ object Variable extends Ordering[Variable] {
     val c = String.compare(x.name, y.name)
     if (c < 0) -1
     else if (c > 0) 1
-    else Iterable[Int].compare(x.subscript, y.subscript)
+    else {
+      val c = Int.compare(x.prime, y.prime)
+      if (c < 0) -1
+      else if (c > 0) 1
+      else Iterable[Int].compare(x.subscript, y.subscript)
+    }
   }
   implicit def string2variable(s: String): Variable = apply(s)
   implicit def symbol2variable(s: Symbol): Variable = apply(s.name)
-  def apply(name: String, subscript: Int*) = new Variable(name, subscript.toArray)
+  def apply(name: String, subscript: Int*) = new Variable(name, 0, subscript.toArray)
+  def apply(name: String, prime: Int, subscript: Array[Int]) = new Variable(name, prime, subscript)
 }

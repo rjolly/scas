@@ -7,6 +7,7 @@ object MyApp extends App {
   pp2
   polynomial
   solvablePolynomial
+  gb
   bigint
   modint
   modPolynomial
@@ -15,6 +16,7 @@ object MyApp extends App {
   rationalPolynomial
   univariatePolynomial
   rf
+  rfi
   complex
   an
   module
@@ -55,10 +57,17 @@ object MyApp extends App {
 
   def solvablePolynomial = {
     import Implicits.ZZ
-    implicit val r = Polynomial.weylAlgebra(ZZ, PowerProduct('a, 'x, 'b, 'y))
+    implicit val r = Polynomial.weylAlgebra(ZZ, 'a, 'x, 'b, 'y)
     val Array(a, x, b, y) = r.generators
     assert (b*a+y*x >< 2+a*b+x*y)
     assert (r.toString == "ZZ[a, x, b, y][[b*a = 1+a*b], [y*x = 1+x*y]]")
+  }
+
+  def gb = {
+    import Implicits.ZZ
+    implicit val r = PolynomialWithGB(ZZ, 'x, 'y)
+    val Array(x, y) = r.generators
+    println(r.gb(4 - (pow(x, 2) + pow(y, 2)), 1 - x * y))
   }
 
   def bigint = {
@@ -103,12 +112,12 @@ object MyApp extends App {
   }
 
   def product = {
-    implicit val r = Product("r", ModInteger(3), ModInteger(5))
-    val a = r(1, 3)
+    implicit val product = Product(ModInteger(3), ModInteger(5))
+    val a = product(1, 3)
     val b = a + a
-    assert (b >< r(2, 1))
-    assert (r.toString == "ZZ(3)*ZZ(5)")
-    assert (r.characteristic.intValue == 15)
+    assert (b >< product(2, 1))
+    assert (product.toString == "ZZ(3)*ZZ(5)")
+    assert (product.characteristic.intValue == 15)
   }
 
   def rational = {
@@ -147,9 +156,16 @@ object MyApp extends App {
     assert (q.toString == "QQ(x)")
   }
 
+  def rfi = {
+    import Implicits.{ZZ, coef2rationalFunction}
+    implicit val q = RationalFunction.integral(MultivariatePolynomial(ZZ, PowerProduct('a, 'b)))
+    val Array(a, b) = q.generators
+    assert (pow(a + b, 2)/(pow(a, 2) - pow(b, 2)) >< (a + b)/(a - b))
+  }
+
   def complex = {
     import Implicits.CC
-    assert ((1+I)/(1-I) >< I)
+    assert ((1+sqrt(-1))/(1-sqrt(-1)) >< sqrt(-1))
   }
 
   def an = {
@@ -165,9 +181,10 @@ object MyApp extends App {
   def module = {
     import Implicits.{QQ, coef2polynomial, ring2scalar}
     implicit val r = Polynomial(QQ, 'x)
-    implicit val m = Module("e", 2, r)
+    implicit val vector = Module("e", 2, r)
     val Array(x) = r.generators
-    val e = m.generators
+    val e = vector.generators
+    assert (vector(1, x) >< e(0) + x * e(1))
     assert (2 * e(0) >< e(0) * 2)
     assert (frac(1, 2) * e(0) >< e(0) * frac(1, 2))
     assert (x * e(0) >< e(0) * x)
@@ -176,7 +193,7 @@ object MyApp extends App {
     assert (e(0) + e(1) >< e(0) + e(1))
     assert ((2 * e(0) + e(1)).toCode(0) == "2*e(0)+e(1)")
     assert ((frac(1, 2) * e(0) + e(1)).value.deep.toString == "Array(frac(1, 2), 1)")
-    assert (m.toString == "QQ[x]^2")
+    assert (vector.toString == "QQ[x]^2")
   }
 
   def gcdSubres = {

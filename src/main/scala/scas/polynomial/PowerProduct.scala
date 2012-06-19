@@ -11,7 +11,7 @@ class PowerProduct[@specialized(Int, Long) N](val variables: Array[Variable], va
   def take(n: Int) = new PowerProduct[N](variables.take(n), ordering)
   def drop(n: Int) = new PowerProduct[N](variables.drop(n), ordering)
   override def one = new Array[N](length + 1)
-  protected def generator(n: Int) = (for (i <- 0 until length + 1) yield fromInt(if (i == n || i == length) 1 else 0)).toArray
+  def generator(n: Int) = (for (i <- 0 until length + 1) yield fromInt(if (i == n || i == length) 1 else 0)).toArray
   def generators = (for (i <- 0 until length) yield generator(i)).toArray
   def generatorsBy(n: Int) = {
     val m = length/n
@@ -44,6 +44,7 @@ class PowerProduct[@specialized(Int, Long) N](val variables: Array[Variable], va
     r(length) = (fromInt(0) /: r) { (s, l) => s + l }
     r
   }
+  def coprime(x: Array[N], y: Array[N]) = gcd(x, y).isOne
   def compare(x: Array[N], y: Array[N]) = ordering.compare(x, y)
   def times(x: Array[N], y: Array[N]) = (for (i <- 0 until x.length) yield x(i) + y(i)).toArray
   def divide(x: Array[N], y: Array[N]) = (for (i <- 0 until x.length) yield {
@@ -59,7 +60,7 @@ class PowerProduct[@specialized(Int, Long) N](val variables: Array[Variable], va
   def dependencyOnVariables(x: Array[N]) = (for (i <- 0 until length if (x(i) > fromInt(0))) yield i).toArray
   def projection(x: Array[N], n: Int) = (for (i <- 0 until x.length) yield if (i == n || i == length) x(n) else fromInt(0)).toArray
   override def toCode(x: Array[N], precedence: Int) = {
-    var s = ""
+    var s = "1"
     var m = 0
     for (i <- 0 until length) if (x(i) > fromInt(0)) {
       val t = {
@@ -69,11 +70,11 @@ class PowerProduct[@specialized(Int, Long) N](val variables: Array[Variable], va
       s = if (m == 0) t else s + "*" + t
       m += 1
     }
-    if (m == 0) "1" else s
+    s
   }
   override def toString = "["+variables.mkString(", ")+"]"
   def toMathML(x: Array[N]) = {
-    var s = <sep/>
+    var s = <cn>1</cn>
     var m = 0
     for (i <- 0 until length) if (x(i) > fromInt(0)) {
       val t = {
@@ -83,7 +84,7 @@ class PowerProduct[@specialized(Int, Long) N](val variables: Array[Variable], va
       s = if (m == 0) t else <apply><times/>{s}{t}</apply>
       m += 1
     }
-    if (m == 0) <cn>1</cn> else s
+    s
   }
   def toMathML = <list>{variables.map(_.toMathML)}</list>
 
@@ -118,8 +119,7 @@ object PowerProduct {
   }
   object Implicits extends ExtraImplicits
 
-  def apply(s: Variable): PowerProduct[Int] = apply(Array(s), Ordering.lexicographic[Int])
-  def apply(s: Variable, ss: Variable*): PowerProduct[Int] = apply(Array(s) ++ ss, Ordering.lexicographic[Int])
+  def apply(variables: Variable*): PowerProduct[Int] = apply(variables.toArray, Ordering.lexicographic[Int])
   def apply[@specialized(Int, Long) N](variables: Array[Variable], ordering: Ordering[N])(implicit nm: Numeric[N], m: Manifest[N], cm: ClassManifest[Array[N]]) = new PowerProduct[N](variables, ordering)
   def apply[@specialized(Int, Long) N](sss: Array[Array[Variable]], ordering: Ordering[N])(implicit nm: Numeric[N], m: Manifest[N], cm: ClassManifest[Array[N]]): PowerProduct[N] = apply(for (ss <- sss ; s <- ss) yield s, ordering)
 

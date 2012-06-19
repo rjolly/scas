@@ -9,9 +9,10 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
   implicit val ring: Ring[C]
   implicit val pp: PowerProduct[N]
   implicit val cm: ClassManifest[T]
+  def generator(n: Int) = fromPowerProduct(pp.generator(n))
   def generators = pp.generators.map(fromPowerProduct)
   def generatorsBy(n: Int) = pp.generatorsBy(n).map(_.map(fromPowerProduct))
-  override def signum(x: T) = if (x.isZero) 0 else { val (a, b) = last(x) ; ring.signum(b) }
+  override def signum(x: T) = if (x.isZero) 0 else ring.signum(lastCoefficient(x))
   def characteristic = ring.characteristic
   def apply(l: Long) = apply(ring(l))
   def random(numbits: Int)(implicit rnd: java.util.Random) = zero
@@ -37,14 +38,15 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
     l + multiply(x, a, b)
   }
   override def toCode(x: T, precedence: Int) = {
-    var s = ""
+    var s = ring.zero.toCode(0)
     var n = 0
     var m = 0
+    val p = if (degree(x) == 0l) precedence else 0
     for ((a, b) <- reverseIterator(x)) {
       val c = ring.abs(b)
       val g = ring.signum(b) < 0
       val (t, u) = {
-        if (a.isOne) (c.toCode(0), 1)
+        if (a.isOne) (c.toCode(p), 1)
         else if (c.isOne) (a.toCode(0), pp.size(a))
         else (c.toCode(1) + "*" + a.toCode(1), 1 + pp.size(a))
       }
@@ -58,19 +60,18 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
       m = if (g) u + 1 else u
       n += 1
     }
-    if (n == 0) ring.zero.toCode(0) else {
-      val fenced = {
-        if (n == 1) {
-          if (m == 1) false
-          else precedence > 1
-        } else precedence > 0
-      }
-      if (fenced) "(" + s + ")" else s
+    val fenced = {
+      if (n == 0) false
+      else if (n == 1) {
+        if (m == 1) false
+        else precedence > 1
+      } else precedence > 0
     }
+    if (fenced) "(" + s + ")" else s
   }
   override def toString = ring.toString + pp.toString
   def toMathML(x: T) = {
-    var s = <sep/>
+    var s = ring.zero.toMathML
     var n = 0
     for ((a, b) <- reverseIterator(x)) {
       val c = ring.abs(b)
@@ -89,7 +90,7 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
       }
       n += 1
     }
-    if (n == 0) ring.zero.toMathML else s
+    s
   }
   def toMathML = <mrow>{ring.toMathML}{pp.toMathML}</mrow>
   def apply(value: C): T
@@ -139,7 +140,16 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
   }
 
   def reduce(x: T, list: List[T], tail: Boolean): T = {
-    if (tail && !x.isZero) reduce(x, headPowerProduct(x), list) else reduce(x, list)
+    val it = iterator(x)
+    if (it.hasNext) {
+      val (s, a) = it.next
+      if (tail) {
+        if (it.hasNext) {
+          val (s, a) = it.next
+          reduce(x, s, list)
+        } else x
+      } else reduce(x, s, list)
+    } else x
   }
 
   def reduce(x: T, m: Array[N], list: List[T]): T = {

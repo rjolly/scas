@@ -9,7 +9,7 @@ trait PolynomialWithSyzygy[S[C, N] <: Polynomial.Element[S[C, N], C, N], T <: El
   abstract override def minus(x: T, y: T) = apply(super.minus(x, y), x.element - y.element)
   override def multiply(w: T, x: Array[N], y: C) = apply(super.multiply(w, x, y), module.multiply(w.element, x, y))
   override def multiply(w: T, y: C) = apply(super.multiply(w, y), module.multiply(w.element, y))
-  def apply(x: T, n: Int): T = apply(x, module.generators(n))
+  def apply(x: T, n: Int): T = apply(x, module.generator(n))
   def apply(x: T, element: Module.Element[S[C, N]]): T
   def fromPolynomial(x: S[C, N]): T
 }

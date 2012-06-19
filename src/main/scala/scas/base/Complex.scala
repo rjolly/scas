@@ -1,9 +1,10 @@
 package scas.base
 
-import scas.polynomial.tree.UnivariatePolynomial
-import scas.Implicits.QQ
+import scas.UnivariatePolynomial
+import scas.{int2bigInteger, bigInteger2rational}
+import scas.Implicits.{QQ, infixOps}
 
-object Complex extends scas.polynomial.Complex(UnivariatePolynomial(QQ, "I")) {
+object Complex extends scas.polynomial.residue.Complex(UnivariatePolynomial(QQ, "sqrt(-1)")) {
   override def toString = "CC"
   override def toMathML = <complexes/>
 }

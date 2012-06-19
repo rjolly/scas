@@ -44,8 +44,7 @@ trait PolynomialOverUFD[T <: Element[T, C, N], C, @specialized(Int, Long) N] ext
     ring.abs(c) * ring(signum(x))
   }
   def contentAndPrimitivePart(x: T) = {
-    if (x.isZero) (ring.zero, zero)
-    else {
+    if (x.isZero) (ring.zero, zero) else {
       val c = content(x)
       (c, divide(x, c))
     }

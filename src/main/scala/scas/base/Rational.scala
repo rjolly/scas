@@ -3,7 +3,6 @@ package scas.base
 import scas.structure.Quotient
 import scas.{int2bigInteger, long2bigInteger}
 import scas.Implicits.{ZZ, infixUFDOps}
-import Quotient.Element
 
 object Rational extends Quotient[(java.math.BigInteger, java.math.BigInteger), java.math.BigInteger] {
   val ring = ZZ
@@ -11,7 +10,7 @@ object Rational extends Quotient[(java.math.BigInteger, java.math.BigInteger), j
   def apply(n: String, d: String): (java.math.BigInteger, java.math.BigInteger) = apply(BigInteger(n), BigInteger(d))
   def apply(s: String): (java.math.BigInteger, java.math.BigInteger) = apply(BigInteger(s))
   override def apply(l: Long) = apply(l, 1)
-  override def random(numbits: Int)(implicit rnd: java.util.Random) = {
+  def random(numbits: Int)(implicit rnd: java.util.Random) = {
     val n = new java.math.BigInteger(numbits, rnd)
     val d = new java.math.BigInteger(numbits, rnd)
     reduce(if (rnd.nextBoolean()) -n else n, d + BigInteger(1))

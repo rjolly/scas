@@ -1,6 +1,7 @@
-package scas.polynomial
+package scas.polynomial.residue
 
 import scas.structure.Field
+import scas.polynomial.{PolynomialOverUFD, UnivariatePolynomial}
 import Residue.Element
 
 trait AlgebraicNumber[R <: PolynomialOverUFD.Element[R, C, N], C, @specialized(Int, Long) N] extends Residue[R, C, N] with Field[Element[R, C, N]] {

@@ -1,6 +1,7 @@
 package scas.structure
 
 import scala.xml.Elem
+import scas.MathObject
 
 trait Structure[T] extends Ordering[T] { outer =>
   def convert(x: T): T
@@ -26,7 +27,7 @@ object Structure {
     def compare(rhs: T) = factory.compare(lhs, rhs)
     override def toString = toCode(0)
   }
-  trait Ops[T] {
+  trait Ops[T] extends MathObject {
     val lhs: T
     val factory: Structure[T]
     def ><(rhs: T) = factory.equiv(lhs, rhs)

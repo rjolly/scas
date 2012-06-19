@@ -17,11 +17,6 @@ trait Quotient[T <: Product2[R, R], R] extends Field[T] {
   def apply(n: R): T = apply(n, ring.one)
   def apply(l: Long) = apply(ring(l))
   def unapply(x: T) = Some(x._1, x._2)
-  def random(numbits: Int)(implicit rnd: java.util.Random) = {
-    val n = ring.random(numbits)
-    val d = ring.random(numbits)
-    reduce(if (rnd.nextBoolean()) -n else n, d + ring.one)
-  }
   override def pow(x: T, exp: java.math.BigInteger) = if (exp.signum() < 0) pow(inverse(x), exp.negate()) else {
     val self(n, d) = x
     apply(ring.pow(n, exp), ring.pow(d, exp))
