@@ -33,21 +33,20 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
     if (!it.hasNext) 0 else -1
   }
   def isUnit(x: T) = if (degree(x) > 0 || x.isZero) false else headCoefficient(x).isUnit
-  def times(x: T, y: T) = (zero /: iterator(y)) { (l, r) =>
-    val (a, b) = r
+  def times(x: T, y: T) = (zero /: iterator(y)) { case (l, (a, b)) =>
     l + multiply(x, a, b)
   }
   override def toCode(x: T, precedence: Int) = {
     var s = ring.zero.toCode(0)
     var n = 0
     var m = 0
-    val p = if (degree(x) == 0l) precedence else 0
+    val p = if (size(x) == 1) precedence else 0
     for ((a, b) <- reverseIterator(x)) {
       val c = ring.abs(b)
       val g = ring.signum(b) < 0
       val (t, u) = {
         if (a.isOne) (c.toCode(p), 1)
-        else if (c.isOne) (a.toCode(0), pp.size(a))
+        else if (c.isOne) (a.toCode(p), pp.size(a))
         else (c.toCode(1) + "*" + a.toCode(1), 1 + pp.size(a))
       }
       s = {
@@ -106,6 +105,8 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
 
   def length = variables.length
 
+  def size(x: T): Int
+
   def head(x: T): (Array[N], C)
 
   def headPowerProduct(x: T) = { val (a, b) = head(x) ; a }
@@ -116,8 +117,7 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
 
   def lastCoefficient(x: T) = { val (a, b) = last(x) ; b }
 
-  def degree(x: T) = (0l /: iterator(x)) { (l, r) =>
-    val (a, b) = r
+  def degree(x: T) = (0l /: iterator(x)) { case (l, (a, _)) =>
     scala.math.max(l, pp.degree(a))
   }
 

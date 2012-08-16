@@ -1,10 +1,12 @@
 package scas.structure
 
+import scas.BigInteger
+
 trait Monoid[T] extends SemiGroup[T] { outer =>
   def one = apply(1)
-  def pow(x: T, exp: java.math.BigInteger) = {
+  def pow(x: T, exp: BigInteger) = {
     assert (exp.intValue() >= 0)
-    (one /: (1 to exp.intValue())) { (l, r) => l * x }
+    (one /: (1 to exp.intValue())) { (l, _) => l * x }
   }
   def isUnit(x: T): Boolean
   def isOne(x: T) = x >< one

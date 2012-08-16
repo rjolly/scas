@@ -1,5 +1,6 @@
 package scas.structure
 
+import scas.BigInteger
 import scas.Implicits.infixUFDOps
 
 trait Residue[T, R] extends UniqueFactorizationDomain[T] {
@@ -18,7 +19,7 @@ trait Residue[T, R] extends UniqueFactorizationDomain[T] {
     val self(a) = x
     a.isUnit
   }
-  override def pow(x: T, exp: java.math.BigInteger) = {
+  override def pow(x: T, exp: BigInteger) = {
     val self(a) = x
     reduce(ring.pow(a, exp))
   }

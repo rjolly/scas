@@ -179,6 +179,19 @@
 	<xsl:text>)</xsl:text>
 </xsl:template>
 
+<xsl:template match="m:apply[*[1][self::m:root]]">
+	<xsl:text>sqrt(</xsl:text>
+	<xsl:apply-templates select="*[2]"/>
+	<xsl:text>)</xsl:text>
+</xsl:template>
+
+<xsl:template match="m:apply[*[1][self::m:ci]]">
+	<xsl:apply-templates select="*[1]"/>
+	<xsl:text>(</xsl:text>
+	<xsl:apply-templates select="*[2]"/>
+	<xsl:text>)</xsl:text>
+</xsl:template>
+
 <xsl:template match="m:vector">
 	<xsl:text>vector(</xsl:text>
 	<xsl:for-each select="*">

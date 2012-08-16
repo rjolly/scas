@@ -46,8 +46,7 @@ trait SolvablePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] ex
   override def toString = super.toString + "[" + (for ((a, b) <- table) yield "[" + (for ((e, f, p) <- b) yield e.toCode(0) + "*" + f.toCode(0) + " = " + p.toString).mkString(", ") + "]").mkString(", ")+ "]"
   override def toMathML = <mrow>{super.toMathML}<list>{for ((a, b) <- table) yield {<list>{for ((e, f, p) <- b) yield <apply><eq/><apply><times/>{e.toMathML}{f.toMathML}</apply>{p.toMathML}</apply>}</list>}}</list></mrow>
 
-  override def multiply(w: T, x: Array[N], y: C) = (zero /: iterator(w)) { (l, r) =>
-    val (a, b) = r
+  override def multiply(w: T, x: Array[N], y: C) = (zero /: iterator(w)) { case (l, (a, b)) =>
     val c = b * y
     if (c.isZero) l else l + multiply(multiply(a, x), c)
   }

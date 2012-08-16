@@ -4,79 +4,69 @@ import scala.util.parsing.combinator.RegexParsers
 import scas._
 
 object Parsers extends RegexParsers {
-  import Implicits.{ZZ, CC, infixAbelianGroupOps}
-  type Element = RationalFunction.Element[
-    MultivariatePolynomial.Element[
-      Residue.Element[
-        UnivariatePolynomial.Element[
-          (java.math.BigInteger, java.math.BigInteger),
-          Int
-        ],
-        (java.math.BigInteger, java.math.BigInteger),
-        Int
-      ],
-      Int
-    ],
-    Residue.Element[
-      UnivariatePolynomial.Element[
-        (java.math.BigInteger, java.math.BigInteger),
-        Int
-      ],
-      (java.math.BigInteger, java.math.BigInteger),
-      Int
-    ],
-    Int
-  ]
+  import Implicits.{ZZ, CC, infixOrderingOps, infixUFDOps, infixPowerProductOps}
+  type Element = RationalFunction.Element[MultivariatePolynomial.Element[Complex, Int], Complex, Int]
   implicit var r = ring()
 
   def convert(x: Element) = if (x.factory == r) x else r.convert(x)
 
   def ring(variables: Variable*) = RationalFunction(MultivariatePolynomial(CC, PowerProduct(variables: _*)))
 
+  def bigInteger: Parser[BigInteger] = """[0-9]+""".r ^^ { s: String => BigInteger(s) }
   def integer: Parser[Int] = """[0-9]+""".r ^^ { _.toInt }
-  def bigInteger: Parser[java.math.BigInteger] = """[0-9]+""".r ^^ { s: String => BigInteger(s) }
-  def signedInteger: Parser[java.math.BigInteger] = ("-"?) ~ bigInteger ^^ {
-    case option ~ integer => option match {
-      case Some(sign) => -integer
-      case _ => integer
-    }
-  }
-  def unsignedExponent: Parser[java.math.BigInteger] = bigInteger ~ ((("**" | "^") ~> bigInteger)*) ^^ {
-    case integer ~ list => integer::list reduceRight {
-      (x: java.math.BigInteger, y: java.math.BigInteger) => pow(x, y)
-    }
-  }
-  def exponent: Parser[java.math.BigInteger] = ("-"?) ~ unsignedExponent ^^ {
-    case option ~ exponent => option match {
-      case Some(sign) => -exponent
-      case _ => exponent
-    }
-  }
-  def number: Parser[Element] = bigInteger ^^ { value: java.math.BigInteger => r(value) }
   def name: Parser[String] = """[a-zA-Z]+""".r
   def prime: Parser[Int] = """'*""".r ^^ { _.length }
   def subscript: Parser[Int] = "[" ~> integer <~ "]"
   def variable: Parser[Variable] = name ~ prime ~ (subscript*) ^^ {
     case name ~ prime ~ list => Variable(name, prime, list.toArray)
   }
-  def integerFunction: Parser[Element] = name ~ ("(" ~> bigInteger <~ ")") ^^ {
-    case "factorial" ~ x => r(BigInteger.factorial(x))
-    case "factor" ~ x => {
-      val map = BigInteger.factor(x)
-      val s = map.keys.map({ x: java.math.BigInteger => Variable(x.toString) }).toArray
-      val variables = r.variables.union(s).distinct
-      if (variables.length > r.variables.length) r = ring(variables: _*)
-      (r.one /: map) { (l, p) =>
-        val (a, b) = p
-        val x = r.generator(variables.indexOf(Variable(a.toString)))
-        l * pow(x, b)
+
+  def number: Parser[Either[Element, BigInteger]] = bigInteger ^^ { value: BigInteger => Right(value) }
+  def function: Parser[Either[Element, BigInteger]] = name ~ ("(" ~> repsep(expr, ",") <~ ")") ^^ {
+    case name ~ list => list match {
+      case Nil => Left(generator(name))
+      case x::Nil => name match {
+        case "sqrt" => x match {
+          case Right(x) if (x >< BigInteger(-1)) => Left(sqrt(x))
+        }
+        case "factorial" => x match {
+          case Right(x) if (x > BigInteger(0)) => Right(BigInteger.factorial(x))
+        }
+        case "factor" => x match {
+          case Right(x) if (x >< BigInteger(0)) => Right(0)
+          case Right(x) => Left(factor(x))
+        }
+      }
+      case x::y::Nil => name match {
+        case "div" => x match {
+          case Right(x) => y match {
+            case Right(y) => Right(x / y)
+          }
+        }
+        case "mod" => x match {
+          case Right(x) => y match {
+            case Right(y) => Right(x % y)
+          }
+        }
       }
     }
   }
-  def function: Parser[Element] = name ~ ("(" ~> signedInteger <~ ")") ^^ {
-    case "sqrt" ~ x if (x >< -1) => r(sqrt(x))
+  def factor(x: BigInteger): Element = {
+    val map = BigInteger.factor(BigInteger.abs(x))
+    val s = map.keys.toArray.map({ x: BigInteger => Variable(x.toString) })
+    val variables = r.variables.union(s).distinct
+    if (variables.length > r.variables.length) r = ring(variables: _*)
+    implicit val p = r.ring.pp
+    val m = (p.one /: map) { case (l, (a, b)) =>
+      val x = p.generator(Variable(a.toString))
+      l * pow(x, b)
+    }
+    r(r.ring(BigInteger.signum(x))*r.ring.fromPowerProduct(m))
   }
-  def generator: Parser[Element] = variable ^^ { s: Variable =>
+  def generator: Parser[Either[Element, BigInteger]] = variable ^^ {
+    s: Variable => Left(generator(s))
+  }
+  def generator(s: Variable): Element = {
     val variables = r.variables
     if (variables.contains(s)) r.generator(variables.indexOf(s))
     else {
@@ -84,43 +74,91 @@ object Parsers extends RegexParsers {
       r.generator(variables.length)
     }
   }
-  def base: Parser[Element] = number | integerFunction | function | generator | "(" ~> expr <~ ")"
-  def unsignedFactor: Parser[Element] = base ~ ((("**" | "^") ~> exponent)?) ^^ {
-    case base ~ option => option match {
-      case Some(exponent) => pow(convert(base), exponent)
-      case _ => base
+  def base: Parser[Either[Element, BigInteger]] = number | function | generator | "(" ~> expr <~ ")"
+  def unsignedFactor: Parser[Either[Element, BigInteger]] = base ~ ((("**" | "^") ~> base)*) ^^ {
+    case base ~ list => base::list reduceRight {
+      (x: Either[Element, BigInteger], exp: Either[Element, BigInteger]) => x match {
+        case Left(x) => exp match {
+          case Right(exp) => Left(pow(convert(x), exp))
+        }
+        case Right(x) => exp match {
+          case Right(exp) if (exp >= BigInteger(0)) => Right(pow(x, exp))
+        }
+      }
     }
   }
-  def factor: Parser[Element] = ("-"?) ~ unsignedFactor ^^ {
+  def factor: Parser[Either[Element, BigInteger]] = ("-"?) ~ unsignedFactor ^^ {
     case option ~ factor => option match {
-      case Some(sign) => -factor
-      case _ => factor
+      case Some(sign) => factor match {
+        case Left(factor) => Left(-factor)
+        case Right(factor) => Right(-factor)
+      }
+      case None => factor
     }
   }
-  def unsignedTerm: Parser[Element] = unsignedFactor ~ (("*" ~ factor | "/" ~ factor | "%" ~ factor)*) ^^ {
-    case factor ~ list => (convert(factor) /: list) {
-      case (x, "*" ~ y) => x * convert(y)
-      case (x, "/" ~ y) => x / convert(y)
-      case (x, "%" ~ y) => x % convert(y)
+  def unsignedTerm: Parser[Either[Element, BigInteger]] = unsignedFactor ~ (("*" ~ factor | "/" ~ factor | "%" ~ factor)*) ^^ {
+    case factor ~ list => (factor /: list) {
+      case (x, "*" ~ y) => x match {
+        case Left(x) => y match {
+          case Left(y) => Left(convert(x) * convert(y))
+          case Right(y) => Left(convert(x) * convert(y))
+        }
+        case Right(x) => y match {
+          case Left(y) => Left(convert(x) * convert(y))
+          case Right(y) => Right(x * y)
+        }
+      }
+      case (x, "/" ~ y) => x match {
+        case Left(x) => y match {
+          case Left(y) => Left(convert(x) / convert(y))
+          case Right(y) => Left(convert(x) / convert(y))
+        }
+        case Right(x) => y match {
+          case Left(y) => Left(convert(x) / convert(y))
+          case Right(y) => Left(frac(x, y))
+        }
+      }
     }
   }
-  def term: Parser[Element] = ("-"?) ~ unsignedTerm ^^ {
+  def term: Parser[Either[Element, BigInteger]] = ("-"?) ~ unsignedTerm ^^ {
     case option ~ term => option match {
-      case Some(sign) => -term
-      case _ => term
+      case Some(sign) => term match {
+        case Left(term) => Left(-term)
+        case Right(term) => Right(-term)
+      }
+      case None => term
     }
   }
-  def expr: Parser[Element] = term ~ (("+" ~ unsignedTerm | "-" ~ unsignedTerm)*) ^^ {
-    case term ~ list => (convert(term) /: list) {
-      case (x, "+" ~ y) => x + convert(y)
-      case (x, "-" ~ y) => x - convert(y)
+  def expr: Parser[Either[Element, BigInteger]] = term ~ (("+" ~ unsignedTerm | "-" ~ unsignedTerm)*) ^^ {
+    case term ~ list => (term /: list) {
+      case (x, "+" ~ y) => x match {
+        case Left(x) => y match {
+          case Left(y) => Left(convert(x) + convert(y))
+          case Right(y) => Left(convert(x) + convert(y))
+        }
+        case Right(x) => y match {
+          case Left(y) => Left(convert(x) + convert(y))
+          case Right(y) => Right(x + y)
+        }
+      }
+      case (x, "-" ~ y) => x match {
+        case Left(x) => y match {
+          case Left(y) => Left(convert(x) - convert(y))
+          case Right(y) => Left(convert(x) - convert(y))
+        }
+        case Right(x) => y match {
+          case Left(y) => Left(convert(x) - convert(y))
+          case Right(y) => Right(x - y)
+        }
+      }
     }
   }
 
   def apply(input: String): Either[String, Element] = {
     r = ring()
     parseAll(expr, input) match {
-      case Success(result, _) => Right(result)
+      case Success(Left(result), _) => Right(result)
+      case Success(Right(result), _) => Right(result)
       case NoSuccess(msg, _) => Left(msg)
     }
   }

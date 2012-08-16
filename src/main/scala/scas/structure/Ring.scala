@@ -1,7 +1,9 @@
 package scas.structure
 
+import scas.BigInteger
+
 trait Ring[T] extends AbelianGroup[T] with Monoid[T] { outer =>
-  def characteristic: java.math.BigInteger
+  def characteristic: BigInteger
   override implicit def mkOps(value: T): Ring.Ops[T] = new Ring.Ops[T] {
     val lhs = value
     val factory = outer

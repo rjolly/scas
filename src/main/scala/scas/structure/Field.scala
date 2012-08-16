@@ -1,5 +1,6 @@
 package scas.structure
 
+import scas.BigInteger
 import Ordering.Implicits.infixOrderingOps
 
 trait Field[T] extends EuclidianDomain[T] with NotQuiteGroup[T] {
@@ -7,5 +8,5 @@ trait Field[T] extends EuclidianDomain[T] with NotQuiteGroup[T] {
   override def divide(x: T, y: T) = x * inverse(y)
   override def remainder(x: T, y: T) = zero
   override def divideAndRemainder(x: T, y: T) = (x / y, x % y)
-  override def norm(x: T) = java.math.BigInteger.valueOf(signum(abs(x)))
+  override def norm(x: T) = BigInteger(signum(abs(x)))
 }

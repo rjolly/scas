@@ -18,9 +18,9 @@
 <xsl:template match="m:cn[@type='rational']">
 	<xsl:param name="p" select="0"/>
 	<xsl:if test="1 &lt; $p"><xsl:text>(</xsl:text></xsl:if>
-	<xsl:apply-templates select="*[1]"/>
+	<xsl:apply-templates select="text()[1]"/>
 	<xsl:text>/</xsl:text>
-	<xsl:apply-templates select="*[2]"/>
+	<xsl:apply-templates select="text()[2]"/>
 	<xsl:if test="1 &lt; $p"><xsl:text>)</xsl:text></xsl:if>
 </xsl:template>
 
@@ -174,6 +174,19 @@
 	<xsl:apply-templates select="*[3]">
 	    	<xsl:with-param name="p" select="2"/>
 	</xsl:apply-templates>
+</xsl:template>
+
+<xsl:template match="m:apply[*[1][self::m:root]]">
+	<xsl:text>sqrt(</xsl:text>
+	<xsl:apply-templates select="*[2]"/>
+	<xsl:text>)</xsl:text>
+</xsl:template>
+
+<xsl:template match="m:apply[*[1][self::m:ci]]">
+	<xsl:apply-templates select="*[1]"/>
+	<xsl:text>(</xsl:text>
+	<xsl:apply-templates select="*[2]"/>
+	<xsl:text>)</xsl:text>
 </xsl:template>
 
 <xsl:template match="m:vector | m:matrix | m:matrixrow">

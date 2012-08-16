@@ -1,6 +1,6 @@
 package scas.polynomial
 
-import scas.Variable
+import scas.{Variable, BigInteger}
 import scas.polynomial.ordering.Ordering
 import scas.structure.Monoid
 
@@ -11,6 +11,7 @@ class PowerProduct[@specialized(Int, Long) N](val variables: Array[Variable], va
   def take(n: Int) = new PowerProduct[N](variables.take(n), ordering)
   def drop(n: Int) = new PowerProduct[N](variables.drop(n), ordering)
   override def one = new Array[N](length + 1)
+  def generator(variable: Variable): Array[N] = generator(variables.indexOf(variable))
   def generator(n: Int) = (for (i <- 0 until length + 1) yield fromInt(if (i == n || i == length) 1 else 0)).toArray
   def generators = (for (i <- 0 until length) yield generator(i)).toArray
   def generatorsBy(n: Int) = {
@@ -18,12 +19,12 @@ class PowerProduct[@specialized(Int, Long) N](val variables: Array[Variable], va
     (for (i <- 0 until m) yield (for (j <- 0 until n) yield generator(i * n + j)).toArray).toArray
   }
   def degree(x: Array[N]) = toLong(x(length))
-  override def pow(x: Array[N], exp: java.math.BigInteger) = {
+  override def pow(x: Array[N], exp: BigInteger) = {
     assert (exp.signum() >= 0)
     val n = fromBigInteger(exp)
     (for (i <- 0 until x.length) yield x(i) * n).toArray
   }
-  def fromBigInteger(value: java.math.BigInteger) = {
+  def fromBigInteger(value: BigInteger) = {
     (fromInt(0) /: value.toByteArray()) { (s, b) => s * fromInt(0xff) + fromInt(b) }
   }
   def apply(l: Long) = {
@@ -90,7 +91,7 @@ class PowerProduct[@specialized(Int, Long) N](val variables: Array[Variable], va
 
   def converter(from: Array[Variable]): Array[N] => Array[N] = { x =>
     val r = new Array[N](length + 1)
-    val index = from map { a => variables.indexWhere(_ equiv a) }
+    val index = from map { a => variables.indexOf(a) }
     for (i <- 0 until from.length if (x(i) > fromInt(0))) {
       val c = index(i)
       assert (c > -1)

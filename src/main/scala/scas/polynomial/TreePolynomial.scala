@@ -6,19 +6,16 @@ import TreePolynomial.Element
 
 trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Polynomial[T, C, N] {
   override def zero = apply(SortedMap.empty[Array[N], C](pp.ordering.reverse))
-  def convert(x: T) = apply((zero.value /: x.value.iterator) { (l, r) =>
-    val (s, a) = r
+  def convert(x: T) = apply((zero.value /: x.value.iterator) { case (l, (s, a)) =>
     val (m, c) = (pp.converter(x.factory.variables)(s), ring.convert(a))
     if (c.isZero) l else l.updated(m, c)
   })
   override def isZero(x: T) = x.value.isEmpty
-  def plus(x: T, y: T) = apply((x.value /: y.value.iterator) { (l, r) =>
-    val (s, a) = r
+  def plus(x: T, y: T) = apply((x.value /: y.value.iterator) { case (l, (s, a)) =>
     val c = l.getOrElse(s, ring.zero) + a
     if (c.isZero) l - s else l.updated(s, c)
   })
-  def minus(x: T, y: T) = apply((x.value /: y.value.iterator) { (l, r) =>
-    val (s, a) = r
+  def minus(x: T, y: T) = apply((x.value /: y.value.iterator) { case (l, (s, a)) =>
     val c = l.getOrElse(s, ring.zero) - a
     if (c.isZero) l - s else l.updated(s, c)
   })
@@ -32,12 +29,13 @@ trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extend
 
   def reverseIterator(x: T) = x.value.toSeq.reverseIterator
 
+  def size(x: T) = x.value.size
+
   def head(x: T) = x.value.head
 
   def last(x: T) = x.value.last
 
-  def map(x: T, f: (Array[N], C) => (Array[N], C)) = apply((zero.value /: iterator(x)) { (l, r) =>
-    val (s, a) = r
+  def map(x: T, f: (Array[N], C) => (Array[N], C)) = apply((zero.value /: iterator(x)) { case (l, (s, a)) =>
     val (m, c) = f(s, a)
     if (c.isZero) l else l.updated(m, c)
   })
