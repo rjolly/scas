@@ -1,7 +1,7 @@
 package scas.structure
 
 import scas.BigInteger
-import scas.Implicits.infixUFDOps
+import scas.Implicits.{ZZ, infixUFDOps}
 
 trait Quotient[T <: Product2[R, R], R] extends Field[T] {
   implicit val ring: UniqueFactorizationDomain[R]
@@ -18,7 +18,7 @@ trait Quotient[T <: Product2[R, R], R] extends Field[T] {
   def apply(n: R): T = apply(n, ring.one)
   def apply(l: Long) = apply(ring(l))
   def unapply(x: T) = Some(x._1, x._2)
-  override def pow(x: T, exp: BigInteger) = if (exp.signum() < 0) pow(inverse(x), exp.negate()) else {
+  override def pow(x: T, exp: BigInteger) = if (BigInteger.signum(exp) < 0) pow(inverse(x), -exp) else {
     val self(n, d) = x
     apply(ring.pow(n, exp), ring.pow(d, exp))
   }
