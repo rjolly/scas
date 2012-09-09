@@ -1,10 +1,10 @@
 package scas.base
 
 import scas.polynomial.residue.AlgebraicNumber
-import scas.{BigInteger, Rational, Complex, Variable, UnivariatePolynomial, int2bigInteger, bigInteger2rational}
+import scas.{Variable, UnivariatePolynomial, int2bigInteger, bigInteger2rational}
 import scas.Implicits.{ZZ, QQ}
 
-trait ComplexLike extends AlgebraicNumber[UnivariatePolynomial.Element[Rational, Int], Rational, Int] {
+object Complex extends AlgebraicNumber[UnivariatePolynomial.Element[Rational, Int], Rational, Int] {
   val ring = UnivariatePolynomial(QQ, Variable.sqrt(BigInteger(-1)))
   implicit val r = this
   val i = r.generator(0)

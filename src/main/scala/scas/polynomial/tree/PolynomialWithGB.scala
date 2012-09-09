@@ -1,12 +1,13 @@
 package scas.polynomial.tree
 
+import scala.reflect.ClassTag
 import scala.collection.SortedMap
 import scas.Variable
 import scas.polynomial.{TreePolynomial, PowerProduct}
 import scas.structure.UniqueFactorizationDomain
 import PolynomialWithGB.Element
 
-class PolynomialWithGB[C, @specialized(Int, Long) N](val ring: UniqueFactorizationDomain[C], val pp: PowerProduct[N])(implicit val cm: ClassManifest[Element[C, N]]) extends TreePolynomial[Element[C, N], C, N] with scas.polynomial.PolynomialWithGB[Element[C, N], C, N] {
+class PolynomialWithGB[C, @specialized(Int, Long) N](val ring: UniqueFactorizationDomain[C], val pp: PowerProduct[N])(implicit val cm: ClassTag[Element[C, N]]) extends TreePolynomial[Element[C, N], C, N] with scas.polynomial.PolynomialWithGB[Element[C, N], C, N] {
   def apply(x: Element[C, N], index: Int) = apply(x.value, index)
   def apply(value: SortedMap[Array[N], C], index: Int) = new Element(value, index)(this)
   def apply(value: SortedMap[Array[N], C]) = apply(value, 0)

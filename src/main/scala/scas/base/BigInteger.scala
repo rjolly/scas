@@ -1,11 +1,11 @@
 package scas.base
 
 import scala.annotation.tailrec
-import scala.collection.SortedMap
+import scala.collection.{Map, SortedMap}
 import scas.structure.EuclidianDomain
-import scas.{BigInteger, int2bigInteger, long2bigInteger}
+import scas.{int2bigInteger, long2bigInteger}
 
-trait BigIntegerLike extends EuclidianDomain[BigInteger] {
+object BigInteger extends EuclidianDomain[BigInteger] {
   def convert(x: BigInteger) = x
   def apply(s: String) = new BigInteger(s)
   def apply(l: Long) = l

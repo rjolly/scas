@@ -1,10 +1,11 @@
 package scas.polynomial
 
+import scala.reflect.ClassTag
 import scas.{Variable, BigInteger}
 import scas.polynomial.ordering.Ordering
 import scas.structure.Monoid
 
-class PowerProduct[@specialized(Int, Long) N](val variables: Array[Variable], val ordering: Ordering[N])(implicit nm: Numeric[N], m: Manifest[N], cm: ClassManifest[Array[N]]) extends Monoid[Array[N]] {
+class PowerProduct[@specialized(Int, Long) N](val variables: Array[Variable], val ordering: Ordering[N])(implicit nm: Numeric[N], m: Manifest[N], cm: ClassTag[Array[N]], cmm: ClassTag[Array[Array[N]]]) extends Monoid[Array[N]] {
   import scala.math.Ordering.Implicits.infixOrderingOps
   import Numeric.Implicits.infixNumericOps
   import nm.{fromInt, toLong}
@@ -47,7 +48,15 @@ class PowerProduct[@specialized(Int, Long) N](val variables: Array[Variable], va
   }
   def coprime(x: Array[N], y: Array[N]) = gcd(x, y).isOne
   def compare(x: Array[N], y: Array[N]) = ordering.compare(x, y)
-  def times(x: Array[N], y: Array[N]) = (for (i <- 0 until x.length) yield x(i) + y(i)).toArray
+  def times(x: Array[N], y: Array[N]) = {
+    val r = new Array[N](x.length)
+    var i = 0
+    while (i < r.length) {
+      r(i) = x(i) + y(i)
+      i += 1
+    }
+    r
+  }
   def divide(x: Array[N], y: Array[N]) = (for (i <- 0 until x.length) yield {
     assert (x(i) >= y(i))
     x(i) - y(i)
@@ -121,8 +130,8 @@ object PowerProduct {
   object Implicits extends ExtraImplicits
 
   def apply(variables: Variable*): PowerProduct[Int] = apply(variables.toArray, Ordering.lexicographic[Int])
-  def apply[@specialized(Int, Long) N](variables: Array[Variable], ordering: Ordering[N])(implicit nm: Numeric[N], m: Manifest[N], cm: ClassManifest[Array[N]]) = new PowerProduct[N](variables, ordering)
-  def apply[@specialized(Int, Long) N](sss: Array[Array[Variable]], ordering: Ordering[N])(implicit nm: Numeric[N], m: Manifest[N], cm: ClassManifest[Array[N]]): PowerProduct[N] = apply(for (ss <- sss ; s <- ss) yield s, ordering)
+  def apply[@specialized(Int, Long) N](variables: Array[Variable], ordering: Ordering[N])(implicit nm: Numeric[N], m: Manifest[N], cm: ClassTag[Array[N]]) = new PowerProduct[N](variables, ordering)
+  def apply[@specialized(Int, Long) N](sss: Array[Array[Variable]], ordering: Ordering[N])(implicit nm: Numeric[N], m: Manifest[N], cm: ClassTag[Array[N]]): PowerProduct[N] = apply(for (ss <- sss ; s <- ss) yield s, ordering)
 
   class Ops[@specialized(Int, Long) N](val lhs: Array[N])(val factory: PowerProduct[N]) extends Monoid.Ops[Array[N]] {
     def /(rhs: Array[N]) = factory.divide(lhs, rhs)

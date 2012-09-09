@@ -12,10 +12,10 @@ trait ListPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extend
 
   def iterator(x: T) = x.value.iterator
 
-  def iterator(x: T, m: Array[N]) = x.value.dropWhile { r =>
+  def iterator(x: T, m: Array[N]) = x.value.dropWhile({ r =>
     val (s, _) = r
     s > m
-  } iterator
+  }).iterator
 
   def reverseIterator(x: T) = x.value.reverseIterator
 

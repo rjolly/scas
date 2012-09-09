@@ -9,6 +9,6 @@ trait UnivariatePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] 
   assert (length == 1)
   def norm(x: T) = BigInteger(degree(x))
   def derivative(w: T) = map(w, (a, b) => (a / pp.generator(0), b * ring(pp.degree(a))))
-  def gcd(x: T, y: T) = if (y.isZero) monic(x) else gcd(y, monic(reduce(x, y)))
+  def gcd(x: T, y: T) = gcd1(x, y)
   def modInverse(x: T, mod: T): T
 }

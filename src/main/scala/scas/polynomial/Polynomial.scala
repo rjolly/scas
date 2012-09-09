@@ -1,6 +1,7 @@
 package scas.polynomial
 
 import scala.annotation.tailrec
+import scala.reflect.ClassTag
 import scas.structure.Ring
 import scas.BigInteger
 import scas.Implicits.{ZZ, infixRingOps, infixPowerProductOps}
@@ -9,7 +10,7 @@ import Polynomial.Element
 trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ring[T] {
   implicit val ring: Ring[C]
   implicit val pp: PowerProduct[N]
-  implicit val cm: ClassManifest[T]
+  implicit val cm: ClassTag[T]
   override def zero = apply()
   def generator(n: Int) = fromPowerProduct(pp.generator(n))
   def generators = pp.generators.map(fromPowerProduct)
@@ -190,6 +191,8 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
       }
     } else x
   }
+
+  def normalize(x: T) = x
 
   def combine(x: T, y: T, f: (C, C) => C): T
 

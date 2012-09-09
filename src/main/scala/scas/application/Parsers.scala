@@ -41,14 +41,19 @@ object Parsers extends RegexParsers {
         case "div" => x match {
           case Right(x) => y match {
             case Right(y) => Right(x / y)
+            case _ => throw new RuntimeException
           }
+          case _ => throw new RuntimeException
         }
         case "mod" => x match {
           case Right(x) => y match {
             case Right(y) => Right(x % y)
+            case _ => throw new RuntimeException
           }
+          case _ => throw new RuntimeException
         }
       }
+      case _ => throw new RuntimeException
     }
   }
   def factor(x: BigInteger): Element = {
@@ -80,6 +85,7 @@ object Parsers extends RegexParsers {
       (x: Either[Element, BigInteger], exp: Either[Element, BigInteger]) => x match {
         case Left(x) => exp match {
           case Right(exp) => Left(pow(convert(x), exp))
+          case _ => throw new RuntimeException
         }
         case Right(x) => exp match {
           case Right(exp) if (exp >= BigInteger(0)) => Right(pow(x, exp))

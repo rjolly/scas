@@ -1,5 +1,6 @@
 package scas.module
 
+import scala.reflect.ClassTag
 import scas.Variable
 import scas.structure.Ring
 import scas.Implicits.infixRingOps
@@ -8,7 +9,7 @@ import Module.Element
 trait Module[R] extends scas.structure.Module[Element[R], R] {
   val dimension: Int
   val name: Option[String]
-  implicit val cm: ClassManifest[R]
+  implicit val cm: ClassTag[R]
   def generator(n: Int) = apply((for (i <- 0 until dimension) yield if (i == n) ring.one else ring.zero).toArray)
   def generators = (for (i <- 0 until dimension) yield generator(i)).toArray
   def convert(x: Element[R]) = apply(x.value)
@@ -93,8 +94,8 @@ trait Module[R] extends scas.structure.Module[Element[R], R] {
 }
 
 object Module {
-  def apply[R](name: String, dimension: Int, ring: Ring[R])(implicit cm: ClassManifest[R]) = new ModuleImpl(dimension, Some(name))(ring, cm)
-  def apply[R](dimension: Int, ring: Ring[R])(implicit cm: ClassManifest[R]) = new ModuleImpl(dimension, None)(ring, cm)
+  def apply[R](name: String, dimension: Int, ring: Ring[R])(implicit cm: ClassTag[R]) = new ModuleImpl(dimension, Some(name))(ring, cm)
+  def apply[R](dimension: Int, ring: Ring[R])(implicit cm: ClassTag[R]) = new ModuleImpl(dimension, None)(ring, cm)
 
   class Element[R](val value: Array[R])(val factory: Module[R]) extends scas.structure.Module.Element[Element[R], R] {
     def apply(n: Int) = value(n)

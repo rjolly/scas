@@ -6,6 +6,7 @@ import PolynomialOverUFD.Element
 
 trait PolynomialOverUFD[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Polynomial[T, C, N] with UniqueFactorizationDomain[T] {
   override implicit val ring: UniqueFactorizationDomain[C]
+  def gcd1(x: T, y: T): T
   def divideAndRemainder(x: T, y: T) = {
     if (y.isZero) throw new ArithmeticException("Polynomial divide by zero")
     else if (x.isZero) (zero, zero)
@@ -34,6 +35,7 @@ trait PolynomialOverUFD[T <: Element[T, C, N], C, @specialized(Int, Long) N] ext
       }
     } else x
   }
+  override def normalize(x: T) = primitivePart(x)
   override def subtract(x: T, m: Array[N], a: C, y: T, b: C) = {
     val gcd = ring.gcd(a, b)
     val (a0, b0) = (a / gcd, b / gcd)

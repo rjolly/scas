@@ -1,8 +1,8 @@
 package scas.polynomial
 
-import PolynomialWithSyzygy.Element
+import PolynomialWithRepr.Element
 
-trait PolynomialWithSyzygy[S[C, N] <: Polynomial.Element[S[C, N], C, N], T <: Element[S, T, C, N], C, @specialized(Int, Long) N] extends Polynomial[T, C, N] {
+trait PolynomialWithRepr[S[C, N] <: Polynomial.Element[S[C, N], C, N], T <: Element[S, T, C, N], C, @specialized(Int, Long) N] extends Polynomial[T, C, N] {
   val module: Module[S[C, N], C, N]
   abstract override def convert(x: T) = apply(super.convert(x), module.convert(x.element))
   abstract override def plus(x: T, y: T) = apply(super.plus(x, y), x.element + y.element)
@@ -14,9 +14,9 @@ trait PolynomialWithSyzygy[S[C, N] <: Polynomial.Element[S[C, N], C, N], T <: El
   def fromPolynomial(x: S[C, N]): T
 }
 
-object PolynomialWithSyzygy {
+object PolynomialWithRepr {
   trait Element[S[C, N] <: Polynomial.Element[S[C, N], C, N], T <: Element[S, T, C, N], C, @specialized(Int, Long) N] extends Polynomial.Element[T, C, N] { this: T =>
-    val factory: PolynomialWithSyzygy[S, T, C, N]
+    val factory: PolynomialWithRepr[S, T, C, N]
     val element: Module.Element[S[C, N]]
   }
 }

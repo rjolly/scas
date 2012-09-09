@@ -8,6 +8,7 @@ object MyApp extends App {
   polynomial
   solvablePolynomial
   gb
+  group
   bigint
   modint
   modPolynomial
@@ -68,6 +69,16 @@ object MyApp extends App {
     implicit val r = PolynomialWithGB(ZZ, 'x, 'y)
     val Array(x, y) = r.generators
     println(r.gb(4 - (pow(x, 2) + pow(y, 2)), 1 - x * y))
+  }
+
+  def group = {
+    import Implicits.infixMonoidOps
+    implicit val g = Group(Implicits.ZZ)
+    val a = BigInteger(1)
+    val b = a * a
+    val c = pow(a, -1)
+    assert (b >< BigInteger(2))
+    assert (c >< BigInteger(-1))
   }
 
   def bigint = {

@@ -2,20 +2,20 @@ import scas.structure.{Structure, AbelianGroup, SemiGroup, Monoid, Ring, UniqueF
 
 package object scas {
   trait ExtraImplicits {
-    implicit val ZZ = BigInteger
-    implicit val QQ = Rational
-    implicit val CC = Complex
+    implicit val ZZ = base.BigInteger
+    implicit val QQ = base.Rational
+    implicit val CC = base.Complex
   }
   object Implicits extends ExtraImplicits with scala.math.Ordering.ExtraImplicits with Structure.ExtraImplicits with AbelianGroup.ExtraImplicits with SemiGroup.ExtraImplicits with Monoid.ExtraImplicits with Ring.ExtraImplicits with UniqueFactorizationDomain.ExtraImplicits with PowerProduct.ExtraImplicits with Polynomial.ExtraImplicits with PolynomialWithGB.ExtraImplicits with MultivariatePolynomial.ExtraImplicits with UnivariatePolynomial.ExtraImplicits with RationalFunction.ExtraImplicits with Residue.ExtraImplicits with Module.ExtraImplicits
 
-  type BigInteger = java.math.BigInteger
-  type Rational = (BigInteger, BigInteger)
-  type Complex = Residue.Element[UnivariatePolynomial.Element[Rational, Int], Rational, Int]
+  type BigInteger = base.BigInteger
+  type Rational = base.Rational
+  type Complex = base.Complex
   type Variable = variable.Variable
 
-  object BigInteger extends base.BigIntegerLike
-  object Rational extends base.RationalLike
-  object Complex extends base.ComplexLike
+  lazy val BigInteger = base.BigInteger
+  lazy val Rational = base.Rational
+  lazy val Complex = base.Complex
 
   val Variable = variable.Variable
   val ModInteger = base.ModInteger
@@ -28,6 +28,7 @@ package object scas {
   val RationalFunction = polynomial.quotient.RationalFunction
   val Residue = polynomial.residue.Residue
   val Module = module.Module
+  val Group = structure.Group
   val Product = structure.Product
 
   implicit val random = new java.util.Random()

@@ -15,7 +15,6 @@ trait MultivariatePolynomial[T[C, N] <: Element[T[C, N], C, N], C, @specialized(
     val (b, q) = contentAndPrimitivePart(y)
     multiply(primitivePart(gcd1(p, q)), ring.gcd(a, b))
   }
-  def gcd1(x: T[C, N], y: T[C, N]): T[C, N]
   def convertTo(s: MultivariatePolynomial[T, T[C, N], N], w: T[C, N]): T[T[C, N], N] = (s.zero /: iterator(w)) { (l, r) =>
     val (m, c) = r
     val x = pp.projection(m, location)
