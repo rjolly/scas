@@ -2,7 +2,6 @@ package scas.polynomial.tree
 
 import scala.collection.SortedMap
 import scas.Variable
-import scas.polynomial.ordering.Ordering
 import scas.polynomial.{TreePolynomial, PowerProduct}
 import scas.structure.UniqueFactorizationDomain
 import PolynomialWithGB.Element
@@ -14,7 +13,7 @@ class PolynomialWithGB[C, @specialized(Int, Long) N](val ring: UniqueFactorizati
 }
 
 object PolynomialWithGB {
-  def apply[C](ring: UniqueFactorizationDomain[C], variables: Variable*): PolynomialWithGB[C, Int] = apply(ring, PowerProduct(variables.toArray, Ordering.lexicographic[Int]))
+  def apply[C](ring: UniqueFactorizationDomain[C], variables: Variable*): PolynomialWithGB[C, Int] = apply(ring, PowerProduct(variables: _*))
   def apply[C, @specialized(Int, Long) N](ring: UniqueFactorizationDomain[C], pp: PowerProduct[N]) = new PolynomialWithGB(ring, pp)
 
   class Element[C, @specialized(Int, Long) N](val value: SortedMap[Array[N], C], val index: Int)(val factory: PolynomialWithGB[C, N]) extends TreePolynomial.Element[Element[C, N], C, N] with scas.polynomial.PolynomialWithGB.Element[Element[C, N], C, N]

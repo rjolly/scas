@@ -35,7 +35,8 @@ trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extend
 
   def last(x: T) = x.value.last
 
-  def map(x: T, f: (Array[N], C) => (Array[N], C)) = apply((zero.value /: iterator(x)) { case (l, (s, a)) =>
+  def map(x: T, f: (Array[N], C) => (Array[N], C)) = apply((zero.value /: iterator(x)) { (l: SortedMap[Array[N], C], r: (Array[N], C)) =>
+    val (s, a) = r
     val (m, c) = f(s, a)
     if (c.isZero) l else l.updated(m, c)
   })
