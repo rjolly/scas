@@ -1,19 +1,21 @@
 package scas.polynomial
 
 import scas.structure.Ring
-import scas.polynomial.ordering.Ordering
-import scas.Implicits.{infixRingOps, infixPowerProductOps}
+import scas.BigInteger
+import scas.Implicits.{ZZ, infixRingOps, infixPowerProductOps}
 import Polynomial.Element
 
 trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ring[T] {
   implicit val ring: Ring[C]
   implicit val pp: PowerProduct[N]
   implicit val cm: ClassManifest[T]
+  override def zero = apply()
   def generator(n: Int) = fromPowerProduct(pp.generator(n))
   def generators = pp.generators.map(fromPowerProduct)
   def generatorsBy(n: Int) = pp.generatorsBy(n).map(_.map(fromPowerProduct))
   override def signum(x: T) = if (x.isZero) 0 else ring.signum(lastCoefficient(x))
   def characteristic = ring.characteristic
+  def convert(x: T) = sort(map(x, (s, a) => (pp.converter(x.factory.variables)(s), ring.convert(a))))
   def apply(l: Long) = apply(ring(l))
   def random(numbits: Int)(implicit rnd: java.util.Random) = zero
   def compare(x: T, y: T): Int = {
@@ -33,8 +35,17 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
     if (!it.hasNext) 0 else -1
   }
   def isUnit(x: T) = if (degree(x) > 0 || x.isZero) false else headCoefficient(x).isUnit
-  def times(x: T, y: T) = (zero /: iterator(y)) { case (l, (a, b)) =>
+  def times(x: T, y: T) = (zero /: iterator(y)) { (l, r) =>
+    val (a, b) = r
     l + multiply(x, a, b)
+  }
+  override def pow(x: T, exp: BigInteger) = {
+    if (size(x) == 0) {
+      if (exp.isZero) one else zero
+    } else if (size(x) == 1) {
+      val (a, b) = head(x)
+      multiply(one, pp.pow(a, exp), ring.pow(b, exp))
+    } else super.pow(x, exp)
   }
   override def toCode(x: T, precedence: Int) = {
     var s = ring.zero.toCode(0)
@@ -92,14 +103,17 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
     s
   }
   def toMathML = <mrow>{ring.toMathML}{pp.toMathML}</mrow>
-  def apply(value: C): T
-  def fromPowerProduct(value: Array[N]): T
+  def apply(value: C): T = if(value.isZero) zero else apply((pp.one, value))
+  def fromPowerProduct(value: Array[N]) = apply((value, ring.one))
+  def apply(s: (Array[N], C)*): T
 
   def iterator(x: T): Iterator[(Array[N], C)]
 
   def iterator(x: T, m: Array[N]): Iterator[(Array[N], C)]
 
   def reverseIterator(x: T): Iterator[(Array[N], C)]
+
+  def toSeq(x: T): Seq[(Array[N], C)]
 
   def variables = pp.variables
 
@@ -117,7 +131,8 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
 
   def lastCoefficient(x: T) = { val (a, b) = last(x) ; b }
 
-  def degree(x: T) = (0l /: iterator(x)) { case (l, (a, _)) =>
+  def degree(x: T) = (0l /: iterator(x)) { (l, r) =>
+    val (a, _) = r
     scala.math.max(l, pp.degree(a))
   }
 
@@ -179,7 +194,15 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
 
   def multiply(x: T, c: C) = map(x, (s, a) => (s, a * c))
 
-  def map(x: T, f: (Array[N], C) => (Array[N], C)): T
+  def map(x: T, f: (Array[N], C) => (Array[N], C)) = apply(toSeq(x).map { r =>
+    val (s, a) = r
+    f(s, a)
+  } filter { r =>
+    val (_, a) = r
+    !a.isZero
+  }: _*)
+
+  def sort(x: T): T
 }
 
 object Polynomial {

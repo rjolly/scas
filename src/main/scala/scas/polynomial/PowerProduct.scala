@@ -25,7 +25,7 @@ class PowerProduct[@specialized(Int, Long) N](val variables: Array[Variable], va
     (for (i <- 0 until x.length) yield x(i) * n).toArray
   }
   def fromBigInteger(value: BigInteger) = {
-    (fromInt(0) /: value.toByteArray()) { (s, b) => s * fromInt(0xff) + fromInt(b) }
+    (fromInt(0) /: value.toByteArray()) { (s, b) => s * fromInt(0x100) + fromInt(b & 0xff) }
   }
   def apply(l: Long) = {
     assert (l == 1)

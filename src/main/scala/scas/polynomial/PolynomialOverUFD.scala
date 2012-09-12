@@ -40,7 +40,10 @@ trait PolynomialOverUFD[T <: Element[T, C, N], C, @specialized(Int, Long) N] ext
     multiply(x, b0) - multiply(y, m, a0)
   }
   def content(x: T) = {
-    val c = (ring.zero /: iterator(x)) { case (l, (_, a)) => ring.gcd(l, a) }
+    val c = (ring.zero /: iterator(x)) { (l, r) =>
+      val (_, a) = r
+      ring.gcd(l, a)
+    }
     ring.abs(c) * ring(signum(x))
   }
   def contentAndPrimitivePart(x: T) = {

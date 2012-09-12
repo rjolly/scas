@@ -4,7 +4,8 @@ class Constant(val name: String, val prime: Int, val subscript: Array[Int]) exte
   override def equals(other: Any) = other match {
     case other: Constant => {
       if (!this.name.equals(other.name)) false else {
-        if (!this.prime.equals(other.prime)) false else (true /: this.subscript.zip(other.subscript)) { case (l, (a, b)) =>
+        if (!this.prime.equals(other.prime)) false else (true /: this.subscript.zip(other.subscript)) { (l, r) =>
+          val (a, b) = r
           l && a.equals(b)
         }
       }

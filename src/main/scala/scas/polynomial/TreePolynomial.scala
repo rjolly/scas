@@ -5,29 +5,27 @@ import scas.Implicits.infixRingOps
 import TreePolynomial.Element
 
 trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Polynomial[T, C, N] {
-  override def zero = apply(SortedMap.empty[Array[N], C](pp.ordering.reverse))
-  def convert(x: T) = apply((zero.value /: x.value.iterator) { case (l, (s, a)) =>
-    val (m, c) = (pp.converter(x.factory.variables)(s), ring.convert(a))
-    if (c.isZero) l else l.updated(m, c)
-  })
   override def isZero(x: T) = x.value.isEmpty
-  def plus(x: T, y: T) = apply((x.value /: y.value.iterator) { case (l, (s, a)) =>
+  def plus(x: T, y: T) = apply((x.value /: iterator(y)) { (l, r) =>
+    val (s, a) = r
     val c = l.getOrElse(s, ring.zero) + a
-    if (c.isZero) l - s else l.updated(s, c)
+    if (c.isZero) l - s else l + ((s, c))
   })
-  def minus(x: T, y: T) = apply((x.value /: y.value.iterator) { case (l, (s, a)) =>
+  def minus(x: T, y: T) = apply((x.value /: iterator(y)) { (l, r) =>
+    val (s, a) = r
     val c = l.getOrElse(s, ring.zero) - a
-    if (c.isZero) l - s else l.updated(s, c)
+    if (c.isZero) l - s else l + ((s, c))
   })
-  def apply(value: C) = apply(if(value.isZero) zero.value else zero.value + (pp.one -> value))
-  def fromPowerProduct(value: Array[N]) = apply(zero.value + (value -> ring.one))
+  def apply(s: (Array[N], C)*) = apply(SortedMap(s: _*)(pp.ordering.reverse))
   def apply(value: SortedMap[Array[N], C]): T
 
   def iterator(x: T) = x.value.iterator
 
   def iterator(x: T, m: Array[N]) = x.value.from(m).iterator
 
-  def reverseIterator(x: T) = x.value.toSeq.reverseIterator
+  def reverseIterator(x: T) = toSeq(x).reverseIterator
+
+  def toSeq(x: T) = x.value.toSeq
 
   def size(x: T) = x.value.size
 
@@ -35,11 +33,13 @@ trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extend
 
   def last(x: T) = x.value.last
 
-  def map(x: T, f: (Array[N], C) => (Array[N], C)) = apply((zero.value /: iterator(x)) { (l: SortedMap[Array[N], C], r: (Array[N], C)) =>
+  override def map(x: T, f: (Array[N], C) => (Array[N], C)) = apply((zero.value /: iterator(x)) { (l, r) =>
     val (s, a) = r
     val (m, c) = f(s, a)
-    if (c.isZero) l else l.updated(m, c)
+    if (c.isZero) l else l + ((m, c))
   })
+
+  def sort(x: T) = x
 }
 
 object TreePolynomial {
