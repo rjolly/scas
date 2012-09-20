@@ -23,7 +23,7 @@ trait Residue[R <: PolynomialOverUFD.Element[R, C, N], C, @specialized(Int, Long
 
 object Residue {
   def apply[C](ring: Field[C], s: Variable): AlgebraicNumber[UnivariatePolynomial.Element[C, Int], C, Int] = apply(UnivariatePolynomial(ring, s))
-  def apply[R <: PolynomialOverUFD.Element[R, C, N], C, @specialized(Int, Long) N](ring: scas.polynomial.UnivariatePolynomial[R, C, N]) = new AlgebraicNumber(ring)
+  def apply[R <: PolynomialOverUFD.Element[R, C, N], C, @specialized(Int, Long) N](ring: scas.polynomial.UnivariatePolynomial[R, C, N]) = new AlgebraicNumberImpl(ring)
 
   class Element[R <: PolynomialOverUFD.Element[R, C, N], C, @specialized(Int, Long) N](val value: R)(val factory: Residue[R, C, N]) extends scas.structure.Residue.Element[Element[R, C, N], R]
   object Element extends ExtraImplicits

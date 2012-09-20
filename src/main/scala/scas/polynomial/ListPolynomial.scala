@@ -7,8 +7,6 @@ import ListPolynomial.Element
 
 trait ListPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Polynomial[T, C, N] {
   override def isZero(x: T) = x.value.isEmpty
-  def plus(x: T, y: T) = merge(x, y, _ + _)
-  def minus(x: T, y: T) = merge(x, y, _ - _)
   def apply(s: (Array[N], C)*) = apply(List(s: _*))
   def apply(value: List[(Array[N], C)]): T
 
@@ -29,7 +27,7 @@ trait ListPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extend
 
   def last(x: T) = x.value.last
 
-  def merge(x: T, y: T, f: (C, C) => C) = {
+  def combine(x: T, y: T, f: (C, C) => C) = {
     val res = new ListBuffer[(Array[N], C)]
     var leftx = x.value
     var lefty = y.value

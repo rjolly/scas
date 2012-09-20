@@ -18,6 +18,8 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
   def convert(x: T) = sort(map(x, (s, a) => (pp.converter(x.factory.variables)(s), ring.convert(a))))
   def apply(l: Long) = apply(ring(l))
   def random(numbits: Int)(implicit rnd: java.util.Random) = zero
+  def plus(x: T, y: T) = combine(x, y, _ + _)
+  def minus(x: T, y: T) = combine(x, y, _ - _)
   def compare(x: T, y: T): Int = {
     val it = iterator(y)
     for ((a, b) <- iterator(x)) {
@@ -187,6 +189,8 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
       }
     } else x
   }
+
+  def combine(x: T, y: T, f: (C, C) => C): T
 
   def subtract(x: T, m: Array[N], a: C, y: T, b: C) = multiply(x, b) - multiply(y, m, a)
 

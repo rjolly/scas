@@ -6,16 +6,6 @@ import TreePolynomial.Element
 
 trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Polynomial[T, C, N] {
   override def isZero(x: T) = x.value.isEmpty
-  def plus(x: T, y: T) = apply((x.value /: iterator(y)) { (l, r) =>
-    val (s, a) = r
-    val c = l.getOrElse(s, ring.zero) + a
-    if (c.isZero) l - s else l + ((s, c))
-  })
-  def minus(x: T, y: T) = apply((x.value /: iterator(y)) { (l, r) =>
-    val (s, a) = r
-    val c = l.getOrElse(s, ring.zero) - a
-    if (c.isZero) l - s else l + ((s, c))
-  })
   def apply(s: (Array[N], C)*) = apply(SortedMap(s: _*)(pp.ordering.reverse))
   def apply(value: SortedMap[Array[N], C]): T
 
@@ -32,6 +22,12 @@ trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extend
   def head(x: T) = x.value.head
 
   def last(x: T) = x.value.last
+
+  def combine(x: T, y: T, f: (C, C) => C) = apply((x.value /: iterator(y)) { (l, r) =>
+    val (s, a) = r
+    val c = f(l.getOrElse(s, ring.zero), a)
+    if (c.isZero) l - s else l + ((s, c))
+  })
 
   override def map(x: T, f: (Array[N], C) => (Array[N], C)) = apply((zero.value /: iterator(x)) { (l, r) =>
     val (s, a) = r
