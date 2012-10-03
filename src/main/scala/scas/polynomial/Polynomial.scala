@@ -1,5 +1,6 @@
 package scas.polynomial
 
+import scala.annotation.tailrec
 import scas.structure.Ring
 import scas.BigInteger
 import scas.Implicits.{ZZ, infixRingOps, infixPowerProductOps}
@@ -140,7 +141,7 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
 
   def reduce(x: T, y: T): T = reduce(x, List(y))
 
-  def reduce(x: T, list: List[T]): T = {
+  @tailrec final def reduce(x: T, list: List[T]): T = {
     val it = iterator(x)
     if (it.hasNext) {
       val (s, a) = it.next
@@ -169,7 +170,7 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
     } else x
   }
 
-  def reduce(x: T, m: Array[N], list: List[T]): T = {
+  @tailrec final def reduce(x: T, m: Array[N], list: List[T]): T = {
     val it = iterator(x, m)
     if (it.hasNext) {
       val (s, a) = it.next

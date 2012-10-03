@@ -12,7 +12,7 @@ trait SolvablePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] ex
   def update(e: Array[N], f: Array[N], p: T) = {
     val key = makeKey(e, f)
     val list = table.getOrElse(key, Nil)
-    table = table.updated(key, insert(list, (e, f, p)))
+    table += ((key, insert(list, (e, f, p))))
   }
   def insert(list: List[Relation], relation: Relation): List[Relation] = list match {
     case head::tail if (factorOf(relation, head)) => head::insert(tail, relation)

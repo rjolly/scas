@@ -1,5 +1,6 @@
 package scas.base
 
+import scala.annotation.tailrec
 import scala.collection.SortedMap
 import scas.structure.EuclidianDomain
 import scas.{BigInteger, int2bigInteger, long2bigInteger}
@@ -39,17 +40,19 @@ trait BigIntegerLike extends EuclidianDomain[BigInteger] {
   def toMathML(x: BigInteger) = <cn>{x}</cn>
   def toMathML = <integers/>
 
-  def factorial(x: BigInteger): BigInteger = if (x > 1) x * factorial(x - 1) else 1
+  def factorial(x: BigInteger): BigInteger = factorial(1, x)
+
+  @tailrec final def factorial(res: BigInteger, x: BigInteger): BigInteger = factorial(if (x > 1) x * res else res, x - 1)
 
   def factor(x: BigInteger): Map[BigInteger, Int] = {
     assert(x > 0)
     factor(x, SortedMap.empty[BigInteger, Int], primes)
   }
 
-  def factor(x: BigInteger, map: Map[BigInteger, Int], primes: Stream[Int]): Map[BigInteger, Int] = {
+  @tailrec final def factor(x: BigInteger, map: Map[BigInteger, Int], primes: Stream[Int]): Map[BigInteger, Int] = {
     val y = apply(primes.head)
     if (x >< 1) map
-    else if (y | x) factor(x / y, map.updated(y, map.getOrElse(y, 0) + 1), primes)
+    else if (y | x) factor(x / y, map + ((y, map.getOrElse(y, 0) + 1)), primes)
     else factor(x, map, primes.tail)
   }
 
