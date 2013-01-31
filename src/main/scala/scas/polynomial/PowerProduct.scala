@@ -2,7 +2,7 @@ package scas.polynomial
 
 import scala.reflect.ClassTag
 import scas.{Variable, BigInteger}
-import scas.polynomial.ordering.Ordering
+import scas.ordering.Ordering
 import scas.structure.Monoid
 
 class PowerProduct[@specialized(Int, Long) N](val variables: Array[Variable], val ordering: Ordering[N])(implicit nm: Numeric[N], m: Manifest[N], cm: ClassTag[Array[N]], cmm: ClassTag[Array[Array[N]]]) extends Monoid[Array[N]] {

@@ -1,6 +1,6 @@
 package scas.base
 
-import scas.polynomial.residue.AlgebraicNumber
+import scas.residue.AlgebraicNumber
 import scas.{Variable, UnivariatePolynomial, int2bigInteger, bigInteger2rational}
 import scas.Implicits.{ZZ, QQ}
 

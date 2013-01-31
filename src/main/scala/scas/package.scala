@@ -19,14 +19,14 @@ package object scas {
 
   val Variable = variable.Variable
   val ModInteger = base.ModInteger
-  val Ordering = polynomial.ordering.Ordering
+  val Ordering = ordering.Ordering
   val PowerProduct = polynomial.PowerProduct
-  val Polynomial = polynomial.tree.Polynomial
-  val PolynomialWithGB = polynomial.tree.PolynomialWithGB
-  val MultivariatePolynomial = polynomial.tree.MultivariatePolynomial
-  val UnivariatePolynomial = polynomial.tree.UnivariatePolynomial
-  val RationalFunction = polynomial.quotient.RationalFunction
-  val Residue = polynomial.residue.Residue
+  val Polynomial = tree.Polynomial
+  val PolynomialWithGB = tree.PolynomialWithGB
+  val MultivariatePolynomial = tree.MultivariatePolynomial
+  val UnivariatePolynomial = tree.UnivariatePolynomial
+  val RationalFunction = quotient.RationalFunction
+  val Residue = residue.Residue
   val Module = module.Module
   val Group = structure.Group
   val Product = structure.Product
