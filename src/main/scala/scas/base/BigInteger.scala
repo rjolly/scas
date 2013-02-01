@@ -42,7 +42,7 @@ object BigInteger extends EuclidianDomain[BigInteger] {
 
   def factorial(x: BigInteger): BigInteger = factorial(1, x)
 
-  @tailrec final def factorial(res: BigInteger, x: BigInteger): BigInteger = factorial(if (x > 1) x * res else res, x - 1)
+  @tailrec final def factorial(res: BigInteger, x: BigInteger): BigInteger = if (x > 1) factorial(x * res, x - 1) else res
 
   def factor(x: BigInteger): Map[BigInteger, Int] = {
     assert(x > 0)

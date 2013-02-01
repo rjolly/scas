@@ -8,10 +8,12 @@ class DegreeReverseLexicographic[@specialized(Int, Long) N](implicit val nm: sca
     else if (x(n) > y(n)) 1
     else {
       var i = 0
-      while (i < n - 1 && (x(i) equiv y(i))) i += 1
-      if (x(i) > y(i)) -1
-      else if (x(i) < y(i)) 1
-      else 0
+      while (i < n) {
+        if (x(i) > y(i)) return -1
+        else if (x(i) < y(i)) return 1
+        i += 1
+      }
+      return 0
     }
   }
 }
