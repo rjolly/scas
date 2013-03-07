@@ -15,6 +15,8 @@ object Polynomial {
   def apply[C, @specialized(Int, Long) N](ring: Ring[C], pp: PowerProduct[N]) = new PolynomialImpl(ring, pp)
   def parallel[C](ring: Ring[C], variables: Variable*): Polynomial[C, Int] = parallel(ring, PowerProduct(variables: _*))
   def parallel[C, @specialized(Int, Long) N](ring: Ring[C], pp: PowerProduct[N]) = new ParallelPolynomial(ring, pp)
+  def stream[C](ring: Ring[C], variables: Variable*): Polynomial[C, Int] = stream(ring, PowerProduct(variables: _*))
+  def stream[C, @specialized(Int, Long) N](ring: Ring[C], pp: PowerProduct[N]) = new StreamPolynomial(ring, pp)
 
   class Element[C, @specialized(Int, Long) N](val value: List[(Array[N], C)])(val factory: Polynomial[C, N]) extends ListPolynomial.Element[Element[C, N], C, N]
   object Element extends ExtraImplicits
