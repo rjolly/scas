@@ -1,4 +1,5 @@
-package scas.mutable
+package scas.tree
+package mutable
 
 import scala.reflect.ClassTag
 import scas.polynomial.PowerProduct

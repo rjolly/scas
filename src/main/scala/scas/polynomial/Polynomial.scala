@@ -41,8 +41,9 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
   def isUnit(x: T) = if (degree(x) > 0 || x.isZero) false else headCoefficient(x).isUnit
   def times(x: T, y: T) = (zero /: iterator(y)) { (l, r) =>
     val (a, b) = r
-    l + multiply(x, a, b)
+    add(l, a, b, x)
   }
+  def add(x: T, m: Array[N], c: C, y: T) = x + multiply(y, m, c)
   override def pow(x: T, exp: BigInteger) = {
     if (size(x) == 0) {
       if (exp.isZero) one else zero
@@ -117,8 +118,6 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
 
   def reverseIterator(x: T): Iterator[(Array[N], C)]
 
-  def toSeq(x: T): Seq[(Array[N], C)]
-
   def variables = pp.variables
 
   def length = variables.length
@@ -150,7 +149,7 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
         case y::tail => {
           val (t, b) = head(y)
           if (!(t | s)) reduce(x, tail) else {
-            reduce(subtract(x, s / t, a, y, b), list)
+            reduce(reduce(x, s / t, a, y, b), list)
           }
         }
         case _ => x
@@ -179,7 +178,7 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
         case y::tail => {
           val (t, b) = head(y)
           if (!(t | s)) reduce(x, m, tail) else {
-            reduce(subtract(x, s / t, a, y, b), m, list)
+            reduce(reduce(x, s / t, a, y, b), m, list)
           }
         }
         case _ => {
@@ -196,19 +195,15 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
 
   def combine(x: T, y: T, f: (C, C) => C): T
 
+  def reduce(x: T, m: Array[N], a: C, y: T, b: C) = subtract(x, m, a, y, b)
+
   def subtract(x: T, m: Array[N], a: C, y: T, b: C) = multiply(x, b) - multiply(y, m, a)
 
   def multiply(x: T, m: Array[N], c: C) = map(x, (s, a) => (s * m, a * c))
 
   def multiply(x: T, c: C) = map(x, (s, a) => (s, a * c))
 
-  def map(x: T, f: (Array[N], C) => (Array[N], C)) = apply(toSeq(x).map { r =>
-    val (s, a) = r
-    f(s, a)
-  } filter { r =>
-    val (_, a) = r
-    !a.isZero
-  }: _*)
+  def map(x: T, f: (Array[N], C) => (Array[N], C)): T
 
   def sort(x: T): T
 }

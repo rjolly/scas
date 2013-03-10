@@ -19,8 +19,6 @@ trait ListPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extend
 
   def reverseIterator(x: T) = x.value.reverseIterator
 
-  def toSeq(x: T) = x.value
-
   def size(x: T) = x.value.size
 
   def head(x: T) = x.value.head
@@ -52,7 +50,7 @@ trait ListPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extend
     apply(res.toList)
   }
 
-  override def map(x: T, f: (Array[N], C) => (Array[N], C)) = {
+  def map(x: T, f: (Array[N], C) => (Array[N], C)) = {
     val res = new ListBuffer[(Array[N], C)]
     var left = x.value
     while (!left.isEmpty) {

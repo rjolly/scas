@@ -13,9 +13,7 @@ trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extend
 
   def iterator(x: T, m: Array[N]) = x.value.from(m).iterator
 
-  def reverseIterator(x: T) = toSeq(x).reverseIterator
-
-  def toSeq(x: T) = x.value.toSeq
+  def reverseIterator(x: T) = x.value.toSeq.reverseIterator
 
   def size(x: T) = x.value.size
 
@@ -23,13 +21,13 @@ trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extend
 
   def last(x: T) = x.value.last
 
-  def combine(x: T, y: T, f: (C, C) => C) = apply((x.value /: iterator(y)) { (l, r) =>
+  def combine(x: T, y: T, f: (C, C) => C) = apply((x.value /: y.value) { (l, r) =>
     val (s, a) = r
     val c = f(l.getOrElse(s, ring.zero), a)
     if (c.isZero) l - s else l + ((s, c))
   })
 
-  override def map(x: T, f: (Array[N], C) => (Array[N], C)) = apply((zero.value /: iterator(x)) { (l, r) =>
+  def map(x: T, f: (Array[N], C) => (Array[N], C)) = apply((zero.value /: x.value) { (l, r) =>
     val (s, a) = r
     val (m, c) = f(s, a)
     if (c.isZero) l else l + ((m, c))

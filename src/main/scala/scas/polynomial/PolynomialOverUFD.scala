@@ -36,10 +36,10 @@ trait PolynomialOverUFD[T <: Element[T, C, N], C, @specialized(Int, Long) N] ext
     } else x
   }
   override def normalize(x: T) = primitivePart(x)
-  override def subtract(x: T, m: Array[N], a: C, y: T, b: C) = {
+  override def reduce(x: T, m: Array[N], a: C, y: T, b: C) = {
     val gcd = ring.gcd(a, b)
     val (a0, b0) = (a / gcd, b / gcd)
-    multiply(x, b0) - multiply(y, m, a0)
+    subtract(x, m, a0, y, b0)
   }
   def content(x: T) = {
     val c = (ring.zero /: iterator(x)) { (l, r) =>
