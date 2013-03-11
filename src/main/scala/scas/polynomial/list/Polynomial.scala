@@ -1,8 +1,8 @@
-package scas.list
+package scas.polynomial
+package list
 
 import scala.collection.immutable.List
 import scas.Variable
-import scas.polynomial.{ListPolynomial, PowerProduct}
 import scas.structure.Ring
 import Polynomial.Element
 

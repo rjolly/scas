@@ -22,10 +22,10 @@ package object scas {
   val ModInteger = base.ModInteger
   val Ordering = ordering.Ordering
   val PowerProduct = polynomial.PowerProduct
-  val Polynomial = tree.Polynomial
-  val PolynomialWithGB = tree.PolynomialWithGB
-  val MultivariatePolynomial = tree.MultivariatePolynomial
-  val UnivariatePolynomial = tree.UnivariatePolynomial
+  val Polynomial = polynomial.tree.Polynomial
+  val PolynomialWithGB = polynomial.tree.PolynomialWithGB
+  val MultivariatePolynomial = polynomial.tree.MultivariatePolynomial
+  val UnivariatePolynomial = polynomial.tree.UnivariatePolynomial
   val RationalFunction = quotient.RationalFunction
   val Residue = residue.Residue
   val Module = module.Module

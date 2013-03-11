@@ -1,7 +1,7 @@
-package scas.tree
+package scas.polynomial
+package tree
 
 import scala.collection.SortedMap
-import scas.polynomial.{TreePolynomial, PowerProduct, PolynomialOverUFD}
 import scas.structure.{UniqueFactorizationDomain, Field}
 import MultivariatePolynomial.Element
 

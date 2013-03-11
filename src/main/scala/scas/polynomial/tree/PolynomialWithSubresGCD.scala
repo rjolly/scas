@@ -1,8 +1,8 @@
-package scas.tree
+package scas.polynomial
+package tree
 
 import scala.reflect.ClassTag
 import scas.ufd.SubresGCD
-import scas.polynomial.PowerProduct
 import scas.structure.UniqueFactorizationDomain
 import MultivariatePolynomial.Element
 

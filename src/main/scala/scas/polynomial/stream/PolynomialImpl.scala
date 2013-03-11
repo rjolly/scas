@@ -1,8 +1,7 @@
-package scas.tree
-package mutable
+package scas.polynomial
+package stream
 
 import scala.reflect.ClassTag
-import scas.polynomial.PowerProduct
 import scas.structure.Ring
 import Polynomial.Element
 
