@@ -407,15 +407,17 @@ object Stream extends SeqFactory[Stream] {
     def #:::(prefix: Stream[A]): Stream[A] = prefix append tl
   }
 
-  object #:: {
-    def unapply[A](xs: Cons[A]): Option[(A, Future[Stream[A]])] = cons.unapply(xs)
-  }
+  val #:: = Cons
 
   case class Cons[+A](hd: A, tl: Future[Stream[A]]) extends Stream[A] {
+    private[this] var defined: Boolean = _
     override def isEmpty = false
     override def head = hd
-    def tailDefined = false
-    override def tail: Stream[A] = Await.result(tl, Duration.Inf)
+    def tailDefined = defined
+    override def tail: Stream[A] = {
+      defined = true
+      Await.result(tl, Duration.Inf)
+    }
   }
 
   def iterate[A](start: A)(f: A => A): Stream[A] = apply(scala.Stream.iterate(start)(f))

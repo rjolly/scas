@@ -48,8 +48,8 @@ class PowerProduct[@specialized(Int, Long) N](val variables: Array[Variable], va
   }
   def coprime(x: Array[N], y: Array[N]) = gcd(x, y).isOne
   def compare(x: Array[N], y: Array[N]) = ordering.compare(x, y)
-  def times(x: Array[N], y: Array[N]) = {
-    val r = new Array[N](x.length)
+  def times(x: Array[N], y: Array[N]) = times(x, y, one)
+  def times(x: Array[N], y: Array[N], r: Array[N]) = {
     var i = 0
     while (i < r.length) {
       r(i) = x(i) + y(i)

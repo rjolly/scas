@@ -1,6 +1,6 @@
 package scas.polynomial
 
-import scala.concurrent._
+import scas.concurrent._
 import scas.immutable.Stream
 import scas.Implicits.{infixRingOps, infixOrderingOps, infixPowerProductOps}
 import ExecutionContext.Implicits.global
@@ -35,7 +35,7 @@ trait StreamPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] exte
         val (tm, bc) = (t * m, b * c)
         (tm, bc)#::taily.map(add(x, m, c, _))
       }
-      case Empty => x
+      case Empty => Empty
     }
   }
 
