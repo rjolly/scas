@@ -4,22 +4,11 @@ import scala.collection.SortedMap
 import scas.Implicits.infixRingOps
 import TreePolynomial.Element
 
-trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Polynomial[T, C, N] {
-  override def isZero(x: T) = x.value.isEmpty
+trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends IterablePolynomial[T, C, N] {
   def apply(s: (Array[N], C)*) = apply(SortedMap(s: _*)(pp.ordering.reverse))
   def apply(value: SortedMap[Array[N], C]): T
 
-  def iterator(x: T) = x.value.iterator
-
-  def iterator(x: T, m: Array[N]) = x.value.from(m).iterator
-
-  def reverseIterator(x: T) = x.value.toSeq.reverseIterator
-
-  def size(x: T) = x.value.size
-
-  def head(x: T) = x.value.head
-
-  def last(x: T) = x.value.last
+  override def iterator(x: T, m: Array[N]) = x.value.from(m).iterator
 
   def combine(x: T, y: T, f: (C, C) => C) = apply((x.value /: y.value) { (l, r) =>
     val (s, a) = r
@@ -37,7 +26,7 @@ trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extend
 }
 
 object TreePolynomial {
-  trait Element[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Polynomial.Element[T, C, N] { this: T =>
+  trait Element[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends IterablePolynomial.Element[T, C, N] { this: T =>
     val factory: TreePolynomial[T, C, N]
     val value: SortedMap[Array[N], C]
   }

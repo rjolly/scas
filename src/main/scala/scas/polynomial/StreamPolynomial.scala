@@ -7,10 +7,8 @@ import ExecutionContext.Implicits.global
 import Stream.{#::, ConsWrapper, Empty}
 import StreamPolynomial.Element
 
-trait StreamPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Polynomial[T, C, N] {
+trait StreamPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends IterablePolynomial[T, C, N] {
   type S = Stream[(Array[N], C)]
-
-  override def isZero(x: T) = x.value.isEmpty
   def apply(s: (Array[N], C)*) = apply(Stream(s: _*))
   def apply(value: S): T
 
@@ -39,20 +37,7 @@ trait StreamPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] exte
     }
   }
 
-  def iterator(x: T) = x.value.iterator
-
-  def iterator(x: T, m: Array[N]) = x.value.dropWhile({ r =>
-    val (s, _) = r
-    s > m
-  }).iterator
-
-  def reverseIterator(x: T) = x.value.reverseIterator
-
-  def size(x: T) = x.value.size
-
-  def head(x: T) = x.value.head
-
-  def last(x: T) = x.value.last
+  override def reverseIterator(x: T) = x.value.reverseIterator
 
   def combine(x: T, y: T, f: (C, C) => C) = apply(combine(x.value, y.value, f))
 
@@ -90,7 +75,7 @@ trait StreamPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] exte
 }
 
 object StreamPolynomial {
-  trait Element[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Polynomial.Element[T, C, N] { this: T =>
+  trait Element[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends IterablePolynomial.Element[T, C, N] { this: T =>
     val factory: StreamPolynomial[T, C, N]
     val value: Stream[(Array[N], C)]
   }
