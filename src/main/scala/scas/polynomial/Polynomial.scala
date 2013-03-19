@@ -1,6 +1,7 @@
 package scas.polynomial
 
 import scala.annotation.tailrec
+import scala.collection.parallel.ParIterable
 import scala.reflect.ClassTag
 import scas.structure.Ring
 import scas.BigInteger
@@ -117,6 +118,8 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
   def iterator(x: T, m: Array[N]): Iterator[(Array[N], C)]
 
   def reverseIterator(x: T): Iterator[(Array[N], C)]
+
+  def parIterable(x: T): ParIterable[(Array[N], C)]
 
   def variables = pp.variables
 

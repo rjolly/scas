@@ -33,6 +33,8 @@ trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extend
 
   def reverseIterator(x: T) = x.value.toSeq.reverseIterator
 
+  def parIterable(x: T) = x.value.par
+
   def size(x: T) = x.value.size
 
   def head(x: T) = { val a = headPowerProduct(x) ; (a, x.value.get(a)) }
