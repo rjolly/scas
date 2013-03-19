@@ -15,7 +15,7 @@ trait AbelianGroup[T] extends Structure[T] { outer =>
 }
 
 object AbelianGroup {
-  trait ExtraImplicits {
+  trait ExtraImplicits extends Structure.ExtraImplicits {
     implicit def infixAbelianGroupOps[T: AbelianGroup](lhs: T) = implicitly[AbelianGroup[T]].mkOps(lhs)
   }
   object Implicits extends ExtraImplicits

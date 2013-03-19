@@ -17,7 +17,7 @@ trait Monoid[T] extends SemiGroup[T] { outer =>
 }
 
 object Monoid {
-  trait ExtraImplicits {
+  trait ExtraImplicits extends SemiGroup.ExtraImplicits {
     implicit def infixMonoidOps[T: Monoid](lhs: T) = implicitly[Monoid[T]].mkOps(lhs)
   }
   object Implicits extends ExtraImplicits

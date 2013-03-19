@@ -124,7 +124,7 @@ class PowerProduct[@specialized(Int, Long) N](val variables: Array[Variable], va
 }
 
 object PowerProduct {
-  trait ExtraImplicits {
+  trait ExtraImplicits extends Monoid.ExtraImplicits {
     implicit def infixPowerProductOps[@specialized(Int, Long) N: PowerProduct](lhs: Array[N]) = implicitly[PowerProduct[N]].mkOps(lhs)
   }
   object Implicits extends ExtraImplicits

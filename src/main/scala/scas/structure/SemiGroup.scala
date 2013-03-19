@@ -9,7 +9,7 @@ trait SemiGroup[T] extends Structure[T] { outer =>
 }
 
 object SemiGroup {
-  trait ExtraImplicits {
+  trait ExtraImplicits extends Structure.ExtraImplicits {
     implicit def infixSemiGroupOps[T: SemiGroup](lhs: T) = implicitly[SemiGroup[T]].mkOps(lhs)
   }
   object Implicits extends ExtraImplicits

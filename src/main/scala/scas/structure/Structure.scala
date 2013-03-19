@@ -17,7 +17,7 @@ trait Structure[T] extends Ordering[T] { outer =>
 }
 
 object Structure {
-  trait ExtraImplicits {
+  trait ExtraImplicits extends Ordering.ExtraImplicits {
     implicit def infixOps[T: Structure](lhs: T) = implicitly[Structure[T]].mkOps(lhs)
   }
   object Implicits extends ExtraImplicits

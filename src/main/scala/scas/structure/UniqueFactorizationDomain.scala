@@ -14,7 +14,7 @@ trait UniqueFactorizationDomain[T] extends Ring[T] { outer =>
 }
 
 object UniqueFactorizationDomain {
-  trait ExtraImplicits {
+  trait ExtraImplicits extends Ring.ExtraImplicits {
     implicit def infixUFDOps[T: UniqueFactorizationDomain](lhs: T) = implicitly[UniqueFactorizationDomain[T]].mkOps(lhs)
   }
   object Implicits extends ExtraImplicits
