@@ -9,6 +9,7 @@ import WrapAsScala.mapAsScalaMap
 
 trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Polynomial[T, C, N] {
   override def isZero(x: T) = x.value.isEmpty
+  def clone(x: T) = apply(new TreeMap(x.value))
   def apply(s: (Array[N], C)*) = {
     val l = new TreeMap[Array[N], C](pp.ordering.reverse)
     s.foreach { l += _ }
@@ -16,13 +17,16 @@ trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extend
   }
   def apply(value: SortedMap[Array[N], C]): T
 
+  def plus(x: T, y: T) = add(clone(x), pp.one, ring.one, y)
+  override def minus(x: T, y: T) = add(clone(x), pp.one, -ring.one, y)
+
   override def add(x: T, m: Array[N], c: C, y: T) = {
     val l = x.value
     y.value.foreach { r =>
       val (t, b) = r
-      val (s, a) = (t * m, b * c)
-      val cc = l.getOrElse(s, ring.zero) + a
-      if (cc.isZero) l -= s else l += ((s, cc))
+      val (tm, bc) = (t * m, b * c)
+      val cc = l.getOrElse(tm, ring.zero) + bc
+      if (cc.isZero) l -= tm else l += ((tm, cc))
     }
     x
   }
@@ -31,9 +35,7 @@ trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extend
 
   def iterator(x: T, m: Array[N]) = x.value.tailMap(m).iterator
 
-  def reverseIterator(x: T) = x.value.toSeq.reverseIterator
-
-  def parIterable(x: T) = x.value.par
+  override def toSeq(x: T) = x.value.toSeq
 
   def size(x: T) = x.value.size
 
@@ -45,15 +47,7 @@ trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extend
 
   def lastPowerProduct(x: T) = x.value.lastKey
 
-  def combine(x: T, y: T, f: (C, C) => C) = {
-    val l = new TreeMap(x.value)
-    y.value.foreach { r =>
-      val (s, a) = r
-      val c = f(l.getOrElse(s, ring.zero), a)
-      if (c.isZero) l -= s else l += ((s, c))
-    }
-    apply(l)
-  }
+  override def subtract(x: T, m: Array[N], a: C, y: T, b: C) = add(multiply(x, b), m, -a, y)
 
   def map(x: T, f: (Array[N], C) => (Array[N], C)) = {
     val l = zero.value
@@ -65,7 +59,7 @@ trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extend
     apply(l)
   }
 
-  def sort(x: T) = x
+  override def sort(x: T) = x
 }
 
 object TreePolynomial {

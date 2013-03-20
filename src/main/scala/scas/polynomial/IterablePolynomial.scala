@@ -13,9 +13,7 @@ trait IterablePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] ex
     s > m
   }).iterator
 
-  def reverseIterator(x: T) = x.value.toSeq.reverseIterator
-
-  def parIterable(x: T) = x.value.par
+  override def toSeq(x: T) = x.value.toSeq
 
   def size(x: T) = x.value.size
 

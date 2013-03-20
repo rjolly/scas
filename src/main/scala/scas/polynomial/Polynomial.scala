@@ -1,7 +1,6 @@
 package scas.polynomial
 
 import scala.annotation.tailrec
-import scala.collection.parallel.ParIterable
 import scala.reflect.ClassTag
 import scas.structure.Ring
 import scas.BigInteger
@@ -21,8 +20,9 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
   def convert(x: T) = sort(map(x, (s, a) => (pp.converter(x.factory.variables)(s), ring.convert(a))))
   def apply(l: Long) = apply(ring(l))
   def random(numbits: Int)(implicit rnd: java.util.Random) = zero
-  def plus(x: T, y: T) = combine(x, y, _ + _)
-  def minus(x: T, y: T) = combine(x, y, _ - _)
+  def plus(x: T, y: T): T
+  def minus(x: T, y: T) = x + (-y)
+  override def negate(x: T) = multiply(x, -ring.one)
   def compare(x: T, y: T): Int = {
     val it = iterator(y)
     for ((a, b) <- iterator(x)) {
@@ -117,9 +117,9 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
 
   def iterator(x: T, m: Array[N]): Iterator[(Array[N], C)]
 
-  def reverseIterator(x: T): Iterator[(Array[N], C)]
+  def reverseIterator(x: T) = toSeq(x).reverseIterator
 
-  def parIterable(x: T): ParIterable[(Array[N], C)]
+  def toSeq(x: T) = iterator(x).toSeq
 
   def variables = pp.variables
 
@@ -196,8 +196,6 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
 
   def normalize(x: T) = x
 
-  def combine(x: T, y: T, f: (C, C) => C): T
-
   def reduce(x: T, m: Array[N], a: C, y: T, b: C) = subtract(x, m, a, y, b)
 
   def subtract(x: T, m: Array[N], a: C, y: T, b: C) = multiply(x, b) - multiply(y, m, a)
@@ -208,7 +206,10 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
 
   def map(x: T, f: (Array[N], C) => (Array[N], C)): T
 
-  def sort(x: T): T
+  def sort(x: T) = apply(toSeq(x).sortBy({ r =>
+    val (s, _) = r
+    s
+  })(pp.ordering.reverse): _*)
 }
 
 object Polynomial {

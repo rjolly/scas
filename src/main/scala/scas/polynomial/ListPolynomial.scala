@@ -1,16 +1,14 @@
 package scas.polynomial
 
 import scala.collection.mutable.ListBuffer
-import scas.Implicits.{infixRingOps, infixOrderingOps}
+import scas.Implicits.{infixOrderingOps, infixRingOps}
 import ListPolynomial.Element
 
 trait ListPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends IterablePolynomial[T, C, N] {
   def apply(s: (Array[N], C)*) = apply(List(s: _*))
   def apply(value: List[(Array[N], C)]): T
 
-  override def reverseIterator(x: T) = x.value.reverseIterator
-
-  def combine(x: T, y: T, f: (C, C) => C) = {
+  def plus(x: T, y: T) = {
     val res = new ListBuffer[(Array[N], C)]
     var leftx = x.value
     var lefty = y.value
@@ -24,7 +22,7 @@ trait ListPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extend
         res += lefty.head
         lefty = lefty.tail
       } else {
-        val c = f(a, b)
+        val c = a + b
         if (!c.isZero) res += ((s, c))
         leftx = leftx.tail
         lefty = lefty.tail
@@ -34,6 +32,8 @@ trait ListPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extend
     res ++= lefty
     apply(res.toList)
   }
+
+  override def toSeq(x: T) = x.value
 
   def map(x: T, f: (Array[N], C) => (Array[N], C)) = {
     val res = new ListBuffer[(Array[N], C)]
@@ -46,11 +46,6 @@ trait ListPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extend
     }
     apply(res.toList)
   }
-
-  def sort(x: T) = apply(x.value.sortBy({ r =>
-    val (s, _) = r
-    s
-  })(pp.ordering.reverse))
 }
 
 object ListPolynomial {
