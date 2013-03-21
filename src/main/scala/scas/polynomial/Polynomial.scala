@@ -196,9 +196,7 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
 
   def normalize(x: T) = x
 
-  def reduce(x: T, m: Array[N], a: C, y: T, b: C) = subtract(x, m, a, y, b)
-
-  def subtract(x: T, m: Array[N], a: C, y: T, b: C) = multiply(x, b) - multiply(y, m, a)
+  def reduce(x: T, m: Array[N], a: C, y: T, b: C) = add(multiply(x, b), m, -a, y)
 
   def multiply(x: T, m: Array[N], c: C) = map(x, (s, a) => (s * m, a * c))
 

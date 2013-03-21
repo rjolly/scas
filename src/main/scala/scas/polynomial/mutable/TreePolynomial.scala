@@ -47,8 +47,6 @@ trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extend
 
   def lastPowerProduct(x: T) = x.value.lastKey
 
-  override def subtract(x: T, m: Array[N], a: C, y: T, b: C) = add(multiply(x, b), m, -a, y)
-
   def map(x: T, f: (Array[N], C) => (Array[N], C)) = {
     val l = zero.value
     x.value.foreach { r =>

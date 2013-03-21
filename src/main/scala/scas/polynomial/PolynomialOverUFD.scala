@@ -39,7 +39,7 @@ trait PolynomialOverUFD[T <: Element[T, C, N], C, @specialized(Int, Long) N] ext
   override def reduce(x: T, m: Array[N], a: C, y: T, b: C) = {
     val gcd = ring.gcd(a, b)
     val (a0, b0) = (a / gcd, b / gcd)
-    subtract(x, m, a0, y, b0)
+    add(multiply(x, b0), m, -a0, y)
   }
   def content(x: T) = {
     val c = (ring.zero /: iterator(x)) { (l, r) =>

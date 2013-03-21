@@ -20,8 +20,6 @@ trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extend
 
   override def iterator(x: T, m: Array[N]) = x.value.from(m).iterator
 
-  override def subtract(x: T, m: Array[N], a: C, y: T, b: C) = add(multiply(x, b), m, -a, y)
-
   def map(x: T, f: (Array[N], C) => (Array[N], C)) = apply((zero.value /: x.value) { (l, r) =>
     val (s, a) = r
     val (m, c) = f(s, a)
