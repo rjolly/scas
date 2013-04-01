@@ -21,8 +21,7 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
   def apply(l: Long) = apply(ring(l))
   def random(numbits: Int)(implicit rnd: java.util.Random) = zero
   def plus(x: T, y: T): T
-  def minus(x: T, y: T) = x + (-y)
-  override def negate(x: T) = multiply(x, -ring.one)
+  def minus(x: T, y: T) = subtract(x, pp.one, ring.one, y)
   def compare(x: T, y: T): Int = {
     val it = iterator(y)
     for ((a, b) <- iterator(x)) {
@@ -42,9 +41,8 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
   def isUnit(x: T) = if (degree(x) > 0 || x.isZero) false else headCoefficient(x).isUnit
   def times(x: T, y: T) = (zero /: iterator(y)) { (l, r) =>
     val (a, b) = r
-    add(l, a, b, x)
+    subtract(l, a, -b, x)
   }
-  def add(x: T, m: Array[N], c: C, y: T) = x + multiply(y, m, c)
   override def pow(x: T, exp: BigInteger) = {
     if (size(x) == 0) {
       if (exp.isZero) one else zero
@@ -196,11 +194,15 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
 
   def normalize(x: T) = x
 
-  def reduce(x: T, m: Array[N], a: C, y: T, b: C) = add(multiply(x, b), m, -a, y)
+  def reduce(x: T, m: Array[N], a: C, y: T, b: C) = subtract(multiply(x, b), m, a, y)
+
+  def subtract(x: T, m: Array[N], c: C, y: T) = x + multiply(y, m, -c)
 
   def multiply(x: T, m: Array[N], c: C) = map(x, (s, a) => (s * m, a * c))
 
-  def multiply(x: T, c: C) = map(x, (s, a) => (s, a * c))
+  def multiply(x: T, b: C) = map(x, a => a * b)
+
+  def map(x: T, f: C => C): T = map(x, (s, a) => (s, f(a)))
 
   def map(x: T, f: (Array[N], C) => (Array[N], C)): T
 

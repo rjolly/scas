@@ -12,5 +12,5 @@ trait SubresGCD[T <: Element[T, C, N], C, @specialized(Int, Long) N] { this: Pol
     val d = degree(x) - degree(y)
     gcd(y, divide(reduce(x, y), beta), headCoefficient(x) * ring.pow(phi, d), if (d == 0) phi else if (d == 1) headCoefficient(y) else ring.pow(headCoefficient(y), d) / ring.pow(phi, d - 1))
   }
-  abstract override def reduce(x: T, m: Array[N], a: C, y: T, b: C) = add(multiply(x, b), m, -a, y)
+  override def reduce(x: T, m: Array[N], a: C, y: T, b: C) = subtract(multiply(x, b), m, a, y)
 }

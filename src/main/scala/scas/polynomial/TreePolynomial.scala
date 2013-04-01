@@ -8,17 +8,20 @@ trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extend
   def apply(s: (Array[N], C)*) = apply(SortedMap(s: _*)(pp.ordering.reverse))
   def apply(value: SortedMap[Array[N], C]): T
 
-  def plus(x: T, y: T) = add(x, pp.one, ring.one, y)
-  override def minus(x: T, y: T) = add(x, pp.one, -ring.one, y)
-
-  override def add(x: T, m: Array[N], c: C, y: T) = apply((x.value /: y.value) { (l, r) =>
+  def plus(x: T, y: T) = apply((x.value /: y.value) { (l, r) =>
     val (t, b) = r
-    val (tm, bc) = (t * m, b * c)
-    val cc = l.getOrElse(tm, ring.zero) + bc
-    if (cc.isZero) l - tm else l + ((tm, cc))
+    val c = l.getOrElse(t, ring.zero) + b
+    if (c.isZero) l - t else l + ((t, c))
   })
 
   override def iterator(x: T, m: Array[N]) = x.value.from(m).iterator
+
+  override def subtract(x: T, m: Array[N], c: C, y: T) = apply((x.value /: y.value) { (l, r) =>
+    val (s, a) = r
+    val (sm, ac) = (s * m, a * c)
+    val cc = l.getOrElse(sm, ring.zero) - ac
+    if (cc.isZero) l - sm else l + ((sm, cc))
+  })
 
   def map(x: T, f: (Array[N], C) => (Array[N], C)) = apply((zero.value /: x.value) { (l, r) =>
     val (s, a) = r

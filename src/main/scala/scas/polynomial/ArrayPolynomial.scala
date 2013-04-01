@@ -28,34 +28,31 @@ trait ArrayPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] exten
     val l = zero(x.size + y.size)
     var i = 0
     var j = 0
-    while (i < x.size || j < y.size) {
-      if (i < x.size) {
-        val (s, a) = x(i, q)
-        if (j < y.size) {
-          val (t, b) = y(j, r)
-          if (s > t) {
-            l += ((s, a))
-            i += 1
-          } else if (s < t) {
-            l += ((t, b))
-            j += 1
-          } else {
-            val c = a + b
-            if (!c.isZero) l += ((s, c))
-            i += 1
-            j += 1
-          }
-        } else {
-          l += ((s, a))
-          i += 1
-        }
+    while (i < x.size && j < y.size) {
+      val (s, a) = x(i, q)
+      val (t, b) = y(j, r)
+      if (s > t) {
+        l += ((s, a))
+        i += 1
+      } else if (s < t) {
+        l += ((t, b))
+        j += 1
       } else {
-        if (j < y.size) {
-          val (t, b) = y(j, r)
-          l += ((t, b))
-          j += 1
-        }
+        val c = a + b
+        if (!c.isZero) l += ((s, c))
+        i += 1
+        j += 1
       }
+    }
+    while (i < x.size) {
+      val (s, a) = x(i, q)
+      l += ((s, a))
+      i += 1
+    }
+    while (j < y.size) {
+      val (t, b) = y(j, r)
+      l += ((t, b))
+      j += 1
     }
     pack(l)
   }
@@ -105,6 +102,20 @@ trait ArrayPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] exten
       i += 1
     }
     pack(l)
+  }
+
+  override def map(x: T, f: C => C) = {
+    val r = pp.one
+    val l = x.size
+    x.size = 0
+    var i = 0
+    while (i < l) {
+      val (s, a) = x(i, r)
+      val c = f(a)
+      if (!c.isZero) x += ((s, c))
+      i += 1
+    }
+    if (l > x.size) pack(x) else x
   }
 }
 

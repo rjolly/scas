@@ -2,10 +2,11 @@ package scas.polynomial
 package mutable
 
 import java.util.{SortedMap, TreeMap}
-import scala.collection.convert.WrapAsScala
+import scala.collection.convert.{WrapAsScala, WrapAsJava}
 import scas.Implicits.{infixRingOps, infixPowerProductOps}
 import TreePolynomial.Element
-import WrapAsScala.mapAsScalaMap
+import WrapAsScala.{mapAsScalaMap, asScalaIterator}
+import WrapAsJava.asJavaIterator
 
 trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Polynomial[T, C, N] {
   override def isZero(x: T) = x.value.isEmpty
@@ -17,16 +18,14 @@ trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extend
   }
   def apply(value: SortedMap[Array[N], C]): T
 
-  def plus(x: T, y: T) = add(clone(x), pp.one, ring.one, y)
-  override def minus(x: T, y: T) = add(clone(x), pp.one, -ring.one, y)
+  def plus(x: T, y: T) = add(clone(x), y)
 
-  override def add(x: T, m: Array[N], c: C, y: T) = {
+  def add(x: T, y: T) = {
     val l = x.value
     y.value.foreach { r =>
-      val (t, b) = r
-      val (tm, bc) = (t * m, b * c)
-      val cc = l.getOrElse(tm, ring.zero) + bc
-      if (cc.isZero) l -= tm else l += ((tm, cc))
+      val (s, a) = r
+      val c = l.getOrElse(s, ring.zero) + a
+      if (c.isZero) l -= s else l += ((s, c))
     }
     x
   }
@@ -47,6 +46,17 @@ trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extend
 
   def lastPowerProduct(x: T) = x.value.lastKey
 
+  override def subtract(x: T, m: Array[N], c: C, y: T) = {
+    val l = x.value
+    y.value.foreach { r =>
+      val (s, a) = r
+      val (sm, ac) = (s * m, a * c)
+      val cc = l.getOrElse(sm, ring.zero) - ac
+      if (cc.isZero) l -= sm else l += ((sm, cc))
+    }
+    x
+  }
+
   def map(x: T, f: (Array[N], C) => (Array[N], C)) = {
     val l = zero.value
     x.value.foreach { r =>
@@ -55,6 +65,17 @@ trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extend
       if (c.isZero) () else l += ((m, c))
     }
     apply(l)
+  }
+
+  override def map(x: T, f: C => C) = {
+    val l = x.value
+    val it = asJavaIterator(l.iterator)
+    it.foreach { r =>
+      val (s, a) = r
+      val c = f(a)
+      if (c.isZero) it.remove else l += ((s, c))
+    }
+    x
   }
 
   override def sort(x: T) = x

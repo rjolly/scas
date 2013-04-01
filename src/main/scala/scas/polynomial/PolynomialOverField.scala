@@ -9,5 +9,5 @@ trait PolynomialOverField[T <: Element[T, C, N], C, @specialized(Int, Long) N] e
   override implicit val ring: Field[C]
   override def divide(w: T, y: C) = multiply(w, ring.inverse(y))
   def monic(x: T) = if (x.isZero) zero else divide(x, headCoefficient(x))
-  override def reduce(x: T, m: Array[N], a: C, y: T, b: C) = add(x, m, -a/b, y)
+  override def reduce(x: T, m: Array[N], a: C, y: T, b: C) = subtract(x, m, a/b, y)
 }
