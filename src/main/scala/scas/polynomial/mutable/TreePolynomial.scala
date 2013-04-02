@@ -20,16 +20,6 @@ trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extend
 
   def plus(x: T, y: T) = add(clone(x), y)
 
-  def add(x: T, y: T) = {
-    val l = x.value
-    y.value.foreach { r =>
-      val (s, a) = r
-      val c = l.getOrElse(s, ring.zero) + a
-      if (c.isZero) l -= s else l += ((s, c))
-    }
-    x
-  }
-
   def iterator(x: T) = x.value.iterator
 
   def iterator(x: T, m: Array[N]) = x.value.tailMap(m).iterator
@@ -45,6 +35,16 @@ trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extend
   def last(x: T) = { val a = lastPowerProduct(x) ; (a, x.value.get(a)) }
 
   def lastPowerProduct(x: T) = x.value.lastKey
+
+  def add(x: T, y: T) = {
+    val l = x.value
+    y.value.foreach { r =>
+      val (s, a) = r
+      val c = l.getOrElse(s, ring.zero) + a
+      if (c.isZero) l -= s else l += ((s, c))
+    }
+    x
+  }
 
   override def subtract(x: T, m: Array[N], c: C, y: T) = {
     val l = x.value

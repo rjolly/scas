@@ -9,8 +9,8 @@ trait ArrayPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] exten
   implicit val cm1: ClassTag[C]
   implicit val cm2: ClassTag[N]
   override def isZero(x: T) = x.size == 0
-  def zero(n: Int): T = apply((new Array[C](n), new Array[N](n * pp.one.length)))
-  def apply(value: (Array[C], Array[N])): T
+  def zero(n: Int): T = apply((new Array[C](n), pp.one, new Array[N](n * pp.one.length)))
+  def apply(value: (Array[C], Array[N], Array[N])): T
   def apply(s: (Array[N], C)*) = {
     val l = zero(s.size)
     s.foreach { l += _ }
@@ -18,42 +18,40 @@ trait ArrayPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] exten
   }
   def pack(x: T) = {
     val l = zero(x.size)
-    x.dump(l)
+    l ++= x
     l
   }
 
   def plus(x: T, y: T) = {
-    val q = pp.one
-    val r = pp.one
     val l = zero(x.size + y.size)
+    var rx = (pp.one, ring.zero)
+    var ry = (pp.one, ring.zero)
     var i = 0
     var j = 0
+    if (i < x.size) rx = x(i)
+    if (j < y.size) ry = y(j)
     while (i < x.size && j < y.size) {
-      val (s, a) = x(i, q)
-      val (t, b) = y(j, r)
+      val (s, a) = rx
+      val (t, b) = ry
       if (s > t) {
-        l += ((s, a))
+        l += rx
         i += 1
+        if (i < x.size) rx = x(i)
       } else if (s < t) {
-        l += ((t, b))
+        l += ry
         j += 1
+        if (j < y.size) ry = y(j)
       } else {
         val c = a + b
         if (!c.isZero) l += ((s, c))
         i += 1
         j += 1
+        if (i < x.size) rx = x(i)
+        if (j < y.size) ry = y(j)
       }
     }
-    while (i < x.size) {
-      val (s, a) = x(i, q)
-      l += ((s, a))
-      i += 1
-    }
-    while (j < y.size) {
-      val (t, b) = y(j, r)
-      l += ((t, b))
-      j += 1
-    }
+    l ++= (x, i)
+    l ++= (y, j)
     pack(l)
   }
 
@@ -66,9 +64,9 @@ trait ArrayPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] exten
     def hasNext = i < x.size
     def next = {
       if (i >= x.size) scala.Iterator.empty.next else {
-        val result = x(i, pp.one)
+        val (s, a) = x(i)
         i += 1
-        result
+        (s.clone, a)
       }
     }
   }
@@ -78,7 +76,7 @@ trait ArrayPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] exten
   @tailrec final def indexOf(x: T, m: Array[N], n: Int, k: Int): Int = {
     val i = (n + k) >> 1
     if (i >= k) -1 else {
-      val (s, _) = x(i, pp.one)
+      val (s, _) = x(i)
       if (s < m) indexOf(x, m, n, i)
       else if (s > m) indexOf(x, m, i + 1, k)
       else i
@@ -87,16 +85,15 @@ trait ArrayPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] exten
 
   def size(x: T) = x.size
 
-  def head(x: T) = x(0, pp.one)
+  def head(x: T) = x(0)
 
-  def last(x: T) = x(x.size - 1, pp.one)
+  def last(x: T) = x(x.size - 1)
 
   def map(x: T, f: (Array[N], C) => (Array[N], C)) = {
-    val r = pp.one
     val l = zero(x.size)
     var i = 0
     while (i < x.size) {
-      val (s, a) = x(i, r)
+      val (s, a) = x(i)
       val (m, c) = f(s, a)
       if (!c.isZero) l += ((m, c))
       i += 1
@@ -104,13 +101,26 @@ trait ArrayPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] exten
     pack(l)
   }
 
+  override def multiply(x: T, m: Array[N], c: C) = {
+    val sm = pp.one
+    val l = zero(x.size)
+    var i = 0
+    while (i < x.size) {
+      val (s, a) = x(i)
+      pp.times(s, m, sm)
+      val ac = a * c
+      if (!ac.isZero) l += ((sm, ac))
+      i += 1
+    }
+    pack(l)
+  }
+
   override def map(x: T, f: C => C) = {
-    val r = pp.one
     val l = x.size
     x.size = 0
     var i = 0
     while (i < l) {
-      val (s, a) = x(i, r)
+      val (s, a) = x(i)
       val c = f(a)
       if (!c.isZero) x += ((s, c))
       i += 1
@@ -122,26 +132,24 @@ trait ArrayPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] exten
 object ArrayPolynomial {
   trait Element[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Polynomial.Element[T, C, N] { this: T =>
     val factory: ArrayPolynomial[T, C, N]
-    val value: (Array[C], Array[N])
+    val value: (Array[C], Array[N], Array[N])
     var size = 0
 
-    def apply(n: Int, m: Array[N]) = {
-      System.arraycopy(value._2, n * m.length, m, 0, m.length)
-      (m, value._1(n))
-    }
-    def update(n: Int, r: (Array[N], C)) = {
-      val (m, c) = r
-      value._1(n) = c
-      System.arraycopy(m, 0, value._2, n * m.length, m.length)
+    def apply(n: Int): (Array[N], C) = {
+      System.arraycopy(value._3, n * value._2.length, value._2, 0, value._2.length)
+      (value._2, value._1(n))
     }
     def +=(r: (Array[N], C)) = {
-      update(size, r)
+      value._1(size) = r._2
+      System.arraycopy(r._1, 0, value._3, size * value._2.length, value._2.length)
       size += 1
     }
-    def dump(that: T) = {
-      System.arraycopy(value._1, 0, that.value._1, 0, that.value._1.length)
-      System.arraycopy(value._2, 0, that.value._2, 0, that.value._2.length)
-      that.size = size
+    def ++=(rest: T): Unit = this ++= (rest, 0)
+    def ++=(rest: T, n: Int): Unit = {
+      val s = rest.size - n
+      System.arraycopy(rest.value._1, n, value._1, size, s)
+      System.arraycopy(rest.value._3, n * value._2.length, value._3, size * value._2.length, s * value._2.length)
+      size += s
     }
   }
 }

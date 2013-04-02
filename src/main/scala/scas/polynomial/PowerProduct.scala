@@ -5,12 +5,12 @@ import scas.{Variable, BigInteger}
 import scas.ordering.Ordering
 import scas.structure.Monoid
 
-class PowerProduct[@specialized(Int, Long) N](val variables: Array[Variable], val ordering: Ordering[N])(implicit nm: Numeric[N], m: Manifest[N], cm: ClassTag[Array[N]], cmm: ClassTag[Array[Array[N]]]) extends Monoid[Array[N]] {
+class PowerProduct[@specialized(Int, Long) N](val variables: Array[Variable], val ordering: Ordering[N])(implicit nm: Numeric[N], m: ClassTag[N], cm: ClassTag[Array[N]], cmm: ClassTag[Array[Array[N]]]) extends Monoid[Array[N]] {
   import scala.math.Ordering.Implicits.infixOrderingOps
   import Numeric.Implicits.infixNumericOps
   import nm.{fromInt, toLong}
-  def take(n: Int) = new PowerProduct[N](variables.take(n), ordering)
-  def drop(n: Int) = new PowerProduct[N](variables.drop(n), ordering)
+  def take(n: Int) = new PowerProduct(variables.take(n), ordering)
+  def drop(n: Int) = new PowerProduct(variables.drop(n), ordering)
   override def one = new Array[N](length + 1)
   def generator(variable: Variable): Array[N] = generator(variables.indexOf(variable))
   def generator(n: Int) = (for (i <- 0 until length + 1) yield fromInt(if (i == n || i == length) 1 else 0)).toArray
@@ -130,8 +130,8 @@ object PowerProduct {
   object Implicits extends ExtraImplicits
 
   def apply(variables: Variable*): PowerProduct[Int] = apply(variables.toArray, Ordering.lexicographic[Int])
-  def apply[@specialized(Int, Long) N](variables: Array[Variable], ordering: Ordering[N])(implicit nm: Numeric[N], m: Manifest[N], cm: ClassTag[Array[N]]) = new PowerProduct[N](variables, ordering)
-  def apply[@specialized(Int, Long) N](sss: Array[Array[Variable]], ordering: Ordering[N])(implicit nm: Numeric[N], m: Manifest[N], cm: ClassTag[Array[N]]): PowerProduct[N] = apply(for (ss <- sss ; s <- ss) yield s, ordering)
+  def apply[@specialized(Int, Long) N](variables: Array[Variable], ordering: Ordering[N])(implicit nm: Numeric[N], m: ClassTag[N], cm: ClassTag[Array[N]]) = new PowerProduct(variables, ordering)
+  def apply[@specialized(Int, Long) N](sss: Array[Array[Variable]], ordering: Ordering[N])(implicit nm: Numeric[N], m: ClassTag[N], cm: ClassTag[Array[N]]): PowerProduct[N] = apply(for (ss <- sss ; s <- ss) yield s, ordering)
 
   class Ops[@specialized(Int, Long) N](val lhs: Array[N])(val factory: PowerProduct[N]) extends Monoid.Ops[Array[N]] {
     def /(rhs: Array[N]) = factory.divide(lhs, rhs)
