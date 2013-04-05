@@ -5,6 +5,7 @@ package mutable
 import java.util.SortedMap
 import scas.Variable
 import scas.polynomial.mutable.TreePolynomial
+import scas.power.PowerProduct
 import scas.structure.Ring
 import Polynomial.Element
 

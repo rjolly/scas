@@ -2,6 +2,7 @@ package scas.polynomial
 
 import scala.annotation.tailrec
 import scala.reflect.ClassTag
+import scas.power.PowerProduct
 import scas.structure.Ring
 import scas.BigInteger
 import scas.Implicits.{ZZ, infixRingOps, infixPowerProductOps}
@@ -14,7 +15,6 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
   override def zero = apply()
   def generator(n: Int) = fromPowerProduct(pp.generator(n))
   def generators = pp.generators.map(fromPowerProduct)
-  def generatorsBy(n: Int) = pp.generatorsBy(n).map(_.map(fromPowerProduct))
   override def signum(x: T) = if (x.isZero) 0 else ring.signum(lastCoefficient(x))
   def characteristic = ring.characteristic
   def convert(x: T) = sort(map(x, (s, a) => (pp.converter(x.factory.variables)(s), ring.convert(a))))
@@ -209,7 +209,7 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
   def sort(x: T) = apply(toSeq(x).sortBy({ r =>
     val (s, _) = r
     s
-  })(pp.ordering.reverse): _*)
+  })(pp.reverse): _*)
 }
 
 object Polynomial {

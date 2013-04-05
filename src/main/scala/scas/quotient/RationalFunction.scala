@@ -16,7 +16,6 @@ trait RationalFunction[R <: PolynomialOverUFD.Element[R, C, N], C, @specialized(
   def apply(value: C): Element[R, C, N] = apply(ring(value))
   def generator(n: Int) = apply(ring.generator(n))
   def generators = ring.generators.map(apply)
-  def generatorsBy(n: Int) = ring.generatorsBy(n).map(_.map(apply))
   def random(numbits: Int)(implicit rnd: java.util.Random) = zero
   override def toString = coef.toString + "(" + variables.mkString(", ") + ")"
   override def toMathML = <mrow>{coef.toMathML}<mfenced>{variables.map(_.toMathML)}</mfenced></mrow>

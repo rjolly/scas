@@ -3,6 +3,7 @@ package list
 
 import scala.collection.immutable.List
 import scas.Variable
+import scas.power.PowerProduct
 import scas.structure.Ring
 import Polynomial.Element
 

@@ -2,6 +2,7 @@ package scas.polynomial
 package stream
 
 import scala.reflect.ClassTag
+import scas.power.PowerProduct
 import scas.structure.Ring
 import Polynomial.Element
 

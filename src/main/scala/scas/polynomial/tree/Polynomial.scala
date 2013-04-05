@@ -3,6 +3,7 @@ package tree
 
 import scala.collection.SortedMap
 import scas.Variable
+import scas.power.PowerProduct
 import scas.structure.Ring
 import Polynomial.Element
 

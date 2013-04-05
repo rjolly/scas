@@ -12,7 +12,7 @@ trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extend
   override def isZero(x: T) = x.value.isEmpty
   def clone(x: T) = apply(new TreeMap(x.value))
   def apply(s: (Array[N], C)*) = {
-    val l = new TreeMap[Array[N], C](pp.ordering.reverse)
+    val l = new TreeMap[Array[N], C](pp.reverse)
     s.foreach { l += _ }
     apply(l)
   }

@@ -3,6 +3,7 @@ package stream
 
 import scas.immutable.Stream
 import scas.Variable
+import scas.power.PowerProduct
 import scas.structure.Ring
 import Polynomial.Element
 

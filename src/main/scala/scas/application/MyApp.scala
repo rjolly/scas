@@ -37,9 +37,9 @@ object MyApp extends App {
 
   def pp2 = {
     import Implicits.infixPowerProductOps
-    implicit val m = PowerProduct((for (i <- 0 until 4) yield (for (j <- 0 until 2) yield Variable("a", i, j)).toArray).toArray, Ordering.lexicographic[Int])
-    val a = m.generatorsBy(2)
-    val s = (for (i <- 0 until 4) yield (for (j <- 0 until 2) yield a(i)(j).toCode(0)).toArray).toArray
+    implicit val m = PowerProduct.lexicographic[Int]((for (i <- 0 until 4; j <- 0 until 2) yield Variable("a", i, j)).toArray)
+    val a = m.generators.grouped(2).toArray
+    val s = (for (i <- 0 until 4; j <- 0 until 2) yield a(i)(j).toCode(0)).toArray.grouped(2).toArray
     assert (s.deep.toString == "Array(Array(a(0)(0), a(0)(1)), Array(a(1)(0), a(1)(1)), Array(a(2)(0), a(2)(1)), Array(a(3)(0), a(3)(1)))");
   }
 

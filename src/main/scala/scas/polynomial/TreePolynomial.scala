@@ -5,7 +5,7 @@ import scas.Implicits.{infixRingOps, infixPowerProductOps}
 import TreePolynomial.Element
 
 trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends IterablePolynomial[T, C, N] {
-  def apply(s: (Array[N], C)*) = apply(SortedMap(s: _*)(pp.ordering.reverse))
+  def apply(s: (Array[N], C)*) = apply(SortedMap(s: _*)(pp.reverse))
   def apply(value: SortedMap[Array[N], C]): T
 
   def plus(x: T, y: T) = apply((x.value /: y.value) { (l, r) =>

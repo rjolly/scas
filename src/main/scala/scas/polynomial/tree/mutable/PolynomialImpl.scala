@@ -3,6 +3,7 @@ package tree
 package mutable
 
 import scala.reflect.ClassTag
+import scas.power.PowerProduct
 import scas.structure.Ring
 import Polynomial.Element
 

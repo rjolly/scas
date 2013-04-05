@@ -2,6 +2,7 @@ package scas.polynomial
 package tree
 
 import scala.collection.SortedMap
+import scas.power.PowerProduct
 import scas.structure.{UniqueFactorizationDomain, Field}
 import MultivariatePolynomial.Element
 

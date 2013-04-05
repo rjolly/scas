@@ -1,24 +1,24 @@
-package scas.polynomial
+package scas.power
 
 import scala.reflect.ClassTag
 import scas.{Variable, BigInteger}
-import scas.ordering.Ordering
 import scas.structure.Monoid
+import Ordering.Implicits.infixOrderingOps
+import Numeric.Implicits.infixNumericOps
 
-class PowerProduct[@specialized(Int, Long) N](val variables: Array[Variable], val ordering: Ordering[N])(implicit nm: Numeric[N], m: ClassTag[N], cm: ClassTag[Array[N]], cmm: ClassTag[Array[Array[N]]]) extends Monoid[Array[N]] {
-  import scala.math.Ordering.Implicits.infixOrderingOps
-  import Numeric.Implicits.infixNumericOps
+trait PowerProduct[@specialized(Int, Long) N] extends Monoid[Array[N]] {
+  val variables: Array[Variable]
+  implicit val nm: Numeric[N]
+  implicit val m: ClassTag[N]
+  implicit val cm: ClassTag[Array[N]]
   import nm.{fromInt, toLong}
-  def take(n: Int) = new PowerProduct(variables.take(n), ordering)
-  def drop(n: Int) = new PowerProduct(variables.drop(n), ordering)
+  def take(n: Int) = self(variables.take(n))
+  def drop(n: Int) = self(variables.drop(n))
+  def self(variables: Array[Variable]): PowerProduct[N]
   override def one = new Array[N](length + 1)
   def generator(variable: Variable): Array[N] = generator(variables.indexOf(variable))
   def generator(n: Int) = (for (i <- 0 until length + 1) yield fromInt(if (i == n || i == length) 1 else 0)).toArray
   def generators = (for (i <- 0 until length) yield generator(i)).toArray
-  def generatorsBy(n: Int) = {
-    val m = length/n
-    (for (i <- 0 until m) yield (for (j <- 0 until n) yield generator(i * n + j)).toArray).toArray
-  }
   def degree(x: Array[N]) = toLong(x(length))
   override def pow(x: Array[N], exp: BigInteger) = {
     assert (exp.signum() >= 0)
@@ -47,7 +47,6 @@ class PowerProduct[@specialized(Int, Long) N](val variables: Array[Variable], va
     r
   }
   def coprime(x: Array[N], y: Array[N]) = gcd(x, y).isOne
-  def compare(x: Array[N], y: Array[N]) = ordering.compare(x, y)
   def times(x: Array[N], y: Array[N]) = times(x, y, one)
   def times(x: Array[N], y: Array[N], r: Array[N]) = {
     var i = 0
@@ -129,9 +128,11 @@ object PowerProduct {
   }
   object Implicits extends ExtraImplicits
 
-  def apply(variables: Variable*): PowerProduct[Int] = apply(variables.toArray, Ordering.lexicographic[Int])
-  def apply[@specialized(Int, Long) N](variables: Array[Variable], ordering: Ordering[N])(implicit nm: Numeric[N], m: ClassTag[N], cm: ClassTag[Array[N]]) = new PowerProduct(variables, ordering)
-  def apply[@specialized(Int, Long) N](sss: Array[Array[Variable]], ordering: Ordering[N])(implicit nm: Numeric[N], m: ClassTag[N], cm: ClassTag[Array[N]]): PowerProduct[N] = apply(for (ss <- sss ; s <- ss) yield s, ordering)
+  def apply(variables: Variable*) = lexicographic[Int](variables.toArray)
+  def lexicographic[@specialized(Int, Long) N](variables: Array[Variable])(implicit nm: Numeric[N], m: ClassTag[N], cm: ClassTag[Array[N]]) = new Lexicographic[N](variables)
+  def degreeLexicographic[@specialized(Int, Long) N](variables: Array[Variable])(implicit nm: Numeric[N], m: ClassTag[N], cm: ClassTag[Array[N]]) = new DegreeLexicographic[N](variables)
+  def degreeReverseLexicographic[@specialized(Int, Long) N](variables: Array[Variable])(implicit nm: Numeric[N], m: ClassTag[N], cm: ClassTag[Array[N]]) = new DegreeReverseLexicographic[N](variables)
+  def kthElimination[@specialized(Int, Long) N](variables: Array[Variable], k: Int)(implicit nm: Numeric[N], m: ClassTag[N], cm: ClassTag[Array[N]]) = new KthElimination[N](variables, k)
 
   class Ops[@specialized(Int, Long) N](val lhs: Array[N])(val factory: PowerProduct[N]) extends Monoid.Ops[Array[N]] {
     def /(rhs: Array[N]) = factory.divide(lhs, rhs)

@@ -20,8 +20,7 @@ package object scas {
 
   val Variable = variable.Variable
   val ModInteger = base.ModInteger
-  val Ordering = ordering.Ordering
-  val PowerProduct = polynomial.PowerProduct
+  val PowerProduct = power.PowerProduct
   val Polynomial = polynomial.tree.Polynomial
   val PolynomialWithGB = polynomial.tree.PolynomialWithGB
   val MultivariatePolynomial = polynomial.tree.MultivariatePolynomial

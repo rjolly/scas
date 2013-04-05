@@ -3,6 +3,7 @@ package tree
 
 import scala.reflect.ClassTag
 import scas.ufd.SimpleGCD
+import scas.power.PowerProduct
 import scas.structure.UniqueFactorizationDomain
 import MultivariatePolynomial.Element
 
