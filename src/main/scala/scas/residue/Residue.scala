@@ -5,7 +5,7 @@ import scas.polynomial.PolynomialOverUFD
 import scas.{Variable, UnivariatePolynomial}
 import Residue.Element
 
-trait Residue[R <: PolynomialOverUFD.Element[R, C, N], C, @specialized(Int, Long) N] extends scas.structure.Residue[Element[R, C, N], R] {
+trait Residue[R <: PolynomialOverUFD.Element[R, C, N], C, N] extends scas.structure.Residue[Element[R, C, N], R] {
   val ring: PolynomialOverUFD[R, C, N]
   import ring.{ring => coef}
   var list = List.empty[R]
@@ -22,12 +22,12 @@ trait Residue[R <: PolynomialOverUFD.Element[R, C, N], C, @specialized(Int, Long
 
 object Residue {
   def apply[C](ring: Field[C], s: Variable): AlgebraicNumber[UnivariatePolynomial.Element[C, Int], C, Int] = apply(UnivariatePolynomial(ring, s))
-  def apply[R <: PolynomialOverUFD.Element[R, C, N], C, @specialized(Int, Long) N](ring: scas.polynomial.UnivariatePolynomial[R, C, N]) = new AlgebraicNumberImpl(ring)
+  def apply[R <: PolynomialOverUFD.Element[R, C, N], C, N](ring: scas.polynomial.UnivariatePolynomial[R, C, N]) = new AlgebraicNumberImpl(ring)
 
-  class Element[R <: PolynomialOverUFD.Element[R, C, N], C, @specialized(Int, Long) N](val value: R)(val factory: Residue[R, C, N]) extends scas.structure.Residue.Element[Element[R, C, N], R]
+  class Element[R <: PolynomialOverUFD.Element[R, C, N], C, N](val value: R)(val factory: Residue[R, C, N]) extends scas.structure.Residue.Element[Element[R, C, N], R]
   object Element extends ExtraImplicits
 
   trait ExtraImplicits {
-    implicit def coef2residue[D, R <: PolynomialOverUFD.Element[R, C, N], C, @specialized(Int, Long) N](value: D)(implicit f: D => C, factory: Residue[R, C, N]) = factory(value)
+    implicit def coef2residue[D, R <: PolynomialOverUFD.Element[R, C, N], C, N](value: D)(implicit f: D => C, factory: Residue[R, C, N]) = factory(value)
   }
 }

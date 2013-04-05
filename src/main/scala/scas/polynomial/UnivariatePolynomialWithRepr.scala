@@ -2,7 +2,7 @@ package scas.polynomial
 
 import UnivariatePolynomialWithRepr.Element
 
-trait UnivariatePolynomialWithRepr[S[C, N] <: Polynomial.Element[S[C, N], C, N], T <: Element[S, T, C, N], C, @specialized(Int, Long) N] extends PolynomialWithRepr[S, T, C, N] with UnivariatePolynomial[T, C, N] {
+trait UnivariatePolynomialWithRepr[S[C, N] <: Polynomial.Element[S[C, N], C, N], T <: Element[S, T, C, N], C, N] extends PolynomialWithRepr[S, T, C, N] with UnivariatePolynomial[T, C, N] {
   def modInverse(x: T, mod: T) = {
     val w = gcd(apply(x, 0), mod)
     assert (w.isOne)
@@ -11,7 +11,7 @@ trait UnivariatePolynomialWithRepr[S[C, N] <: Polynomial.Element[S[C, N], C, N],
 }
 
 object UnivariatePolynomialWithRepr {
-  trait Element[S[C, N] <: Polynomial.Element[S[C, N], C, N], T <: Element[S, T, C, N], C, @specialized(Int, Long) N] extends PolynomialWithRepr.Element[S, T, C, N] with PolynomialOverUFD.Element[T, C, N] { this: T =>
+  trait Element[S[C, N] <: Polynomial.Element[S[C, N], C, N], T <: Element[S, T, C, N], C, N] extends PolynomialWithRepr.Element[S, T, C, N] with PolynomialOverUFD.Element[T, C, N] { this: T =>
     val factory: UnivariatePolynomialWithRepr[S, T, C, N]
   }
 }

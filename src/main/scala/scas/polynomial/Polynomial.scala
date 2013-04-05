@@ -8,7 +8,7 @@ import scas.BigInteger
 import scas.Implicits.{ZZ, infixRingOps, infixPowerProductOps}
 import Polynomial.Element
 
-trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ring[T] {
+trait Polynomial[T <: Element[T, C, N], C, N] extends Ring[T] {
   implicit val ring: Ring[C]
   implicit val pp: PowerProduct[N]
   implicit val cm: ClassTag[T]
@@ -213,7 +213,7 @@ trait Polynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ri
 }
 
 object Polynomial {
-  trait Element[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Ring.Element[T] { this: T =>
+  trait Element[T <: Element[T, C, N], C, N] extends Ring.Element[T] { this: T =>
     val factory: Polynomial[T, C, N]
   }
 }

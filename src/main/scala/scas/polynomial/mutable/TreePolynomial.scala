@@ -8,7 +8,7 @@ import TreePolynomial.Element
 import WrapAsScala.{mapAsScalaMap, asScalaIterator}
 import WrapAsJava.asJavaIterator
 
-trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Polynomial[T, C, N] {
+trait TreePolynomial[T <: Element[T, C, N], C, N] extends Polynomial[T, C, N] {
   override def isZero(x: T) = x.value.isEmpty
   def clone(x: T) = apply(new TreeMap(x.value))
   def apply(s: (Array[N], C)*) = {
@@ -82,7 +82,7 @@ trait TreePolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extend
 }
 
 object TreePolynomial {
-  trait Element[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Polynomial.Element[T, C, N] { this: T =>
+  trait Element[T <: Element[T, C, N], C, N] extends Polynomial.Element[T, C, N] { this: T =>
     val factory: TreePolynomial[T, C, N]
     val value: SortedMap[Array[N], C]
   }

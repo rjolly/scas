@@ -3,7 +3,7 @@ package scas.ufd
 import scas.polynomial.PolynomialWithGB
 import PolynomialWithGB.Element
 
-trait GBGCD[T <: Element[T, C, N], C, @specialized(Int, Long) N] { this: PolynomialWithGB[T, C, N] =>
+trait GBGCD[T <: Element[T, C, N], C, N] { this: PolynomialWithGB[T, C, N] =>
   def gcd1(x: T, y: T) = gcd(x, y)
   def gcd(x: T, y: T) = {
     val (a, p) = contentAndPrimitivePart(x)

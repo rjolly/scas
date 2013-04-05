@@ -4,7 +4,7 @@ import scas.long2bigInteger
 import scas.Implicits.{infixUFDOps, infixPowerProductOps}
 import PolynomialOverUFD.Element
 
-trait MultivariatePolynomial[T[C, N] <: Element[T[C, N], C, N], C, @specialized(Int, Long) N] extends PolynomialOverUFD[T[C, N], C, N] {
+trait MultivariatePolynomial[T[C, N] <: Element[T[C, N], C, N], C, N] extends PolynomialOverUFD[T[C, N], C, N] {
   def split: MultivariatePolynomial[T, T[C, N], N]
   def location = length - 1
   override def gcd(x: T[C, N], y: T[C, N]) = if (length > 1) {

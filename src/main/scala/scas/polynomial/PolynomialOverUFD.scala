@@ -4,7 +4,7 @@ import scas.structure.UniqueFactorizationDomain
 import scas.Implicits.{infixUFDOps, infixPowerProductOps}
 import PolynomialOverUFD.Element
 
-trait PolynomialOverUFD[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Polynomial[T, C, N] with UniqueFactorizationDomain[T] {
+trait PolynomialOverUFD[T <: Element[T, C, N], C, N] extends Polynomial[T, C, N] with UniqueFactorizationDomain[T] {
   override implicit val ring: UniqueFactorizationDomain[C]
   def gcd1(x: T, y: T): T
   def divideAndRemainder(x: T, y: T) = {
@@ -59,7 +59,7 @@ trait PolynomialOverUFD[T <: Element[T, C, N], C, @specialized(Int, Long) N] ext
 }
 
 object PolynomialOverUFD {
-  trait Element[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Polynomial.Element[T, C, N] with UniqueFactorizationDomain.Element[T] { this: T =>
+  trait Element[T <: Element[T, C, N], C, N] extends Polynomial.Element[T, C, N] with UniqueFactorizationDomain.Element[T] { this: T =>
     val factory: PolynomialOverUFD[T, C, N]
   }
 }

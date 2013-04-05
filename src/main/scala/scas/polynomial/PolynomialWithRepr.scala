@@ -3,7 +3,7 @@ package scas.polynomial
 import scas.Implicits.infixRingOps
 import PolynomialWithRepr.Element
 
-trait PolynomialWithRepr[S[C, N] <: Polynomial.Element[S[C, N], C, N], T <: Element[S, T, C, N], C, @specialized(Int, Long) N] extends Polynomial[T, C, N] {
+trait PolynomialWithRepr[S[C, N] <: Polynomial.Element[S[C, N], C, N], T <: Element[S, T, C, N], C, N] extends Polynomial[T, C, N] {
   val module: Module[S[C, N], C, N]
   abstract override def convert(x: T) = apply(super.convert(x), module.convert(x.element))
   abstract override def plus(x: T, y: T) = apply(super.plus(x, y), x.element + y.element)
@@ -17,7 +17,7 @@ trait PolynomialWithRepr[S[C, N] <: Polynomial.Element[S[C, N], C, N], T <: Elem
 }
 
 object PolynomialWithRepr {
-  trait Element[S[C, N] <: Polynomial.Element[S[C, N], C, N], T <: Element[S, T, C, N], C, @specialized(Int, Long) N] extends Polynomial.Element[T, C, N] { this: T =>
+  trait Element[S[C, N] <: Polynomial.Element[S[C, N], C, N], T <: Element[S, T, C, N], C, N] extends Polynomial.Element[T, C, N] { this: T =>
     val factory: PolynomialWithRepr[S, T, C, N]
     val element: Module.Element[S[C, N]]
   }

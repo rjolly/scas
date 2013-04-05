@@ -7,7 +7,7 @@ import ExecutionContext.Implicits.global
 import Stream.{#::, ConsWrapper, Empty}
 import StreamPolynomial.Element
 
-trait StreamPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends IterablePolynomial[T, C, N] {
+trait StreamPolynomial[T <: Element[T, C, N], C, N] extends IterablePolynomial[T, C, N] {
   type S = Stream[(Array[N], C)]
   def apply(s: (Array[N], C)*) = apply(Stream(s: _*))
   def apply(value: S): T
@@ -45,7 +45,7 @@ trait StreamPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] exte
 }
 
 object StreamPolynomial {
-  trait Element[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends IterablePolynomial.Element[T, C, N] { this: T =>
+  trait Element[T <: Element[T, C, N], C, N] extends IterablePolynomial.Element[T, C, N] { this: T =>
     val factory: StreamPolynomial[T, C, N]
     val value: Stream[(Array[N], C)]
   }

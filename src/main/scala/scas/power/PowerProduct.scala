@@ -47,14 +47,14 @@ trait PowerProduct[@specialized(Int, Long) N] extends Monoid[Array[N]] {
     r
   }
   def coprime(x: Array[N], y: Array[N]) = gcd(x, y).isOne
-  def times(x: Array[N], y: Array[N]) = times(x, y, one)
-  def times(x: Array[N], y: Array[N], r: Array[N]) = {
+  def times(x: Array[N], y: Array[N]) = multiply(x.clone, y)
+  def multiply(x: Array[N], y: Array[N]) = {
     var i = 0
-    while (i < r.length) {
-      r(i) = x(i) + y(i)
+    while (i < x.length) {
+      x(i) += y(i)
       i += 1
     }
-    r
+    x
   }
   def divide(x: Array[N], y: Array[N]) = (for (i <- 0 until x.length) yield {
     assert (x(i) >= y(i))

@@ -6,7 +6,7 @@ import scas.{Variable, MultivariatePolynomial, PowerProduct}
 import scas.Implicits.infixUFDOps
 import RationalFunction.Element
 
-trait RationalFunction[R <: PolynomialOverUFD.Element[R, C, N], C, @specialized(Int, Long) N] extends Quotient[Element[R, C, N], R] {
+trait RationalFunction[R <: PolynomialOverUFD.Element[R, C, N], C, N] extends Quotient[Element[R, C, N], R] {
   val ring: PolynomialOverUFD[R, C, N]
   import ring.{ring => coef}
   def apply(n: R, d: R) = {
@@ -25,15 +25,15 @@ trait RationalFunction[R <: PolynomialOverUFD.Element[R, C, N], C, @specialized(
 
 object RationalFunction {
   def apply[C](ring: Field[C], s: Variable*): RationalFunction[MultivariatePolynomial.Element[C, Int], C, Int] = apply(MultivariatePolynomial(ring, PowerProduct(s: _*)))
-  def apply[R <: PolynomialOverUFD.Element[R, C, N], C, @specialized(Int, Long) N](implicit ring: PolynomialOverField[R, C, N]) = new RationalFunctionOverField
-  def integral[R <: PolynomialOverUFD.Element[R, C, N], C, @specialized(Int, Long) N](implicit ring: PolynomialOverUFD[R, C, N]) = new RationalFunctionImpl
+  def apply[R <: PolynomialOverUFD.Element[R, C, N], C, N](implicit ring: PolynomialOverField[R, C, N]) = new RationalFunctionOverField
+  def integral[R <: PolynomialOverUFD.Element[R, C, N], C, N](implicit ring: PolynomialOverUFD[R, C, N]) = new RationalFunctionImpl
 
-  class Element[R <: PolynomialOverUFD.Element[R, C, N], C, @specialized(Int, Long) N](val _1: R, val _2: R)(val factory: RationalFunction[R, C, N]) extends Quotient.Element[Element[R, C, N], R] {
+  class Element[R <: PolynomialOverUFD.Element[R, C, N], C, N](val _1: R, val _2: R)(val factory: RationalFunction[R, C, N]) extends Quotient.Element[Element[R, C, N], R] {
     def canEqual(that: Any) = true
   }
   object Element extends ExtraImplicits
 
   trait ExtraImplicits {
-    implicit def coef2rationalFunction[D, R <: PolynomialOverUFD.Element[R, C, N], C, @specialized(Int, Long) N](value: D)(implicit f: D => C, factory: RationalFunction[R, C, N]) = factory(value)
+    implicit def coef2rationalFunction[D, R <: PolynomialOverUFD.Element[R, C, N], C, N](value: D)(implicit f: D => C, factory: RationalFunction[R, C, N]) = factory(value)
   }
 }

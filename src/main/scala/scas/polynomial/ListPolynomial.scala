@@ -4,7 +4,7 @@ import scala.collection.mutable.ListBuffer
 import scas.Implicits.{infixOrderingOps, infixRingOps}
 import ListPolynomial.Element
 
-trait ListPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends IterablePolynomial[T, C, N] {
+trait ListPolynomial[T <: Element[T, C, N], C, N] extends IterablePolynomial[T, C, N] {
   def apply(s: (Array[N], C)*) = apply(List(s: _*))
   def apply(value: List[(Array[N], C)]): T
 
@@ -49,7 +49,7 @@ trait ListPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extend
 }
 
 object ListPolynomial {
-  trait Element[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends IterablePolynomial.Element[T, C, N] { this: T =>
+  trait Element[T <: Element[T, C, N], C, N] extends IterablePolynomial.Element[T, C, N] { this: T =>
     val factory: ListPolynomial[T, C, N]
     val value: List[(Array[N], C)]
   }

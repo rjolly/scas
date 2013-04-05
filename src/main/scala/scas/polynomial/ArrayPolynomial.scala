@@ -5,7 +5,7 @@ import scala.reflect.ClassTag
 import scas.Implicits.{infixOrderingOps, infixRingOps}
 import ArrayPolynomial.Element
 
-trait ArrayPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Polynomial[T, C, N] {
+trait ArrayPolynomial[T <: Element[T, C, N], C, N] extends Polynomial[T, C, N] {
   implicit val cm1: ClassTag[C]
   implicit val cm2: ClassTag[N]
   override def isZero(x: T) = x.size == 0
@@ -28,28 +28,36 @@ trait ArrayPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] exten
     var ry = (pp.one, ring.zero)
     var i = 0
     var j = 0
+    var i0 = i
+    var j0 = j
     if (i < x.size) rx = x(i)
     if (j < y.size) ry = y(j)
     while (i < x.size && j < y.size) {
       val (s, a) = rx
       val (t, b) = ry
       if (s > t) {
-        l += rx
+        if (j > j0) { l ++= (y, j0, j); j0 = j }
         i += 1
         if (i < x.size) rx = x(i)
       } else if (s < t) {
-        l += ry
+        if (i > i0) { l ++= (x, i0, i); i0 = i }
         j += 1
         if (j < y.size) ry = y(j)
       } else {
+        if (i > i0) { l ++= (x, i0, i); i0 = i }
+        if (j > j0) { l ++= (y, j0, j); j0 = j }
         val c = a + b
         if (!c.isZero) l += ((s, c))
         i += 1
         j += 1
+        i0 = i
+        j0 = j
         if (i < x.size) rx = x(i)
         if (j < y.size) ry = y(j)
       }
     }
+    if (i > i0) { l ++= (x, i0, i); i0 = i }
+    if (j > j0) { l ++= (y, j0, j); j0 = j }
     l ++= (x, i)
     l ++= (y, j)
     pack(l)
@@ -102,13 +110,11 @@ trait ArrayPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] exten
   }
 
   override def multiply(x: T, m: Array[N], c: C) = {
-    val sm = pp.one
     val l = zero(x.size)
     var i = 0
     while (i < x.size) {
       val (s, a) = x(i)
-      pp.times(s, m, sm)
-      val ac = a * c
+      val (sm, ac) = (pp.multiply(s, m), a * c)
       if (!ac.isZero) l += ((sm, ac))
       i += 1
     }
@@ -130,7 +136,7 @@ trait ArrayPolynomial[T <: Element[T, C, N], C, @specialized(Int, Long) N] exten
 }
 
 object ArrayPolynomial {
-  trait Element[T <: Element[T, C, N], C, @specialized(Int, Long) N] extends Polynomial.Element[T, C, N] { this: T =>
+  trait Element[T <: Element[T, C, N], C, N] extends Polynomial.Element[T, C, N] { this: T =>
     val factory: ArrayPolynomial[T, C, N]
     val value: (Array[C], Array[N], Array[N])
     var size = 0
@@ -140,15 +146,18 @@ object ArrayPolynomial {
       (value._2, value._1(n))
     }
     def +=(r: (Array[N], C)) = {
-      value._1(size) = r._2
-      System.arraycopy(r._1, 0, value._3, size * value._2.length, value._2.length)
+      val s = size
+      value._1(s) = r._2
+      System.arraycopy(r._1, 0, value._3, s * value._2.length, value._2.length)
       size += 1
     }
     def ++=(rest: T): Unit = this ++= (rest, 0)
-    def ++=(rest: T, n: Int): Unit = {
-      val s = rest.size - n
-      System.arraycopy(rest.value._1, n, value._1, size, s)
-      System.arraycopy(rest.value._3, n * value._2.length, value._3, size * value._2.length, s * value._2.length)
+    def ++=(rest: T, n: Int): Unit = this ++= (rest, n, rest.size)
+    def ++=(rest: T, n: Int, m: Int): Unit = {
+      val s = m - n
+      val ss = size
+      System.arraycopy(rest.value._1, n, value._1, ss, s)
+      System.arraycopy(rest.value._3, n * value._2.length, value._3, ss * value._2.length, s * value._2.length)
       size += s
     }
   }

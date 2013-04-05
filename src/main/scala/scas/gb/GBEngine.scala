@@ -6,7 +6,7 @@ import scas.polynomial.PolynomialWithIndex
 import scas.Implicits.{infixOrderingOps, infixPowerProductOps}
 import PolynomialWithIndex.Element
 
-trait GBEngine[T <: Element[T, C, N], C, @specialized(Int, Long) N] { outer: PolynomialWithIndex[T, C, N] =>
+trait GBEngine[T <: Element[T, C, N], C, N] { outer: PolynomialWithIndex[T, C, N] =>
   implicit val ordering = outer
 
   type Pair = (Array[N], T, T)
