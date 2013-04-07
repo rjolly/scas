@@ -66,7 +66,7 @@ object Parsers extends RegexParsers {
       val x = p.generator(Variable(a.toString))
       l * pow(x, b)
     }
-    r(r.ring(BigInteger.signum(x))*r.ring.fromPowerProduct(m))
+    r(r.ring(m, BigInteger.signum(x)))
   }
   def generator: Parser[Either[Element, BigInteger]] = variable ^^ {
     s: Variable => Left(generator(s))

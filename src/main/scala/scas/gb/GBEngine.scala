@@ -105,7 +105,7 @@ trait GBEngine[T <: Element[T, C, N], C, N] { outer: PolynomialWithIndex[T, C, N
     val (n, b) = head(y)
     val gcd = pp.gcd(m, n)
     val (m0, n0) = (m / gcd, n / gcd)
-    reduce(x * fromPowerProduct(n0), m0, a, y, b)
+    reduce(x * n0, m0, a, y, b)
   }
 
   def pair(x: T, y: T) = (pp.scm(headPowerProduct(x), headPowerProduct(y)), x, y)

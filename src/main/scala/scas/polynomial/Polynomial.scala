@@ -43,6 +43,7 @@ trait Polynomial[T <: Element[T, C, N], C, N] extends Ring[T] {
     val (a, b) = r
     subtract(l, a, -b, x)
   }
+  def times(x: T, m: Array[N]) = map(x, (s, a) => (s * m, a))
   override def pow(x: T, exp: BigInteger) = {
     if (size(x) == 0) {
       if (exp.isZero) one else zero
@@ -107,8 +108,9 @@ trait Polynomial[T <: Element[T, C, N], C, N] extends Ring[T] {
     s
   }
   def toMathML = <mrow>{ring.toMathML}{pp.toMathML}</mrow>
-  def apply(value: C): T = if(value.isZero) zero else apply((pp.one, value))
-  def fromPowerProduct(value: Array[N]) = apply((value, ring.one))
+  def apply(value: C): T = if(value.isZero) zero else apply(pp.one, value)
+  def fromPowerProduct(value: Array[N]) = apply(value, ring.one)
+  def apply(m: Array[N], c: C): T = apply((m, c))
   def apply(s: (Array[N], C)*): T
 
   def iterator(x: T): Iterator[(Array[N], C)]
@@ -200,7 +202,7 @@ trait Polynomial[T <: Element[T, C, N], C, N] extends Ring[T] {
 
   def multiply(x: T, m: Array[N], c: C) = map(x, (s, a) => (s * m, a * c))
 
-  def multiply(x: T, b: C) = map(x, a => a * b)
+  def multiply(x: T, c: C) = map(x, a => a * c)
 
   def map(x: T, f: C => C): T = map(x, (s, a) => (s, f(a)))
 
@@ -213,7 +215,10 @@ trait Polynomial[T <: Element[T, C, N], C, N] extends Ring[T] {
 }
 
 object Polynomial {
-  trait Element[T <: Element[T, C, N], C, N] extends Ring.Element[T] { this: T =>
+  trait Element[T <: Element[T, C, N], C, N] extends Ring.Element[T] with Ops[T, C, N] { this: T =>
+  }
+  trait Ops[T <: Element[T, C, N], C, N] extends Ring.Ops[T] {
     val factory: Polynomial[T, C, N]
+    def *(rhs: Array[N]) = factory.times(lhs, rhs)
   }
 }

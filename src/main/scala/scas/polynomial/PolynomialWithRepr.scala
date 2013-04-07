@@ -9,8 +9,8 @@ trait PolynomialWithRepr[S[C, N] <: Polynomial.Element[S[C, N], C, N], T <: Elem
   abstract override def plus(x: T, y: T) = apply(super.plus(x, y), x.element + y.element)
   abstract override def minus(x: T, y: T) = apply(super.minus(x, y), x.element - y.element)
   override def subtract(x: T, m: Array[N], c: C, y: T) = x + multiply(y, m, -c)
-  override def multiply(w: T, x: Array[N], y: C) = apply(super.multiply(w, x, y), module.multiply(w.element, x, y))
-  override def multiply(w: T, y: C) = apply(super.multiply(w, y), module.multiply(w.element, y))
+  override def multiply(x: T, m: Array[N], c: C) = apply(super.multiply(x, m, c), module.multiply(x.element, m, c))
+  override def multiply(x: T, c: C) = apply(super.multiply(x, c), module.multiply(x.element, c))
   def apply(x: T, n: Int): T = apply(x, module.generator(n))
   def apply(x: T, element: Module.Element[S[C, N]]): T
   def fromPolynomial(x: S[C, N]): T

@@ -114,11 +114,22 @@ trait ArrayPolynomial[T <: Element[T, C, N], C, N] extends Polynomial[T, C, N] {
     var i = 0
     while (i < x.size) {
       val (s, a) = x(i)
-      val (sm, ac) = (pp.multiply(s, m), a * c)
-      if (!ac.isZero) l += ((sm, ac))
+      val ac = a * c
+      if (!ac.isZero) l += ((pp.multiply(s, m), ac))
       i += 1
     }
     pack(l)
+  }
+
+  override def times(x: T, m: Array[N]) = {
+    val l = zero(x.size)
+    var i = 0
+    while (i < x.size) {
+      val (s, a) = x(i)
+      l += ((pp.multiply(s, m), a))
+      i += 1
+    }
+    l
   }
 
   override def map(x: T, f: C => C) = {

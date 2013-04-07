@@ -48,10 +48,11 @@ trait SolvablePolynomial[T <: Element[T, C, N], C, N] extends Polynomial[T, C, N
 
   override def subtract(x: T, m: Array[N], c: C, y: T) = x + multiply(y, m, -c)
 
-  override def multiply(w: T, x: Array[N], y: C) = (zero /: iterator(w)) { (l, r) =>
-    val (a, b) = r
-    val c = b * y
-    if (c.isZero) l else l + multiply(multiply(a, x), c)
+  override def multiply(x: T, m: Array[N], c: C) = multiply(x * m, c)
+
+  override def times(x: T, m: Array[N]) = (zero /: iterator(x)) { (l, r) =>
+    val (s, _) = r
+    l + multiply(s, m)
   }
 
   def multiply(e: Array[N], f: Array[N]) = {
@@ -68,14 +69,14 @@ trait SolvablePolynomial[T <: Element[T, C, N], C, N] extends Polynomial[T, C, N
         val (e3, f3, c3) = lookup(e2, f2)
         var cs = c3
         if (!(f3.isOne)) {
-          cs = cs * fromPowerProduct(f3)
+          cs = cs * f3
           update(e2 / e3, f2, cs)
         }
         if (!(e3.isOne)) {
           cs = fromPowerProduct(e3) * cs
           update(e2, f2, cs)
         }
-        if (!(f1.isOne)) cs = cs * fromPowerProduct(f1)
+        if (!(f1.isOne)) cs = cs * f1
         if (!(e1.isOne)) cs = fromPowerProduct(e1) * cs
         cs
       }

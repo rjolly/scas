@@ -22,6 +22,10 @@ object Ops {
     }
   }
   private final val operatorNames = Map(
+    // Equiv (>< <>)
+    ("$gt$lt", "equiv"),
+    ("$lt$gt", "nequiv"),
+
     // Ordering (> >= < <=)
     ("$greater", "gt"),
     ("$greater$eq", "gteq"),

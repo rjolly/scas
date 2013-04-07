@@ -7,6 +7,7 @@ trait Structure[T] extends Ordering[T] { outer =>
   def convert(x: T): T
   def apply(l: Long): T
   def random(numbits: Int)(implicit rnd: java.util.Random): T
+  def nequiv(x: T, y: T) = !equiv(x, y)
   def toCode(x: T, precedence: Int) = x.toString
   def toMathML(x: T): Elem
   def toMathML: Elem
@@ -31,7 +32,7 @@ object Structure {
     val lhs: T
     val factory: Structure[T]
     def ><(rhs: T) = factory.equiv(lhs, rhs)
-    def <>(rhs: T) = !factory.equiv(lhs, rhs)
+    def <>(rhs: T) = factory.nequiv(lhs, rhs)
     def toCode(precedence: Int) = factory.toCode(lhs, precedence)
     def toMathML = factory.toMathML(lhs)
   }

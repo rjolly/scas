@@ -15,13 +15,13 @@ trait MultivariatePolynomial[T[C, N] <: Element[T[C, N], C, N], C, N] extends Po
     val (b, q) = contentAndPrimitivePart(y)
     multiply(primitivePart(gcd1(p, q)), ring.gcd(a, b))
   }
-  def convertTo(w: T[C, N])(s: MultivariatePolynomial[T, T[C, N], N]): T[T[C, N], N] = (s.zero /: iterator(w)) { (l, r) =>
+  def convertTo(x: T[C, N])(s: MultivariatePolynomial[T, T[C, N], N]): T[T[C, N], N] = (s.zero /: iterator(x)) { (l, r) =>
     val (m, c) = r
-    val x = pp.projection(m, location)
-    l + s.multiply(s.pow(s.generator(0), pp.degree(x)), s.ring.convert(multiply(one, m / x, c)))
+    val t = pp.projection(m, location)
+    l + s(s.pp.converter(variables)(t), s.ring.convert(apply(m / t, c)))
   }
-  def convertFrom(w: T[T[C, N], N])(s: MultivariatePolynomial[T, T[C, N], N]): T[C, N] = (zero /: s.iterator(w)) { (l, r) =>
+  def convertFrom(x: T[T[C, N], N])(s: MultivariatePolynomial[T, T[C, N], N]): T[C, N] = (zero /: s.iterator(x)) { (l, r) =>
     val (m, c) = r
-    l + convert(c) * pow(generator(location), s.pp.degree(m))
+    l + convert(c) * pp.converter(s.variables)(m)
   }
 }
