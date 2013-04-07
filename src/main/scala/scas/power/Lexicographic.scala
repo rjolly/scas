@@ -5,7 +5,7 @@ import scas.Variable
 import Ordering.Implicits.infixOrderingOps
 import PowerProduct.lexicographic
 
-class Lexicographic[@specialized(Int, Long) N](val variables: Array[Variable])(implicit val nm: Numeric[N], val m: ClassTag[N], val cm: ClassTag[Array[N]]) extends PowerProduct[N] {
+class Lexicographic[@specialized(Byte, Short, Int, Long) N](val variables: Array[Variable])(implicit val nm: Numeric[N], val m: ClassTag[N], val cm: ClassTag[Array[N]]) extends PowerProduct[N] {
   def self(variables: Array[Variable]) = lexicographic[N](variables)
   def compare(x: Array[N], y: Array[N]): Int = {
     val n = length

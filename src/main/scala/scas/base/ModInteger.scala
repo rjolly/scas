@@ -7,7 +7,7 @@ import scas.Implicits.{ZZ, infixUFDOps}
 class ModInteger(val mod: BigInteger) extends Residue[BigInteger, BigInteger] with Field[BigInteger] {
   val ring = ZZ
   assert (mod.isProbablePrime(100))
-  def apply(value: BigInteger) = value
+  def fromRing(value: BigInteger) = value
   def reduce(value: BigInteger) = value.mod(mod)
   def unapply(x: BigInteger) = Some(x)
   override def random(numbits: Int)(implicit rnd: java.util.Random) = reduce(new BigInteger(numbits, rnd))

@@ -3,7 +3,7 @@ package scas.structure
 import scas.BigInteger
 import Ordering.Implicits.infixOrderingOps
 
-trait Field[T] extends EuclidianDomain[T] with NotQuiteGroup[T] {
+trait Field[@specialized(Int, Long) T] extends EuclidianDomain[T] with NotQuiteGroup[T] {
   override def isUnit(x: T) = !(x.isZero)
   override def divide(x: T, y: T) = x * inverse(y)
   override def remainder(x: T, y: T) = zero

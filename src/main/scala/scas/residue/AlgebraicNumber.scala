@@ -13,6 +13,6 @@ trait AlgebraicNumber[R <: PolynomialOverUFD.Element[R, C, N], C, N] extends Res
   }
   def inverse(x: Element[R, C, N]) = {
     val self(a) = x
-    apply(ring.modInverse(a, list(0)))
+    fromRing(ring.modInverse(a, list(0)))
   }
 }

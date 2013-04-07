@@ -2,8 +2,10 @@ package scas.structure
 
 import scala.xml.Elem
 import scas.MathObject
+import spire.macros.Ops
+import Structure.OpsImpl
 
-trait Structure[T] extends Ordering[T] { outer =>
+trait Structure[@specialized(Int, Long) T] extends Ordering[T] {
   def convert(x: T): T
   def apply(l: Long): T
   def random(numbits: Int)(implicit rnd: java.util.Random): T
@@ -11,10 +13,7 @@ trait Structure[T] extends Ordering[T] { outer =>
   def toCode(x: T, precedence: Int) = x.toString
   def toMathML(x: T): Elem
   def toMathML: Elem
-  implicit def mkOps(value: T): Structure.Ops[T] = new Structure.Ops[T] {
-    val lhs = value
-    val factory = outer
-  }
+  implicit def mkOps(lhs: T): Structure.Ops[T] = new OpsImpl(lhs)(this)
 }
 
 object Structure {
@@ -23,17 +22,21 @@ object Structure {
   }
   object Implicits extends ExtraImplicits
 
-  trait Element[T <: Element[T]] extends Ordered[T] with Ops[T] { this: T =>
+  trait Element[T <: Element[T]] extends Ordered[T] with MathObject { this: T =>
     val lhs = this
-    def compare(rhs: T) = factory.compare(lhs, rhs)
-    override def toString = toCode(0)
-  }
-  trait Ops[T] extends MathObject {
-    val lhs: T
     val factory: Structure[T]
     def ><(rhs: T) = factory.equiv(lhs, rhs)
     def <>(rhs: T) = factory.nequiv(lhs, rhs)
+    def compare(rhs: T) = factory.compare(lhs, rhs)
+    override def toString = toCode(0)
     def toCode(precedence: Int) = factory.toCode(lhs, precedence)
     def toMathML = factory.toMathML(lhs)
   }
+  trait Ops[T] {
+    def ><(rhs: T) = macro Ops.binop[T, Boolean]
+    def <>(rhs: T) = macro Ops.binop[T, Boolean]
+    def toCode(rhs: Int) = macro Ops.binop[Int, String]
+    def toMathML() = macro Ops.unop[Elem]
+  }
+  class OpsImpl[T: Structure](lhs: T) extends Ops[T]
 }

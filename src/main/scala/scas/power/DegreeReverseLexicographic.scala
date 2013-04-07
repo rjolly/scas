@@ -5,7 +5,7 @@ import scas.Variable
 import Ordering.Implicits.infixOrderingOps
 import PowerProduct.degreeReverseLexicographic
 
-class DegreeReverseLexicographic[@specialized(Int, Long) N](val variables: Array[Variable])(implicit val nm: Numeric[N], val m: ClassTag[N], val cm: ClassTag[Array[N]]) extends PowerProduct[N] {
+class DegreeReverseLexicographic[@specialized(Byte, Short, Int, Long) N](val variables: Array[Variable])(implicit val nm: Numeric[N], val m: ClassTag[N], val cm: ClassTag[Array[N]]) extends PowerProduct[N] {
   def self(variables: Array[Variable]) = degreeReverseLexicographic[N](variables)
   def compare(x: Array[N], y: Array[N]): Int = {
     val n = length

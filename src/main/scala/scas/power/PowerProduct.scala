@@ -3,10 +3,11 @@ package scas.power
 import scala.reflect.ClassTag
 import scas.{Variable, BigInteger}
 import scas.structure.Monoid
+import spire.macros.Ops
 import Ordering.Implicits.infixOrderingOps
 import Numeric.Implicits.infixNumericOps
 
-trait PowerProduct[@specialized(Int, Long) N] extends Monoid[Array[N]] {
+trait PowerProduct[@specialized(Byte, Short, Int, Long) N] extends Monoid[Array[N]] {
   val variables: Array[Variable]
   implicit val nm: Numeric[N]
   implicit val m: ClassTag[N]
@@ -119,23 +120,23 @@ trait PowerProduct[@specialized(Int, Long) N] extends Monoid[Array[N]] {
     m
   }
 
-  override implicit def mkOps(value: Array[N]) = new PowerProduct.Ops(value)(this)
+  override implicit def mkOps(lhs: Array[N]) = new PowerProduct.Ops(lhs)(this)
 }
 
 object PowerProduct {
   trait ExtraImplicits extends Monoid.ExtraImplicits {
-    implicit def infixPowerProductOps[@specialized(Int, Long) N: PowerProduct](lhs: Array[N]) = implicitly[PowerProduct[N]].mkOps(lhs)
+    implicit def infixPowerProductOps[N: PowerProduct](lhs: Array[N]) = implicitly[PowerProduct[N]].mkOps(lhs)
   }
   object Implicits extends ExtraImplicits
 
   def apply(variables: Variable*) = lexicographic[Int](variables.toArray)
-  def lexicographic[@specialized(Int, Long) N](variables: Array[Variable])(implicit nm: Numeric[N], m: ClassTag[N], cm: ClassTag[Array[N]]) = new Lexicographic[N](variables)
-  def degreeLexicographic[@specialized(Int, Long) N](variables: Array[Variable])(implicit nm: Numeric[N], m: ClassTag[N], cm: ClassTag[Array[N]]) = new DegreeLexicographic[N](variables)
-  def degreeReverseLexicographic[@specialized(Int, Long) N](variables: Array[Variable])(implicit nm: Numeric[N], m: ClassTag[N], cm: ClassTag[Array[N]]) = new DegreeReverseLexicographic[N](variables)
-  def kthElimination[@specialized(Int, Long) N](variables: Array[Variable], k: Int)(implicit nm: Numeric[N], m: ClassTag[N], cm: ClassTag[Array[N]]) = new KthElimination[N](variables, k)
+  def lexicographic[@specialized(Byte, Short, Int, Long) N](variables: Array[Variable])(implicit nm: Numeric[N], m: ClassTag[N], cm: ClassTag[Array[N]]) = new Lexicographic[N](variables)
+  def degreeLexicographic[@specialized(Byte, Short, Int, Long) N](variables: Array[Variable])(implicit nm: Numeric[N], m: ClassTag[N], cm: ClassTag[Array[N]]) = new DegreeLexicographic[N](variables)
+  def degreeReverseLexicographic[@specialized(Byte, Short, Int, Long) N](variables: Array[Variable])(implicit nm: Numeric[N], m: ClassTag[N], cm: ClassTag[Array[N]]) = new DegreeReverseLexicographic[N](variables)
+  def kthElimination[@specialized(Byte, Short, Int, Long) N](variables: Array[Variable], k: Int)(implicit nm: Numeric[N], m: ClassTag[N], cm: ClassTag[Array[N]]) = new KthElimination[N](variables, k)
 
-  class Ops[@specialized(Int, Long) N](val lhs: Array[N])(val factory: PowerProduct[N]) extends Monoid.Ops[Array[N]] {
-    def /(rhs: Array[N]) = factory.divide(lhs, rhs)
-    def |(rhs: Array[N]) = factory.factorOf(lhs, rhs)
+  class Ops[N: PowerProduct](lhs: Array[N]) extends Monoid.Ops[Array[N]] {
+    def /(rhs: Array[N]) = macro Ops.binop[Array[N], Array[N]]
+    def |(rhs: Array[N]) = macro Ops.binop[Array[N], Boolean]
   }
 }

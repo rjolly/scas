@@ -3,15 +3,15 @@ package scas.structure
 import scas.BigInteger
 import scas.Implicits.infixUFDOps
 
-trait Residue[T, R] extends UniqueFactorizationDomain[T] {
+trait Residue[@specialized(Int, Long) T, @specialized(Int, Long) R] extends UniqueFactorizationDomain[T] {
   implicit val ring: UniqueFactorizationDomain[R]
   val self = this
   def convert(x: T) = {
     val self(a) = x
-    apply(ring.convert(a))
+    fromRing(ring.convert(a))
   }
-  def apply(l: Long) = apply(ring(l))
-  def apply(value: R): T
+  def apply(l: Long) = fromRing(ring(l))
+  def fromRing(value: R): T
   def reduce(value: R): T
   def unapply(x: T): Option[R]
   def random(numbits: Int)(implicit rnd: java.util.Random) = reduce(ring.random(numbits))
@@ -53,13 +53,13 @@ trait Residue[T, R] extends UniqueFactorizationDomain[T] {
   def gcd(x: T, y: T) = {
     val self(a) = x
     val self(b) = y
-    apply(ring.gcd(a, b))
+    fromRing(ring.gcd(a, b))
   }
   def divideAndRemainder(x: T, y: T) = {
     val self(a) = x
     val self(b) = y
     val (q, r) = a /% b
-    (apply(q), apply(r))
+    (fromRing(q), fromRing(r))
   }
   def compare(x: T, y: T) = {
     val self(a) = x

@@ -5,7 +5,7 @@ import scas.Variable
 import Ordering.Implicits.infixOrderingOps
 import PowerProduct.{kthElimination, degreeReverseLexicographic}
 
-class KthElimination[@specialized(Int, Long) N](val variables: Array[Variable], val k: Int)(implicit val nm: Numeric[N], val m: ClassTag[N], val cm: ClassTag[Array[N]]) extends PowerProduct[N] {
+class KthElimination[@specialized(Byte, Short, Int, Long) N](val variables: Array[Variable], val k: Int)(implicit val nm: Numeric[N], val m: ClassTag[N], val cm: ClassTag[Array[N]]) extends PowerProduct[N] {
   val ordering = degreeReverseLexicographic[N](variables)
   def self(variables: Array[Variable]) = kthElimination[N](variables, k)
   def compare(x: Array[N], y: Array[N]): Int = {

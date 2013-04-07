@@ -23,25 +23,29 @@ object Ops {
   }
   private final val operatorNames = Map(
     // Equiv (>< <>)
-    ("$gt$lt", "equiv"),
-    ("$lt$gt", "nequiv"),
+    "$greater$less" -> "equiv",
+    "$less$greater" -> "nequiv",
 
     // Ordering (> >= < <=)
-    ("$greater", "gt"),
-    ("$greater$eq", "gteq"),
-    ("$less", "lt"),
-    ("$less$eq", "lteq"),
+    "$greater" -> "gt",
+    "$greater$eq" -> "gteq",
+    "$less" -> "lt",
+    "$less$eq" -> "lteq",
 
-    // Numeric (unary_- + - *)
-    ("unary_$minus", "negate"),
-    ("$plus", "plus"),
-    ("$minus", "minus"),
-    ("$times", "times"),
+    // AbelianGroup (unary_+ unary_- + -)
+    "unary_$plus" -> "identity",
+    "unary_$minus" -> "negate",
+    "$plus" -> "plus",
+    "$minus" -> "minus",
 
-    // Integral (/ % /%)
-    ("$div", "quot"),
-    ("$percent", "rem"),
-    ("$div$percent", "quotrem")
+    // SemiGroup (*)
+    "$times" -> "times",
+
+    // UFD (/ % /% |)
+    "$div" -> "divide",
+    "$percent" -> "remainder",
+    "$div$percent" -> "divideAndRemainder",
+    "$bar" -> "factorOf"
   )
   def findMethodName(c:Context) = {
     val s = c.macroApplication.symbol.name.toString

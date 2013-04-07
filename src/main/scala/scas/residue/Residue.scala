@@ -9,11 +9,11 @@ trait Residue[R <: PolynomialOverUFD.Element[R, C, N], C, N] extends scas.struct
   val ring: PolynomialOverUFD[R, C, N]
   import ring.{ring => coef}
   var list = List.empty[R]
-  def generator(n: Int) = apply(ring.generator(n))
-  def generators = ring.generators.map(apply)
-  def apply(value: C): Element[R, C, N] = apply(ring(value))
-  def apply(value: R) = new Element[R, C, N](value)(this)
-  def reduce(value: R) = apply(ring.remainder(value, list))
+  def generator(n: Int) = fromRing(ring.generator(n))
+  def generators = ring.generators.map(fromRing)
+  def apply(value: C): Element[R, C, N] = fromRing(ring(value))
+  def fromRing(value: R) = new Element[R, C, N](value)(this)
+  def reduce(value: R) = fromRing(ring.remainder(value, list))
   def unapply(x: Element[R, C, N]) = Some(x.value)
   def characteristic = ring.characteristic
   override def toString = coef.toString + "(" + list.mkString(", ") + ")"
