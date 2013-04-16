@@ -1,0 +1,5 @@
+import scas._
+import Implicits.{ZZ, coef2rationalFunction}
+implicit val q = RationalFunction.integral(MultivariatePolynomial(ZZ, PowerProduct('a, 'b)))
+val Array(a, b) = q.generators
+assert (pow(a + b, 2)/(pow(a, 2) - pow(b, 2)) >< (a + b)/(a - b))

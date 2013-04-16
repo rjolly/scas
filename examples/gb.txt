@@ -1,0 +1,5 @@
+import scas._
+import Implicits.ZZ
+implicit val r = PolynomialWithGB(ZZ, 'x, 'y)
+val Array(x, y) = r.generators
+println(r.gb(4 - (pow(x, 2) + pow(y, 2)), 1 - x * y))

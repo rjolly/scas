@@ -1,0 +1,6 @@
+import scas._
+import Implicits.{QQ, coef2polynomial}
+implicit val r = Polynomial(QQ, 'x)
+val Array(x) = r.generators
+assert (x + frac(1, 2) >< frac(1, 2) + x)
+assert (x + 1 >< 1 + x)

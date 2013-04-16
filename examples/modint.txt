@@ -1,0 +1,12 @@
+import scas._
+import Implicits.infixRingOps
+implicit val r = ModInteger(7)
+val a = r(4)
+val b = a + a
+val c = pow(a, 2)
+assert (b >< r(1))
+assert (r(1) >< b)
+assert (b.toString == "1")
+assert (c.toString == "2")
+assert (r.toString == "ZZ(7)")
+assert (r.characteristic.intValue == 7)

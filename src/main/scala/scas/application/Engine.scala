@@ -4,7 +4,6 @@ import scala.reflect.BeanProperty
 import javax.script.{AbstractScriptEngine, Bindings, ScriptContext, ScriptEngine, ScriptEngineFactory, ScriptException, SimpleBindings}
 import java.io.{StringWriter, Reader}
 import java.util.{Arrays, List}
-import scas._
 
 class Engine(@BeanProperty val factory: ScriptEngineFactory) extends AbstractScriptEngine(new SimpleBindings) {
   def createBindings: Bindings = new SimpleBindings

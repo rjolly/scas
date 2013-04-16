@@ -1,0 +1,8 @@
+import scas._
+import Implicits.infixMonoidOps
+implicit val g = Group(Implicits.ZZ)
+val a = BigInteger(1)
+val b = a * a
+val c = pow(a, -1)
+assert (b >< BigInteger(2))
+assert (c >< BigInteger(-1))

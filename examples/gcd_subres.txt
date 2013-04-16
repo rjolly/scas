@@ -1,0 +1,9 @@
+import scas._
+import Implicits.ZZ
+implicit val r = MultivariatePolynomial(ZZ, PowerProduct('x))
+import r.{generators, gcd}
+val Array(x) = generators
+assert (gcd(0, 0) >< 0)
+assert (gcd(x, 0) >< x)
+assert (gcd(1, x) >< 1)
+assert (gcd((1+x)*(1+x), (1+x)*(1-x)) >< 1+x)

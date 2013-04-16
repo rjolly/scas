@@ -8,9 +8,9 @@ trait Residue[@specialized(Int, Long) T, @specialized(Int, Long) R] extends Uniq
   val self = this
   def convert(x: T) = {
     val self(a) = x
-    fromRing(ring.convert(a))
+    reduce(ring.convert(a))
   }
-  def apply(l: Long) = fromRing(ring(l))
+  def apply(l: Long) = reduce(ring(l))
   def fromRing(value: R): T
   def reduce(value: R): T
   def unapply(x: T): Option[R]

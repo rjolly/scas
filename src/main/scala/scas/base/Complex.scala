@@ -4,7 +4,7 @@ import scas.residue.AlgebraicNumber
 import scas.{Variable, UnivariatePolynomial, int2bigInteger, bigInteger2rational}
 import scas.Implicits.{ZZ, QQ}
 
-object Complex extends AlgebraicNumber[UnivariatePolynomial.Element[Rational, Int], Rational, Int] {
+trait ComplexLike extends AlgebraicNumber[UnivariatePolynomial.Element[Rational, Int], Rational, Int] {
   val ring = UnivariatePolynomial(QQ, Variable.sqrt(BigInteger(-1)))
   implicit val r = this
   val i = r.generator(0)

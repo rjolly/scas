@@ -5,7 +5,7 @@ object BuildSettings {
   val buildSettings = Defaults.defaultSettings ++ Seq(
     organization := "scas",
     version := "2.1",
-    scalaVersion := "2.10.0",
+    scalaVersion := "2.11.0-M2",
     scalacOptions ++= Seq(
       "-language:higherKinds",
       "-language:implicitConversions",
@@ -36,7 +36,8 @@ object MyBuild extends Build {
     "scas",
     file("."),
     settings = buildSettings ++ Seq(
-      mainClass in (Compile, run) := Some("scas.application.PolyPower")
+      mainClass in (Compile, packageBin) := Some("scas.application.Test"),
+      mainClass in (Compile, run) := Some("scas.application.Test")
     )
   ) dependsOn(macros)
 }

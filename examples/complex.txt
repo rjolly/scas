@@ -1,0 +1,3 @@
+import scas._
+import Implicits.CC
+assert ((1+sqrt(-1))/(1-sqrt(-1)) >< sqrt(-1))

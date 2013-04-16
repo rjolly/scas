@@ -1,0 +1,8 @@
+import scas._
+import Implicits.{QQ, coef2residue}
+implicit val r = Residue(QQ, "x")
+val Array(x) = r.generators
+r.update(2 - pow(x, 2))
+assert (2 >< pow(x, 2))
+assert (Rational(2) - pow(x, 2) >< 0)
+assert (r.toString == "QQ(2-pow(x, 2))")

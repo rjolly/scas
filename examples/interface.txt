@@ -1,0 +1,7 @@
+val mml = scas.application.MathML("mmlscala.xsl")
+val manager = new javax.script.ScriptEngineManager
+val engine = manager.getEngineByName("scas")
+assert(mml(engine.eval("x+x").toString) == "<math><apply><times/><cn>2</cn><ci>x</ci></apply></math>")
+assert(mml(engine.eval("1").toString) == "1")
+assert(mml(engine.eval("1+x").toString) == "<math><apply><plus/><cn>1</cn><ci>x</ci></apply></math>")
+assert(mml(engine.eval("1/4").toString) == "<math><cn type="rational">1<sep/>4</cn></math>")

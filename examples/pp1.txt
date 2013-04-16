@@ -1,0 +1,9 @@
+import scas._
+import Implicits.{infixOrderingOps, infixPowerProductOps}
+implicit val m = PowerProduct('x)
+val Array(x) = m.generators
+assert (x > m(1))
+assert (m(1) < x)
+assert (m(1) | x)
+assert (x * m(1) >< x)
+assert (x * x >< pow(x, 2))

@@ -1,0 +1,6 @@
+import scas._
+implicit val r = ModInteger(2)
+implicit val s = Polynomial(r, 'x)
+val Array(x) = s.generators
+assert (1 + x + 1 >< x)
+assert (s.toString == "ZZ(2)[x]")

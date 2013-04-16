@@ -11,7 +11,7 @@ trait Residue[R <: PolynomialOverUFD.Element[R, C, N], C, N] extends scas.struct
   var list = List.empty[R]
   def generator(n: Int) = fromRing(ring.generator(n))
   def generators = ring.generators.map(fromRing)
-  def apply(value: C): Element[R, C, N] = fromRing(ring(value))
+  def apply(value: C): Element[R, C, N] = reduce(ring(value))
   def fromRing(value: R) = new Element[R, C, N](value)(this)
   def reduce(value: R) = fromRing(ring.remainder(value, list))
   def unapply(x: Element[R, C, N]) = Some(x.value)

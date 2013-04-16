@@ -1,0 +1,10 @@
+import scas._
+import Implicits.{QQ, coef2rationalFunction}
+implicit val q = RationalFunction(QQ, "x")
+val Array(x) = q.generators
+assert (x + frac(1, 2) >< frac(1, 2) + x)
+assert (x + 1 >< 1 + x)
+assert ((pow(x, 2) - 1)/(x - 1) >< x + 1)
+assert ((1 - pow(x, 2))/(1 - x) >< 1 + x)
+assert ((x/(2 * x)).toString == "frac(1, 2)")
+assert (q.toString == "QQ(x)")

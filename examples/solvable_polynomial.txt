@@ -1,0 +1,6 @@
+import scas._
+import Implicits.ZZ
+implicit val r = Polynomial.weylAlgebra(ZZ, 'a, 'x, 'b, 'y)
+val Array(a, x, b, y) = r.generators
+assert (b*a+y*x >< 2+a*b+x*y)
+assert (r.toString == "ZZ[a, x, b, y][[b*a = 1+a*b], [y*x = 1+x*y]]")

@@ -4,7 +4,7 @@ import scas.structure.Quotient
 import scas.{int2bigInteger, long2bigInteger}
 import scas.Implicits.{ZZ, infixUFDOps}
 
-object Rational extends Quotient[Rational, BigInteger] {
+trait RationalLike extends Quotient[Rational, BigInteger] {
   val ring = ZZ
   def apply(n: BigInteger, d: BigInteger) = if (ring.signum(d) < 0) (-n, -d) else (n, d)
   override def apply(l: Long) = apply(l, 1)

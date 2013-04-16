@@ -160,12 +160,13 @@ object Parsers extends RegexParsers {
     }
   }
 
-  def apply(input: String): Either[String, Element] = {
-    r = ring()
-    parseAll(expr, input) match {
+  def apply(input: String) = {
+    val result = parseAll(expr, input) match {
       case Success(Left(result), _) => Right(result)
       case Success(Right(result), _) => Right(result)
       case NoSuccess(msg, _) => Left(msg)
     }
+    r = ring()
+    result
   }
 }

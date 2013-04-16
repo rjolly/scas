@@ -5,7 +5,7 @@ import scala.collection.{Map, SortedMap}
 import scas.structure.EuclidianDomain
 import scas.{int2bigInteger, long2bigInteger}
 
-object BigInteger extends EuclidianDomain[BigInteger] {
+trait BigIntegerLike extends EuclidianDomain[BigInteger] {
   override def isZero(x: BigInteger) = signum(x) == 0
   def convert(x: BigInteger) = x
   def apply(s: String) = new BigInteger(s)

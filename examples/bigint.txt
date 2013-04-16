@@ -1,0 +1,17 @@
+import scas._
+import Implicits.{ZZ, infixOrderingOps, infixRingOps}
+val a = BigInteger(1)
+val b = a + a
+val c = pow(b, 32)
+val d = pow(c, 2)
+val e = BigInteger("18446744073709551616")
+assert (b >< BigInteger(2))
+assert (BigInteger(2) >< b)
+assert (a + BigInteger(1) >< b)
+assert (BigInteger(1) + a >< b)
+assert (b > BigInteger(1))
+assert (BigInteger(1) < b)
+assert (b.toCode(0) == "2")
+assert (c.toCode(0) == "4294967296l")
+assert (d.toCode(0) == "BigInteger(\"18446744073709551616\")")
+assert (d >< e)

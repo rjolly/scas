@@ -48,7 +48,8 @@ object Ops {
     "$bar" -> "factorOf"
   )
   def findMethodName(c:Context) = {
+    import c.universe._
     val s = c.macroApplication.symbol.name.toString
-    operatorNames.getOrElse(s, s)
+    TermName(operatorNames.getOrElse(s, s))
   }
 }

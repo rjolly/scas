@@ -1,0 +1,11 @@
+import scas._
+import Implicits.{<math><integers/></math>, coef2polynomial}
+implicit val r = Polynomial(<math><integers/></math>, 'x)
+implicit val s = Polynomial(r, 'y)
+val Array(<math><ci>x</ci></math>) = r.generators
+val Array(<math><ci>y</ci></math>) = s.generators
+assert (<math><ci>x</ci></math> + 1 >< <math><apply><plus/><cn>1</cn><ci>x</ci></apply></math>)
+assert (<math><ci>x</ci></math> + BigInteger(1) >< BigInteger(1) + <math><ci>x</ci></math>)
+assert (<math><ci>y</ci></math> + <math><ci>x</ci></math> >< <math><apply><plus/><ci>x</ci><ci>y</ci></apply></math>)
+assert (<math><ci>y</ci></math> + 1 >< <math><apply><plus/><cn>1</cn><ci>y</ci></apply></math>)
+assert (<math><ci>y</ci></math> + BigInteger(1) >< BigInteger(1) + <math><ci>y</ci></math>)
