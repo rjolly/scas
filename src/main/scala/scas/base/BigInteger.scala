@@ -50,14 +50,17 @@ trait BigIntegerLike extends EuclidianDomain[BigInteger] {
     factor(x, SortedMap.empty[BigInteger, Int], primes)
   }
 
-  @tailrec final def factor(x: BigInteger, map: Map[BigInteger, Int], primes: Stream[Int]): Map[BigInteger, Int] = {
-    val y = apply(primes.head)
+  @tailrec final def factor(x: BigInteger, map: Map[BigInteger, Int], primes: Stream[BigInteger]): Map[BigInteger, Int] = {
+    val y = primes.head
     if (x >< 1) map
     else if (y | x) factor(x / y, map + ((y, map.getOrElse(y, 0) + 1)), primes)
     else factor(x, map, primes.tail)
   }
 
-  def sieve(s: Stream[Int]): Stream[Int] = Stream.cons(s.head, sieve(s.tail filter { _ % s.head != 0 }))
+  def sieve(n: BigInteger): Stream[BigInteger] = {
+    if (primes.takeWhile(p => p * p <= n).exists(n % _ >< 0)) sieve(n + 2)
+    else Stream.cons(n, sieve(n + 2))
+  }
 
-  def primes = sieve(Stream.from(2))
+  val primes: Stream[BigInteger] = Stream.cons(2, sieve(3))
 }

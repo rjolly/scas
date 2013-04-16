@@ -153,8 +153,9 @@ object ArrayPolynomial {
     var size = 0
 
     def apply(n: Int): (Array[N], C) = {
-      System.arraycopy(value._3, n * value._2.length, value._2, 0, value._2.length)
-      (value._2, value._1(n))
+      val m = value._2.clone
+      System.arraycopy(value._3, n * value._2.length, m, 0, value._2.length)
+      (m, value._1(n))
     }
     def +=(r: (Array[N], C)) = {
       val s = size

@@ -1,10 +1,9 @@
 package scas.polynomial
 
-import scas.concurrent._
 import scas.immutable.Stream
-import scas.Implicits.{infixOrderingOps, infixRingOps}
-import ExecutionContext.Implicits.global
 import Stream.{#::, ConsWrapper, Empty}
+import scala.concurrent.ExecutionContext.Implicits.global
+import scas.Implicits.{infixOrderingOps, infixRingOps}
 import StreamPolynomial.Element
 
 trait StreamPolynomial[T <: Element[T, C, N], C, N] extends IterablePolynomial[T, C, N] {

@@ -3,6 +3,7 @@ package scas.power
 import scala.reflect.ClassTag
 import scas.{Variable, BigInteger}
 import scas.structure.Monoid
+import scas.math.{Ordering, Numeric}
 import spire.macros.Ops
 import Ordering.Implicits.infixOrderingOps
 import Numeric.Implicits.infixNumericOps
@@ -129,11 +130,11 @@ object PowerProduct {
   }
   object Implicits extends ExtraImplicits
 
-  def apply(variables: Variable*) = lexicographic[Int](variables.toArray)
-  def lexicographic[@specialized(Byte, Short, Int, Long) N](variables: Array[Variable])(implicit nm: Numeric[N], m: ClassTag[N], cm: ClassTag[Array[N]]) = new Lexicographic[N](variables)
-  def degreeLexicographic[@specialized(Byte, Short, Int, Long) N](variables: Array[Variable])(implicit nm: Numeric[N], m: ClassTag[N], cm: ClassTag[Array[N]]) = new DegreeLexicographic[N](variables)
-  def degreeReverseLexicographic[@specialized(Byte, Short, Int, Long) N](variables: Array[Variable])(implicit nm: Numeric[N], m: ClassTag[N], cm: ClassTag[Array[N]]) = new DegreeReverseLexicographic[N](variables)
-  def kthElimination[@specialized(Byte, Short, Int, Long) N](variables: Array[Variable], k: Int)(implicit nm: Numeric[N], m: ClassTag[N], cm: ClassTag[Array[N]]) = new KthElimination[N](variables, k)
+  def apply(variables: Variable*) = lexicographic[Int](variables: _*)
+  def lexicographic[@specialized(Byte, Short, Int, Long) N](variables: Variable*)(implicit nm: Numeric[N], m: ClassTag[N], cm: ClassTag[Array[N]]) = new Lexicographic[N](variables.toArray)
+  def degreeLexicographic[@specialized(Byte, Short, Int, Long) N](variables: Variable*)(implicit nm: Numeric[N], m: ClassTag[N], cm: ClassTag[Array[N]]) = new DegreeLexicographic[N](variables.toArray)
+  def degreeReverseLexicographic[@specialized(Byte, Short, Int, Long) N](variables: Variable*)(implicit nm: Numeric[N], m: ClassTag[N], cm: ClassTag[Array[N]]) = new DegreeReverseLexicographic[N](variables.toArray)
+  def kthElimination[@specialized(Byte, Short, Int, Long) N](variables: Variable*)(k: Int)(implicit nm: Numeric[N], m: ClassTag[N], cm: ClassTag[Array[N]]) = new KthElimination[N](variables.toArray, k)
 
   class Ops[N: PowerProduct](lhs: Array[N]) extends Monoid.Ops[Array[N]] {
     def /(rhs: Array[N]) = macro Ops.binop[Array[N], Array[N]]

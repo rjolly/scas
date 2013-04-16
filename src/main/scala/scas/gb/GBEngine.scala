@@ -1,7 +1,7 @@
 package scas.gb
 
 import scala.collection.SortedSet
-import scala.math.Ordering.Tuple3
+import scas.math.Ordering.Tuple3
 import scas.polynomial.PolynomialWithIndex
 import scas.Implicits.{infixOrderingOps, infixPowerProductOps}
 import PolynomialWithIndex.Element

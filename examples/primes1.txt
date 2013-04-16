@@ -1,0 +1,14 @@
+import scas.immutable.Stream
+import Stream.{ConsWrapper, Empty, #::}
+import scala.concurrent.ExecutionContext.Implicits.global
+val n = 20000
+def primes = sieve(Stream.range(2, n, 1))
+def sieve(s: Stream[Int]): Stream[Int] = s match {
+  case head#::tail => head#::tail.map(s => sieve(s filter { _ % head != 0 }))
+  case Empty => Empty
+}
+println("n: " + n)
+var t = System.currentTimeMillis();
+primes.force
+t = System.currentTimeMillis() - t;
+println("t: " + t)

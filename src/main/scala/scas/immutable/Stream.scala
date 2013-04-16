@@ -1,17 +1,17 @@
 package scas.immutable
 
-import scala.concurrent._
-import duration._
+import scala.concurrent.{Future, Await}
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.duration.Duration
+import scala.annotation.tailrec
 import scala.collection._
 import generic._
 import mutable.{Builder, StringBuilder, LazyBuilder, ListBuffer}
-import scala.annotation.tailrec
 import Stream.{Cons => cons, Empty}
-import ExecutionContext.Implicits.global
-import scala.language.implicitConversions
+import scas.concurrent.future
 
 abstract class Stream[+A] extends Object
-                             with LinearSeq[A]
+                             with immutable.LinearSeq[A]
                              with GenericTraversableTemplate[A, Stream]
                              with LinearSeqOptimized[A, Stream[A]] {
 self =>
@@ -395,10 +395,7 @@ object Stream extends SeqFactory[Stream] {
 
   override def apply[A](xs: A*): Stream[A] = apply(xs.toStream)
 
-  def apply[A](s: scala.Stream[A]): Stream[A] = s match {
-    case scala.Stream.cons(head, tail) => cons(head, future(apply(tail)))
-    case scala.Stream.Empty => Empty
-  }
+  def apply[A](s: scala.Stream[A]): Stream[A] = if (s.isEmpty) Empty else cons(s.head, future(apply(s.tail)))
 
   def unapply[A](s: Stream[A]): Option[scala.Stream[A]] = Some(if (s.isEmpty) scala.Stream.Empty else scala.Stream.cons(s.head, unapply(s.tail).get))
 
@@ -420,19 +417,28 @@ object Stream extends SeqFactory[Stream] {
     }
   }
 
-  def iterate[A](start: A)(f: A => A): Stream[A] = apply(scala.Stream.iterate(start)(f))
+  def iterate[A](start: A)(f: A => A): Stream[A] = cons(start, future(iterate(f(start))(f)))
 
   override def iterate[A](start: A, len: Int)(f: A => A): Stream[A] = iterate(start)(f) take len
 
-  def from(start: Int, step: Int): Stream[Int] = apply(scala.Stream.from(start, step))
+  def from(start: Int, step: Int): Stream[Int] = cons(start, future(from(start+step, step)))
 
   def from(start: Int): Stream[Int] = from(start, 1)
 
-  def continually[A](elem: => A): Stream[A] = apply(scala.Stream.continually(elem))
+  def continually[A](elem: => A): Stream[A] = cons(elem, future(continually(elem)))
 
-  override def fill[A](n: Int)(elem: => A): Stream[A] = apply(scala.Stream.fill(n)(elem))
+  override def fill[A](n: Int)(elem: => A): Stream[A] = if (n <= 0) Empty else cons(elem, future(fill(n-1)(elem)))
 
-  override def tabulate[A](n: Int)(f: Int => A): Stream[A] = apply(scala.Stream.tabulate(n)(f))
+  override def tabulate[A](n: Int)(f: Int => A): Stream[A] = {
+    def loop(i: Int): Stream[A] = if (i >= n) Empty else cons(f(i), future(loop(i+1)))
+    loop(0)
+  }
 
-  override def range[T: Integral](start: T, end: T, step: T): Stream[T] = apply(scala.Stream.range(start, end, step))
+  override def range[T: Integral](start: T, end: T, step: T): Stream[T] = {
+    val num = implicitly[Integral[T]]
+    import num._
+
+    if (if (step < zero) start <= end else end <= start) Empty
+    else cons(start, future(range(start + step, end, step)))
+  }
 }

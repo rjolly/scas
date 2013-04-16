@@ -10,8 +10,7 @@ object BuildSettings {
       "-language:higherKinds",
       "-language:implicitConversions",
       "-language:postfixOps",
-      "-language:experimental.macros",
-      "-no-specialization"
+      "-language:experimental.macros"
     )
   )
 }
@@ -35,9 +34,6 @@ object MyBuild extends Build {
   lazy val core: Project = Project(
     "scas",
     file("."),
-    settings = buildSettings ++ Seq(
-      mainClass in (Compile, packageBin) := Some("scas.application.Test"),
-      mainClass in (Compile, run) := Some("scas.application.Test")
-    )
+    settings = buildSettings
   ) dependsOn(macros)
 }

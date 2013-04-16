@@ -14,6 +14,8 @@ trait Polynomial[C, N] extends TreePolynomial[Element[C, N], C, N] {
 object Polynomial {
   def apply[C](ring: Ring[C], variables: Variable*): Polynomial[C, Int] = apply(ring, PowerProduct(variables: _*))
   def apply[C, N](ring: Ring[C], pp: PowerProduct[N]) = new PolynomialImpl(ring, pp)
+  def parallel[C](ring: Ring[C], variables: Variable*): Polynomial[C, Int] = parallel(ring, PowerProduct(variables: _*))
+  def parallel[C, N](ring: Ring[C], pp: PowerProduct[N]) = new ParallelPolynomial(ring, pp)
   def solvable[C](ring: Ring[C], variables: Variable*): Polynomial[C, Int] = solvable(ring, PowerProduct(variables: _*))
   def solvable[C, N](ring: Ring[C], pp: PowerProduct[N]) = new SolvablePolynomial(ring, pp)
   def weylAlgebra[C](ring: Ring[C], variables: Variable*): Polynomial[C, Int] = weylAlgebra(ring, PowerProduct(variables: _*))
