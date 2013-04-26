@@ -129,72 +129,69 @@ trait Polynomial[T <: Element[T, C, N], C, N] extends Ring[T] {
 
   def head(x: T): (Array[N], C)
 
-  def headPowerProduct(x: T) = { val (a, b) = head(x) ; a }
+  def headPowerProduct(x: T) = { val (a, _) = head(x) ; a }
 
-  def headCoefficient(x: T) = { val (a, b) = head(x) ; b }
+  def headCoefficient(x: T) = { val (_, b) = head(x) ; b }
 
   def last(x: T): (Array[N], C)
 
-  def lastCoefficient(x: T) = { val (a, b) = last(x) ; b }
+  def lastCoefficient(x: T) = { val (_, b) = last(x) ; b }
 
   def degree(x: T) = (0l /: iterator(x)) { (l, r) =>
     val (a, _) = r
     scala.math.max(l, pp.degree(a))
   }
 
-  def reduce(x: T, y: T): T = reduce(x, List(y))
-
-  @tailrec final def reduce(x: T, list: List[T]): T = {
+  @tailrec final def reduce(x: T, ys: TraversableOnce[T]): T = {
     val it = iterator(x)
     if (it.hasNext) {
       val (s, a) = it.next
-      list match {
-        case y::tail => {
+      ys.find(reducer(s)) match {
+        case Some(y) => {
           val (t, b) = head(y)
-          if (!(t | s)) reduce(x, tail) else {
-            reduce(reduce(x, s / t, a, y, b), list)
-          }
+          reduce(reduce(x, s / t, a, y, b), ys)
         }
-        case _ => x
+        case None => x
       }
     } else x
   }
 
-  def reduce(x: T, list: List[T], tail: Boolean): T = {
+  def reducer(s: Array[N])(y: T) = {
+    val (t, _) = head(y)
+    t | s
+  }
+
+  def reduce(x: T, ys: TraversableOnce[T], tail: Boolean): T = {
     val it = iterator(x)
     if (it.hasNext) {
       val (s, a) = it.next
       if (tail) {
         if (it.hasNext) {
           val (s, a) = it.next
-          reduce(x, s, list)
+          reduce(x, s, ys)
         } else x
-      } else reduce(x, s, list)
+      } else reduce(x, s, ys)
     } else x
   }
 
-  @tailrec final def reduce(x: T, m: Array[N], list: List[T]): T = {
+  @tailrec final def reduce(x: T, m: Array[N], ys: TraversableOnce[T]): T = {
     val it = iterator(x, m)
     if (it.hasNext) {
       val (s, a) = it.next
-      list match {
-        case y::tail => {
+      ys.find(reducer(s)) match {
+        case Some(y) => {
           val (t, b) = head(y)
-          if (!(t | s)) reduce(x, m, tail) else {
-            reduce(reduce(x, s / t, a, y, b), m, list)
-          }
+          reduce(reduce(x, s / t, a, y, b), m, ys)
         }
-        case _ => {
+        case None => {
           if (it.hasNext) {
             val (s, a) = it.next
-            reduce(x, s, list)
+            reduce(x, s, ys)
           } else x
         }
       }
     } else x
   }
-
-  def normalize(x: T) = x
 
   def reduce(x: T, m: Array[N], a: C, y: T, b: C) = subtract(multiply(x, b), m, a, y)
 

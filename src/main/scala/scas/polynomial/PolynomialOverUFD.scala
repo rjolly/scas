@@ -12,30 +12,35 @@ trait PolynomialOverUFD[T <: Element[T, C, N], C, N] extends Polynomial[T, C, N]
     else if (x.isZero) (zero, zero)
     else {
       val (s, a) = head(x)
-      val (t, b) = head(y)
-      if (!(t | s) || !(b | a)) (zero, x) else {
-        val c = multiply(one, s / t, a / b)
-        val (q, r) = divideAndRemainder(x - c * y, y)
-        (c + q, r)
+      List(y).find(reducer(s, a)) match {
+        case Some(y) => {
+          val (t, b) = head(y)
+          val c = multiply(one, s / t, a / b)
+          val (q, r) = divideAndRemainder(x - c * y, y)
+          (c + q, r)
+        }
+        case None => (zero, x)
       }
     }
   }
-  def remainder(x: T, list: List[T]): T = {
+  def remainder(x: T, ys: TraversableOnce[T]): T = {
     val it = iterator(x)
     if (it.hasNext) {
       val (s, a) = it.next
-      list match {
-        case y::tail => {
+      ys.find(reducer(s, a)) match {
+        case Some(y) => {
           val (t, b) = head(y)
-          if (!(t | s) || !(b | a)) remainder(x, tail) else {
-            remainder(x - multiply(y, s / t, a / b), list)
-          }
+          remainder(x - multiply(y, s / t, a / b), ys)
         }
-        case _ => x
+        case None => x
       }
     } else x
   }
-  override def normalize(x: T) = primitivePart(x)
+  def reducer(s: Array[N], a: C)(y: T) = {
+    val (t, b) = head(y)
+    (t | s) && (b | a)
+  }
+  def reduce(x: T, y: T): T = reduce(x, List(y))
   override def reduce(x: T, m: Array[N], a: C, y: T, b: C) = {
     val gcd = ring.gcd(a, b)
     val (a0, b0) = (a / gcd, b / gcd)

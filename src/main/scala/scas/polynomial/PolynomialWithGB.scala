@@ -5,13 +5,16 @@ import scas.gb.PairList
 import scas.Implicits.{infixOrderingOps, infixPowerProductOps}
 import PolynomialWithGB.Element
 
-trait PolynomialWithGB[T <: Element[T, C, N], C, N] extends PolynomialWithIndex[T, C, N] with PolynomialOverUFD[T, C, N] with GBGCD[T, C, N] {
-  def gb(xs: T*): List[T] = gb(xs.toList)
-
-  def gb(list: List[T]) = pairs(list).process
-
-  def pairs(list: List[T]) = new PairList[T, C, N](list)(this)
-
+trait PolynomialWithGB[T <: Element[T, C, N], C, N] extends PolynomialOverUFD[T, C, N] with GBGCD[T, C, N] {
+  def gb(xs: T*) = {
+    val s = pairs
+    s.update(xs)
+    s.process
+    s.reduce
+    s.toSeq
+  }
+  def pairs = new PairList(this)
+  def normalize(x: T) = primitivePart(x)
   def s_polynomial(x: T, y: T) = {
     val (m, a) = head(x)
     val (n, b) = head(y)
@@ -22,7 +25,7 @@ trait PolynomialWithGB[T <: Element[T, C, N], C, N] extends PolynomialWithIndex[
 }
 
 object PolynomialWithGB {
-  trait Element[T <: Element[T, C, N], C, N] extends PolynomialWithIndex.Element[T, C, N] with PolynomialOverUFD.Element[T, C, N] { this: T =>
+  trait Element[T <: Element[T, C, N], C, N] extends PolynomialOverUFD.Element[T, C, N] { this: T =>
     val factory: PolynomialWithGB[T, C, N]
   }
 }
