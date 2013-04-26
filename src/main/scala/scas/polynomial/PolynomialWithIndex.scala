@@ -8,7 +8,7 @@ trait PolynomialWithIndex[T <: Element[T, C, N], C, N] extends Polynomial[T, C, 
     val c = Ordering.Int.compare(x.index, y.index)
     if (c < 0) -1
     else if (c > 0) 1
-    else super.compare(x, y)
+    else pp.compare(headPowerProduct(x), headPowerProduct(y))
   }
   def apply(x: T, n: Int): T
 }
