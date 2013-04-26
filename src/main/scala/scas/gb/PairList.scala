@@ -1,19 +1,20 @@
 package scas.gb
 
 import scala.collection.SortedSet
+import scala.collection.mutable.ListBuffer
 import scas.math.Ordering.Tuple3
 import scas.polynomial.PolynomialWithGB
 import scas.Implicits.{infixOrderingOps, infixRingOps, infixPowerProductOps}
 import PolynomialWithGB.Element
 
 class PairList[T <: Element[T, C, N], C, N](list: List[T])(implicit val ring: PolynomialWithGB[T, C, N]) {
-  import ring.{pp, s_polynomial, normalize, headPowerProduct}
+  import ring.{pp, s_polynomial, normalize}
 
-  type Pair = (Array[N], T, T)
+  type Pair = (Array[N], Int, Int)
 
   var pairs = SortedSet.empty[Pair]
-  var removed = SortedSet.empty[T]
-  var polys = List.empty[T]
+  var removed = SortedSet.empty[Int]
+  val polys = new ListBuffer[T]
   var npairs = 0
   var npolys = 0
 
@@ -31,7 +32,7 @@ class PairList[T <: Element[T, C, N], C, N](list: List[T])(implicit val ring: Po
     remove
     reduce
     println("signature = (" + npairs + ", " + npolys + ", " + polys.size + ")")
-    polys
+    polys.toList
   }
 
   def process(pair: Pair): Unit = {
@@ -43,21 +44,21 @@ class PairList[T <: Element[T, C, N], C, N](list: List[T])(implicit val ring: Po
   }
 
   def reduce(pair: Pair) = {
-    val (scm, x, y) = pair
-    println("{" + x.index + ", " + y.index + "}, " + pp.degree(scm) + ", " + reduction(pair))
-    normalize(ring.reduce(s_polynomial(x, y), polys))
+    val (scm, i, j) = pair
+    println("{" + i + ", " + j + "}, " + pp.degree(scm) + ", " + reduction(pair))
+    normalize(ring.reduce(s_polynomial(polys(i), polys(j)), polys.toList))
   }
 
   def add(poly: T): Unit = {
-    val p = ring(poly, polys.size)
-    println("(" + headPowerProduct(p).toCode(0) + ", " + p.index + ")")
-    makePairs(p)
-    polys = p::polys
+    polys += poly
+    val index = polys.size - 1
+    println("(" + headPowerProduct(index).toCode(0) + ", " + index + ")")
+    makePairs(index)
     npolys += 1
   }
 
-  def makePairs(polynomial: T): Unit = polys.foreach { p =>
-    val pa = pair(p, polynomial)
+  def makePairs(index: Int): Unit = for (i <- 0 until index) {
+    val pa = pair(i, index)
     pairs += pa
     if (coprime(pa)) remove(pa)
   }
@@ -68,49 +69,62 @@ class PairList[T <: Element[T, C, N], C, N](list: List[T])(implicit val ring: Po
   }
 
   def b_criterion(pair: Pair) = {
-    val (scm, x, y) = pair
-    (false /: polys) { (l, r) => l || ((headPowerProduct(r) | scm) && considered(x, r) && considered(y, r)) }
+    val (scm, i, j) = pair
+    (false /: (0 until polys.size)) { (l, r) =>
+      val m = headPowerProduct(r)
+      l || ((m | scm) && considered(i, r) && considered(j, r))
+    }
   }
 
-  def considered(x: T, y: T) = !pairs.contains(sorted(x, y))
+  def considered(i: Int, j: Int) = !pairs.contains(sorted(i, j))
+
+  def sorted(i: Int, j: Int) = if (i > j) pair(j, i) else pair(i, j)
 
   def remove: Unit = {
-    polys = polys.filter(!removed.contains(_))
+    val s = new ListBuffer[T]
+    for (i <- 0 until polys.size if !removed.contains(i)) s += polys(i)
+    polys.clear
+    polys ++= s
   }
 
   def reduce: Unit = {
     println("reduce");
-    var s = SortedSet.empty[T]
-    val size = polys.size
-    for (i <- 0 until size) {
-      val p = normalize(ring.reduce(polys(i), polys, true))
-      polys = polys.updated(i, p)
-      println("(" + headPowerProduct(p).toCode(0) + ")")
-      s += p
+    val s = new ListBuffer[T]
+    for (i <- 0 until polys.size) {
+      polys(i) = normalize(ring.reduce(polys(i), polys.toList, true))
+      println("(" + headPowerProduct(i).toCode(0) + ")")
+      s += polys(i)
     }
-    polys = s.toList
+    polys.clear
+    polys ++= s
   }
 
-  def pair(x: T, y: T) = (pp.scm(headPowerProduct(x), headPowerProduct(y)), x, y)
-
-  def sorted(x: T, y: T) = if (x > y) pair(y, x) else pair(x, y)
+  def pair(i: Int, j: Int) = {
+    val m = headPowerProduct(i)
+    val n = headPowerProduct(j)
+    (pp.scm(m, n), i, j)
+  }
 
   def reduction(pair: Pair) = {
-    val (scm, x, y) = pair
-    val m = headPowerProduct(x)
-    val n = headPowerProduct(y)
+    val (_, i, j) = pair
+    val m = headPowerProduct(i)
+    val n = headPowerProduct(j)
     if (m < n) m | n else n | m
   }
 
   def principal(pair: Pair) = {
-    val (scm, x, y) = pair
-    val m = headPowerProduct(x)
-    val n = headPowerProduct(y)
-    if (m < n) y else x
+    val (_, i, j) = pair
+    val m = headPowerProduct(i)
+    val n = headPowerProduct(j)
+    if (m < n) j else i
   }
 
   def coprime(pair: Pair) = {
-    val (scm, x, y) = pair
-    pp.coprime(headPowerProduct(x), headPowerProduct(y))
+    val (_, i, j) = pair
+    val m = headPowerProduct(i)
+    val n = headPowerProduct(j)
+    pp.coprime(m, n)
   }
+
+  def headPowerProduct(i: Int): Array[N] = ring.headPowerProduct(polys(i))
 }
