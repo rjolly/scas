@@ -16,7 +16,7 @@ object PolynomialWithGB {
   def apply[C](ring: UniqueFactorizationDomain[C], variables: Variable*): PolynomialWithGB[C, Int] = apply(ring, PowerProduct(variables: _*))
   def apply[C, N](ring: UniqueFactorizationDomain[C], pp: PowerProduct[N]) = new PolynomialWithGB(ring, pp)
 
-  class Element[C, N](val value: SortedMap[Array[N], C])(val factory: PolynomialWithGB[C, N]) extends TreePolynomial.Element[Element[C, N], C, N] with scas.polynomial.PolynomialWithGB.Element[Element[C, N], C, N]
+  class Element[C, N](val value: SortedMap[Array[N], C])(val factory: PolynomialWithGB[C, N]) extends TreePolynomial.Element[Element[C, N], C, N] with scas.polynomial.PolynomialOverUFD.Element[Element[C, N], C, N]
   object Element extends ExtraImplicits
 
   trait ExtraImplicits {

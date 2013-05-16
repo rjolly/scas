@@ -2,6 +2,7 @@ package scas.structure
 
 import scala.xml.Elem
 import scas.MathObject
+import scas.math.Ordering
 import spire.macros.Ops
 import Structure.OpsImpl
 

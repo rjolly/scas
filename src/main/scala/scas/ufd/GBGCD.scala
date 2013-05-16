@@ -1,7 +1,7 @@
 package scas.ufd
 
-import scas.polynomial.PolynomialWithGB
-import PolynomialWithGB.Element
+import scas.polynomial.{PolynomialOverUFD, PolynomialWithGB}
+import PolynomialOverUFD.Element
 
 trait GBGCD[T <: Element[T, C, N], C, N] { this: PolynomialWithGB[T, C, N] =>
   def gcd1(x: T, y: T) = gcd(x, y)

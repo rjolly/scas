@@ -3,20 +3,20 @@ package scas.gb
 import scala.collection.SortedSet
 import scala.collection.mutable.ArrayBuffer
 import scala.math.Ordering
-import scas.polynomial.PolynomialWithGB
+import scas.polynomial.{PolynomialOverUFD, PolynomialWithGB}
 import scas.Implicits.{infixOrderingOps, infixRingOps, infixPowerProductOps}
-import PolynomialWithGB.Element
+import PolynomialOverUFD.Element
 
-class PairList[T <: Element[T, C, N], C, N](val ring: PolynomialWithGB[T, C, N]) {
-  import ring.{pp, s_polynomial, normalize, cm}
+trait Engine[T <: Element[T, C, N], C, N] {
+  val ring: PolynomialWithGB[T, C, N]
+  import ring.{pp, s_polynomial, normalize}
 
-  type Key = (Array[N], Int, Int)
+  type P <: Pair
 
-  class Pair(i: Int, j: Int) extends Ordered[Pair] {
+  class Pair(val i: Int, val j: Int) { this: P =>
     def scm = pp.scm(m, n)
     def m = headPowerProduct(i)
     def n = headPowerProduct(j)
-    def compare(that: Pair) = Ordering[Key].compare(this.key, that.key)
     def key = (scm, i, j)
     def process: Unit = {
       if(!b_criterion) {
@@ -49,12 +49,14 @@ class PairList[T <: Element[T, C, N], C, N](val ring: PolynomialWithGB[T, C, N])
     }
   }
 
-  def apply(i: Int, j: Int) = new Pair(i, j)
+  def apply(i: Int, j: Int): P
   def sorted(i: Int, j: Int) = if (i > j) apply(j, i) else apply(i, j)
   def make(index: Int): Unit = for (i <- 0 until index) apply(i, index).add
   def considered(i: Int, j: Int) = !pairs.contains(sorted(i, j))
 
-  var pairs = SortedSet.empty[Pair]
+  implicit def ordering = Ordering by { pair: P => pair.key }
+
+  var pairs = SortedSet.empty[P]
   val removed = new ArrayBuffer[Boolean]
   val polys = new ArrayBuffer[T]
   var npairs = 0
@@ -101,4 +103,8 @@ class PairList[T <: Element[T, C, N], C, N](val ring: PolynomialWithGB[T, C, N])
     println("signature = (" + npairs + ", " + npolys + ", " + polys.size + ")")
     polys.toSeq
   }
+}
+
+object Engine {
+  def apply[T <: Element[T, C, N], C, N](ring: PolynomialWithGB[T, C, N]): Engine[T, C, N] = new GB(ring)
 }
