@@ -19,14 +19,13 @@ trait GM[T <: Element[T, C, N], C, N] extends Engine[T, C, N] { this: Polynomial
 
   override def make(index: Int): Unit = {
     val buffer = new ArrayBuffer[P]
-    buffer ++= pairs
-    for (k <- 0 until buffer.size) {
-      val pair = buffer(k)
+    for (pair <- pairs) {
       val p1 = apply(pair.i, index)
       val p2 = apply(pair.j, index)
-      if ((p1 | pair) && (p2 | pair)) pair.remove
+      if ((p1 | pair) && (p2 | pair)) buffer += pair
     }
-    var s = SortedSet.empty[P](natural)
+    for (i <- 0 until buffer.size) buffer(i).remove
+    var s = SortedSet.empty(natural)
     for (i <- 0 until index) {
       val pair = apply(i, index)
       s += pair

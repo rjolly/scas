@@ -11,10 +11,10 @@ trait Engine[T <: Element[T, C, N], C, N] { this: PolynomialWithGB[T, C, N] =>
   type P <: Pair
 
   class Pair(val i: Int, val j: Int) { this: P =>
-    def scm = pp.scm(m, n)
+    val scm = pp.scm(m, n)
     def m = headPowerProduct(i)
     def n = headPowerProduct(j)
-    def key = (scm, i, j)
+    def key = (scm, j, i)
     def process: Unit = {
       if(!b_criterion) {
         val p = poly
@@ -24,9 +24,10 @@ trait Engine[T <: Element[T, C, N], C, N] { this: PolynomialWithGB[T, C, N] =>
       remove
     }
     def poly = {
-      println("{" + i + ", " + j + "}, " + pp.degree(scm) + ", " + reduction)
+      println(this)
       normalize(reduce(s_polynomial(polys(i), polys(j)), polys))
     }
+    override def toString = "{" + i + ", " + j + "}, " + scm.toCode(0) + ", " + reduction
     def reduction = if (m < n) m | n else n | m
     def principal = if (m < n) j else i
     def coprime = pp.coprime(m, n)

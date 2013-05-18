@@ -1,11 +1,11 @@
 package scas.polynomial
 
+import scas.gb.Engine
 import scas.ufd.GBGCD
 import scas.Implicits.{infixOrderingOps, infixPowerProductOps}
 import PolynomialOverUFD.Element
 
-trait PolynomialWithGB[T <: Element[T, C, N], C, N] extends PolynomialOverUFD[T, C, N] with GBGCD[T, C, N] {
-  def gb(xs: T*): Seq[T]
+trait PolynomialWithGB[T <: Element[T, C, N], C, N] extends PolynomialOverUFD[T, C, N] with GBGCD[T, C, N] with Engine[T, C, N] {
   def normalize(x: T) = primitivePart(x)
   def s_polynomial(x: T, y: T) = {
     val (m, a) = head(x)
