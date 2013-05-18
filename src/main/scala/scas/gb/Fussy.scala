@@ -4,7 +4,7 @@ import scas.polynomial.PolynomialWithSugar
 import scala.math.Ordering.Implicits.infixOrderingOps
 import PolynomialWithSugar.Element
 
-class Fussy[T <: Element[T, C, N], C, N](val ring: PolynomialWithSugar[T, C, N]) extends Sugar[T, C, N] {
+trait Fussy[T <: Element[T, C, N], C, N] extends Sugar[T, C, N] { this: PolynomialWithSugar[T, C, N] =>
   type P = Pair
 
   override implicit def natural = ordering

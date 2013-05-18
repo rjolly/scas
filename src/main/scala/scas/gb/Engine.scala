@@ -7,10 +7,7 @@ import scas.polynomial.{PolynomialOverUFD, PolynomialWithGB}
 import scas.Implicits.{infixOrderingOps, infixRingOps, infixPowerProductOps}
 import PolynomialOverUFD.Element
 
-trait Engine[T <: Element[T, C, N], C, N] {
-  val ring: PolynomialWithGB[T, C, N]
-  import ring.{pp, s_polynomial, normalize}
-
+trait Engine[T <: Element[T, C, N], C, N] { this: PolynomialWithGB[T, C, N] =>
   type P <: Pair
 
   class Pair(val i: Int, val j: Int) { this: P =>
@@ -20,15 +17,15 @@ trait Engine[T <: Element[T, C, N], C, N] {
     def key = (scm, i, j)
     def process: Unit = {
       if(!b_criterion) {
-        val p = reduce
+        val p = poly
         if (!p.isZero) update(p)
         npairs += 1
       }
       remove
     }
-    def reduce = {
+    def poly = {
       println("{" + i + ", " + j + "}, " + pp.degree(scm) + ", " + reduction)
-      normalize(ring.reduce(s_polynomial(polys(i), polys(j)), polys))
+      normalize(reduce(s_polynomial(polys(i), polys(j)), polys))
     }
     def reduction = if (m < n) m | n else n | m
     def principal = if (m < n) j else i
@@ -62,7 +59,14 @@ trait Engine[T <: Element[T, C, N], C, N] {
   var npairs = 0
   var npolys = 0
 
-  def headPowerProduct(i: Int): Array[N] = ring.headPowerProduct(polys(i))
+  def headPowerProduct(i: Int): Array[N] = headPowerProduct(polys(i))
+
+  def gb(xs: T*) = {
+    update(xs)
+    process
+    reduce
+    toSeq
+  }
 
   def update(s: Seq[T]): Unit = {
     println(s)
@@ -94,17 +98,15 @@ trait Engine[T <: Element[T, C, N], C, N] {
       polys.remove(i)
     }
     for (i <- 0 until polys.size) {
-      polys(i) = normalize(ring.reduce(polys(i), polys, true))
+      polys(i) = normalize(reduce(polys(i), polys, true))
       println("(" + headPowerProduct(i).toCode(0) + ")")
     }
   }
 
   def toSeq = {
     println("signature = (" + npairs + ", " + npolys + ", " + polys.size + ")")
-    polys.toSeq
+    val a = polys.toArray
+    polys.clear
+    a.toSeq
   }
-}
-
-object Engine {
-  def apply[T <: Element[T, C, N], C, N](ring: PolynomialWithGB[T, C, N]): Engine[T, C, N] = new GB(ring)
 }

@@ -1,12 +1,9 @@
 package scas.polynomial
 
-import scas.gb.Sugar
 import scas.Implicits.infixRingOps
 import PolynomialWithSugar.Element
 
 trait PolynomialWithSugar[T <: Element[T, C, N], C, N] extends PolynomialWithGB[T, C, N] {
-  override def gb(xs: T*) = super.gb(xs.map(apply): _*)
-  override def engine = Sugar(this)
   abstract override def plus(x: T, y: T) = apply(super.plus(x, y), scala.math.max(x.sugar, y.sugar))
   override def times(x: T, m: Array[N]) = apply(super.times(x, m), x.sugar + pp.degree(m))
   override def subtract(x: T, m: Array[N], c: C, y: T) = apply(super.subtract(x, m, c, y), scala.math.max(x.sugar, y.sugar + pp.degree(m)))
