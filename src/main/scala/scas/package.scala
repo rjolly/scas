@@ -11,12 +11,12 @@ package object scas {
 
   type BigInteger = base.BigInteger
   type Rational = base.Rational
-  type Complex = base.Complex
+  type Complex = residue.Complex
   type Variable = variable.Variable
 
   lazy val BigInteger = base.BigInteger
   lazy val Rational = base.Rational
-  lazy val Complex = base.Complex
+  lazy val Complex = residue.Complex
 
   val Variable = variable.Variable
   val ModInteger = base.ModInteger

@@ -5,7 +5,7 @@ object BuildSettings {
   val buildSettings = Defaults.defaultSettings ++ Seq(
     organization := "scas",
     version := "2.1",
-    scalaVersion := "2.11.0-M2",
+    scalaVersion := "2.11.0-M3",
     scalacOptions ++= Seq(
       "-language:higherKinds",
       "-language:implicitConversions",

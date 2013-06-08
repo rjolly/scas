@@ -1,7 +1,6 @@
-package scas.base
+package scas.residue
 
-import scas.residue.AlgebraicNumber
-import scas.{Variable, UnivariatePolynomial, int2bigInteger, bigInteger2rational}
+import scas.{Variable, BigInteger, Rational, UnivariatePolynomial, int2bigInteger, bigInteger2rational}
 import scas.Implicits.{ZZ, QQ}
 
 trait ComplexLike extends AlgebraicNumber[UnivariatePolynomial.Element[Rational, Int], Rational, Int] {
