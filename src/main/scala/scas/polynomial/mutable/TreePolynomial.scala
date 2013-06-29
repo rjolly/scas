@@ -22,7 +22,7 @@ trait TreePolynomial[T <: Element[T, C, N], C, N] extends Polynomial[T, C, N] {
 
   def iterator(x: T) = x.value.iterator
 
-  def iterator(x: T, m: Array[N]) = x.value.tailMap(m).iterator
+  override def iterator(x: T, m: Array[N]) = x.value.tailMap(m).iterator
 
   override def toSeq(x: T) = x.value.toSeq
 
@@ -35,6 +35,8 @@ trait TreePolynomial[T <: Element[T, C, N], C, N] extends Polynomial[T, C, N] {
   def last(x: T) = { val a = lastPowerProduct(x) ; (a, x.value.get(a)) }
 
   def lastPowerProduct(x: T) = x.value.lastKey
+
+  override def coefficient(x: T, m: Array[N]) = x.value.getOrElse(m, ring.zero)
 
   def add(x: T, y: T) = {
     val l = x.value

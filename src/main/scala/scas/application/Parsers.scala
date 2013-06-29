@@ -33,10 +33,16 @@ object Parsers extends RegexParsers {
     case x ~ y => x % y
   }
   def functionInt: Parser[BigInteger] = factorial | div | mod
-  def sqrtInt: Parser[Complex] = "sqrt(" ~> exprInt <~ ")" ^^ {
-    case x if (x >< BigInteger(-1)) => sqrt(x)
+  def sqrt: Parser[Complex] = "sqrt(" ~> exprInt <~ ")" ^^ {
+    case x if (x >< BigInteger(-1)) => Complex.sqrt(x)
   }
-  def functionComplex: Parser[Complex] = sqrtInt
+  def real: Parser[Complex] = "real(" ~> exprComplex <~ ")" ^^ {
+    case x => Complex.realPart(x)
+  }
+  def imag: Parser[Complex] = "imag(" ~> exprComplex <~ ")" ^^ {
+    case x => Complex.imaginaryPart(x)
+  }
+  def functionComplex: Parser[Complex] = sqrt | real | imag
   def factor: Parser[Element] = "factor(" ~> exprInt <~ ")" ^^ {
     case x if (x <> BigInteger(0)) => factor(x)
   }

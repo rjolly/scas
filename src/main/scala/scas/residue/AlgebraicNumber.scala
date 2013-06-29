@@ -15,4 +15,8 @@ trait AlgebraicNumber[R <: PolynomialOverUFD.Element[R, C, N], C, N] extends Res
     val self(a) = x
     fromRing(ring.modInverse(a, list(0)))
   }
+  def coefficient(x: Element[R, C, N], m: Array[N]) = {
+    val self(a) = x
+    ring.coefficient(a, m)
+  }
 }

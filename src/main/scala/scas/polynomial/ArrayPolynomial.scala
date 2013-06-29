@@ -65,7 +65,7 @@ trait ArrayPolynomial[T <: Element[T, C, N], C, N] extends Polynomial[T, C, N] {
 
   def iterator(x: T) = new Iterator(x, 0)
 
-  def iterator(x: T, m: Array[N]) = new Iterator(x, indexOf(x, m))
+  override def iterator(x: T, m: Array[N]) = new Iterator(x, indexOf(x, m))
 
   class Iterator(x: T, n: Int) extends scala.Iterator[(Array[N], C)] {
     var i = n

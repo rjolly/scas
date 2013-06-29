@@ -9,6 +9,8 @@ trait ComplexLike extends AlgebraicNumber[UnivariatePolynomial.Element[Rational,
   val i = r.generator(0)
   update(1 + pow(i, 2))
   def sqrt(x: Complex) = { assert (x >< -1) ; i }
+  def realPart(x: Complex) = coefficient(x, ring.pp.one)
+  def imaginaryPart(x: Complex) = coefficient(x, ring.pp.generator(0))
   override def toString = "CC"
   override def toMathML = <complexes/>
 }

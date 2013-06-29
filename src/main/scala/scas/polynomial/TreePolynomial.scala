@@ -16,6 +16,8 @@ trait TreePolynomial[T <: Element[T, C, N], C, N] extends IterablePolynomial[T, 
 
   override def iterator(x: T, m: Array[N]) = x.value.from(m).iterator
 
+  override def coefficient(x: T, m: Array[N]) = x.value.getOrElse(m, ring.zero)
+
   override def subtract(x: T, m: Array[N], c: C, y: T) = apply((x.value /: y.value) { (l, r) =>
     val (s, a) = r
     val (sm, ac) = (s * m, a * c)

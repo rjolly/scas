@@ -5,7 +5,7 @@ import scala.reflect.ClassTag
 import scas.power.PowerProduct
 import scas.structure.Ring
 import scas.BigInteger
-import scas.Implicits.{ZZ, infixRingOps, infixPowerProductOps}
+import scas.Implicits.{ZZ, infixRingOps, infixPowerProductOps, infixOrderingOps}
 import Polynomial.Element
 
 trait Polynomial[T <: Element[T, C, N], C, N] extends Ring[T] {
@@ -115,7 +115,10 @@ trait Polynomial[T <: Element[T, C, N], C, N] extends Ring[T] {
 
   def iterator(x: T): Iterator[(Array[N], C)]
 
-  def iterator(x: T, m: Array[N]): Iterator[(Array[N], C)]
+  def iterator(x: T, m: Array[N]): Iterator[(Array[N], C)] = iterator(x).dropWhile { r =>
+    val (s, _) = r
+    s > m
+  }
 
   def reverseIterator(x: T) = toSeq(x).reverseIterator
 
@@ -136,6 +139,14 @@ trait Polynomial[T <: Element[T, C, N], C, N] extends Ring[T] {
   def last(x: T): (Array[N], C)
 
   def lastCoefficient(x: T) = { val (_, b) = last(x) ; b }
+
+  def coefficient(x: T, m: Array[N]) = {
+    val it = iterator(x, m)
+    if (it.hasNext) {
+      val (s, a) = it.next
+      if (s >< m) a else ring.zero
+    } else ring.zero
+  }
 
   def degree(x: T) = (0l /: iterator(x)) { (l, r) =>
     val (a, _) = r
