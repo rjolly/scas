@@ -5,12 +5,12 @@ import scas._
 
 object Parsers extends RegexParsers {
   import Implicits.{ZZ, CC, infixOrderingOps, infixUFDOps, infixPowerProductOps}
-  type Element = RationalFunction.Element[MultivariatePolynomial.Element[Complex, Int], Complex, Int]
+  type Element = RationalFunction.Element[MultivariatePolynomial.Element[BigInteger, Int], BigInteger, Int]
   implicit var r = ring()
 
   def convert(x: Element) = if (x.factory == r) x else r.convert(x)
 
-  def ring(variables: Variable*) = RationalFunction(MultivariatePolynomial(CC, PowerProduct(variables: _*)))
+  def ring(variables: Variable*) = RationalFunction.integral(MultivariatePolynomial(ZZ, PowerProduct(variables: _*)))
 
   def bigInteger: Parser[BigInteger] = """[0-9]+""".r ^^ { s: String => BigInteger(s) }
   def integer: Parser[Int] = """[0-9]+""".r ^^ { _.toInt }
@@ -22,27 +22,23 @@ object Parsers extends RegexParsers {
   }
 
   def number: Parser[Element] = bigInteger ^^ { value: BigInteger => value }
-  def functionIntInt: Parser[BigInteger] = name ~ ("(" ~> repsep(exprInt, ",") <~ ")") ^^ {
-    case name ~ list => list match {
-      case x::Nil => name match {
-        case "factorial" if (x > BigInteger(0)) => BigInteger.factorial(x)
-      }
-      case x::y::Nil => name match {
-        case "div" => x / y
-        case "mod" => x % y
-      }
-      case _ => throw new RuntimeException
-    }
+  def complex: Parser[Complex] = bigInteger ^^ { value: BigInteger => value }
+  def factorial: Parser[BigInteger] = "factorial(" ~> exprInt <~ ")" ^^ {
+    case x if (x > BigInteger(0)) => BigInteger.factorial(x)
   }
-  def functionIntRF: Parser[Element] = name ~ ("(" ~> repsep(exprInt, ",") <~ ")") ^^ {
-    case name ~ list => list match {
-      case Nil => generator(name)
-      case x::Nil => name match {
-        case "sqrt" if (x >< BigInteger(-1)) => sqrt(x)
-        case "factor" if (x <> BigInteger(0)) => factor(x)
-      }
-      case _ => throw new RuntimeException
-    }
+  def div: Parser[BigInteger] = "div(" ~> exprInt ~ ("," ~> exprInt) <~ ")" ^^ {
+    case x ~ y => x / y
+  }
+  def mod: Parser[BigInteger] = "mod(" ~> exprInt ~ ("," ~> exprInt) <~ ")" ^^ {
+    case x ~ y => x % y
+  }
+  def functionInt: Parser[BigInteger] = factorial | div | mod
+  def sqrtInt: Parser[Complex] = "sqrt(" ~> exprInt <~ ")" ^^ {
+    case x if (x >< BigInteger(-1)) => sqrt(x)
+  }
+  def functionComplex: Parser[Complex] = sqrtInt
+  def factor: Parser[Element] = "factor(" ~> exprInt <~ ")" ^^ {
+    case x if (x <> BigInteger(0)) => factor(x)
   }
   def factor(x: BigInteger) = {
     val map = BigInteger.factor(BigInteger.abs(x))
@@ -56,6 +52,7 @@ object Parsers extends RegexParsers {
     }
     r(r.ring(m, BigInteger.signum(x)))
   }
+  def functionRF: Parser[Element] = factor
   def generator: Parser[Element] = variable ^^ { s: Variable => generator(s) }
   def generator(s: Variable) = {
     val variables = r.variables
@@ -65,11 +62,18 @@ object Parsers extends RegexParsers {
       r.generator(variables.length)
     }
   }
-  def baseInt: Parser[BigInteger] = bigInteger | functionIntInt | "(" ~> exprInt <~ ")"
-  def baseRF: Parser[Element] = number | functionIntRF | generator | "(" ~> exprRF <~ ")"
+  def baseInt: Parser[BigInteger] = bigInteger | functionInt | "(" ~> exprInt <~ ")"
+  def baseComplex: Parser[Complex] = complex | functionComplex | "(" ~> exprComplex <~ ")"
+  def baseRF: Parser[Element] = number | functionRF | generator | "(" ~> exprRF <~ ")"
   def unsignedFactorInt: Parser[BigInteger] = baseInt ~ ((("**" | "^") ~> baseInt)*) ^^ {
     case base ~ list => base::list reduceRight {
       (x: BigInteger, exp: BigInteger) => pow(x, exp)
+    }
+  }
+  def unsignedFactorComplex: Parser[Complex] = baseComplex ~ ((("**" | "^") ~> unsignedFactorInt)?) ^^ {
+    case x ~ option => option match {
+      case Some(exp) => pow(x, exp)
+      case None => x
     }
   }
   def unsignedFactorRF: Parser[Element] = baseRF ~ ((("**" | "^") ~> unsignedFactorInt)?) ^^ {
@@ -79,6 +83,12 @@ object Parsers extends RegexParsers {
     }
   }
   def factorInt: Parser[BigInteger] = ("-"?) ~ unsignedFactorInt ^^ {
+    case option ~ factor => option match {
+      case Some(sign) => -factor
+      case None => factor
+    }
+  }
+  def factorComplex: Parser[Complex] = ("-"?) ~ unsignedFactorComplex ^^ {
     case option ~ factor => option match {
       case Some(sign) => -factor
       case None => factor
@@ -95,6 +105,12 @@ object Parsers extends RegexParsers {
       case (x, "*" ~ y) => x * y
     }
   }
+  def unsignedTermComplex: Parser[Complex] = unsignedFactorComplex ~ (("*" ~ factorComplex | "/" ~ factorComplex)*) ^^ {
+    case factor ~ list => (factor /: list) {
+      case (x, "*" ~ y) => x * y
+      case (x, "/" ~ y) => x / y
+    }
+  }
   def unsignedTermRF: Parser[Element] = unsignedFactorRF ~ (("*" ~ factorRF | "/" ~ factorRF)*) ^^ {
     case factor ~ list => (factor /: list) {
       case (x, "*" ~ y) => convert(x) * convert(y)
@@ -102,6 +118,12 @@ object Parsers extends RegexParsers {
     }
   }
   def termInt: Parser[BigInteger] = ("-"?) ~ unsignedTermInt ^^ {
+    case option ~ term => option match {
+      case Some(sign) => -term
+      case None => term
+    }
+  }
+  def termComplex: Parser[Complex] = ("-"?) ~ unsignedTermComplex ^^ {
     case option ~ term => option match {
       case Some(sign) => -term
       case None => term
@@ -119,18 +141,29 @@ object Parsers extends RegexParsers {
       case (x, "-" ~ y) => x - y
     }
   }
+  def exprComplex: Parser[Complex] = termComplex ~ (("+" ~ unsignedTermComplex | "-" ~ unsignedTermComplex)*) ^^ {
+    case term ~ list => (term /: list) {
+      case (x, "+" ~ y) => x + y
+      case (x, "-" ~ y) => x - y
+    }
+  }
   def exprRF: Parser[Element] = termRF ~ (("+" ~ unsignedTermRF | "-" ~ unsignedTermRF)*) ^^ {
     case term ~ list => (term /: list) {
       case (x, "+" ~ y) => convert(x) + convert(y)
       case (x, "-" ~ y) => convert(x) - convert(y)
     }
   }
-  def expr: Parser[Object] = exprRF | exprInt
 
   def apply(input: String) = {
-    val result = parseAll(expr, input) match {
+    val result = parseAll(exprInt, input) match {
       case Success(result, _) => Right(result)
-      case NoSuccess(msg, _) => Left(msg)
+      case NoSuccess(msg, _) => parseAll(exprComplex, input) match {
+        case Success(result, _) => Right(result)
+        case NoSuccess(msg, _) => parseAll(exprRF, input) match {
+          case Success(result, _) => Right(result)
+          case NoSuccess(msg, _) => Left(msg)
+        }
+      }
     }
     r = ring()
     result
