@@ -33,8 +33,7 @@ object Parsers extends RegexParsers {
           case Right(x) if (x > BigInteger(0)) => Right(BigInteger.factorial(x))
         }
         case "factor" => x match {
-          case Right(x) if (x >< BigInteger(0)) => Right(0)
-          case Right(x) => Left(factor(x))
+          case Right(x) if (x <> BigInteger(0)) => Left(factor(x))
         }
       }
       case x::y::Nil => name match {
@@ -56,7 +55,7 @@ object Parsers extends RegexParsers {
       case _ => throw new RuntimeException
     }
   }
-  def factor(x: BigInteger): Element = {
+  def factor(x: BigInteger) = {
     val map = BigInteger.factor(BigInteger.abs(x))
     val s = map.keys.toArray.map({ x: BigInteger => Variable(x.toString) })
     val variables = r.variables.union(s).distinct
@@ -71,7 +70,7 @@ object Parsers extends RegexParsers {
   def generator: Parser[Either[Element, BigInteger]] = variable ^^ {
     s: Variable => Left(generator(s))
   }
-  def generator(s: Variable): Element = {
+  def generator(s: Variable) = {
     val variables = r.variables
     if (variables.contains(s)) r.generator(variables.indexOf(s))
     else {
@@ -102,7 +101,7 @@ object Parsers extends RegexParsers {
       case None => factor
     }
   }
-  def unsignedTerm: Parser[Either[Element, BigInteger]] = unsignedFactor ~ (("*" ~ factor | "/" ~ factor | "%" ~ factor)*) ^^ {
+  def unsignedTerm: Parser[Either[Element, BigInteger]] = unsignedFactor ~ (("*" ~ factor | "/" ~ factor)*) ^^ {
     case factor ~ list => (factor /: list) {
       case (x, "*" ~ y) => x match {
         case Left(x) => y match {
