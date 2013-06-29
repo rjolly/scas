@@ -14,6 +14,7 @@ object Parsers extends RegexParsers {
 
   def bigInteger: Parser[BigInteger] = """[0-9]+""".r ^^ { s: String => BigInteger(s) }
   def integer: Parser[Int] = """[0-9]+""".r ^^ { _.toInt }
+  def boolean: Parser[Boolean] = "true" ^^^ true | "false" ^^^ false
   def name: Parser[String] = """[a-zA-Z]+""".r
   def prime: Parser[Int] = """'*""".r ^^ { _.length }
   def subscript: Parser[Int] = "[" ~> integer <~ "]"
@@ -23,27 +24,24 @@ object Parsers extends RegexParsers {
 
   def number: Parser[Element] = bigInteger ^^ { value: BigInteger => value }
   def complex: Parser[Complex] = bigInteger ^^ { value: BigInteger => value }
-  def factorial: Parser[BigInteger] = "factorial(" ~> exprInt <~ ")" ^^ {
+  def factorial: Parser[BigInteger] = "factorial" ~> ("(" ~> exprInt) <~ ")" ^^ {
     case x if (x > BigInteger(0)) => BigInteger.factorial(x)
   }
-  def div: Parser[BigInteger] = "div(" ~> exprInt ~ ("," ~> exprInt) <~ ")" ^^ {
-    case x ~ y => x / y
+  def integral: Parser[BigInteger] = ("div" | "mod") ~ ("(" ~> exprInt) ~ ("," ~> exprInt) <~ ")" ^^ {
+    case "div" ~ x ~ y => x / y
+    case "mod" ~ x ~ y => x % y
   }
-  def mod: Parser[BigInteger] = "mod(" ~> exprInt ~ ("," ~> exprInt) <~ ")" ^^ {
-    case x ~ y => x % y
-  }
-  def functionInt: Parser[BigInteger] = factorial | div | mod
-  def sqrt: Parser[Complex] = "sqrt(" ~> exprInt <~ ")" ^^ {
+  def functionInt: Parser[BigInteger] = factorial | integral
+  def sqrt: Parser[Complex] = "sqrt" ~> ("(" ~> exprInt) <~ ")" ^^ {
     case x if (x >< BigInteger(-1)) => Complex.sqrt(x)
   }
-  def real: Parser[Complex] = "real(" ~> exprComplex <~ ")" ^^ {
-    case x => Complex.realPart(x)
+  def part: Parser[Complex] = ("real" | "imag" | "conjugate") ~ ("(" ~> exprComplex) <~ ")" ^^ {
+    case "real" ~ x => Complex.realPart(x)
+    case "imag" ~ x => Complex.imaginaryPart(x)
+    case "conjugate" ~ x => Complex.conjugate(x)
   }
-  def imag: Parser[Complex] = "imag(" ~> exprComplex <~ ")" ^^ {
-    case x => Complex.imaginaryPart(x)
-  }
-  def functionComplex: Parser[Complex] = sqrt | real | imag
-  def factor: Parser[Element] = "factor(" ~> exprInt <~ ")" ^^ {
+  def functionComplex: Parser[Complex] = sqrt | part
+  def factor: Parser[Element] = "factor" ~> ("(" ~> exprInt) <~ ")" ^^ {
     case x if (x <> BigInteger(0)) => factor(x)
   }
   def factor(x: BigInteger) = {
@@ -59,6 +57,29 @@ object Parsers extends RegexParsers {
     r(r.ring(m, BigInteger.signum(x)))
   }
   def functionRF: Parser[Element] = factor
+  def comparisonInt: Parser[Boolean] = exprInt ~ ("=" | "<>" | "<=" | "<" | ">=" | ">") ~ exprInt ^^ {
+    case x ~ "=" ~ y => x >< y
+    case x ~ "<>" ~ y => x <> y
+    case x ~ "<=" ~ y => x <= y
+    case x ~ "<" ~ y => x < y
+    case x ~ ">=" ~ y => x >= y
+    case x ~ ">" ~ y => x > y
+  }
+  def comparisonComplex: Parser[Boolean] = exprComplex ~ ("=" | "<>") ~ exprComplex ^^ {
+    case x ~ "=" ~ y => x >< y
+    case x ~ "<>" ~ y => x <> y
+  }
+  def comparisonRF: Parser[Boolean] = exprRF ~ ("=" | "<>") ~ exprRF ^^ {
+    case x ~ "=" ~ y => x >< y
+    case x ~ "<>" ~ y => x <> y
+  }
+  def comparison: Parser[Boolean] = baseBoolean ~ ("=>" | "=" | "<>") ~ baseBoolean ^^ {
+    case x ~ "=>" ~ y => y || !x
+    case x ~ "=" ~ y => x == y
+    case x ~ "<>" ~ y => x != y
+  }
+  def negation: Parser[Boolean] = "!" ~> baseBoolean ^^ { case x => !x }
+  def functionBoolean: Parser[Boolean] = comparisonInt | comparisonComplex | comparisonRF | comparison | negation
   def generator: Parser[Element] = variable ^^ { s: Variable => generator(s) }
   def generator(s: Variable) = {
     val variables = r.variables
@@ -71,6 +92,7 @@ object Parsers extends RegexParsers {
   def baseInt: Parser[BigInteger] = bigInteger | functionInt | "(" ~> exprInt <~ ")"
   def baseComplex: Parser[Complex] = complex | functionComplex | "(" ~> exprComplex <~ ")"
   def baseRF: Parser[Element] = number | functionRF | generator | "(" ~> exprRF <~ ")"
+  def baseBoolean: Parser[Boolean] = boolean | "(" ~> exprBoolean <~ ")"
   def unsignedFactorInt: Parser[BigInteger] = baseInt ~ ((("**" | "^") ~> baseInt)*) ^^ {
     case base ~ list => base::list reduceRight {
       (x: BigInteger, exp: BigInteger) => pow(x, exp)
@@ -141,6 +163,7 @@ object Parsers extends RegexParsers {
       case None => term
     }
   }
+  def termBoolean: Parser[Boolean] = functionBoolean | baseBoolean
   def exprInt: Parser[BigInteger] = termInt ~ (("+" ~ unsignedTermInt | "-" ~ unsignedTermInt)*) ^^ {
     case term ~ list => (term /: list) {
       case (x, "+" ~ y) => x + y
@@ -159,6 +182,13 @@ object Parsers extends RegexParsers {
       case (x, "-" ~ y) => convert(x) - convert(y)
     }
   }
+  def exprBoolean: Parser[Boolean] = termBoolean ~ (("&" ~ termBoolean | "|" ~ termBoolean | "^" ~ termBoolean)*) ^^ {
+    case term ~ list => (term /: list) {
+      case (x, "&" ~ y) => x && y
+      case (x, "|" ~ y) => x || y
+      case (x, "^" ~ y) => x ^ y
+    }
+  }
 
   def apply(input: String) = {
     val result = parseAll(exprInt, input) match {
@@ -167,7 +197,10 @@ object Parsers extends RegexParsers {
         case Success(result, _) => Right(result)
         case NoSuccess(msg, _) => parseAll(exprRF, input) match {
           case Success(result, _) => Right(result)
-          case NoSuccess(msg, _) => Left(msg)
+          case NoSuccess(msg, _) => parseAll(exprBoolean, input) match {
+            case Success(result, _) => Right(java.lang.Boolean.valueOf(result))
+            case NoSuccess(msg, _) => Left(msg)
+          }
         }
       }
     }
