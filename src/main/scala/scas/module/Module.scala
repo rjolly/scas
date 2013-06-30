@@ -94,8 +94,8 @@ trait Module[R] extends scas.structure.Module[Element[R], R] {
 }
 
 object Module {
-  def apply[R](name: String, dimension: Int, ring: Ring[R])(implicit cm: ClassTag[R]) = new ModuleImpl(dimension, Some(name))(ring, cm)
-  def apply[R](dimension: Int, ring: Ring[R])(implicit cm: ClassTag[R]) = new ModuleImpl(dimension, None)(ring, cm)
+  def apply[R](name: String, dimension: Int, ring: Ring[R])(implicit cm: ClassTag[R]) = new ModuleImpl(dimension, Some(name), ring)
+  def apply[R](dimension: Int, ring: Ring[R])(implicit cm: ClassTag[R]) = new ModuleImpl(dimension, None, ring)
 
   class Element[R](val value: Array[R])(val factory: Module[R]) extends scas.structure.Module.Element[Element[R], R] {
     def apply(n: Int) = value(n)

@@ -3,7 +3,6 @@ package scas.quotient
 import scas.structure.{Quotient, Field}
 import scas.polynomial.{PolynomialOverUFD, PolynomialOverField}
 import scas.{Variable, MultivariatePolynomial, PowerProduct}
-import scas.Implicits.infixUFDOps
 import RationalFunction.Element
 
 trait RationalFunction[R <: PolynomialOverUFD.Element[R, C, N], C, N] extends Quotient[Element[R, C, N], R] {
@@ -25,8 +24,8 @@ trait RationalFunction[R <: PolynomialOverUFD.Element[R, C, N], C, N] extends Qu
 
 object RationalFunction {
   def apply[C](ring: Field[C], s: Variable*): RationalFunction[MultivariatePolynomial.Element[C, Int], C, Int] = apply(MultivariatePolynomial(ring, PowerProduct(s: _*)))
-  def apply[R <: PolynomialOverUFD.Element[R, C, N], C, N](implicit ring: PolynomialOverField[R, C, N]) = new RationalFunctionOverField
-  def integral[R <: PolynomialOverUFD.Element[R, C, N], C, N](implicit ring: PolynomialOverUFD[R, C, N]) = new RationalFunctionImpl
+  def apply[R <: PolynomialOverUFD.Element[R, C, N], C, N](ring: PolynomialOverField[R, C, N]) = new RationalFunctionOverField(ring)
+  def integral[R <: PolynomialOverUFD.Element[R, C, N], C, N](ring: PolynomialOverUFD[R, C, N]) = new RationalFunctionImpl(ring)
 
   class Element[R <: PolynomialOverUFD.Element[R, C, N], C, N](val _1: R, val _2: R)(val factory: RationalFunction[R, C, N]) extends Quotient.Element[Element[R, C, N], R] {
     def canEqual(that: Any) = true

@@ -1,8 +1,7 @@
 package scas.base
 
 import scas.structure.{Residue, Field}
-import scas.long2bigInteger
-import scas.Implicits.{ZZ, infixUFDOps}
+import scas.Implicits.ZZ
 
 class ModInteger(val mod: BigInteger) extends Residue[BigInteger, BigInteger] with Field[BigInteger] {
   val ring = ZZ

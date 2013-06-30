@@ -5,7 +5,7 @@ import scas.Implicits.{infixUFDOps, infixPowerProductOps}
 import PolynomialOverUFD.Element
 
 trait PolynomialOverUFD[T <: Element[T, C, N], C, N] extends Polynomial[T, C, N] with UniqueFactorizationDomain[T] {
-  override implicit val ring: UniqueFactorizationDomain[C]
+  implicit val ring: UniqueFactorizationDomain[C]
   def gcd1(x: T, y: T): T
   def divideAndRemainder(x: T, y: T) = {
     if (y.isZero) throw new ArithmeticException("Polynomial divide by zero")
