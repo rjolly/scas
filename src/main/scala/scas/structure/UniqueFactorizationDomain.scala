@@ -6,8 +6,8 @@ import UniqueFactorizationDomain.OpsImpl
 trait UniqueFactorizationDomain[@specialized(Int, Long) T] extends Ring[T] {
   def gcd(x: T, y: T): T
   def lcm(x: T, y: T) = (x * y) / gcd(x, y)
-  def divide(x: T, y: T) = { val (q, r) = x /% y ; q }
-  def remainder(x: T, y: T) = { val (q, r) = x /% y ; r }
+  def divide(x: T, y: T) = { val (q, _) = x /% y ; q }
+  def remainder(x: T, y: T) = { val (_, r) = x /% y ; r }
   def divideAndRemainder(x: T, y: T): (T, T)
   def factorOf(x: T, y: T) = (y % x).isZero
   override implicit def mkOps(lhs: T): UniqueFactorizationDomain.Ops[T] = new OpsImpl(lhs)(this)
