@@ -14,11 +14,11 @@ class Engine(@BeanProperty val factory: ScriptEngineFactory) extends AbstractScr
   def eval(script: String, context: ScriptContext): Object = {
     val cat = code + script
     Parsers(cat) match {
-      case Right(result) => {
+      case Right(Some(result)) => {
         code = ""
         result
       }
-      case Left(msg) if (msg.endsWith("end of source found")) => {
+      case Right(None) => {
         code = cat + "\n"
         null
       }
