@@ -1,4 +1,4 @@
-val mml = scas.application.MathML("mmlscala.xsl")
+val mml = scas.MathML("mmlscala.xsl")
 val manager = new javax.script.ScriptEngineManager
 val engine = manager.getEngineByName("scas")
 Map("x+x" -> "<math><apply><times/><cn>2</cn><ci>x</ci></apply></math>",

@@ -1,6 +1,6 @@
 import java.io.{File, FileReader}
 import javax.script.ScriptEngineManager
-import scas.application.MathML
+import scas.MathML
 
 val home = System.getProperty("scas.home")
 val dir = new File(new File(home), "examples")

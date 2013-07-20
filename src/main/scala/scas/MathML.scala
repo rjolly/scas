@@ -1,10 +1,9 @@
-package scas.application
+package scas
 
 import java.io.{Reader, StringReader, StringWriter}
 import javax.xml.transform.{Transformer, TransformerFactory}
 import javax.xml.transform.stream.{StreamSource, StreamResult}
 import jscl.converter.Converter
-import scas.MathObject
 
 class MathML(stylesheet: String) {
   def apply(reader: Reader): String = {
