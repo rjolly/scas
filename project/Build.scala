@@ -5,7 +5,7 @@ object BuildSettings {
   val buildSettings = Defaults.defaultSettings ++ Seq(
     organization := "scas",
     version := "2.1",
-    scalaVersion := "2.11.0-M3",
+    scalaVersion := "2.11.0-M4",
     scalacOptions ++= Seq(
       "-language:higherKinds",
       "-language:implicitConversions",
@@ -34,6 +34,8 @@ object MyBuild extends Build {
   lazy val core: Project = Project(
     "scas",
     file("."),
-    settings = buildSettings
+    settings = buildSettings ++ Seq(
+      libraryDependencies <+= (scalaVersion)("org.scala-lang" % "scala-xml" % _)) ++ Seq(
+      libraryDependencies <+= (scalaVersion)("org.scala-lang" % "scala-parser-combinators" % _))
   ) dependsOn(macros)
 }
