@@ -1,7 +1,6 @@
 package scas.structure
 
 import scas.BigInteger
-import Ordering.Implicits.infixOrderingOps
 
 trait Field[@specialized(Int, Long) T] extends EuclidianDomain[T] with NotQuiteGroup[T] {
   override def isUnit(x: T) = !(x.isZero)

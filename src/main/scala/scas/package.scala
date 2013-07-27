@@ -1,13 +1,13 @@
-import scas.structure.{Structure, AbelianGroup, SemiGroup, Monoid, Ring, UniqueFactorizationDomain, EuclidianDomain, Quotient}
-import scas.residue.AlgebraicNumber
+import scas.math.Ordering
+import scas.structure.{Monoid, UniqueFactorizationDomain}
 
 package object scas {
   trait ExtraImplicits {
-    implicit val ZZ: EuclidianDomain[BigInteger] = BigInteger
-    implicit val QQ: Quotient[Rational, BigInteger] = Rational
-    implicit val CC: AlgebraicNumber[UnivariatePolynomial.Element[Rational, Int], Rational, Int] = Complex
+    implicit val ZZ = BigInteger
+    implicit val QQ = Rational
+    implicit val CC = Complex
   }
-  object Implicits extends ExtraImplicits with UniqueFactorizationDomain.ExtraImplicits with PowerProduct.ExtraImplicits with Polynomial.ExtraImplicits with PolynomialWithGB.ExtraImplicits with MultivariatePolynomial.ExtraImplicits with UnivariatePolynomial.ExtraImplicits with RationalFunction.ExtraImplicits with Residue.ExtraImplicits with Module.ExtraImplicits
+  object Implicits extends ExtraImplicits with Ordering.ExtraImplicits with UniqueFactorizationDomain.ExtraImplicits with PowerProduct.ExtraImplicits with Polynomial.ExtraImplicits with PolynomialWithGB.ExtraImplicits with MultivariatePolynomial.ExtraImplicits with UnivariatePolynomial.ExtraImplicits with RationalFunction.ExtraImplicits with Residue.ExtraImplicits with Module.ExtraImplicits
 
   type BigInteger = base.BigInteger
   type Rational = base.Rational

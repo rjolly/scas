@@ -1,6 +1,6 @@
 package scas.base
 
-import scas.structure.EuclidianDomain
+import scas.structure.ordered.EuclidianDomain
 import scas.{int2bigInteger, long2bigInteger}
 
 object Long extends EuclidianDomain[Long] {

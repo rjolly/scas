@@ -3,9 +3,8 @@ package scas.structure
 import scas.BigInteger
 import scas.Implicits.{ZZ, infixUFDOps}
 
-trait Quotient[T <: Product2[R, R], R] extends Field[T] {
+trait Quotient[T <: Product2[R, R], R] extends Field[T] { self =>
   implicit val ring: UniqueFactorizationDomain[R]
-  val self = this
   def convert(x: T) = {
     val self(n, d) = x
     reduce(ring.convert(n), ring.convert(d))
@@ -26,7 +25,7 @@ trait Quotient[T <: Product2[R, R], R] extends Field[T] {
     val self(n, d) = x
     apply(ring.abs(n), d)
   }
-  override def signum(x: T) = {
+  def signum(x: T) = {
     val self(n, d) = x
     ring.signum(n)
   }
@@ -72,13 +71,10 @@ trait Quotient[T <: Product2[R, R], R] extends Field[T] {
     val self(n, d) = x
     apply(-n, d)
   }
-  def compare(x: T, y: T) = {
+  def equiv(x: T, y: T) = {
     val self(a, b) = x
     val self(c, d) = y
-    val s = ring.compare(a, c)
-    if (s < 0) -1
-    else if (s > 0) 1
-    else ring.compare(b, d)
+    a >< c && b >< d
   }
   override def toCode(x: T, precedence: Int) = {
     val self(n, d) = x

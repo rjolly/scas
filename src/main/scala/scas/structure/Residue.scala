@@ -3,9 +3,8 @@ package scas.structure
 import scas.BigInteger
 import scas.Implicits.infixUFDOps
 
-trait Residue[@specialized(Int, Long) T, @specialized(Int, Long) R] extends UniqueFactorizationDomain[T] {
+trait Residue[@specialized(Int, Long) T, @specialized(Int, Long) R] extends UniqueFactorizationDomain[T] { self =>
   implicit val ring: UniqueFactorizationDomain[R]
-  val self = this
   def convert(x: T) = {
     val self(a) = x
     reduce(ring.convert(a))
@@ -31,7 +30,7 @@ trait Residue[@specialized(Int, Long) T, @specialized(Int, Long) R] extends Uniq
     val self(a) = x
     reduce(ring.abs(a))
   }
-  override def signum(x: T) = {
+  def signum(x: T) = {
     val self(a) = x
     ring.signum(a)
   }
@@ -61,10 +60,10 @@ trait Residue[@specialized(Int, Long) T, @specialized(Int, Long) R] extends Uniq
     val (q, r) = a /% b
     (fromRing(q), fromRing(r))
   }
-  def compare(x: T, y: T) = {
+  def equiv(x: T, y: T) = {
     val self(a) = x
     val self(b) = y
-    ring.compare(a, b)
+    a >< b
   }
   override def toCode(x: T, precedence: Int) = {
     val self(a) = x

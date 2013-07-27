@@ -1,6 +1,7 @@
 package scas.base
 
-import scas.structure.{Residue, Field}
+import scas.structure.Residue
+import scas.structure.ordered.Field
 import scas.int2bigInteger
 
 class ModInt(val mod: Int) extends Residue[Int, Long] with Field[Int] {
@@ -13,6 +14,7 @@ class ModInt(val mod: Int) extends Residue[Int, Long] with Field[Int] {
   def characteristic = mod
   override def pow(x: Int, exp: BigInteger) = x.modPow(exp, mod).intValue
   def inverse(x: Int) = x.modInverse(mod).intValue
+  def compare(x: Int, y: Int) = x compare y
   override def toString = ring.toString + "(" + mod + ")"
   def toMathML = <msub>{ring.toMathML}<mn>{mod}</mn></msub>
 }

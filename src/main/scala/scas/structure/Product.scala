@@ -20,6 +20,11 @@ class Product[R1, R2](implicit val ring1: Ring[R1], ring2: Ring[R2]) extends Rin
     val Element(a, b) = x
     a.isUnit && b.isUnit
   }
+  def signum(x: Element[R1, R2]) = {
+    val Element(a, b) = x
+    val l = ring1.signum(a)
+    if (l == 0) ring2.signum(b) else l
+  }
   def characteristic = lcm(ring1.characteristic, ring2.characteristic)
   def plus(x: Element[R1, R2], y: Element[R1, R2]) = {
     val Element(a, b) = x
@@ -36,13 +41,10 @@ class Product[R1, R2](implicit val ring1: Ring[R1], ring2: Ring[R2]) extends Rin
     val Element(c, d) = y
     apply(a * c, b * d)
   }
-  def compare(x: Element[R1, R2], y: Element[R1, R2]) = {
+  def equiv(x: Element[R1, R2], y: Element[R1, R2]) = {
     val Element(a, b) = x
     val Element(c, d) = y
-    val s = ring1.compare(a, c)
-    if (s < 0) -1
-    else if (s > 0) 1
-    else ring2.compare(b, d)
+    a >< c && b >< d
   }
   override def toCode(x: Element[R1, R2], precedence: Int) = {
     val Element(a, b) = x

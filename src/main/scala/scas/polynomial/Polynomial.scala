@@ -15,28 +15,22 @@ trait Polynomial[T <: Element[T, C, N], C, N] extends Ring[T] {
   override def zero = apply()
   def generator(n: Int) = fromPowerProduct(pp.generator(n))
   def generators = pp.generators.map(fromPowerProduct)
-  override def signum(x: T) = if (x.isZero) 0 else ring.signum(lastCoefficient(x))
+  def signum(x: T) = if (x.isZero) 0 else ring.signum(lastCoefficient(x))
   def characteristic = ring.characteristic
   def convert(x: T) = sort(map(x, (s, a) => (pp.converter(x.factory.variables)(s), ring.convert(a))))
   def apply(l: Long) = apply(ring(l))
   def random(numbits: Int)(implicit rnd: java.util.Random) = zero
   def plus(x: T, y: T): T
   def minus(x: T, y: T) = subtract(x, pp.one, ring.one, y)
-  def compare(x: T, y: T): Int = {
+  def equiv(x: T, y: T): Boolean = {
     val it = iterator(y)
     for ((a, b) <- iterator(x)) {
-      if (!it.hasNext) return 1
+      if (!it.hasNext) return false
       val (c, d) = it.next
-      val s = pp.compare(a, c)
-      if (s < 0) return -1
-      else if (s > 0) return 1
-      else {
-        val s = ring.compare(b, d)
-        if (s < 0) return -1
-        else if (s > 0) return 1
-      }
+      if (a <> c) return false
+      else if (b <> d) return false
     }
-    if (!it.hasNext) 0 else -1
+    !it.hasNext
   }
   def isUnit(x: T) = if (degree(x) > 0 || x.isZero) false else headCoefficient(x).isUnit
   def times(x: T, y: T) = (zero /: iterator(y)) { (l, r) =>

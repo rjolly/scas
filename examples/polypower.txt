@@ -1,6 +1,7 @@
 import scas._
-import Implicits.ZZ
-implicit val r = Polynomial(ZZ, PowerProduct.lexicographic[Int]('x, 'y, 'z))
+import Implicits.{ZZ => s}
+//val s = base.ModInt(2147483647)
+implicit val r = Polynomial(s, PowerProduct.lexicographic[Int]('x, 'y, 'z))
 import r.{size, generators}
 val Array(x, y, z) = generators
 val p = 1 + x + y + z

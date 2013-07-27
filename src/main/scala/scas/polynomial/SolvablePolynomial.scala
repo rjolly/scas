@@ -46,11 +46,11 @@ trait SolvablePolynomial[T <: Element[T, C, N], C, N] extends Polynomial[T, C, N
   override def toString = super.toString + "[" + (for ((a, b) <- table) yield "[" + (for ((e, f, p) <- b) yield e.toCode(0) + "*" + f.toCode(0) + " = " + p.toString).mkString(", ") + "]").mkString(", ")+ "]"
   override def toMathML = <mrow>{super.toMathML}<list>{for ((a, b) <- table) yield {<list>{for ((e, f, p) <- b) yield <apply><eq/><apply><times/>{e.toMathML}{f.toMathML}</apply>{p.toMathML}</apply>}</list>}}</list></mrow>
 
-  override def subtract(x: T, m: Array[N], c: C, y: T) = x + multiply(y, m, -c)
+  final override def subtract(x: T, m: Array[N], c: C, y: T) = super[Polynomial].subtract(x, m, c, y)
 
-  override def multiply(x: T, m: Array[N], c: C) = multiply(x * m, c)
+  final override def multiply(x: T, m: Array[N], c: C) = multiply(x * m, c)
 
-  override def times(x: T, m: Array[N]) = (zero /: iterator(x)) { (l, r) =>
+  final override def times(x: T, m: Array[N]) = (zero /: iterator(x)) { (l, r) =>
     val (s, _) = r
     l + multiply(s, m)
   }

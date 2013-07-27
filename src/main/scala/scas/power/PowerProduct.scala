@@ -2,7 +2,7 @@ package scas.power
 
 import scala.reflect.ClassTag
 import scas.{Variable, BigInteger}
-import scas.structure.Monoid
+import scas.structure.ordered.Monoid
 import scas.math.{Ordering, Numeric}
 import spire.macros.Ops
 import Ordering.Implicits.infixOrderingOps

@@ -1,10 +1,11 @@
 package scas.base
 
 import scas.structure.Quotient
+import scas.structure.ordered.Field
 import scas.{int2bigInteger, long2bigInteger}
 import scas.Implicits.{ZZ, infixUFDOps}
 
-trait RationalLike extends Quotient[Rational, BigInteger] {
+trait RationalLike extends Quotient[Rational, BigInteger] with Field[Rational] {
   val ring = ZZ
   def apply(n: BigInteger, d: BigInteger) = if (ring.signum(d) < 0) (-n, -d) else (n, d)
   override def apply(l: Long) = apply(l, 1)
@@ -13,7 +14,7 @@ trait RationalLike extends Quotient[Rational, BigInteger] {
     val d = new BigInteger(numbits, rnd)
     reduce(if (rnd.nextBoolean()) -n else n, d + BigInteger(1))
   }
-  override def compare(x: Rational, y: Rational) = {
+  def compare(x: Rational, y: Rational) = {
     val (a, b) = x
     val (c, d) = y
     ring.compare(a * d, c * b)

@@ -10,7 +10,7 @@ trait AbelianGroup[@specialized(Int, Long) T] extends Structure[T] {
   def identity(x: T) = x
   def negate(x: T) = zero - x
   def abs(x: T) = if (signum(x) < 0) -x else x
-  def signum(x: T) = if (x < zero) -1 else if (x > zero) 1 else 0
+  def signum(x: T): Int
   def isZero(x: T) = x >< zero
   override implicit def mkOps(lhs: T): AbelianGroup.Ops[T] = new OpsImpl(lhs)(this)
 }

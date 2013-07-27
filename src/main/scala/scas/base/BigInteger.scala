@@ -2,7 +2,7 @@ package scas.base
 
 import scala.annotation.tailrec
 import scala.collection.{Map, SortedMap}
-import scas.structure.EuclidianDomain
+import scas.structure.ordered.EuclidianDomain
 import scas.{int2bigInteger, long2bigInteger}
 
 trait BigIntegerLike extends EuclidianDomain[BigInteger] {
@@ -53,6 +53,7 @@ trait BigIntegerLike extends EuclidianDomain[BigInteger] {
   @tailrec final def factor(x: BigInteger, map: Map[BigInteger, Int], primes: Stream[BigInteger]): Map[BigInteger, Int] = {
     val y = primes.head
     if (x >< 1) map
+    else if (y * y > x) map + ((x, map.getOrElse(y, 0) + 1))
     else if (y | x) factor(x / y, map + ((y, map.getOrElse(y, 0) + 1)), primes)
     else factor(x, map, primes.tail)
   }

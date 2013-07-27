@@ -9,7 +9,7 @@ object Group {
     override def one = group.zero
     def times(x: T, y: T) = group.plus(x, y)
     def inverse(x: T) = group.negate(x)
-    def compare(x: T, y: T) = group.compare(x, y)
+    def equiv(x: T, y: T) = group.equiv(x, y)
     def convert(x: T) = group.convert(x)
     def apply(l: Long) = group(l)
     def random(numbits: Int)(implicit rnd: java.util.Random) = group.random(numbits)

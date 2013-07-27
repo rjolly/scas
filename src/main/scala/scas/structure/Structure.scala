@@ -2,11 +2,10 @@ package scas.structure
 
 import scala.xml.Elem
 import scas.MathObject
-import scas.math.Ordering
 import spire.macros.Ops
 import Structure.OpsImpl
 
-trait Structure[@specialized(Int, Long) T] extends Ordering[T] {
+trait Structure[@specialized(Int, Long) T] extends Equiv[T] {
   def convert(x: T): T
   def apply(l: Long): T
   def random(numbits: Int)(implicit rnd: java.util.Random): T
@@ -18,17 +17,16 @@ trait Structure[@specialized(Int, Long) T] extends Ordering[T] {
 }
 
 object Structure {
-  trait ExtraImplicits extends Ordering.ExtraImplicits {
+  trait ExtraImplicits {
     implicit def infixOps[T: Structure](lhs: T) = implicitly[Structure[T]].mkOps(lhs)
   }
   object Implicits extends ExtraImplicits
 
-  trait Element[T <: Element[T]] extends Ordered[T] with MathObject { this: T =>
+  trait Element[T <: Element[T]] extends MathObject { this: T =>
     val lhs = this
     val factory: Structure[T]
     def ><(rhs: T) = factory.equiv(lhs, rhs)
     def <>(rhs: T) = factory.nequiv(lhs, rhs)
-    def compare(rhs: T) = factory.compare(lhs, rhs)
     override def toString = toCode(0)
     def toCode(precedence: Int) = factory.toCode(lhs, precedence)
     def toMathML = factory.toMathML(lhs)
