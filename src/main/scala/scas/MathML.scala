@@ -24,6 +24,7 @@ class MathML(stylesheet: String) {
     w.toString.replaceAll("\u00a0"," ").trim.replaceAll(" \n", "\n")
   }
   def apply(obj: Object): String = obj match {
+    case null => null
     case obj: MathObject => apply(<math>{obj.toMathML}</math>)
     case obj => apply(obj.toString)
   }

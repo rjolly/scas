@@ -53,7 +53,7 @@ trait BigIntegerLike extends EuclidianDomain[BigInteger] {
   @tailrec final def factor(x: BigInteger, map: Map[BigInteger, Int], primes: Stream[BigInteger]): Map[BigInteger, Int] = {
     val y = primes.head
     if (x >< 1) map
-    else if (y * y > x) map + ((x, map.getOrElse(y, 0) + 1))
+    else if (y * y > x) map + ((x, map.getOrElse(x, 0) + 1))
     else if (y | x) factor(x / y, map + ((y, map.getOrElse(y, 0) + 1)), primes)
     else factor(x, map, primes.tail)
   }

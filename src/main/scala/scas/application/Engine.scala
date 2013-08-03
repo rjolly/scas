@@ -14,11 +14,11 @@ class Engine(@BeanProperty val factory: ScriptEngineFactory) extends AbstractScr
   def eval(script: String, context: ScriptContext): Object = {
     val cat = code + script
     Parsers(cat) match {
-      case Right(Some(result)) => {
+      case Right(result) => {
         code = ""
         result
       }
-      case Right(None) => {
+      case Left(msg) if (msg.endsWith("end of source found")) => {
         code = cat + "\n"
         null
       }
@@ -54,7 +54,7 @@ object Engine {
     val languageName = "ScAS"
 
     @BeanProperty
-    val languageVersion = "2.0"
+    val languageVersion = "2.1"
 
     def getMethodCallSyntax(obj: String, m: String, args: String*): String = null
 
