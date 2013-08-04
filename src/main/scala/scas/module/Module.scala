@@ -2,7 +2,7 @@ package scas.module
 
 import scala.reflect.ClassTag
 import scas.Variable
-import scas.structure.Ring
+import scas.structure.{Ring, Field}
 import scas.Implicits.infixRingOps
 import Module.Element
 
@@ -12,7 +12,7 @@ trait Module[R] extends scas.structure.Module[Element[R], R] {
   implicit val cm: ClassTag[R]
   def generator(n: Int) = apply((for (i <- 0 until dimension) yield if (i == n) ring.one else ring.zero).toArray)
   def generators = (for (i <- 0 until dimension) yield generator(i)).toArray
-  def convert(x: Element[R]) = apply(x.value)
+  def convert(x: Element[R]) = apply((for (i <- 0 until dimension) yield if (i < x.value.length) ring.convert(x(i)) else ring.zero).toArray)
   def apply(l: Long) = apply((for (i <- 0 until dimension) yield ring(l)).toArray)
   override def random(numbits: Int)(implicit rnd: java.util.Random) = apply((for (i <- 0 until dimension) yield ring.random(numbits)).toArray)
   def equiv(x: Element[R], y: Element[R]): Boolean = {
@@ -89,13 +89,15 @@ trait Module[R] extends scas.structure.Module[Element[R], R] {
     case _ => <vector>{x.value.map(_.toMathML)}</vector>
   }
   def toMathML = <msup>{ring.toMathML}<mn>{dimension}</mn></msup>
-  def apply(value: Array[R]) = new Element((for (i <- 0 until dimension) yield if (i < value.length) ring.convert(value(i)) else ring.zero).toArray)(this)
+  def apply(value: Array[R]) = new Element(value)(this)
   def apply(s: R*): Element[R] = apply(s.toArray)
 }
 
 object Module {
   def apply[R](name: String, dimension: Int, ring: Ring[R])(implicit cm: ClassTag[R]) = new ModuleImpl(dimension, Some(name), ring)
   def apply[R](dimension: Int, ring: Ring[R])(implicit cm: ClassTag[R]) = new ModuleImpl(dimension, None, ring)
+  def apply[R](name: String, dimension: Int, ring: Field[R])(implicit cm: ClassTag[R]) = new Vector(dimension, Some(name), ring)
+  def apply[R](dimension: Int, ring: Field[R])(implicit cm: ClassTag[R]) = new Vector(dimension, None, ring)
 
   class Element[R](val value: Array[R])(val factory: Module[R]) extends scas.structure.Module.Element[Element[R], R] with (Int => R) {
     def apply(n: Int) = value(n)
