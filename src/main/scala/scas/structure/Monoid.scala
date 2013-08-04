@@ -4,7 +4,7 @@ import scas.BigInteger
 import spire.macros.Ops
 import Monoid.OpsImpl
 
-trait Monoid[@specialized(Int, Long) T] extends SemiGroup[T] {
+trait Monoid[@specialized(Int, Long, Double) T] extends SemiGroup[T] {
   def one = apply(1)
   def pow(x: T, exp: BigInteger) = {
     assert (exp.intValue() >= 0)

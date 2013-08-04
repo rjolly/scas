@@ -1,11 +1,11 @@
 package scas.structure
 
-trait Group[@specialized(Int, Long) T] extends NotQuiteGroup[T] {
+trait Group[@specialized(Int, Long, Double) T] extends NotQuiteGroup[T] {
   override def isUnit(x: T) = true
 }
 
 object Group {
-  def apply[@specialized(Int, Long) T](group: AbelianGroup[T]) = new Group[T] {
+  def apply[@specialized(Int, Long, Double) T](group: AbelianGroup[T]) = new Group[T] {
     override def one = group.zero
     def times(x: T, y: T) = group.plus(x, y)
     def inverse(x: T) = group.negate(x)

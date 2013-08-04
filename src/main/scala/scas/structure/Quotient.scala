@@ -57,15 +57,10 @@ trait Quotient[T <: Product2[R, R], R] extends Field[T] { self =>
     val self(n, d) = x
     apply(d, n)
   }
-  override def gcd(x: T, y: T) = {
+  def gcd(x: T, y: T) = {
     val self(a, b) = x
     val self(c, d) = y
     apply(ring.gcd(a, c), ring.lcm(b, d))
-  }
-  override def lcm(x: T, y: T) = {
-    val self(a, b) = x
-    val self(c, d) = y
-    apply(ring.lcm(a, c), ring.gcd(b, d))
   }
   override def negate(x: T) = {
     val self(n, d) = x

@@ -3,7 +3,7 @@ package scas.structure
 import spire.macros.Ops
 import AbelianGroup.OpsImpl
 
-trait AbelianGroup[@specialized(Int, Long) T] extends Structure[T] {
+trait AbelianGroup[@specialized(Int, Long, Double) T] extends Structure[T] {
   def zero = apply(0)
   def plus(x: T, y: T): T
   def minus(x: T, y: T): T

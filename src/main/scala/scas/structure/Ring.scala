@@ -3,7 +3,7 @@ package scas.structure
 import scas.BigInteger
 import Ring.OpsImpl
 
-trait Ring[@specialized(Int, Long) T] extends AbelianGroup[T] with Monoid[T] {
+trait Ring[@specialized(Int, Long, Double) T] extends AbelianGroup[T] with Monoid[T] {
   def characteristic: BigInteger
   override implicit def mkOps(lhs: T): Ring.Ops[T] = new OpsImpl(lhs)(this)
 }

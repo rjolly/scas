@@ -1,15 +1,16 @@
 package scas.application
 
+import java.lang.Math
 import scas.Graph
 import Parsers._
 
 object Fn {
-  import scala.math.{sin, cos, tan, exp, log => ln, sqrt, pow, Pi}
+  import Math.{sinh, cosh, tanh, sin, cos, tan, asin, acos, atan, exp, log => ln, sqrt, pow, PI}
 
   var n = List.empty[String]
 
   def constant: Parser[Double] = ("pi") ^^ {
-    case "pi" => Pi
+    case "pi" => PI
   }
 
   def reset = {
@@ -17,10 +18,16 @@ object Fn {
   }
 
   def number: Parser[Double => Double] = (double | constant) ^^ { value: Double => { a: Double => value } }
-  def function: Parser[Double => Double] = ("sin" | "cos" | "tan" | "exp" | "log" | "sqrt") ~ ("(" ~> expr) <~ ")" ^^ {
+  def function: Parser[Double => Double] = ("sinh" | "cosh" | "tanh" | "sin" | "cos" | "tan" | "asin" | "acos" | "atan" | "exp" | "log" | "sqrt") ~ ("(" ~> expr) <~ ")" ^^ {
+    case "sinh" ~ x => { a: Double => sinh(x(a)) }
+    case "cosh" ~ x => { a: Double => cosh(x(a)) }
+    case "tanh" ~ x => { a: Double => tanh(x(a)) }
     case "sin" ~ x => { a: Double => sin(x(a)) }
     case "cos" ~ x => { a: Double => cos(x(a)) }
     case "tan" ~ x => { a: Double => tan(x(a)) }
+    case "asin" ~ x => { a: Double => asin(x(a)) }
+    case "acos" ~ x => { a: Double => acos(x(a)) }
+    case "atan" ~ x => { a: Double => atan(x(a)) }
     case "exp" ~ x => { a: Double => exp(x(a)) }
     case "log" ~ x => { a: Double => ln(x(a)) }
     case "sqrt" ~ x => { a: Double => sqrt(x(a)) }

@@ -3,7 +3,7 @@ package scas.structure
 import spire.macros.Ops
 import SemiGroup.OpsImpl
 
-trait SemiGroup[@specialized(Int, Long) T] extends Structure[T] {
+trait SemiGroup[@specialized(Int, Long, Double) T] extends Structure[T] {
   def times(x: T, y: T): T
   override implicit def mkOps(lhs: T): SemiGroup.Ops[T] = new OpsImpl(lhs)(this)
 }

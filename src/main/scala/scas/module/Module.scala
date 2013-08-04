@@ -6,26 +6,7 @@ import scas.structure.{Ring, Field}
 import scas.Implicits.infixRingOps
 import Module.Element
 
-trait Module[R] extends scas.structure.Module[Element[R], R] {
-  val dimension: Int
-  val name: Option[String]
-  implicit val cm: ClassTag[R]
-  def generator(n: Int) = apply((for (i <- 0 until dimension) yield if (i == n) ring.one else ring.zero).toArray)
-  def generators = (for (i <- 0 until dimension) yield generator(i)).toArray
-  def convert(x: Element[R]) = apply((for (i <- 0 until dimension) yield if (i < x.value.length) ring.convert(x(i)) else ring.zero).toArray)
-  def apply(l: Long) = apply((for (i <- 0 until dimension) yield ring(l)).toArray)
-  override def random(numbits: Int)(implicit rnd: java.util.Random) = apply((for (i <- 0 until dimension) yield ring.random(numbits)).toArray)
-  def equiv(x: Element[R], y: Element[R]): Boolean = {
-    for (i <- 0 until dimension) {
-      if (x(i) <> y(i)) return false
-    }
-    true
-  }
-  def signum(x: Element[R]) = (0 /: x.value) { (l, r) => if (l == 0) ring.signum(r) else l }
-  def plus(x: Element[R], y: Element[R]) = apply((for (i <- 0 until dimension) yield x(i) + y(i)).toArray)
-  def minus(x: Element[R], y: Element[R]) = apply((for (i <- 0 until dimension) yield x(i) - y(i)).toArray)
-  def rtimes(x: Element[R], y: R) = apply((for (i <- 0 until dimension) yield x(i) * y).toArray)
-  def ltimes(x: R, y: Element[R]) = apply((for (i <- 0 until dimension) yield x * y(i)).toArray)
+trait Module[R] extends AbstractModule[Element[R], R] {
   override def toCode(x: Element[R], precedence: Int) = name match {
     case Some(name) => {
       var s = ring.zero.toCode(0)
@@ -90,18 +71,15 @@ trait Module[R] extends scas.structure.Module[Element[R], R] {
   }
   def toMathML = <msup>{ring.toMathML}<mn>{dimension}</mn></msup>
   def apply(value: Array[R]) = new Element(value)(this)
-  def apply(s: R*): Element[R] = apply(s.toArray)
 }
 
 object Module {
-  def apply[R](name: String, dimension: Int, ring: Ring[R])(implicit cm: ClassTag[R]) = new ModuleImpl(dimension, Some(name), ring)
-  def apply[R](dimension: Int, ring: Ring[R])(implicit cm: ClassTag[R]) = new ModuleImpl(dimension, None, ring)
-  def apply[R](name: String, dimension: Int, ring: Field[R])(implicit cm: ClassTag[R]) = new Vector(dimension, Some(name), ring)
-  def apply[R](dimension: Int, ring: Field[R])(implicit cm: ClassTag[R]) = new Vector(dimension, None, ring)
+  def apply[R](name: String, dimension: Int, ring: Ring[R])(implicit m: ClassTag[Element[R]], cm: ClassTag[R]) = new ModuleImpl(dimension, Some(name), ring)
+  def apply[R](dimension: Int, ring: Ring[R])(implicit m: ClassTag[Element[R]], cm: ClassTag[R]) = new ModuleImpl(dimension, None, ring)
+  def apply[R](name: String, dimension: Int, ring: Field[R])(implicit m: ClassTag[Element[R]], cm: ClassTag[R]) = new Vector(dimension, Some(name), ring)
+  def apply[R](dimension: Int, ring: Field[R])(implicit m: ClassTag[Element[R]], cm: ClassTag[R]) = new Vector(dimension, None, ring)
 
-  class Element[R](val value: Array[R])(val factory: Module[R]) extends scas.structure.Module.Element[Element[R], R] with (Int => R) {
-    def apply(n: Int) = value(n)
-  }
+  class Element[R](val value: Array[R])(val factory: Module[R]) extends AbstractModule.Element[Element[R], R]
   object Element extends ExtraImplicits
 
   trait ExtraImplicits {

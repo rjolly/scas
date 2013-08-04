@@ -3,7 +3,7 @@ package scas.structure
 import spire.macros.Ops
 import UniqueFactorizationDomain.OpsImpl
 
-trait UniqueFactorizationDomain[@specialized(Int, Long) T] extends Ring[T] {
+trait UniqueFactorizationDomain[@specialized(Int, Long, Double) T] extends Ring[T] {
   def gcd(x: T, y: T): T
   def lcm(x: T, y: T) = (x * y) / gcd(x, y)
   def divide(x: T, y: T) = { val (q, _) = x /% y ; q }

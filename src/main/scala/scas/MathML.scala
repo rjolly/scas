@@ -21,7 +21,7 @@ class MathML(stylesheet: String) {
     val r = new StringReader(s)
     val w = new StringWriter
     transformer.transform(new StreamSource(r), new StreamResult(w))
-    w.toString.replaceAll("\u00a0"," ").trim.replaceAll(" \n", "\n")
+    w.toString.replaceAll("\r", "").replaceAll("\u00a0", " ").replaceAll(" +\n", "\n").trim
   }
   def apply(obj: Object): String = obj match {
     case null => null

@@ -5,7 +5,7 @@ import spire.macros.Ops
 import Ordering.Ops
 
 @annotation.implicitNotFound(msg = "No implicit Ordering defined for ${T}.")
-trait Ordering[@specialized(Byte, Short, Int, Long) T] extends Comparator[T] with PartialOrdering[T] with Serializable {
+trait Ordering[@specialized(Byte, Short, Int, Long, Double) T] extends Comparator[T] with PartialOrdering[T] with Serializable {
   outer =>
 
   def tryCompare(x: T, y: T) = Some(compare(x, y))

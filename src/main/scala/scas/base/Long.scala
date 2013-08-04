@@ -7,10 +7,7 @@ object Long extends EuclidianDomain[Long] {
   def convert(x: Long) = x
   def apply(s: String) = s.toLong
   def apply(l: Long) = l
-  def random(numbits: Int)(implicit rnd: java.util.Random) = {
-    val r = new BigInteger(numbits, rnd).longValue
-    if (rnd.nextBoolean()) -r else r
-  }
+  def random(numbits: Int)(implicit rnd: java.util.Random) = rnd.nextLong()
   def characteristic = 0
   def isUnit(x: Long) = abs(x).isOne
   override def pow(x: Long, exp: BigInteger) = x.pow(exp.intValue()).longValue

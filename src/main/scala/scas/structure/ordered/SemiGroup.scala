@@ -1,3 +1,3 @@
 package scas.structure.ordered
 
-trait SemiGroup[@specialized(Int, Long) T] extends Structure[T] with scas.structure.SemiGroup[T]
+trait SemiGroup[@specialized(Int, Long, Double) T] extends Structure[T] with scas.structure.SemiGroup[T]

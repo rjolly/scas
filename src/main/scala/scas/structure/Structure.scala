@@ -5,7 +5,7 @@ import scas.MathObject
 import spire.macros.Ops
 import Structure.OpsImpl
 
-trait Structure[@specialized(Int, Long) T] extends Equiv[T] {
+trait Structure[@specialized(Int, Long, Double) T] extends Equiv[T] {
   def convert(x: T): T
   def apply(l: Long): T
   def random(numbits: Int)(implicit rnd: java.util.Random): T
