@@ -15,9 +15,10 @@ object Int {
   }
   def function: Parser[BigInteger] = function1 | function2
   def base: Parser[BigInteger] = number | function | "(" ~> expr <~ ")"
-  def unsignedFactor: Parser[BigInteger] = base ~ ((("**" | "^") ~> base)*) ^^ {
-    case base ~ list => base::list reduceRight {
-      (x: BigInteger, exp: BigInteger) => pow(x, exp)
+  def unsignedFactor: Parser[BigInteger] = base ~ ((("**" | "^") ~> unsignedFactor)?) ^^ {
+    case x ~ option => option match {
+      case Some(exp) => pow(x, exp)
+      case None => x
     }
   }
   def factor: Parser[BigInteger] = ("-"?) ~ unsignedFactor ^^ {

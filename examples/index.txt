@@ -9,11 +9,9 @@ val mml = MathML("mmlscala.xsl")
 
 val list = List("pp1.txt", "pp2.txt", "polynomial.txt", "solvable_polynomial.txt", "gb.txt", "group.txt", "bigint.txt", "modint.txt", "mod_polynomial.txt", "product.txt", "rational.txt", "rational_polynomial.txt", "univariate_polynomial.txt", "rf.txt", "rfi.txt", "complex.txt", "an.txt", "module.txt", "gcd_subres.txt", "gcd_multivariate.txt", "polypower.txt", "primes1.txt", "primes2.txt", "interface.txt")
 
-def extension(name: String, str: String) = if (!name.endsWith("." + str)) name + "." + str else name
-
 def task(name: String) = {
   println(name)
-  val file = new File(dir, extension(name, "txt"))
+  val file = new File(dir, name)
   val engine = manager.getEngineByName("scala")
   val reader = new FileReader(file)
   val code = mml(reader)

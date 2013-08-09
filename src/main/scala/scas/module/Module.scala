@@ -7,6 +7,7 @@ import scas.Implicits.infixRingOps
 import Module.Element
 
 trait Module[R] extends AbstractModule[Element[R], R] {
+  def generators = (for (i <- 0 until dimension) yield generator(i)).toArray
   override def toCode(x: Element[R], precedence: Int) = name match {
     case Some(name) => {
       var s = ring.zero.toCode(0)

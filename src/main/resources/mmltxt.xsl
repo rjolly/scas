@@ -1,11 +1,16 @@
 <?xml version='1.0' encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 		xmlns:m="http://www.w3.org/1998/Math/MathML"
+		xmlns:x="http://www.w3.org/1999/xhtml"
                 version='1.0'>
 
 <xsl:output method="text" indent="no" encoding="UTF-8"/>
 
 <xsl:strip-space elements="m:*"/>
+
+<xsl:template match="x:a">
+	<xsl:value-of select="@href"/>
+</xsl:template>
 
 <xsl:template match="m:math">
 	<xsl:apply-templates/>

@@ -9,6 +9,7 @@ import Matrix.Element
 trait Matrix[R] extends AbstractModule[Element[R], R] with Algebra[Element[R], R] {
   val size: Int
   val dimension = size * size
+  def generators = (for (i <- 0 until dimension) yield generator(i)).grouped(size).toArray
   def times(x: Element[R], y: Element[R]) = apply((for (i <- 0 until dimension) yield x(i) * y(i)).toArray)
   override def toCode(x: Element[R], precedence: Int) = name match {
     case Some(name) => {

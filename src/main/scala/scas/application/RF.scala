@@ -46,7 +46,7 @@ object RF {
     }
   }
   def base: Parser[Element] = Int.base ^^ { r(_) } | function | generator | "(" ~> expr <~ ")"
-  def unsignedFactor: Parser[Element] = base ~ ((("**" | "^") ~> Int.unsignedFactor)?) ^^ {
+  def unsignedFactor: Parser[Element] = base ~ ((("**" | "^") ~> Int.factor)?) ^^ {
     case x ~ option => option match {
       case Some(exp) => pow(convert(x), exp)
       case None => convert(x)

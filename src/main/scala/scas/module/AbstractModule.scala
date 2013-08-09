@@ -10,7 +10,6 @@ trait AbstractModule[T <: Element[T, R], R] extends scas.structure.Module[T, R] 
   implicit val m: ClassTag[T]
   implicit val cm: ClassTag[R]
   def generator(n: Int) = apply((for (i <- 0 until dimension) yield if (i == n) ring.one else ring.zero).toArray)
-  def generators = (for (i <- 0 until dimension) yield generator(i)).toArray
   def convert(x: T) = apply((for (i <- 0 until dimension) yield if (i < x.value.length) ring.convert(x(i)) else ring.zero).toArray)
   def apply(l: Long) = apply((for (i <- 0 until dimension) yield ring(l)).toArray)
   override def random(numbits: Int)(implicit rnd: java.util.Random) = apply((for (i <- 0 until dimension) yield ring.random(numbits)).toArray)

@@ -5,19 +5,14 @@ import scas.Graph
 import Parsers._
 
 object Fn {
-  import Math.{sinh, cosh, tanh, sin, cos, tan, asin, acos, atan, exp, log => ln, sqrt, pow, PI}
+  import Math.{sinh, cosh, tanh, sin, cos, tan, asin, acos, atan, exp, log => ln, sqrt, pow}
 
   var n = List.empty[String]
-
-  def constant: Parser[Double] = ("pi") ^^ {
-    case "pi" => PI
-  }
 
   def reset = {
     n = List.empty[String]
   }
 
-  def number: Parser[Double => Double] = (double | constant) ^^ { value: Double => { a: Double => value } }
   def function: Parser[Double => Double] = ("sinh" | "cosh" | "tanh" | "sin" | "cos" | "tan" | "asin" | "acos" | "atan" | "exp" | "log" | "sqrt") ~ ("(" ~> expr) <~ ")" ^^ {
     case "sinh" ~ x => { a: Double => sinh(x(a)) }
     case "cosh" ~ x => { a: Double => cosh(x(a)) }
@@ -35,10 +30,10 @@ object Fn {
   def generator: Parser[Double => Double] = name ^^ {
     case name if (contains(name)) => identity[Double]
   }
-  def base: Parser[Double => Double] = number | function | generator | "(" ~> expr <~ ")"
-  def unsignedFactor: Parser[Double => Double] = base ~ ((("**" | "^") ~> Int.unsignedFactor)?) ^^ {
+  def base: Parser[Double => Double] = Double.base ^^ { value: Double => { a: Double => value } } | function | generator | "(" ~> expr <~ ")"
+  def unsignedFactor: Parser[Double => Double] = base ~ ((("**" | "^") ~> factor)?) ^^ {
     case x ~ option => option match {
-      case Some(exp) => { a: Double => pow(x(a), exp.doubleValue()) }
+      case Some(y) => { a: Double => pow(x(a), y(a)) }
       case None => x
     }
   }

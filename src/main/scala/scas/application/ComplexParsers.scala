@@ -14,7 +14,7 @@ object ComplexParsers {
     case "conjugate" ~ x => conjugate(x)
   }
   def base: Parser[Complex] = RationalParsers.base ^^ { Complex(_) } | function | "(" ~> expr <~ ")"
-  def unsignedFactor: Parser[Complex] = base ~ ((("**" | "^") ~> Int.unsignedFactor)?) ^^ {
+  def unsignedFactor: Parser[Complex] = base ~ ((("**" | "^") ~> Int.factor)?) ^^ {
     case x ~ option => option match {
       case Some(exp) => pow(x, exp)
       case None => x

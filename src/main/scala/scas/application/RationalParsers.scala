@@ -6,7 +6,7 @@ import Parsers._
 
 object RationalParsers {
   def base: Parser[Rational] = Int.base ^^ { Rational(_) } | "(" ~> expr <~ ")"
-  def unsignedFactor: Parser[Rational] = base ~ ((("**" | "^") ~> Int.unsignedFactor)?) ^^ {
+  def unsignedFactor: Parser[Rational] = base ~ ((("**" | "^") ~> Int.factor)?) ^^ {
     case x ~ option => option match {
       case Some(exp) => pow(x, exp)
       case None => x
