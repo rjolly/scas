@@ -5,7 +5,6 @@ import scas.int2bigInteger
 
 object Double extends Field[Double] {
   def convert(x: Double) = x
-  def apply(s: String) = s.toDouble
   def apply(l: Long) = l
   def random(numbits: Int)(implicit rnd: java.util.Random) = rnd.nextDouble()
   def characteristic = 0

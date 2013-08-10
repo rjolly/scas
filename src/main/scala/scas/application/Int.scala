@@ -9,7 +9,7 @@ object Int extends OrderedRingParsers[BigInteger] {
   val structure = ZZ
   def number: Parser[BigInteger] = """\d+""".r ^^ { BigInteger(_) }
   def function1: Parser[BigInteger] = ("factorial") ~ ("(" ~> expr) <~ ")" ^^ {
-    case "factorial" ~ x if (x > BigInteger(0)) => factorial(x)
+    case "factorial" ~ x if (x > 0) => factorial(x)
   }
   def function2: Parser[BigInteger] = ("div" | "mod") ~ ("(" ~> expr) ~ ("," ~> expr) <~ ")" ^^ {
     case "div" ~ x ~ y => x / y

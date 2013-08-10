@@ -1,5 +1,5 @@
 import scas.math.Ordering
-import scas.structure.{Monoid, UniqueFactorizationDomain}
+import scas.structure.{Monoid, StarRing}
 
 package object scas {
   trait ExtraImplicits {
@@ -7,7 +7,7 @@ package object scas {
     implicit val QQ = Rational
     implicit val CC = Complex
   }
-  object Implicits extends ExtraImplicits with Ordering.ExtraImplicits with UniqueFactorizationDomain.ExtraImplicits with PowerProduct.ExtraImplicits with Polynomial.ExtraImplicits with PolynomialWithGB.ExtraImplicits with MultivariatePolynomial.ExtraImplicits with UnivariatePolynomial.ExtraImplicits with RationalFunction.ExtraImplicits with Residue.ExtraImplicits with Module.ExtraImplicits with Matrix.ExtraImplicits
+  object Implicits extends ExtraImplicits with Ordering.ExtraImplicits with StarRing.ExtraImplicits with PowerProduct.ExtraImplicits with Polynomial.ExtraImplicits with PolynomialWithGB.ExtraImplicits with MultivariatePolynomial.ExtraImplicits with UnivariatePolynomial.ExtraImplicits with RationalFunction.ExtraImplicits with Residue.ExtraImplicits with Module.ExtraImplicits with Matrix.ExtraImplicits
 
   type BigInteger = base.BigInteger
   type Rational = base.Rational

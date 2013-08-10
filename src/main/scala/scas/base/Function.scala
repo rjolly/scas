@@ -5,7 +5,6 @@ import scas.int2bigInteger
 
 object Function extends Field[Double => Double] {
   def convert(x: Double => Double) = x
-  def apply(s: String): Double => Double = apply(s.toDouble)
   def apply(value: Double) = { a: Double => value }
   def apply(l: Long) = apply(l)
   def signum(x: Double => Double) = if (x.isZero) 0 else 1

@@ -22,7 +22,7 @@ object RF extends UFDParsers[Element] {
   }
 
   def function: Parser[Element] = ("factor") ~ ("(" ~> Int.expr) <~ ")" ^^ {
-    case "factor" ~ x if (x <> BigInteger(0)) => factor(x)
+    case "factor" ~ x if (x <> 0) => factor(x)
   }
   def factor(x: BigInteger) = {
     val map = BigInteger.factor(BigInteger.abs(x))
