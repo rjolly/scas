@@ -1,11 +1,12 @@
 package scas.application
 
-import java.lang.Math
+import Parsers.{log => _, _}
+import scas.base.Function
+import Function.{sinh, cosh, tanh, sin, cos, tan, asin, acos, atan, exp, log, sqrt, pow}
 import scas.Graph
-import Parsers._
 
-object Fn {
-  import Math.{sinh, cosh, tanh, sin, cos, tan, asin, acos, atan, exp, log => ln, sqrt, pow}
+object Fn extends UFDParsers[Double => Double] {
+  val structure = Function
 
   var n = List.empty[String]
 
@@ -14,51 +15,27 @@ object Fn {
   }
 
   def function: Parser[Double => Double] = ("sinh" | "cosh" | "tanh" | "sin" | "cos" | "tan" | "asin" | "acos" | "atan" | "exp" | "log" | "sqrt") ~ ("(" ~> expr) <~ ")" ^^ {
-    case "sinh" ~ x => { a: Double => sinh(x(a)) }
-    case "cosh" ~ x => { a: Double => cosh(x(a)) }
-    case "tanh" ~ x => { a: Double => tanh(x(a)) }
-    case "sin" ~ x => { a: Double => sin(x(a)) }
-    case "cos" ~ x => { a: Double => cos(x(a)) }
-    case "tan" ~ x => { a: Double => tan(x(a)) }
-    case "asin" ~ x => { a: Double => asin(x(a)) }
-    case "acos" ~ x => { a: Double => acos(x(a)) }
-    case "atan" ~ x => { a: Double => atan(x(a)) }
-    case "exp" ~ x => { a: Double => exp(x(a)) }
-    case "log" ~ x => { a: Double => ln(x(a)) }
-    case "sqrt" ~ x => { a: Double => sqrt(x(a)) }
+    case "sinh" ~ x => sinh(x)
+    case "cosh" ~ x => cosh(x)
+    case "tanh" ~ x => tanh(x)
+    case "sin" ~ x => sin(x)
+    case "cos" ~ x => cos(x)
+    case "tan" ~ x => tan(x)
+    case "asin" ~ x => asin(x)
+    case "acos" ~ x => acos(x)
+    case "atan" ~ x => atan(x)
+    case "exp" ~ x => exp(x)
+    case "log" ~ x => log(x)
+    case "sqrt" ~ x => sqrt(x)
   }
   def generator: Parser[Double => Double] = name ^^ {
     case name if (contains(name)) => identity[Double]
   }
-  def base: Parser[Double => Double] = Double.base ^^ { value: Double => { a: Double => value } } | function | generator | "(" ~> expr <~ ")"
-  def unsignedFactor: Parser[Double => Double] = base ~ ((("**" | "^") ~> factor)?) ^^ {
+  def base: Parser[Double => Double] = Double.base ^^ { Function(_) } | function | generator | "(" ~> expr <~ ")"
+  override def unsignedFactor: Parser[Double => Double] = base ~ ((("**" | "^") ~> factor)?) ^^ {
     case x ~ option => option match {
-      case Some(y) => { a: Double => pow(x(a), y(a)) }
+      case Some(y) => pow(x, y)
       case None => x
-    }
-  }
-  def factor: Parser[Double => Double] = ("-"?) ~ unsignedFactor ^^ {
-    case option ~ factor => option match {
-      case Some(sign) => -factor(_: Double)
-      case None => factor
-    }
-  }
-  def unsignedTerm: Parser[Double => Double] = unsignedFactor ~ (("*" ~ factor | "/" ~ factor)*) ^^ {
-    case factor ~ list => (factor /: list) {
-      case (x, "*" ~ y) => { a: Double => x(a) * y(a) }
-      case (x, "/" ~ y) => { a: Double => x(a) / y(a) }
-    }
-  }
-  def term: Parser[Double => Double] = ("-"?) ~ unsignedTerm ^^ {
-    case option ~ term => option match {
-      case Some(sign) => -term(_: Double)
-      case None => term
-    }
-  }
-  def expr: Parser[Double => Double] = term ~ (("+" ~ unsignedTerm | "-" ~ unsignedTerm)*) ^^ {
-    case term ~ list => (term /: list) {
-      case (x, "+" ~ y) => { a: Double => x(a) + y(a) }
-      case (x, "-" ~ y) => { a: Double => x(a) - y(a) }
     }
   }
   def graph: Parser[Graph] = "graph" ~> ("(" ~> expr) ~ ("," ~> name) <~ ")" ^^ {

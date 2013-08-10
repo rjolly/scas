@@ -1,11 +1,10 @@
 package scas.application
 
-import java.lang.Math
-import Parsers._
+import Parsers.{log => _, _}
+import Math.{sinh, cosh, tanh, sin, cos, tan, asin, acos, atan, exp, log, sqrt, pow, PI}
 
-object Double {
-  import Math.{sinh, cosh, tanh, sin, cos, tan, asin, acos, atan, exp, log => ln, sqrt, pow, PI}
-
+object Double extends OrderedUFDParsers[Double] {
+  val structure = scas.base.Double
   def number: Parser[Double] = """(\d+(\.\d*)?|\d*\.\d+)([eE][+-]?\d+)?""".r ^^ { _.toDouble }
   def constant: Parser[Double] = ("pi") ^^ {
     case "pi" => PI
@@ -21,46 +20,14 @@ object Double {
     case "acos" ~ x => acos(x)
     case "atan" ~ x => atan(x)
     case "exp" ~ x => exp(x)
-    case "log" ~ x => ln(x)
+    case "log" ~ x => log(x)
     case "sqrt" ~ x => sqrt(x)
   }
   def base: Parser[Double] = number | constant | function | "(" ~> expr <~ ")"
-  def unsignedFactor: Parser[Double] = base ~ ((("**" | "^") ~> factor)?) ^^ {
+  override def unsignedFactor: Parser[Double] = base ~ ((("**" | "^") ~> factor)?) ^^ {
     case x ~ option => option match {
       case Some(y) => pow(x, y)
       case None => x
     }
-  }
-  def factor: Parser[Double] = ("-"?) ~ unsignedFactor ^^ {
-    case option ~ factor => option match {
-      case Some(sign) => -factor
-      case None => factor
-    }
-  }
-  def unsignedTerm: Parser[Double] = unsignedFactor ~ (("*" ~ factor | "/" ~ factor)*) ^^ {
-    case factor ~ list => (factor /: list) {
-      case (x, "*" ~ y) => x * y
-      case (x, "/" ~ y) => x / y
-    }
-  }
-  def term: Parser[Double] = ("-"?) ~ unsignedTerm ^^ {
-    case option ~ term => option match {
-      case Some(sign) => -term
-      case None => term
-    }
-  }
-  def expr: Parser[Double] = term ~ (("+" ~ unsignedTerm | "-" ~ unsignedTerm)*) ^^ {
-    case term ~ list => (term /: list) {
-      case (x, "+" ~ y) => x + y
-      case (x, "-" ~ y) => x - y
-    }
-  }
-  def comparison: Parser[Boolean] = expr ~ ("=" | "<>" | "<=" | "<" | ">=" | ">") ~ expr ^^ {
-    case x ~ "=" ~ y => x != y
-    case x ~ "<>" ~ y => x == y
-    case x ~ "<=" ~ y => x <= y
-    case x ~ "<" ~ y => x < y
-    case x ~ ">=" ~ y => x >= y
-    case x ~ ">" ~ y => x > y
   }
 }

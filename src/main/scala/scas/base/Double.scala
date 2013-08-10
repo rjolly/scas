@@ -1,6 +1,5 @@
 package scas.base
 
-import java.lang.Math
 import scas.structure.ordered.Field
 import scas.int2bigInteger
 

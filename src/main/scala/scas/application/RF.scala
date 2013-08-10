@@ -4,12 +4,12 @@ import scas._
 import Implicits.{ZZ, infixUFDOps, infixPowerProductOps}
 import Parsers._
 
-object RF {
-  type Element = RationalFunction.Element[MultivariatePolynomial.Element[BigInteger, Int], BigInteger, Int]
+object RF extends UFDParsers[Element] {
+  implicit def structure = r
 
   def ring(variables: Variable*) = RationalFunction.integral(MultivariatePolynomial(ZZ, PowerProduct(variables: _*)))
 
-  implicit var r = ring()
+  var r = ring()
 
   def convert(x: Element) = if (x.factory == r) x else r.convert(x)
 
@@ -46,38 +46,22 @@ object RF {
     }
   }
   def base: Parser[Element] = Int.base ^^ { r(_) } | function | generator | "(" ~> expr <~ ")"
-  def unsignedFactor: Parser[Element] = base ~ ((("**" | "^") ~> Int.factor)?) ^^ {
+  override def unsignedFactor: Parser[Element] = base ~ ((("**" | "^") ~> Int.factor)?) ^^ {
     case x ~ option => option match {
       case Some(exp) => pow(convert(x), exp)
       case None => convert(x)
     }
   }
-  def factor: Parser[Element] = ("-"?) ~ unsignedFactor ^^ {
-    case option ~ factor => option match {
-      case Some(sign) => -factor
-      case None => factor
-    }
-  }
-  def unsignedTerm: Parser[Element] = unsignedFactor ~ (("*" ~ factor | "/" ~ factor)*) ^^ {
+  override def unsignedTerm: Parser[Element] = unsignedFactor ~ (("*" ~ factor | "/" ~ factor)*) ^^ {
     case factor ~ list => (factor /: list) {
       case (x, "*" ~ y) => convert(x) * convert(y)
       case (x, "/" ~ y) => convert(x) / convert(y)
     }
   }
-  def term: Parser[Element] = ("-"?) ~ unsignedTerm ^^ {
-    case option ~ term => option match {
-      case Some(sign) => -term
-      case None => term
-    }
-  }
-  def expr: Parser[Element] = term ~ (("+" ~ unsignedTerm | "-" ~ unsignedTerm)*) ^^ {
+  override def expr: Parser[Element] = term ~ (("+" ~ unsignedTerm | "-" ~ unsignedTerm)*) ^^ {
     case term ~ list => (term /: list) {
       case (x, "+" ~ y) => convert(x) + convert(y)
       case (x, "-" ~ y) => convert(x) - convert(y)
     }
-  }
-  def comparison: Parser[Boolean] = expr ~ ("=" | "<>") ~ expr ^^ {
-    case x ~ "=" ~ y => x >< y
-    case x ~ "<>" ~ y => x <> y
   }
 }
