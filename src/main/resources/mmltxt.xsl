@@ -17,16 +17,26 @@
 </xsl:template>
 
 <xsl:template match="m:cn">
-	<xsl:apply-templates/>
+	<xsl:value-of select="text()"/>
 </xsl:template>
 
 <xsl:template match="m:cn[@type='rational']">
 	<xsl:param name="p" select="0"/>
 	<xsl:if test="1 &lt; $p"><xsl:text>(</xsl:text></xsl:if>
-	<xsl:apply-templates select="text()[1]"/>
+	<xsl:value-of select="text()[1]"/>
 	<xsl:text>/</xsl:text>
-	<xsl:apply-templates select="text()[2]"/>
+	<xsl:value-of select="text()[2]"/>
 	<xsl:if test="1 &lt; $p"><xsl:text>)</xsl:text></xsl:if>
+</xsl:template>
+
+<xsl:template match="m:cn[@type='complex']">
+	<xsl:param name="p" select="0"/>
+	<xsl:if test="0 &lt; $p"><xsl:text>(</xsl:text></xsl:if>
+	<xsl:value-of select="text()[1]"/>
+	<xsl:text>+</xsl:text>
+	<xsl:value-of select="text()[2]"/>
+	<xsl:text>*sqrt(-1)</xsl:text>
+	<xsl:if test="0 &lt; $p"><xsl:text>(</xsl:text></xsl:if>
 </xsl:template>
 
 <xsl:template match="m:ci | m:mi">

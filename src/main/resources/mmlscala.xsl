@@ -34,6 +34,14 @@
 	<xsl:text>)</xsl:text>
 </xsl:template>
 
+<xsl:template match="m:cn[@type='complex']">
+	<xsl:text>Complex(</xsl:text>
+	<xsl:value-of select="text()[1]"/>
+	<xsl:text>, </xsl:text>
+	<xsl:value-of select="text()[2]"/>
+	<xsl:text>)</xsl:text>
+</xsl:template>
+
 <xsl:template match="m:ci | m:mi">
 	<xsl:choose>
 		<xsl:when test="text() = '&#x00391;'"><xsl:text>Alpha</xsl:text></xsl:when>

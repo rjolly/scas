@@ -21,7 +21,7 @@ object Double extends OrderedUFDParsers[Double] {
     case "atan" ~ x => atan(x)
     case "exp" ~ x => exp(x)
     case "log" ~ x => log(x)
-    case "sqrt" ~ x => sqrt(x)
+    case "sqrt" ~ x if (x >= 0) => sqrt(x)
   }
   def base: Parser[Double] = number | constant | function | "(" ~> expr <~ ")"
   override def unsignedFactor: Parser[Double] = base ~ ((("**" | "^") ~> factor)?) ^^ {

@@ -2,6 +2,7 @@ package scas.base
 
 import scas.structure.{Field, StarRing}
 import scas.{int2bigInteger, double2complex}
+import scas.Implicits.{RR, infixOps}
 
 trait ComplexLike extends StarRing[Complex] with Field[Complex] {
   def convert(x: Complex) = x
@@ -31,7 +32,14 @@ trait ComplexLike extends StarRing[Complex] with Field[Complex] {
   def pow(x: Complex, y: Complex) = apply(Math.pow(real(x), real(y)), 0)
 
   def equiv(x: Complex, y: Complex) = real(x) == real(y) && imag(x) == imag(y)
+  override def toCode(x: Complex, precedence: Int) = {
+    if (x.isReal) real(x).toCode(precedence)
+    else "Complex(" + real(x) + ", " + imag(x) + ")"
+  }
   override def toString = "CC"
-  def toMathML(x: Complex) = <cn type="complex">{real(x)}<sep/>{imag(x)}</cn>
+  def toMathML(x: Complex) = {
+    if (x.isReal) real(x).toMathML
+    else <cn type="complex">{real(x)}<sep/>{imag(x)}</cn>
+  }
   def toMathML = <complexes/>
 }

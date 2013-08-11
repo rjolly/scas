@@ -1,0 +1,5 @@
+import scas.residue._
+import scas.{int2bigInteger, bigInteger2rational}
+import Implicits.CC
+assert ((1+sqrt(-1))/(1-sqrt(-1)) >< sqrt(-1))
+assert (sqrt(-1).toCode(0) == "sqrt(-1)")

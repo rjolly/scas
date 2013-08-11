@@ -5,6 +5,7 @@ package object scas {
   trait ExtraImplicits {
     implicit val ZZ = BigInteger
     implicit val QQ = Rational
+    implicit val RR = Double
     implicit val CC = Complex
   }
   object Implicits extends ExtraImplicits with Ordering.ExtraImplicits with StarRing.ExtraImplicits with PowerProduct.ExtraImplicits with Polynomial.ExtraImplicits with PolynomialWithGB.ExtraImplicits with MultivariatePolynomial.ExtraImplicits with UnivariatePolynomial.ExtraImplicits with RationalFunction.ExtraImplicits with Residue.ExtraImplicits with Module.ExtraImplicits with Matrix.ExtraImplicits
@@ -16,6 +17,7 @@ package object scas {
 
   lazy val BigInteger = base.BigInteger
   lazy val Rational = base.Rational
+  lazy val Double = base.Double
   lazy val Complex = base.Complex
 
   val Variable = variable.Variable
