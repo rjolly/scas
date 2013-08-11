@@ -1,11 +1,6 @@
 package scas.application
 
 object Parsers extends scala.util.parsing.combinator.RegexParsers {
-  def integer: Parser[Int] = """\d+""".r ^^ { _.toInt }
-  def name: Parser[String] = """[a-zA-Z]+""".r
-  def prime: Parser[Int] = """'*""".r ^^ { _.length }
-  def subscript: Parser[Int] = "[" ~> integer <~ "]"
-
   def expr: Parser[Object] = Fn.graph | (ComplexParsers.expr ||| RF.expr ||| (Boolean.expr ^^ { java.lang.Boolean.valueOf(_) }))
 
   def apply(input: String) = {

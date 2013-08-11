@@ -1,5 +1,6 @@
 package scas
 
 package object application {
-  type Element = RationalFunction.Element[MultivariatePolynomial.Element[BigInteger, Int], BigInteger, Int]
+  type Poly = MultivariatePolynomial.Element[BigInteger, Int]
+  type RF = RationalFunction.Element[Poly, BigInteger, Int]
 }

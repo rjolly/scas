@@ -13,7 +13,7 @@ trait UFDParsers[T] extends RingParsers[T] {
       case None => x
     }
   }
-  override def unsignedTerm: Parser[T] = unsignedFactor ~ (("*" ~ factor | "/" ~ factor)*) ^^ {
+  override def unsignedTerm: Parser[T] = unsignedFactor ~ ((("*" | "/") ~ factor)*) ^^ {
     case factor ~ list => (factor /: list) {
       case (x, "*" ~ y) => x * y
       case (x, "/" ~ y) => x / y

@@ -13,7 +13,7 @@ object Boolean {
   def function: Parser[Boolean] = RF.comparison | ComplexParsers.comparison | comparison | negation
   def base: Parser[Boolean] = boolean | "(" ~> expr <~ ")"
   def term: Parser[Boolean] = function | base
-  def expr: Parser[Boolean] = term ~ (("&" ~ term | "|" ~ term | "^" ~ term)*) ^^ {
+  def expr: Parser[Boolean] = term ~ ((("&" | "|" | "^") ~ term)*) ^^ {
     case term ~ list => (term /: list) {
       case (x, "&" ~ y) => x && y
       case (x, "|" ~ y) => x || y

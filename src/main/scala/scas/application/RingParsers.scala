@@ -31,7 +31,7 @@ trait RingParsers[T] extends StructureParsers[T] {
       case None => term
     }
   }
-  def expr: Parser[T] = term ~ (("+" ~ unsignedTerm | "-" ~ unsignedTerm)*) ^^ {
+  def expr: Parser[T] = term ~ ((("+" | "-") ~ unsignedTerm)*) ^^ {
     case term ~ list => (term /: list) {
       case (x, "+" ~ y) => x + y
       case (x, "-" ~ y) => x - y
