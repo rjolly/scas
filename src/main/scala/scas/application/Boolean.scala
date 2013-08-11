@@ -10,7 +10,7 @@ object Boolean {
     case x ~ "<>" ~ y => x != y
   }
   def negation: Parser[Boolean] = "!" ~> base ^^ { case x => !x }
-  def function: Parser[Boolean] = ComplexParsers.comparison | RF.comparison | Double.comparison | comparison | negation
+  def function: Parser[Boolean] = RF.comparison | ComplexParsers.comparison | comparison | negation
   def base: Parser[Boolean] = boolean | "(" ~> expr <~ ")"
   def term: Parser[Boolean] = function | base
   def expr: Parser[Boolean] = term ~ (("&" ~ term | "|" ~ term | "^" ~ term)*) ^^ {

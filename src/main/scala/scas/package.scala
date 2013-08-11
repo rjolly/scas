@@ -11,12 +11,12 @@ package object scas {
 
   type BigInteger = base.BigInteger
   type Rational = base.Rational
-  type Complex = residue.Complex
+  type Complex = base.Complex
   type Variable = variable.Variable
 
   lazy val BigInteger = base.BigInteger
   lazy val Rational = base.Rational
-  lazy val Complex = residue.Complex
+  lazy val Complex = base.Complex
 
   val Variable = variable.Variable
   val ModInteger = base.ModInteger
@@ -37,6 +37,7 @@ package object scas {
   implicit def long2bigInteger(l: Long) = java.math.BigInteger.valueOf(l)
   implicit def string2bigInteger(s: String) = BigInteger(s)
   implicit def bigInteger2rational[A <% BigInteger](value: A) = Rational(value)
+  implicit def double2complex[A <% Double](value: A) = Complex(value)
 
   def pow[T: Monoid](x: T, exp: BigInteger) = implicitly[Monoid[T]].pow(x, exp)
   def frac(n: BigInteger, d: BigInteger) = Rational(n, d)

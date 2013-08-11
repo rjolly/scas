@@ -8,6 +8,4 @@ package object base {
   object BigInteger extends BigIntegerLike
   object Rational extends RationalLike
   object Complex extends ComplexLike
-
-  implicit def double2complex[A <% Double](value: A) = Complex(value)
 }

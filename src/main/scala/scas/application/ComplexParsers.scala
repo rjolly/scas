@@ -13,5 +13,5 @@ object ComplexParsers extends UFDParsers[Complex] {
     case "imag" ~ x => imag(x)
     case "conjugate" ~ x => conjugate(x)
   }
-  def base: Parser[Complex] = RationalParsers.base ^^ { Complex(_) } | function | "(" ~> expr <~ ")"
+  def base: Parser[Complex] = Double.base ^^ { Complex(_) } | function | "(" ~> expr <~ ")"
 }

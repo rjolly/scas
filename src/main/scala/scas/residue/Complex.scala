@@ -8,9 +8,8 @@ trait ComplexLike extends AlgebraicNumber[UnivariatePolynomial.Element[Rational,
   val ring = UnivariatePolynomial(QQ, Variable.sqrt(BigInteger(-1)))
   import ring.pp
   implicit val self = this
-  val i = generator(0)
-  update(1 + pow(i, 2))
-  def sqrt(x: Complex) = { assert (x >< -1) ; i }
+  update(1 + pow(sqrt(-1), 2))
+  def sqrt(x: Complex) = { assert (x >< -1) ; generator(0) }
   def real(x: Complex) = coefficient(x, pp.one)
   def imag(x: Complex) = coefficient(x, pp.generator(0))
   def isReal(x: Complex) = imag(x) >< zero
