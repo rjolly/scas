@@ -1,10 +1,10 @@
 package scas.application
 
 object Parsers extends scala.util.parsing.combinator.RegexParsers {
-  def expr: Parser[Object] = Fn.graph | (ComplexParsers.expr ||| RF.expr ||| (Boolean.expr ^^ { java.lang.Boolean.valueOf(_) }))
+  def obj: Parser[Object] = Fn.graph | (ComplexParsers.obj ||| RF.obj ||| RationalParsers.obj ||| Boolean.obj)
 
   def apply(input: String) = {
-    val result = parseAll(expr, input) match {
+    val result = parseAll(obj, input) match {
       case Success(result, _) => Right(result)
       case NoSuccess(msg, _) => Left(msg)
     }

@@ -5,7 +5,7 @@ import scas.MathObject
 import spire.macros.Ops
 import Structure.OpsImpl
 
-trait Structure[@specialized(Int, Long, Double) T] extends Equiv[T] {
+trait Structure[@specialized(Int, Long, Double) T] extends Equiv[T] { outer =>
   def convert(x: T): T
   def apply(l: Long): T
   def random(numbits: Int)(implicit rnd: java.util.Random): T
@@ -14,6 +14,10 @@ trait Structure[@specialized(Int, Long, Double) T] extends Equiv[T] {
   def toMathML(x: T): Elem
   def toMathML: Elem
   implicit def mkOps(lhs: T): Structure.Ops[T] = new OpsImpl(lhs)(this)
+  def render(value: T): MathObject = new MathObject {
+    override def toString = toCode(value, 0)
+    def toMathML = outer.toMathML(value)
+  }
 }
 
 object Structure {

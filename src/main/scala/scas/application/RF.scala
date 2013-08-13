@@ -37,4 +37,5 @@ object RF extends UFDParsers[RF] {
       case (x, "-" ~ y) => convert(x) - convert(y)
     }
   }
+  override def obj: Parser[MathObject] = expr
 }

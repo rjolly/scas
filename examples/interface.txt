@@ -1,10 +1,7 @@
-val mml = scas.MathML("mmlscala.xsl")
 val manager = new javax.script.ScriptEngineManager
 val engine = manager.getEngineByName("scas")
-Map("x+x" -> "<math><apply><times/><cn>2</cn><ci>x</ci></apply></math>",
-"1" -> "1",
-"1+x" -> "<math><apply><plus/><cn>1</cn><ci>x</ci></apply></math>",
-"1/4" -> "<math><cn type="rational">1<sep/>4</cn></math>") map { r =>
-  val (a, b) = r
-  assert(mml(engine.eval(a)) == b)
-}
+import engine.eval
+assert(eval("x+x").toString == "<math><apply><times/><cn>2</cn><ci>x</ci></apply></math>")
+assert(eval("1").toString == "<math><cn>1</cn></math>")
+assert(eval("1+x").toString == "<math><apply><plus/><cn>1</cn><ci>x</ci></apply></math>")
+assert(eval("1/4").toString == "<math><cn type="rational">1<sep/>4</cn></math>")

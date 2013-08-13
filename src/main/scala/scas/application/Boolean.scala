@@ -20,4 +20,5 @@ object Boolean {
       case (x, "^" ~ y) => x ^ y
     }
   }
+  def obj: Parser[Object] = expr ^^ { java.lang.Boolean.valueOf(_) }
 }
