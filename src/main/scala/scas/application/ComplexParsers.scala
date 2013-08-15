@@ -7,7 +7,7 @@ import Parsers._
 
 object ComplexParsers extends UFDParsers[Complex] {
   val structure = CC
-  def number: Parser[Complex] = ("(" ~> Double.number) ~ ("," ~> Double.number) <~ ")" ^^ {
+  def number: Parser[Complex] = ("(" ~> DoubleParsers.number) ~ ("," ~> DoubleParsers.number) <~ ")" ^^ {
     case a ~ b => Complex(a, b)
   }
   def function: Parser[Complex] = ("sqrt" | "real" | "imag" | "conjugate") ~ ("(" ~> expr) <~ ")" ^^ {
@@ -16,5 +16,5 @@ object ComplexParsers extends UFDParsers[Complex] {
     case "imag" ~ x => imag(x)
     case "conjugate" ~ x => conjugate(x)
   }
-  def base: Parser[Complex] = number | function | "(" ~> expr <~ ")" | Double.base ^^ { Complex(_) }
+  def base: Parser[Complex] = number | function | "(" ~> expr <~ ")" | DoubleParsers.base ^^ { Complex(_) }
 }

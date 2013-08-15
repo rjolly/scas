@@ -1,10 +1,11 @@
 package scas.application
 
 import Parsers.{log => _, _}
+import scas.Double
 import Math.{sinh, cosh, tanh, sin, cos, tan, asin, acos, atan, exp, log, sqrt, pow, PI}
 
-object Double extends OrderedUFDParsers[Double] {
-  val structure = scas.base.Double
+object DoubleParsers extends OrderedUFDParsers[Double] {
+  val structure = Double
   def number: Parser[Double] = """(\d+(\.\d*)?|\d*\.\d+)([eE][+-]?\d+)?""".r ^^ { _.toDouble }
   def constant: Parser[Double] = ("pi") ^^ {
     case "pi" => PI

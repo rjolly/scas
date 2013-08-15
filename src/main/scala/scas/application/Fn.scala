@@ -33,7 +33,7 @@ object Fn extends UFDParsers[Double => Double] {
   def generator: Parser[Double => Double] = Var.parser ^^ {
     case variable if (contains(variable)) => identity[Double]
   }
-  def base: Parser[Double => Double] = Double.base ^^ { Function(_) } | function | generator | "(" ~> expr <~ ")"
+  def base: Parser[Double => Double] = DoubleParsers.base ^^ { Function(_) } | function | generator | "(" ~> expr <~ ")"
   override def unsignedFactor: Parser[Double => Double] = base ~ ((("**" | "^") ~> factor)?) ^^ {
     case x ~ option => option match {
       case Some(y) => pow(x, y)

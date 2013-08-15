@@ -1,10 +1,11 @@
 package scas.structure
 
+import scas.Boolean
 import spire.macros.Ops
 import BooleanAlgebra.OpsImpl
 
-trait BooleanAlgebra[@specialized(Boolean) T] extends Algebra[T, Boolean] with UniqueFactorizationDomain[T] {
-  val ring = scas.Boolean
+trait BooleanAlgebra[@specialized(scala.Boolean) T] extends Algebra[T, Boolean] with UniqueFactorizationDomain[T] {
+  val ring = Boolean
   def ltimes(x: Boolean, y: T) = if(x) y else zero
   def gcd(x: T, y: T) = x || y
   def and(x: T, y: T) = x * y
@@ -17,7 +18,7 @@ trait BooleanAlgebra[@specialized(Boolean) T] extends Algebra[T, Boolean] with U
 
 object BooleanAlgebra {
   trait ExtraImplicits extends Algebra.ExtraImplicits with UniqueFactorizationDomain.ExtraImplicits {
-    implicit def infixBooleanAlgebraOps[T: BooleanAlgebra](lhs: T) = implicitly[BooleanAlgebra[T]].mkOps(lhs)
+    implicit def infixBooleanOps[T: BooleanAlgebra](lhs: T) = implicitly[BooleanAlgebra[T]].mkOps(lhs)
   }
   object Implicits extends ExtraImplicits
 
