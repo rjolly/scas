@@ -5,7 +5,7 @@ import scas.Implicits.infixUFDOps
 
 trait Residue[@specialized(Int, Long) T, @specialized(Int, Long) R] extends UniqueFactorizationDomain[T] { self =>
   implicit val ring: UniqueFactorizationDomain[R]
-  def convert(x: T) = {
+  override def convert(x: T) = {
     val self(a) = x
     reduce(ring.convert(a))
   }

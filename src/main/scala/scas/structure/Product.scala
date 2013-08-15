@@ -1,11 +1,11 @@
 package scas.structure
 
-import scas.BigInteger.lcm
+import scas.BigInteger
 import scas.Implicits.infixRingOps
 import Product.Element
 
 class Product[R1, R2](implicit val ring1: Ring[R1], ring2: Ring[R2]) extends Ring[Element[R1, R2]] {
-  def convert(x: Element[R1, R2]) = {
+  override def convert(x: Element[R1, R2]) = {
     val Element(a, b) = x
     apply(ring1.convert(a), ring2.convert(b))
   }
@@ -25,7 +25,7 @@ class Product[R1, R2](implicit val ring1: Ring[R1], ring2: Ring[R2]) extends Rin
     val l = ring1.signum(a)
     if (l == 0) ring2.signum(b) else l
   }
-  def characteristic = lcm(ring1.characteristic, ring2.characteristic)
+  def characteristic = BigInteger.lcm(ring1.characteristic, ring2.characteristic)
   def plus(x: Element[R1, R2], y: Element[R1, R2]) = {
     val Element(a, b) = x
     val Element(c, d) = y

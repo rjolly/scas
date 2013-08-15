@@ -34,7 +34,6 @@ trait PowerProduct[@specialized(Byte, Short, Int, Long) N] extends Monoid[Array[
     assert (l == 1)
     one
   }
-  def convert(x: Array[N]) = x
   def random(numbits: Int)(implicit rnd: java.util.Random) = one
   def gcd(x: Array[N], y: Array[N]): Array[N] = {
     val r = new Array[N](length + 1)

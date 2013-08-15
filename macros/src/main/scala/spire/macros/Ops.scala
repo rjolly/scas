@@ -56,6 +56,13 @@ object Ops {
     "$div$percent" -> "divideAndRemainder",
     "$bar" -> "factorOf",
 
+    // BooleanAlgebra (& ^ !)
+    "$amp" -> "and",
+    "$bar$bar" -> "or",
+    "$up" -> "xor",
+    "unary_$bang" -> "not",
+    "$greater$greater" -> "implies",
+
     // VectorSpace (:/)
     "$colon$div" -> "rdivide"
   )

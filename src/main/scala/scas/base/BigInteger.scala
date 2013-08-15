@@ -7,7 +7,6 @@ import scas.{int2bigInteger, long2bigInteger}
 
 trait BigIntegerLike extends EuclidianDomain[BigInteger] {
   override def isZero(x: BigInteger) = signum(x) == 0
-  def convert(x: BigInteger) = x
   def apply(s: String) = new BigInteger(s)
   def apply(l: Long) = l
   def random(numbits: Int)(implicit rnd: java.util.Random) = {

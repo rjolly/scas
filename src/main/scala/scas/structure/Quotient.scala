@@ -5,7 +5,7 @@ import scas.Implicits.{ZZ, infixUFDOps}
 
 trait Quotient[T <: Product2[R, R], R] extends Field[T] { self =>
   implicit val ring: UniqueFactorizationDomain[R]
-  def convert(x: T) = {
+  override def convert(x: T) = {
     val self(n, d) = x
     reduce(ring.convert(n), ring.convert(d))
   }
@@ -57,7 +57,7 @@ trait Quotient[T <: Product2[R, R], R] extends Field[T] { self =>
     val self(n, d) = x
     apply(d, n)
   }
-  def gcd(x: T, y: T) = {
+  override def gcd(x: T, y: T) = {
     val self(a, b) = x
     val self(c, d) = y
     apply(ring.gcd(a, c), ring.lcm(b, d))

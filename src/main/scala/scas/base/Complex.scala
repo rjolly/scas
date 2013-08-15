@@ -5,7 +5,6 @@ import scas.{int2bigInteger, double2complex}
 import scas.Implicits.{RR, infixOps}
 
 trait ComplexLike extends StarRing[Complex] with Field[Complex] {
-  def convert(x: Complex) = x
   def apply(a: Double, b: Double) = (a, b)
   def apply(value: Double): Complex = apply(value, 0)
   def apply(l: Long) = apply(l.toDouble)
@@ -13,7 +12,6 @@ trait ComplexLike extends StarRing[Complex] with Field[Complex] {
   def random(numbits: Int)(implicit rnd: java.util.Random) = (rnd.nextDouble(), rnd.nextDouble())
   def characteristic = 0
   override def pow(x: Complex, exp: BigInteger): Complex = pow(x, exp.doubleValue())
-  def gcd(x: Complex, y: Complex) = if (norm(x) < norm(y)) y else x
   def plus(x: Complex, y: Complex) = (real(x) + real(y), imag(x) + imag(y))
   def minus(x: Complex, y: Complex) = (real(x) - real(y), imag(x) - imag(y))
   def times(x: Complex, y: Complex) = (real(x) * real(y) - imag(x) * imag(y), real(x) * imag(y) + real(y) * imag(x))

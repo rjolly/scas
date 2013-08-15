@@ -6,7 +6,7 @@ import spire.macros.Ops
 import Structure.OpsImpl
 
 trait Structure[@specialized(Int, Long, Double) T] extends Equiv[T] { outer =>
-  def convert(x: T): T
+  def convert(x: T) = x
   def apply(l: Long): T
   def random(numbits: Int)(implicit rnd: java.util.Random): T
   def nequiv(x: T, y: T) = !equiv(x, y)

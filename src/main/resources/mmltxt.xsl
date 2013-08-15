@@ -16,6 +16,77 @@
 	<xsl:apply-templates/>
 </xsl:template>
 
+<xsl:template match="m:true">
+	<xsl:text>true</xsl:text>
+</xsl:template>
+
+
+<xsl:template match="m:false">
+	<xsl:text>false</xsl:text>
+</xsl:template>
+
+<xsl:template match="m:apply[*[1][self::m:and]]">
+	<xsl:param name="p" select="0"/>
+	<xsl:if test="0 &lt; $p"><xsl:text>(</xsl:text></xsl:if>
+	<xsl:apply-templates select="*[2]">
+		<xsl:with-param name="p" select="0"/>
+	</xsl:apply-templates>
+	<xsl:text>&amp;</xsl:text>
+	<xsl:apply-templates select="*[3]">
+	    	<xsl:with-param name="p" select="1"/>
+	</xsl:apply-templates>
+	<xsl:if test="0 &lt; $p"><xsl:text>)</xsl:text></xsl:if>
+</xsl:template>
+
+<xsl:template match="m:apply[*[1][self::m:or]]">
+	<xsl:param name="p" select="0"/>
+	<xsl:if test="0 &lt; $p"><xsl:text>(</xsl:text></xsl:if>
+	<xsl:apply-templates select="*[2]">
+		<xsl:with-param name="p" select="0"/>
+	</xsl:apply-templates>
+	<xsl:text>|</xsl:text>
+	<xsl:apply-templates select="*[3]">
+	    	<xsl:with-param name="p" select="1"/>
+	</xsl:apply-templates>
+	<xsl:if test="0 &lt; $p"><xsl:text>)</xsl:text></xsl:if>
+</xsl:template>
+
+<xsl:template match="m:apply[*[1][self::m:xor]]">
+	<xsl:param name="p" select="0"/>
+	<xsl:if test="0 &lt; $p"><xsl:text>(</xsl:text></xsl:if>
+	<xsl:apply-templates select="*[2]">
+		<xsl:with-param name="p" select="0"/>
+	</xsl:apply-templates>
+	<xsl:text>^</xsl:text>
+	<xsl:apply-templates select="*[3]">
+	    	<xsl:with-param name="p" select="1"/>
+	</xsl:apply-templates>
+	<xsl:if test="0 &lt; $p"><xsl:text>)</xsl:text></xsl:if>
+</xsl:template>
+
+<xsl:template match="m:apply[*[1][self::m:not]]">
+	<xsl:param name="p" select="0"/>
+	<xsl:if test="0 &lt; $p"><xsl:text>(</xsl:text></xsl:if>
+	<xsl:text>!</xsl:text>
+	<xsl:apply-templates select="*[2]">
+		<xsl:with-param name="p" select="1"/>
+	</xsl:apply-templates>
+	<xsl:if test="0 &lt; $p"><xsl:text>)</xsl:text></xsl:if>
+</xsl:template>
+
+<xsl:template match="m:apply[*[1][self::m:implies]]">
+	<xsl:param name="p" select="0"/>
+	<xsl:if test="0 &lt; $p"><xsl:text>(</xsl:text></xsl:if>
+	<xsl:apply-templates select="*[2]">
+		<xsl:with-param name="p" select="0"/>
+	</xsl:apply-templates>
+	<xsl:text>=&gt;</xsl:text>
+	<xsl:apply-templates select="*[3]">
+	    	<xsl:with-param name="p" select="1"/>
+	</xsl:apply-templates>
+	<xsl:if test="0 &lt; $p"><xsl:text>)</xsl:text></xsl:if>
+</xsl:template>
+
 <xsl:template match="m:cn">
 	<xsl:value-of select="text()"/>
 </xsl:template>

@@ -4,12 +4,10 @@ import scas.structure.ordered.Field
 import scas.int2bigInteger
 
 object Double extends Field[Double] {
-  def convert(x: Double) = x
   def apply(l: Long) = l
   def random(numbits: Int)(implicit rnd: java.util.Random) = rnd.nextDouble()
   def characteristic = 0
   override def pow(x: Double, exp: BigInteger) = Math.pow(x, exp.doubleValue())
-  def gcd(x: Double, y: Double) = if (norm(x) < norm(y)) y else x
   def plus(x: Double, y: Double) = x + y
   def minus(x: Double, y: Double) = x - y
   def times(x: Double, y: Double) = x * y

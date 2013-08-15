@@ -4,7 +4,6 @@ import scas.structure.ordered.EuclidianDomain
 import scas.{int2bigInteger, long2bigInteger}
 
 object Long extends EuclidianDomain[Long] {
-  def convert(x: Long) = x
   def apply(s: String) = s.toLong
   def apply(l: Long) = l
   def random(numbits: Int)(implicit rnd: java.util.Random) = rnd.nextLong()

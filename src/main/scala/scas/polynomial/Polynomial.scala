@@ -17,7 +17,7 @@ trait Polynomial[T <: Element[T, C, N], C, N] extends Ring[T] {
   def generators = pp.generators.map(fromPowerProduct)
   def signum(x: T) = if (x.isZero) 0 else ring.signum(lastCoefficient(x))
   def characteristic = ring.characteristic
-  def convert(x: T) = sort(map(x, (s, a) => (pp.converter(x.factory.variables)(s), ring.convert(a))))
+  override def convert(x: T) = sort(map(x, (s, a) => (pp.converter(x.factory.variables)(s), ring.convert(a))))
   def apply(l: Long) = apply(ring(l))
   def random(numbits: Int)(implicit rnd: java.util.Random) = zero
   def plus(x: T, y: T): T
