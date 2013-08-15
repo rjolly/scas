@@ -3,7 +3,7 @@ package scas.application
 import Parsers.{log => _, _}
 import scas.{Graph, Variable}
 import scas.base.Function
-import Function.{sinh, cosh, tanh, sin, cos, tan, asin, acos, atan, exp, log, sqrt, pow}
+import Function.{sinh, cosh, tanh, sin, cos, tan, asin, acos, atan, exp, log, sqrt, pow, identity}
 
 object Fn extends UFDParsers[Double => Double] {
   val structure = Function
@@ -31,7 +31,7 @@ object Fn extends UFDParsers[Double => Double] {
     case "sqrt" ~ x => sqrt(x)
   }
   def generator: Parser[Double => Double] = Var.parser ^^ {
-    case variable if (contains(variable)) => identity[Double]
+    case variable if (contains(variable)) => identity
   }
   def base: Parser[Double => Double] = DoubleParsers.base ^^ { Function(_) } | function | generator | "(" ~> expr <~ ")"
   override def unsignedFactor: Parser[Double => Double] = base ~ ((("**" | "^") ~> factor)?) ^^ {

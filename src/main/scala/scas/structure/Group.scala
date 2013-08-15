@@ -1,5 +1,7 @@
 package scas.structure
 
+import scas.Variable
+
 trait Group[@specialized(Int, Long, Double) T] extends NotQuiteGroup[T] {
   override def isUnit(x: T) = true
 }
@@ -16,5 +18,6 @@ object Group {
     override def toCode(x: T, precedence: Int) = group.toCode(x, precedence)
     def toMathML(x: T) = group.toMathML(x)
     def toMathML = group.toMathML
+    def function(x: T, a: Variable) = group.function(x, a)
   }
 }

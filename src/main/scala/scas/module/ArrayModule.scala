@@ -88,6 +88,7 @@ trait ArrayModule[T <: Element[T, R], R] extends scas.structure.Module[T, R] {
     case _ => <vector>{x.value.map(_.toMathML)}</vector>
   }
   def toMathML = <msup>{ring.toMathML}<mn>{dimension}</mn></msup>
+  def function(x: T, a: Variable) = x(0).function(a)
   def apply(value: Array[R]): T
   def apply(s: R*): T = apply(s.toArray)
 }

@@ -8,6 +8,7 @@ package object scas {
     implicit val RR = Double
     implicit val CC = Complex
     implicit val ZZ2 = Boolean
+    implicit val R2R = Function
   }
   object Implicits extends ExtraImplicits with Ordering.ExtraImplicits with StarRing.ExtraImplicits with BooleanAlgebra.ExtraImplicits with PowerProduct.ExtraImplicits with Polynomial.ExtraImplicits with PolynomialWithGB.ExtraImplicits with MultivariatePolynomial.ExtraImplicits with UnivariatePolynomial.ExtraImplicits with RationalFunction.ExtraImplicits with Residue.ExtraImplicits with Module.ExtraImplicits with Vector.ExtraImplicits with Matrix.ExtraImplicits
 
@@ -21,6 +22,7 @@ package object scas {
   lazy val Double = base.Double
   lazy val Complex = base.Complex
   lazy val Boolean = base.Boolean
+  lazy val Function = base.Function
 
   val Variable = variable.Variable
   val ModInteger = base.ModInteger

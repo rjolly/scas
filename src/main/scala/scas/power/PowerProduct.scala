@@ -1,12 +1,13 @@
 package scas.power
 
 import scala.reflect.ClassTag
-import scas.{Variable, BigInteger}
+import scas.{Variable, BigInteger, Function, long2bigInteger}
 import scas.structure.ordered.Monoid
 import scas.math.{Ordering, Numeric}
 import spire.macros.Ops
 import Ordering.Implicits.infixOrderingOps
 import Numeric.Implicits.infixNumericOps
+import Function.identity
 
 trait PowerProduct[@specialized(Byte, Short, Int, Long) N] extends Monoid[Array[N]] {
   val variables: Array[Variable]
@@ -97,6 +98,7 @@ trait PowerProduct[@specialized(Byte, Short, Int, Long) N] extends Monoid[Array[
     s
   }
   def toMathML = <list>{variables.map(_.toMathML)}</list>
+  def function(x: Array[N], a: Variable) = Function.pow(identity, if (variables.contains(a)) toLong(x(variables.indexOf(a))) else 0)
 
   def converter(from: Array[Variable]): Array[N] => Array[N] = { x =>
     val r = new Array[N](length + 1)

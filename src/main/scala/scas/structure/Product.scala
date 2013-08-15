@@ -1,7 +1,7 @@
 package scas.structure
 
-import scas.BigInteger
-import scas.Implicits.infixRingOps
+import scas.{BigInteger, Variable}
+import scas.Implicits.{infixRingOps, R2R}
 import Product.Element
 
 class Product[R1, R2](implicit val ring1: Ring[R1], ring2: Ring[R2]) extends Ring[Element[R1, R2]] {
@@ -56,6 +56,10 @@ class Product[R1, R2](implicit val ring1: Ring[R1], ring2: Ring[R2]) extends Rin
     <apply><cartesianproduct/>{a.toMathML}{b.toMathML}</apply>
   }
   def toMathML = <apply><cartesianproduct/>{ring1.toMathML}{ring2.toMathML}</apply>
+  def function(x: Element[R1, R2], c: Variable) = {
+    val Element(a, b) = x
+    a.function(c) * b.function(c)
+  }
 }
 
 object Product {

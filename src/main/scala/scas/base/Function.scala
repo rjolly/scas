@@ -1,11 +1,11 @@
 package scas.base
 
 import scas.structure.Field
-import scas.int2bigInteger
+import scas.{int2bigInteger, Variable}
 
 object Function extends Field[Double => Double] {
   def apply(value: Double): Double => Double = { a => value }
-  def apply(l: Long) = apply(l)
+  def apply(l: Long) = apply(l.toDouble)
   def signum(x: Double => Double) = if (x.isZero) 0 else 1
   def random(numbits: Int)(implicit rnd: java.util.Random) = { a => rnd.nextDouble() }
   def characteristic = 0
@@ -16,6 +16,7 @@ object Function extends Field[Double => Double] {
   override def divide(x: Double => Double, y: Double => Double) = { a => x(a) / y(a) }
   def inverse(x: Double => Double) = { a => 1 / x(a) }
 
+  def identity = { a: Double => a }
   def sin(x: Double => Double) = { a: Double => Math.sin(x(a)) }
   def cos(x: Double => Double) = { a: Double => Math.cos(x(a)) }
   def tan(x: Double => Double) = { a: Double => Math.tan(x(a)) }
@@ -34,4 +35,5 @@ object Function extends Field[Double => Double] {
   override def toString = "RR => RR"
   def toMathML(x: Double => Double) = <ci>{x}</ci>
   def toMathML = <mrow><reals/><mo>&#x021A6;</mo><reals/></mrow>
+  def function(x: Double => Double, a: Variable) = x
 }

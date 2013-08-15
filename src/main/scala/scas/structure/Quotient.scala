@@ -1,7 +1,7 @@
 package scas.structure
 
-import scas.BigInteger
-import scas.Implicits.{ZZ, infixUFDOps}
+import scas.{BigInteger, Variable}
+import scas.Implicits.{ZZ, infixUFDOps, R2R}
 
 trait Quotient[T <: Product2[R, R], R] extends Field[T] { self =>
   implicit val ring: UniqueFactorizationDomain[R]
@@ -87,6 +87,10 @@ trait Quotient[T <: Product2[R, R], R] extends Field[T] { self =>
     else <apply><divide/>{n.toMathML}{d.toMathML}</apply>
   }
   def toMathML = <apply><divide/>{ring.toMathML}{ring.toMathML}</apply>
+  def function(x: T, a: Variable) = {
+    val self(n, d) = x
+    n.function(a) / d.function(a)
+  }
 }
 
 object Quotient {

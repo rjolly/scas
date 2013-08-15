@@ -1,6 +1,6 @@
 package scas.structure
 
-import scas.BigInteger
+import scas.{BigInteger, Variable}
 import scas.Implicits.infixUFDOps
 
 trait Residue[@specialized(Int, Long) T, @specialized(Int, Long) R] extends UniqueFactorizationDomain[T] { self =>
@@ -72,6 +72,10 @@ trait Residue[@specialized(Int, Long) T, @specialized(Int, Long) R] extends Uniq
   def toMathML(x: T) = {
     val self(a) = x
     a.toMathML
+  }
+  def function(x: T, c: Variable) = {
+    val self(a) = x
+    a.function(c)
   }
 }
 

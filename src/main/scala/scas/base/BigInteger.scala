@@ -3,7 +3,7 @@ package scas.base
 import scala.annotation.tailrec
 import scala.collection.{Map, SortedMap}
 import scas.structure.ordered.EuclidianDomain
-import scas.{int2bigInteger, long2bigInteger}
+import scas.{int2bigInteger, long2bigInteger, Variable}
 
 trait BigIntegerLike extends EuclidianDomain[BigInteger] {
   override def isZero(x: BigInteger) = signum(x) == 0
@@ -39,6 +39,7 @@ trait BigIntegerLike extends EuclidianDomain[BigInteger] {
   override def toString = "ZZ"
   def toMathML(x: BigInteger) = <cn>{x}</cn>
   def toMathML = <integers/>
+  def function(x: BigInteger, a: Variable) = Function(x.doubleValue())
 
   def factorial(x: BigInteger): BigInteger = factorial(1, x)
 

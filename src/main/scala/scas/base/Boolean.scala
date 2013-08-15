@@ -2,7 +2,7 @@ package scas.base
 
 import scas.structure.{BooleanAlgebra, Field}
 import scas.Implicits.{ZZ, infixAbelianGroupOps}
-import scas.int2bigInteger
+import scas.{int2bigInteger, Variable}
 
 object Boolean extends BooleanAlgebra[Boolean] with Field[Boolean] {
   def apply(l: Long) = l % 2 == 1
@@ -18,4 +18,5 @@ object Boolean extends BooleanAlgebra[Boolean] with Field[Boolean] {
   override def toString = "ZZ(2)"
   def toMathML(x: Boolean) = if (x) <true/> else <false/>
   def toMathML = <msub><integers/><mn>2</mn></msub>
+  def function(x: Boolean, a: Variable) = Function(signum(x).toDouble)
 }

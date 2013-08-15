@@ -4,8 +4,8 @@ import scala.annotation.tailrec
 import scala.reflect.ClassTag
 import scas.power.PowerProduct
 import scas.structure.Ring
-import scas.BigInteger
-import scas.Implicits.{ZZ, infixRingOps, infixPowerProductOps, infixOrderingOps}
+import scas.{BigInteger, Variable, Function}
+import scas.Implicits.{ZZ, infixRingOps, infixPowerProductOps, infixOrderingOps, R2R}
 import Polynomial.Element
 
 trait Polynomial[T <: Element[T, C, N], C, N] extends Ring[T] {
@@ -102,6 +102,10 @@ trait Polynomial[T <: Element[T, C, N], C, N] extends Ring[T] {
     s
   }
   def toMathML = <mrow>{ring.toMathML}{pp.toMathML}</mrow>
+  def function(x: T, c: Variable) = (Function.zero /: iterator(x)) { (l, r) =>
+    val (a, b) = r
+    l + a.function(c) * b.function(c)
+  }
   def apply(value: C): T = if(value.isZero) zero else apply(pp.one, value)
   def fromPowerProduct(value: Array[N]) = apply(value, ring.one)
   def apply(m: Array[N], c: C): T = apply((m, c))

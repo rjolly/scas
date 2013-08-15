@@ -38,4 +38,7 @@ object RF extends UFDParsers[RF] {
     }
   }
   override def obj: Parser[MathObject] = expr
+  def graph: Parser[Graph] = "graph" ~> ("(" ~> expr) ~ ("," ~> Var.parser) <~ ")" ^^ {
+    case expr ~ variable => Graph(expr.function(variable))
+  }
 }

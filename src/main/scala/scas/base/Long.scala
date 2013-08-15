@@ -1,7 +1,7 @@
 package scas.base
 
 import scas.structure.ordered.EuclidianDomain
-import scas.{int2bigInteger, long2bigInteger}
+import scas.{int2bigInteger, long2bigInteger, Variable}
 
 object Long extends EuclidianDomain[Long] {
   def apply(s: String) = s.toLong
@@ -24,4 +24,5 @@ object Long extends EuclidianDomain[Long] {
   override def toString = "ZZ"
   def toMathML(x: Long) = <cn>{x}</cn>
   def toMathML = <integers/>
+  def function(x: Long, a: Variable) = Function(x.toDouble)
 }
