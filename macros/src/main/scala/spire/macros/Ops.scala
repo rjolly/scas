@@ -13,6 +13,11 @@ object Ops {
     val (ev, lhs) = unpack(c)
     c.Expr[R](Apply(Select(ev, findMethodName(c)), List(lhs, rhs.tree)))
   }
+  def rbinop[A, R](c:Context)(lhs:c.Expr[A]):c.Expr[R] = {
+    import c.universe._
+    val (ev, rhs) = unpack(c)
+    c.Expr[R](Apply(Select(ev, findMethodName(c)), List(lhs.tree, rhs)))
+  }
   def unpack[T[_], A](c:Context) = {
     import c.universe._
     c.prefix.tree match {
@@ -38,6 +43,10 @@ object Ops {
     "$plus" -> "plus",
     "$minus" -> "minus",
 
+    // Module (*: :*)
+    "$times$colon" -> "ltimes",
+    "$colon$times" -> "rtimes",
+
     // SemiGroup (*)
     "$times" -> "times",
 
@@ -45,7 +54,10 @@ object Ops {
     "$div" -> "divide",
     "$percent" -> "remainder",
     "$div$percent" -> "divideAndRemainder",
-    "$bar" -> "factorOf"
+    "$bar" -> "factorOf",
+
+    // VectorSpace (:/)
+    "$colon$div" -> "rdivide"
   )
   def findMethodName(c:Context) = {
     import c.universe._

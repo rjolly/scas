@@ -2,6 +2,20 @@ package scas.module
 
 import scala.reflect.ClassTag
 import scas.structure.{Field, VectorSpace}
-import Module.Element
+import Vector.Element
 
-class Vector[R](val dimension: Int, val name: Option[String], val ring: Field[R])(implicit val m: ClassTag[Element[R]], val cm: ClassTag[R]) extends Module[R] with VectorSpace[Element[R], R]
+trait Vector[R] extends ArrayModule[Element[R], R] with VectorSpace[Element[R], R] {
+  def apply(value: Array[R]) = new Element(value)(this)
+}
+
+object Vector {
+  def apply[R](name: String, dimension: Int, ring: Field[R])(implicit m: ClassTag[Element[R]], cm: ClassTag[R]) = new VectorImpl(dimension, Some(name), ring)
+  def apply[R](dimension: Int, ring: Field[R])(implicit m: ClassTag[Element[R]], cm: ClassTag[R]) = new VectorImpl(dimension, None, ring)
+
+  class Element[R](val value: Array[R])(val factory: Vector[R]) extends ArrayModule.Element[Element[R], R] with VectorSpace.Element[Element[R], R]
+  object Element extends ExtraImplicits
+
+  trait ExtraImplicits {
+    implicit def ring2vectorScalar[S <% R, R: Vector](value: S) = implicitly[Vector[R]].scalar(value)
+  }
+}

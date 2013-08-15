@@ -16,7 +16,7 @@ object SemiGroup {
 
   trait Element[T <: Element[T]] extends Structure.Element[T] { this: T =>
     val factory: SemiGroup[T]
-    def *(rhs: T) = factory.times(lhs, rhs)
+    def *(that: T) = factory.times(this, that)
   }
   trait Ops[T] extends Structure.Ops[T] {
     def *(rhs: T) = macro Ops.binop[T, T]

@@ -219,6 +219,6 @@ trait Polynomial[T <: Element[T, C, N], C, N] extends Ring[T] {
 object Polynomial {
   trait Element[T <: Element[T, C, N], C, N] extends Ring.Element[T] { this: T =>
     val factory: Polynomial[T, C, N]
-    def *(rhs: Array[N]) = factory.times(lhs, rhs)
+    def *(that: Array[N]) = factory.times(this, that)
   }
 }

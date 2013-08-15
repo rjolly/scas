@@ -23,11 +23,11 @@ object AbelianGroup {
 
   trait Element[T <: Element[T]] extends Structure.Element[T] { this: T =>
     val factory: AbelianGroup[T]
-    def isZero = factory.isZero(lhs)
-    def +(rhs: T) = factory.plus(lhs, rhs)
-    def -(rhs: T) = factory.minus(lhs, rhs)
-    def unary_- = factory.negate(lhs)
-    def unary_+ = factory.identity(lhs)
+    def isZero = factory.isZero(this)
+    def +(that: T) = factory.plus(this, that)
+    def -(that: T) = factory.minus(this, that)
+    def unary_- = factory.negate(this)
+    def unary_+ = factory.identity(this)
   }
   trait Ops[T] extends Structure.Ops[T] {
     def isZero() = macro Ops.unop[Boolean]

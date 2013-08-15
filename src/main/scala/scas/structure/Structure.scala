@@ -27,13 +27,12 @@ object Structure {
   object Implicits extends ExtraImplicits
 
   trait Element[T <: Element[T]] extends MathObject { this: T =>
-    val lhs = this
     val factory: Structure[T]
-    def ><(rhs: T) = factory.equiv(lhs, rhs)
-    def <>(rhs: T) = factory.nequiv(lhs, rhs)
+    def ><(that: T) = factory.equiv(this, that)
+    def <>(that: T) = factory.nequiv(this, that)
     override def toString = toCode(0)
-    def toCode(precedence: Int) = factory.toCode(lhs, precedence)
-    def toMathML = factory.toMathML(lhs)
+    def toCode(precedence: Int) = factory.toCode(this, precedence)
+    def toMathML = factory.toMathML(this)
   }
   trait Ops[T] {
     def ><(rhs: T) = macro Ops.binop[T, Boolean]

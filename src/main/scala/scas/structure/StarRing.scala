@@ -18,8 +18,8 @@ object StarRing {
 
   trait Element[T <: Element[T]] extends UniqueFactorizationDomain.Element[T] { this: T =>
     val factory: StarRing[T]
-    def isReal = factory.isReal(lhs)
-    def isImag = factory.isImag(lhs)
+    def isReal = factory.isReal(this)
+    def isImag = factory.isImag(this)
   }
   trait Ops[T] extends UniqueFactorizationDomain.Ops[T] {
     def isReal() = macro Ops.unop[Boolean]

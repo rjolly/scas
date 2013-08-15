@@ -8,7 +8,7 @@ package object scas {
     implicit val RR = Double
     implicit val CC = Complex
   }
-  object Implicits extends ExtraImplicits with Ordering.ExtraImplicits with StarRing.ExtraImplicits with PowerProduct.ExtraImplicits with Polynomial.ExtraImplicits with PolynomialWithGB.ExtraImplicits with MultivariatePolynomial.ExtraImplicits with UnivariatePolynomial.ExtraImplicits with RationalFunction.ExtraImplicits with Residue.ExtraImplicits with Module.ExtraImplicits with Matrix.ExtraImplicits
+  object Implicits extends ExtraImplicits with Ordering.ExtraImplicits with StarRing.ExtraImplicits with PowerProduct.ExtraImplicits with Polynomial.ExtraImplicits with PolynomialWithGB.ExtraImplicits with MultivariatePolynomial.ExtraImplicits with UnivariatePolynomial.ExtraImplicits with RationalFunction.ExtraImplicits with Residue.ExtraImplicits with Module.ExtraImplicits with Vector.ExtraImplicits with Matrix.ExtraImplicits
 
   type BigInteger = base.BigInteger
   type Rational = base.Rational
@@ -30,6 +30,7 @@ package object scas {
   val RationalFunction = quotient.RationalFunction
   val Residue = residue.Residue
   val Module = module.Module
+  val Vector = module.Vector
   val Matrix = module.Matrix
   val Group = structure.Group
   val Product = structure.Product

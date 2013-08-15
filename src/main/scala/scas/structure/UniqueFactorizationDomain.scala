@@ -21,10 +21,10 @@ object UniqueFactorizationDomain {
 
   trait Element[T <: Element[T]] extends Ring.Element[T] { this: T =>
     val factory: UniqueFactorizationDomain[T]
-    def /  (rhs: T) = factory.divide(lhs, rhs)
-    def %  (rhs: T) = factory.remainder(lhs, rhs)
-    def /% (rhs: T) = factory.divideAndRemainder(lhs, rhs)
-    def |  (rhs: T) = factory.factorOf(lhs, rhs)
+    def /  (that: T) = factory.divide(this, that)
+    def %  (that: T) = factory.remainder(this, that)
+    def /% (that: T) = factory.divideAndRemainder(this, that)
+    def |  (that: T) = factory.factorOf(this, that)
   }
   trait Ops[T] extends Ring.Ops[T] {
     def /  (rhs: T) = macro Ops.binop[T, T]

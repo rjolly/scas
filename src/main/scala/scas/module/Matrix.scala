@@ -2,14 +2,14 @@ package scas.module
 
 import scala.reflect.ClassTag
 import scas.Variable
-import scas.structure.{Field, Algebra, AlgebraOverRing}
+import scas.structure.{Field, Algebra}
 import scas.Implicits.infixUFDOps
 import Matrix.Element
 
-trait Matrix[R] extends AbstractModule[Element[R], R] with Algebra[Element[R], R] {
+trait Matrix[R] extends ArrayModule[Element[R], R] with Algebra[Element[R], R] {
   val size: Int
   val dimension = size * size
-  def generators = (for (i <- 0 until dimension) yield generator(i)).grouped(size).toArray
+  def generators2 = (for (i <- 0 until dimension) yield generator(i)).grouped(size).toArray
   def times(x: Element[R], y: Element[R]) = apply((for (i <- 0 until dimension) yield x(i) * y(i)).toArray)
   override def toCode(x: Element[R], precedence: Int) = name match {
     case Some(name) => {
@@ -47,7 +47,7 @@ trait Matrix[R] extends AbstractModule[Element[R], R] with Algebra[Element[R], R
     case _ => "matrix(" + x.value.mkString(", ") + ")"
   }
   override def toString = ring.toString + "^" + size + "^2"
-  def toMathML(x: Element[R]) = name match {
+  override def toMathML(x: Element[R]) = name match {
     case Some(name) => {
       var s = ring.zero.toMathML
       var n = 0
@@ -73,15 +73,15 @@ trait Matrix[R] extends AbstractModule[Element[R], R] with Algebra[Element[R], R
     }
     case _ => <matrix>{for (j <- 0 until size) yield <matrixrow>{for (i <- 0 until size) yield x(i, j).toMathML}</matrixrow>}</matrix>
   }
-  def toMathML = <msup>{ring.toMathML}<msup><mn>{size}</mn><mn>2</mn></msup></msup>
-  override def apply(value: Array[R]) = new Element(value)(this)
+  override def toMathML = <msup>{ring.toMathML}<msup><mn>{size}</mn><mn>2</mn></msup></msup>
+  def apply(value: Array[R]) = new Element(value)(this)
 }
 
 object Matrix {
   def apply[R](name: String, size: Int, ring: Field[R])(implicit m: ClassTag[Element[R]], cm: ClassTag[R]) = new MatrixImpl(size, Some(name), ring)
   def apply[R](size: Int, ring: Field[R])(implicit m: ClassTag[Element[R]], cm: ClassTag[R]) = new MatrixImpl(size, None, ring)
 
-  class Element[R](val value: Array[R])(val factory: Matrix[R]) extends AbstractModule.Element[Element[R], R] with AlgebraOverRing.Element[Element[R], R] with ((Int, Int) => R) {
+  class Element[R](val value: Array[R])(val factory: Matrix[R]) extends ArrayModule.Element[Element[R], R] with Algebra.Element[Element[R], R] with ((Int, Int) => R) {
     def apply(m: Int, n: Int): R = apply(m * factory.size + n)
   }
   object Element extends ExtraImplicits

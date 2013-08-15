@@ -23,8 +23,8 @@ object Monoid {
 
   trait Element[T <: Element[T]] extends SemiGroup.Element[T] { this: T =>
     val factory: Monoid[T]
-    def isUnit = factory.isUnit(lhs)
-    def isOne = factory.isOne(lhs)
+    def isUnit = factory.isUnit(this)
+    def isOne = factory.isOne(this)
   }
   trait Ops[T] extends SemiGroup.Ops[T] {
     def isUnit() = macro Ops.unop[Boolean]
