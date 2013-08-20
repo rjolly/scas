@@ -12,7 +12,7 @@ object BooleanParsers extends UFDParsers[Boolean] {
     case x ~ "<>" ~ y => x != y
   }
   def negation: Parser[Boolean] = "!" ~> base ^^ { case x => !x }
-  def function: Parser[Boolean] = RF.comparison | ComplexParsers.comparison | comparison | negation
+  def function: Parser[Boolean] = RationalParsers.comparison | RF.comparison | DoubleParsers.comparison | ComplexParsers.comparison | comparison | negation
   def base: Parser[Boolean] = boolean | "(" ~> expr <~ ")"
   override def term: Parser[Boolean] = function | base
   override def expr: Parser[Boolean] = term ~ ((("&" | "|" | "^") ~ term)*) ^^ {
