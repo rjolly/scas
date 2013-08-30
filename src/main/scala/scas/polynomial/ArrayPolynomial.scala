@@ -9,7 +9,7 @@ trait ArrayPolynomial[T <: Element[T, C, N], C, N] extends Polynomial[T, C, N] {
   implicit val cm1: ClassTag[C]
   implicit val cm2: ClassTag[N]
   override def isZero(x: T) = x.size == 0
-  def zero(n: Int): T = apply((new Array[C](n), pp.one, new Array[N](n * pp.one.length)))
+  def zero(n: Int): T = apply((new Array[C](n), new Array[N](n * pp.one.length), pp.one))
   def apply(value: (Array[C], Array[N], Array[N])): T
   def apply(s: (Array[N], C)*) = {
     val l = zero(s.size)
@@ -24,14 +24,12 @@ trait ArrayPolynomial[T <: Element[T, C, N], C, N] extends Polynomial[T, C, N] {
 
   def plus(x: T, y: T) = {
     val l = zero(x.size + y.size)
-    var rx = (pp.one, ring.zero)
-    var ry = (pp.one, ring.zero)
     var i = 0
     var j = 0
+    var rx = if (i < x.size) x(i) else null
+    var ry = if (j < y.size) y(j) else null
     var i0 = i
     var j0 = j
-    if (i < x.size) rx = x(i)
-    if (j < y.size) ry = y(j)
     while (i < x.size && j < y.size) {
       val (s, a) = rx
       val (t, b) = ry
@@ -50,10 +48,10 @@ trait ArrayPolynomial[T <: Element[T, C, N], C, N] extends Polynomial[T, C, N] {
         if (!c.isZero) l += ((s, c))
         i += 1
         j += 1
-        i0 = i
-        j0 = j
         if (i < x.size) rx = x(i)
         if (j < y.size) ry = y(j)
+        i0 = i
+        j0 = j
       }
     }
     if (i > i0) { l ++= (x, i0, i); i0 = i }
@@ -72,9 +70,9 @@ trait ArrayPolynomial[T <: Element[T, C, N], C, N] extends Polynomial[T, C, N] {
     def hasNext = i < x.size
     def next = {
       if (i >= x.size) scala.Iterator.empty.next else {
-        val (s, a) = x(i)
+        val (s, a) = x(i, pp.one)
         i += 1
-        (s.clone, a)
+        (s, a)
       }
     }
   }
@@ -93,9 +91,9 @@ trait ArrayPolynomial[T <: Element[T, C, N], C, N] extends Polynomial[T, C, N] {
 
   def size(x: T) = x.size
 
-  def head(x: T) = x(0)
+  def head(x: T) = x(0, pp.one)
 
-  def last(x: T) = x(x.size - 1)
+  def last(x: T) = x(x.size - 1, pp.one)
 
   def map(x: T, f: (Array[N], C) => (Array[N], C)) = {
     val l = zero(x.size)
@@ -150,17 +148,18 @@ object ArrayPolynomial {
   trait Element[T <: Element[T, C, N], C, N] extends Polynomial.Element[T, C, N] { this: T =>
     val factory: ArrayPolynomial[T, C, N]
     val value: (Array[C], Array[N], Array[N])
+    import value._3.length
     var size = 0
 
-    def apply(n: Int): (Array[N], C) = {
-      val m = value._2.clone
-      System.arraycopy(value._3, n * value._2.length, m, 0, value._2.length)
+    def apply(n: Int): (Array[N], C) = apply(n, value._3)
+    def apply(n: Int, m: Array[N]) = {
+      System.arraycopy(value._2, n * length, m, 0, length)
       (m, value._1(n))
     }
     def +=(r: (Array[N], C)) = {
       val s = size
       value._1(s) = r._2
-      System.arraycopy(r._1, 0, value._3, s * value._2.length, value._2.length)
+      System.arraycopy(r._1, 0, value._2, s * length, length)
       size += 1
     }
     def ++=(rest: T): Unit = this ++= (rest, 0)
@@ -169,7 +168,7 @@ object ArrayPolynomial {
       val s = m - n
       val ss = size
       System.arraycopy(rest.value._1, n, value._1, ss, s)
-      System.arraycopy(rest.value._3, n * value._2.length, value._3, ss * value._2.length, s * value._2.length)
+      System.arraycopy(rest.value._2, n * length, value._2, ss * length, s * length)
       size += s
     }
   }

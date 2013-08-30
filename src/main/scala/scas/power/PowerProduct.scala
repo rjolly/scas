@@ -15,6 +15,7 @@ trait PowerProduct[@specialized(Byte, Short, Int, Long) N] extends Monoid[Array[
   implicit val m: ClassTag[N]
   implicit val cm: ClassTag[Array[N]]
   import nm.{fromInt, toLong}
+  import variables.length
   def take(n: Int) = self(variables.take(n))
   def drop(n: Int) = self(variables.drop(n))
   def self(variables: Array[Variable]): PowerProduct[N]
@@ -37,13 +38,13 @@ trait PowerProduct[@specialized(Byte, Short, Int, Long) N] extends Monoid[Array[
   }
   def random(numbits: Int)(implicit rnd: java.util.Random) = one
   def gcd(x: Array[N], y: Array[N]): Array[N] = {
-    val r = new Array[N](length + 1)
+    val r = one
     for (i <- 0 until length) r(i) = nm.min(x(i), y(i))
     r(length) = (fromInt(0) /: r) { (s, l) => s + l }
     r
   }
   def scm(x: Array[N], y: Array[N]): Array[N] = {
-    val r = new Array[N](length + 1)
+    val r = one
     for (i <- 0 until length) r(i) = nm.max(x(i), y(i))
     r(length) = (fromInt(0) /: r) { (s, l) => s + l }
     r
@@ -101,7 +102,7 @@ trait PowerProduct[@specialized(Byte, Short, Int, Long) N] extends Monoid[Array[
   def function(x: Array[N], a: Variable) = Function.pow(identity, if (variables.contains(a)) toLong(x(variables.indexOf(a))) else 0)
 
   def converter(from: Array[Variable]): Array[N] => Array[N] = { x =>
-    val r = new Array[N](length + 1)
+    val r = one
     val index = from map { a => variables.indexOf(a) }
     for (i <- 0 until from.length if (x(i) > fromInt(0))) {
       val c = index(i)
@@ -111,8 +112,6 @@ trait PowerProduct[@specialized(Byte, Short, Int, Long) N] extends Monoid[Array[
     r(length) = x(from.length)
     r
   }
-
-  def length = variables.length
 
   def size(x: Array[N]) = {
     var m = 0

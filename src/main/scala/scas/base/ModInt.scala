@@ -11,7 +11,23 @@ class ModInt(val mod: Int) extends Residue[Int, Long] with Field[Int] {
   def reduce(value: Long) = fromRing(value % mod)
   def unapply(x: Int) = Some(x.toLong)
   override def random(numbits: Int)(implicit rnd: java.util.Random) = reduce(new BigInteger(numbits, rnd).longValue)
+  override def isZero(x: Int) = x == 0
   def characteristic = mod
+  override def plus(x: Int, y: Int) = {
+    val a = x.toLong
+    val b = y.toLong
+    reduce(a + b)
+  }
+  override def minus(x: Int, y: Int) = {
+    val a = x.toLong
+    val b = y.toLong
+    reduce(a - b)
+  }
+  override def times(x: Int, y: Int) = {
+    val a = x.toLong
+    val b = y.toLong
+    reduce(a * b)
+  }
   override def pow(x: Int, exp: BigInteger) = x.modPow(exp, mod).intValue
   def inverse(x: Int) = x.modInverse(mod).intValue
   override def toString = ring.toString + "(" + mod + ")"

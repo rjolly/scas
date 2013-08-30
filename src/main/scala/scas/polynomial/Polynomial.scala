@@ -124,8 +124,6 @@ trait Polynomial[T <: Element[T, C, N], C, N] extends Ring[T] {
 
   def variables = pp.variables
 
-  def length = variables.length
-
   def size(x: T): Int
 
   def head(x: T): (Array[N], C)
