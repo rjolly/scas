@@ -9,7 +9,10 @@ trait ArrayPolynomial[T <: Element[T, C, N], C, N] extends Polynomial[T, C, N] {
   implicit val cm1: ClassTag[C]
   implicit val cm2: ClassTag[N]
   override def isZero(x: T) = x.size == 0
-  def zero(n: Int): T = apply((new Array[C](n), new Array[N](n * pp.one.length), pp.one))
+  def zero(n: Int): T = {
+    val m = pp.one
+    apply((new Array[C](n), new Array[N](n * m.length), m))
+  }
   def apply(value: (Array[C], Array[N], Array[N])): T
   def apply(s: (Array[N], C)*) = {
     val l = zero(s.size)

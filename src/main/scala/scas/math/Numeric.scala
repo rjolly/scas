@@ -45,6 +45,42 @@ object Numeric {
     def toDouble(): Double = macro Ops.unop[Double]
   }
 
+  trait ByteIsIntegral extends Integral[Byte] {
+    def plus(x: Byte, y: Byte) = fromInt(x + y)
+    def minus(x: Byte, y: Byte) = fromInt(x - y)
+    def times(x: Byte, y: Byte) = fromInt(x * y)
+    def quot(x: Byte, y: Byte) = fromInt(x / y)
+    def rem(x: Byte, y: Byte) = fromInt(x % y)
+    def negate(x: Byte) = fromInt(-x)
+    def fromInt(x: Int) = x.toByte
+    def toInt(x: Byte): Int = x
+    def toLong(x: Byte): Long = x
+    def toFloat(x: Byte): Float = x
+    def toDouble(x: Byte): Double = x
+  }
+  implicit object ByteIsIntegral extends Ordering.ByteOrdering with ByteIsIntegral {
+    override def lt(x: Byte, y: Byte) = x < y
+    override def gt(x: Byte, y: Byte) = x > y
+  }
+
+  trait ShortIsIntegral extends Integral[Short] {
+    def plus(x: Short, y: Short) = fromInt(x + y)
+    def minus(x: Short, y: Short) = fromInt(x - y)
+    def times(x: Short, y: Short) = fromInt(x * y)
+    def quot(x: Short, y: Short) = fromInt(x / y)
+    def rem(x: Short, y: Short) = fromInt(x % y)
+    def negate(x: Short) = fromInt(-x)
+    def fromInt(x: Int) = x.toShort
+    def toInt(x: Short): Int = x
+    def toLong(x: Short): Long = x
+    def toFloat(x: Short): Float = x
+    def toDouble(x: Short): Double = x
+  }
+  implicit object ShortIsIntegral extends Ordering.ShortOrdering with ShortIsIntegral {
+    override def lt(x: Short, y: Short) = x < y
+    override def gt(x: Short, y: Short) = x > y
+  }
+
   trait IntIsIntegral extends Integral[Int] {
     def plus(x: Int, y: Int): Int = x + y
     def minus(x: Int, y: Int): Int = x - y
@@ -71,7 +107,7 @@ object Numeric {
     def rem(x: Long, y: Long): Long = x % y
     def negate(x: Long): Long = -x
     def fromInt(x: Int): Long = x
-    def toInt(x: Long): Int = x.toInt
+    def toInt(x: Long) = x.toInt
     def toLong(x: Long): Long = x
     def toFloat(x: Long): Float = x
     def toDouble(x: Long): Double = x

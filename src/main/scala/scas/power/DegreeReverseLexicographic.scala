@@ -6,7 +6,7 @@ import scas.math.{Ordering, Numeric}
 import Ordering.Implicits.infixOrderingOps
 import PowerProduct.degreeReverseLexicographic
 
-class DegreeReverseLexicographic[@specialized(Byte, Short, Int, Long) N](val variables: Array[Variable])(implicit val nm: Numeric[N], val m: ClassTag[N], val cm: ClassTag[Array[N]]) extends PowerProduct[N] {
+class DegreeReverseLexicographic[@specialized(Byte, Short, Int, Long) N](val variables: Array[Variable])(implicit val nm: Numeric[N], val m: ClassTag[N], val cm: ClassTag[Array[N]]) extends PowerProductWithDegree[N] {
   import variables.{length => n}
   def self(variables: Array[Variable]) = degreeReverseLexicographic[N](variables: _*)
   def compare(x: Array[N], y: Array[N]): Int = {
@@ -16,7 +16,7 @@ class DegreeReverseLexicographic[@specialized(Byte, Short, Int, Long) N](val var
       var i = 0
       while (i < n) {
         if (x(i) > y(i)) return -1
-        else if (x(i) < y(i)) return 1
+        if (x(i) < y(i)) return 1
         i += 1
       }
       return 0

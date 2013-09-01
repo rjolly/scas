@@ -12,23 +12,16 @@ import Function.identity
 trait PowerProduct[@specialized(Byte, Short, Int, Long) N] extends Monoid[Array[N]] {
   val variables: Array[Variable]
   implicit val nm: Numeric[N]
-  implicit val m: ClassTag[N]
   implicit val cm: ClassTag[Array[N]]
   import nm.{fromInt, toLong}
   import variables.length
   def take(n: Int) = self(variables.take(n))
   def drop(n: Int) = self(variables.drop(n))
   def self(variables: Array[Variable]): PowerProduct[N]
-  override def one = new Array[N](length + 1)
   def generator(variable: Variable): Array[N] = generator(variables.indexOf(variable))
-  def generator(n: Int) = (for (i <- 0 until length + 1) yield fromInt(if (i == n || i == length) 1 else 0)).toArray
+  def generator(n: Int): Array[N]
   def generators = (for (i <- 0 until length) yield generator(i)).toArray
-  def degree(x: Array[N]) = toLong(x(length))
-  override def pow(x: Array[N], exp: BigInteger) = {
-    assert (exp.signum() >= 0)
-    val n = fromBigInteger(exp)
-    (for (i <- 0 until x.length) yield x(i) * n).toArray
-  }
+  def degree(x: Array[N]): Long
   def fromBigInteger(value: BigInteger) = {
     (fromInt(0) /: value.toByteArray()) { (s, b) => s * fromInt(0x100) + fromInt(b & 0xff) }
   }
@@ -37,40 +30,16 @@ trait PowerProduct[@specialized(Byte, Short, Int, Long) N] extends Monoid[Array[
     one
   }
   def random(numbits: Int)(implicit rnd: java.util.Random) = one
-  def gcd(x: Array[N], y: Array[N]): Array[N] = {
-    val r = one
-    for (i <- 0 until length) r(i) = nm.min(x(i), y(i))
-    r(length) = (fromInt(0) /: r) { (s, l) => s + l }
-    r
-  }
-  def scm(x: Array[N], y: Array[N]): Array[N] = {
-    val r = one
-    for (i <- 0 until length) r(i) = nm.max(x(i), y(i))
-    r(length) = (fromInt(0) /: r) { (s, l) => s + l }
-    r
-  }
+  def gcd(x: Array[N], y: Array[N]): Array[N]
+  def scm(x: Array[N], y: Array[N]): Array[N]
   def coprime(x: Array[N], y: Array[N]) = gcd(x, y).isOne
   def times(x: Array[N], y: Array[N]) = multiply(x.clone, y)
-  def multiply(x: Array[N], y: Array[N]) = {
-    var i = 0
-    while (i < x.length) {
-      x(i) += y(i)
-      i += 1
-    }
-    x
-  }
-  def divide(x: Array[N], y: Array[N]) = (for (i <- 0 until x.length) yield {
-    assert (x(i) >= y(i))
-    x(i) - y(i)
-  }).toArray
-  def factorOf(x: Array[N], y: Array[N]): Boolean = {
-    for (i <- 0 until x.length) if (x(i) > y(i)) return false
-    true
-  }
+  def multiply(x: Array[N], y: Array[N]): Array[N]
+  def divide(x: Array[N], y: Array[N]): Array[N]
+  def factorOf(x: Array[N], y: Array[N]): Boolean
   def isUnit(x: Array[N]) = x.isOne
-  override def isOne(x: Array[N]) = x(length) equiv fromInt(0)
   def dependencyOnVariables(x: Array[N]) = (for (i <- 0 until length if (x(i) > fromInt(0))) yield i).toArray
-  def projection(x: Array[N], n: Int) = (for (i <- 0 until x.length) yield if (i == n || i == length) x(n) else fromInt(0)).toArray
+  def projection(x: Array[N], n: Int): Array[N]
   override def toCode(x: Array[N], precedence: Int) = {
     var s = "1"
     var m = 0
@@ -101,17 +70,7 @@ trait PowerProduct[@specialized(Byte, Short, Int, Long) N] extends Monoid[Array[
   def toMathML = <list>{variables.map(_.toMathML)}</list>
   def function(x: Array[N], a: Variable) = Function.pow(identity, if (variables.contains(a)) toLong(x(variables.indexOf(a))) else 0)
 
-  def converter(from: Array[Variable]): Array[N] => Array[N] = { x =>
-    val r = one
-    val index = from map { a => variables.indexOf(a) }
-    for (i <- 0 until from.length if (x(i) > fromInt(0))) {
-      val c = index(i)
-      assert (c > -1)
-      r(c) = x(i)
-    }
-    r(length) = x(from.length)
-    r
-  }
+  def converter(from: Array[Variable]): Array[N] => Array[N]
 
   def size(x: Array[N]) = {
     var m = 0
