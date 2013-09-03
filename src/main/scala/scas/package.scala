@@ -1,5 +1,5 @@
 import scas.math.Ordering
-import scas.structure.{Monoid, StarRing, BooleanAlgebraWithUFD}
+import scas.structure.{Monoid, StarRingWithUFD, BooleanAlgebraWithUFD}
 
 package object scas {
   trait ExtraImplicits {
@@ -10,7 +10,7 @@ package object scas {
     implicit val ZZ2 = Boolean
     implicit val R2R = Function
   }
-  object Implicits extends ExtraImplicits with Ordering.ExtraImplicits with StarRing.ExtraImplicits with BooleanAlgebraWithUFD.ExtraImplicits with PowerProduct.ExtraImplicits with Polynomial.ExtraImplicits with PolynomialWithGB.ExtraImplicits with MultivariatePolynomial.ExtraImplicits with UnivariatePolynomial.ExtraImplicits with RationalFunction.ExtraImplicits with Residue.ExtraImplicits with Module.ExtraImplicits with Vector.ExtraImplicits with Matrix.ExtraImplicits
+  object Implicits extends ExtraImplicits with Ordering.ExtraImplicits with StarRingWithUFD.ExtraImplicits with BooleanAlgebraWithUFD.ExtraImplicits with PowerProduct.ExtraImplicits with Polynomial.ExtraImplicits with PolynomialWithGB.ExtraImplicits with MultivariatePolynomial.ExtraImplicits with UnivariatePolynomial.ExtraImplicits with RationalFunction.ExtraImplicits with Residue.ExtraImplicits with Module.ExtraImplicits with Vector.ExtraImplicits with Matrix.ExtraImplicits
 
   type BigInteger = base.BigInteger
   type Rational = base.Rational

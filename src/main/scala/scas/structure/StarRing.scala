@@ -3,7 +3,7 @@ package scas.structure
 import spire.macros.Ops
 import StarRing.OpsImpl
 
-trait StarRing[@specialized(Int, Long, Double) T] extends UniqueFactorizationDomain[T] {
+trait StarRing[@specialized(Int, Long, Double) T] extends Ring[T] {
   def conjugate(x: T): T
   def isReal(x: T): Boolean
   def isImag(x: T): Boolean
@@ -11,17 +11,17 @@ trait StarRing[@specialized(Int, Long, Double) T] extends UniqueFactorizationDom
 }
 
 object StarRing {
-  trait ExtraImplicits extends UniqueFactorizationDomain.ExtraImplicits {
+  trait ExtraImplicits extends Ring.ExtraImplicits {
     implicit def infixStarRingOps[T: StarRing](lhs: T) = implicitly[StarRing[T]].mkOps(lhs)
   }
   object Implicits extends ExtraImplicits
 
-  trait Element[T <: Element[T]] extends UniqueFactorizationDomain.Element[T] { this: T =>
+  trait Element[T <: Element[T]] extends Ring.Element[T] { this: T =>
     val factory: StarRing[T]
     def isReal = factory.isReal(this)
     def isImag = factory.isImag(this)
   }
-  trait Ops[T] extends UniqueFactorizationDomain.Ops[T] {
+  trait Ops[T] extends Ring.Ops[T] {
     def isReal() = macro Ops.unop[Boolean]
     def isImag() = macro Ops.unop[Boolean]
   }

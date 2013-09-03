@@ -1,10 +1,10 @@
 package scas.base
 
-import scas.structure.{Field, StarRing}
+import scas.structure.{Field, StarRingWithUFD}
 import scas.{int2bigInteger, double2complex, Variable}
 import scas.Implicits.{RR, infixOps}
 
-trait ComplexLike extends StarRing[Complex] with Field[Complex] {
+trait ComplexLike extends StarRingWithUFD[Complex] with Field[Complex] {
   def apply(a: Double, b: Double) = (a, b)
   def apply(value: Double): Complex = apply(value, 0)
   def apply(l: Long) = apply(l.toDouble)

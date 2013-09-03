@@ -1,5 +1,5 @@
 import scas._
-import Implicits.{CC, infixStarRingOps}
+import Implicits.{CC, infixStarOps}
 assert ((Complex(1)+sqrt(-1))/(Complex(1)-sqrt(-1)) >< sqrt(-1))
 assert (sqrt(-1).toCode(0) == "Complex(0.0, 1.0)")
 assert (Complex(1).toCode(0) == "1.0")
