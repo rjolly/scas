@@ -30,13 +30,14 @@ trait PowerProductWithDegree[@specialized(Byte, Short, Int, Long) N] extends Pow
     r(length) = (fromInt(0) /: r) { (s, l) => s + l }
     r
   }
-  def multiply(x: Array[N], y: Array[N]) = {
+  def times(x: Array[N], y: Array[N]) = {
+    val r = one
     var i = 0
     while (i < x.length) {
-      x(i) += y(i)
+      r(i) = x(i) + y(i)
       i += 1
     }
-    x
+    r
   }
   def divide(x: Array[N], y: Array[N]) = (for (i <- 0 until x.length) yield {
     assert (x(i) >= y(i))

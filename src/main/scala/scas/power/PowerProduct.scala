@@ -33,8 +33,7 @@ trait PowerProduct[@specialized(Byte, Short, Int, Long) N] extends Monoid[Array[
   def gcd(x: Array[N], y: Array[N]): Array[N]
   def scm(x: Array[N], y: Array[N]): Array[N]
   def coprime(x: Array[N], y: Array[N]) = gcd(x, y).isOne
-  def times(x: Array[N], y: Array[N]) = multiply(x.clone, y)
-  def multiply(x: Array[N], y: Array[N]): Array[N]
+  def times(x: Array[N], y: Array[N]): Array[N]
   def divide(x: Array[N], y: Array[N]): Array[N]
   def factorOf(x: Array[N], y: Array[N]): Boolean
   def isUnit(x: Array[N]) = x.isOne

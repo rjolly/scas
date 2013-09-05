@@ -3,7 +3,7 @@ package array
 
 import scala.reflect.ClassTag
 import scas.gb.Fussy
-import scas.power.PowerProduct
+import scas.power.offset.PowerProduct
 import scas.structure.UniqueFactorizationDomain
 import PolynomialWithSugar.Element
 

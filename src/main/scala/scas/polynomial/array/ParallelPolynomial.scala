@@ -2,7 +2,7 @@ package scas.polynomial
 package array
 
 import scala.reflect.ClassTag
-import scas.power.PowerProduct
+import scas.power.offset.PowerProduct
 import scas.structure.Ring
 import Polynomial.Element
 
