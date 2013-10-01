@@ -1,6 +1,0 @@
-import scas._
-import Implicits.infixPowerProductOps
-implicit val m = PowerProduct((for (i <- 0 until 4; j <- 0 until 2) yield Variable("a", i, j)): _*)
-val a = m.generators.grouped(2).toArray
-val s = Array((for (i <- 0 until 4; j <- 0 until 2) yield a(i)(j).toCode(0)): _*).grouped(2).toArray
-assert (s.deep.toString == "Array(Array(a(0)(0), a(0)(1)), Array(a(1)(0), a(1)(1)), Array(a(2)(0), a(2)(1)), Array(a(3)(0), a(3)(1)))")
