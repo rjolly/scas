@@ -70,6 +70,9 @@ object Ordering extends LowPriorityOrderingImplicits {
 
   trait ByteOrdering extends Ordering[Byte] {
     def compare(x: Byte, y: Byte) = x.toInt - y.toInt
+
+    override def lt(x: Byte, y: Byte) = x < y
+    override def gt(x: Byte, y: Byte) = x > y
   }
   implicit object Byte extends ByteOrdering
 
@@ -80,6 +83,9 @@ object Ordering extends LowPriorityOrderingImplicits {
 
   trait ShortOrdering extends Ordering[Short] {
     def compare(x: Short, y: Short) = x.toInt - y.toInt
+
+    override def lt(x: Short, y: Short) = x < y
+    override def gt(x: Short, y: Short) = x > y
   }
   implicit object Short extends ShortOrdering
 
@@ -88,6 +94,9 @@ object Ordering extends LowPriorityOrderingImplicits {
       if (x < y) -1
       else if (x == y) 0
       else 1
+
+    override def lt(x: Int, y: Int) = x < y
+    override def gt(x: Int, y: Int) = x > y
   }
   implicit object Int extends IntOrdering
 
@@ -96,6 +105,9 @@ object Ordering extends LowPriorityOrderingImplicits {
       if (x < y) -1
       else if (x == y) 0
       else 1
+
+    override def lt(x: Long, y: Long) = x < y
+    override def gt(x: Long, y: Long) = x > y
   }
   implicit object Long extends LongOrdering
 

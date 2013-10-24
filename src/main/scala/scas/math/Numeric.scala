@@ -58,10 +58,7 @@ object Numeric {
     def toFloat(x: Byte): Float = x
     def toDouble(x: Byte): Double = x
   }
-  implicit object ByteIsIntegral extends Ordering.ByteOrdering with ByteIsIntegral {
-    override def lt(x: Byte, y: Byte) = x < y
-    override def gt(x: Byte, y: Byte) = x > y
-  }
+  implicit object ByteIsIntegral extends Ordering.ByteOrdering with ByteIsIntegral
 
   trait ShortIsIntegral extends Integral[Short] {
     def plus(x: Short, y: Short) = fromInt(x + y)
@@ -76,10 +73,7 @@ object Numeric {
     def toFloat(x: Short): Float = x
     def toDouble(x: Short): Double = x
   }
-  implicit object ShortIsIntegral extends Ordering.ShortOrdering with ShortIsIntegral {
-    override def lt(x: Short, y: Short) = x < y
-    override def gt(x: Short, y: Short) = x > y
-  }
+  implicit object ShortIsIntegral extends Ordering.ShortOrdering with ShortIsIntegral
 
   trait IntIsIntegral extends Integral[Int] {
     def plus(x: Int, y: Int): Int = x + y
@@ -94,10 +88,7 @@ object Numeric {
     def toFloat(x: Int): Float = x
     def toDouble(x: Int): Double = x
   }
-  implicit object IntIsIntegral extends Ordering.IntOrdering with IntIsIntegral {
-    override def lt(x: Int, y: Int) = x < y
-    override def gt(x: Int, y: Int) = x > y
-  }
+  implicit object IntIsIntegral extends Ordering.IntOrdering with IntIsIntegral
 
   trait LongIsIntegral extends Integral[Long] {
     def plus(x: Long, y: Long): Long = x + y
@@ -112,8 +103,5 @@ object Numeric {
     def toFloat(x: Long): Float = x
     def toDouble(x: Long): Double = x
   }
-  implicit object LongIsIntegral extends Ordering.LongOrdering with LongIsIntegral {
-    override def lt(x: Long, y: Long) = x < y
-    override def gt(x: Long, y: Long) = x > y
-  }
+  implicit object LongIsIntegral extends Ordering.LongOrdering with LongIsIntegral
 }
