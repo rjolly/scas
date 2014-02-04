@@ -5,7 +5,8 @@ object BuildSettings {
   val buildSettings = Defaults.defaultSettings ++ Seq(
     organization := "scas",
     version := "2.1",
-    scalaVersion := "2.11.0-M4",
+    scalaVersion := "2.11.0-M8",
+    scalaHome := Some(file(sys.props("scala.home.local"))),
     scalacOptions ++= Seq(
       "-language:higherKinds",
       "-language:implicitConversions",
@@ -18,12 +19,6 @@ object BuildSettings {
 object MyBuild extends Build {
   import BuildSettings._
 
-  lazy val root: Project = Project(
-    "root",
-    file("."),
-    settings = buildSettings
-  ) aggregate(macros, core)
-
   lazy val macros: Project = Project(
     "macros",
     file("macros"),
@@ -35,7 +30,7 @@ object MyBuild extends Build {
     "scas",
     file("."),
     settings = buildSettings ++ Seq(
-      libraryDependencies <+= (scalaVersion)("org.scala-lang" % "scala-xml" % _)) ++ Seq(
-      libraryDependencies <+= (scalaVersion)("org.scala-lang" % "scala-parser-combinators" % _))
+      libraryDependencies <+= (scalaVersion)(s => "org.scala-lang.modules" %% "scala-xml" % "1.0.0-RC7")) ++ Seq(
+      libraryDependencies <+= (scalaVersion)(s => "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.0-RC5"))
   ) dependsOn(macros)
 }

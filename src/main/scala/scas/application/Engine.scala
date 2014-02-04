@@ -1,6 +1,6 @@
 package scas.application
 
-import scala.reflect.BeanProperty
+import scala.beans.BeanProperty
 import javax.script.{AbstractScriptEngine, Bindings, ScriptContext, ScriptEngine, ScriptEngineFactory, ScriptException, SimpleBindings}
 import java.io.{StringWriter, Reader}
 import java.util.{Arrays, List}
