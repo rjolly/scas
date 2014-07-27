@@ -10,7 +10,7 @@ import Polynomial.Element
 
 trait Polynomial[T <: Element[T, C, N], C, N] extends Ring[T] {
   implicit val ring: Ring[C]
-  implicit val pp: PowerProduct[N]
+  implicit def pp: PowerProduct[N]
   implicit val cm: ClassTag[T]
   override def zero = apply()
   def generator(n: Int) = fromPowerProduct(pp.generator(n))

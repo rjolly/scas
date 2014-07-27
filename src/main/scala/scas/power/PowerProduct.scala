@@ -37,15 +37,15 @@ trait PowerProduct[@specialized(Byte, Short, Int, Long) N] extends Monoid[Array[
   def divide(x: Array[N], y: Array[N]): Array[N]
   def factorOf(x: Array[N], y: Array[N]): Boolean
   def isUnit(x: Array[N]) = x.isOne
-  def dependencyOnVariables(x: Array[N]) = (for (i <- 0 until length if (x(i) > fromInt(0))) yield i).toArray
+  def dependencyOnVariables(x: Array[N]) = (for (i <- 0 until length if (get(x, i) > fromInt(0))) yield i).toArray
   def projection(x: Array[N], n: Int): Array[N]
   override def toCode(x: Array[N], precedence: Int) = {
     var s = "1"
     var m = 0
-    for (i <- 0 until length) if (x(i) > fromInt(0)) {
+    for (i <- 0 until length) if (get(x, i) > fromInt(0)) {
       val t = {
-        if (x(i) equiv fromInt(1)) variables(i).toString
-        else "pow(" + variables(i).toString + ", " + x(i) + ")"
+        if (get(x, i) equiv fromInt(1)) variables(i).toString
+        else "pow(" + variables(i).toString + ", " + get(x, i) + ")"
       }
       s = if (m == 0) t else s + "*" + t
       m += 1
@@ -56,10 +56,10 @@ trait PowerProduct[@specialized(Byte, Short, Int, Long) N] extends Monoid[Array[
   def toMathML(x: Array[N]) = {
     var s = <cn>1</cn>
     var m = 0
-    for (i <- 0 until length) if (x(i) > fromInt(0)) {
+    for (i <- 0 until length) if (get(x, i) > fromInt(0)) {
       val t = {
-        if (x(i) equiv fromInt(1)) variables(i).toMathML
-        else <apply><power/>{variables(i).toMathML}<cn>{x(i)}</cn></apply>
+        if (get(x, i) equiv fromInt(1)) variables(i).toMathML
+        else <apply><power/>{variables(i).toMathML}<cn>{get(x, i)}</cn></apply>
       }
       s = if (m == 0) t else <apply><times/>{s}{t}</apply>
       m += 1
@@ -73,11 +73,13 @@ trait PowerProduct[@specialized(Byte, Short, Int, Long) N] extends Monoid[Array[
 
   def size(x: Array[N]) = {
     var m = 0
-    for (i <- 0 until length) if (x(i) > fromInt(0)) {
+    for (i <- 0 until length) if (get(x, i) > fromInt(0)) {
       m += 1
     }
     m
   }
+
+  def get(x: Array[N], i: Int): N
 
   override implicit def mkOps(lhs: Array[N]) = new PowerProduct.Ops(lhs)(this)
 }
