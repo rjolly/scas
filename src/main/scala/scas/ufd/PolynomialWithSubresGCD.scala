@@ -6,7 +6,7 @@ import scas.long2bigInteger
 import scas.Implicits.{infixUFDOps, infixPowerProductOps}
 import PolynomialOverUFD.Element
 
-trait SubresGCD[T <: Element[T, C, N], C, N] { this: PolynomialOverUFD[T, C, N] =>
+trait PolynomialWithSubresGCD[T <: Element[T, C, N], C, N] extends PolynomialOverUFD[T, C, N] {
   @tailrec final def gcd1(x: T, y: T): T = if (degree(x) < degree(y)) gcd1(y, x) else gcd(x, y, ring.one, ring.one)
   @tailrec final def gcd(x: T, y: T, beta: C, phi: C): T = if (y.isZero) x else if (x.isZero) y else {
     val d = degree(x) - degree(y)

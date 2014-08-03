@@ -1,11 +1,10 @@
 package scas.polynomial.tree
 
 import scala.reflect.ClassTag
-import scas.ufd.SimpleGCD
 import scas.power.PowerProduct
 import scas.structure.UniqueFactorizationDomain
 import MultivariatePolynomial.Element
 
-class PolynomialWithSimpleGCD[C, N](val ring: UniqueFactorizationDomain[C], val pp: PowerProduct[N])(implicit val cm: ClassTag[Element[C, N]]) extends MultivariatePolynomial[C, N] with SimpleGCD[Element[C, N], C, N] {
+class PolynomialWithSimpleGCD[C, N](val ring: UniqueFactorizationDomain[C], val pp: PowerProduct[N])(implicit val cm: ClassTag[Element[C, N]]) extends MultivariatePolynomial[C, N] with scas.ufd.PolynomialWithSimpleGCD[Element[C, N], C, N] {
   def split = MultivariatePolynomial.withSimpleGCD(MultivariatePolynomial.withSimpleGCD(ring, pp.take(location)), pp.drop(location))
 }
