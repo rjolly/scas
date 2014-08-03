@@ -2,7 +2,8 @@ package scas.quotient
 
 import scas.structure.{Quotient, Field}
 import scas.polynomial.ufd.{PolynomialOverUFD, PolynomialOverField}
-import scas.{Variable, MultivariatePolynomial, PowerProduct}
+import scas.power.splittable.PowerProduct
+import scas.{Variable, MultivariatePolynomial}
 import RationalFunction.Element
 
 trait RationalFunction[R <: PolynomialOverUFD.Element[R, C, N], C, N] extends Quotient[Element[R, C, N], R] {

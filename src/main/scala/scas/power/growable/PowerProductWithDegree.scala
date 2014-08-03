@@ -3,7 +3,7 @@ package scas.power.growable
 import scas.math.Numeric
 import Numeric.Implicits.infixNumericOps
 
-trait PowerProductWithDegree[@specialized(Byte, Short, Int, Long) N] extends scas.power.PowerProductWithDegree[N] {
+trait PowerProductWithDegree[@specialized(Byte, Short, Int, Long) N] extends PowerProduct[N] with scas.power.PowerProductWithDegree[N] {
   import nm.fromInt
   import variables.length
   override def times(x: Array[N], y: Array[N]) = {

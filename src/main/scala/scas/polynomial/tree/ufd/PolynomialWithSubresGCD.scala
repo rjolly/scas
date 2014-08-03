@@ -1,7 +1,7 @@
 package scas.polynomial.tree.ufd
 
 import scala.reflect.ClassTag
-import scas.power.PowerProduct
+import scas.power.splittable.PowerProduct
 import scas.structure.UniqueFactorizationDomain
 import MultivariatePolynomial.Element
 

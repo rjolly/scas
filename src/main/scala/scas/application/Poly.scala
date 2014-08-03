@@ -7,7 +7,7 @@ import Parsers._
 object Poly extends RingParsers[Poly] {
   implicit def structure = r
 
-  def updated(variables: Variable*) = MultivariatePolynomial(ZZ, PowerProduct(variables: _*))
+  def updated(variables: Variable*) = MultivariatePolynomial(ZZ, variables: _*)
 
   var r = updated()
 

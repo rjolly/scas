@@ -2,7 +2,7 @@ package scas.polynomial.tree.ufd
 
 import scala.reflect.ClassTag
 import scas.polynomial.ufd.PolynomialOverField
-import scas.power.PowerProduct
+import scas.power.splittable.PowerProduct
 import scas.structure.Field
 import MultivariatePolynomial.Element
 

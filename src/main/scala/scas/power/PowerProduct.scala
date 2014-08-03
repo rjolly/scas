@@ -15,9 +15,6 @@ trait PowerProduct[@specialized(Byte, Short, Int, Long) N] extends Monoid[Array[
   implicit val cm: ClassTag[Array[N]]
   import nm.{fromInt, toLong}
   import variables.length
-  def take(n: Int) = self(variables.take(n))
-  def drop(n: Int) = self(variables.drop(n))
-  def self(variables: Array[Variable]): PowerProduct[N]
   def generator(variable: Variable): Array[N] = generator(variables.indexOf(variable))
   def generator(n: Int): Array[N]
   def generators = (for (i <- 0 until length) yield generator(i)).toArray

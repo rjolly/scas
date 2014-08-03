@@ -1,9 +1,10 @@
 package scas.polynomial.tree.ufd
 
 import scala.collection.SortedMap
+import scas.Variable
 import scas.polynomial.TreePolynomial
 import scas.polynomial.ufd.PolynomialOverUFD
-import scas.power.PowerProduct
+import scas.power.splittable.PowerProduct
 import scas.structure.{UniqueFactorizationDomain, Field}
 import MultivariatePolynomial.Element
 
@@ -14,6 +15,7 @@ trait MultivariatePolynomial[C, N] extends TreePolynomial[Element[C, N], C, N] w
 object MultivariatePolynomial {
   def withSimpleGCD[C, N](ring: UniqueFactorizationDomain[C], pp: PowerProduct[N]) = new PolynomialWithSimpleGCD(ring, pp)
   def withPrimitiveGCD[C, N](ring: UniqueFactorizationDomain[C], pp: PowerProduct[N]) = new PolynomialWithPrimitiveGCD(ring, pp)
+  def apply[C](ring: UniqueFactorizationDomain[C], variables: Variable*): MultivariatePolynomial[C, Int] = apply(ring, PowerProduct(variables: _*))
   def apply[C, N](ring: UniqueFactorizationDomain[C], pp: PowerProduct[N]) = new PolynomialWithSubresGCD(ring, pp)
   def apply[C, N](ring: Field[C], pp: PowerProduct[N]) = new PolynomialWithMonicGCD(ring, pp)
 

@@ -4,11 +4,9 @@ import scala.reflect.ClassTag
 import scas.Variable
 import scas.math.{Ordering, Numeric}
 import Ordering.Implicits.infixOrderingOps
-import PowerProduct.degreeReverseLexicographic
 
 class DegreeReverseLexicographic[@specialized(Byte, Short, Int, Long) N](val variables: Array[Variable])(implicit val nm: Numeric[N], val m: ClassTag[N], val cm: ClassTag[Array[N]]) extends PowerProductWithDegree[N] {
   import variables.{length => n}
-  def self(variables: Array[Variable]) = degreeReverseLexicographic[N](variables: _*)
   def compare(x: Array[N], y: Array[N]): Int = {
     if (x(n) < y(n)) -1
     else if (x(n) > y(n)) 1

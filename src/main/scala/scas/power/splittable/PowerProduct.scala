@@ -1,11 +1,12 @@
-package scas.power.growable
+package scas.power.splittable
 
 import scala.reflect.ClassTag
 import scas.Variable
 import scas.math.Numeric
 
 trait PowerProduct[@specialized(Byte, Short, Int, Long) N] extends scas.power.PowerProduct[N] {
-  def +(variable: Variable) = self(variables ++ Array(variable))
+  def take(n: Int) = self(variables.take(n))
+  def drop(n: Int) = self(variables.drop(n))
   def self(variables: Array[Variable]): PowerProduct[N]
 }
 
