@@ -3,7 +3,7 @@ package scas.application
 import Parsers._
 import scas.Boolean
 
-object BooleanParsers extends UFDParsers[Boolean] {
+class BooleanParsers(val rf: RFParsers) extends UFDParsers[Boolean] {
   val structure = Boolean
   def boolean: Parser[Boolean] = ("true" | "false") ^^ { _.toBoolean }
   override def comparison: Parser[Boolean] = base ~ ("=>" | "=" | "<>") ~ base ^^ {
@@ -12,7 +12,7 @@ object BooleanParsers extends UFDParsers[Boolean] {
     case x ~ "<>" ~ y => x != y
   }
   def negation: Parser[Boolean] = "!" ~> base ^^ { case x => !x }
-  def function: Parser[Boolean] = RationalParsers.comparison | RF.comparison | DoubleParsers.comparison | ComplexParsers.comparison | comparison | negation
+  def function: Parser[Boolean] = RationalParsers.comparison | rf.comparison | DoubleParsers.comparison | ComplexParsers.comparison | comparison | negation
   def base: Parser[Boolean] = boolean | "(" ~> expr <~ ")"
   override def term: Parser[Boolean] = function | base
   override def expr: Parser[Boolean] = term ~ ((("&" | "|" | "^") ~ term)*) ^^ {

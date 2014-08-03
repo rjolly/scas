@@ -4,21 +4,18 @@ import scas._
 import Implicits.{ZZ, infixUFDOps}
 import Parsers._
 
-object RF extends UFDParsers[RF] {
+class RFParsers extends UFDParsers[RF] {
   implicit def structure = r
 
-  def updated = RationalFunction.integral(Poly.r)
+  val poly = new PolyParsers
+
+  def updated = RationalFunction.integral(poly.r)
 
   var r = updated
 
   def convert(x: RF) = if (x.factory == r) x else r.convert(x)
 
-  def reset = {
-    Poly.reset
-    r = updated
-  }
-
-  def base: Parser[RF] = Poly.base ^^ {
+  def base: Parser[RF] = poly.base ^^ {
     case x if (x.factory == r.ring) => r(x)
     case x => {
       r = updated

@@ -4,7 +4,7 @@ import scas._
 import Implicits.{ZZ, infixUFDOps, infixPowerProductOps}
 import Parsers._
 
-object Poly extends RingParsers[Poly] {
+class PolyParsers extends RingParsers[Poly] {
   implicit def structure = r
 
   def updated(variables: Variable*) = MultivariatePolynomial(ZZ, variables: _*)
@@ -12,10 +12,6 @@ object Poly extends RingParsers[Poly] {
   var r = updated()
 
   def convert(x: Poly) = if (x.factory == r) x else r.convert(x)
-
-  def reset = {
-    r = updated()
-  }
 
   def function: Parser[Poly] = ("factor") ~ ("(" ~> Int.expr) <~ ")" ^^ {
     case "factor" ~ x if (x <> 0) => factor(x)

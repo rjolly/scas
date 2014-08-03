@@ -5,16 +5,12 @@ import scas.{Graph, Variable}
 import scas.base.Function
 import Function.{sinh, cosh, tanh, sin, cos, tan, asin, acos, atan, exp, log, sqrt, pow, identity}
 
-object Fn extends UFDParsers[Double => Double] {
+class Fn extends UFDParsers[Double => Double] {
   val structure = Function
 
   def updated(variables: Variable*) = List(variables: _*)
 
   var n = updated()
-
-  def reset = {
-    n = updated()
-  }
 
   def function: Parser[Double => Double] = ("sinh" | "cosh" | "tanh" | "sin" | "cos" | "tan" | "asin" | "acos" | "atan" | "exp" | "log" | "sqrt") ~ ("(" ~> expr) <~ ")" ^^ {
     case "sinh" ~ x => sinh(x)
