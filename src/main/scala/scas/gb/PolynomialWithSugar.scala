@@ -1,10 +1,11 @@
-package scas.polynomial
+package scas.gb
 
-import scas.gb.Sugar
+import scala.math.Ordering
+import scas.polynomial.PolynomialOverUFD
 import scas.Implicits.infixRingOps
 import PolynomialWithSugar.Element
 
-trait PolynomialWithSugar[T <: Element[T, C, N], C, N] extends PolynomialWithGB[T, C, N] with Sugar[T, C, N] {
+trait PolynomialWithSugar[T <: Element[T, C, N], C, N] extends PolynomialWithGM[T, C, N] {
   abstract override def plus(x: T, y: T) = apply(super.plus(x, y), scala.math.max(x.sugar, y.sugar))
   override def times(x: T, m: Array[N]) = apply(super.times(x, m), x.sugar + pp.degree(m))
   override def subtract(x: T, m: Array[N], c: C, y: T) = apply(super.subtract(x, m, c, y), scala.math.max(x.sugar, y.sugar + pp.degree(m)))
@@ -15,6 +16,20 @@ trait PolynomialWithSugar[T <: Element[T, C, N], C, N] extends PolynomialWithGB[
   def apply(x: T): T = apply(x, degree(x))
   def apply(x: T, sugar: Long): T
   def sugar(x: T) = x.sugar
+
+  type P = Pair
+
+  class Pair(i: Int, j: Int) extends super.Pair(i, j) { this: P =>
+    def skey = (s, scm, j, i)
+    val s = scala.math.max(sugar(i) - degree(i), sugar(j) - degree(j)) + pp.degree(scm)
+    override def toString = "{" + i + ", " + j + "}, " + s + ", " + reduction
+  }
+
+  override def ordering = Ordering by { pair: P => pair.skey }
+
+  def apply(i: Int, j: Int) = new Pair(i, j)
+  def degree(i: Int): Long = pp.degree(headPowerProduct(i))
+  def sugar(i: Int): Long = sugar(polys(i))
 }
 
 object PolynomialWithSugar {

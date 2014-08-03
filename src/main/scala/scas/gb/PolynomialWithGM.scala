@@ -3,11 +3,11 @@ package scas.gb
 import scala.collection.SortedSet
 import scala.collection.mutable.ArrayBuffer
 import scala.math.Ordering
-import scas.polynomial.{PolynomialOverUFD, PolynomialWithGB}
+import scas.polynomial.PolynomialOverUFD
 import scas.Implicits.{infixOrderingOps, infixPowerProductOps}
 import PolynomialOverUFD.Element
 
-trait GM[T <: Element[T, C, N], C, N] extends Engine[T, C, N] { this: PolynomialWithGB[T, C, N] =>
+trait PolynomialWithGM[T <: Element[T, C, N], C, N] extends PolynomialWithEngine[T, C, N] {
   type P <: Pair
 
   class Pair(i: Int, j: Int) extends super.Pair(i, j) { this: P =>
