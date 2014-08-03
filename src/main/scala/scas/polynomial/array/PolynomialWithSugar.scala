@@ -1,8 +1,8 @@
-package scas.polynomial
-package array
+package scas.polynomial.array
 
 import scala.reflect.ClassTag
 import scas.Variable
+import scas.polynomial.ArrayPolynomial
 import scas.power.offset.PowerProduct
 import scas.structure.UniqueFactorizationDomain
 import PolynomialWithSugar.Element

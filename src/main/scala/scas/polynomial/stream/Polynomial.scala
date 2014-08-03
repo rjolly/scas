@@ -1,8 +1,8 @@
-package scas.polynomial
-package stream
+package scas.polynomial.stream
 
 import scas.immutable.Stream
 import scas.Variable
+import scas.polynomial.StreamPolynomial
 import scas.power.PowerProduct
 import scas.structure.Ring
 import Polynomial.Element

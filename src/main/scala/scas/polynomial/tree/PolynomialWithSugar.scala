@@ -1,9 +1,9 @@
-package scas.polynomial
-package tree
+package scas.polynomial.tree
 
 import scala.reflect.ClassTag
 import scala.collection.SortedMap
 import scas.Variable
+import scas.polynomial.TreePolynomial
 import scas.power.PowerProduct
 import scas.structure.UniqueFactorizationDomain
 import PolynomialWithSugar.Element

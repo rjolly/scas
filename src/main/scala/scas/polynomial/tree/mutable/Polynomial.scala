@@ -1,6 +1,4 @@
-package scas.polynomial
-package tree
-package mutable
+package scas.polynomial.tree.mutable
 
 import java.util.SortedMap
 import scas.Variable

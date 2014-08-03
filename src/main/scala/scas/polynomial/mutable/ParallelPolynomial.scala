@@ -1,6 +1,6 @@
-package scas.polynomial
-package mutable
+package scas.polynomial.mutable
 
+import scas.polynomial.Polynomial
 import scas.Implicits.infixRingOps
 import Polynomial.Element
 

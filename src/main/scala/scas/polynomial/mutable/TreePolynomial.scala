@@ -1,8 +1,8 @@
-package scas.polynomial
-package mutable
+package scas.polynomial.mutable
 
 import java.util.{SortedMap, TreeMap}
 import scala.collection.convert.{WrapAsScala, WrapAsJava}
+import scas.polynomial.Polynomial
 import scas.Implicits.{infixRingOps, infixPowerProductOps}
 import TreePolynomial.Element
 import WrapAsScala.{mapAsScalaMap, asScalaIterator}

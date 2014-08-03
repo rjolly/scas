@@ -1,5 +1,4 @@
-package scas.polynomial
-package list
+package scas.polynomial.list
 
 import scala.reflect.ClassTag
 import scas.power.PowerProduct
