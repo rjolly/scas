@@ -1,5 +1,6 @@
-package scas.polynomial
+package scas.polynomial.ufd
 
+import scas.polynomial.{Polynomial, PolynomialWithRepr}
 import UnivariatePolynomialWithRepr.Element
 
 trait UnivariatePolynomialWithRepr[S[C, N] <: Polynomial.Element[S[C, N], C, N], T <: Element[S, T, C, N], C, N] extends PolynomialWithRepr[S, T, C, N] with UnivariatePolynomial[T, C, N] {

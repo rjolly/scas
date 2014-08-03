@@ -1,7 +1,7 @@
 package scas.residue
 
 import scas.structure.Field
-import scas.polynomial.PolynomialOverUFD
+import scas.polynomial.ufd.PolynomialOverUFD
 import scas.{Variable, UnivariatePolynomial}
 import Residue.Element
 
@@ -22,7 +22,7 @@ trait Residue[R <: PolynomialOverUFD.Element[R, C, N], C, N] extends scas.struct
 
 object Residue {
   def apply[C](ring: Field[C], s: Variable): AlgebraicNumber[UnivariatePolynomial.Element[C, Int], C, Int] = apply(UnivariatePolynomial(ring, s))
-  def apply[R <: PolynomialOverUFD.Element[R, C, N], C, N](ring: scas.polynomial.UnivariatePolynomial[R, C, N]) = new AlgebraicNumberImpl(ring)
+  def apply[R <: PolynomialOverUFD.Element[R, C, N], C, N](ring: scas.polynomial.ufd.UnivariatePolynomial[R, C, N]) = new AlgebraicNumberImpl(ring)
 
   class Element[R <: PolynomialOverUFD.Element[R, C, N], C, N](val value: R)(val factory: Residue[R, C, N]) extends scas.structure.Residue.Element[Element[R, C, N], R]
   object Element extends ExtraImplicits

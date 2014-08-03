@@ -1,9 +1,9 @@
-package scas.gb
+package scas.polynomial.ufd.gb
 
 import scala.collection.SortedSet
 import scala.collection.mutable.ArrayBuffer
 import scala.math.Ordering
-import scas.polynomial.PolynomialOverUFD
+import scas.polynomial.ufd.PolynomialOverUFD
 import scas.Implicits.{infixOrderingOps, infixRingOps, infixPowerProductOps}
 import PolynomialOverUFD.Element
 

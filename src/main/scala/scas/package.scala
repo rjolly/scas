@@ -28,9 +28,9 @@ package object scas {
   val ModInteger = base.ModInteger
   val PowerProduct = power.PowerProduct
   val Polynomial = polynomial.tree.Polynomial
-  val PolynomialWithGB = polynomial.tree.PolynomialWithGB
-  val MultivariatePolynomial = polynomial.tree.MultivariatePolynomial
-  val UnivariatePolynomial = polynomial.tree.UnivariatePolynomial
+  val PolynomialWithGB = polynomial.tree.ufd.gb.PolynomialWithGB
+  val MultivariatePolynomial = polynomial.tree.ufd.MultivariatePolynomial
+  val UnivariatePolynomial = polynomial.tree.ufd.UnivariatePolynomial
   val RationalFunction = quotient.RationalFunction
   val Residue = residue.Residue
   val Module = module.Module

@@ -1,4 +1,4 @@
-package scas.polynomial.tree
+package scas.polynomial.tree.ufd.gb
 
 import scala.reflect.ClassTag
 import scala.collection.SortedMap
@@ -8,7 +8,7 @@ import scas.power.PowerProduct
 import scas.structure.UniqueFactorizationDomain
 import PolynomialWithSugar.Element
 
-trait PolynomialWithSugar[C, N] extends TreePolynomial[Element[C, N], C, N] with scas.gb.PolynomialWithSugar[Element[C, N], C, N] {
+trait PolynomialWithSugar[C, N] extends TreePolynomial[Element[C, N], C, N] with scas.polynomial.ufd.gb.PolynomialWithSugar[Element[C, N], C, N] {
   def apply(x: Element[C, N], sugar: Long) = apply(x.value, sugar)
   def apply(value: SortedMap[Array[N], C], sugar: Long) = new Element(value, sugar)(this)
   def apply(value: SortedMap[Array[N], C]) = apply(value, 0l)
@@ -20,7 +20,7 @@ object PolynomialWithSugar {
   def fussy[C](ring: UniqueFactorizationDomain[C], variables: Variable*): PolynomialWithSugar[C, Int] = fussy(ring, PowerProduct(variables: _*))
   def fussy[C, N](ring: UniqueFactorizationDomain[C], pp: PowerProduct[N]) = new PolynomialWithFussy(ring, pp)
 
-  class Element[C, N](val value: SortedMap[Array[N], C], val sugar: Long)(val factory: PolynomialWithSugar[C, N]) extends TreePolynomial.Element[Element[C, N], C, N] with scas.gb.PolynomialWithSugar.Element[Element[C, N], C, N]
+  class Element[C, N](val value: SortedMap[Array[N], C], val sugar: Long)(val factory: PolynomialWithSugar[C, N]) extends TreePolynomial.Element[Element[C, N], C, N] with scas.polynomial.ufd.gb.PolynomialWithSugar.Element[Element[C, N], C, N]
   object Element extends ExtraImplicits
 
   trait ExtraImplicits {

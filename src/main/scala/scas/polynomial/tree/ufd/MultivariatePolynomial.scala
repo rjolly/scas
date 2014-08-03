@@ -1,12 +1,13 @@
-package scas.polynomial.tree
+package scas.polynomial.tree.ufd
 
 import scala.collection.SortedMap
-import scas.polynomial.{TreePolynomial, PolynomialOverUFD}
+import scas.polynomial.TreePolynomial
+import scas.polynomial.ufd.PolynomialOverUFD
 import scas.power.PowerProduct
 import scas.structure.{UniqueFactorizationDomain, Field}
 import MultivariatePolynomial.Element
 
-trait MultivariatePolynomial[C, N] extends TreePolynomial[Element[C, N], C, N] with scas.polynomial.MultivariatePolynomial[Element, C, N] {
+trait MultivariatePolynomial[C, N] extends TreePolynomial[Element[C, N], C, N] with scas.polynomial.ufd.MultivariatePolynomial[Element, C, N] {
   def apply(value: SortedMap[Array[N], C]) = new Element(value)(this)
 }
 

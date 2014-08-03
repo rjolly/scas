@@ -1,7 +1,7 @@
 package scas.quotient
 
 import scas.structure.{Quotient, Field}
-import scas.polynomial.{PolynomialOverUFD, PolynomialOverField}
+import scas.polynomial.ufd.{PolynomialOverUFD, PolynomialOverField}
 import scas.{Variable, MultivariatePolynomial, PowerProduct}
 import RationalFunction.Element
 

@@ -1,7 +1,7 @@
-package scas.polynomial.tree
+package scas.polynomial.tree.ufd
 
 import scala.reflect.ClassTag
-import scas.polynomial.PolynomialOverField
+import scas.polynomial.ufd.PolynomialOverField
 import scas.power.PowerProduct
 import scas.structure.Field
 import MultivariatePolynomial.Element

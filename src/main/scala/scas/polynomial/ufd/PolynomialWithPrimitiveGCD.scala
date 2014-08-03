@@ -1,7 +1,6 @@
-package scas.ufd
+package scas.polynomial.ufd
 
 import scala.annotation.tailrec
-import scas.polynomial.PolynomialOverUFD
 import PolynomialOverUFD.Element
 
 trait PolynomialWithPrimitiveGCD[T <: Element[T, C, N], C, N] extends PolynomialOverUFD[T, C, N] {

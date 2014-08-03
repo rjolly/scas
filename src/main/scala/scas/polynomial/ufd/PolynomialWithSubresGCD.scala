@@ -1,7 +1,6 @@
-package scas.ufd
+package scas.polynomial.ufd
 
 import scala.annotation.tailrec
-import scas.polynomial.PolynomialOverUFD
 import scas.long2bigInteger
 import scas.Implicits.{infixUFDOps, infixPowerProductOps}
 import PolynomialOverUFD.Element

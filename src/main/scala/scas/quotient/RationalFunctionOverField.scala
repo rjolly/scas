@@ -1,6 +1,6 @@
 package scas.quotient
 
-import scas.polynomial.{PolynomialOverUFD, PolynomialOverField}
+import scas.polynomial.ufd.{PolynomialOverUFD, PolynomialOverField}
 import RationalFunction.Element
 
 class RationalFunctionOverField[R <: PolynomialOverUFD.Element[R, C, N], C, N](val ring: PolynomialOverField[R, C, N]) extends RationalFunction[R, C, N] {

@@ -1,7 +1,7 @@
-package scas.gb
+package scas.polynomial.ufd.gb
 
 import scala.math.Ordering
-import scas.polynomial.PolynomialOverUFD
+import scas.polynomial.ufd.PolynomialOverUFD
 import scas.Implicits.infixRingOps
 import PolynomialWithSugar.Element
 

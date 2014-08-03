@@ -1,5 +1,6 @@
-package scas.polynomial
+package scas.polynomial.ufd
 
+import scas.polynomial.Polynomial
 import scas.structure.UniqueFactorizationDomain
 import scas.Implicits.{infixUFDOps, infixPowerProductOps}
 import PolynomialOverUFD.Element

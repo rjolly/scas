@@ -1,4 +1,4 @@
-package scas.polynomial.tree
+package scas.polynomial.tree.ufd.gb
 
 import scala.reflect.ClassTag
 import scas.power.PowerProduct

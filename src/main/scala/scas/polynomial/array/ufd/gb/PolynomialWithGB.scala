@@ -1,13 +1,14 @@
-package scas.polynomial.array
+package scas.polynomial.array.ufd.gb
 
 import scala.reflect.ClassTag
 import scas.Variable
-import scas.polynomial.{ArrayPolynomial, PolynomialOverUFD}
+import scas.polynomial.ArrayPolynomial
+import scas.polynomial.ufd.PolynomialOverUFD
 import scas.power.offset.PowerProduct
 import scas.structure.UniqueFactorizationDomain
 import PolynomialWithGB.Element
 
-class PolynomialWithGB[C, N](val ring: UniqueFactorizationDomain[C], val pp: PowerProduct[N])(implicit val cm: ClassTag[Element[C, N]], val cm1: ClassTag[C], val cm2: ClassTag[N]) extends ArrayPolynomial[Element[C, N], C, N] with scas.gb.PolynomialWithGB[Element[C, N], C, N] {
+class PolynomialWithGB[C, N](val ring: UniqueFactorizationDomain[C], val pp: PowerProduct[N])(implicit val cm: ClassTag[Element[C, N]], val cm1: ClassTag[C], val cm2: ClassTag[N]) extends ArrayPolynomial[Element[C, N], C, N] with scas.polynomial.ufd.gb.PolynomialWithGB[Element[C, N], C, N] {
   def apply(value: (Array[C], Array[N])) = new Element(value)(this)
 }
 

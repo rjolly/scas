@@ -1,9 +1,11 @@
-package scas.polynomial.tree
+package scas.polynomial.tree.ufd
 
 import scala.collection.SortedMap
 import scala.reflect.ClassTag
 import scas.Variable
-import scas.polynomial.{TreePolynomial, UnivariatePolynomialWithRepr, Module}
+import scas.polynomial.{TreePolynomial, Module}
+import scas.polynomial.ufd.UnivariatePolynomialWithRepr
+import scas.polynomial.tree.Polynomial
 import scas.power.PowerProduct
 import scas.structure.Field
 import UnivariatePolynomial.Element

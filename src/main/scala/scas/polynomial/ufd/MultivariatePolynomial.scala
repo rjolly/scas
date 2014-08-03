@@ -1,4 +1,4 @@
-package scas.polynomial
+package scas.polynomial.ufd
 
 import scas.long2bigInteger
 import scas.Implicits.{infixUFDOps, infixPowerProductOps}

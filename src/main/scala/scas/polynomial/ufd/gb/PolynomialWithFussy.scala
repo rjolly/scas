@@ -1,4 +1,4 @@
-package scas.gb
+package scas.polynomial.ufd.gb
 
 import scala.math.Ordering.Implicits.infixOrderingOps
 import PolynomialWithSugar.Element
