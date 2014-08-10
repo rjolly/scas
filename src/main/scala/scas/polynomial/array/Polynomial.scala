@@ -8,6 +8,7 @@ import scas.structure.Ring
 import Polynomial.Element
 
 trait Polynomial[C, N] extends ArrayPolynomial[Element[C, N], C, N] {
+  val self = this
   def apply(value: (Array[C], Array[N])) = new Element(value)(this)
 }
 

@@ -5,6 +5,7 @@ import scas.structure.Ring
 import Module.Element
 
 trait Module[R] extends ArrayModule[Element[R], R] {
+  val self = this
   def apply(value: Array[R]) = new Element(value)(this)
 }
 

@@ -1,18 +1,18 @@
 package scas.structure
 
 import spire.macros.Ops
-import StarRing.OpsImpl
+import scas.Implicits.infixStarRingOps
 
 trait StarRing[@specialized(Int, Long, Double) T] extends Ring[T] {
+  implicit def self: StarRing[T]
   def conjugate(x: T): T
   def isReal(x: T): Boolean
   def isImag(x: T): Boolean
-  override implicit def mkOps(lhs: T): StarRing.Ops[T] = new OpsImpl(lhs)(this)
 }
 
 object StarRing {
   trait ExtraImplicits extends Ring.ExtraImplicits {
-    implicit def infixStarRingOps[T: StarRing](lhs: T) = implicitly[StarRing[T]].mkOps(lhs)
+    implicit def infixStarRingOps[T: StarRing](lhs: T): Ops[T] = new OpsImpl(lhs)
   }
   object Implicits extends ExtraImplicits
 

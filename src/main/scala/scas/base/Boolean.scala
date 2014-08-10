@@ -1,10 +1,11 @@
 package scas.base
 
 import scas.structure.{BooleanAlgebraWithUFD, Field}
-import scas.Implicits.{ZZ, infixAbelianGroupOps}
 import scas.{int2bigInteger, Variable}
+import scas.Implicits.{ZZ, infixAbelianGroupOps}
 
 object Boolean extends BooleanAlgebraWithUFD[Boolean] with Field[Boolean] {
+  implicit val self = this
   def apply(l: Long) = l % 2 == 1
   def random(numbits: Int)(implicit rnd: java.util.Random) = rnd.nextBoolean()
   def characteristic = 2

@@ -9,6 +9,7 @@ import scas.structure.UniqueFactorizationDomain
 import PolynomialWithSugar.Element
 
 trait PolynomialWithSugar[C, N] extends TreePolynomial[Element[C, N], C, N] with scas.polynomial.ufd.gb.PolynomialWithSugar[Element[C, N], C, N] {
+  val self = this
   def apply(x: Element[C, N], sugar: Long) = apply(x.value, sugar)
   def apply(value: SortedMap[Array[N], C], sugar: Long) = new Element(value, sugar)(this)
   def apply(value: SortedMap[Array[N], C]) = apply(value, 0l)

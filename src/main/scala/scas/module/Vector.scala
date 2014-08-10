@@ -5,6 +5,7 @@ import scas.structure.{Field, VectorSpace}
 import Vector.Element
 
 trait Vector[R] extends ArrayModule[Element[R], R] with VectorSpace[Element[R], R] {
+  val self = this
   def apply(value: Array[R]) = new Element(value)(this)
 }
 

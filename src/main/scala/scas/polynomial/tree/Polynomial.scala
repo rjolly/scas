@@ -8,6 +8,7 @@ import scas.structure.Ring
 import Polynomial.Element
 
 trait Polynomial[C, N] extends TreePolynomial[Element[C, N], C, N] {
+  val self = this
   def apply(value: SortedMap[Array[N], C]) = new Element(value)(this)
 }
 

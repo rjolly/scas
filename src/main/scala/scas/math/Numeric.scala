@@ -1,7 +1,6 @@
 package scas.math
 
 import spire.macros.Ops
-import Numeric.Ops
 
 trait Numeric[@specialized(Byte, Short, Int, Long) T] extends Ordering[T] {
   def plus(x: T, y: T): T
@@ -22,13 +21,11 @@ trait Numeric[@specialized(Byte, Short, Int, Long) T] extends Ordering[T] {
     if (lt(x, zero)) -1
     else if (gt(x, zero)) 1
     else 0
-
-  implicit def mkNumericOps(lhs: T) = new Ops(lhs)(this)
 }
 
 object Numeric {
   trait ExtraImplicits {
-    implicit def infixNumericOps[T: Numeric](x: T) = implicitly[Numeric[T]].mkNumericOps(x)
+    implicit def infixNumericOps[T: Numeric](x: T) = new Ops(x)
   }
   object Implicits extends ExtraImplicits { }
 

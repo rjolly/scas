@@ -1,15 +1,15 @@
 package scas.structure
 
 import spire.macros.Ops
-import StarRingWithUFD.OpsImpl
+import scas.Implicits.infixStarOps
 
 trait StarRingWithUFD[@specialized(Boolean) T] extends StarRing[T] with UniqueFactorizationDomain[T] {
-  override implicit def mkOps(lhs: T): StarRingWithUFD.Ops[T] = new OpsImpl[T](lhs)(this)
+  implicit def self: StarRingWithUFD[T]
 }
 
 object StarRingWithUFD {
   trait ExtraImplicits extends StarRing.ExtraImplicits with UniqueFactorizationDomain.ExtraImplicits {
-    implicit def infixStarOps[T: StarRingWithUFD](lhs: T) = implicitly[StarRingWithUFD[T]].mkOps(lhs)
+    implicit def infixStarOps[T: StarRingWithUFD](lhs: T): Ops[T] = new OpsImpl[T](lhs)
   }
   object Implicits extends ExtraImplicits
 

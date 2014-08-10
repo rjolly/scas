@@ -7,6 +7,7 @@ import scas.{Variable, MultivariatePolynomial}
 import RationalFunction.Element
 
 trait RationalFunction[R <: PolynomialOverUFD.Element[R, C, N], C, N] extends Quotient[Element[R, C, N], R] {
+  val self = this
   val ring: PolynomialOverUFD[R, C, N]
   import ring.{ring => coef, variables}
   def apply(n: R, d: R) = {

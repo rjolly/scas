@@ -2,9 +2,10 @@ package scas.structure
 
 import scas.Boolean
 import spire.macros.Ops
-import BooleanAlgebra.OpsImpl
+import scas.Implicits.infixBooleanAlgebraOps
 
 trait BooleanAlgebra[@specialized(scala.Boolean) T] extends Algebra[T, Boolean] {
+  implicit def self: BooleanAlgebra[T]
   val ring = Boolean
   def ltimes(x: Boolean, y: T) = if(x) y else zero
   def and(x: T, y: T) = x * y
@@ -12,12 +13,11 @@ trait BooleanAlgebra[@specialized(scala.Boolean) T] extends Algebra[T, Boolean] 
   def xor(x: T, y: T) = x + y
   def not(x: T): T
   def implies(x: T, y: T) = y || !x
-  override implicit def mkOps(lhs: T): BooleanAlgebra.Ops[T] = new OpsImpl[T](lhs)(this)
 }
 
 object BooleanAlgebra {
   trait ExtraImplicits extends Algebra.ExtraImplicits {
-    implicit def infixBooleanAlgebraOps[T: BooleanAlgebra](lhs: T) = implicitly[BooleanAlgebra[T]].mkOps(lhs)
+    implicit def infixBooleanAlgebraOps[T: BooleanAlgebra](lhs: T): Ops[T] = new OpsImpl[T](lhs)
   }
   object Implicits extends ExtraImplicits
 

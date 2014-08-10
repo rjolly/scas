@@ -3,9 +3,10 @@ package scas.structure
 import scala.xml.Elem
 import scas.{MathObject, Variable}
 import spire.macros.Ops
-import Structure.OpsImpl
+import scas.Implicits.infixOps
 
 trait Structure[@specialized(Int, Long, Double) T] extends Equiv[T] { outer =>
+  implicit def self: Structure[T]
   def convert(x: T) = x
   def apply(l: Long): T
   def random(numbits: Int)(implicit rnd: java.util.Random): T
@@ -14,7 +15,6 @@ trait Structure[@specialized(Int, Long, Double) T] extends Equiv[T] { outer =>
   def toMathML(x: T): Elem
   def toMathML: Elem
   def function(x: T, a: Variable): Double => Double
-  implicit def mkOps(lhs: T): Structure.Ops[T] = new OpsImpl(lhs)(this)
   def render(value: T): MathObject = new MathObject {
     override def toString = toCode(value, 0)
     def toMathML = outer.toMathML(value)
@@ -23,7 +23,7 @@ trait Structure[@specialized(Int, Long, Double) T] extends Equiv[T] { outer =>
 
 object Structure {
   trait ExtraImplicits {
-    implicit def infixOps[T: Structure](lhs: T) = implicitly[Structure[T]].mkOps(lhs)
+    implicit def infixOps[T: Structure](lhs: T): Ops[T] = new OpsImpl(lhs)
   }
   object Implicits extends ExtraImplicits
 

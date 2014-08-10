@@ -8,6 +8,7 @@ import scas.structure.UniqueFactorizationDomain
 import PolynomialWithSugar.Element
 
 trait PolynomialWithSugar[C, N] extends ArrayPolynomial[Element[C, N], C, N] with scas.polynomial.ufd.gb.PolynomialWithSugar[Element[C, N], C, N] {
+  val self = this
   def apply(x: Element[C, N], sugar: Long) = apply(x.value, sugar)
   def apply(value: (Array[C], Array[N]), sugar: Long) = new Element(value, sugar)(this)
   def apply(value: (Array[C], Array[N])) = apply(value, 0l)

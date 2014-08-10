@@ -2,8 +2,10 @@ package scas.base
 
 import scas.structure.Field
 import scas.{int2bigInteger, Variable}
+import scas.Implicits.infixAbelianGroupOps
 
 object Function extends Field[Double => Double] {
+  implicit val self = this
   def apply(value: Double): Double => Double = { a => value }
   def apply(l: Long) = apply(l.toDouble)
   def signum(x: Double => Double) = if (x.isZero) 0 else 1

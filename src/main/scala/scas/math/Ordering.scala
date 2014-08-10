@@ -2,7 +2,6 @@ package scas.math
 
 import java.util.Comparator
 import spire.macros.Ops
-import Ordering.Ops
 
 @annotation.implicitNotFound(msg = "No implicit Ordering defined for ${T}.")
 trait Ordering[@specialized(Byte, Short, Int, Long, Double) T] extends Comparator[T] with PartialOrdering[T] with Serializable {
@@ -26,8 +25,6 @@ trait Ordering[@specialized(Byte, Short, Int, Long, Double) T] extends Comparato
   def on[U](f: U => T): Ordering[U] = new Ordering[U] {
     def compare(x: U, y: U) = outer.compare(f(x), f(y))
   }
-
-  implicit def mkOrderingOps(lhs: T) = new Ops(lhs)(this)
 }
 
 trait LowPriorityOrderingImplicits {
@@ -40,7 +37,7 @@ object Ordering extends LowPriorityOrderingImplicits {
   def apply[T](implicit ord: Ordering[T]) = ord
 
   trait ExtraImplicits {
-    implicit def infixOrderingOps[T: Ordering](x: T) = implicitly[Ordering[T]].mkOrderingOps(x)
+    implicit def infixOrderingOps[T: Ordering](x: T) = new Ops(x)
   }
   object Implicits extends ExtraImplicits { }
 

@@ -1,9 +1,10 @@
 package scas.structure
 
 import spire.macros.Ops
-import AbelianGroup.OpsImpl
+import scas.Implicits.{infixOrderingOps, infixAbelianGroupOps}
 
 trait AbelianGroup[@specialized(Int, Long, Double) T] extends Structure[T] {
+  implicit def self: AbelianGroup[T]
   def zero = apply(0)
   def plus(x: T, y: T): T
   def minus(x: T, y: T): T
@@ -12,12 +13,11 @@ trait AbelianGroup[@specialized(Int, Long, Double) T] extends Structure[T] {
   def abs(x: T) = if (signum(x) < 0) -x else x
   def signum(x: T): Int
   def isZero(x: T) = x >< zero
-  override implicit def mkOps(lhs: T): AbelianGroup.Ops[T] = new OpsImpl(lhs)(this)
 }
 
 object AbelianGroup {
   trait ExtraImplicits extends Structure.ExtraImplicits {
-    implicit def infixAbelianGroupOps[T: AbelianGroup](lhs: T) = implicitly[AbelianGroup[T]].mkOps(lhs)
+    implicit def infixAbelianGroupOps[T: AbelianGroup](lhs: T): Ops[T] = new OpsImpl(lhs)
   }
   object Implicits extends ExtraImplicits
 

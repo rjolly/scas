@@ -6,6 +6,7 @@ import scas.{int2bigInteger, long2bigInteger}
 import scas.Implicits.{ZZ, infixUFDOps}
 
 trait RationalLike extends Quotient[Rational, BigInteger] with Field[Rational] {
+  val self = this
   val ring = ZZ
   def apply(n: BigInteger, d: BigInteger) = if (ring.signum(d) < 0) (-n, -d) else (n, d)
   override def apply(l: Long) = apply(l, 1)

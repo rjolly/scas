@@ -4,6 +4,7 @@ import scas.structure.ordered.Field
 import scas.{int2bigInteger, Variable}
 
 object Double extends Field[Double] {
+  val self = this
   def apply(l: Long) = l
   def random(numbits: Int)(implicit rnd: java.util.Random) = rnd.nextDouble()
   def characteristic = 0

@@ -4,8 +4,10 @@ import scala.annotation.tailrec
 import scala.collection.{Map, SortedMap}
 import scas.structure.ordered.EuclidianDomain
 import scas.{int2bigInteger, long2bigInteger, Variable}
+import scas.Implicits.{infixOrderingOps, infixUFDOps}
 
 trait BigIntegerLike extends EuclidianDomain[BigInteger] {
+  implicit val self = this
   override def isZero(x: BigInteger) = signum(x) == 0
   def apply(s: String) = new BigInteger(s)
   def apply(l: Long) = l
@@ -47,7 +49,7 @@ trait BigIntegerLike extends EuclidianDomain[BigInteger] {
 
   def factor(x: BigInteger): Map[BigInteger, Int] = {
     assert(x > 0)
-    factor(x, SortedMap.empty[BigInteger, Int], primes)
+    factor(x, SortedMap.empty[BigInteger, Int](this), primes)
   }
 
   @tailrec final def factor(x: BigInteger, map: Map[BigInteger, Int], primes: Stream[BigInteger]): Map[BigInteger, Int] = {
@@ -59,8 +61,8 @@ trait BigIntegerLike extends EuclidianDomain[BigInteger] {
   }
 
   def sieve(n: BigInteger): Stream[BigInteger] = {
-    if (primes.takeWhile(p => p * p <= n).exists(n % _ >< 0)) sieve(n + 2)
-    else Stream.cons(n, sieve(n + 2))
+    if (primes.takeWhile(p => p * p <= n).exists(n % _ >< 0)) sieve(n + BigInteger(2))
+    else Stream.cons(n, sieve(n + BigInteger(2)))
   }
 
   val primes: Stream[BigInteger] = Stream.cons(2, sieve(3))

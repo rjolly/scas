@@ -11,6 +11,7 @@ import scas.structure.Field
 import UnivariatePolynomial.Element
 
 class UnivariatePolynomial[C, N](val ring: Field[C], val pp: PowerProduct[N], val module: Module[Polynomial.Element[C, N], C, N])(implicit val cm: ClassTag[Element[C, N]]) extends TreePolynomial[Element[C, N], C, N] with UnivariatePolynomialWithRepr[Polynomial.Element, Element[C, N], C, N] {
+  val self = this
   def apply(x: Element[C, N], element: Module.Element[Polynomial.Element[C, N]]) = apply(x.value, element)
   def apply(value: SortedMap[Array[N], C], element: Module.Element[Polynomial.Element[C, N]]) = new Element(value, element)(this)
   def apply(value: SortedMap[Array[N], C]) = apply(value, module.zero)

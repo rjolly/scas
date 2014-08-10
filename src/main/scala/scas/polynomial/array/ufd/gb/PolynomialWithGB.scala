@@ -9,6 +9,7 @@ import scas.structure.UniqueFactorizationDomain
 import PolynomialWithGB.Element
 
 class PolynomialWithGB[C, N](val ring: UniqueFactorizationDomain[C], val pp: PowerProduct[N])(implicit val cm: ClassTag[Element[C, N]], val cm1: ClassTag[C], val cm2: ClassTag[N]) extends ArrayPolynomial[Element[C, N], C, N] with scas.polynomial.ufd.gb.PolynomialWithGB[Element[C, N], C, N] {
+  val self = this
   def apply(value: (Array[C], Array[N])) = new Element(value)(this)
 }
 

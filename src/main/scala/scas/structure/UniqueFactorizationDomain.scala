@@ -1,21 +1,21 @@
 package scas.structure
 
 import spire.macros.Ops
-import UniqueFactorizationDomain.OpsImpl
+import scas.Implicits.infixUFDOps
 
 trait UniqueFactorizationDomain[@specialized(Int, Long, Double) T] extends Ring[T] {
+  implicit def self: UniqueFactorizationDomain[T]
   def gcd(x: T, y: T): T
   def lcm(x: T, y: T) = (x * y) / gcd(x, y)
   def divide(x: T, y: T) = { val (q, _) = x /% y ; q }
   def remainder(x: T, y: T) = { val (_, r) = x /% y ; r }
   def divideAndRemainder(x: T, y: T): (T, T)
   def factorOf(x: T, y: T) = (y % x).isZero
-  override implicit def mkOps(lhs: T): UniqueFactorizationDomain.Ops[T] = new OpsImpl(lhs)(this)
 }
 
 object UniqueFactorizationDomain {
   trait ExtraImplicits extends Ring.ExtraImplicits {
-    implicit def infixUFDOps[T: UniqueFactorizationDomain](lhs: T) = implicitly[UniqueFactorizationDomain[T]].mkOps(lhs)
+    implicit def infixUFDOps[T: UniqueFactorizationDomain](lhs: T): Ops[T] = new OpsImpl(lhs)
   }
   object Implicits extends ExtraImplicits
 

@@ -1,5 +1,7 @@
 package scas.structure
 
+import scas.Implicits.infixUFDOps
+
 trait Field[@specialized(Int, Long, Double) T] extends EuclidianDomain[T] with NotQuiteGroup[T] {
   override def isUnit(x: T) = !(x.isZero)
   override def gcd(x: T, y: T) = if (norm(x) < norm(y)) y else x

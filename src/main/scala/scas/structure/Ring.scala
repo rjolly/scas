@@ -1,16 +1,16 @@
 package scas.structure
 
 import scas.BigInteger
-import Ring.OpsImpl
+import scas.Implicits.infixRingOps
 
 trait Ring[@specialized(Int, Long, Double) T] extends AbelianGroup[T] with Monoid[T] {
+  implicit def self: Ring[T]
   def characteristic: BigInteger
-  override implicit def mkOps(lhs: T): Ring.Ops[T] = new OpsImpl(lhs)(this)
 }
 
 object Ring {
   trait ExtraImplicits extends AbelianGroup.ExtraImplicits with Monoid.ExtraImplicits {
-    implicit def infixRingOps[T: Ring](lhs: T) = implicitly[Ring[T]].mkOps(lhs)
+    implicit def infixRingOps[T: Ring](lhs: T): Ops[T] = new OpsImpl(lhs)
   }
   object Implicits extends ExtraImplicits
 

@@ -5,6 +5,7 @@ import scas.Implicits.{infixRingOps, R2R}
 import Product.Element
 
 class Product[R1, R2](implicit val ring1: Ring[R1], ring2: Ring[R2]) extends Ring[Element[R1, R2]] {
+  val self = this
   override def convert(x: Element[R1, R2]) = {
     val Element(a, b) = x
     apply(ring1.convert(a), ring2.convert(b))

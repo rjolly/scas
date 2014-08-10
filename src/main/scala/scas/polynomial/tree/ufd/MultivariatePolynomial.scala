@@ -9,6 +9,7 @@ import scas.structure.{UniqueFactorizationDomain, Field}
 import MultivariatePolynomial.Element
 
 trait MultivariatePolynomial[C, N] extends TreePolynomial[Element[C, N], C, N] with scas.polynomial.ufd.MultivariatePolynomial[Element, C, N] {
+  val self = this
   def apply(value: SortedMap[Array[N], C]) = new Element(value)(this)
 }
 

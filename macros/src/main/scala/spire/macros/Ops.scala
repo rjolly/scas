@@ -22,7 +22,6 @@ object Ops {
     import c.universe._
     c.prefix.tree match {
       case Apply(Apply(TypeApply(_, _), List(x)), List(ev)) => (ev, x)
-      case Apply(Select(ev, _), List(x)) => (ev, x)
       case t => c.abort(c.enclosingPosition, "Cannot extract subject of operator (tree = %s)" format t)
     }
   }

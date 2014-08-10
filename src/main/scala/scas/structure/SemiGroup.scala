@@ -1,16 +1,16 @@
 package scas.structure
 
 import spire.macros.Ops
-import SemiGroup.OpsImpl
+import scas.Implicits.infixSemiGroupOps
 
 trait SemiGroup[@specialized(Int, Long, Double) T] extends Structure[T] {
+  implicit def self: SemiGroup[T]
   def times(x: T, y: T): T
-  override implicit def mkOps(lhs: T): SemiGroup.Ops[T] = new OpsImpl(lhs)(this)
 }
 
 object SemiGroup {
   trait ExtraImplicits extends Structure.ExtraImplicits {
-    implicit def infixSemiGroupOps[T: SemiGroup](lhs: T) = implicitly[SemiGroup[T]].mkOps(lhs)
+    implicit def infixSemiGroupOps[T: SemiGroup](lhs: T): Ops[T] = new OpsImpl(lhs)
   }
   object Implicits extends ExtraImplicits
 

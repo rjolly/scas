@@ -5,11 +5,13 @@ import scas.{Variable, BigInteger, Function, long2bigInteger}
 import scas.structure.ordered.Monoid
 import scas.math.{Ordering, Numeric}
 import spire.macros.Ops
+import scas.Implicits.infixPowerProductOps
 import Ordering.Implicits.infixOrderingOps
 import Numeric.Implicits.infixNumericOps
 import Function.identity
 
 trait PowerProduct[@specialized(Byte, Short, Int, Long) N] extends Monoid[Array[N]] {
+  implicit val self = this
   val variables: Array[Variable]
   implicit val nm: Numeric[N]
   implicit val cm: ClassTag[Array[N]]
@@ -77,13 +79,11 @@ trait PowerProduct[@specialized(Byte, Short, Int, Long) N] extends Monoid[Array[
   }
 
   def get(x: Array[N], i: Int): N
-
-  override implicit def mkOps(lhs: Array[N]) = new PowerProduct.Ops(lhs)(this)
 }
 
 object PowerProduct {
   trait ExtraImplicits extends Monoid.ExtraImplicits {
-    implicit def infixPowerProductOps[N: PowerProduct](lhs: Array[N]) = implicitly[PowerProduct[N]].mkOps(lhs)
+    implicit def infixPowerProductOps[N: PowerProduct](lhs: Array[N]) = new Ops(lhs)
   }
   object Implicits extends ExtraImplicits
 

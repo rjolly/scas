@@ -1,9 +1,11 @@
 package scas.base
 
 import scas.structure.ordered.EuclidianDomain
+import scas.Implicits.infixUFDOps
 import scas.{int2bigInteger, long2bigInteger, Variable}
 
 object Long extends EuclidianDomain[Long] {
+  implicit val self = this
   def apply(s: String) = s.toLong
   def apply(l: Long) = l
   def random(numbits: Int)(implicit rnd: java.util.Random) = rnd.nextLong()

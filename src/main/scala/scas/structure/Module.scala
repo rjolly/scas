@@ -1,19 +1,20 @@
 package scas.structure
 
 import spire.macros.Ops
-import Module.{Scalar, OpsImpl}
+import scas.Implicits.infixModuleOps
+import Module.Scalar
 
 trait Module[T, R] extends AbelianGroup[T] {
-  implicit val ring: Ring[R]
+  implicit def self: Module[T, R]
+  implicit def ring: Ring[R]
   def ltimes(x: R, y: T): T
-  def rtimes(x: T, y: R) = y *: x
+  def rtimes(x: T, y: R) = ltimes(y, x)
   def scalar(lhs: R) = new Scalar(lhs)(this)
-  override implicit def mkOps(lhs: T): Module.Ops[T, R] = new OpsImpl[T, R](lhs)(this)
 }
 
 object Module {
   trait ExtraImplicits extends AbelianGroup.ExtraImplicits {
-    implicit def infixModuleOps[T, R](lhs: T)(implicit factory: Module[T, R]) = factory.mkOps(lhs)
+    implicit def infixModuleOps[T, R](lhs: T)(implicit factory: Module[T, R]): Ops[T, R] = new OpsImpl[T, R](lhs)
   }
   object Implicits extends ExtraImplicits
 
@@ -26,7 +27,7 @@ object Module {
     def *:(lhs: R) = macro Ops.rbinop[R, T]
     def :*(rhs: R) = macro Ops.binop[R, T]
   }
-  class OpsImpl[T, R](lhs: T)(factory: Module[T, R]) extends Ops[T, R]
+  class OpsImpl[T, R](lhs: T)(implicit factory: Module[T, R]) extends Ops[T, R]
   class Scalar[T, R](lhs: R)(factory: Module[T, R]) {
     def *(rhs: T) = factory.ltimes(lhs, rhs)
   }

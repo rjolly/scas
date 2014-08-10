@@ -5,6 +5,7 @@ import scas.structure.Field
 import scas.Implicits.ZZ
 
 class ModInteger(val mod: BigInteger) extends Residue[BigInteger, BigInteger] with Field[BigInteger] {
+  val self = this
   val ring = ZZ
   assert (mod.isProbablePrime(100))
   def fromRing(value: BigInteger) = value

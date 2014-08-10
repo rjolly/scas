@@ -7,6 +7,7 @@ import scas.Implicits.infixUFDOps
 import Matrix.Element
 
 trait Matrix[R] extends ArrayModule[Element[R], R] with Algebra[Element[R], R] {
+  val self = this
   val size: Int
   val dimension = size * size
   def generators2 = (for (i <- 0 until dimension) yield generator(i)).grouped(size).toArray

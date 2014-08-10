@@ -1,14 +1,14 @@
 package scas.structure
 
-import AlgebraOverRing.OpsImpl
+import scas.Implicits.infixAlgebraOverRingOps
 
 trait AlgebraOverRing[T, R] extends Module[T, R] with SemiGroup[T] {
-  override implicit def mkOps(lhs: T): AlgebraOverRing.Ops[T, R] = new OpsImpl[T, R](lhs)(this)
+  implicit def self: AlgebraOverRing[T, R]
 }
 
 object AlgebraOverRing {
   trait ExtraImplicits extends Module.ExtraImplicits with SemiGroup.ExtraImplicits {
-    implicit def infixAlgebraOverRingOps[T, R](lhs: T)(implicit factory: AlgebraOverRing[T, R]) = factory.mkOps(lhs)
+    implicit def infixAlgebraOverRingOps[T, R](lhs: T)(implicit factory: AlgebraOverRing[T, R]): Ops[T, R] = new OpsImpl[T, R](lhs)
   }
   object Implicits extends ExtraImplicits
 
@@ -16,5 +16,5 @@ object AlgebraOverRing {
     val factory: AlgebraOverRing[T, R]
   }
   trait Ops[T, R] extends Module.Ops[T, R] with SemiGroup.Ops[T]
-  class OpsImpl[T, R](lhs: T)(factory: AlgebraOverRing[T, R]) extends Ops[T, R]
+  class OpsImpl[T, R](lhs: T)(implicit factory: AlgebraOverRing[T, R]) extends Ops[T, R]
 }

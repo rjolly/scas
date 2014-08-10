@@ -8,6 +8,7 @@ import scas.structure.Ring
 import Polynomial.Element
 
 trait Polynomial[C, N] extends StreamPolynomial[Element[C, N], C, N] {
+  val self = this
   def apply(value: Stream[(Array[N], C)]) = new Element(value)(this)
 }
 

@@ -2,9 +2,10 @@ package scas.base
 
 import scas.structure.{Field, StarRingWithUFD}
 import scas.{int2bigInteger, double2complex, Variable}
-import scas.Implicits.{RR, infixOps}
+import scas.Implicits.{RR, infixStarOps, infixOps}
 
 trait ComplexLike extends StarRingWithUFD[Complex] with Field[Complex] {
+  implicit val self = this
   def apply(a: Double, b: Double) = (a, b)
   def apply(value: Double): Complex = apply(value, 0)
   def apply(l: Long) = apply(l.toDouble)
@@ -31,12 +32,12 @@ trait ComplexLike extends StarRingWithUFD[Complex] with Field[Complex] {
 
   def equiv(x: Complex, y: Complex) = real(x) == real(y) && imag(x) == imag(y)
   override def toCode(x: Complex, precedence: Int) = {
-    if (x.isReal) real(x).toCode(precedence)
+    if (x.isReal) infixOps(real(x)).toCode(precedence)
     else "Complex(" + real(x) + ", " + imag(x) + ")"
   }
   override def toString = "CC"
   def toMathML(x: Complex) = {
-    if (x.isReal) real(x).toMathML
+    if (x.isReal) infixOps(real(x)).toMathML
     else <cn type="complex">{real(x)}<sep/>{imag(x)}</cn>
   }
   def toMathML = <complexes/>

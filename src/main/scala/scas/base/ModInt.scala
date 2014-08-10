@@ -5,6 +5,7 @@ import scas.structure.Field
 import scas.int2bigInteger
 
 class ModInt(val mod: Int) extends Residue[Int, Long] with Field[Int] {
+  val self = this
   val ring = Long
   assert (mod.isProbablePrime(100))
   def fromRing(value: Long) = value.toInt

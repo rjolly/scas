@@ -1,17 +1,17 @@
 package scas.structure
 
 import spire.macros.Ops
-import BooleanAlgebraWithUFD.OpsImpl
+import scas.Implicits.infixBooleanOps
 
 trait BooleanAlgebraWithUFD[@specialized(Boolean) T] extends BooleanAlgebra[T] with UniqueFactorizationDomain[T] {
+  implicit def self: BooleanAlgebraWithUFD[T]
   def gcd(x: T, y: T) = x || y
   def not(x: T) = x ^ one
-  override implicit def mkOps(lhs: T): BooleanAlgebraWithUFD.Ops[T] = new OpsImpl[T](lhs)(this)
 }
 
 object BooleanAlgebraWithUFD {
   trait ExtraImplicits extends BooleanAlgebra.ExtraImplicits with UniqueFactorizationDomain.ExtraImplicits {
-    implicit def infixBooleanOps[T: BooleanAlgebraWithUFD](lhs: T) = implicitly[BooleanAlgebraWithUFD[T]].mkOps(lhs)
+    implicit def infixBooleanOps[T: BooleanAlgebraWithUFD](lhs: T): Ops[T] = new OpsImpl[T](lhs)
   }
   object Implicits extends ExtraImplicits
 
