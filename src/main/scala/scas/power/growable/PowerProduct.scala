@@ -5,8 +5,8 @@ import scas.Variable
 import scas.math.Numeric
 
 trait PowerProduct[@specialized(Byte, Short, Int, Long) N] extends scas.power.PowerProduct[N] {
-  def +(variable: Variable) = self(variables ++ Array(variable))
-  def self(variables: Array[Variable]): PowerProduct[N]
+  def +(variable: Variable) = instance(variables ++ Array(variable))
+  def instance(variables: Array[Variable]): PowerProduct[N]
 }
 
 object PowerProduct {

@@ -11,7 +11,7 @@ import Numeric.Implicits.infixNumericOps
 import Function.identity
 
 trait PowerProduct[@specialized(Byte, Short, Int, Long) N] extends Monoid[Array[N]] {
-  implicit val self = this
+  implicit def self: PowerProduct[N]
   val variables: Array[Variable]
   implicit val nm: Numeric[N]
   implicit val cm: ClassTag[Array[N]]

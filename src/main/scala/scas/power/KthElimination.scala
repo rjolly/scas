@@ -7,6 +7,7 @@ import Ordering.Implicits.infixOrderingOps
 import PowerProduct.degreeReverseLexicographic
 
 class KthElimination[@specialized(Byte, Short, Int, Long) N](val variables: Array[Variable], val k: Int)(implicit val nm: Numeric[N], val m: ClassTag[N], val cm: ClassTag[Array[N]]) extends PowerProductWithDegree[N] {
+  val self = this
   import variables.{length => n}
   val ordering = degreeReverseLexicographic[N](variables: _*)
   def compare(x: Array[N], y: Array[N]): Int = {

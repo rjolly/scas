@@ -6,6 +6,7 @@ import scas.math.{Ordering, Numeric}
 import Ordering.Implicits.infixOrderingOps
 
 class Lexicographic[@specialized(Byte, Short, Int, Long) N](val variables: Array[Variable])(implicit val nm: Numeric[N], val m: ClassTag[N], val cm: ClassTag[Array[N]]) extends PowerProductWithDegree[N] {
+  val self = this
   import variables.{length => n}
   def compare(x: Array[N], y: Array[N]): Int = {
     var i = n
