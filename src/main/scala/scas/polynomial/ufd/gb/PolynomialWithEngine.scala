@@ -27,9 +27,9 @@ trait PolynomialWithEngine[T <: Element[T, C, N], C, N] extends PolynomialOverUF
   type P <: Pair
 
   class Pair(val i: Int, val j: Int) { this: P =>
+    val m = headPowerProduct(i)
+    val n = headPowerProduct(j)
     val scm = pp.scm(m, n)
-    def m = headPowerProduct(i)
-    def n = headPowerProduct(j)
     def key = (scm, j, i)
     def process: Unit = {
       if(!b_criterion) {
