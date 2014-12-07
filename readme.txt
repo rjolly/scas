@@ -5,6 +5,9 @@ Software needed:
 - sbt 0.13.1 ( http://github.com/harrah/xsbt/ )
 - jarlister ( http://github.com/rjolly/jarlister/ )
 
+  jarlister $SCALA_HOME/lib/scala-library.jar
+  jarlister $SCALA_HOME/lib/scala-xml_2.11-1.0.3.jar
+  jarlister $SCALA_HOME/lib/scala-parser-combinators_2.11-1.0.2.jar
 
 To build scas:
   sbt -Dscala.home.local=$SCALA_HOME package macros/package
