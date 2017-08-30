@@ -1,1 +1,1 @@
-sudo mount -t davfs https://java.net/website/meditor/docs/examples .
+// see https://github.com/rjolly/meditor/tree/master/docs/examples
