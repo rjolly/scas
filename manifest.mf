@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Implementation-Vendor: Raphael Jolly
+Implementation-Title: ScAS
+Implementation-Version: 0
+Specification-Vendor: com.github.rjolly
+Specification-Title: scas
+Specification-Version: 3.0
+Main-Class: scas.test
