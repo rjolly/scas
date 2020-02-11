@@ -2,10 +2,6 @@ mkdir("build");
 mkdir("build/classes");
 
 var name = "scas";
-dotc(name + "/src", "build/classes");
-copy(name + "/resources", "build/classes");
-
-mkdir("dist");
-jar("dist/" + name + ".jar", "build/classes", ".*", "manifest.mf");
-
-publish("dist")
+dotc(name + "/src", "build/classes", ["-language:strictEquality"]);
+dotc(name + "/application/src", "build/classes", ["-language:strictEquality"]);
+copy(name + "/application/resources", "build/classes");

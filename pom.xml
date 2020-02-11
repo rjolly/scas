@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.github.rjolly</groupId>
+  <artifactId>scas_0.22</artifactId>
+  <packaging>jar</packaging>
+  <version>3.0</version>
+  <url>https://github.com/rjolly/scas</url>
+  <description>Scala Algebra System</description>
+  <licenses>
+    <license>
+      <name>GPL</name>
+      <url>http://www.gnu.org/licenses/gpl.txt</url>
+    </license>
+  </licenses>
+  <name>scas</name>
+  <organization>
+    <name>com.github.rjolly</name>
+  </organization>
+  <scm>
+    <url>git@github.com:rjolly/scas.git</url>
+    <connection>scm:git:git@github.com:rjolly/scas.git</connection>
+  </scm>
+  <developers>
+    <developer>
+      <id>rjolly</id>
+      <name>Raphael Jolly</name>
+      <url>https://github.com/rjolly</url>
+    </developer>
+  </developers>
+</project>

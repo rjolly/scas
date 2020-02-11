@@ -1,0 +1,4 @@
+import scala.language.strictEquality
+import scas.arith.BigInteger
+
+assert(BigInteger(1) + BigInteger(1) == BigInteger(2))

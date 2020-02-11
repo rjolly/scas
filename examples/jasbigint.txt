@@ -1,0 +1,5 @@
+import scala.language.strictEquality
+import jas.BigInteger
+import jas.{given Eql[BigInteger, BigInteger]}
+
+assert(BigInteger(1) + BigInteger(1) == BigInteger(2))
