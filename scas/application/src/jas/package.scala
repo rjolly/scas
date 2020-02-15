@@ -1,3 +1,5 @@
+import scas.math.Equiv
+import scas.math.Ordering
 import scas.structure.Ring
 import edu.jas.arith.BigInteger
 import edu.jas.poly.GenPolynomialRing
@@ -8,28 +10,26 @@ import edu.jas.structure.RingFactory
 import collection.JavaConverters.asScalaBufferConverter
 
 package object jas with
-  given Eql[BigInteger, BigInteger] = Eql.derived
-
-  given BigInteger as Ring[BigInteger] with
+  given BigInteger as Ring[BigInteger] with Ordering[BigInteger] with
     def (x: BigInteger) + (y: BigInteger) = x.sum(y)
     def (x: BigInteger) - (y: BigInteger) = x.subtract(y)
     def (x: BigInteger) * (y: BigInteger) = x.multiply(y)
-    def (x: BigInteger) isZero = x == zero
-    def (x: BigInteger) isOne = x == one
-    def zero = BigInteger(0)
-    def one = BigInteger(1)
+    def compare(x: BigInteger, y: BigInteger) = x.compareTo(y)
+    def (x: BigInteger) isZero = x >< 0
+    def (x: BigInteger) isOne = x >< 1
+    def zero = 0
+    def one = 1
 
   val ZZ = BigInteger()
 
-  given polyEql[C <: RingElem[C]](using Eql[C, C]) as Eql[GenPolynomial[C], GenPolynomial[C]] = Eql.derived
-
-  class PolyRing[C <: RingElem[C]](cf: RingFactory[C], v: Array[String], t: TermOrder)(using Eql[C, C]) extends GenPolynomialRing(cf, v, t) with Ring[GenPolynomial[C]]
+  class PolyRing[C <: RingElem[C]](cf: RingFactory[C], v: Array[String], t: TermOrder) extends GenPolynomialRing(cf, v, t) with Ring[GenPolynomial[C]] with Equiv[GenPolynomial[C]]
     def gens = getGenerators().asScala.toArray
     def (x: GenPolynomial[C]) + (y: GenPolynomial[C]) = x.sum(y)
     def (x: GenPolynomial[C]) - (y: GenPolynomial[C]) = x.subtract(y)
     def (x: GenPolynomial[C]) * (y: GenPolynomial[C]) = x.multiply(y)
-    def (x: GenPolynomial[C]) isZero = x == zero
-    def (x: GenPolynomial[C]) isOne = x == one
+    def equiv(x: GenPolynomial[C], y: GenPolynomial[C]) = x.equals(y)
+    def (x: GenPolynomial[C]) isZero = x.isZERO()
+    def (x: GenPolynomial[C]) isOne = x.isONE()
     def zero = getZERO()
     def one = getONE()
 

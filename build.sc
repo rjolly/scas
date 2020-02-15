@@ -3,10 +3,10 @@ import mill._, scalalib._, publish._
 
 object scas extends ScalaModule with PublishModule {
   def scalaVersion = "0.22.0-RC1"
-  def scalacOptions = Seq("-language:strictEquality,implicitConversions")
+  def scalacOptions = Seq("-language:implicitConversions")
   object application extends ScalaModule {
     def scalaVersion = "0.22.0-RC1"
-    def scalacOptions = Seq("-language:strictEquality,implicitConversions")
+    def scalacOptions = Seq("-language:implicitConversions")
     def moduleDeps = Seq(scas)
     def ivyDeps = Agg(
       ivy"ch.epfl.lamp::dotty-compiler:${scalaVersion()}",
