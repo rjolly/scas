@@ -1,4 +1,7 @@
-import scala.language.strictEquality
+import scala.language.{strictEquality, implicitConversions}
 import scas.arith.BigInteger
+import scas.arith.{given Conversion[Int, BigInteger]}
 
 assert(BigInteger(1) + BigInteger(1) == BigInteger(2))
+assert(1 +: BigInteger(1) == BigInteger(2))
+assert(BigInteger(1) + 1 == BigInteger(2))

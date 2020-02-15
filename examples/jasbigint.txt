@@ -1,5 +1,9 @@
-import scala.language.strictEquality
-import jas.BigInteger
-import jas.{given Eql[BigInteger, BigInteger]}
+// Requires : de.uni-mannheim.rz.krum#jas;2.6.5988
+
+import scala.language.{strictEquality, implicitConversions}
+import edu.jas.arith.BigInteger
+import jas.{BigInteger, given Conversion[Int, BigInteger], given Eql[BigInteger, BigInteger]}
 
 assert(BigInteger(1) + BigInteger(1) == BigInteger(2))
+assert(1 +: BigInteger(1) == BigInteger(2))
+assert(BigInteger(1) + 1 == BigInteger(2))

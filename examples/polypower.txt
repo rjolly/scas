@@ -1,0 +1,18 @@
+// Requires : de.uni-mannheim.rz.krum#jas;2.6.5988
+
+import scala.language.{strictEquality, implicitConversions}
+import edu.jas.arith.BigInteger
+import edu.jas.poly.TermOrderByName
+import jas.{ZZ, PolyRing, recurse2poly, polyEql, given Conversion[Int, BigInteger], given Conversion[Long, BigInteger], given Eql[BigInteger, BigInteger]}
+
+given r as PolyRing[BigInteger] = PolyRing(ZZ, Array("x", "y", "z"), TermOrderByName.INVLEX)
+val Array(one, x, y, z) = r.gens
+
+val p = 1 +: x +: y +: z
+// val p = 1 +: x \: 2147483647 +: y \: 2147483647 +: z \: 2147483647
+// val p = 10000000001l +: 10000000001l *: x +: 10000000001l *: y +: 10000000001l *: z
+val q = p \: 20
+val q1 = q + 1
+val q2 = q * q1;
+q2.length
+// 12341

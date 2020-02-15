@@ -14,3 +14,6 @@ package object arith with
     def (x: BigInteger) isOne = x == one
     def zero = BigInteger(0)
     def one = BigInteger(1)
+
+  given Conversion[Int, BigInteger] = BigInteger(_)
+  given Conversion[Long, BigInteger] = BigInteger(_)
