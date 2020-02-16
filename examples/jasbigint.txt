@@ -2,7 +2,7 @@
 
 import scala.language.implicitConversions
 import edu.jas.arith.BigInteger
-import jas.{ZZ, jas2scas, int2bigInt}
+import jas.{ZZ, int2bigInt}
 
 assert(BigInteger(1) + 1 >< 1 +: BigInteger(1))
 assert(BigInteger(1) - BigInteger(1) >< 0)

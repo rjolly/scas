@@ -1,0 +1,24 @@
+// Requires : de.uni-mannheim.rz.krum#jas;2.6.5988
+
+import scala.language.implicitConversions
+import edu.jas.arith.BigInteger
+import edu.jas.poly.TermOrderByName
+import edu.jas.poly.GenPolynomialRing
+import edu.jas.poly.GenPolynomial
+import jas.{ZZ, PolyRing, coef2poly, recurse2poly, int2bigInt}
+
+given r as PolyRing[BigInteger] = PolyRing(GenPolynomialRing(ZZ.factory, Array("x", "y", "z"), TermOrderByName.INVLEX))
+val Array(one, x, y, z) = r.gens
+
+given s as PolyRing[GenPolynomial[BigInteger]] = PolyRing(GenPolynomialRing(r.factory, Array("a"), TermOrderByName.INVLEX))
+val Array(_, a) = s.gens
+
+assert(BigInteger(1) + 1 >< 1 +: BigInteger(1))
+assert(x + 1 >< 1 +: x)
+assert(x + BigInteger(1) >< BigInteger(1) +: x)
+assert(x + one >< one +: x)
+assert(x > one)
+assert(a + 1 >< 1 +: a)
+assert(a + BigInteger(1) >< BigInteger(1) +: a)
+assert(a + x >< x +: a)
+assert(a > x)
