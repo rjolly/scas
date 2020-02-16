@@ -2,12 +2,14 @@ package scas
 
 import scas.math.Ordering
 import scas.structure.Ring
+import scala.util.FromDigits
 
 package object arith with
   type BigInteger = java.math.BigInteger
 
-  given BigInteger as Ring[BigInteger] with Ordering[BigInteger] with
-    def apply(n: Long) = java.math.BigInteger.valueOf(n)
+  given BigInteger as Ring[BigInteger] with Ordering[BigInteger] with FromDigits[BigInteger] with
+    def fromDigits(digits: String) = java.math.BigInteger(digits)
+    def apply(x: BigInteger) = x
     def (x: BigInteger) + (y: BigInteger) = x.add(y)
     def (x: BigInteger) - (y: BigInteger) = x.subtract(y)
     def (x: BigInteger) * (y: BigInteger) = x.multiply(y)
@@ -17,5 +19,5 @@ package object arith with
     def zero = 0
     def one = 1
 
-  given Conversion[Int, BigInteger] = BigInteger(_)
-  given Conversion[Long, BigInteger] = BigInteger(_)
+  given Conversion[Int, BigInteger] = java.math.BigInteger.valueOf(_)
+  given Conversion[Long, BigInteger] = java.math.BigInteger.valueOf(_)
