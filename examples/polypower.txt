@@ -1,13 +1,18 @@
 // Requires : de.uni-mannheim.rz.krum#jas;2.6.5988
 
+import scala.collection.JavaConverters.asScalaBufferConverter
 import scala.language.implicitConversions
 import edu.jas.arith.BigInteger
 import edu.jas.poly.TermOrderByName
+import edu.jas.poly.GenPolynomialRing
+import edu.jas.poly.GenPolynomial
 import scas.structure.Monoid.\:
-import jas.{ZZ, PolyRing, recurse2poly, given Conversion[Int, BigInteger], given Conversion[Long, BigInteger]}
+import scas.structure.Ring
+import jas.{ZZ, jas2scas, recurse2poly, given Conversion[Int, BigInteger], given Conversion[Long, BigInteger]}
 
-given r as PolyRing[BigInteger] = PolyRing(ZZ, Array("x", "y", "z"), TermOrderByName.INVLEX)
-val Array(one, x, y, z) = r.gens
+given r as GenPolynomialRing[BigInteger] = GenPolynomialRing(ZZ, Array("x", "y", "z"), TermOrderByName.INVLEX)
+val Array(one, x, y, z) = r.getGenerators().asScala.toArray
+given Ring[GenPolynomial[BigInteger]] = jas2scas
 
 val p = 1 +: x +: y +: z
 // val p = 1 +: x \: 2147483647 +: y \: 2147483647 +: z \: 2147483647
