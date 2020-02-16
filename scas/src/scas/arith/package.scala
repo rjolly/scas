@@ -19,5 +19,5 @@ package object arith with
     def zero = 0
     def one = 1
 
-  given Conversion[Int, BigInteger] = java.math.BigInteger.valueOf(_)
-  given Conversion[Long, BigInteger] = java.math.BigInteger.valueOf(_)
+  given int2bigInt as Conversion[Int, BigInteger] = java.math.BigInteger.valueOf(_)
+  given long2bigInt as Conversion[Long, BigInteger] = java.math.BigInteger.valueOf(_)

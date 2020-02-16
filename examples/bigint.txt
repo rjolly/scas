@@ -1,7 +1,6 @@
 import scala.language.implicitConversions
-import scas.arith.BigInteger
+import scas.arith.{BigInteger, int2bigInt}
 import scas.structure.Monoid.\:
-import scas.arith.{given Conversion[Int, BigInteger]}
 
 assert(BigInteger(1) + 1 >< 1 +: BigInteger(1))
 assert(BigInteger(1) - BigInteger(1) >< 0)

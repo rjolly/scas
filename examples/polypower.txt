@@ -8,7 +8,7 @@ import edu.jas.poly.GenPolynomialRing
 import edu.jas.poly.GenPolynomial
 import scas.structure.Monoid.\:
 import scas.structure.Ring
-import jas.{ZZ, jas2scas, recurse2poly, given Conversion[Int, BigInteger], given Conversion[Long, BigInteger]}
+import jas.{ZZ, jas2scas, recurse2poly, int2bigInt, long2bigInt}
 
 given r as GenPolynomialRing[BigInteger] = GenPolynomialRing(ZZ, Array("x", "y", "z"), TermOrderByName.INVLEX)
 val Array(one, x, y, z) = r.getGenerators().asScala.toArray

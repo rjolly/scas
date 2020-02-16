@@ -19,7 +19,7 @@ package object jas with
 
   given ZZ as BigInteger = BigInteger()
 
-  given Conversion[Int, BigInteger] = BigInteger(_)
-  given Conversion[Long, BigInteger] = BigInteger(_)
+  given int2bigInt as Conversion[Int, BigInteger] = BigInteger(_)
+  given long2bigInt as Conversion[Long, BigInteger] = BigInteger(_)
   given coef2poly[C <: RingElem[C]](using r: GenPolynomialRing[C]) as Conversion[C, GenPolynomial[C]] = r.valueOf(_)
   given recurse2poly[U, C <: RingElem[C]](using r: GenPolynomialRing[C], c: Conversion[U, C]) as Conversion[U, GenPolynomial[C]] = r.valueOf(_)
