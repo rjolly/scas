@@ -3,6 +3,7 @@
 import scala.language.implicitConversions
 import edu.jas.arith.BigInteger
 import edu.jas.poly.TermOrderByName
+import scas.structure.Monoid.\:
 import jas.{ZZ, PolyRing, recurse2poly, given Conversion[Int, BigInteger], given Conversion[Long, BigInteger]}
 
 given r as PolyRing[BigInteger] = PolyRing(ZZ, Array("x", "y", "z"), TermOrderByName.INVLEX)
