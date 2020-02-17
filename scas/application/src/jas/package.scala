@@ -20,7 +20,7 @@ package object jas with
     def one = factory.getONE()
 
   given ZZ as BigInteger = BigInteger()
-  given j2s[T <: RingElem[T] : RingFactory] as JasRing[T]
+  given BigInteger as JasRing[BigInteger]
   given jas2scas[C <: RingElem[C] : GenPolynomialRing] as JasRing[GenPolynomial[C]] with
     override val factory: GenPolynomialRing[C] = summon[GenPolynomialRing[C]]
     def gens = factory.getGenerators().asScala.toArray

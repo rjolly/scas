@@ -5,7 +5,7 @@ import edu.jas.arith.BigInteger
 import edu.jas.poly.TermOrderByName
 import edu.jas.poly.GenPolynomialRing
 import scas.structure.Monoid.\:
-import jas.{ZZ, j2s, jas2scas, recurse2poly, int2bigInt, long2bigInt}
+import jas.{ZZ, BigInteger, jas2scas, recurse2poly, int2bigInt, long2bigInt}
 
 given r as GenPolynomialRing[BigInteger] = GenPolynomialRing(ZZ, Array("x", "y", "z"), TermOrderByName.INVLEX)
 val Array(one, x, y, z) = jas2scas(r).gens
