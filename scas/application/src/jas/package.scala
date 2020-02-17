@@ -1,6 +1,5 @@
 import scas.math.Ordering
 import scas.structure.Ring
-import edu.jas.arith.BigInteger
 import edu.jas.poly.GenPolynomialRing
 import edu.jas.poly.GenPolynomial
 import edu.jas.structure.RingElem
@@ -19,7 +18,8 @@ package object jas with
     def zero = factory.getZERO()
     def one = factory.getONE()
 
-  given ZZ as BigInteger = BigInteger()
+  type BigInteger = edu.jas.arith.BigInteger
+  given ZZ as BigInteger = edu.jas.arith.BigInteger()
   given BigInteger as JasRing[BigInteger]
   given jas2scas[C <: RingElem[C] : GenPolynomialRing] as JasRing[GenPolynomial[C]] with
     override val factory: GenPolynomialRing[C] = summon[GenPolynomialRing[C]]
