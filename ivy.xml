@@ -18,4 +18,7 @@
         <artifact name="scas_0.22" type="source" ext="jar" conf="sources" e:classifier="sources"/>
         <artifact name="scas_0.22" type="pom" ext="pom" conf="pom"/>
     </publications>
+    <dependencies>
+        <dependency org="org.scala-lang" name="scala-library" rev="2.13.1" conf="compile->master;runtime->default"/>
+    </dependencies>
 </ivy-module>
