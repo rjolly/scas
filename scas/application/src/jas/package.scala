@@ -27,7 +27,7 @@ package object jas with
     override val factory: GenPolynomialRing[C] = summon[GenPolynomialRing[C]]
     def gens = factory.getGenerators().asScala.toArray
 
+  given id[T] as Conversion[T, T] = identity
   given int2bigInt as Conversion[Int, BigInteger] = BigInteger(_)
   given long2bigInt as Conversion[Long, BigInteger] = BigInteger(_)
-  given coef2poly[C <: RingElem[C] : GenPolynomialRing] as Conversion[C, GenPolynomial[C]] = summon[GenPolynomialRing[C]].valueOf(_)
-  given recurse2poly[U, C <: RingElem[C] : GenPolynomialRing](using Conversion[U, C]) as Conversion[U, GenPolynomial[C]] = summon[GenPolynomialRing[C]].valueOf(_)
+  given coef2poly[U, C <: RingElem[C] : GenPolynomialRing](using Conversion[U, C]) as Conversion[U, GenPolynomial[C]] = summon[GenPolynomialRing[C]].valueOf(_)
