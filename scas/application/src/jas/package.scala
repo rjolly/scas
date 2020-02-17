@@ -23,6 +23,8 @@ package object jas with
   class PolyRing[C <: RingElem[C]](override val factory: GenPolynomialRing[C]) extends JasRing(factory) with
     def gens = factory.getGenerators().asScala.toArray
 
+  given jas2scas[C <: RingElem[C]](using factory: GenPolynomialRing[C]) as PolyRing(factory)
+
   given int2bigInt as Conversion[Int, BigInteger] = BigInteger(_)
   given long2bigInt as Conversion[Long, BigInteger] = BigInteger(_)
   given coef2poly[C <: RingElem[C]](using r: PolyRing[C]) as Conversion[C, GenPolynomial[C]] = r.factory.valueOf(_)
