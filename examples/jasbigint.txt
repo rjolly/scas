@@ -1,7 +1,6 @@
 // Requires : de.uni-mannheim.rz.krum#jas;2.6.5988
 
-import scala.language.implicitConversions
-import jas.{ZZ, BigInteger, int2bigInt}
+import jas.{ZZ, BigInteger}
 
 assert(BigInteger(1) + 1 >< 1 +: BigInteger(1))
 assert(BigInteger(1) - BigInteger(1) >< 0)
