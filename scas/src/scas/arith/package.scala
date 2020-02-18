@@ -7,7 +7,7 @@ import scala.util.FromDigits
 package object arith with
   type BigInteger = java.math.BigInteger
   given BigInteger as Ring[BigInteger] with Ordering[BigInteger] with FromDigits[BigInteger] with
-    def fromDigits(digits: String) = java.math.BigInteger(digits)
+    def fromDigits(digits: String) = new BigInteger(digits)
     def apply(x: BigInteger) = x
     def (x: BigInteger) + (y: BigInteger) = x.add(y)
     def (x: BigInteger) - (y: BigInteger) = x.subtract(y)
