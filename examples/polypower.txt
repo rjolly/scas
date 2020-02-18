@@ -7,7 +7,7 @@ import scas.structure.Monoid.\:
 import jas.{ZZ, BigInteger, jas2scas, coef2poly, int2bigInt, long2bigInt}
 
 given r as GenPolynomialRing[BigInteger] = GenPolynomialRing(ZZ, Array("x", "y", "z"), TermOrderByName.INVLEX)
-val Array(one, x, y, z) = jas2scas(r).gens
+val Array(one, x, y, z) = r.gens
 
 val p = 1 +: x +: y +: z
 // val p = 1 +: x \: 2147483647 +: y \: 2147483647 +: z \: 2147483647

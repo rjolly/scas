@@ -7,10 +7,10 @@ import edu.jas.poly.GenPolynomial
 import jas.{ZZ, BigInteger, jas2scas, id, coef2poly, int2bigInt}
 
 given r as GenPolynomialRing[BigInteger] = GenPolynomialRing(ZZ, Array("x", "y", "z"), TermOrderByName.INVLEX)
-val Array(one, x, y, z) = jas2scas(r).gens
+val Array(one, x, y, z) = r.gens
 
 given s as GenPolynomialRing[GenPolynomial[BigInteger]] = GenPolynomialRing(r, Array("a"), TermOrderByName.INVLEX)
-val Array(_, a) = jas2scas(s).gens
+val Array(_, a) = s.gens
 
 assert(BigInteger(1) + 1 >< 1 +: BigInteger(1))
 assert(x + 1 >< 1 +: x)

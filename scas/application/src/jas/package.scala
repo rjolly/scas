@@ -9,15 +9,14 @@ import scala.collection.JavaConverters.asScalaBufferConverter
 
 package object jas with
   class JasRing[T <: RingElem[T] : RingFactory] extends Ring[T] with Ordering[T] with
-    val factory = summon[RingFactory[T]]
     def (x: T) + (y: T) = x.sum(y)
     def (x: T) - (y: T) = x.subtract(y)
     def (x: T) * (y: T) = x.multiply(y)
     def compare(x: T, y: T) = x.compareTo(y)
     def (x: T) isZero = x.isZERO()
     def (x: T) isOne = x.isONE()
-    def zero = factory.getZERO()
-    def one = factory.getONE()
+    def zero = summon[RingFactory[T]].getZERO()
+    def one = summon[RingFactory[T]].getONE()
 
   type BigInteger = edu.jas.arith.BigInteger
   given ZZ as BigInteger = new BigInteger()
@@ -25,8 +24,7 @@ package object jas with
     def fromDigits(digits: String) = new BigInteger(digits)
     def apply(x: BigInteger) = x
   given jas2scas[C <: RingElem[C] : GenPolynomialRing] as JasRing[GenPolynomial[C]] with
-    override val factory: GenPolynomialRing[C] = summon[GenPolynomialRing[C]]
-    def gens = factory.getGenerators().asScala.toArray
+    def (factory: GenPolynomialRing[C]) gens = factory.getGenerators().asScala.toArray
 
   given id[T] as Conversion[T, T] = identity
   given int2bigInt as Conversion[Int, BigInteger] = new BigInteger(_)
