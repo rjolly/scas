@@ -20,14 +20,15 @@ package object jas with
     def one = factory.getONE()
 
   type BigInteger = edu.jas.arith.BigInteger
-  given ZZ as BigInteger = BigInteger()
+  given ZZ as BigInteger = edu.jas.arith.BigInteger()
   given BigInteger as JasRing[BigInteger] with FromDigits[BigInteger] with
-    def fromDigits(digits: String) = BigInteger(digits)
+    def fromDigits(digits: String) = edu.jas.arith.BigInteger(digits)
+    def apply(x: BigInteger) = x
   given jas2scas[C <: RingElem[C] : GenPolynomialRing] as JasRing[GenPolynomial[C]] with
     override val factory: GenPolynomialRing[C] = summon[GenPolynomialRing[C]]
     def gens = factory.getGenerators().asScala.toArray
 
   given id[T] as Conversion[T, T] = identity
-  given int2bigInt as Conversion[Int, BigInteger] = BigInteger(_)
-  given long2bigInt as Conversion[Long, BigInteger] = BigInteger(_)
+  given int2bigInt as Conversion[Int, BigInteger] = edu.jas.arith.BigInteger(_)
+  given long2bigInt as Conversion[Long, BigInteger] = edu.jas.arith.BigInteger(_)
   given coef2poly[U, C <: RingElem[C] : GenPolynomialRing](using Conversion[U, C]) as Conversion[U, GenPolynomial[C]] = summon[GenPolynomialRing[C]].valueOf(_)
