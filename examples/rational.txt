@@ -1,6 +1,5 @@
 import scala.language.implicitConversions
-import scas.arith.{BigInteger, Rational, int2bigInt, bigInt2rational, any2rational}
-import scas.structure.Monoid.\:
+import scas.arith.{BigInteger, int2bigInt, \:, Rational, bigInt2rational, any2rational}
 
 //assert (1 + 1 /: 2 >< 1 /: 2 + 1)
 //assert (1 /: 2 + 3 /: 4 >< 5 /: 4)

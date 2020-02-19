@@ -1,11 +1,12 @@
 package scas
 
 import scas.math.Ordering
-import scas.structure.{Ring, Fraction}
+import scas.structure.{Monoid, Ring, Fraction}
 import scala.util.FromDigits
 
 package object arith with
   type BigInteger = java.math.BigInteger
+
   given BigInteger as Ring[BigInteger] with Ordering[BigInteger] with FromDigits[BigInteger] with
     def fromDigits(digits: String) = new BigInteger(digits)
     def apply(x: BigInteger) = x
@@ -21,7 +22,11 @@ package object arith with
   given int2bigInt as Conversion[Int, BigInteger] = java.math.BigInteger.valueOf(_)
   given long2bigInt as Conversion[Long, BigInteger] = java.math.BigInteger.valueOf(_)
 
+  def [T: Monoid](a: T) \: (n: Long): T = a \ n
+  def (a: Long) \: (n: Long) = BigInteger(a) \ n
+
   type Rational = (BigInteger, BigInteger)
+
   given Rational as Fraction[BigInteger] with
     def apply(x: Rational) = x
 

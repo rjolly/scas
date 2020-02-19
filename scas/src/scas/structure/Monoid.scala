@@ -1,6 +1,6 @@
 package scas.structure
 
-import Monoid.\:
+import scas.arith.\:
 
 trait Monoid[T] extends SemiGroup[T] with
   given Monoid[T] = this
@@ -11,6 +11,3 @@ trait Monoid[T] extends SemiGroup[T] with
     a * a \: (n - 1)
   def (x: T) isOne: Boolean
   def one: T
-
-object Monoid with
-  def [T: Monoid](a: T) \: (n: Long): T = a \ n
