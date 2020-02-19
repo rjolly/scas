@@ -1,6 +1,6 @@
 package scas
 
-import scas.math.Ordering
+import scas.math.{Equiv, Ordering}
 import scas.structure.{Monoid, Ring, Quotient}
 import scala.util.FromDigits
 
@@ -27,8 +27,11 @@ package object arith with
 
   type Rational = (BigInteger, BigInteger)
 
-  given Rational as Quotient[BigInteger] with
+  given Rational as Quotient[BigInteger] with Equiv[Rational]
     def apply(a: BigInteger, b: BigInteger) = (a, b)
+    def equiv(x: Rational, y: Rational) = x match
+      case (a, b) => y match
+        case (c, d) => a >< c && b >< d
 
   given bigInt2rational as Conversion[BigInteger, Rational] = (_, 1)
   given any2rational[U](using Conversion[U, BigInteger]) as Conversion[U, Rational] = (_, 1)
