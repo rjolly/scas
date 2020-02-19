@@ -1,6 +1,6 @@
 package scas.structure
 
-class Fraction[T: Ring] extends Field[(T, T)] with
+class Quotient[T: Ring] extends Field[(T, T)] with
   def ring = summon[Ring[T]]
   def (x: (T, T)) + (y: (T, T)) = x match
     case (a, b) => y match

@@ -1,7 +1,7 @@
 package scas
 
 import scas.math.Ordering
-import scas.structure.{Monoid, Ring, Fraction}
+import scas.structure.{Monoid, Ring, Quotient}
 import scala.util.FromDigits
 
 package object arith with
@@ -27,8 +27,10 @@ package object arith with
 
   type Rational = (BigInteger, BigInteger)
 
-  given Rational as Fraction[BigInteger] with
-    def apply(x: Rational) = x
+  given Rational as Quotient[BigInteger] with
+    def apply(a: BigInteger, b: BigInteger) = (a, b)
 
   given bigInt2rational as Conversion[BigInteger, Rational] = (_, 1)
   given any2rational[U](using Conversion[U, BigInteger]) as Conversion[U, Rational] = (_, 1)
+
+  def (a: Long) /: (b: Long) = Rational(a, b)
