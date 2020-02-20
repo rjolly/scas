@@ -23,7 +23,7 @@ package object arith with
   given long2bigInt as Conversion[Long, BigInteger] = java.math.BigInteger.valueOf(_)
 
   def [T: Monoid](a: T) \: (n: Long): T = a \ n
-  def (a: Long) \: (n: Long) = BigInteger(a) \ n
+  def (a: Long) \: (n: Long) = (BigInteger(a) \ n).longValue
 
   type Rational = (BigInteger, BigInteger)
 
