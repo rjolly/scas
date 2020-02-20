@@ -33,7 +33,7 @@ package object arith with
       case (a, b) => y match
         case (c, d) => a >< c && b >< d
 
-  given bigInt2rational as Conversion[BigInteger, Rational] = (_, 1)
-  given any2rational[U](using Conversion[U, BigInteger]) as Conversion[U, Rational] = (_, 1)
+  given id[T] as Conversion[T, T] = identity
+  given bigInt2rational[U](using Conversion[U, BigInteger]) as Conversion[U, Rational] = (_, 1)
 
   def (a: Long) /: (b: Long) = Rational(a, b)
