@@ -1,2 +1,1 @@
-var name = "scas";
-run(name + ".test", "build/classes", pathToFile("examples"))
+run("scas.test.Main", "build/classes", pathToFile("examples"))
