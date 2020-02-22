@@ -14,7 +14,7 @@ class Quotient[T: Ring] extends Field[(T, T)] with
     case (a, b) => y match
       case (c, d) => (a * d, b * c)
   def (x: (T, T)) isZero = x match
-    case (a, b) => a.isZero
+    case (a, b) => a.isZero && b.isOne
   def (x: (T, T)) isOne = x match
     case (a, b) => a.isOne && b.isOne
   def zero = (Ring[T].zero, Ring[T].one)
