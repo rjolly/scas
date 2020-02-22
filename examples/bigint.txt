@@ -1,5 +1,5 @@
 import scala.language.strictEquality
-import scas.arith.{BigInteger, \:}
+import scas.{BigInteger, \:}
 
 assert(BigInteger(1) + 1 >< 1 +: BigInteger(1))
 assert(BigInteger(1) - BigInteger(1) >< 0)

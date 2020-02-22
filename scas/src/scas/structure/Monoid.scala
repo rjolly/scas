@@ -1,6 +1,6 @@
 package scas.structure
 
-import scas.arith.\:
+import scas.\:
 
 trait Monoid[T] extends SemiGroup[T] with
   given Monoid[T] = this
