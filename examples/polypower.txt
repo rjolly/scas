@@ -8,10 +8,10 @@ import jas.{ZZ, BigInteger, jas2scas, coef2poly, int2bigInt, long2bigInt, \:}
 given r as GenPolynomialRing[BigInteger] = GenPolynomialRing(ZZ, Array("x", "y", "z"), TermOrderByName.INVLEX)
 val Array(one, x, y, z) = r.gens
 
-val p = 1 +: x +: y +: z
-// val p = 1 +: x \: 2147483647 +: y \: 2147483647 +: z \: 2147483647
-// val p = 10000000001l +: 10000000001l *: x +: 10000000001l *: y +: 10000000001l *: z
-val q = p \: 20
+val p = 1 +:x +:y +:z
+// val p = 1 +:x \:2147483647 +:y \:2147483647 +:z \:2147483647
+// val p = 10000000001l +:10000000001l *:x +:10000000001l *:y +:10000000001l *:z
+val q = p \:20
 val q1 = q + 1
 val q2 = q * q1;
 q2.length

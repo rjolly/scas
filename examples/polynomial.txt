@@ -12,15 +12,15 @@ val Array(one, x, y, z) = r.gens
 given s as GenPolynomialRing[GenPolynomial[BigInteger]] = GenPolynomialRing(r, Array("a"), TermOrderByName.INVLEX)
 val Array(_, a) = s.gens
 
-assert(BigInteger(1) + 1 >< 1 +: BigInteger(1))
+assert(BigInteger(1) + 1 >< 1 +:BigInteger(1))
 assert(x + 1 >< 1 +: x)
-// assert(x + 18446744073709551616 >< 18446744073709551616 +: x)
+// assert(x + 18446744073709551616 >< 18446744073709551616 +:x)
 // number too large
-assert(x + BigInteger(1) >< BigInteger(1) +: x)
-assert(x + BigInteger(18446744073709551616) >< BigInteger(18446744073709551616) +: x)
-assert(x + one >< one +: x)
+assert(x + BigInteger(1) >< BigInteger(1) +:x)
+assert(x + BigInteger(18446744073709551616) >< BigInteger(18446744073709551616) +:x)
+assert(x + one >< one +:x)
 assert(x > one)
-assert(a + 1 >< 1 +: a)
-assert(a + BigInteger(1) >< BigInteger(1) +: a)
-assert(a + x >< x +: a)
+assert(a + 1 >< 1 +:a)
+assert(a + BigInteger(1) >< BigInteger(1) +:a)
+assert(a + x >< x +:a)
 assert(a > x)
