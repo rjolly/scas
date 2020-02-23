@@ -12,7 +12,5 @@ class BigIntegerImpl extends Ring[BigInteger] with Ordering[BigInteger] with Fro
   def (x: BigInteger) - (y: BigInteger) = x.subtract(y)
   def (x: BigInteger) * (y: BigInteger) = x.multiply(y)
   def compare(x: BigInteger, y: BigInteger) = x.compareTo(y)
-  def (x: BigInteger) isZero = x >< 0
-  def (x: BigInteger) isOne = x >< 1
   def zero = 0
   def one = 1

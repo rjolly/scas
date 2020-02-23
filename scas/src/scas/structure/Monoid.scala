@@ -9,5 +9,4 @@ trait Monoid[T] extends SemiGroup[T] with
     b * b
   else
     a * a \: (n - 1)
-  def (x: T) isOne: Boolean
   def one: T

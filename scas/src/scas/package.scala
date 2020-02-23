@@ -18,3 +18,5 @@ package object scas with
   given bigInt2rational[U](using Conversion[U, BigInteger]) as Conversion[U, Rational] = (_, 1)
 
   def (a: Long) /: (b: Long) = Rational(a, b)
+
+  def println[T: Show](x: T) = System.out.println(x.toCode)
