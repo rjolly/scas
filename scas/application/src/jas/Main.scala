@@ -24,4 +24,4 @@ given coef2poly[U, C <: RingElem[C] : GenPolynomialRing](using Conversion[U, C])
 
 given bigInt2scas[U](using Conversion[U, BigInteger]) as Conversion[U, scas.BigInteger] = _.`val`
 
-def (a: Long) \:(n: Long) = BigInteger(a) \ n
+def (a: Long) \:(b: Long) = BigInteger(a) \ b

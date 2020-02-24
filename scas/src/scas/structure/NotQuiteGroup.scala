@@ -3,5 +3,5 @@ package scas.structure
 import scas.{BigInteger, int2bigInt}
 
 trait NotQuiteGroup[T] extends Monoid[T] with
-  override def (x: T) \ (exp: BigInteger) = if (BigInteger.signum(exp) < 0) inverse(x) \ (-exp) else super.\(x)(exp)
+  override def (a: T) \ (b: BigInteger) = if (BigInteger.signum(b) < 0) inverse(a) \ -b else super.\(a)(b)
   def inverse(x: T): T

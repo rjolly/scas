@@ -8,7 +8,7 @@ given BigInteger as BigIntegerImpl
 given int2bigInt as Conversion[Int, BigInteger] = java.math.BigInteger.valueOf(_)
 given long2bigInt as Conversion[Long, BigInteger] = java.math.BigInteger.valueOf(_)
 
-def (a: Long) \:(n: Long) = BigInteger(a) \ n
+def (a: Long) \:(b: Long) = BigInteger(a) \ b
 
 type Rational = (BigInteger, BigInteger)
 given Rational as RationalImpl

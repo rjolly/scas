@@ -3,14 +3,14 @@ package scas.structure
 import scas.{BigInteger, int2bigInt}
 
 trait Monoid[T] extends SemiGroup[T] with
-  def (a: T) \ (n: BigInteger) = {
-    assert (n >= 0)
-    if (n >< 0) one else if (n % 2 >< 0)
-      val b = a \:(n / 2)
-      b * b
+  def (a: T) \ (b: BigInteger): T = {
+    assert (b >= 0)
+    if (b >< 0) one else if (b % 2 >< 0)
+      val c = a \ (b / 2)
+      c * c
     else
-      a * a \:(n - 1)
+      a * a \ (b - 1)
   }
-  def (a: T) \:(n: BigInteger): T = a \ n
+  def (a: T) \:(b: BigInteger) = a \ b
   def (x: T).isUnit: Boolean
   def one: T

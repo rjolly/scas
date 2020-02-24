@@ -23,9 +23,9 @@ abstract class Quotient[T: UniqueFactorizationDomain] extends Field[(T, T)] with
     val (n, d) = x
     (d, n)
   }
-  override def (x: (T, T)) \ (exp: BigInteger) = if (BigInteger.signum(exp) < 0) inverse(x) \ (-exp) else {
-    val (n, d) = x
-    (n \ exp, d \ exp)
+  override def (a: (T, T)) \ (b: BigInteger) = if (BigInteger.signum(b) < 0) inverse(a) \ -b else {
+    val (n, d) = a
+    (n \ b, d \ b)
   }
   override def abs(x: (T, T)) = {
     val (n, d) = x
