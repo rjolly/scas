@@ -1,6 +1,6 @@
 package scas.structure
 
-import scas.BigInteger
+import scas.{BigInteger, int2bigInt}
 
 abstract class Quotient[T: UniqueFactorizationDomain] extends Field[(T, T)] with
   def apply(n: T): (T, T) = (n, UniqueFactorizationDomain[T].one)
