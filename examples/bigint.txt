@@ -1,12 +1,11 @@
-import scala.language.strictEquality
 import scas.{BigInteger, \:}
 
 assert(BigInteger(1) + 1 >< 1 +:BigInteger(1))
 assert(BigInteger(1) - BigInteger(1) >< 0)
-assert(BigInteger(2) \:2 >< BigInteger(4))
-assert(BigInteger(2) \:64 >< BigInteger(18446744073709551616))
-assert(BigInteger(2) \:64 >< 18446744073709551616)
-assert(BigInteger(2) \:2 >< 4)
-assert(2 \:2 == 4)
-assert(2 \:2 \:3 == 256)
-assert((2 \:2) \:3 == 64)
+assert(BigInteger(2) \ 2 >< BigInteger(4))
+assert(BigInteger(2) \ 64 >< BigInteger(18446744073709551616))
+assert(BigInteger(2) \ 64 >< 18446744073709551616)
+assert(BigInteger(2) \ 2 >< 4)
+assert(2 \:2 >< 4)
+assert(2 \:2 \:3 >< 256)
+assert((2 \:2) \ 3 >< 64)

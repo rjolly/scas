@@ -1,7 +1,6 @@
 package scas
 
 import scas.base.{BigIntegerImpl, RationalImpl}
-import scas.structure.Monoid
 
 type BigInteger = java.math.BigInteger
 given BigInteger as BigIntegerImpl
@@ -9,8 +8,7 @@ given BigInteger as BigIntegerImpl
 given int2bigInt as Conversion[Int, BigInteger] = java.math.BigInteger.valueOf(_)
 given long2bigInt as Conversion[Long, BigInteger] = java.math.BigInteger.valueOf(_)
 
-def [T: Monoid](a: T) \:(n: Long): T = a \ n
-def (a: Long) \:(n: Long) = (BigInteger(a) \ n).longValue
+def (a: Long) \:(n: Long) = BigInteger(a) \ n
 
 type Rational = (BigInteger, BigInteger)
 given Rational as RationalImpl

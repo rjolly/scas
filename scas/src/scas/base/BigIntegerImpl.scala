@@ -10,6 +10,8 @@ class BigIntegerImpl extends Ring[BigInteger] with FromDigits[BigInteger] with
   def (x: BigInteger) + (y: BigInteger) = x.add(y)
   def (x: BigInteger) - (y: BigInteger) = x.subtract(y)
   def (x: BigInteger) * (y: BigInteger) = x.multiply(y)
+  def (x: BigInteger) / (y: BigInteger) = x.divide(y)
+  def (x: BigInteger) % (y: BigInteger) = x.remainder(y)
   def compare(x: BigInteger, y: BigInteger) = x.compareTo(y)
   def zero = 0
   def one = 1
