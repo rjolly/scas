@@ -12,4 +12,5 @@ trait Monoid[T] extends SemiGroup[T] with
       a * a \:(n - 1)
   }
   def (a: T) \:(n: BigInteger): T = a \ n
+  def (x: T).isUnit: Boolean
   def one: T
