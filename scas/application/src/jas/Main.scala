@@ -23,5 +23,5 @@ given int2bigInt as Conversion[Int, BigInteger] = new BigInteger(_)
 given long2bigInt as Conversion[Long, BigInteger] = new BigInteger(_)
 given coef2poly[U, C <: RingElem[C] : GenPolynomialRing](using Conversion[U, C]) as Conversion[U, GenPolynomial[C]] = summon[GenPolynomialRing[C]].valueOf(_)
 
-def [T: Monoid](a: T) \: (n: Long): T = a \ n
-def (a: Long) \: (n: Long) = BigInteger(a) \ n
+def [T: Monoid](a: T) \:(n: Long): T = a \ n
+def (a: Long) \:(n: Long) = BigInteger(a) \ n

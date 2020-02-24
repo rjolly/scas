@@ -1,11 +1,10 @@
 package scas.base
 
 import scas.{BigInteger, int2bigInt}
-import scas.math.Ordering
-import scas.structure.Ring
+import scas.structure.ordered.Ring
 import scala.util.FromDigits
 
-class BigIntegerImpl extends Ring[BigInteger] with Ordering[BigInteger] with FromDigits[BigInteger] with
+class BigIntegerImpl extends Ring[BigInteger] with FromDigits[BigInteger] with
   def fromDigits(digits: String) = new BigInteger(digits)
   def apply(x: BigInteger) = x
   def (x: BigInteger) + (y: BigInteger) = x.add(y)

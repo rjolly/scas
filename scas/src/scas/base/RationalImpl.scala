@@ -8,5 +8,7 @@ class RationalImpl extends Quotient[BigInteger]
   def equiv(x: Rational, y: Rational) = x match
     case (a, b) => y match
       case (c, d) => a >< c && b >< d
+  def (x: Rational).signum = x match
+    case (a, b) => a.signum
   override def zero = 0
   override def one = 1
