@@ -2,6 +2,7 @@ package scas.base
 
 import scas.{BigInteger, int2bigInt}
 import scas.structure.ordered.EuclidianDomain
+import scas.prettyprint.Level
 import scala.util.FromDigits
 
 class BigIntegerImpl extends EuclidianDomain[BigInteger] with FromDigits[BigInteger] with
@@ -24,5 +25,11 @@ class BigIntegerImpl extends EuclidianDomain[BigInteger] with FromDigits[BigInte
   override def (x: BigInteger).unary_- = x.negate()
   override def abs(x: BigInteger) = x.abs()
   override def signum(x: BigInteger) = x.signum()
+  def (x: BigInteger).toCode(level: Level) = {
+    if (x.bitLength < 32) x.toString
+    else if (x.bitLength < 64) s"${x}l"
+    else s"BigInteger(${x})"
+  }
+  def (x: BigInteger).toMathML = s"<cn>${x}</cn>"
   def zero = 0
   def one = 1

@@ -1,6 +1,7 @@
 package scas
 
 import scas.base.{BigIntegerImpl, RationalImpl}
+import scas.prettyprint.Show
 
 type BigInteger = java.math.BigInteger
 given BigInteger as BigIntegerImpl
