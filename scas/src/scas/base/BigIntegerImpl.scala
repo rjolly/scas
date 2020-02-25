@@ -20,6 +20,7 @@ class BigIntegerImpl extends EuclidianDomain[BigInteger] with FromDigits[BigInte
     val Array(q, r) = x.divideAndRemainder(y)
     (q, r)
   }
+  def characteristic = 0
   def (x: BigInteger).isUnit = abs(x) >< 1
   override def (a: BigInteger) \ (b: BigInteger) = a.pow(b.intValue())
   override def (x: BigInteger).unary_- = x.negate()

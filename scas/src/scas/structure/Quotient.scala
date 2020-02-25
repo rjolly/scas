@@ -3,30 +3,34 @@ package scas.structure
 import scas.{BigInteger, int2bigInt}
 
 abstract class Quotient[T: UniqueFactorizationDomain] extends Field[(T, T)] with
-  def reduce(n: T, d: T) = {
+  def apply(n: T, d: T) = {
     val gcd = UniqueFactorizationDomain[T].gcd(n, d)
     (n / gcd, d / gcd)
   }
-  def apply(n: T, d: T) = (n, d)
   def apply(n: T): (T, T) = (n, UniqueFactorizationDomain[T].one)
   def (x: (T, T)) + (y: (T, T)) = {
     val (a, b) = x
     val (c, d) = y
-    val (b0, d0) = reduce(b, d)
-    reduce(a * d0 + c * b0, b0 * d)
+    val (b0, d0) = this(b, d)
+    this(a * d0 + c * b0, b0 * d)
   }
   def (x: (T, T)) - (y: (T, T)) = {
     val (a, b) = x
     val (c, d) = y
-    val (b0, d0) = reduce(b, d)
-    reduce(a * d0 - c * b0, b0 * d)
+    val (b0, d0) = this(b, d)
+    this(a * d0 - c * b0, b0 * d)
   }
   def (x: (T, T)) * (y: (T, T)) = {
     val (a, b) = x
     val (c, d) = y
-    val (a0, d0) = reduce(a, d)
-    val (c0, b0) = reduce(c, b)
+    val (a0, d0) = this(a, d)
+    val (c0, b0) = this(c, b)
     (a0 * c0, b0 * d0)
+  }
+  def equiv(x: (T, T), y: (T, T)) = {
+    val (a, b) = x
+    val (c, d) = y
+    a >< c && b >< d
   }
   def inverse(x: (T, T)) = {
     val (n, d) = x
@@ -53,5 +57,6 @@ abstract class Quotient[T: UniqueFactorizationDomain] extends Field[(T, T)] with
     val (n, _) = x
     UniqueFactorizationDomain[T].signum(n)
   }
+  def characteristic = UniqueFactorizationDomain[T].characteristic
   def zero = this(UniqueFactorizationDomain[T].zero)
   def one = this(UniqueFactorizationDomain[T].one)
