@@ -2,6 +2,5 @@ import scala.language.implicitConversions
 import scas.{BigInteger, int2bigInt, \:, Rational, bigInt2rational, /:}
 
 assert (1 +:1 /:2 >< 1 /:2 + 1)
-assert (1 /:2 + 3 /:4 >< 10 /:8)
+assert (1 /:2 + 3 /:4 >< 5 /:4)
 assert ((3 /:2) \ 2 >< 9 /:4)
-Rational(1, 2) + Rational(3, 4)
