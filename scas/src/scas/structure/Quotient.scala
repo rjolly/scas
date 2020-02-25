@@ -3,7 +3,8 @@ package scas.structure
 import scas.{BigInteger, int2bigInt}
 
 abstract class Quotient[T: UniqueFactorizationDomain] extends Field[(T, T)] with
-  def apply(n: T): (T, T) = (n, UniqueFactorizationDomain[T].one)
+  def apply(n: T, d: T) = (n, d)
+  def apply(n: T): (T, T) = this(n, UniqueFactorizationDomain[T].one)
   def (x: (T, T)) + (y: (T, T)) = {
     val (a, b) = x
     val (c, d) = y
