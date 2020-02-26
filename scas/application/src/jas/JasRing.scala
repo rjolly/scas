@@ -11,8 +11,11 @@ class JasRing[T <: RingElem[T] : RingFactory] extends Ring[T] with
   def (x: T) * (y: T) = x.multiply(y)
   def compare(x: T, y: T) = x.compareTo(y)
   def (x: T).isUnit = x.isUnit
-  def characteristic = summon[RingFactory[T]].characteristic
-  def zero = summon[RingFactory[T]].getZERO()
-  def one = summon[RingFactory[T]].getONE()
+  def characteristic = RingFactory[T].characteristic
+  def zero = RingFactory[T].getZERO()
+  def one = RingFactory[T].getONE()
   def (x: T).toCode(level: Level) = x.toString
   def (x: T).toMathML: String = ???
+
+object RingFactory with
+  def apply[T <: RingElem[T] : RingFactory] = summon[RingFactory[T]]
