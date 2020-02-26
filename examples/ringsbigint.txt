@@ -1,0 +1,10 @@
+// Requires : cc.redberry#rings;2.5.7
+
+import scala.language.implicitConversions
+import rings.{Z, BigInteger, int2bigInt, bigInt2scas, \:}
+
+assert(BigInteger(1) + 1 >< 1 +:BigInteger(1))
+assert(BigInteger(1) + 18446744073709551616 >< 18446744073709551616 +:BigInteger(1))
+assert(BigInteger(1) - BigInteger(1) >< 0)
+assert(BigInteger(2) \ 2 >< BigInteger(4))
+assert(2 \:2 >< 4)
