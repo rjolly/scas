@@ -1,4 +1,4 @@
-package scas.structure
+package scas.structure.commutative
 
 import scas.{BigInteger, int2bigInt}
 

@@ -1,8 +1,8 @@
 package scas.base
 
 import scas.prettyprint.Level
-import scas.structure.Quotient
-import scas.structure.ordered.Field
+import scas.structure.commutative.Quotient
+import scas.structure.commutative.ordered.Field
 import scas.{BigInteger, Rational, int2bigInt, bigInt2rational}
 
 class RationalImpl extends Quotient[BigInteger] with Field[Rational]

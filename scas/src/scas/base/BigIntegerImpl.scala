@@ -1,7 +1,7 @@
 package scas.base
 
 import scas.{BigInteger, int2bigInt}
-import scas.structure.ordered.EuclidianDomain
+import scas.structure.commutative.ordered.EuclidianDomain
 import scas.prettyprint.Level
 import scala.util.FromDigits
 
