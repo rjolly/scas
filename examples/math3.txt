@@ -1,0 +1,20 @@
+// Requires : org.apache.commons#commons-math3;3.2
+
+import scala.language.implicitConversions
+import math3.{Matrix, int2matrix}
+import scas.int2bigInt
+
+given m as Matrix(3)
+
+val a = m(
+  1, 0, 1,
+  1, 1, 0,
+  0, 1, 1
+)
+val b = m(
+  0.5, 0.5,-0.5,
+ -0.5, 0.5, 0.5,
+  0.5,-0.5, 0.5
+)
+//assert(a \ -1 >< b)
+assert(a * b >< 1)
