@@ -14,7 +14,10 @@ object scas extends ScalaModule with PublishModule {
     def ivyDeps = Agg(
       ivy"ch.epfl.lamp::dotty-compiler:${scalaVersion()}",
       ivy"de.uni-mannheim.rz.krum:jas:2.6.5988",
-      ivy"cc.redberry:rings:2.5.7"
+      ivy"org.apache.logging.log4j:log4j-core:2.13.0",
+      ivy"org.apache.logging.log4j:log4j-api:2.13.0",
+      ivy"cc.redberry:rings:2.5.7",
+      ivy"org.apache.commons:commons-math3:3.5"
     )
   }
   def publishVersion = "3.0"

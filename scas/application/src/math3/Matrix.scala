@@ -13,7 +13,7 @@ class Matrix(size: Int) extends Algebra[Element, Double] with Field[Element] wit
   def (x: Element) + (y: Element) = x.add(y)
   def (x: Element) - (y: Element) = x.subtract(y)
   def (x: Element) * (y: Element) = x.multiply(y)
-  def inverse(x: Element) = MatrixUtils.blockInverse(x, 0)
+  def inverse(x: Element) = MatrixUtils.inverse(x)
   def characteristic = 0
   def equiv(x: Element, y: Element) = x == y
   def signum(x: Element) = if(size > 0) Double.signum(x.getEntry(0, 0)) else 0
