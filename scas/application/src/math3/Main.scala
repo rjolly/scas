@@ -20,5 +20,5 @@ given Double as Field[Double] with
   def (x: Double).toCode(level: Level) = x.toString
   def (x: Double).toMathML: String = ???
 
-given int2matrix(using Matrix) as Conversion[Int, Element] = summon[Matrix].one:* _
-given double2matrix(using Matrix) as Conversion[Double, Element] = summon[Matrix].one:* _
+given int2matrix(using Matrix) as Conversion[Int, Element] = summon[Matrix].one%* _
+given double2matrix(using Matrix) as Conversion[Double, Element] = summon[Matrix].one%* _

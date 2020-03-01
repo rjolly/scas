@@ -17,8 +17,8 @@ class Matrix(size: Int) extends Algebra[Element, Double] with Field[Element] wit
   def characteristic = 0
   def equiv(x: Element, y: Element) = x == y
   def signum(x: Element) = if(size > 0) Double.signum(x.getEntry(0, 0)) else 0
-  def (x: Double):*:(y: Element) = y:* x
-  def (x: Element):* (y: Double) = x.scalarMultiply(y)
+  def (x: Double)%*:(y: Element) = y%* x
+  def (x: Element)%* (y: Double) = x.scalarMultiply(y)
   def zero = MatrixUtils.createRealMatrix(size, size)
   def one = MatrixUtils.createRealIdentityMatrix(size)
   def (x: Element).toCode(level: Level) = x.toString
