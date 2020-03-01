@@ -1,6 +1,7 @@
 package scas
 
 import scas.base.{BigIntegerImpl, RationalImpl}
+import scas.polynomial.Polynomial
 import scas.prettyprint.Show
 
 type BigInteger = java.math.BigInteger
@@ -22,3 +23,5 @@ def (a: Long) /:(b: Long) = Rational(a, b)
 def println[T: Show](x: T) = System.out.println(x.toCode)
 
 type ModInteger = scas.base.ModInteger
+
+given coef2poly[U, C : Polynomial](using Conversion[U, C]) as Conversion[U, Polynomial.Element[C]] = summon[Polynomial[C]](_)
