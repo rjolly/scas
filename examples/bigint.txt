@@ -1,6 +1,7 @@
-import scas.{BigInteger, \:}
+import scala.language.implicitConversions
+import scas.{BigInteger, \:, int2bigInt}
 
-assert(BigInteger(1) + 1 >< 1 +:BigInteger(1))
+assert(BigInteger(1) + 1 >< 1 + BigInteger(1))
 assert(BigInteger(1) - BigInteger(1) >< 0)
 assert(BigInteger(2) \ 2 >< BigInteger(4))
 assert(BigInteger(2) \ 64 >< BigInteger(18446744073709551616))

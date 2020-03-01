@@ -1,11 +1,17 @@
 import scala.language.implicitConversions
 import scas.{BigInteger, int2bigInt, coef2poly, id}
 import scas.polynomial.Polynomial
+import scas.structure.Ring
 
 given p as Polynomial[BigInteger]
 
 assert(p("a", 1) * p("b", 2) >< p("ab", 2))
 assert(p("a", 1) * 1 >< p("aone",  1))
-assert(1 *:p("a", 1) >< p("onea",  1))
+assert(1 * p("a", 1) >< p("onea",  1))
 assert(p("a", 1) * BigInteger(1) >< p("aone",  1))
-assert(BigInteger(1) *:p("a", 1) >< p("onea",  1))
+
+/* passes the second time
+given Conversion[BigInteger, Ring.Ops[Polynomial.Element[BigInteger]]] = scas.infixRingOps
+
+assert(BigInteger(1) * p("a", 1) >< p("onea",  1))
+*/

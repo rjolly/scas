@@ -4,7 +4,9 @@ import scala.language.implicitConversions
 import edu.jas.poly.TermOrderByName
 import edu.jas.poly.GenPolynomialRing
 import edu.jas.poly.GenPolynomial
-import jas.{ZZ, BigInteger, poly2scas, id, coef2poly, int2bigInt}
+import jas.{ZZ, BigInteger, poly2scas, coef2poly, int2bigInt}
+import scas.{id, infixAbelianGroupOps}
+import scas.structure.AbelianGroup
 
 given r as GenPolynomialRing[BigInteger](ZZ, Array("x", "y", "z"), TermOrderByName.INVLEX)
 val Array(one, x, y, z) = r.gens
@@ -12,15 +14,23 @@ val Array(one, x, y, z) = r.gens
 given s as GenPolynomialRing[GenPolynomial[BigInteger]](r, Array("a"), TermOrderByName.INVLEX)
 val Array(_, a) = s.gens
 
-assert(BigInteger(1) + 1 >< 1 +:BigInteger(1))
-assert(x + 1 >< 1 +: x)
-// assert(x + 18446744073709551616 >< 18446744073709551616 +:x)
+assert(BigInteger(1) + 1 >< 1 + BigInteger(1))
+assert(x + 1 >< 1 + x)
+//assert(x + 1 >< (1: AbelianGroup.Ops[BigInteger]) + x)
+// Found:    (x : GenPolynomial[BigInteger])
+// Required: BigInteger
+assert(x + 1 >< (1: AbelianGroup.Ops[GenPolynomial[BigInteger]]) + x)
+// assert(x + 18446744073709551616 >< 18446744073709551616 + x)
 // number too large
+// assert(x + BigInteger(1) >< BigInteger(1) + x)
+// Found:    (x : GenPolynomial[BigInteger])
+// Required: BigInteger
+assert(x + BigInteger(1) >< (BigInteger(1): AbelianGroup.Ops[GenPolynomial[BigInteger]]) + x)
 assert(x + BigInteger(1) >< BigInteger(1) +:x)
 assert(x + BigInteger(18446744073709551616) >< BigInteger(18446744073709551616) +:x)
-assert(x + one >< one +:x)
+assert(x + one >< one + x)
 assert(x > one)
-assert(a + 1 >< 1 +:a)
+assert(a + 1 >< 1 + a)
 assert(a + BigInteger(1) >< BigInteger(1) +:a)
 assert(a + x >< x +:a)
 assert(a > x)

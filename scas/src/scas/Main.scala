@@ -1,6 +1,7 @@
 package scas
 
 import scas.base.{BigIntegerImpl, RationalImpl}
+import scas.structure.{AbelianGroup, SemiGroup, Ring}
 import scas.polynomial.Polynomial
 import scas.prettyprint.Show
 
@@ -25,3 +26,9 @@ def println[T: Show](x: T) = System.out.println(x.toCode)
 type ModInteger = scas.base.ModInteger
 
 given coef2poly[U, C : Polynomial](using Conversion[U, C]) as Conversion[U, Polynomial.Element[C]] = summon[Polynomial[C]](_)
+
+given infixAbelianGroupOps[U, T: AbelianGroup](using Conversion[U, T]) as Conversion[U, AbelianGroup.Ops[T]] = AbelianGroup.OpsImpl(_)
+
+given infixSemiGroupOps[U, T: SemiGroup](using Conversion[U, T]) as Conversion[U, SemiGroup.Ops[T]] = SemiGroup.OpsImpl(_)
+
+given infixRingOps[U, T: Ring](using Conversion[U, T]) as Conversion[U, Ring.Ops[T]] = Ring.OpsImpl(_)
