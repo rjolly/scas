@@ -3,7 +3,7 @@ import scas.{BigInteger, int2bigInt, coef2poly, id}
 import scas.polynomial.Polynomial
 
 given p as Polynomial[BigInteger]
-import p._
+import p.+
 
 assert(p("a", 1) + p("b", 2) >< p("b", 2) + p("a", 1))
 assert(p("a", 1) + 1 >< 1 + p("a", 1))

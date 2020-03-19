@@ -5,6 +5,7 @@ import math3.{Matrix, int2matrix}
 import scas.int2bigInt
 
 given m as Matrix(3)
+import m.+
 
 val a = m(
   0, 1, 0,
@@ -16,5 +17,6 @@ val b = m(
   1, 0, 0,
   0, 1, 0
 )
+assert(a + 1 >< 1 + a)
 assert(a \ -1 >< b)
 assert(a * b >< 1)
