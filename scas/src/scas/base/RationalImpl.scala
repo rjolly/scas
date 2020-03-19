@@ -15,7 +15,7 @@ class RationalImpl extends Quotient[BigInteger] with Field[Rational]
   def (x: Rational).toCode(level: Level) = {
     val (n, d) = x
     if (d >< 1) n.toCode(level) else {
-      if (n.bitLength < 64 && d.bitLength < 64) s"${n.toCode(level)} /:${d.toCode(level)}" else s"Rational(${n}, ${d})"
+      if (n.bitLength < 64 && d.bitLength < 64) s"${n.toCode(level)} %%${d.toCode(level)}" else s"Rational(${n}, ${d})"
     }
   }
   def (x: Rational).toMathML = {
