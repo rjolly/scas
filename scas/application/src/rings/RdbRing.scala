@@ -1,6 +1,5 @@
 package rings
 
-import scas.prettyprint.Level
 import cc.redberry.rings.Ring
 
 class RdbRing[T : Ring] extends scas.structure.ordered.Ring[T] with

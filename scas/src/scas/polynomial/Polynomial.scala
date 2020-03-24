@@ -1,7 +1,6 @@
 package scas.polynomial
 
 import scala.collection.JavaConverters.{mapAsJavaMapConverter, mapAsScalaMapConverter}
-import scas.prettyprint.Level
 import scas.structure.Ring
 import Polynomial.Element
 

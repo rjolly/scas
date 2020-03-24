@@ -1,6 +1,5 @@
 package jas
 
-import scas.prettyprint.Level
 import scas.structure.ordered.Ring
 import edu.jas.structure.RingElem
 import edu.jas.structure.RingFactory

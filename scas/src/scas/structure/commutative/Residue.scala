@@ -1,7 +1,5 @@
 package scas.structure.commutative
 
-import scas.prettyprint.Level
-
 abstract class Residue[T: UniqueFactorizationDomain] extends UniqueFactorizationDomain[T] with
   def apply(x: T): T
   def signum(x: T) = UniqueFactorizationDomain[T].signum(x)

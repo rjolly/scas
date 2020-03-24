@@ -2,7 +2,6 @@ package math3
 
 import java.lang.Math
 import scas.structure.Field
-import scas.prettyprint.Level
 import scas.int2bigInt
 import Matrix.Element
 

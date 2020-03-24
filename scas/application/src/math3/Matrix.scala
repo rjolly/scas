@@ -4,7 +4,6 @@ import org.apache.commons.math3.linear.Array2DRowRealMatrix
 import org.apache.commons.math3.linear.MatrixUtils
 import org.apache.commons.math3.linear.RealMatrix
 import scas.structure.{Algebra, Field}
-import scas.prettyprint.Level
 import scas.int2bigInt
 import Matrix.Element
 
