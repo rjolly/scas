@@ -1,6 +1,6 @@
 package scas.structure.commutative
 
-abstract class Residue[T: UniqueFactorizationDomain] extends UniqueFactorizationDomain[T] with
+abstract class Residue[T: UniqueFactorizationDomain] extends UniqueFactorizationDomain[T] {
   def apply(x: T): T
   def signum(x: T) = UniqueFactorizationDomain[T].signum(x)
   def (x: T) + (y: T) = this(UniqueFactorizationDomain[T].+(x)(y))
@@ -11,3 +11,4 @@ abstract class Residue[T: UniqueFactorizationDomain] extends UniqueFactorization
   def (x: T).toMathML = UniqueFactorizationDomain[T].toMathML(x)
   def zero = UniqueFactorizationDomain[T].zero
   def one = UniqueFactorizationDomain[T].one
+}

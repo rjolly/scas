@@ -2,7 +2,7 @@ package scas.structure.commutative
 
 import scas.{BigInteger, int2bigInt}
 
-abstract class Quotient[T: UniqueFactorizationDomain] extends Field[(T, T)] with
+abstract class Quotient[T: UniqueFactorizationDomain] extends Field[(T, T)] {
   def apply(n: T, d: T) = {
     val gcd = UniqueFactorizationDomain[T].gcd(n, d)
     (n / gcd, d / gcd)
@@ -60,3 +60,4 @@ abstract class Quotient[T: UniqueFactorizationDomain] extends Field[(T, T)] with
   def characteristic = UniqueFactorizationDomain[T].characteristic
   def zero = this(UniqueFactorizationDomain[T].zero)
   def one = this(UniqueFactorizationDomain[T].one)
+}

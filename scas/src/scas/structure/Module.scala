@@ -2,6 +2,7 @@ package scas.structure
 
 import scas.structure.Ring
 
-abstract class Module[T, R: Ring] extends AbelianGroup[T] with
+abstract class Module[T, R: Ring] extends AbelianGroup[T] {
   def (x: R) *%(y: T): T
   def (x: T)%* (y: R): T
+}

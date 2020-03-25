@@ -8,9 +8,10 @@ type BigInteger = cc.redberry.rings.bigint.BigInteger
 
 given Z as Integers = Rings.Z
 
-given BigInteger as RdbRing[BigInteger] with FromDigits[BigInteger] with
+given BigInteger as RdbRing[BigInteger] with FromDigits[BigInteger] {
   def fromDigits(digits: String) = new BigInteger(digits)
   def apply(x: BigInteger) = x
+}
 
 given id[T] as Conversion[T, T] = identity
 given int2bigInt as Conversion[Int, BigInteger] = cc.redberry.rings.bigint.BigInteger.valueOf(_)

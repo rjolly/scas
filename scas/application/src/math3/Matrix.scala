@@ -7,7 +7,7 @@ import scas.structure.{Algebra, Field}
 import scas.int2bigInt
 import Matrix.Element
 
-class Matrix(size: Int) extends Algebra[Element, Double] with Field[Element] with
+class Matrix(size: Int) extends Algebra[Element, Double] with Field[Element] {
   def apply(ds: Double*) = Array2DRowRealMatrix(ds.grouped(size).map(_.toArray).toArray)
   def (x: Element) + (y: Element) = x.add(y)
   def (x: Element) - (y: Element) = x.subtract(y)
@@ -22,6 +22,8 @@ class Matrix(size: Int) extends Algebra[Element, Double] with Field[Element] wit
   def one = MatrixUtils.createRealIdentityMatrix(size)
   def (x: Element).toCode(level: Level) = x.toString
   def (x: Element).toMathML: String = ???
+}
 
-object Matrix with
+object Matrix {
   type Element = RealMatrix
+}

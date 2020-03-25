@@ -4,7 +4,7 @@ import scala.collection.JavaConverters.{mapAsJavaMapConverter, mapAsScalaMapConv
 import scas.structure.Ring
 import Polynomial.Element
 
-class Polynomial[C: Ring] extends Ring[Element[C]] with
+class Polynomial[C: Ring] extends Ring[Element[C]] {
   def apply(m: String, c: C) = Map(m -> c).asJava
   def apply(c: C): Element[C] = this("one", c)
   def (x: Element[C]) + (y: Element[C]) = (x.asScala ++ y.asScala).asJava
@@ -18,6 +18,8 @@ class Polynomial[C: Ring] extends Ring[Element[C]] with
   def (x: Element[C]).toMathML = ???
   def zero = this("one", Ring[C].zero)
   def one = this("one", Ring[C].one)
+}
 
-object Polynomial with
+object Polynomial {
   type Element[C] = java.util.Map[String, C]
+}

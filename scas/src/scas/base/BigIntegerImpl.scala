@@ -4,7 +4,7 @@ import scas.{BigInteger, int2bigInt}
 import scas.structure.commutative.ordered.EuclidianDomain
 import scala.util.FromDigits
 
-class BigIntegerImpl extends EuclidianDomain[BigInteger] with FromDigits[BigInteger] with
+class BigIntegerImpl extends EuclidianDomain[BigInteger] with FromDigits[BigInteger] {
   def fromDigits(digits: String) = new BigInteger(digits)
   def apply(x: BigInteger) = x
   def (x: BigInteger) + (y: BigInteger) = x.add(y)
@@ -33,3 +33,4 @@ class BigIntegerImpl extends EuclidianDomain[BigInteger] with FromDigits[BigInte
   def (x: BigInteger).toMathML = s"<cn>${x}</cn>"
   def zero = 0
   def one = 1
+}
