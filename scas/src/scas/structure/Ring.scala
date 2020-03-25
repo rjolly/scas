@@ -5,5 +5,5 @@ trait Ring[T] extends AbelianGroup[T] with Monoid[T] {
 }
 
 object Ring {
-  def apply[T: Ring] = summon[Ring[T]]
+  def apply[T : Ring] = summon[Ring[T]]
 }

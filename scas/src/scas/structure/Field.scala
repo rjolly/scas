@@ -6,5 +6,5 @@ trait Field[T] extends NotQuiteField[T] with NotQuiteGroup[T] {
 }
 
 object Field {
-  def apply[T: Field] = summon[Field[T]]
+  def apply[T : Field] = summon[Field[T]]
 }

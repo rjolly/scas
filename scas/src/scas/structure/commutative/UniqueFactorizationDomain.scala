@@ -10,5 +10,5 @@ trait UniqueFactorizationDomain[T] extends scas.structure.NotQuiteField[T] {
 }
 
 object UniqueFactorizationDomain {
-  def apply[T: UniqueFactorizationDomain] = summon[UniqueFactorizationDomain[T]]
+  def apply[T : UniqueFactorizationDomain] = summon[UniqueFactorizationDomain[T]]
 }
