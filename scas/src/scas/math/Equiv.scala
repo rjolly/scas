@@ -1,6 +1,7 @@
 package scas.math
 
-trait Equiv[T] extends scala.math.Equiv[T] {
+trait Equiv[T] {
   def (x: T) ><(y: T) = equiv(x, y)
   def (x: T) <>(y: T) = !equiv(x, y)
+  def equiv(x: T, y: T): Boolean
 }

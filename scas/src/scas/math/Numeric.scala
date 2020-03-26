@@ -1,8 +1,23 @@
 package scas.math
 
-trait Numeric[T] extends Ordering[T] with scala.math.Numeric[T] {
-  def (x: T) + (y: T) = plus(x, y)
-  def (x: T) - (y: T) = minus(x, y)
+trait Numeric[T] extends Ordering[T] {
+  def (x: T) + (y: T): T
+  def (x: T) - (y: T): T
+  def (x: T) * (y: T): T
+  def unary_-(x: T): T
+  def fromInt(x: Int): T
+  def toInt(x: T): Int
+  def toLong(x: T): Long
+
+  def zero = fromInt(0)
+  def one = fromInt(1)
+
+  def abs(x: T) = if (x < zero) -x else x
+
+  def signum(x: T) =
+    if (x < zero) -1
+    else if (x > zero) 1
+    else 0
 }
 
 object Numeric {

@@ -1,10 +1,14 @@
 package scas.math
 
-trait Ordering[T] extends PartialOrdering[T] with scala.math.Ordering[T] {
-  def (x: T) < (y: T) = lt(x, y)
-  def (x: T) <=(y: T) = lteq(x, y)
-  def (x: T) > (y: T) = gt(x, y)
-  def (x: T) >=(y: T) = gteq(x, y)
+trait Ordering[T] extends PartialOrdering[T] {
+  def compare(x: T, y: T): Int
+  override def (x: T) <=(y: T) = compare(x, y) <= 0
+  override def (x: T) >=(y: T) = compare(x, y) >= 0
+  override def (x: T) < (y: T) = compare(x, y) < 0
+  override def (x: T) > (y: T) = compare(x, y) > 0
+  override def equiv(x: T, y: T) = compare(x, y) == 0
+  def max(x: T, y: T) = if (x >= y) x else y
+  def min(x: T, y: T) = if (x <= y) x else y
 }
 
 object Ordering {
