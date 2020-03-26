@@ -3,12 +3,12 @@ package scas.power
 import scas.math.Numeric
 import scas.int2powerProduct
 
-abstract class PowerProduct[N : Numeric](val variables: Array[String]) extends Monoid[Array[N]] {
+abstract class PowerProduct[N : Numeric : ClassTagArray](val variables: Array[String]) extends Monoid[Array[N]] {
   given PowerProduct[N] = this
   def length = variables.length
   def generator(variable: String): Array[N] = generator(variables.indexOf(variable))
   def generator(n: Int): Array[N]
-  def generators = (for (i <- 0 until length) yield generator(i)).toList
+  def generators = (for (i <- 0 until length) yield generator(i)).toArray
   def degree(x: Array[N]): Long
   def apply(x: Int) = {
     assert (x == 1)

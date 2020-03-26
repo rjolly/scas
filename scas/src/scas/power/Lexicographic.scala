@@ -1,9 +1,8 @@
 package scas.power
 
-import scala.reflect.ClassTag
 import scas.math.Numeric
 
-class Lexicographic[N : Numeric : ClassTag](variables: Array[String]) extends PowerProductWithDegree[N](variables) {
+class Lexicographic[N : Numeric : ClassTag : ClassTagArray](variables: Array[String]) extends PowerProductWithDegree[N](variables) {
   def compares(x: Array[N], y: Array[N]) = {
     var i = length
     while (i > 0) {
