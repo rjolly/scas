@@ -1,6 +1,5 @@
 package scas.power
 
-import scas.structure.ordered.Monoid
 import scas.math.Numeric
 import scas.int2powerProduct
 
