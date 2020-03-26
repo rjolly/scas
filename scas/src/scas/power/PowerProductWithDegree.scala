@@ -9,13 +9,13 @@ abstract class PowerProductWithDegree[N : Numeric : ClassTag : ClassTagArray](va
   def gcd(x: Array[N], y: Array[N]): Array[N] = {
     val r = one
     for (i <- 0 until length) r(i) = Numeric[N].min(x.get(i), y.get(i))
-    r(length) = r.foldLeft(Numeric[N].fromInt(0)) { (s, l) => s + l }
+    r(length) = r.foldLeft(Numeric[N].zero) { (s, l) => s + l }
     r
   }
   def scm(x: Array[N], y: Array[N]): Array[N] = {
     val r = one
     for (i <- 0 until length) r(i) = Numeric[N].max(x.get(i), y.get(i))
-    r(length) = r.foldLeft(Numeric[N].fromInt(0)) { (s, l) => s + l }
+    r(length) = r.foldLeft(Numeric[N].zero) { (s, l) => s + l }
     r
   }
   def (x: Array[N]) * (y: Array[N]) = {
@@ -44,11 +44,11 @@ abstract class PowerProductWithDegree[N : Numeric : ClassTag : ClassTagArray](va
     }
     true
   }
-  def (x: Array[N]).projection(n: Int) = (for (i <- 0 until x.length) yield if (i == n || i == x.length - 1) x(n) else Numeric[N].fromInt(0)).toArray
+  def (x: Array[N]).projection(n: Int) = (for (i <- 0 until x.length) yield if (i == n || i == x.length - 1) x(n) else Numeric[N].zero).toArray
   def converter(from: Array[String]): Array[N] => Array[N] = { x =>
     val r = one
     val index = from map { a => variables.indexOf(a) }
-    for (i <- 0 until x.length - 1 if (x(i) > Numeric[N].fromInt(0))) {
+    for (i <- 0 until x.length - 1 if (x(i) > Numeric[N].zero)) {
       val c = index(i)
       assert (c > -1)
       r(c) = x(i)

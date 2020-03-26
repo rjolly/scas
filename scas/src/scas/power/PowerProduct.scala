@@ -20,14 +20,14 @@ abstract class PowerProduct[N : Numeric : ClassTagArray](val variables: Array[St
   def (x: Array[N]) / (y: Array[N]): Array[N]
   def (x: Array[N]) | (y: Array[N]): Boolean
   def (x: Array[N]).isUnit = x >< 1
-  def dependencyOnVariables(x: Array[N]) = (for (i <- 0 until length if (x.get(i) > Numeric[N].fromInt(0))) yield i).toArray
+  def dependencyOnVariables(x: Array[N]) = (for (i <- 0 until length if (x.get(i) > Numeric[N].zero)) yield i).toArray
   def (x: Array[N]).projection(n: Int): Array[N]
   def (x: Array[N]).toCode(level: Level) = {
     var s = "1"
     var m = 0
-    for (i <- 0 until length) if (x.get(i) > Numeric[N].fromInt(0)) {
+    for (i <- 0 until length) if (x.get(i) > Numeric[N].zero) {
       val a = variables(i)
-      val t = if (x.get(i) >< Numeric[N].fromInt(1)) a else s"${a}\\${x.get(i)}"
+      val t = if (x.get(i) >< Numeric[N].one) a else s"${a}\\${x.get(i)}"
       s = if (m == 0) t else s"${s}*${t}"
       m += 1
     }
@@ -36,9 +36,9 @@ abstract class PowerProduct[N : Numeric : ClassTagArray](val variables: Array[St
   def (x: Array[N]).toMathML = {
     var s = "<cn>1</cn>"
     var m = 0
-    for (i <- 0 until length) if (x.get(i) > Numeric[N].fromInt(0)) {
+    for (i <- 0 until length) if (x.get(i) > Numeric[N].zero) {
       val a = s"<ci>${variables(i)}</ci>"
-      val t = if (x.get(i) >< Numeric[N].fromInt(1)) a else s"<apply><power/>${a}<cn>${x.get(i)}</cn></apply>"
+      val t = if (x.get(i) >< Numeric[N].one) a else s"<apply><power/>${a}<cn>${x.get(i)}</cn></apply>"
       s = if (m == 0) t else s"<apply><times/>${s}${t}</apply>"
       m += 1
     }
@@ -47,7 +47,7 @@ abstract class PowerProduct[N : Numeric : ClassTagArray](val variables: Array[St
   def converter(from: Array[String]): Array[N] => Array[N]
   def size(x: Array[N]) = {
     var m = 0
-    for (i <- 0 until length) if (x.get(i) > Numeric[N].fromInt(0)) {
+    for (i <- 0 until length) if (x.get(i) > Numeric[N].zero) {
       m += 1
     }
     m
