@@ -26,5 +26,3 @@ def println[T: Show](x: T) = System.out.println(x.toCode)
 type ModInteger = scas.base.ModInteger
 
 given int2powerProduct[N : PowerProduct] as Conversion[Int, Array[N]] = summon[PowerProduct[N]](_)
-
-given coef2poly[U, C : Polynomial](using Conversion[U, C]) as Conversion[U, Polynomial.Element[C]] = summon[Polynomial[C]](_)

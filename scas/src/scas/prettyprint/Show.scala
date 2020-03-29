@@ -1,5 +1,7 @@
 package scas.prettyprint
 
+import scas.math.Ordering
+
 trait Show[T] {
   type Level = Show.Level
   val Level = Show.Level
@@ -12,5 +14,10 @@ trait Show[T] {
 object Show {
   enum Level {
     case Addition, Multiplication, Power
+  }
+  object Level {
+    given Ordering[Level] {
+      def compare(x: Level, y: Level) = java.lang.Integer.compare(x.ordinal, y.ordinal)
+    }
   }
 }
