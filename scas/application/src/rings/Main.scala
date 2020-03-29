@@ -10,7 +10,6 @@ given Z as Integers = Rings.Z
 
 given BigInteger as RdbRing[BigInteger] with FromDigits[BigInteger] {
   def fromDigits(digits: String) = new BigInteger(digits)
-  def apply(x: BigInteger) = x
 }
 
 given id[T] as Conversion[T, T] = identity

@@ -12,7 +12,6 @@ given ZZ as BigInteger = new BigInteger()
 
 given BigInteger as JasRing[BigInteger] with FromDigits[BigInteger] {
   def fromDigits(digits: String) = new BigInteger(digits)
-  def apply(x: BigInteger) = x
 }
 
 given poly2scas[C <: RingElem[C] : GenPolynomialRing] as JasRing[GenPolynomial[C]] {

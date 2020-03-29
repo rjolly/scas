@@ -44,8 +44,8 @@ abstract class PowerProductWithDegree[N : Numeric : ClassTag : ClassTagArray](va
     }
     true
   }
-  def (x: Array[N]).projection(n: Int) = (for (i <- 0 until x.length) yield if (i == n || i == x.length - 1) x(n) else Numeric[N].zero).toArray
-  def converter(from: Array[String]): Array[N] => Array[N] = { x =>
+  def (x: Array[N]).projection(n: Int) = (for (i <- 0 until length + 1) yield if (i == n || i == length) x(n) else Numeric[N].zero).toArray
+  def (x: Array[N]).convert(from: Array[String]) = {
     val r = one
     val index = from map { a => variables.indexOf(a) }
     for (i <- 0 until x.length - 1 if (x(i) > Numeric[N].zero)) {

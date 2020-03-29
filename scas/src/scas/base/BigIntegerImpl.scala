@@ -6,7 +6,6 @@ import scala.util.FromDigits
 
 class BigIntegerImpl extends EuclidianDomain[BigInteger] with FromDigits[BigInteger] {
   def fromDigits(digits: String) = new BigInteger(digits)
-  def apply(x: BigInteger) = x
   def (x: BigInteger) + (y: BigInteger) = x.add(y)
   def (x: BigInteger) - (y: BigInteger) = x.subtract(y)
   def (x: BigInteger) * (y: BigInteger) = x.multiply(y)

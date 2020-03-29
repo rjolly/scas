@@ -44,7 +44,8 @@ abstract class PowerProduct[N : Numeric : ClassTagArray](val variables: Array[St
     }
     s
   }
-  def converter(from: Array[String]): Array[N] => Array[N]
+  override def apply(x: Array[N]) = x.convert(variables)
+  def (x: Array[N]).convert(from: Array[String]): Array[N]
   def size(x: Array[N]) = {
     var m = 0
     for (i <- 0 until length) if (x.get(i) > Numeric[N].zero) {
@@ -53,4 +54,8 @@ abstract class PowerProduct[N : Numeric : ClassTagArray](val variables: Array[St
     m
   }
   def (x: Array[N]).get(i: Int): N
+}
+
+object PowerProduct {
+  def apply[N : PowerProduct] = summon[PowerProduct[N]]
 }

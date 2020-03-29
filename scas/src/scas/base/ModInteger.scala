@@ -6,7 +6,7 @@ import scas.BigInteger
 
 class ModInteger(val mod: BigInteger) extends Residue[BigInteger] with Field[BigInteger] {
   assert (mod.isProbablePrime(100))
-  def apply(x: BigInteger) = x.mod(mod)
+  override def apply(x: BigInteger) = x.mod(mod)
   def compare(x: BigInteger, y: BigInteger) = BigInteger.compare(x, y)
   override def signum(x: BigInteger) = super[Residue].signum(x)
   def characteristic = mod
