@@ -3,7 +3,8 @@ package scas.power
 import scas.math.Numeric
 import scas.int2powerProduct
 
-abstract class PowerProduct[N : Numeric : ClassTagArray](val variables: Array[String]) extends Monoid[Array[N]] {
+abstract class PowerProduct[N : Numeric : ClassTagArray] extends Monoid[Array[N]] {
+  def variables: Array[String]
   given PowerProduct[N] = this
   def length = variables.length
   def generator(variable: String): Array[N] = generator(variables.indexOf(variable))

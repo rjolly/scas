@@ -1,10 +1,19 @@
 import scala.language.implicitConversions
-import scas.{BigInteger, int2bigInt, coef2poly, id}
-import scas.polynomial.Polynomial
+import scas.{BigInteger, int2bigInt, id}
+import scas.power.Lexicographic
+import scas.polynomial.TreePolynomial
+import TreePolynomial.coef2poly
 
-given p as Polynomial[BigInteger]
-import p.+
+given r as TreePolynomial[BigInteger, Int](using BigInteger, Lexicographic("x", "y", "z"))
+val Array(x, y, z) = r.generators
 
-assert(p("a", 1) + p("b", 2) >< p("b", 2) + p("a", 1))
-assert(p("a", 1) + 1 >< 1 + p("a", 1))
-assert(p("a", 1) + BigInteger(1) >< BigInteger(1) + p("a", 1))
+given s as TreePolynomial[TreePolynomial.Element[BigInteger, Int], Int](using r, Lexicographic("a"))
+val Array(a) = s.generators
+import s.+
+
+assert(BigInteger(1) + 1 >< 1 + BigInteger(1))
+assert(x + 1 >< 1 + x)
+assert(x + BigInteger(1) >< BigInteger(1) + x)
+assert(a + 1 >< 1 + a)
+assert(a + BigInteger(1) >< BigInteger(1) + a)
+assert(a + x >< x + a)

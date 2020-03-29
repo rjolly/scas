@@ -2,7 +2,7 @@ package scas.power
 
 import scas.math.Numeric
 
-abstract class PowerProductWithDegree[N : Numeric : ClassTag : ClassTagArray](variables: Array[String]) extends PowerProduct[N](variables) {
+abstract class PowerProductWithDegree[N : Numeric : ClassTag : ClassTagArray] extends PowerProduct[N] {
   def one = new Array[N](length + 1)
   def generator(n: Int) = (for (i <- 0 until length + 1) yield Numeric[N].fromInt(if (i == n || i == length) 1 else 0)).toArray
   def degree(x: Array[N]) = Numeric[N].toLong(x(x.length - 1))
