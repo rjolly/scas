@@ -15,7 +15,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, N : PowerProduct] extends Ring
   def characteristic = ring.characteristic
   override def apply(x: T) = sort(x.map((s, a) => (pp(s), ring(a))))
   def one = fromRing(ring.one)
-  def (x: T) - (y: T) = subtract(x, pp.one, ring.one, y)
+  def (x: T) - (y: T) = x.subtract(pp.one, ring.one, y)
   def equiv(x: T, y: T) = {
     val xs = iterator(x)
     val ys = iterator(y)
@@ -32,7 +32,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, N : PowerProduct] extends Ring
   def (x: T).isUnit = if (degree(x) > 0 || x >< zero) false else headCoefficient(x).isUnit
   def (x: T) * (y: T) = iterator(y).foldLeft(zero) { (l, r) =>
     val (a, b) = r
-    subtract(l, a, -b, x)
+    l.subtract(a, -b, x)
   }
   def (x: T)%* (m: Array[N]) = x.map((s, a) => (s * m, a))
 
@@ -99,7 +99,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, N : PowerProduct] extends Ring
 
   def iterator(x: T): Iterator[(Array[N], C)]
 
-  def iterator(x: T, m: Array[N]): Iterator[(Array[N], C)] = iterator(x).dropWhile { r =>
+  def (x: T).iterator(m: Array[N]): Iterator[(Array[N], C)] = iterator(x).dropWhile { r =>
     val (s, _) = r
     s > m
   }
@@ -122,8 +122,8 @@ abstract class Polynomial[T : ClassTag, C : Ring, N : PowerProduct] extends Ring
 
   def lastCoefficient(x: T) = { val (_, b) = last(x) ; b }
 
-  def coefficient(x: T, m: Array[N]) = {
-    val xs = iterator(x, m)
+  def (x: T).coefficient(m: Array[N]) = {
+    val xs = x.iterator(m)
     if (xs.hasNext) {
       val (s, a) = xs.next
       if (s >< m) a else ring.zero
@@ -135,14 +135,14 @@ abstract class Polynomial[T : ClassTag, C : Ring, N : PowerProduct] extends Ring
     scala.math.max(l, pp.degree(a))
   }
 
-  @tailrec final def reduce(x: T, ys: Iterator[T]): T = {
+  @tailrec final def (x: T).reduce(ys: Iterator[T]): T = {
     val xs = iterator(x)
     if (xs.hasNext) {
       val (s, a) = xs.next
       ys.find(_.reduce(s)) match {
         case Some(y) => {
           val (t, b) = head(y)
-          reduce(reduce(x, s / t, a, y, b), ys)
+          x.reduce(s / t, a, y, b).reduce(ys)
         }
         case None => x
       }
@@ -154,45 +154,45 @@ abstract class Polynomial[T : ClassTag, C : Ring, N : PowerProduct] extends Ring
     t | s
   }
 
-  def reduce(x: T, ys: Iterator[T], tail: Boolean): T = {
+  def (x: T).reduce(ys: Iterator[T], tail: Boolean): T = {
     val xs = iterator(x)
     if (xs.hasNext) {
       val (s, a) = xs.next
       if (tail) {
         if (xs.hasNext) {
           val (s, a) = xs.next
-          reduce(x, s, ys)
+          x.reduce(s, ys)
         } else x
-      } else reduce(x, s, ys)
+      } else x.reduce(s, ys)
     } else x
   }
 
-  @tailrec final def reduce(x: T, m: Array[N], ys: Iterator[T]): T = {
-    val xs = iterator(x, m)
+  @tailrec final def (x: T).reduce(m: Array[N], ys: Iterator[T]): T = {
+    val xs = x.iterator(m)
     if (xs.hasNext) {
       val (s, a) = xs.next
       ys.find(_.reduce(s)) match {
         case Some(y) => {
           val (t, b) = head(y)
-          reduce(reduce(x, s / t, a, y, b), m, ys)
+          x.reduce(s / t, a, y, b).reduce(m, ys)
         }
         case None => {
           if (xs.hasNext) {
             val (s, a) = xs.next
-            reduce(x, s, ys)
+            x.reduce(s, ys)
           } else x
         }
       }
     } else x
   }
 
-  def reduce(x: T, m: Array[N], a: C, y: T, b: C) = subtract(multiply(x, b), m, a, y)
+  def (x: T).reduce(m: Array[N], a: C, y: T, b: C) = x.multiply(b).subtract(m, a, y)
 
-  def subtract(x: T, m: Array[N], c: C, y: T) = x + multiply(y, m, -c)
+  def (x: T).subtract(m: Array[N], c: C, y: T) = x + y.multiply(m, -c)
 
-  def multiply(x: T, m: Array[N], c: C) = x.map((s, a) => (s * m, a * c))
+  def (x: T).multiply(m: Array[N], c: C) = x.map((s, a) => (s * m, a * c))
 
-  def multiply(x: T, c: C) = x.map(a => a * c)
+  def (x: T).multiply(c: C) = x.map(a => a * c)
 
   def (x: T).map(f: C => C): T = x.map((s, a) => (s, f(a)))
 
