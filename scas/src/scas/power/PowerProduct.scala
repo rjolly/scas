@@ -28,8 +28,9 @@ abstract class PowerProduct[N : Numeric : ClassTagArray] extends Monoid[Array[N]
     var m = 0
     for (i <- 0 until length) if (x.get(i) > Numeric[N].zero) {
       val a = variables(i)
-      val t = if (x.get(i) >< Numeric[N].one) a else s"${a}\\${x.get(i)}"
-      s = if (m == 0) t else s"${s}*${t}"
+      val b = x.get(i)
+      val t = if (b >< Numeric[N].one) a else s"$a\\$b"
+      s = if (m == 0) t else s"$s*$t"
       m += 1
     }
     s
@@ -38,9 +39,10 @@ abstract class PowerProduct[N : Numeric : ClassTagArray] extends Monoid[Array[N]
     var s = "<cn>1</cn>"
     var m = 0
     for (i <- 0 until length) if (x.get(i) > Numeric[N].zero) {
-      val a = s"<ci>${variables(i)}</ci>"
-      val t = if (x.get(i) >< Numeric[N].one) a else s"<apply><power/>${a}<cn>${x.get(i)}</cn></apply>"
-      s = if (m == 0) t else s"<apply><times/>${s}${t}</apply>"
+      val a = variables(i)
+      val b = x.get(i)
+      val t = if (b >< Numeric[N].one) s"<ci>$a</ci>" else s"<apply><power/><ci>$a</ci><cn>$b</cn></apply>"
+      s = if (m == 0) t else s"<apply><times/>$s$t</apply>"
       m += 1
     }
     s

@@ -47,13 +47,13 @@ abstract class Polynomial[T : ClassTag, C : Ring, N : PowerProduct] extends Ring
       val (t, u) = {
         if (a >< pp.one) (c.toCode(p), 1)
         else if (c >< ring.one) (a.toCode(p), pp.size(a))
-        else (s"${c.toCode(Level.Multiplication)}*${a.toCode(Level.Multiplication)}", 1 + pp.size(a))
+        else (c.toCode(Level.Multiplication) + "*" + a.toCode(Level.Multiplication), 1 + pp.size(a))
       }
       s = {
         if (n == 0) {
-          if (g) s"-${t}" else t
+          if (g) s"-$t" else t
         } else {
-          if (g) s"${s}-${t}" else s"${s}+${t}"
+          if (g) s"$s-$t" else s"$s+$t"
         }
       }
       m = if (g) u + 1 else u
@@ -66,7 +66,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, N : PowerProduct] extends Ring
         else level > Level.Multiplication
       } else level > Level.Addition
     }
-    if (fenced) s"(${s})" else s
+    if (fenced) s"($s)" else s
   }
 
   def (x: T).toMathML = {
@@ -82,9 +82,9 @@ abstract class Polynomial[T : ClassTag, C : Ring, N : PowerProduct] extends Ring
       }
       s = {
         if (n == 0) {
-          if (g) s"<apply><minus/>${t}</apply>" else t
+          if (g) s"<apply><minus/>$t</apply>" else t
         } else {
-          if (g) s"<apply><minus/>${s}${t}</apply>" else s"<apply><plus/>${s}${t}</apply>"
+          if (g) s"<apply><minus/>$s$t</apply>" else s"<apply><plus/>$s$t</apply>"
         }
       }
       n += 1
