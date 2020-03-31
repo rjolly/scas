@@ -8,13 +8,18 @@ import jas.{ZZ, BigInteger, poly2scas, coef2poly, int2bigInt, long2bigInt, bigIn
 given r as GenPolynomialRing[BigInteger](ZZ, Array("x", "y", "z"), TermOrderByName.INVLEX)
 val Array(one, x, y, z) = r.gens
 val s = poly2scas(r)
-import s.+
+import s.{+, *}
 
 val p = 1 + x + y + z
 // val p = 1 + x \ 2147483647 + y \ 2147483647 + z \ 2147483647
 // val p = 10000000001l + 10000000001l * x + 10000000001l * y + 10000000001l * z
+println("p: " + p)
 val q = p \ 20
+println("q: " + q.length)
 val q1 = q + 1
+println("q1: " + q1.length)
+var t = System.currentTimeMillis();
 val q2 = q * q1
-q2.length
-// 12341
+t = System.currentTimeMillis() - t;
+println("q2: " + q2.length)
+println("t: " + t)
