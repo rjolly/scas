@@ -12,13 +12,21 @@ trait Ordering[T] extends PartialOrdering[T] {
 }
 
 object Ordering {
-  trait ByteOrdering extends Ordering[Byte] with scala.math.Ordering.ByteOrdering
+  trait ByteOrdering extends Ordering[Byte] {
+    def compare(x: Byte, y: Byte) = java.lang.Byte.compare(x, y)
+  }
   given Byte as ByteOrdering
-  trait ShortOrdering extends Ordering[Short] with scala.math.Ordering.ShortOrdering
+  trait ShortOrdering extends Ordering[Short] {
+    def compare(x: Short, y: Short) = java.lang.Short.compare(x, y)
+  }
   given Short as ShortOrdering
-  trait IntOrdering extends Ordering[Int] with scala.math.Ordering.IntOrdering
+  trait IntOrdering extends Ordering[Int] {
+    def compare(x: Int, y: Int) = java.lang.Integer.compare(x, y)
+  }
   given Int as IntOrdering
-  trait LongOrdering extends Ordering[Long] with scala.math.Ordering.LongOrdering
+  trait LongOrdering extends Ordering[Long] {
+    def compare(x: Long, y: Long) = java.lang.Long.compare(x, y)
+  }
   given Long as LongOrdering
 
   given ord2comp[T] as Conversion[Ordering[T], scala.math.Ordering[T]] = ord => new scala.math.Ordering[T] {
