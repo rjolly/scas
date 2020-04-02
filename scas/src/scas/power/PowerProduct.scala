@@ -1,6 +1,7 @@
 package scas.power
 
 import scas.math.Numeric
+import scas.structure.ordered.Monoid
 import scas.int2powerProduct
 
 abstract class PowerProduct[N : Numeric : ClassTagArray] extends Monoid[Array[N]] {

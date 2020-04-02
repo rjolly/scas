@@ -4,7 +4,7 @@ import scas.math.Numeric
 
 class Lexicographic[N : Numeric : ClassTag : ClassTagArray](vs: String*) extends PowerProductWithDegree[N] {
   val variables = vs.toArray
-  def compares(x: Array[N], y: Array[N]) = {
+  def compare(x: Array[N], y: Array[N]) = {
     var i = length
     while (i > 0) {
       i -= 1
