@@ -4,7 +4,7 @@ trait Numeric[T] extends Ordering[T] {
   def (x: T) + (y: T): T
   def (x: T) - (y: T): T
   def (x: T) * (y: T): T
-  def unary_-(x: T): T
+  def (x: T).unary_- : T
   def fromInt(x: Int): T
   def toInt(x: T): Int
   def toLong(x: T): Long

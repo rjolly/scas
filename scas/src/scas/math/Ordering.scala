@@ -20,4 +20,8 @@ object Ordering {
   given Int as IntOrdering
   trait LongOrdering extends Ordering[Long] with scala.math.Ordering.LongOrdering
   given Long as LongOrdering
+
+  given ord2comp[T] as Conversion[Ordering[T], scala.math.Ordering[T]] = ord => new scala.math.Ordering[T] {
+    def compare(x: T, y: T) = ord.compare(x, y)
+  }
 }
