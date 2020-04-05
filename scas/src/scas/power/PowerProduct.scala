@@ -52,9 +52,7 @@ abstract class PowerProduct[N : Numeric : ClassTagArray] extends Monoid[Array[N]
   def (x: Array[N]).convert(from: Array[String]): Array[N]
   def size(x: Array[N]) = {
     var m = 0
-    for (i <- 0 until length) if (x.get(i) > Numeric[N].zero) {
-      m += 1
-    }
+    for (i <- 0 until length) if (x.get(i) > Numeric[N].zero) m += 1
     m
   }
   def (x: Array[N]).get(i: Int): N

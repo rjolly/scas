@@ -4,8 +4,12 @@ import scas.math.Numeric
 
 abstract class PowerProductWithDegree[N : Numeric : ClassTag : ClassTagArray] extends PowerProduct[N] {
   def one = new Array[N](length + 1)
-  def generator(n: Int) = (for (i <- 0 until length + 1) yield Numeric[N].fromInt(if (i == n || i == length) 1 else 0)).toArray
-  def degree(x: Array[N]) = Numeric[N].toLong(x(x.length - 1))
+  def generator(n: Int) = {
+    val r = one
+    for (i <- 0 to length) r(i) = Numeric[N].fromInt(if (i == n || i == length) 1 else 0)
+    r
+  }
+  def degree(x: Array[N]) = Numeric[N].toLong(x(length))
   def gcd(x: Array[N], y: Array[N]): Array[N] = {
     val r = one
     for (i <- 0 until length) r(i) = Numeric[N].min(x.get(i), y.get(i))
@@ -29,11 +33,10 @@ abstract class PowerProductWithDegree[N : Numeric : ClassTag : ClassTagArray] ex
   }
   def (x: Array[N]) / (y: Array[N]) = {
     val r = one
-    for (i <- 0 until length) {
+    for (i <- 0 to length) {
       assert (x.get(i) >= y.get(i))
       r(i) = x.get(i) - y.get(i)
     }
-    r(length) = x(x.length - 1) - y(y.length - 1)
     r
   }
   def (x: Array[N]) | (y: Array[N]) = {
@@ -44,11 +47,15 @@ abstract class PowerProductWithDegree[N : Numeric : ClassTag : ClassTagArray] ex
     }
     true
   }
-  def (x: Array[N]).projection(n: Int) = (for (i <- 0 until length + 1) yield if (i == n || i == length) x(n) else Numeric[N].zero).toArray
+  def (x: Array[N]).projection(n: Int) = {
+    val r = one
+    for (i <- 0 to length) r(i) = if (i == n || i == length) x(n) else Numeric[N].zero
+    r
+  }
   def (x: Array[N]).convert(from: Array[String]) = {
     val r = one
-    val index = from map { a => variables.indexOf(a) }
-    for (i <- 0 until x.length - 1 if (x(i) > Numeric[N].zero)) {
+    val index = from.map(a => variables.indexOf(a))
+    for (i <- 0 until x.length - 1) if (x(i) > Numeric[N].zero) {
       val c = index(i)
       assert (c > -1)
       r(c) = x(i)

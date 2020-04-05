@@ -9,13 +9,13 @@ import TreePolynomial.Element
 class TreePolynomial[C : Ring, N : PowerProduct] extends Polynomial[Element[C, N], C, N] {
   def apply(s: (Array[N], C)*) = {
     val r = new TreeMap[Array[N], C](pp.reverse)
-    s.foreach((m, c) => r.put(m, c))
+    for ((m, c) <- s) r.put(m, c)
     r
   }
 
   def (x: Element[C, N]) + (y: Element[C, N]) = {
     val r = new TreeMap(x)
-    y.asScala.foreach { (t, b) =>
+    for ((t, b) <- y.asScala) {
       val c = r.asScala.getOrElse(t, ring.zero) + b
       if (c >< ring.zero) r.remove(t) else r.put(t, c)
     }
@@ -40,7 +40,7 @@ class TreePolynomial[C : Ring, N : PowerProduct] extends Polynomial[Element[C, N
 
   override def (x: Element[C, N]).subtract(m: Array[N], c: C, y: Element[C, N]) = {
     val r = x
-    y.asScala.foreach { (s, a) =>
+    for ((s, a) <- y.asScala) {
       val (sm, ac) = (s * m, a * c)
       val cc = r.asScala.getOrElse(sm, ring.zero) - ac
       if (cc >< ring.zero) r.remove(sm) else r.put(sm, cc)
@@ -50,7 +50,7 @@ class TreePolynomial[C : Ring, N : PowerProduct] extends Polynomial[Element[C, N
 
   def (x: Element[C, N]).map(f: (Array[N], C) => (Array[N], C)) = {
     val r = apply()
-    x.asScala.foreach { (s, a) =>
+    for ((s, a) <- x.asScala) {
       val (m, c) = f(s, a)
       if (c >< ring.zero) {} else r.put(m, c)
     }

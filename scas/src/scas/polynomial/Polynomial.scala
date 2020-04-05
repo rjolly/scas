@@ -30,9 +30,10 @@ abstract class Polynomial[T : ClassTag, C : Ring, N : PowerProduct] extends Ring
     s >< t && a >< b
   }
   def (x: T).isUnit = if (degree(x) > 0 || x >< zero) false else headCoefficient(x).isUnit
-  def (x: T) * (y: T) = iterator(y).foldLeft(zero) { (l, r) =>
-    val (a, b) = r
-    l.subtract(a, -b, x)
+  def (x: T) * (y: T) = {
+    var r = zero
+    for ((a, b) <- iterator(y)) r = r.subtract(a, -b, x)
+    r
   }
   def (x: T)%* (m: Array[N]) = x.map((s, a) => (s * m, a))
 
