@@ -12,14 +12,18 @@ abstract class PowerProductWithDegree[N : Numeric : ClassTag : ClassTagArray] ex
   def degree(x: Array[N]) = Numeric[N].toLong(x(length))
   def gcd(x: Array[N], y: Array[N]): Array[N] = {
     val r = one
-    for (i <- 0 until length) r(i) = Numeric[N].min(x.get(i), y.get(i))
-    r(length) = r.foldLeft(Numeric[N].zero) { (s, l) => s + l }
+    for (i <- 0 until length) {
+      r(i) = Numeric[N].min(x(i), y(i))
+      r(length) += r(i)
+    }
     r
   }
   def scm(x: Array[N], y: Array[N]): Array[N] = {
     val r = one
-    for (i <- 0 until length) r(i) = Numeric[N].max(x.get(i), y.get(i))
-    r(length) = r.foldLeft(Numeric[N].zero) { (s, l) => s + l }
+    for (i <- 0 until length) {
+      r(i) = Numeric[N].max(x(i), y(i))
+      r(length) += r(i)
+    }
     r
   }
   def (x: Array[N]) * (y: Array[N]) = {
@@ -34,15 +38,15 @@ abstract class PowerProductWithDegree[N : Numeric : ClassTag : ClassTagArray] ex
   def (x: Array[N]) / (y: Array[N]) = {
     val r = one
     for (i <- 0 to length) {
-      assert (x.get(i) >= y.get(i))
-      r(i) = x.get(i) - y.get(i)
+      assert (x(i) >= y(i))
+      r(i) = x(i) - y(i)
     }
     r
   }
   def (x: Array[N]) | (y: Array[N]) = {
     var i = 0
     while (i < length) {
-      if (x.get(i) > y.get(i)) return false
+      if (x(i) > y(i)) return false
       i += 1
     }
     true
