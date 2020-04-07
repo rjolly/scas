@@ -10,7 +10,6 @@ class BigIntegerImpl extends EuclidianDomain[BigInteger] with FromDigits[BigInte
   def (x: BigInteger) - (y: BigInteger) = x.subtract(y)
   def (x: BigInteger) * (y: BigInteger) = x.multiply(y)
   def compare(x: BigInteger, y: BigInteger) = x.compareTo(y)
-  def norm(x: BigInteger) = abs(x).shiftLeft(1).add(if (signum(x) < 0) 1 else 0)
   override def gcd(x: BigInteger, y: BigInteger) = x.gcd(y)
   override def (x: BigInteger) / (y: BigInteger) = x.divide(y)
   override def (x: BigInteger) % (y: BigInteger) = x.remainder(y)
