@@ -5,7 +5,8 @@ import scas.{BigInteger, int2bigInt}
 abstract class Quotient[T: UniqueFactorizationDomain] extends Field[(T, T)] {
   def ring = UniqueFactorizationDomain[T]
   def apply(n: T, d: T) = {
-    val gcd = ring.gcd(n, d)
+    val c = ring.gcd(n, d)
+    val gcd = if (ring.signum(d) == -ring.signum(c)) -c else c
     (n / gcd, d / gcd)
   }
   def apply(n: T): (T, T) = (n, ring.one)
