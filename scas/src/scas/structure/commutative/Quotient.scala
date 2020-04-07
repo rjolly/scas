@@ -3,11 +3,12 @@ package scas.structure.commutative
 import scas.{BigInteger, int2bigInt}
 
 abstract class Quotient[T: UniqueFactorizationDomain] extends Field[(T, T)] {
+  def ring = UniqueFactorizationDomain[T]
   def apply(n: T, d: T) = {
-    val gcd = UniqueFactorizationDomain[T].gcd(n, d)
+    val gcd = ring.gcd(n, d)
     (n / gcd, d / gcd)
   }
-  def apply(n: T): (T, T) = (n, UniqueFactorizationDomain[T].one)
+  def apply(n: T): (T, T) = (n, ring.one)
   def (x: (T, T)) + (y: (T, T)) = {
     val (a, b) = x
     val (c, d) = y
@@ -39,7 +40,7 @@ abstract class Quotient[T: UniqueFactorizationDomain] extends Field[(T, T)] {
   override def gcd(x: (T, T), y: (T, T)) = {
     val (a, b) = x
     val (c, d) = y
-    (UniqueFactorizationDomain[T].gcd(a, c), UniqueFactorizationDomain[T].lcm(b, d))
+    (ring.gcd(a, c), ring.lcm(b, d))
   }
   override def (x: (T, T)).unary_- = {
     val (n, d) = x
@@ -51,13 +52,13 @@ abstract class Quotient[T: UniqueFactorizationDomain] extends Field[(T, T)] {
   }
   override def abs(x: (T, T)) = {
     val (n, d) = x
-    (UniqueFactorizationDomain[T].abs(n), d)
+    (ring.abs(n), d)
   }
   def signum(x: (T, T)) = {
     val (n, _) = x
-    UniqueFactorizationDomain[T].signum(n)
+    ring.signum(n)
   }
-  def characteristic = UniqueFactorizationDomain[T].characteristic
-  def zero = this(UniqueFactorizationDomain[T].zero)
-  def one = this(UniqueFactorizationDomain[T].one)
+  def characteristic = ring.characteristic
+  def zero = this(ring.zero)
+  def one = this(ring.one)
 }
