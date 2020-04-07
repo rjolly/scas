@@ -14,18 +14,26 @@ trait Ordering[T] extends PartialOrdering[T] {
 object Ordering {
   trait ByteOrdering extends Ordering[Byte] {
     def compare(x: Byte, y: Byte) = java.lang.Byte.compare(x, y)
+    override def (x: Byte) < (y: Byte) = x < y
+    override def (x: Byte) > (y: Byte) = x > y
   }
   given Byte as ByteOrdering
   trait ShortOrdering extends Ordering[Short] {
     def compare(x: Short, y: Short) = java.lang.Short.compare(x, y)
+    override def (x: Short) < (y: Short) = x < y
+    override def (x: Short) > (y: Short) = x > y
   }
   given Short as ShortOrdering
   trait IntOrdering extends Ordering[Int] {
     def compare(x: Int, y: Int) = java.lang.Integer.compare(x, y)
+    override def (x: Int) < (y: Int) = x < y
+    override def (x: Int) > (y: Int) = x > y
   }
   given Int as IntOrdering
   trait LongOrdering extends Ordering[Long] {
     def compare(x: Long, y: Long) = java.lang.Long.compare(x, y)
+    override def (x: Long) < (y: Long) = x < y
+    override def (x: Long) > (y: Long) = x > y
   }
   given Long as LongOrdering
 
