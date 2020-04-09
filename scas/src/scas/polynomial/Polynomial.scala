@@ -8,7 +8,7 @@ import scas.power.PowerProduct
 abstract class Polynomial[T : ClassTag, C : Ring, N : PowerProduct] extends Ring[T] {
   def ring = Ring[C]
   def pp = PowerProduct[N]
-  def zero = apply()
+  def zero = this()
   def generator(n: Int) = fromPowerProduct(pp.generator(n))
   def generators = pp.generators.map(fromPowerProduct)
   def signum(x: T) = if (x >< zero) 0 else ring.signum(lastCoefficient(x))
@@ -93,9 +93,9 @@ abstract class Polynomial[T : ClassTag, C : Ring, N : PowerProduct] extends Ring
     s
   }
 
-  def fromRing(value: C) = if(value >< Ring[C].zero) zero else apply(PowerProduct[N].one, value)
-  def fromPowerProduct(value: Array[N]) = apply(value, Ring[C].one)
-  def apply(m: Array[N], c: C): T = apply((m, c))
+  def fromRing(value: C) = if(value >< ring.zero) zero else this(pp.one, value)
+  def fromPowerProduct(value: Array[N]) = this(value, ring.one)
+  def apply(m: Array[N], c: C): T = this((m, c))
   def apply(s: (Array[N], C)*): T
 
   def iterator(x: T): Iterator[(Array[N], C)]
@@ -107,7 +107,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, N : PowerProduct] extends Ring
 
   def reverseIterator(x: T) = toSeq(x).reverseIterator
 
-  def toSeq(x: T) = iterator(x).toSeq
+  def (x: T).toSeq = iterator(x).toSeq
 
   def variables = pp.variables
 
@@ -199,7 +199,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, N : PowerProduct] extends Ring
 
   def (x: T).map(f: (Array[N], C) => (Array[N], C)): T
 
-  def sort(x: T) = apply(toSeq(x).sortBy({ r =>
+  def sort(x: T) = this(x.toSeq.sortBy({ r =>
     val (s, _) = r
     s
   })(pp.reverse): _*)

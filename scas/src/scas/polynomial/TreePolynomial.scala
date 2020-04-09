@@ -14,7 +14,7 @@ class TreePolynomial[C : Ring, N : PowerProduct] extends Polynomial[Element[C, N
   }
 
   def (x: Element[C, N]) + (y: Element[C, N]) = {
-    val r = new TreeMap(x)
+    val r = this(x.toSeq: _*)
     for ((t, b) <- y.asScala) {
       val c = r.getOrElse(t, ring.zero) + b
       if (c >< ring.zero) r.remove(t) else r.put(t, c)
@@ -28,7 +28,7 @@ class TreePolynomial[C : Ring, N : PowerProduct] extends Polynomial[Element[C, N
 
   override def (x: Element[C, N]).iterator(m: Array[N]) = x.tailMap(m).asScala.iterator
 
-  override def toSeq(x: Element[C, N]) = x.asScala.toSeq
+  override def (x: Element[C, N]).toSeq = x.asScala.toSeq
 
   def size(x: Element[C, N]) = x.size
 
@@ -54,7 +54,7 @@ class TreePolynomial[C : Ring, N : PowerProduct] extends Polynomial[Element[C, N
   }
 
   def (x: Element[C, N]).map(f: (Array[N], C) => (Array[N], C)) = {
-    val r = apply()
+    val r = this()
     for ((s, a) <- x.asScala) {
       val (m, c) = f(s, a)
       if (c >< ring.zero) {} else r.put(m, c)
