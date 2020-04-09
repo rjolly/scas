@@ -3,7 +3,7 @@ package rings
 import cc.redberry.rings.Ring
 
 class RdbRing[T : Ring] extends scas.structure.ordered.Ring[T] {
-  def ring = Ring[T]
+  def ring = summon[Ring[T]]
   def (x: T) + (y: T) = ring.add(x, y)
   def (x: T) - (y: T) = ring.subtract(x, y)
   def (x: T) * (y: T) = ring.multiply(x, y)
@@ -14,8 +14,4 @@ class RdbRing[T : Ring] extends scas.structure.ordered.Ring[T] {
   def one = ring.getOne()
   def (x: T).toCode(level: Level) = x.toString
   def (x: T).toMathML: String = ???
-}
-
-object Ring {
-  def apply[T : Ring] = summon[Ring[T]]
 }
