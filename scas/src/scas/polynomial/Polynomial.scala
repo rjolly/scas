@@ -100,10 +100,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, N : PowerProduct] extends Ring
 
   def iterator(x: T): Iterator[(Array[N], C)]
 
-  def (x: T).iterator(m: Array[N]): Iterator[(Array[N], C)] = iterator(x).dropWhile { r =>
-    val (s, _) = r
-    s > m
-  }
+  def (x: T).iterator(m: Array[N]): Iterator[(Array[N], C)] = iterator(x).dropWhile((s, _) => s > m)
 
   def reverseIterator(x: T) = toSeq(x).reverseIterator
 
@@ -115,13 +112,22 @@ abstract class Polynomial[T : ClassTag, C : Ring, N : PowerProduct] extends Ring
 
   def head(x: T): (Array[N], C)
 
-  def headPowerProduct(x: T) = { val (a, _) = head(x) ; a }
+  def headPowerProduct(x: T) = {
+    val (a, _) = head(x)
+    a
+  }
 
-  def headCoefficient(x: T) = { val (_, b) = head(x) ; b }
+  def headCoefficient(x: T) = {
+    val (_, b) = head(x)
+    b
+  }
 
   def last(x: T): (Array[N], C)
 
-  def lastCoefficient(x: T) = { val (_, b) = last(x) ; b }
+  def lastCoefficient(x: T) = {
+    val (_, b) = last(x)
+    b
+  }
 
   def (x: T).coefficient(m: Array[N]) = {
     val xs = x.iterator(m)
@@ -131,9 +137,10 @@ abstract class Polynomial[T : ClassTag, C : Ring, N : PowerProduct] extends Ring
     } else ring.zero
   }
 
-  def degree(x: T) = iterator(x).foldLeft(0l) { (l, r) =>
-    val (a, _) = r
-    scala.math.max(l, pp.degree(a))
+  def degree(x: T) = {
+    var d = 0l
+    for ((a, _) <- iterator(x)) d = scala.math.max(d, pp.degree(a))
+    d
   }
 
   @tailrec final def (x: T).reduce(ys: Iterator[T]): T = {
@@ -199,8 +206,5 @@ abstract class Polynomial[T : ClassTag, C : Ring, N : PowerProduct] extends Ring
 
   def (x: T).map(f: (Array[N], C) => (Array[N], C)): T
 
-  def sort(x: T) = this(x.toSeq.sortBy({ r =>
-    val (s, _) = r
-    s
-  })(pp.reverse): _*)
+  def sort(x: T) = this(x.toSeq.sortBy((s, _) => s)(pp.reverse): _*)
 }
