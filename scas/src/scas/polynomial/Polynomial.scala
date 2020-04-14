@@ -52,9 +52,9 @@ abstract class Polynomial[T : ClassTag, C : Ring, N : PowerProduct] extends Ring
       }
       s = {
         if (n == 0) {
-          if (g) s"-$t" else t
+          if (g) "-" + t else t
         } else {
-          if (g) s"$s-$t" else s"$s+$t"
+          if (g) s + "-" + t else s + "+" + t
         }
       }
       m = if (g) u + 1 else u

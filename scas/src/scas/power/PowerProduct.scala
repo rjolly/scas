@@ -2,12 +2,13 @@ package scas.power
 
 import scas.math.Numeric
 import scas.structure.ordered.Monoid
+import scas.variable.Variable
 import scas.int2powerProduct
 
 abstract class PowerProduct[N : Numeric : ClassTagArray] extends Monoid[Array[N]] {
-  def variables: Array[String]
+  def variables: Seq[Variable]
   given PowerProduct[N] = this
-  def length = variables.length
+  val length = variables.length
   def numeric = Numeric[N]
   def generator(variable: String): Array[N] = generator(variables.indexOf(variable))
   def generator(n: Int): Array[N]
@@ -31,8 +32,8 @@ abstract class PowerProduct[N : Numeric : ClassTagArray] extends Monoid[Array[N]
     for (i <- 0 until length) if (x.get(i) > numeric.zero) {
       val a = variables(i)
       val b = x.get(i)
-      val t = if (b >< numeric.one) a else s"$a\\$b"
-      s = if (m == 0) t else s"$s*$t"
+      val t = if (b >< numeric.one) a.toString else s"$a\\$b"
+      s = if (m == 0) t else s + "*" + t
       m += 1
     }
     s
@@ -44,15 +45,15 @@ abstract class PowerProduct[N : Numeric : ClassTagArray] extends Monoid[Array[N]
     for (i <- 0 until length) if (x.get(i) > numeric.zero) {
       val a = variables(i)
       val b = x.get(i)
-      val t = if (b >< numeric.one) s"<ci>$a</ci>" else s"<apply><power/><ci>$a</ci><cn>$b</cn></apply>"
+      val t = if (b >< numeric.one) a.toMathML else s"<apply><power/>${a.toMathML}<cn>$b</cn></apply>"
       s = if (m == 0) t else s"<apply><times/>$s$t</apply>"
       m += 1
     }
     s
   }
-  def toMathML = s"<list>${variables.map(a => s"<ci>$a</ci>")}</list>"
-  override def apply(x: Array[N]) = x.convert(variables)
-  def (x: Array[N]).convert(from: Array[String]): Array[N]
+  def toMathML = s"<list>${variables.map(a => a.toMathML)}</list>"
+  override def apply(x: Array[N]) = x.convert(variables: _*)
+  def (x: Array[N]).convert(from: Variable*): Array[N]
   def size(x: Array[N]) = {
     var m = 0
     for (i <- 0 until length) if (x.get(i) > numeric.zero) m += 1

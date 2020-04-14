@@ -1,8 +1,9 @@
 package scas.power
 
 import scas.math.Numeric
+import scas.variable.Variable
 
-class Lexicographic[N : Numeric : ClassTag : ClassTagArray](val variables: Array[String]) extends PowerProductWithDegree[N] {
+class Lexicographic[N : Numeric : ClassTag : ClassTagArray](val variables: Variable*) extends PowerProductWithDegree[N] {
   def compare(x: Array[N], y: Array[N]) = {
     var i = length
     while (i > 0) {
@@ -15,7 +16,7 @@ class Lexicographic[N : Numeric : ClassTag : ClassTagArray](val variables: Array
 }
 
 object Lexicographic {
-  inline def apply[N : Numeric : ClassTag : ClassTagArray](variables: String*) = new Lexicographic[N](variables.toArray) {
+  inline def apply[N : Numeric : ClassTag : ClassTagArray](variables: Variable*) = new Lexicographic[N](variables: _*) {
     override def compare(x: Array[N], y: Array[N]) = {
       var i = length
       while (i > 0) {

@@ -1,6 +1,7 @@
 package scas.power
 
 import scas.math.Numeric
+import scas.variable.Variable
 
 abstract class PowerProductWithDegree[N : Numeric : ClassTag : ClassTagArray] extends PowerProduct[N] {
   def one = new Array[N](length + 1)
@@ -56,7 +57,7 @@ abstract class PowerProductWithDegree[N : Numeric : ClassTag : ClassTagArray] ex
     for (i <- 0 to length) r(i) = if (i == n || i == length) x(n) else numeric.zero
     r
   }
-  def (x: Array[N]).convert(from: Array[String]) = {
+  def (x: Array[N]).convert(from: Variable*) = {
     val r = one
     val index = from.map(a => variables.indexOf(a))
     for (i <- 0 until x.length - 1) if (x(i) > numeric.zero) {
