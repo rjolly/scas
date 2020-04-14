@@ -17,7 +17,8 @@ given Double as Field[Double] {
   def zero = 0
   def one = 1
   def (x: Double).toCode(level: Level) = x.toString
-  def (x: Double).toMathML: String = ???
+  def (x: Double).toMathML = ???
+  def toMathML = ???
 }
 
 given int2matrix(using Matrix) as Conversion[Int, Element] = summon[Matrix].one%* _

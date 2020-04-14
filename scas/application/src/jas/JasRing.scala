@@ -15,5 +15,6 @@ class JasRing[T <: RingElem[T] : RingFactory] extends Ring[T] {
   def zero = factory.getZERO()
   def one = factory.getONE()
   def (x: T).toCode(level: Level) = x.toString
-  def (x: T).toMathML: String = ???
+  def (x: T).toMathML = ???
+  def toMathML = ???
 }

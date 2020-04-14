@@ -37,6 +37,7 @@ abstract class PowerProduct[N : Numeric : ClassTagArray] extends Monoid[Array[N]
     }
     s
   }
+  override def toString = "[" + variables.mkString(", ") + "]"
   def (x: Array[N]).toMathML = {
     var s = "<cn>1</cn>"
     var m = 0
@@ -49,6 +50,7 @@ abstract class PowerProduct[N : Numeric : ClassTagArray] extends Monoid[Array[N]
     }
     s
   }
+  def toMathML = s"<list>${variables.map(a => s"<ci>$a</ci>")}</list>"
   override def apply(x: Array[N]) = x.convert(variables)
   def (x: Array[N]).convert(from: Array[String]): Array[N]
   def size(x: Array[N]) = {

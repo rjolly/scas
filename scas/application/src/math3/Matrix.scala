@@ -21,7 +21,8 @@ class Matrix(size: Int) extends Algebra[Element, Double] with Field[Element] {
   def zero = MatrixUtils.createRealMatrix(size, size)
   def one = MatrixUtils.createRealIdentityMatrix(size)
   def (x: Element).toCode(level: Level) = x.toString
-  def (x: Element).toMathML: String = ???
+  def (x: Element).toMathML = ???
+  def toMathML = ???
 }
 
 object Matrix {

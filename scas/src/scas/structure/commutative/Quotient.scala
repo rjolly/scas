@@ -60,6 +60,8 @@ abstract class Quotient[T: UniqueFactorizationDomain] extends Field[(T, T)] {
     ring.signum(n)
   }
   def characteristic = ring.characteristic
+  override def toString = s"$ring/$ring"
+  def toMathML = s"<apply><divide/>${ring.toMathML}${ring.toMathML}</apply>"
   def zero = this(ring.zero)
   def one = this(ring.one)
 }

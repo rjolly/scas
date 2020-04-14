@@ -6,8 +6,11 @@ trait Show[T] {
   type Level = Show.Level
   val Level = Show.Level
   def (x: T).toCode(level: Level): String
-  def (x: T).code = x.toCode(Level.Addition)
-  def mml(x: T) = s"<math>${x.toMathML}</math>"
+  class Object(x: T) extends MathObject {
+    override def toString = x.toCode(Level.Addition)
+    def toMathML = x.toMathML
+  }
+  def (x: T).show: MathObject = new Object(x)
   def (x: T).toMathML: String
 }
 

@@ -13,5 +13,6 @@ class RdbRing[T : Ring] extends scas.structure.ordered.Ring[T] {
   def zero = ring.getZero()
   def one = ring.getOne()
   def (x: T).toCode(level: Level) = x.toString
-  def (x: T).toMathML: String = ???
+  def (x: T).toMathML = ???
+  def toMathML = ???
 }

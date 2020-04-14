@@ -69,7 +69,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, N : PowerProduct] extends Ring
     }
     if (fenced) s"($s)" else s
   }
-
+  override def toString = s"$ring$pp"
   def (x: T).toMathML = {
     var s = ring.zero.toMathML
     var n = 0
@@ -92,6 +92,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, N : PowerProduct] extends Ring
     }
     s
   }
+  def toMathML = s"<mrow>${ring.toMathML}${pp.toMathML}</mrow>"
 
   def fromRing(value: C) = if(value >< ring.zero) zero else this(pp.one, value)
   def fromPowerProduct(value: Array[N]) = this(value, ring.one)
