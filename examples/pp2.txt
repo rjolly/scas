@@ -1,0 +1,7 @@
+import scas.power.Lexicographic
+import scas.variable.Variable
+
+given m as Lexicographic[Int]((for (i <- 0 until 4; j <- 0 until 2) yield Variable("a", Array(i, j): _*)): _*)
+val a = m.generators.grouped(2).toArray
+val s = (for (i <- 0 until 4; j <- 0 until 2) yield a(i)(j)).toArray.grouped(2).toArray
+assert (s.map(_.map(_.show).toList).toList.toString == "List(List(a(0)(0), a(0)(1)), List(a(1)(0), a(1)(1)), List(a(2)(0), a(2)(1)), List(a(3)(0), a(3)(1)))")
