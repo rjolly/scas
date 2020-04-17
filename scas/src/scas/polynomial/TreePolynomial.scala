@@ -41,9 +41,12 @@ class TreePolynomial[C : Ring, N : PowerProduct] extends Polynomial[Element[C, N
   override def (x: Element[C, N]).subtract(m: Array[N], c: C, y: Element[C, N]) = {
     val r = x
     for ((s, a) <- y.asScala) {
-      val (sm, ac) = (s * m, a * c)
-      val cc = r.getOrElse(sm, ring.zero) - ac
-      if (cc >< ring.zero) r.remove(sm) else r.put(sm, cc)
+      val ac = a * c
+      if (ac <> ring.zero) {
+        val sm = s * m
+        val cc = r.getOrElse(sm, ring.zero) - ac
+        if (cc >< ring.zero) r.remove(sm) else r.put(sm, cc)
+      }
     }
     r
   }
@@ -57,7 +60,7 @@ class TreePolynomial[C : Ring, N : PowerProduct] extends Polynomial[Element[C, N
     val r = this()
     for ((s, a) <- x.asScala) {
       val (m, c) = f(s, a)
-      if (c >< ring.zero) {} else r.put(m, c)
+      if (c <> ring.zero) r.put(m, c)
     }
     r
   }
