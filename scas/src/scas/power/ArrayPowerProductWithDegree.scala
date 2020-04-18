@@ -19,7 +19,7 @@ abstract class ArrayPowerProductWithDegree[N : Numeric : ClassTag : ClassTagArra
     }
     r
   }
-  def scm(x: Array[N], y: Array[N]): Array[N] = {
+  def lcm(x: Array[N], y: Array[N]): Array[N] = {
     val r = one
     for (i <- 0 until length) {
       r(i) = numeric.max(x(i), y(i))

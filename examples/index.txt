@@ -8,7 +8,9 @@ poly.txt
 polynomial.txt
 polypower.txt
 polypower_scas.txt
+polypower_jaspp.txt
 rational.txt
+pp_jas.txt
 pp1.txt
 pp2.txt
 */)

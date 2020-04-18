@@ -18,7 +18,7 @@ abstract class PowerProduct[M: ClassTag] extends Monoid[M] {
     one
   }
   def gcd(x: M, y: M): M
-  def scm(x: M, y: M): M
+  def lcm(x: M, y: M): M
   def coprime(x: M, y: M) = gcd(x, y) >< 1
   def (x: M) / (y: M): M
   def (x: M) | (y: M): Boolean
