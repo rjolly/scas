@@ -17,7 +17,7 @@ class TreePolynomial[C : Ring, M : PowerProduct] extends Polynomial[Element[C, M
     val r = this(x.toSeq: _*)
     for ((t, b) <- y.asScala) {
       val c = r.getOrElse(t, ring.zero) + b
-      if (c >< ring.zero) r.remove(t) else r.put(t, c)
+      if (ring.signum(c) == 0) r.remove(t) else r.put(t, c)
     }
     r
   }
@@ -42,10 +42,10 @@ class TreePolynomial[C : Ring, M : PowerProduct] extends Polynomial[Element[C, M
     val r = x
     for ((s, a) <- y.asScala) {
       val ac = a * c
-      if (ac <> ring.zero) {
+      if (ring.signum(ac) != 0) {
         val sm = s * m
         val cc = r.getOrElse(sm, ring.zero) - ac
-        if (cc >< ring.zero) r.remove(sm) else r.put(sm, cc)
+        if (ring.signum(cc) == 0) r.remove(sm) else r.put(sm, cc)
       }
     }
     r
@@ -60,7 +60,7 @@ class TreePolynomial[C : Ring, M : PowerProduct] extends Polynomial[Element[C, M
     val r = this()
     for ((s, a) <- x.asScala) {
       val (m, c) = f(s, a)
-      if (c <> ring.zero) r.put(m, c)
+      if (ring.signum(c) != 0) r.put(m, c)
     }
     r
   }
@@ -70,6 +70,5 @@ class TreePolynomial[C : Ring, M : PowerProduct] extends Polynomial[Element[C, M
 
 object TreePolynomial {
   type Element[C, M] = SortedMap[M, C]
-  def apply[C, M](using TreePolynomial[C, M]) = summon[TreePolynomial[C, M]]
-  given coef2poly[D, C, M](using Conversion[D, C], TreePolynomial[C, M]) as Conversion[D, Element[C, M]] = TreePolynomial[C, M].fromRing(_)
+  given coef2poly[D, C, M](using Conversion[D, C], TreePolynomial[C, M]) as Conversion[D, Element[C, M]] = summon[TreePolynomial[C, M]].fromRing(_)
 }
