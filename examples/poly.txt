@@ -4,10 +4,10 @@ import scas.power.Lexicographic
 import scas.polynomial.TreePolynomial
 import TreePolynomial.coef2poly
 
-given r as TreePolynomial[BigInteger, Int](using BigInteger, Lexicographic("x", "y", "z"))
+given r as TreePolynomial[BigInteger, Array[Int]](using BigInteger, Lexicographic("x", "y", "z"))
 val Array(x, y, z) = r.generators
 
-given s as TreePolynomial[TreePolynomial.Element[BigInteger, Int], Int](using r, Lexicographic("a"))
+given s as TreePolynomial[TreePolynomial.Element[BigInteger, Array[Int]], Array[Int]](using r, Lexicographic("a"))
 val Array(a) = s.generators
 import s.+
 

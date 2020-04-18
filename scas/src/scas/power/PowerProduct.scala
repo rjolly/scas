@@ -5,63 +5,33 @@ import scas.structure.ordered.Monoid
 import scas.variable.Variable
 import scas.int2powerProduct
 
-abstract class PowerProduct[N : Numeric : ClassTagArray] extends Monoid[Array[N]] {
+abstract class PowerProduct[M: ClassTag] extends Monoid[M] {
   def variables: Seq[Variable]
-  given PowerProduct[N] = this
+  given PowerProduct[M] = this
   val length = variables.length
-  def numeric = Numeric[N]
-  def generator(variable: String): Array[N] = generator(variables.indexOf(variable))
-  def generator(n: Int): Array[N]
+  def generator(variable: String): M = generator(variables.indexOf(variable))
+  def generator(n: Int): M
   def generators = (for (i <- 0 until length) yield generator(i)).toArray
-  def degree(x: Array[N]): Long
+  def degree(x: M): Long
   def apply(x: Int) = {
     assert (x == 1)
     one
   }
-  def gcd(x: Array[N], y: Array[N]): Array[N]
-  def scm(x: Array[N], y: Array[N]): Array[N]
-  def coprime(x: Array[N], y: Array[N]) = gcd(x, y) >< 1
-  def (x: Array[N]) / (y: Array[N]): Array[N]
-  def (x: Array[N]) | (y: Array[N]): Boolean
-  def (x: Array[N]).isUnit = x >< 1
-  def dependencyOnVariables(x: Array[N]) = (for (i <- 0 until length if (x.get(i) > numeric.zero)) yield i).toArray
-  def (x: Array[N]).projection(n: Int): Array[N]
-  def (x: Array[N]).toCode(level: Level) = {
-    var s = "1"
-    var m = 0
-    for (i <- 0 until length) if (x.get(i) > numeric.zero) {
-      val a = variables(i)
-      val b = x.get(i)
-      val t = if (b >< numeric.one) a.toString else s"$a\\$b"
-      s = if (m == 0) t else s + "*" + t
-      m += 1
-    }
-    s
-  }
+  def gcd(x: M, y: M): M
+  def scm(x: M, y: M): M
+  def coprime(x: M, y: M) = gcd(x, y) >< 1
+  def (x: M) / (y: M): M
+  def (x: M) | (y: M): Boolean
+  def (x: M).isUnit = x >< 1
+  def dependencyOnVariables(x: M): Array[Int]
+  def (x: M).projection(n: Int): M
   override def toString = "[" + variables.mkString(", ") + "]"
-  def (x: Array[N]).toMathML = {
-    var s = "<cn>1</cn>"
-    var m = 0
-    for (i <- 0 until length) if (x.get(i) > numeric.zero) {
-      val a = variables(i)
-      val b = x.get(i)
-      val t = if (b >< numeric.one) a.toMathML else s"<apply><power/>${a.toMathML}<cn>$b</cn></apply>"
-      s = if (m == 0) t else s"<apply><times/>$s$t</apply>"
-      m += 1
-    }
-    s
-  }
   def toMathML = s"<list>${variables.map(a => a.toMathML)}</list>"
-  override def apply(x: Array[N]) = x.convert(variables: _*)
-  def (x: Array[N]).convert(from: Variable*): Array[N]
-  def size(x: Array[N]) = {
-    var m = 0
-    for (i <- 0 until length) if (x.get(i) > numeric.zero) m += 1
-    m
-  }
-  def (x: Array[N]).get(i: Int): N
+  override def apply(x: M) = x.convert(variables: _*)
+  def (x: M).convert(from: Variable*): M
+  def size(x: M): Int
 }
 
 object PowerProduct {
-  def apply[N : PowerProduct] = summon[PowerProduct[N]]
+  def apply[M : PowerProduct] = summon[PowerProduct[M]]
 }

@@ -5,9 +5,9 @@ import scala.reflect.ClassTag
 import scas.structure.Ring
 import scas.power.PowerProduct
 
-abstract class Polynomial[T : ClassTag, C : Ring, N : PowerProduct] extends Ring[T] {
+abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring[T] {
   def ring = Ring[C]
-  def pp = PowerProduct[N]
+  def pp = PowerProduct[M]
   def zero = this()
   def generator(n: Int) = fromPowerProduct(pp.generator(n))
   def generators = pp.generators.map(fromPowerProduct)
@@ -24,7 +24,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, N : PowerProduct] extends Ring
     }
     !xs.hasNext && !ys.hasNext
   }
-  def equiv(x: (Array[N], C), y: (Array[N], C)) = {
+  def equiv(x: (M, C), y: (M, C)) = {
     val (s, a) = x
     val (t, b) = y
     s >< t && a >< b
@@ -35,7 +35,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, N : PowerProduct] extends Ring
     for ((a, b) <- iterator(x)) r = r.subtract(a, -b, y)
     r
   }
-  def (x: T)%* (m: Array[N]) = x.map((s, a) => (s * m, a))
+  def (x: T)%* (m: M) = x.map((s, a) => (s * m, a))
 
   def (x: T).toCode(level: Level) = {
     var s = ring.zero.toCode(Level.Addition)
@@ -95,13 +95,13 @@ abstract class Polynomial[T : ClassTag, C : Ring, N : PowerProduct] extends Ring
   def toMathML = s"<mrow>${ring.toMathML}${pp.toMathML}</mrow>"
 
   def fromRing(value: C) = if(value >< ring.zero) zero else this(pp.one, value)
-  def fromPowerProduct(value: Array[N]) = this(value, ring.one)
-  def apply(m: Array[N], c: C): T = this((m, c))
-  def apply(s: (Array[N], C)*): T
+  def fromPowerProduct(value: M) = this(value, ring.one)
+  def apply(m: M, c: C): T = this((m, c))
+  def apply(s: (M, C)*): T
 
-  def iterator(x: T): Iterator[(Array[N], C)]
+  def iterator(x: T): Iterator[(M, C)]
 
-  def (x: T).iterator(m: Array[N]): Iterator[(Array[N], C)] = iterator(x).dropWhile((s, _) => s > m)
+  def (x: T).iterator(m: M): Iterator[(M, C)] = iterator(x).dropWhile((s, _) => s > m)
 
   def reverseIterator(x: T) = toSeq(x).reverseIterator
 
@@ -111,7 +111,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, N : PowerProduct] extends Ring
 
   def size(x: T): Int
 
-  def head(x: T): (Array[N], C)
+  def head(x: T): (M, C)
 
   def headPowerProduct(x: T) = {
     val (a, _) = head(x)
@@ -123,14 +123,14 @@ abstract class Polynomial[T : ClassTag, C : Ring, N : PowerProduct] extends Ring
     b
   }
 
-  def last(x: T): (Array[N], C)
+  def last(x: T): (M, C)
 
   def lastCoefficient(x: T) = {
     val (_, b) = last(x)
     b
   }
 
-  def (x: T).coefficient(m: Array[N]) = {
+  def (x: T).coefficient(m: M) = {
     val xs = x.iterator(m)
     if (xs.hasNext) {
       val (s, a) = xs.next
@@ -158,7 +158,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, N : PowerProduct] extends Ring
     } else x
   }
 
-  def (y: T).reduce(s: Array[N]) = {
+  def (y: T).reduce(s: M) = {
     val (t, _) = head(y)
     t | s
   }
@@ -176,7 +176,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, N : PowerProduct] extends Ring
     } else x
   }
 
-  @tailrec final def (x: T).reduce(m: Array[N], ys: Iterator[T]): T = {
+  @tailrec final def (x: T).reduce(m: M, ys: Iterator[T]): T = {
     val xs = x.iterator(m)
     if (xs.hasNext) {
       val (s, a) = xs.next
@@ -195,17 +195,17 @@ abstract class Polynomial[T : ClassTag, C : Ring, N : PowerProduct] extends Ring
     } else x
   }
 
-  def (x: T).reduce(m: Array[N], a: C, y: T, b: C) = x.multiply(b).subtract(m, a, y)
+  def (x: T).reduce(m: M, a: C, y: T, b: C) = x.multiply(b).subtract(m, a, y)
 
-  def (x: T).subtract(m: Array[N], c: C, y: T) = x + y.multiply(m, -c)
+  def (x: T).subtract(m: M, c: C, y: T) = x + y.multiply(m, -c)
 
-  def (x: T).multiply(m: Array[N], c: C) = x.map((s, a) => (s * m, a * c))
+  def (x: T).multiply(m: M, c: C) = x.map((s, a) => (s * m, a * c))
 
   def (x: T).multiply(c: C) = x.map(a => a * c)
 
   def (x: T).map(f: C => C): T = x.map((s, a) => (s, f(a)))
 
-  def (x: T).map(f: (Array[N], C) => (Array[N], C)): T
+  def (x: T).map(f: (M, C) => (M, C)): T
 
   def sort(x: T) = this(x.toSeq.sortBy((s, _) => s)(pp.reverse): _*)
 }
