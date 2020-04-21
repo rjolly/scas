@@ -13,14 +13,14 @@ class RationalImpl extends Quotient[BigInteger] with Field[Rational] {
   override def signum(x: Rational) = super[Quotient].signum(x)
   def (x: Rational).toCode(level: Level) = {
     val (n, d) = x
-    if (d >< 1) n.toCode(level) else {
+    if (d.isOne) n.toCode(level) else {
       if (n.bitLength < 64 && d.bitLength < 64) n.toCode(level) + " %%" + d.toCode(level) else s"Rational($n, $d)"
     }
   }
   override def toString = "QQ"
   def (x: Rational).toMathML = {
     val (n, d) = x
-    if (d >< 1) n.toMathML else s"""<cn type="rational">$n<sep/>$d</cn>"""
+    if (d.isOne) n.toMathML else s"""<cn type="rational">$n<sep/>$d</cn>"""
   }
   override def toMathML = "<rationals/>"
   override lazy val zero = 0

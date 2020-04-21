@@ -18,11 +18,12 @@ class BigIntegerImpl extends EuclidianDomain[BigInteger] with FromDigits[BigInte
     (q, r)
   }
   lazy val characteristic = 0
-  def (x: BigInteger).isUnit = abs(x) >< 1
-  override def (a: BigInteger) \ (b: BigInteger) = a.pow(b.intValue())
-  override def (x: BigInteger).unary_- = x.negate()
-  override def abs(x: BigInteger) = x.abs()
-  override def signum(x: BigInteger) = x.signum()
+  def (x: BigInteger).isUnit = abs(x).isOne
+  override def (x: BigInteger).isZero = signum(x) == 0
+  override def (a: BigInteger) \ (b: BigInteger) = a.pow(b.intValue)
+  override def (x: BigInteger).unary_- = x.negate
+  override def abs(x: BigInteger) = x.abs
+  override def signum(x: BigInteger) = x.signum
   def (x: BigInteger).toCode(level: Level) = {
     if (x.bitLength < 32) x.toString
     else if (x.bitLength < 64) x.toString + "l"

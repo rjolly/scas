@@ -3,11 +3,9 @@ package scas.power
 import scas.math.Numeric
 import scas.structure.ordered.Monoid
 import scas.variable.Variable
-import scas.int2powerProduct
 
 abstract class PowerProduct[M: ClassTag] extends Monoid[M] {
   def variables: Seq[Variable]
-  given PowerProduct[M] = this
   val length = variables.length
   def generator(variable: String): M = generator(variables.indexOf(variable))
   def generator(n: Int): M
@@ -19,10 +17,10 @@ abstract class PowerProduct[M: ClassTag] extends Monoid[M] {
   }
   def gcd(x: M, y: M): M
   def lcm(x: M, y: M): M
-  def coprime(x: M, y: M) = gcd(x, y) >< 1
+  def coprime(x: M, y: M) = gcd(x, y).isOne
   def (x: M) / (y: M): M
   def (x: M) | (y: M): Boolean
-  def (x: M).isUnit = x >< 1
+  def (x: M).isUnit = x.isOne
   def dependencyOnVariables(x: M): Array[Int]
   def (x: M).projection(n: Int): M
   override def toString = "[" + variables.mkString(", ") + "]"

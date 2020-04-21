@@ -12,7 +12,7 @@ trait UniqueFactorizationDomain[T] extends scas.structure.NotQuiteField[T] {
     r
   }
   def (x: T) /%(y: T): (T, T)
-  def (x: T) | (y: T) = (y % x) >< zero
+  def (x: T) | (y: T) = (y % x).isZero
 }
 
 object UniqueFactorizationDomain {

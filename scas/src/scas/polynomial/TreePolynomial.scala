@@ -17,7 +17,7 @@ class TreePolynomial[C : Ring, M : PowerProduct] extends Polynomial[Element[C, M
     val r = this(x.toSeq: _*)
     for ((t, b) <- y.asScala) {
       val c = r.getOrElse(t, ring.zero) + b
-      if (ring.signum(c) == 0) r.remove(t) else r.put(t, c)
+      if (c.isZero) r.remove(t) else r.put(t, c)
     }
     r
   }
@@ -42,10 +42,10 @@ class TreePolynomial[C : Ring, M : PowerProduct] extends Polynomial[Element[C, M
     val r = x
     for ((s, a) <- y.asScala) {
       val ac = a * c
-      if (ring.signum(ac) != 0) {
+      if (!ac.isZero) {
         val sm = s * m
         val cc = r.getOrElse(sm, ring.zero) - ac
-        if (ring.signum(cc) == 0) r.remove(sm) else r.put(sm, cc)
+        if (cc.isZero) r.remove(sm) else r.put(sm, cc)
       }
     }
     r
@@ -60,7 +60,7 @@ class TreePolynomial[C : Ring, M : PowerProduct] extends Polynomial[Element[C, M
     val r = this()
     for ((s, a) <- x.asScala) {
       val (m, c) = f(s, a)
-      if (ring.signum(c) != 0) r.put(m, c)
+      if (!c.isZero) r.put(m, c)
     }
     r
   }

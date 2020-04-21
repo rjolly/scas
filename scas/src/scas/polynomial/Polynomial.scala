@@ -11,7 +11,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
   def zero = this()
   def generator(n: Int) = fromPowerProduct(pp.generator(n))
   def generators = pp.generators.map(fromPowerProduct)
-  def signum(x: T) = if (x >< zero) 0 else ring.signum(lastCoefficient(x))
+  def signum(x: T) = if (x.isZero) 0 else ring.signum(lastCoefficient(x))
   def characteristic = ring.characteristic
   override def apply(x: T) = sort(x.map((s, a) => (pp(s), ring(a))))
   def one = fromRing(ring.one)
@@ -29,7 +29,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
     val (t, b) = y
     s >< t && a >< b
   }
-  def (x: T).isUnit = if (degree(x) > 0 || x >< zero) false else headCoefficient(x).isUnit
+  def (x: T).isUnit = if (degree(x) > 0 || x.isZero) false else headCoefficient(x).isUnit
   def (x: T) * (y: T) = {
     var r = zero
     for ((a, b) <- iterator(x)) r = r.subtract(a, -b, y)
@@ -46,8 +46,8 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
       val c = ring.abs(b)
       val g = ring.signum(b) < 0
       val (t, u) = {
-        if (a >< pp.one) (c.toCode(p), 1)
-        else if (c >< ring.one) (a.toCode(p), pp.size(a))
+        if (a.isOne) (c.toCode(p), 1)
+        else if (c.isOne) (a.toCode(p), pp.size(a))
         else (c.toCode(Level.Multiplication) + "*" + a.toCode(Level.Multiplication), 1 + pp.size(a))
       }
       s = {
@@ -77,8 +77,8 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
       val c = ring.abs(b)
       val g = ring.signum(b) < 0
       val t = {
-        if (a >< pp.one) c.toMathML
-        else if (c >< ring.one) a.toMathML
+        if (a.isOne) c.toMathML
+        else if (c.isOne) a.toMathML
         else s"<apply><times/>${c.toMathML}${a.toMathML}</apply>"
       }
       s = {
@@ -94,7 +94,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
   }
   def toMathML = s"<mrow>${ring.toMathML}${pp.toMathML}</mrow>"
 
-  def fromRing(value: C) = if(value >< ring.zero) zero else this(pp.one, value)
+  def fromRing(value: C) = if(value.isZero) zero else this(pp.one, value)
   def fromPowerProduct(value: M) = this(value, ring.one)
   def apply(m: M, c: C): T = this((m, c))
   def apply(s: (M, C)*): T
