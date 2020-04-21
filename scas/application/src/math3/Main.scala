@@ -13,7 +13,7 @@ given Double as Field[Double] {
   def inverse(x: Double) = 1 / x
   def characteristic = 0
   def equiv(x: Double, y: Double) = x == y
-  def signum(x: Double) = Math.signum(x).toInt
+  def (x: Double).signum = Math.signum(x).toInt
   def zero = 0
   def one = 1
   def (x: Double).toCode(level: Level) = x.toString

@@ -6,7 +6,7 @@ abstract class Quotient[T: UniqueFactorizationDomain] extends Field[(T, T)] {
   def ring = UniqueFactorizationDomain[T]
   def apply(n: T, d: T) = {
     val c = ring.gcd(n, d)
-    val gcd = if (ring.signum(d) == -ring.signum(c)) -c else c
+    val gcd = if (d.signum == -c.signum) -c else c
     (n / gcd, d / gcd)
   }
   def apply(n: T): (T, T) = (n, ring.one)
@@ -55,9 +55,9 @@ abstract class Quotient[T: UniqueFactorizationDomain] extends Field[(T, T)] {
     val (n, d) = x
     (ring.abs(n), d)
   }
-  def signum(x: (T, T)) = {
+  def (x: (T, T)).signum = {
     val (n, _) = x
-    ring.signum(n)
+    n.signum
   }
   def characteristic = ring.characteristic
   override def toString = s"$ring/$ring"

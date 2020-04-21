@@ -11,7 +11,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
   def zero = this()
   def generator(n: Int) = fromPowerProduct(pp.generator(n))
   def generators = pp.generators.map(fromPowerProduct)
-  def signum(x: T) = if (x.isZero) 0 else ring.signum(lastCoefficient(x))
+  def (x: T).signum = if (x.isZero) 0 else lastCoefficient(x).signum
   def characteristic = ring.characteristic
   override def apply(x: T) = sort(x.map((s, a) => (pp(s), ring(a))))
   def one = fromRing(ring.one)

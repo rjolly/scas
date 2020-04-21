@@ -10,7 +10,7 @@ class RationalImpl extends Quotient[BigInteger] with Field[Rational] {
     val (c, d) = y
     BigInteger.compare(a * d, c * b)
   }
-  override def signum(x: Rational) = super[Quotient].signum(x)
+  override def (x: Rational).signum = super[Quotient].signum(x)
   def (x: Rational).toCode(level: Level) = {
     val (n, d) = x
     if (d.isOne) n.toCode(level) else {

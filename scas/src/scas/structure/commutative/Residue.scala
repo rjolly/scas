@@ -2,7 +2,7 @@ package scas.structure.commutative
 
 abstract class Residue[T: UniqueFactorizationDomain] extends UniqueFactorizationDomain[T] {
   def ring = UniqueFactorizationDomain[T]
-  def signum(x: T) = ring.signum(x)
+  def (x: T).signum = ring.signum(x)
   def (x: T) + (y: T) = this(ring.+(x)(y))
   def (x: T) - (y: T) = this(ring.-(x)(y))
   def (x: T) * (y: T) = this(ring.*(x)(y))
