@@ -6,9 +6,11 @@ modint.txt
 math3.txt
 poly.txt
 polynomial.txt
+poly_rings.txt
 polypower.txt
 polypower_scas.txt
 polypower_jaspp.txt
+polypower_rings.txt
 rational.txt
 pp_jas.txt
 pp1.txt
