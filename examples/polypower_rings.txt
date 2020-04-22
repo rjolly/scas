@@ -2,12 +2,11 @@
 
 import scala.language.implicitConversions
 import cc.redberry.rings.poly.multivar.MonomialOrder
-import rings.{Z, BigInteger, MultivariatePolynomialRing, poly2scas, coef2poly, int2bigInt, long2bigInt, bigInt2scas}
+import rings.{BigInteger, MultivariatePolynomialRing, coef2poly, int2bigInt, long2bigInt, bigInt2scas}
 
-given r as MultivariatePolynomialRing[BigInteger] = MultivariatePolynomialRing(3, Z, MonomialOrder.LEX)
+given r as MultivariatePolynomialRing[BigInteger](MonomialOrder.LEX, "x", "y", "z")(using BigInteger)
 val Array(x, y, z) = r.gens
-val s = poly2scas(r)
-import s.{+, *}
+import r.{+, *}
 
 val p = 1 + x + y + z
 // val p = 1 + x \ 2147483647 + y \ 2147483647 + z \ 2147483647

@@ -3,15 +3,14 @@
 import scala.language.implicitConversions
 import cc.redberry.rings.poly.multivar.MonomialOrder
 import cc.redberry.rings.poly.multivar.MultivariatePolynomial
-import rings.{Z, BigInteger, MultivariatePolynomialRing, poly2scas, id, coef2poly, int2bigInt}
+import rings.{BigInteger, MultivariatePolynomialRing, id, coef2poly, int2bigInt}
 
-given r as MultivariatePolynomialRing[BigInteger] = MultivariatePolynomialRing(3, Z, MonomialOrder.LEX)
+given r as MultivariatePolynomialRing[BigInteger](MonomialOrder.LEX, "x", "y", "z")(using BigInteger)
 val Array(x, y, z) = r.gens
 
-given s as MultivariatePolynomialRing[MultivariatePolynomial[BigInteger]] = MultivariatePolynomialRing(1, r, MonomialOrder.LEX)
+given s as MultivariatePolynomialRing[MultivariatePolynomial[BigInteger]](MonomialOrder.LEX, "a")(using r)
 val Array(a) = s.gens
-val t = poly2scas(s)
-import t.+
+import s.+
 
 assert(BigInteger(1) + 1 >< 1 + BigInteger(1))
 assert(x + 1 >< 1 + x)
