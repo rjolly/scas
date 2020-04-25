@@ -1,10 +1,9 @@
 package jas
 
-import scas.structure.ordered.Ring
 import edu.jas.structure.RingElem
 import edu.jas.structure.RingFactory
 
-class JasRing[T <: RingElem[T] : RingFactory] extends Ring[T] {
+class Ring[T <: RingElem[T] : RingFactory] extends scas.structure.ordered.Ring[T] {
   def factory = summon[RingFactory[T]]
   def (x: T) + (y: T) = x.sum(y)
   def (x: T) - (y: T) = x.subtract(y)

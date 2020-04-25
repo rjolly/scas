@@ -10,11 +10,11 @@ type BigInteger = edu.jas.arith.BigInteger
 
 given ZZ as BigInteger = new BigInteger()
 
-given BigInteger as JasRing[BigInteger] with FromDigits[BigInteger] {
+given BigInteger as Ring[BigInteger] with FromDigits[BigInteger] {
   def fromDigits(digits: String) = new BigInteger(digits)
 }
 
-given poly2scas[C <: RingElem[C] : GenPolynomialRing] as JasRing[GenPolynomial[C]] {
+given poly2scas[C <: RingElem[C] : GenPolynomialRing] as Ring[GenPolynomial[C]] {
   def (factory: GenPolynomialRing[C]) gens = factory.getGenerators().asScala.toArray
 }
 

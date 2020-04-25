@@ -1,10 +1,9 @@
 package rings
 
-import cc.redberry.rings.Ring
 import cc.redberry.rings.io.Coder
 
-abstract class RdbRing[T] extends scas.structure.ordered.Ring[T] {
-  def ring: Ring[T]
+abstract class Ring[T] extends scas.structure.ordered.Ring[T] {
+  def ring: cc.redberry.rings.Ring[T]
   def coder = Coder.mkCoder(ring)
   def (x: T) + (y: T) = ring.add(x, y)
   def (x: T) - (y: T) = ring.subtract(x, y)
@@ -19,6 +18,6 @@ abstract class RdbRing[T] extends scas.structure.ordered.Ring[T] {
   def toMathML = ???
 }
 
-object RdbRing {
-  def apply[T : RdbRing] = summon[RdbRing[T]]
+object Ring {
+  def apply[T : Ring] = summon[Ring[T]]
 }
