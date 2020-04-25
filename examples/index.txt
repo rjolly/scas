@@ -2,6 +2,7 @@
 bigint.txt
 jasbigint.txt
 ringsbigint.txt
+mod_polynomial.txt
 modint.txt
 math3.txt
 poly.txt
@@ -11,6 +12,7 @@ polypower.txt
 polypower_scas.txt
 polypower_jaspp.txt
 polypower_rings.txt
+rational_polynomial.txt
 rational.txt
 pp_jas.txt
 pp1.txt
