@@ -1,6 +1,6 @@
 package scas.polynomial
 
-import java.util.{SortedMap, TreeMap}
+import java.util.{SortedMap, TreeMap, Collections}
 import scala.collection.JavaConverters.mapAsScalaMapConverter
 import scas.structure.Ring
 import scas.power.PowerProduct
@@ -10,19 +10,25 @@ class TreePolynomial[C : Ring, M : PowerProduct] extends Polynomial[Element[C, M
   def apply(s: (M, C)*) = {
     val r = new TreeMap[M, C](pp.reverse)
     for ((m, c) <- s) r.put(m, c)
-    r
+    Collections.unmodifiableSortedMap(r)
   }
 
   def (x: Element[C, M]) + (y: Element[C, M]) = {
-    val r = this(x.toSeq: _*)
+    val r = new TreeMap(x)
     for ((t, b) <- y.asScala) {
       val c = r.getOrElse(t, ring.zero) + b
       if (c.isZero) r.remove(t) else r.put(t, c)
     }
-    r
+    Collections.unmodifiableSortedMap(r)
   }
 
   override def (x: Element[C, M]) - (y: Element[C, M]) = new TreeMap(x).subtract(pp.one, ring.one, y)
+
+  override def (x: Element[C, M]) * (y: Element[C, M]) = {
+    val r = new TreeMap(zero)
+    for ((a, b) <- iterator(x)) r.subtract(a, -b, y)
+    Collections.unmodifiableSortedMap(r)
+  }
 
   def iterator(x: Element[C, M]) = x.asScala.iterator
 
@@ -56,13 +62,15 @@ class TreePolynomial[C : Ring, M : PowerProduct] extends Polynomial[Element[C, M
     if (a == null) c else a
   }
 
+  override def (x: Element[C, M]).reduce(m: M, a: C, y: Element[C, M], b: C) = new TreeMap(x.multiply(b)).subtract(m, a, y)
+
   def (x: Element[C, M]).map(f: (M, C) => (M, C)) = {
-    val r = this()
+    val r = new TreeMap(zero)
     for ((s, a) <- x.asScala) {
       val (m, c) = f(s, a)
       if (!c.isZero) r.put(m, c)
     }
-    r
+    Collections.unmodifiableSortedMap(r)
   }
 
   override def sort(x: Element[C, M]) = x

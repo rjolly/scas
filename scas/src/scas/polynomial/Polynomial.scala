@@ -8,13 +8,13 @@ import scas.power.PowerProduct
 abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring[T] {
   def ring = Ring[C]
   def pp = PowerProduct[M]
-  def zero = this()
+  val zero = this()
   def generator(n: Int) = fromPowerProduct(pp.generator(n))
   def generators = pp.generators.map(fromPowerProduct)
   def (x: T).signum = if (x.isZero) 0 else lastCoefficient(x).signum
   def characteristic = ring.characteristic
   override def apply(x: T) = sort(x.map((s, a) => (pp(s), ring(a))))
-  def one = fromRing(ring.one)
+  val one = fromRing(ring.one)
   def (x: T) - (y: T) = x.subtract(pp.one, ring.one, y)
   def equiv(x: T, y: T) = {
     val xs = iterator(x)
