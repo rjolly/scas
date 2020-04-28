@@ -207,5 +207,5 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
 
   def (x: T).map(f: (M, C) => (M, C)): T
 
-  def sort(x: T) = this(x.toSeq.sortBy((s, _) => s)(pp.reverse): _*)
+  def sort(x: T) = this(x.toSeq.sortBy((s: M, _: C) => s)(pp.reverse): _*)
 }
