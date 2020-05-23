@@ -11,14 +11,17 @@ class RationalImpl extends Quotient[BigInteger] with Field[Rational] {
     BigInteger.compare(a * d, c * b)
   }
   override def (x: Rational).signum = super[Quotient].signum(x)
-  def (x: Rational).toCode(level: Level) = {
+  override def (x: Rational).toCode(level: Level) = {
     val (n, d) = x
     if (d.isOne) n.toCode(level) else {
-      if (n.bitLength < 64 && d.bitLength < 64) n.toCode(level) + " %%" + d.toCode(level) else s"Rational($n, $d)"
+      if (n.bitLength < 64 && d.bitLength < 64) {
+        val s = n.toCode(Level.Multiplication) + " %%" + d.toCode(Level.Power)
+        if (level > Level.Multiplication) s"($s)" else s
+      } else s"Rational($n, $d)"
     }
   }
   override def toString = "QQ"
-  def (x: Rational).toMathML = {
+  override def (x: Rational).toMathML = {
     val (n, d) = x
     if (d.isOne) n.toMathML else s"""<cn type="rational">$n<sep/>$d</cn>"""
   }
