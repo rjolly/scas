@@ -64,7 +64,7 @@ abstract class Quotient[T: UniqueFactorizationDomain] extends Field[(T, T)] {
     val (n, d) = x
     if (d.isOne) n.toCode(level) else {
       val s = n.toCode(Level.Multiplication) + "/" + d.toCode(Level.Power)
-      if (level > Level.Multiplication) s"($s)" else s
+      if (level > Level.Multiplication) fenced(s) else s
     }
   }
   override def toString = s"$ring/$ring"

@@ -45,29 +45,20 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
     for ((a, b) <- reverseIterator(x)) {
       val c = ring.abs(b)
       val g = ring.signum(b) < 0
-      val (t, u) = {
-        if (a.isOne) (c.toCode(p), 1)
-        else if (c.isOne) (a.toCode(p), pp.size(a))
-        else (c.toCode(Level.Multiplication) + "*" + a.toCode(Level.Multiplication), 1 + pp.size(a))
-      }
-      s = {
-        if (n == 0) {
-          if (g) "-" + t else t
-        } else {
-          if (g) s + "-" + t else s + "+" + t
-        }
+      val (t, u) = if (a.isOne) (c.toCode(p), 1) else if (c.isOne) (a.toCode(p), pp.size(a)) else (c.toCode(Level.Multiplication) + "*" + a.toCode(Level.Multiplication), 1 + pp.size(a))
+      s = if (n == 0) {
+        if (g) "-" + t else t
+      } else {
+        if (g) s + "-" + t else s + "+" + t
       }
       m = if (g) u + 1 else u
       n += 1
     }
-    val fenced = {
-      if (n == 0) false
-      else if (n == 1) {
-        if (m == 1) false
-        else level > Level.Multiplication
-      } else level > Level.Addition
+    if (n == 0) s else if (n == 1) {
+      if (m == 1) s else if (level > Level.Multiplication) fenced(s) else s
+    } else {
+      if (level > Level.Addition) fenced(s) else s
     }
-    if (fenced) s"($s)" else s
   }
   override def toString = s"$ring$pp"
   def (x: T).toMathML = {
@@ -76,17 +67,11 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
     for ((a, b) <- reverseIterator(x)) {
       val c = ring.abs(b)
       val g = ring.signum(b) < 0
-      val t = {
-        if (a.isOne) c.toMathML
-        else if (c.isOne) a.toMathML
-        else s"<apply><times/>${c.toMathML}${a.toMathML}</apply>"
-      }
-      s = {
-        if (n == 0) {
-          if (g) s"<apply><minus/>$t</apply>" else t
-        } else {
-          if (g) s"<apply><minus/>$s$t</apply>" else s"<apply><plus/>$s$t</apply>"
-        }
+      val t =  if (a.isOne) c.toMathML else if (c.isOne) a.toMathML else s"<apply><times/>${c.toMathML}${a.toMathML}</apply>"
+      s = if (n == 0) {
+        if (g) s"<apply><minus/>$t</apply>" else t
+      } else {
+        if (g) s"<apply><minus/>$s$t</apply>" else s"<apply><plus/>$s$t</apply>"
       }
       n += 1
     }

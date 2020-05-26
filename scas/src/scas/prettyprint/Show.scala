@@ -3,6 +3,7 @@ package scas.prettyprint
 import scas.math.Ordering
 
 trait Show[T] {
+  def fenced(s: String) = Show.fenced(s)
   type Level = Show.Level
   val Level = Show.Level
   def (x: T).toCode(level: Level): String
@@ -21,4 +22,5 @@ object Show {
     }
   }
   def math(s: String) = s"<math>$s</math>"
+  def fenced(s: String) = s"($s)"
 }
