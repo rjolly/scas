@@ -317,7 +317,7 @@
 </xsl:template>
 
 <xsl:template match="m:integers">
-	<xsl:text>ZZ</xsl:text>
+	<xsl:text>BigInteger</xsl:text>
 </xsl:template>
 
 <xsl:template match="m:rationals">
