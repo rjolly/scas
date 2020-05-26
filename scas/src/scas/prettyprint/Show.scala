@@ -21,6 +21,6 @@ object Show {
       def compare(x: Level, y: Level) = java.lang.Integer.compare(x.ordinal, y.ordinal)
     }
   }
-  def math(s: String) = s"<math>$s</math>"
-  def fenced(s: String) = s"($s)"
+  inline def math(s: String) = s"<math>$s</math>"
+  inline def fenced(s: String) = s"($s)"
 }
