@@ -1,9 +1,10 @@
 package scas.variable
 
 import scas.structure.Structure
-import scas.prettyprint.MathObject
 
-trait Variable extends MathObject
+trait Variable {
+  def toMathML: String
+}
 
 object Variable {
   given string2variable as Conversion[String, Variable] = apply(_)

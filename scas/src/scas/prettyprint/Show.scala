@@ -6,11 +6,8 @@ trait Show[T] {
   type Level = Show.Level
   val Level = Show.Level
   def (x: T).toCode(level: Level): String
-  class Object(x: T) extends MathObject {
-    override def toString = x.toCode(Level.Addition)
-    def toMathML = x.toMathML
-  }
-  def (x: T).show: MathObject = new Object(x)
+  def (x: T).show = x.toCode(Level.Addition)
+  def (x: T).math = Show.math(x.toMathML)
   def (x: T).toMathML: String
 }
 
@@ -23,4 +20,5 @@ object Show {
       def compare(x: Level, y: Level) = java.lang.Integer.compare(x.ordinal, y.ordinal)
     }
   }
+  def math(s: String) = s"<math>$s</math>"
 }
