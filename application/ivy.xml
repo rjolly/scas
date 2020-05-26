@@ -13,5 +13,6 @@
     </configurations>
     <dependencies>
         <dependency org="com.github.rjolly" name="scas_0.24" rev="3.0" conf="compile->master;runtime->default"/>
+        <dependency org="net.sourceforge.jscl-meditor" name="rendering" rev="1.0" conf="compile->master;runtime->default"/>
     </dependencies>
 </ivy-module>
