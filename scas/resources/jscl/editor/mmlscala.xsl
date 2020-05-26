@@ -12,6 +12,7 @@
 <xsl:template match="x:a">
 	<xsl:choose>
 		<xsl:when test="starts-with(@href,'mvn')"><xsl:value-of select="text()"/></xsl:when>
+		<xsl:when test="starts-with(@href,'mailto')"><xsl:value-of select="substring-after(@href, ':')"/></xsl:when>
 		<xsl:otherwise><xsl:value-of select="@href"/></xsl:otherwise>
 	</xsl:choose>
 </xsl:template>
