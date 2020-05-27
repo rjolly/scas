@@ -9,4 +9,4 @@ val Array(x) = r.generators
 import r.+
 
 assert (1 + x + 1 >< x)
-assert (r.toString == "ZZ(2)[x]")
+assert (r.toString == "ModInteger(2)[x]")

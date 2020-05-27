@@ -12,6 +12,6 @@ class ModInteger(val mod: BigInteger) extends Residue[BigInteger] with Field[Big
   def characteristic = mod
   override def (a: BigInteger) \ (b: BigInteger) = a.modPow(b, mod)
   def inverse(x: BigInteger) = x.modInverse(mod)
-  override def toString = s"$ring($mod)"
-  def toMathML = s"<msub>${ring.toMathML}<mn>${BigInteger.toMathML(mod)}</mn></msub>"
+  override def toString = s"ModInteger($mod)"
+  def toMathML = s"<msub>${ring.toMathML}${BigInteger.toMathML(mod)}</msub>"
 }

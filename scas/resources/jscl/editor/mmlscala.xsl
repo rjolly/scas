@@ -321,6 +321,19 @@
 	<xsl:text>)</xsl:text>
 </xsl:template>
 
+<xsl:template match="m:msub">
+	<xsl:choose>
+		<xsl:when test="*[1][self::m:integers]">
+			<xsl:text>ModInteger(</xsl:text>
+			<xsl:apply-templates select="*[2]"/>
+			<xsl:text>)</xsl:text>
+		</xsl:when>
+		<xsl:otherwise>
+			<xsl:apply-templates/>
+		</xsl:otherwise>
+	</xsl:choose>
+</xsl:template>
+
 <xsl:template match="m:integers">
 	<xsl:text>BigInteger</xsl:text>
 </xsl:template>
