@@ -10,6 +10,8 @@ trait Show[T] {
   def (x: T).show = x.toCode(Level.Addition)
   def (x: T).math = Show.math(x.toMathML)
   def (x: T).toMathML: String
+  def (s: Array[T]).show: Array[String] = s.map(show(_))
+  def (s: Array[T]).math: Array[String] = s.map(math(_))
 }
 
 object Show {
