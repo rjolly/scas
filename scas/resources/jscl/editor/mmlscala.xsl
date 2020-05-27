@@ -104,7 +104,7 @@
 	<xsl:call-template name="integer">
 		<xsl:with-param name="value" select="text()[1]"/>
 	</xsl:call-template>
-	<xsl:text> %%</xsl:text>
+	<xsl:text>%%</xsl:text>
 	<xsl:call-template name="integer">
 		<xsl:with-param name="value" select="text()[2]"/>
 	</xsl:call-template>
@@ -261,11 +261,9 @@
 </xsl:template>
 
 <xsl:template match="m:apply[*[1][self::m:power]]">
-	<xsl:text>pow(</xsl:text>
 	<xsl:apply-templates select="*[2]"/>
-	<xsl:text>, </xsl:text>
+	<xsl:text>\</xsl:text>
 	<xsl:apply-templates select="*[3]"/>
-	<xsl:text>)</xsl:text>
 </xsl:template>
 
 <xsl:template match="m:apply[*[1][self::m:root]]">

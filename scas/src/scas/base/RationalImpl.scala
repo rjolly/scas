@@ -15,7 +15,7 @@ class RationalImpl extends Quotient[BigInteger] with Field[Rational] {
     val (n, d) = x
     if (d.isOne) n.toCode(level) else {
       if (n.bitLength < 64 && d.bitLength < 64) {
-        val s = n.toCode(Level.Multiplication) + " %%" + d.toCode(Level.Power)
+        val s = n.toCode(Level.Multiplication) + "%%" + d.toCode(Level.Power)
         if (level > Level.Multiplication) fenced(s) else s
       } else s"Rational($n, $d)"
     }
