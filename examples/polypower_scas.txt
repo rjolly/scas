@@ -9,9 +9,9 @@ given r as TreePolynomial[BigInteger, Array[Int]](using BigInteger, Lexicographi
 val Array(x, y, z) = r.generators
 import r.{+, *}
 
-val p = 1 + x + y + z
-// val p = 1 + x \ 2147483647 + y \ 2147483647 + z \ 2147483647
-// val p = 10000000001l + 10000000001l * x + 10000000001l * y + 10000000001l * z
+val p = 1+x+y+z
+// val p = 1+x\2147483647+y\2147483647+z\2147483647
+// val p = 10000000001l+10000000001l*x+10000000001l*y+10000000001l*z
 println("p: " + p.show)
 val q = p \ 20
 println("q: " + q.size)
