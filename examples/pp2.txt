@@ -3,6 +3,6 @@ import scas.variable.Variable
 
 given m as Lexicographic[Int]((for (i <- 0 until 4; j <- 0 until 2) yield Variable("a", Array(i, j): _*)): _*)
 val a = m.generators.grouped(2).toArray
-val s = (for (i <- 0 until 4; j <- 0 until 2) yield a(i)(j)).toArray.grouped(2).toArray
-assert (s.map(_.map(_.show).toList).toList == List(List(a(0)(0).show, a(0)(1).show), List(a(1)(0).show, a(1)(1).show), List(a(2)(0).show, a(2)(1).show), List(a(3)(0).show, a(3)(1).show)))
-assert (s.map(_.map(_.math).toList).toList == List(List(a(0)(0).math, a(0)(1).math), List(a(1)(0).math, a(1)(1).math), List(a(2)(0).math, a(2)(1).math), List(a(3)(0).math, a(3)(1).math)))
+val s = (for (i <- 0 until 4; j <- 0 until 2) yield a(i)(j)).toArray
+assert (s.show.toList == List(a(0)(0).show, a(0)(1).show, a(1)(0).show, a(1)(1).show, a(2)(0).show, a(2)(1).show, a(3)(0).show, a(3)(1).show))
+assert (s.math.toList == List(a(0)(0).math, a(0)(1).math, a(1)(0).math, a(1)(1).math, a(2)(0).math, a(2)(1).math, a(3)(0).math, a(3)(1).math))
