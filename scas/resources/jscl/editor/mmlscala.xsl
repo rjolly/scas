@@ -101,15 +101,13 @@
 </xsl:template>
 
 <xsl:template match="m:cn[@type='rational']">
-	<xsl:text>frac(</xsl:text>
 	<xsl:call-template name="integer">
 		<xsl:with-param name="value" select="text()[1]"/>
 	</xsl:call-template>
-	<xsl:text>, </xsl:text>
+	<xsl:text> %%</xsl:text>
 	<xsl:call-template name="integer">
 		<xsl:with-param name="value" select="text()[2]"/>
 	</xsl:call-template>
-	<xsl:text>)</xsl:text>
 </xsl:template>
 
 <xsl:template match="m:cn[@type='complex-cartesian']">
