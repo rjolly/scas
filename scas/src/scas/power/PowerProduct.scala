@@ -24,7 +24,7 @@ abstract class PowerProduct[M: ClassTag] extends Monoid[M] {
   def dependencyOnVariables(x: M): Array[Int]
   def (x: M).projection(n: Int): M
   override def toString = "[" + variables.mkString(", ") + "]"
-  def toMathML = s"<list>${variables.map(a => a.toMathML)}</list>"
+  def toMathML = s"<list>${variables.map(_.toMathML).mkString}</list>"
   override def apply(x: M) = x.convert(variables: _*)
   def (x: M).convert(from: Variable*): M
   def size(x: M): Int

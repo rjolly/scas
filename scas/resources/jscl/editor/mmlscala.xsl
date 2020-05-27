@@ -279,6 +279,15 @@
 	<xsl:text>)</xsl:text>
 </xsl:template>
 
+<xsl:template match="m:list">
+	<xsl:text>[</xsl:text>
+	<xsl:for-each select="*">
+		<xsl:apply-templates select="."/>
+		<xsl:if test="position() &lt; last()"><xsl:text>, </xsl:text></xsl:if>
+	</xsl:for-each>
+	<xsl:text>]</xsl:text>
+</xsl:template>
+
 <xsl:template match="m:vector">
 	<xsl:text>vector(</xsl:text>
 	<xsl:for-each select="*">
