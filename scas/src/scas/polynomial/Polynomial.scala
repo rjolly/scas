@@ -60,7 +60,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
       if (level > Level.Addition) fenced(s) else s
     }
   }
-  override def toString = s"$ring$pp"
+  override def toString = s"$ring(${pp.variables.mkString(", ")})"
   def (x: T).toMathML = {
     var s = ring.zero.toMathML
     var n = 0
@@ -77,7 +77,9 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
     }
     s
   }
-  def toMathML = s"<mrow>${ring.toMathML}${pp.toMathML}</mrow>"
+  def toMathML = s"<apply>${ring.toMathML}${pp.toMathML}</apply>"
+
+  def (ring: Ring[C]).apply(s: T*) = this
 
   def fromRing(value: C) = if(value.isZero) zero else this(pp.one, value)
   def fromPowerProduct(value: M) = this(value, ring.one)

@@ -20,7 +20,7 @@ class RationalImpl extends Quotient[BigInteger] with Field[Rational] {
       } else s"Rational($n, $d)"
     }
   }
-  override def toString = "QQ"
+  override def toString = "Rational"
   override def (x: Rational).toMathML = {
     val (n, d) = x
     if (d.isOne) n.toMathML else s"""<cn type="rational">$n<sep/>$d</cn>"""

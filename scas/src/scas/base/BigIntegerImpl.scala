@@ -29,7 +29,7 @@ class BigIntegerImpl extends EuclidianDomain[BigInteger] with FromDigits[BigInte
     else if (x.bitLength < 64) x.toString + "l"
     else s"BigInteger($x)"
   }
-  override def toString = "ZZ"
+  override def toString = "BigInteger"
   def (x: BigInteger).toMathML = s"<cn>$x</cn>"
   def toMathML = "<integers/>"
   lazy val zero = 0
