@@ -6,7 +6,7 @@ import TreePolynomial.coef2poly
 
 given r as TreePolynomial[BigInteger, Array[Int]](using BigInteger, Lexicographic("x", "y", "z"))
 // given r as TreePolynomial[BigInteger, Array[Long]](using BigInteger, Lexicographic("x", "y", "z"))
-val Array(x, y, z) = r.generators
+val List(x, y, z) = r.generators.toList
 import r.{+, *}
 
 val p = 1+x+y+z

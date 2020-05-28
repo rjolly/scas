@@ -6,8 +6,8 @@ given m as PowerProduct("x")
 val Array(x) = m.generators
 import m.{<, |, *}
 
-assert (x > 1)
-assert (1 < x)
-assert (1 | x)
-assert (x * 1 >< 1 * x)
-assert (x * x >< x \ 2)
+assert(x > 1)
+assert(1 < x)
+assert(1 | x)
+assert(x * 1 >< 1 * x)
+assert(x * x >< x \ 2)
