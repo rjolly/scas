@@ -10,8 +10,8 @@ trait Show[T] {
   def (x: T).show = x.toCode(Level.Addition)
   def (x: T).math = Show.math(x.toMathML)
   def (x: T).toMathML: String
-  def (s: Array[T]).show: Array[String] = s.map(show(_))
-  def (s: Array[T]).math: Array[String] = s.map(math(_))
+  def (s: List[T]).show: String = Show.listed(s.map(show(_)): _*)
+  def (s: List[T]).math = Show.math(s.map(_.toMathML): _*)
 }
 
 object Show {
@@ -23,6 +23,9 @@ object Show {
       def compare(x: Level, y: Level) = java.lang.Integer.compare(x.ordinal, y.ordinal)
     }
   }
+  inline def listed(s: String*) = s"List(${s.mkString(", ")})"
+  inline def list(s: String*) = s"<list>${s.mkString}</list>"
+  inline def math(s: String*): String = math(list(s: _*))
   inline def math(s: String) = s"<math>$s</math>"
   inline def fenced(s: String) = s"($s)"
 }

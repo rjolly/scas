@@ -3,6 +3,7 @@ package scas.power
 import scas.math.Numeric
 import scas.structure.ordered.Monoid
 import scas.variable.Variable
+import scas.prettyprint.Show
 
 abstract class PowerProduct[M: ClassTag] extends Monoid[M] {
   def variables: Seq[Variable]
@@ -23,8 +24,8 @@ abstract class PowerProduct[M: ClassTag] extends Monoid[M] {
   def (x: M).isUnit = x.isOne
   def dependencyOnVariables(x: M): Array[Int]
   def (x: M).projection(n: Int): M
-  override def toString = "[" + variables.mkString(", ") + "]"
-  def toMathML = s"<list>${variables.map(_.toMathML).mkString}</list>"
+  override def toString = Show.listed(variables.map(_.toString): _*)
+  def toMathML = Show.list(variables.map(_.toMathML): _*)
   override def apply(x: M) = x.convert(variables: _*)
   def (x: M).convert(from: Variable*): M
   def size(x: M): Int
