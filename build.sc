@@ -13,11 +13,11 @@ object scas extends ScalaModule with PublishModule {
     def moduleDeps = Seq(scas)
     def ivyDeps = Agg(
       ivy"ch.epfl.lamp::dotty-compiler:${scalaVersion()}",
-      ivy"de.uni-mannheim.rz.krum:jas:2.6.6000",
-      ivy"org.apache.logging.log4j:log4j-core:2.13.0",
-      ivy"org.apache.logging.log4j:log4j-api:2.13.0",
+      ivy"de.uni-mannheim.rz.krum:jas:2.6.6017",
+      ivy"org.apache.logging.log4j:log4j-core:2.13.3",
+      ivy"org.apache.logging.log4j:log4j-api:2.13.3",
       ivy"cc.redberry:rings:2.5.7",
-      ivy"org.apache.commons:commons-math3:3.5",
+      ivy"org.apache.commons:commons-math3:3.6.1",
       ivy"net.sourceforge.jscl-meditor:rendering:1.0"
     )
   }
