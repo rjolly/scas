@@ -95,12 +95,23 @@
 </xsl:template>
 
 <xsl:template match="m:cn">
+	<xsl:param name="p" select="-1"/>
+	<xsl:variable name="content">
+		<xsl:value-of select="number(text())"/>
+	</xsl:variable>
+	<xsl:if test="-1 &lt; $p and $content &lt; 0"><xsl:text>(</xsl:text></xsl:if>
 	<xsl:call-template name="integer">
 		<xsl:with-param name="value" select="text()"/>
 	</xsl:call-template>
+	<xsl:if test="-1 &lt; $p and $content &lt; 0"><xsl:text>)</xsl:text></xsl:if>
 </xsl:template>
 
 <xsl:template match="m:cn[@type='rational']">
+	<xsl:param name="p" select="-1"/>
+	<xsl:variable name="numerator">
+		<xsl:value-of select="number(text()[1])"/>
+	</xsl:variable>
+	<xsl:if test="1 &lt; $p or (-1 &lt; $p and $numerator &lt; 0)"><xsl:text>(</xsl:text></xsl:if>
 	<xsl:call-template name="integer">
 		<xsl:with-param name="value" select="text()[1]"/>
 	</xsl:call-template>
@@ -108,6 +119,7 @@
 	<xsl:call-template name="integer">
 		<xsl:with-param name="value" select="text()[2]"/>
 	</xsl:call-template>
+	<xsl:if test="1 &lt; $p or (-1 &lt; $p and $numerator &lt; 0)"><xsl:text>)</xsl:text></xsl:if>
 </xsl:template>
 
 <xsl:template match="m:cn[@type='complex-cartesian']">
@@ -140,13 +152,13 @@
 </xsl:template>
 
 <xsl:template match="m:apply[*[1][self::m:minus] and count(*) = 2]">
-	<xsl:param name="p" select="0"/>
-	<xsl:if test="0 &lt; $p"><xsl:text>(</xsl:text></xsl:if>
+	<xsl:param name="p" select="-1"/>
+	<xsl:if test="-1 &lt; $p"><xsl:text>(</xsl:text></xsl:if>
 	<xsl:text>-</xsl:text>
 	<xsl:apply-templates select="*[2]">
 		<xsl:with-param name="p" select="1"/>
 	</xsl:apply-templates>
-	<xsl:if test="0 &lt; $p"><xsl:text>)</xsl:text></xsl:if>
+	<xsl:if test="-1 &lt; $p"><xsl:text>)</xsl:text></xsl:if>
 </xsl:template>
 
 <xsl:template match="m:apply[*[1][self::m:minus] and count(*) &gt; 2]">
