@@ -10,7 +10,7 @@ abstract class ArrayPowerProductWithDegree[N : Numeric : ClassTag : ClassTagArra
     for (i <- 0 to length) r(i) = numeric.fromInt(if (i == n || i == length) 1 else 0)
     r
   }
-  def degree(x: Array[N]) = numeric.toLong(x(length))
+  def degree(x: Array[N]) = x(length).toLong
   def gcd(x: Array[N], y: Array[N]): Array[N] = {
     val r = one
     for (i <- 0 until length) {

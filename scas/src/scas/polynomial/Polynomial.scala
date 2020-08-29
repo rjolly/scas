@@ -44,7 +44,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
     val p = if (size(x) == 1) level else Level.Addition
     for ((a, b) <- reverseIterator(x)) {
       val c = ring.abs(b)
-      val g = ring.signum(b) < 0
+      val g = b.signum < 0
       val (t, u) = if (a.isOne) (c.toCode(p), 1) else if (c.isOne) (a.toCode(p), pp.size(a)) else (c.toCode(Level.Multiplication) + "*" + a.toCode(Level.Multiplication), 1 + pp.size(a))
       s = if (n == 0) {
         if (g) "-" + t else t
@@ -66,7 +66,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
     var n = 0
     for ((a, b) <- reverseIterator(x)) {
       val c = ring.abs(b)
-      val g = ring.signum(b) < 0
+      val g = b.signum < 0
       val t =  if (a.isOne) c.toMathML else if (c.isOne) a.toMathML else s"<apply><times/>${c.toMathML}${a.toMathML}</apply>"
       s = if (n == 0) {
         if (g) s"<apply><minus/>$t</apply>" else t
@@ -90,7 +90,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
 
   def (x: T).iterator(m: M): Iterator[(M, C)] = iterator(x).dropWhile((s, _) => s > m)
 
-  def reverseIterator(x: T) = toSeq(x).reverseIterator
+  def reverseIterator(x: T) = x.toSeq.reverseIterator
 
   def (x: T).toSeq = iterator(x).toSeq
 
