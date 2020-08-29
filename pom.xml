@@ -4,7 +4,7 @@
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.github.rjolly</groupId>
-  <artifactId>scas_0.26</artifactId>
+  <artifactId>scas_0.27</artifactId>
   <packaging>jar</packaging>
   <version>3.0</version>
   <url>https://github.com/rjolly/scas</url>
