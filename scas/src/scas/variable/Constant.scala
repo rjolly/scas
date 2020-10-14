@@ -8,5 +8,5 @@ case class Constant(name: String, prime: Int, subscript: Int*) extends Variable 
   def bodyToMathML = if (subscript.isEmpty) namePrimeToMathML else s"<msub><mi>${namePrimeToMathML}</mi><mrow>${subscriptToMathML}</mrow></msub>"
   def namePrimeToMathML = if (prime == 0) name.toMathML else s"${name.toMathML}${primecharsToMathML}"
   def primecharsToMathML = for (i <- 0 until prime) yield "\u2032"
-  def subscriptToMathML = subscript.map(a => s"<mn>$a</mn>")
+  def subscriptToMathML = subscript.map(a => s"<mn>$a</mn>").mkString
 }
