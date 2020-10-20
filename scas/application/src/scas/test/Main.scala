@@ -14,7 +14,7 @@ val manager = new javax.script.ScriptEngineManager
       manager.getEngineByName("scala").eval(Source.fromFile(file).mkString)
       1
     } catch {
-      case e : Throwable => {
+      case e : Exception => {
         e.printStackTrace
         println(file.getName + " failure")
         0
@@ -25,4 +25,5 @@ val manager = new javax.script.ScriptEngineManager
   }
   val m = list.length - n
   println("success : " + n + ", failure : " + m)
+  if (m > 0) throw new RuntimeException("tests failed")
 }

@@ -20,6 +20,7 @@ object scas extends ScalaModule with PublishModule {
       ivy"org.apache.commons:commons-math3:3.6.1",
       ivy"net.sourceforge.jscl-meditor:rendering:1.0"
     )
+    def test(args: String*) = run(args: _*)
   }
   def publishVersion = "3.0"
 
