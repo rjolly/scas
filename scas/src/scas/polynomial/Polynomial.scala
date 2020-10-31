@@ -90,11 +90,11 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
 
   def iterator(x: T): Iterator[(M, C)]
 
-  extension (x: T) def iterator(m: M): Iterator[(M, C)] = iterator(x).dropWhile((s, _) => s > m)
+  extension (x: T) def iterator(m: M): Iterator[(M, C)] = this.iterator(x).dropWhile((s, _) => s > m)
 
   def reverseIterator(x: T) = x.toSeq.reverseIterator
 
-  extension (x: T) def toSeq = iterator(x).toSeq
+  extension (x: T) def toSeq = this.iterator(x).toSeq
 
   def variables = pp.variables
 
