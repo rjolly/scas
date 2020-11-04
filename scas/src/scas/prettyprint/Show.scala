@@ -6,12 +6,16 @@ trait Show[T] {
   def fenced(s: String) = Show.fenced(s)
   type Level = Show.Level
   val Level = Show.Level
-  def (x: T).toCode(level: Level): String
-  def (x: T).show = x.toCode(Level.Addition)
-  def (x: T).math = Show.math(x.toMathML)
-  def (x: T).toMathML: String
-  def (s: List[T]).show: String = Show.listed(s.map(_.show): _*)
-  def (s: List[T]).math = Show.math(s.map(_.toMathML): _*)
+  extension (x: T) {
+    def toCode(level: Level): String
+    def show = x.toCode(Level.Addition)
+    def math = Show.math(x.toMathML)
+    def toMathML: String
+  }
+  extension (s: List[T]) {
+    def show: String = Show.listed(s.map(_.show): _*)
+    def math = Show.math(s.map(_.toMathML): _*)
+  }
 }
 
 object Show {

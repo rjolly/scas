@@ -6,18 +6,22 @@ import scas.int2bigInt
 import Matrix.Element
 
 given Double as Field[Double] {
-  def (x: Double) + (y: Double) = x + y
-  def (x: Double) - (y: Double) = x - y
-  def (x: Double) * (y: Double) = x * y
-  override def (x: Double) / (y: Double) = x / y
+  extension (x: Double) {
+    def + (y: Double) = x + y
+    def - (y: Double) = x - y
+    def * (y: Double) = x * y
+    override def / (y: Double) = x / y
+  }
   def inverse(x: Double) = 1 / x
   def characteristic = 0
   def equiv(x: Double, y: Double) = x == y
-  def (x: Double).signum = Math.signum(x).toInt
+  extension (x: Double) def signum = Math.signum(x).toInt
   def zero = 0
   def one = 1
-  def (x: Double).toCode(level: Level) = x.toString
-  def (x: Double).toMathML = ???
+  extension (x: Double) {
+    def toCode(level: Level) = x.toString
+    def toMathML = ???
+  }
   def toMathML = ???
 }
 

@@ -9,19 +9,23 @@ import Matrix.Element
 
 class Matrix(size: Int) extends Algebra[Element, Double] with Field[Element] {
   def apply(ds: Double*) = Array2DRowRealMatrix(ds.grouped(size).map(_.toArray).toArray)
-  def (x: Element) + (y: Element) = x.add(y)
-  def (x: Element) - (y: Element) = x.subtract(y)
-  def (x: Element) * (y: Element) = x.multiply(y)
+  extension (x: Element) {
+    def + (y: Element) = x.add(y)
+    def - (y: Element) = x.subtract(y)
+    def * (y: Element) = x.multiply(y)
+  }
   def inverse(x: Element) = MatrixUtils.inverse(x)
   def characteristic = 0
   def equiv(x: Element, y: Element) = x == y
-  def (x: Element).signum = if(size > 0) x.getEntry(0, 0).signum else 0
-  def (x: Double) *%(y: Element) = y%* x
-  def (x: Element)%* (y: Double) = x.scalarMultiply(y)
+  extension (x: Element) def signum = if(size > 0) x.getEntry(0, 0).signum else 0
+  extension (x: Double) def *%(y: Element) = y%* x
+  extension (x: Element) def %* (y: Double) = x.scalarMultiply(y)
   def zero = MatrixUtils.createRealMatrix(size, size)
   def one = MatrixUtils.createRealIdentityMatrix(size)
-  def (x: Element).toCode(level: Level) = x.toString
-  def (x: Element).toMathML = ???
+  extension (x: Element) {
+    def toCode(level: Level) = x.toString
+    def toMathML = ???
+  }
   def toMathML = ???
 }
 

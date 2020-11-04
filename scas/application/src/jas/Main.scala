@@ -15,7 +15,7 @@ given BigInteger as Ring[BigInteger] with FromDigits[BigInteger] {
 }
 
 given poly2scas[C <: RingElem[C] : GenPolynomialRing] as Ring[GenPolynomial[C]] {
-  def (factory: GenPolynomialRing[C]) gens = factory.getGenerators().asScala.toArray
+  extension (factory: GenPolynomialRing[C]) def gens = factory.getGenerators().asScala.toArray
 }
 
 given id[T] as Conversion[T, T] = identity
@@ -25,6 +25,6 @@ given coef2poly[U, C <: RingElem[C] : GenPolynomialRing](using Conversion[U, C])
 
 given bigInt2scas[U](using Conversion[U, BigInteger]) as Conversion[U, scas.BigInteger] = _.`val`
 
-def (a: Long) \:(b: Long) = BigInteger(a) \ b
+extension (a: Long) def \:(b: Long) = BigInteger(a) \ b
 
 type ExpVector = edu.jas.poly.ExpVector

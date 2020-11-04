@@ -7,7 +7,7 @@ import scas.int2powerProduct
 abstract class ArrayPowerProduct[N : Numeric : ClassTagArray] extends PowerProduct[Array[N]] {
   def numeric = Numeric[N]
   def dependencyOnVariables(x: Array[N]) = (for (i <- 0 until length if (x.get(i) > numeric.zero)) yield i).toArray
-  def (x: Array[N]).toCode(level: Level) = {
+  extension (x: Array[N]) def toCode(level: Level) = {
     var s = "1"
     var m = 0
     for (i <- 0 until length) if (x.get(i) > numeric.zero) {
@@ -19,7 +19,7 @@ abstract class ArrayPowerProduct[N : Numeric : ClassTagArray] extends PowerProdu
     }
     s
   }
-  def (x: Array[N]).toMathML = {
+  extension (x: Array[N]) def toMathML = {
     var s = "<cn>1</cn>"
     var m = 0
     for (i <- 0 until length) if (x.get(i) > numeric.zero) {
@@ -36,5 +36,5 @@ abstract class ArrayPowerProduct[N : Numeric : ClassTagArray] extends PowerProdu
     for (i <- 0 until length) if (x.get(i) > numeric.zero) m += 1
     m
   }
-  def (x: Array[N]).get(i: Int): N
+  extension (x: Array[N]) def get(i: Int): N
 }

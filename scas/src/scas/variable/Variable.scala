@@ -15,7 +15,7 @@ object Variable {
   def function[T : Structure](name: String, parameter: T*): Variable = new Function(name, parameter: _*)
   def sqrt[T : Structure](x: T): Variable = new Sqrt(x)
 
-  def (name: String).toMathML = greek.getOrElse(name, name)
+  extension (name: String) def toMathML = greek.getOrElse(name, name)
   val greek = Map(
     "Alpha"   -> "\u0391",
     "Beta"    -> "\u0392",

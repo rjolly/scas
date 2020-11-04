@@ -19,4 +19,4 @@ given coef2poly[U, C : MultivariatePolynomialRing](using Conversion[U, C]) as Co
 
 given bigInt2scas[U](using Conversion[U, BigInteger]) as Conversion[U, scas.BigInteger] = (x: U) => java.math.BigInteger(x.toByteArray)
 
-def (a: Long) \:(b: Long) = BigInteger(a) \ b
+extension (a: Long) def \:(b: Long) = BigInteger(a) \ b

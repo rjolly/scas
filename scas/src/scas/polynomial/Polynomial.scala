@@ -11,11 +11,11 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
   val zero = this()
   def generator(n: Int) = fromPowerProduct(pp.generator(n))
   def generators = pp.generators.map(fromPowerProduct)
-  def (x: T).signum = if (x.isZero) 0 else lastCoefficient(x).signum
+  extension (x: T) def signum = if (x.isZero) 0 else lastCoefficient(x).signum
   def characteristic = ring.characteristic
   override def apply(x: T) = sort(x.map((s, a) => (pp(s), ring(a))))
   val one = fromRing(ring.one)
-  def (x: T) - (y: T) = x.subtract(pp.one, ring.one, y)
+  extension (x: T) def - (y: T) = x.subtract(pp.one, ring.one, y)
   def equiv(x: T, y: T) = {
     val xs = iterator(x)
     val ys = iterator(y)
@@ -29,15 +29,17 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
     val (t, b) = y
     s >< t && a >< b
   }
-  def (x: T).isUnit = if (degree(x) > 0 || x.isZero) false else headCoefficient(x).isUnit
-  def (x: T) * (y: T) = {
-    var r = zero
-    for ((a, b) <- iterator(x)) r = r.subtract(a, -b, y)
-    r
+  extension (x: T) def isUnit = if (degree(x) > 0 || x.isZero) false else headCoefficient(x).isUnit
+  extension (x: T) {
+    def * (y: T) = {
+      var r = zero
+      for ((a, b) <- iterator(x)) r = r.subtract(a, -b, y)
+      r
+    }
+    def %* (m: M) = x.map((s, a) => (s * m, a))
   }
-  def (x: T)%* (m: M) = x.map((s, a) => (s * m, a))
 
-  def (x: T).toCode(level: Level) = {
+  extension (x: T) def toCode(level: Level) = {
     var s = ring.zero.toCode(Level.Addition)
     var n = 0
     var m = 0
@@ -61,7 +63,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
     }
   }
   override def toString = s"$ring(${pp.variables.mkString(", ")})"
-  def (x: T).toMathML = {
+  extension (x: T) def toMathML = {
     var s = ring.zero.toMathML
     var n = 0
     for ((a, b) <- reverseIterator(x)) {
@@ -79,7 +81,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
   }
   def toMathML = s"<apply>${ring.toMathML}${pp.toMathML}</apply>"
 
-  def (ring: Ring[C]).apply(s: T*) = this
+  extension (ring: Ring[C]) def apply(s: T*) = this
 
   def fromRing(value: C) = if(value.isZero) zero else this(pp.one, value)
   def fromPowerProduct(value: M) = this(value, ring.one)
@@ -88,11 +90,11 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
 
   def iterator(x: T): Iterator[(M, C)]
 
-  def (x: T).iterator(m: M): Iterator[(M, C)] = iterator(x).dropWhile((s, _) => s > m)
+  extension (x: T) def iterator(m: M): Iterator[(M, C)] = iterator(x).dropWhile((s, _) => s > m)
 
   def reverseIterator(x: T) = x.toSeq.reverseIterator
 
-  def (x: T).toSeq = iterator(x).toSeq
+  extension (x: T) def toSeq = iterator(x).toSeq
 
   def variables = pp.variables
 
@@ -117,7 +119,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
     b
   }
 
-  def (x: T).coefficient(m: M) = {
+  extension (x: T) def coefficient(m: M) = {
     val xs = x.iterator(m)
     if (xs.hasNext) {
       val (s, a) = xs.next
@@ -131,7 +133,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
     d
   }
 
-  @tailrec final def (x: T).reduce(ys: Iterator[T]): T = {
+  extension (x: T) @tailrec final def reduce(ys: Iterator[T]): T = {
     val xs = iterator(x)
     if (xs.hasNext) {
       val (s, a) = xs.next
@@ -145,12 +147,12 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
     } else x
   }
 
-  def (y: T).reduce(s: M) = {
+  extension (y: T) def reduce(s: M) = {
     val (t, _) = head(y)
     t | s
   }
 
-  def (x: T).reduce(ys: Iterator[T], tail: Boolean): T = {
+  extension (x: T) def reduce(ys: Iterator[T], tail: Boolean): T = {
     val xs = iterator(x)
     if (xs.hasNext) {
       val (s, a) = xs.next
@@ -163,7 +165,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
     } else x
   }
 
-  @tailrec final def (x: T).reduce(m: M, ys: Iterator[T]): T = {
+  extension (x: T) @tailrec final def reduce(m: M, ys: Iterator[T]): T = {
     val xs = x.iterator(m)
     if (xs.hasNext) {
       val (s, a) = xs.next
@@ -182,17 +184,19 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
     } else x
   }
 
-  def (x: T).reduce(m: M, a: C, y: T, b: C) = x.multiply(b).subtract(m, a, y)
+  extension (x: T) {
+    def reduce(m: M, a: C, y: T, b: C) = x.multiply(b).subtract(m, a, y)
 
-  def (x: T).subtract(m: M, c: C, y: T) = x + y.multiply(m, -c)
+    def subtract(m: M, c: C, y: T) = x + y.multiply(m, -c)
 
-  def (x: T).multiply(m: M, c: C) = x.map((s, a) => (s * m, a * c))
+    def multiply(m: M, c: C) = x.map((s, a) => (s * m, a * c))
 
-  def (x: T).multiply(c: C) = x.map(a => a * c)
+    def multiply(c: C) = x.map(a => a * c)
 
-  def (x: T).map(f: C => C): T = x.map((s, a) => (s, f(a)))
+    def map(f: C => C): T = x.map((s, a) => (s, f(a)))
 
-  def (x: T).map(f: (M, C) => (M, C)): T
+    def map(f: (M, C) => (M, C)): T
+  }
 
   def sort(x: T) = this(x.toSeq.sortBy((s: M, _: C) => s)(pp.reverse): _*)
 }

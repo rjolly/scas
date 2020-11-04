@@ -27,7 +27,7 @@ abstract class ArrayPowerProductWithDegree[N : Numeric : ClassTag : ClassTagArra
     }
     r
   }
-  def (x: Array[N]) * (y: Array[N]) = {
+  extension (x: Array[N]) def * (y: Array[N]) = {
     val r = one
     var i = 0
     while (i <= length) {
@@ -36,7 +36,7 @@ abstract class ArrayPowerProductWithDegree[N : Numeric : ClassTag : ClassTagArra
     }
     r
   }
-  def (x: Array[N]) / (y: Array[N]) = {
+  extension (x: Array[N]) def / (y: Array[N]) = {
     val r = one
     for (i <- 0 to length) {
       assert (x(i) >= y(i))
@@ -44,7 +44,7 @@ abstract class ArrayPowerProductWithDegree[N : Numeric : ClassTag : ClassTagArra
     }
     r
   }
-  def (x: Array[N]) | (y: Array[N]) = {
+  extension (x: Array[N]) def | (y: Array[N]) = {
     var i = 0
     while (i < length) {
       if (x(i) > y(i)) return false
@@ -52,12 +52,12 @@ abstract class ArrayPowerProductWithDegree[N : Numeric : ClassTag : ClassTagArra
     }
     true
   }
-  def (x: Array[N]).projection(n: Int) = {
+  extension (x: Array[N]) def projection(n: Int) = {
     val r = one
     for (i <- 0 to length) r(i) = if (i == n || i == length) x(n) else numeric.zero
     r
   }
-  def (x: Array[N]).convert(from: Variable*) = {
+  extension (x: Array[N]) def convert(from: Variable*) = {
     val r = one
     val index = from.map(a => variables.indexOf(a))
     for (i <- 0 until x.length - 1) if (x(i) > numeric.zero) {
@@ -68,5 +68,5 @@ abstract class ArrayPowerProductWithDegree[N : Numeric : ClassTag : ClassTagArra
     r(length) = x(x.length - 1)
     r
   }
-  def (x: Array[N]).get(i: Int) = x(i)
+  extension (x: Array[N]) def get(i: Int) = x(i)
 }

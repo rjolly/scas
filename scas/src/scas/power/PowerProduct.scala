@@ -19,15 +19,17 @@ abstract class PowerProduct[M: ClassTag] extends Monoid[M] {
   def gcd(x: M, y: M): M
   def lcm(x: M, y: M): M
   def coprime(x: M, y: M) = gcd(x, y).isOne
-  def (x: M) / (y: M): M
-  def (x: M) | (y: M): Boolean
-  def (x: M).isUnit = x.isOne
+  extension (x: M) {
+    def / (y: M): M
+    def | (y: M): Boolean
+    def isUnit = x.isOne
+  }
   def dependencyOnVariables(x: M): Array[Int]
-  def (x: M).projection(n: Int): M
+  extension (x: M) def projection(n: Int): M
   override def toString = Show.listed(variables.map(_.toString): _*)
   def toMathML = Show.list(variables.map(_.toMathML): _*)
   override def apply(x: M) = x.convert(variables: _*)
-  def (x: M).convert(from: Variable*): M
+  extension (x: M) def convert(from: Variable*): M
   def size(x: M): Int
 }
 

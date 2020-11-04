@@ -1,11 +1,13 @@
 package scas.structure
 
 trait AbelianGroup[T] extends Structure[T] {
-  def (x: T) + (y: T): T
-  def (x: T) - (y: T): T
-  def (x: T).unary_- = zero - x
+  extension (x: T) {
+    def + (y: T): T
+    def - (y: T): T
+    def unary_- = zero - x
+  }
   def abs(x: T) = if (x.signum < 0) -x else x
-  def (x: T).signum: Int
+  extension (x: T) def signum: Int
   def zero: T
-  def (x: T).isZero = x >< zero
+  extension (x: T) def isZero = x >< zero
 }

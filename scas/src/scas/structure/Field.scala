@@ -1,8 +1,10 @@
 package scas.structure
 
 trait Field[T] extends NotQuiteField[T] with NotQuiteGroup[T] {
-  def (x: T).isUnit = !x.isZero
-  def (x: T) / (y: T) = x * inverse(y)
+  extension (x: T) {
+    def isUnit = !x.isZero
+    def / (y: T) = x * inverse(y)
+  }
 }
 
 object Field {
