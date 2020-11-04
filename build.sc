@@ -2,17 +2,17 @@
 import mill._, scalalib._, publish._
 
 object scas extends ScalaModule with PublishModule {
-  def scalaVersion = "0.27.0-RC1"
+  def scalaVersion = "3.0.0-M1"
   def scalacOptions = Seq("-language:implicitConversions")
   def ivyDeps = Agg(
     ivy"org.scala-lang:scala-library:2.13.3"
   )
   object application extends ScalaModule {
-    def scalaVersion = "0.27.0-RC1"
+    def scalaVersion = "3.0.0-M1"
     def scalacOptions = Seq("-language:implicitConversions")
     def moduleDeps = Seq(scas)
     def ivyDeps = Agg(
-      ivy"ch.epfl.lamp::dotty-compiler:${scalaVersion()}",
+      ivy"org.scala-lang::scala3-compiler:${scalaVersion()}",
       ivy"de.uni-mannheim.rz.krum:jas:2.6.6017",
       ivy"org.apache.logging.log4j:log4j-core:2.13.3",
       ivy"org.apache.logging.log4j:log4j-api:2.13.3",
