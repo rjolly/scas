@@ -1,16 +1,12 @@
 package scas.math
 
-trait Ordering[T] extends PartialOrdering[T] {
-  def compare(x: T, y: T): Int
+trait Ordering[T] extends scala.math.Ordering[T] with PartialOrdering[T] {
   extension (x: T) {
     override def <=(y: T) = compare(x, y) <= 0
     override def >=(y: T) = compare(x, y) >= 0
     override def < (y: T) = compare(x, y) < 0
     override def > (y: T) = compare(x, y) > 0
   }
-  override def equiv(x: T, y: T) = compare(x, y) == 0
-  def max(x: T, y: T) = if (x >= y) x else y
-  def min(x: T, y: T) = if (x <= y) x else y
 }
 
 object Ordering {
@@ -46,8 +42,4 @@ object Ordering {
     }
   }
   given Long as LongOrdering
-
-  given ord2comp[T] as Conversion[Ordering[T], scala.math.Ordering[T]] = ord => new scala.math.Ordering[T] {
-    def compare(x: T, y: T) = ord.compare(x, y)
-  }
 }
