@@ -4,8 +4,8 @@ import scas.power.Lexicographic
 import scas.polynomial.TreePolynomial
 import TreePolynomial.coef2poly
 
-given r as TreePolynomial[BigInteger, Array[Int]](using BigInteger, Lexicographic("x", "y", "z"))
-// given r as TreePolynomial[BigInteger, Array[Long]](using BigInteger, Lexicographic("x", "y", "z"))
+given r as TreePolynomial[BigInteger, IArray[Int]](using BigInteger, Lexicographic("x", "y", "z"))
+// given r as TreePolynomial[BigInteger, IArray[Long]](using BigInteger, Lexicographic("x", "y", "z"))
 val List(x, y, z) = r.generators.toList
 import r.{+, *}
 

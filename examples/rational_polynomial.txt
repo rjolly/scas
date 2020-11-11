@@ -4,7 +4,7 @@ import scas.power.Lexicographic
 import scas.polynomial.TreePolynomial
 import TreePolynomial.coef2poly
 
-given r as TreePolynomial[Rational, Array[Int]](using Rational, Lexicographic("x"))
+given r as TreePolynomial[Rational, IArray[Int]](using Rational, Lexicographic("x"))
 val Array(x) = r.generators
 import r.+
 

@@ -4,10 +4,10 @@ import scas.math.Numeric
 import scas.variable.Variable
 import scas.int2powerProduct
 
-abstract class ArrayPowerProduct[N : Numeric : ClassTagArray] extends PowerProduct[Array[N]] {
+abstract class ArrayPowerProduct[N : Numeric : ClassTagArray] extends PowerProduct[IArray[N]] {
   def numeric = Numeric[N]
-  def dependencyOnVariables(x: Array[N]) = (for (i <- 0 until length if (x.get(i) > numeric.zero)) yield i).toArray
-  extension (x: Array[N]) def toCode(level: Level) = {
+  def dependencyOnVariables(x: IArray[N]) = (for (i <- 0 until length if (x.get(i) > numeric.zero)) yield i).toArray
+  extension (x: IArray[N]) def toCode(level: Level) = {
     var s = "1"
     var m = 0
     for (i <- 0 until length) if (x.get(i) > numeric.zero) {
@@ -19,7 +19,7 @@ abstract class ArrayPowerProduct[N : Numeric : ClassTagArray] extends PowerProdu
     }
     s
   }
-  extension (x: Array[N]) def toMathML = {
+  extension (x: IArray[N]) def toMathML = {
     var s = "<cn>1</cn>"
     var m = 0
     for (i <- 0 until length) if (x.get(i) > numeric.zero) {
@@ -31,10 +31,10 @@ abstract class ArrayPowerProduct[N : Numeric : ClassTagArray] extends PowerProdu
     }
     s
   }
-  def size(x: Array[N]) = {
+  def size(x: IArray[N]) = {
     var m = 0
     for (i <- 0 until length) if (x.get(i) > numeric.zero) m += 1
     m
   }
-  extension (x: Array[N]) def get(i: Int): N
+  extension (x: IArray[N]) def get(i: Int): N
 }
