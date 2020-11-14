@@ -4,7 +4,6 @@ import jas.PowerProduct
 
 given m as PowerProduct("x")
 val Array(x) = m.generators
-import m.{<, |, *}
 
 assert(x > 1)
 assert(1 < x)

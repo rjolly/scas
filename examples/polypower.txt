@@ -3,12 +3,10 @@
 import scala.language.implicitConversions
 import edu.jas.poly.TermOrderByName
 import edu.jas.poly.GenPolynomialRing
-import jas.{ZZ, BigInteger, poly2scas, coef2poly, int2bigInt, long2bigInt, bigInt2scas}
+import jas.{poly2scas, coef2poly, int2bigInt, long2bigInt, bigInt2scas}
 
-given r as GenPolynomialRing[BigInteger](ZZ, Array("x", "y", "z"), TermOrderByName.INVLEX)
+given r as GenPolynomialRing[jas.BigInteger](jas.ZZ, Array("x", "y", "z"), TermOrderByName.INVLEX)
 val Array(one, x, y, z) = r.gens
-val s = poly2scas(r)
-import s.{+, *}
 
 val p = 1 + x + y + z
 // val p = 1 + x \ 2147483647 + y \ 2147483647 + z \ 2147483647

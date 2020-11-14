@@ -1,12 +1,11 @@
 import scala.language.implicitConversions
-import scas.{Rational, BigInteger, id, int2bigInt, bigInt2rational, %%}
+import scas.{id, int2bigInt, bigInt2rational, %%}
 import scas.power.Lexicographic
 import scas.polynomial.TreePolynomial
 import TreePolynomial.coef2poly
 
-given r as TreePolynomial[Rational, Array[Int]](using Rational, Lexicographic("x"))
+given r as TreePolynomial[scas.Rational, Array[Int]](using scas.Rational, Lexicographic("x"))
 val Array(x) = r.generators
-import r.+
 
 assert (x + 1 %%2 >< 1 %%2 + x)
 assert (x + 1 >< 1 + x)

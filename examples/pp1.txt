@@ -4,7 +4,6 @@ import scas.power.Lexicographic
 
 given m as Lexicographic[Int]("x")
 val List(x) = m.generators.toList
-import m.{<, |, *}
 
 assert(x > 1)
 assert(1 < x)

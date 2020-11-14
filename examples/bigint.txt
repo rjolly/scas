@@ -1,6 +1,6 @@
 import scala.language.implicitConversions
 import scas.{BigInteger, \:, int2bigInt}
-import BigInteger.{+, abs, unary_-}
+import BigInteger.{abs, unary_-}
 
 assert(BigInteger(1) + 1 >< 1 + BigInteger(1))
 assert(BigInteger(1) - BigInteger(1) >< 0)

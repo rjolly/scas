@@ -5,7 +5,6 @@ import math3.{Matrix, int2matrix}
 import scas.int2bigInt
 
 given m as Matrix(3)
-import m.+
 
 val a = m(
   0, 1, 0,

@@ -2,7 +2,6 @@
 
 import scala.language.implicitConversions
 import jas.{ZZ, BigInteger, int2bigInt}
-import BigInteger.+
 
 assert(BigInteger(1) + 1 >< 1 + BigInteger(1))
 // assert(BigInteger(1) + 18446744073709551616 >< 18446744073709551616 + BigInteger(1))
