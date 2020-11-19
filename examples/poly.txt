@@ -1,5 +1,5 @@
 import scala.language.implicitConversions
-import scas.{BigInteger, int2bigInt, id}
+import scas.{BigInteger, int2bigInt}
 import scas.rendering.MathObject
 import scas.power.Lexicographic
 import scas.polynomial.TreePolynomial

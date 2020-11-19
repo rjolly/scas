@@ -18,10 +18,10 @@ given poly2scas[C <: RingElem[C] : GenPolynomialRing] as Ring[GenPolynomial[C]] 
   extension (factory: GenPolynomialRing[C]) def gens = factory.getGenerators().asScala.toArray
 }
 
-given id[T] as Conversion[T, T] = identity
 given int2bigInt as Conversion[Int, BigInteger] = new BigInteger(_)
 given long2bigInt as Conversion[Long, BigInteger] = new BigInteger(_)
-given coef2poly[U, C <: RingElem[C] : GenPolynomialRing](using Conversion[U, C]) as Conversion[U, GenPolynomial[C]] = summon[GenPolynomialRing[C]].valueOf(_)
+given coef2poly[U, C <: RingElem[C] : GenPolynomialRing](using Conversion[U, C]) as Conversion[U, GenPolynomial[C]] = (x: U) => (x: C): GenPolynomial[C]
+given coef2poly[C <: RingElem[C] : GenPolynomialRing] as Conversion[C, GenPolynomial[C]] = summon[GenPolynomialRing[C]].valueOf(_)
 
 given bigInt2scas[U](using Conversion[U, BigInteger]) as Conversion[U, scas.BigInteger] = _.`val`
 

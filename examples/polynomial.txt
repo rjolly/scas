@@ -4,7 +4,7 @@ import scala.language.implicitConversions
 import edu.jas.poly.TermOrderByName
 import edu.jas.poly.GenPolynomialRing
 import edu.jas.poly.GenPolynomial
-import jas.{ZZ, BigInteger, poly2scas, id, coef2poly, int2bigInt}
+import jas.{ZZ, BigInteger, poly2scas, coef2poly, int2bigInt}
 
 given r as GenPolynomialRing[BigInteger](ZZ, Array("x", "y", "z"), TermOrderByName.INVLEX)
 val Array(one, x, y, z) = r.gens

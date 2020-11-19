@@ -16,7 +16,6 @@ extension (a: Long) def \:(b: Long) = BigInteger(a) \ b
 type Rational = (BigInteger, BigInteger)
 given Rational as RationalImpl
 
-given id[T] as Conversion[T, T] = identity
 given bigInt2rational[U](using Conversion[U, BigInteger]) as Conversion[U, Rational] = (_, 1)
 
 extension (a: Long) def %%(b: Long) = Rational(a, b)
