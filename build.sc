@@ -2,13 +2,13 @@
 import mill._, scalalib._, publish._
 
 object scas extends ScalaModule with PublishModule {
-  def scalaVersion = "3.0.0-M2-bin-20201119-97a6f30-NIGHTLY"
+  def scalaVersion = "3.0.0-M2"
   def scalacOptions = Seq("-language:implicitConversions")
   def ivyDeps = Agg(
-    ivy"org.scala-lang:scala-library:2.13.3"
+    ivy"org.scala-lang:scala-library:2.13.4"
   )
   object application extends ScalaModule {
-    def scalaVersion = "3.0.0-M2-bin-20201119-97a6f30-NIGHTLY"
+    def scalaVersion = "3.0.0-M2"
     def scalacOptions = Seq("-language:implicitConversions")
     def moduleDeps = Seq(scas)
     def ivyDeps = Agg(
