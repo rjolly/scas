@@ -4,7 +4,7 @@ import scas.polynomial.TreePolynomial
 import jas.{PowerProduct, ExpVector}
 import TreePolynomial.coef2poly
 
-given r as TreePolynomial[scas.BigInteger, ExpVector](using scas.BigInteger, PowerProduct("x", "y", "z"))
+given r: TreePolynomial[scas.BigInteger, ExpVector](using scas.BigInteger, PowerProduct("x", "y", "z")) with {}
 val Array(x, y, z) = r.generators
 
 val p = 1 + x + y + z

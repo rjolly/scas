@@ -5,7 +5,7 @@ import scas.structure.Field
 import scas.int2bigInt
 import Matrix.Element
 
-given Double as Field[Double] {
+given Double: Field[Double] with {
   extension (x: Double) {
     def + (y: Double) = x + y
     def - (y: Double) = x - y
@@ -25,5 +25,5 @@ given Double as Field[Double] {
   def toMathML = ???
 }
 
-given int2matrix(using Matrix) as Conversion[Int, Element] = summon[Matrix].one%* _
-given double2matrix(using Matrix) as Conversion[Double, Element] = summon[Matrix].one%* _
+given int2matrix(using Matrix): Conversion[Int, Element] = summon[Matrix].one%* _
+given double2matrix(using Matrix): Conversion[Double, Element] = summon[Matrix].one%* _

@@ -5,10 +5,10 @@ import cc.redberry.rings.poly.multivar.MonomialOrder
 import cc.redberry.rings.poly.multivar.MultivariatePolynomial
 import rings.{BigInteger, MultivariatePolynomialRing, coef2poly, int2bigInt}
 
-given r as MultivariatePolynomialRing[BigInteger](MonomialOrder.LEX, "x", "y", "z")(using BigInteger)
+given r: MultivariatePolynomialRing[BigInteger](MonomialOrder.LEX, "x", "y", "z")(using BigInteger) with {}
 val Array(x, y, z) = r.gens
 
-given s as MultivariatePolynomialRing[MultivariatePolynomial[BigInteger]](MonomialOrder.LEX, "a")(using r)
+given s: MultivariatePolynomialRing[MultivariatePolynomial[BigInteger]](MonomialOrder.LEX, "a")(using r) with {}
 val Array(a) = s.gens
 import s.+
 

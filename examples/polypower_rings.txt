@@ -4,7 +4,7 @@ import scala.language.implicitConversions
 import cc.redberry.rings.poly.multivar.MonomialOrder
 import rings.{MultivariatePolynomialRing, coef2poly, int2bigInt, long2bigInt, bigInt2scas}
 
-given r as MultivariatePolynomialRing[rings.BigInteger](MonomialOrder.LEX, "x", "y", "z")(using rings.BigInteger)
+given r: MultivariatePolynomialRing[rings.BigInteger](MonomialOrder.LEX, "x", "y", "z")(using rings.BigInteger) with {}
 val Array(x, y, z) = r.gens
 
 val p = 1 + x + y + z

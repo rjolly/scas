@@ -2,7 +2,7 @@ import scala.language.implicitConversions
 import scas.{int2bigInt, int2powerProduct}
 import scas.power.Lexicographic
 
-given m as Lexicographic[Int]("x")
+given m: Lexicographic[Int]("x") with {}
 val List(x) = m.generators.toList
 
 assert(x > 1)

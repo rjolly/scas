@@ -7,7 +7,7 @@ trait Variable {
 }
 
 object Variable {
-  given string2variable as Conversion[String, Variable] = apply(_)
+  given string2variable: Conversion[String, Variable] = apply(_)
 
   def apply(name: String, subscript: Int*): Variable = new Constant(name, 0, subscript: _*)
   def apply(name: String, prime: Int, subscript: Int*): Variable = new Constant(name, prime, subscript: _*)

@@ -4,7 +4,7 @@ import scala.language.implicitConversions
 import math3.{Matrix, int2matrix}
 import scas.int2bigInt
 
-given m as Matrix(3)
+given m: Matrix(3) with {}
 
 val a = m(
   0, 1, 0,

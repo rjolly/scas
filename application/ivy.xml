@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ivy-module version="2.0">
-    <info module="scas.application_3.0.0-M2" organisation="com.github.rjolly" revision="3.0">
+    <info module="scas.application_3.0.0-RC1" organisation="com.github.rjolly" revision="3.0">
         <description homepage="https://github.com/rjolly/scas"/>
     </info>
     <configurations>
@@ -12,7 +12,7 @@
         <conf name="runtime-test"/>
     </configurations>
     <dependencies>
-        <dependency org="com.github.rjolly" name="scas_3.0.0-M2" rev="3.0" conf="compile->master;runtime->default"/>
+        <dependency org="com.github.rjolly" name="scas_3.0.0-RC1" rev="3.0" conf="compile->master;runtime->default"/>
         <dependency org="de.uni-mannheim.rz.krum" name="jas" rev="2.6.6017" conf="runtime->default">
             <exclude org="org.apache.logging.log4j" module="log4j-core" name="*" type="*" ext="*" conf="" matcher="exact"/>
             <exclude org="org.apache.logging.log4j" module="log4j-api" name="*" type="*" ext="*" conf="" matcher="exact"/>
