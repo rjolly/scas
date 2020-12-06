@@ -5,12 +5,13 @@ import scas.power.Lexicographic
 import scas.polynomial.TreePolynomial
 import TreePolynomial.coef2poly
 
-given r: TreePolynomial[BigInteger, Array[Int]] = new TreePolynomial(using BigInteger, Lexicographic("x", "y", "z"))
+val r = new TreePolynomial(using BigInteger, Lexicographic[Int]("x", "y", "z"))
 val List(x, y, z) = r.generators.toList
+import r.given
 
-given s: TreePolynomial[TreePolynomial.Element[BigInteger, Array[Int]], Array[Int]] = new TreePolynomial(using r, Lexicographic("a"))
+val s = new TreePolynomial(using r, Lexicographic[Int]("a"))
 val List(a) = s.generators.toList
-import s.+
+import s.{+, given}
 
 assert(BigInteger(1) + 1 >< 1 + BigInteger(1))
 assert(x + 1 >< 1 + x)

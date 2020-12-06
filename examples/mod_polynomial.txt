@@ -1,11 +1,12 @@
 import scala.language.implicitConversions
-import scas.{BigInteger, ModInteger, int2bigInt}
+import scas.{ModInteger, int2bigInt}
 import scas.power.Lexicographic
 import scas.polynomial.TreePolynomial
 import TreePolynomial.coef2poly
 
-given r: TreePolynomial[BigInteger, Array[Int]] = new TreePolynomial(using ModInteger(2), Lexicographic("x"))
+val r = new TreePolynomial(using ModInteger(2), Lexicographic[Int]("x"))
 val List(x) = r.generators.toList
+import r.given
 
 assert(1 + x + 1 >< x)
 assert(r.toString == "ModInteger(2)(x)")

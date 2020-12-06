@@ -28,5 +28,3 @@ given coef2poly[C <: RingElem[C] : GenPolynomialRing]: Conversion[C, GenPolynomi
 given bigInt2scas[U](using Conversion[U, BigInteger]): Conversion[U, scas.BigInteger] = _.`val`
 
 extension (a: Long) def \:(b: Long) = BigInteger(a) \ b
-
-type ExpVector = edu.jas.poly.ExpVector

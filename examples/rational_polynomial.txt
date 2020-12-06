@@ -4,8 +4,9 @@ import scas.power.Lexicographic
 import scas.polynomial.TreePolynomial
 import TreePolynomial.coef2poly
 
-given r: TreePolynomial[Rational, Array[Int]] = new TreePolynomial(using Rational, Lexicographic("x"))
+val r = new TreePolynomial(using Rational, Lexicographic[Int]("x"))
 val Array(x) = r.generators
+import r.given
 
 assert (x + 1 %%2 >< 1 %%2 + x)
 assert (x + 1 >< 1 + x)

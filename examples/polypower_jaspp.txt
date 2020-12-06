@@ -1,11 +1,12 @@
 import scala.language.implicitConversions
 import scas.{BigInteger, int2bigInt, long2bigInt}
 import scas.polynomial.TreePolynomial
-import jas.{PowerProduct, ExpVector}
+import jas.PowerProduct
 import TreePolynomial.coef2poly
 
-given r: TreePolynomial[BigInteger, ExpVector] = new TreePolynomial(using BigInteger, PowerProduct("x", "y", "z"))
+val r = new TreePolynomial(using BigInteger, PowerProduct("x", "y", "z"))
 val Array(x, y, z) = r.generators
+import r.given
 
 val p = 1 + x + y + z
 // val p = 1 + x \ 2147483647 + y \ 2147483647 + z \ 2147483647
