@@ -5,7 +5,8 @@ import scas.structure.Field
 import scas.int2bigInt
 import Matrix.Element
 
-given Double: Field[Double] with {
+object Double extends Field[Double] {
+  given this.type = this
   extension (x: Double) {
     def + (y: Double) = x + y
     def - (y: Double) = x - y

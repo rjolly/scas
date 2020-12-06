@@ -6,9 +6,11 @@ import org.apache.commons.math3.linear.RealMatrix
 import scas.structure.{Algebra, Field}
 import scas.int2bigInt
 import Matrix.Element
+import Double.given
 
 class Matrix(size: Int) extends Algebra[Element, Double] with Field[Element] {
-  def apply(ds: Double*) = Array2DRowRealMatrix(ds.grouped(size).map(_.toArray).toArray)
+  given Matrix = this
+  def apply(ds: Double*): Element = Array2DRowRealMatrix(ds.grouped(size).map(_.toArray).toArray)
   extension (x: Element) {
     def + (y: Element) = x.add(y)
     def - (y: Element) = x.subtract(y)
