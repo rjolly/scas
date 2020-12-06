@@ -8,11 +8,13 @@ import scala.collection.JavaConverters.asScalaBufferConverter
 
 type BigInteger = edu.jas.arith.BigInteger
 
-given ZZ: BigInteger = new BigInteger()
+val ZZ = new BigInteger()
 
-given BigInteger: Ring[BigInteger] with FromDigits[BigInteger] with {
+object BigInteger extends Ring[BigInteger](using ZZ) with FromDigits[BigInteger] {
+  given this.type = this
   def fromDigits(digits: String) = new BigInteger(digits)
 }
+import BigInteger.given
 
 given poly2scas[C <: RingElem[C] : GenPolynomialRing]: Ring[GenPolynomial[C]] with {
   extension (factory: GenPolynomialRing[C]) def gens = factory.getGenerators().asScala.toArray

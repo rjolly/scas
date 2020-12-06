@@ -6,6 +6,7 @@ import edu.jas.poly.TermOrderByName
 import edu.jas.poly.GenPolynomialRing
 import edu.jas.poly.GenPolynomial
 import jas.{ZZ, BigInteger, poly2scas, coef2poly, int2bigInt}
+import BigInteger.given
 
 given r: GenPolynomialRing[BigInteger] = new GenPolynomialRing(ZZ, Array("x", "y", "z"), TermOrderByName.INVLEX)
 val Array(one, x, y, z) = r.gens
