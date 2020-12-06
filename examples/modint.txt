@@ -1,7 +1,8 @@
 import scala.language.implicitConversions
 import scas.{ModInteger, int2bigInt}
 
-given r: ModInteger = new ModInteger(7)
+val r = new ModInteger(7)
+import r.given
 
 assert (r(4) + 4 >< 4 + r(4))
 assert (r(4) + 4 >< 1)

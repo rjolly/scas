@@ -6,7 +6,10 @@ import scas.polynomial.Polynomial
 import scas.prettyprint.Show
 
 type BigInteger = java.math.BigInteger
-given BigInteger: BigIntegerImpl with {}
+object BigInteger extends BigIntegerImpl {
+  given BigIntegerImpl = this
+}
+import BigInteger.given
 
 given int2bigInt: Conversion[Int, BigInteger] = java.math.BigInteger.valueOf(_)
 given long2bigInt: Conversion[Long, BigInteger] = java.math.BigInteger.valueOf(_)
@@ -14,7 +17,10 @@ given long2bigInt: Conversion[Long, BigInteger] = java.math.BigInteger.valueOf(_
 extension (a: Long) def \:(b: Long) = BigInteger(a) \ b
 
 type Rational = (BigInteger, BigInteger)
-given Rational: RationalImpl with {}
+object Rational extends RationalImpl {
+  given RationalImpl = this
+}
+import Rational.given
 
 given bigInt2rational[U](using Conversion[U, BigInteger]): Conversion[U, Rational] = (_, 1)
 

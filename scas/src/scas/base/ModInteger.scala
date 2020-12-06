@@ -3,8 +3,10 @@ package scas.base
 import scas.structure.commutative.Residue
 import scas.structure.commutative.ordered.Field
 import scas.BigInteger
+import BigInteger.given
 
 class ModInteger(val mod: BigInteger) extends Residue[BigInteger] with Field[BigInteger] {
+  given ModInteger = this
   assert (mod.isProbablePrime(100))
   override def apply(x: BigInteger) = x.mod(mod)
   def compare(x: BigInteger, y: BigInteger) = BigInteger.compare(x, y)

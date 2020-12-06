@@ -1,6 +1,7 @@
 package scas.structure.commutative
 
 import scas.BigInteger
+import BigInteger.given
 
 abstract class Quotient[T: UniqueFactorizationDomain] extends Field[(T, T)] {
   def ring = UniqueFactorizationDomain[T]

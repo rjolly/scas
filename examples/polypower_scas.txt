@@ -1,11 +1,11 @@
 import scala.language.implicitConversions
-import scas.{int2bigInt, long2bigInt}
+import scas.{BigInteger, int2bigInt, long2bigInt}
 import scas.power.Lexicographic
 import scas.polynomial.TreePolynomial
 import TreePolynomial.coef2poly
 
-given r: TreePolynomial[scas.BigInteger, Array[Int]] = new TreePolynomial(using scas.BigInteger, Lexicographic("x", "y", "z"))
-// given r: TreePolynomial[scas.BigInteger, Array[Long]] = new TreePolynomial(using scas.BigInteger, Lexicographic("x", "y", "z"))
+given r: TreePolynomial[BigInteger, Array[Int]] = new TreePolynomial(using BigInteger, Lexicographic("x", "y", "z"))
+// given r: TreePolynomial[BigInteger, Array[Long]] = new TreePolynomial(using BigInteger, Lexicographic("x", "y", "z"))
 val List(x, y, z) = r.generators.toList
 
 val p = 1+x+y+z
