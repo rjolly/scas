@@ -2,8 +2,9 @@ import scala.language.implicitConversions
 import scas.{int2bigInt, int2powerProduct}
 import jas.PowerProduct
 
-given m: PowerProduct = new PowerProduct("x")
+val m = new PowerProduct("x")
 val Array(x) = m.generators
+import m.given
 
 assert(x > 1)
 assert(1 < x)

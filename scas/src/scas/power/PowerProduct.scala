@@ -6,6 +6,7 @@ import scas.variable.Variable
 import scas.prettyprint.Show
 
 abstract class PowerProduct[M: ClassTag] extends Monoid[M] {
+  given PowerProduct[M] = this
   def variables: Seq[Variable]
   val length = variables.length
   def generator(variable: String): M = generator(variables.indexOf(variable))
