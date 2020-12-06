@@ -7,10 +7,12 @@ import cc.redberry.rings.poly.multivar.MultivariatePolynomial
 
 type BigInteger = cc.redberry.rings.bigint.BigInteger
 
-given BigInteger: Ring[BigInteger] with FromDigits[BigInteger] with {
+object BigInteger extends Ring[BigInteger] with FromDigits[BigInteger] {
+  given this.type = this
   def fromDigits(digits: String) = new BigInteger(digits)
   val ring: Integers = Rings.Z
 }
+import BigInteger.given
 
 given int2bigInt: Conversion[Int, BigInteger] = cc.redberry.rings.bigint.BigInteger.valueOf(_)
 given long2bigInt: Conversion[Long, BigInteger] = cc.redberry.rings.bigint.BigInteger.valueOf(_)
