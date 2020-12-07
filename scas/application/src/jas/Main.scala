@@ -8,9 +8,9 @@ import scala.collection.JavaConverters.asScalaBufferConverter
 
 type BigInteger = edu.jas.arith.BigInteger
 
-val ZZ = new BigInteger()
+given BigInteger = new BigInteger()
 
-object BigInteger extends Ring[BigInteger](using ZZ) with FromDigits[BigInteger] {
+object BigInteger extends Ring[BigInteger] with FromDigits[BigInteger] {
   given this.type = this
   def fromDigits(digits: String) = new BigInteger(digits)
 }

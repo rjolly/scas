@@ -4,10 +4,10 @@ import scala.language.experimental.genericNumberLiterals
 import scala.language.implicitConversions
 import edu.jas.poly.TermOrderByName
 import edu.jas.poly.GenPolynomialRing
-import jas.{ZZ, BigInteger, poly2scas, coef2poly, int2bigInt}
+import jas.{BigInteger, poly2scas, coef2poly, int2bigInt}
 import BigInteger.given
 
-val r = new poly2scas(using GenPolynomialRing(ZZ, Array("x", "y", "z"), TermOrderByName.INVLEX))
+val r = new poly2scas(using GenPolynomialRing(BigInteger.factory, Array("x", "y", "z"), TermOrderByName.INVLEX))
 val Array(one, x, y, z) = r.gens
 import r.implicits.given
 
