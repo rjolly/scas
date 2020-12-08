@@ -8,7 +8,7 @@ import scas.power.PowerProduct
 object TreePolynomial {
   opaque type Element[C, M] = SortedMap[M, C]
 
-  class Factory[C : Ring, M : PowerProduct] extends Polynomial[Element[C, M], C, M] {
+  class Factory[C : Ring, M : PowerProduct] extends Polynomial.Factory[Element[C, M], C, M] {
     given Factory[C, M] = this
     override def apply(x: SortedMap[M, C]) = x
     def apply(s: (M, C)*) = {
