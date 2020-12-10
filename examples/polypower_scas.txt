@@ -2,23 +2,23 @@ import scala.language.implicitConversions
 import scas.{BigInteger, int2bigInt, long2bigInt}
 import scas.power.Lexicographic
 import scas.polynomial.TreePolynomial
-import TreePolynomial.coef2poly
+import TreePolynomial.Factory.coef2poly
 
-val r = new TreePolynomial(using BigInteger, Lexicographic[Int]("x", "y", "z"))
-// val r = new TreePolynomial(using BigInteger, Lexicographic[Long]("x", "y", "z"))
+val r = new TreePolynomial.Factory(using BigInteger, Lexicographic[Int]("x", "y", "z"))
+// val r = new TreePolynomial.Factory(using BigInteger, Lexicographic[Long]("x", "y", "z"))
 val List(x, y, z) = r.generators.toList
-import r.given
+import r.{size, given}
 
 val p = 1+x+y+z
 // val p = 1+x\2147483647+y\2147483647+z\2147483647
 // val p = 10000000001l+10000000001l*x+10000000001l*y+10000000001l*z
 println("p: " + p.show)
 val q = p \ 20
-println("q: " + q.size)
+println("q: " + size(q))
 val q1 = q + 1
-println("q1: " + q1.size)
+println("q1: " + size(q1))
 var t = System.currentTimeMillis();
 val q2 = q * q1
 t = System.currentTimeMillis() - t;
-println("q2: " + q2.size)
+println("q2: " + size(q2))
 println("t: " + t)

@@ -3,13 +3,13 @@ import scas.{BigInteger, int2bigInt}
 import scas.rendering.MathObject
 import scas.power.Lexicographic
 import scas.polynomial.TreePolynomial
-import TreePolynomial.coef2poly
+import TreePolynomial.Factory.coef2poly
 
-val r = new TreePolynomial(using BigInteger, Lexicographic[Int]("x", "y", "z"))
+val r = new TreePolynomial.Factory(using BigInteger, Lexicographic[Int]("x", "y", "z"))
 val List(x, y, z) = r.generators.toList
 import r.given
 
-val s = new TreePolynomial(using r, Lexicographic[Int]("a"))
+val s = new TreePolynomial.Factory(using r, Lexicographic[Int]("a"))
 val List(a) = s.generators.toList
 import s.{+, given}
 

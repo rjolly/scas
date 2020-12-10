@@ -2,9 +2,9 @@ import scala.language.implicitConversions
 import scas.{Rational, int2bigInt, bigInt2rational, %%}
 import scas.power.Lexicographic
 import scas.polynomial.TreePolynomial
-import TreePolynomial.coef2poly
+import TreePolynomial.Factory.coef2poly
 
-val r = new TreePolynomial(using Rational, Lexicographic[Int]("x"))
+val r = new TreePolynomial.Factory(using Rational, Lexicographic[Int]("x"))
 val Array(x) = r.generators
 import r.given
 
