@@ -2,7 +2,7 @@ import scala.language.implicitConversions
 import scas.{int2bigInt, int2powerProduct}
 import scas.power.Lexicographic
 
-val m = Lexicographic[Int]("x")
+val m = Lexicographic.from[Int]("x")
 val List(x) = m.generators.toList
 import m.given
 

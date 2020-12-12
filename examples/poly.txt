@@ -5,11 +5,11 @@ import scas.power.Lexicographic
 import scas.polynomial.TreePolynomial
 import TreePolynomial.coef2poly
 
-val r = new TreePolynomial(using BigInteger, Lexicographic[Int]("x", "y", "z"))
+val r = new TreePolynomial(using BigInteger, Lexicographic.from[Int]("x", "y", "z"))
 val List(x, y, z) = r.generators.toList
 import r.given
 
-val s = new TreePolynomial(using r, Lexicographic[Int]("a"))
+val s = new TreePolynomial(using r, Lexicographic.from[Int]("a"))
 val List(a) = s.generators.toList
 import s.{+, given}
 
