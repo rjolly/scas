@@ -2,6 +2,7 @@ package scas.power
 
 import scas.math.Numeric
 import scas.variable.Variable
+import ArrayPowerProduct.Element
 
 object ArrayPowerProductWithDegree {
   abstract class Factory[N : Numeric : ClassTag : ClassTagArray] extends ArrayPowerProduct.Factory[N] {
@@ -12,8 +13,8 @@ object ArrayPowerProductWithDegree {
       for (i <- 0 to length) r(i) = numeric.fromInt(if (i == n || i == length) 1 else 0)
       r
     }
-    def degree(x: Array[N]) = x(length).toLong
-    def gcd(x: Array[N], y: Array[N]): Array[N] = {
+    def degree(x: Element[N]) = x(length).toLong
+    def gcd(x: Element[N], y: Element[N]): Element[N] = {
       val r = newArray
       for (i <- 0 until length) {
         r(i) = numeric.min(x(i), y(i))
@@ -21,7 +22,7 @@ object ArrayPowerProductWithDegree {
       }
       r
     }
-    def lcm(x: Array[N], y: Array[N]): Array[N] = {
+    def lcm(x: Element[N], y: Element[N]): Element[N] = {
       val r = newArray
       for (i <- 0 until length) {
         r(i) = numeric.max(x(i), y(i))
@@ -29,7 +30,7 @@ object ArrayPowerProductWithDegree {
       }
       r
     }
-    extension (x: Array[N]) def * (y: Array[N]) = {
+    extension (x: Element[N]) def * (y: Element[N]) = {
       val r = newArray
       var i = 0
       while (i <= length) {
@@ -38,7 +39,7 @@ object ArrayPowerProductWithDegree {
       }
       r
     }
-    extension (x: Array[N]) def / (y: Array[N]) = {
+    extension (x: Element[N]) def / (y: Element[N]) = {
       val r = newArray
       for (i <- 0 to length) {
         assert (x(i) >= y(i))
@@ -46,7 +47,7 @@ object ArrayPowerProductWithDegree {
       }
       r
     }
-    extension (x: Array[N]) def | (y: Array[N]) = {
+    extension (x: Element[N]) def | (y: Element[N]) = {
       var i = 0
       while (i < length) {
         if (x(i) > y(i)) return false
@@ -54,12 +55,12 @@ object ArrayPowerProductWithDegree {
       }
       true
     }
-    extension (x: Array[N]) def projection(n: Int) = {
+    extension (x: Element[N]) def projection(n: Int) = {
       val r = newArray
       for (i <- 0 to length) r(i) = if (i == n || i == length) x(n) else numeric.zero
       r
     }
-    extension (x: Array[N]) def convert(from: Variable*) = {
+    extension (x: Element[N]) def convert(from: Variable*) = {
       val r = newArray
       val index = from.map(a => variables.indexOf(a))
       for (i <- 0 until x.length - 1) if (x(i) > numeric.zero) {
@@ -70,6 +71,6 @@ object ArrayPowerProductWithDegree {
       r(length) = x(x.length - 1)
       r
     }
-    extension (x: Array[N]) def apply(i: Int) = x(i)
+    extension (x: Element[N]) def apply(i: Int) = x(i)
   }
 }
