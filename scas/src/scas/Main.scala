@@ -30,4 +30,4 @@ def println[T: Show](x: T) = System.out.println(x.show)
 
 type ModInteger = scas.base.ModInteger
 
-given int2powerProduct[M : PowerProduct]: Conversion[Int, M] = PowerProduct[M].apply(_)
+given int2powerProduct[M : PowerProduct.Factory]: Conversion[Int, M] = PowerProduct[M].apply(_)
