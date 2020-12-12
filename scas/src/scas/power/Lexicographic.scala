@@ -17,7 +17,7 @@ object Lexicographic {
     }
   }
 
-  inline def apply[N : Numeric : ClassTag : ClassTagArray](variables: Variable*) = new Factory[N](variables: _*) {
+  inline def from[N : Numeric : ClassTag : ClassTagArray](variables: Variable*) = new Factory[N](variables: _*) {
     override def compare(x: Element[N], y: Element[N]) = {
       var i = length
       while (i > 0) {
@@ -34,7 +34,7 @@ object Lexicographic {
         r(i) = x(i) + y(i)
         i += 1
       }
-      r
+      this(r)
     }
   }
 }

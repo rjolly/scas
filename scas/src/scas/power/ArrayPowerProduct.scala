@@ -5,10 +5,11 @@ import scas.variable.Variable
 import scas.int2powerProduct
 
 object ArrayPowerProduct {
-  type Element[N] = Array[N]
+  opaque type Element[N] = Array[N]
 
   abstract class Factory[N : Numeric : ClassTagArray] extends PowerProduct.Factory[Element[N]] {
     def numeric = Numeric[N]
+    override def apply(x: Array[N]) = x
     def dependencyOnVariables(x: Element[N]) = (for (i <- 0 until length if (x(i) > numeric.zero)) yield i).toArray
     extension (x: Element[N]) def toCode(level: Level) = {
       var s = "1"
@@ -39,6 +40,7 @@ object ArrayPowerProduct {
       for (i <- 0 until length) if (x(i) > numeric.zero) m += 1
       m
     }
-    extension (x: Element[N]) def apply(i: Int): N
+    extension (x: Element[N]) def apply(i: Int) = x(i)
+    extension (x: Element[N]) def len = x.length
   }
 }
