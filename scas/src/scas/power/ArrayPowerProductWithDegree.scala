@@ -68,5 +68,4 @@ abstract class ArrayPowerProductWithDegree[N : Numeric : ClassTag : ClassTagArra
     r(length) = x(x.length - 1)
     r
   }
-  extension (x: Array[N]) def get(i: Int) = x(i)
 }
