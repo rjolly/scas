@@ -8,10 +8,11 @@ import TreePolynomial.Element
 
 class TreePolynomial[C : Ring, M : PowerProduct] extends Polynomial[Element[C, M], C, M] {
   given TreePolynomial[C, M] = this
+  override def apply(x: Element[C, M]) = Collections.unmodifiableSortedMap(x)
   def apply(s: (M, C)*) = {
     val r = new TreeMap[M, C](pp.reverse)
     for ((m, c) <- s) r.put(m, c)
-    Collections.unmodifiableSortedMap(r)
+    this(r)
   }
 
   extension (x: Element[C, M]) def + (y: Element[C, M]) = {
@@ -20,7 +21,7 @@ class TreePolynomial[C : Ring, M : PowerProduct] extends Polynomial[Element[C, M
       val c = r.getOrElse(t, ring.zero) + b
       if (c.isZero) r.remove(t) else r.put(t, c)
     }
-    Collections.unmodifiableSortedMap(r)
+    this(r)
   }
 
   extension (x: Element[C, M]) override def - (y: Element[C, M]) = new TreeMap(x).subtract(pp.one, ring.one, y)
@@ -28,7 +29,7 @@ class TreePolynomial[C : Ring, M : PowerProduct] extends Polynomial[Element[C, M
   extension (x: Element[C, M]) override def * (y: Element[C, M]) = {
     val r = new TreeMap(zero)
     for ((a, b) <- iterator(x)) r.subtract(a, -b, y)
-    Collections.unmodifiableSortedMap(r)
+    this(r)
   }
 
   def iterator(x: Element[C, M]) = x.asScala.iterator
@@ -73,7 +74,7 @@ class TreePolynomial[C : Ring, M : PowerProduct] extends Polynomial[Element[C, M
       val (m, c) = f(s, a)
       if (!c.isZero) r.put(m, c)
     }
-    Collections.unmodifiableSortedMap(r)
+    this(r)
   }
 
   override def sort(x: Element[C, M]) = x
