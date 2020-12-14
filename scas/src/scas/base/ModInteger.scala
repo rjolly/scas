@@ -17,3 +17,5 @@ class ModInteger(val mod: BigInteger) extends Residue[BigInteger] with Field[Big
   override def toString = s"ModInteger($mod)"
   def toMathML = s"<msub>${ring.toMathML}${BigInteger.toMathML(mod)}</msub>"
 }
+
+object ModInteger

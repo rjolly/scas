@@ -29,5 +29,6 @@ extension (a: Long) def %%(b: Long) = Rational(a, b)
 def println[T: Show](x: T) = System.out.println(x.show)
 
 type ModInteger = scas.base.ModInteger
+val ModInteger = scas.base.ModInteger
 
 given int2powerProduct[M : PowerProduct]: Conversion[Int, M] = PowerProduct[M].apply(_)
