@@ -1,9 +1,9 @@
 package scas.structure
 
 trait AbelianGroup[T] extends Structure[T] {
-  extension[U] (x: U)(using Conversion[U, T]) {
-    def + (y: T): T = (x: T) + y
-    def - (y: T): T = (x: T) - y
+  extension[U] (x: U)(using c: U => T) {
+    def + (y: T): T = c(x) + y
+    def - (y: T): T = c(x) - y
   }
   extension (x: T) {
     def + (y: T): T

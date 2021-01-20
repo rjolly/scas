@@ -3,10 +3,10 @@ package scas.structure.commutative
 trait UniqueFactorizationDomain[T] extends scas.structure.NotQuiteField[T] {
   def gcd(x: T, y: T): T
   def lcm(x: T, y: T) = (x * y) / gcd(x, y)
-  extension[U] (x: U)(using Conversion[U, T]) {
-    def % (y: T): T = (x: T) % y
-    def /%(y: T): (T, T) = (x: T) /%y
-    def | (y: T): Boolean = (x: T) | y
+  extension[U] (x: U)(using c: U => T) {
+    def % (y: T): T = c(x) % y
+    def /%(y: T): (T, T) = c(x) /%y
+    def | (y: T): Boolean = c(x) | y
   }
   extension (x: T) {
     def / (y: T) = {

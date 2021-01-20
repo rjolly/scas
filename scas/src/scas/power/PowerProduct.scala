@@ -20,9 +20,9 @@ abstract class PowerProduct[M: ClassTag] extends Monoid[M] {
   def gcd(x: M, y: M): M
   def lcm(x: M, y: M): M
   def coprime(x: M, y: M) = gcd(x, y).isOne
-  extension[U] (x: U)(using Conversion[U, M]) {
-    def / (y: M): M = (x: M) / y
-    def | (y: M): Boolean = (x: M) | y
+  extension[U] (x: U)(using c: U => M) {
+    def / (y: M): M = c(x) / y
+    def | (y: M): Boolean = c(x) | y
   }
   extension (x: M) {
     def / (y: M): M
