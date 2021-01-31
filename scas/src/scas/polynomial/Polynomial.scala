@@ -9,12 +9,12 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
   def ring = Ring[C]
   def pp = PowerProduct[M]
   val zero = this()
-  def generator(n: Int) = fromPowerProduct(pp.generator(n))
-  def generators = pp.generators.map(fromPowerProduct)
+  def generator(n: Int) = this(pp.generator(n))
+  def generators = pp.generators.map(apply)
   extension (x: T) def signum = if (x.isZero) 0 else lastCoefficient(x).signum
   def characteristic = ring.characteristic
   override def apply(x: T) = sort(x.map((s, a) => (pp(s), ring(a))))
-  val one = fromRing(ring.one)
+  val one = this(ring.one)
   extension (x: T) def subtract(y: T) = x.subtract(pp.one, ring.one, y)
   def equiv(x: T, y: T) = {
     val xs = iterator(x)
@@ -83,8 +83,8 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
 
   extension (ring: Ring[C]) def apply(s: T*) = this
 
-  def fromRing(value: C) = if(value.isZero) zero else this(pp.one, value)
-  def fromPowerProduct(value: M) = this(value, ring.one)
+  @targetName("fromRing") def apply(value: C): T = if(value.isZero) zero else this(pp.one, value)
+  @targetName("fromPowerProduct") def apply(value: M): T = this(value, ring.one)
   def apply(m: M, c: C): T = this((m, c))
   def apply(s: (M, C)*): T
 
