@@ -9,7 +9,7 @@ class BigIntegerImpl extends EuclidianDomain[BigInteger] with FromDigits[BigInte
   extension (x: BigInteger) {
     def add(y: BigInteger) = x.add(y)
     def subtract(y: BigInteger) = x.subtract(y)
-    def * (y: BigInteger) = x.multiply(y)
+    def multiply(y: BigInteger) = x.multiply(y)
   }
   def compare(x: BigInteger, y: BigInteger) = x.compareTo(y)
   override def gcd(x: BigInteger, y: BigInteger) = x.gcd(y)

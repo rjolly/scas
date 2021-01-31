@@ -1,6 +1,6 @@
 package scas.polynomial
 
-import scala.annotation.tailrec
+import scala.annotation.{tailrec, targetName}
 import scala.reflect.ClassTag
 import scas.structure.Ring
 import scas.power.PowerProduct
@@ -31,7 +31,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
   }
   extension (x: T) def isUnit = if (degree(x) > 0 || x.isZero) false else headCoefficient(x).isUnit
   extension (x: T) {
-    def * (y: T) = {
+    def multiply(y: T) = {
       var r = zero
       for ((a, b) <- iterator(x)) r = r.subtract(a, -b, y)
       r
@@ -191,7 +191,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
 
     def multiply(m: M, c: C) = x.map((s, a) => (s * m, a * c))
 
-    def multiply(c: C) = x.map(a => a * c)
+    @targetName("coefMultiply") def multiply(c: C) = x.map(a => a * c)
 
     def map(f: C => C): T = x.map((s, a) => (s, f(a)))
 

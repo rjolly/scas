@@ -14,7 +14,7 @@ class Matrix(size: Int) extends Algebra[Element, Double] with Field[Element] {
   extension (x: Element) {
     def add(y: Element) = x.add(y)
     def subtract(y: Element) = x.subtract(y)
-    def * (y: Element) = x.multiply(y)
+    def multiply(y: Element) = x.multiply(y)
   }
   def inverse(x: Element) = MatrixUtils.inverse(x)
   def characteristic = 0

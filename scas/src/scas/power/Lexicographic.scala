@@ -26,7 +26,7 @@ object Lexicographic {
       }
       0
     }
-    extension (x: Array[N]) override def * (y: Array[N]) = {
+    extension (x: Array[N]) override def multiply(y: Array[N]) = {
       val r = one
       var i = 0
       while (i <= length) {

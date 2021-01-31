@@ -27,7 +27,7 @@ abstract class ArrayPowerProductWithDegree[N : Numeric : ClassTag : ClassTagArra
     }
     r
   }
-  extension (x: Array[N]) def * (y: Array[N]) = {
+  extension (x: Array[N]) def multiply(y: Array[N]) = {
     val r = one
     var i = 0
     while (i <= length) {

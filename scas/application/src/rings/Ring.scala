@@ -8,7 +8,7 @@ abstract class Ring[T] extends scas.structure.ordered.Ring[T] {
   extension (x: T) {
     def add(y: T) = ring.add(x, y)
     def subtract(y: T) = ring.subtract(x, y)
-    def * (y: T) = ring.multiply(x, y)
+    def multiply(y: T) = ring.multiply(x, y)
   }
   def compare(x: T, y: T) = ring.compare(x, y)
   extension (x: T) def isUnit = ring.isUnit(x)

@@ -26,7 +26,7 @@ class TreePolynomial[C : Ring, M : PowerProduct] extends Polynomial[Element[C, M
 
   extension (x: Element[C, M]) override def subtract(y: Element[C, M]) = new TreeMap(x).subtract(pp.one, ring.one, y)
 
-  extension (x: Element[C, M]) override def * (y: Element[C, M]) = {
+  extension (x: Element[C, M]) override def multiply(y: Element[C, M]) = {
     val r = new TreeMap(zero)
     for ((a, b) <- iterator(x)) r.subtract(a, -b, y)
     this(r)
@@ -66,7 +66,7 @@ class TreePolynomial[C : Ring, M : PowerProduct] extends Polynomial[Element[C, M
     if (a == null) c else a
   }
 
-  extension (x: Element[C, M]) override def reduce(m: M, a: C, y: Element[C, M], b: C) = new TreeMap(x.multiply(b)).subtract(m, a, y)
+  extension (x: Element[C, M]) override def reduce(m: M, a: C, y: Element[C, M], b: C) = new TreeMap(super.multiply(x)(b)).subtract(m, a, y)
 
   extension (x: Element[C, M]) def map(f: (M, C) => (M, C)) = {
     val r = new TreeMap(zero)

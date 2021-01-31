@@ -10,7 +10,7 @@ class PowerProduct(val variables: Variable*) extends scas.power.PowerProduct[Exp
   def gcd(x: ExpVector, y: ExpVector) = x.gcd(y)
   def lcm(x: ExpVector, y: ExpVector) = x.lcm(y)
   extension (x: ExpVector) {
-    def * (y: ExpVector) = x.sum(y)
+    def multiply(y: ExpVector) = x.sum(y)
     def / (y: ExpVector) = x.subtract(y)
     def | (y: ExpVector) = x.divides(y)
   }

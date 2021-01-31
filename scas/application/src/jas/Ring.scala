@@ -8,7 +8,7 @@ class Ring[T <: RingElem[T] : RingFactory] extends scas.structure.ordered.Ring[T
   extension (x: T) {
     def add(y: T) = x.sum(y)
     def subtract(y: T) = x.subtract(y)
-    def * (y: T) = x.multiply(y)
+    def multiply(y: T) = x.multiply(y)
   }
   def compare(x: T, y: T) = x.compareTo(y)
   extension (x: T) def isUnit = x.isUnit

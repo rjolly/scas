@@ -6,7 +6,7 @@ abstract class Residue[T: UniqueFactorizationDomain] extends UniqueFactorization
     def signum = ring.signum(x)
     def add(y: T) = this(ring.+(x)(y))
     def subtract(y: T) = this(ring.-(x)(y))
-    def * (y: T) = this(ring.*(x)(y))
+    def multiply(y: T) = this(ring.*(x)(y))
   }
   def equiv(x: T, y: T) = ring.equiv(x, y)
   extension (x: T) {

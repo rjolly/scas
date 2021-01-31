@@ -23,7 +23,7 @@ abstract class Quotient[T: UniqueFactorizationDomain] extends Field[(T, T)] {
     val (b0, d0) = this(b, d)
     this(a * d0 - c * b0, b0 * d)
   }
-  extension (x: (T, T)) def * (y: (T, T)) = {
+  extension (x: (T, T)) def multiply(y: (T, T)) = {
     val (a, b) = x
     val (c, d) = y
     val (a0, d0) = this(a, d)
