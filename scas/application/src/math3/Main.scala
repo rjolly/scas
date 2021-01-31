@@ -11,7 +11,7 @@ object Double extends Field[Double] {
     def add(y: Double) = x + y
     def subtract(y: Double) = x - y
     def multiply(y: Double) = x * y
-    override def / (y: Double) = x / y
+    override def divide(y: Double) = x / y
   }
   def inverse(x: Double) = 1 / x
   def characteristic = 0

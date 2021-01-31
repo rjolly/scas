@@ -14,9 +14,9 @@ class BigIntegerImpl extends EuclidianDomain[BigInteger] with FromDigits[BigInte
   def compare(x: BigInteger, y: BigInteger) = x.compareTo(y)
   override def gcd(x: BigInteger, y: BigInteger) = x.gcd(y)
   extension (x: BigInteger) {
-    override def / (y: BigInteger) = x.divide(y)
-    override def % (y: BigInteger) = x.remainder(y)
-    def /%(y: BigInteger) = {
+    override def divide(y: BigInteger) = x.divide(y)
+    override def remainder(y: BigInteger) = x.remainder(y)
+    def divideAndRemainder(y: BigInteger) = {
       val Array(q, r) = x.divideAndRemainder(y)
       (q, r)
     }

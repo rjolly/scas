@@ -11,8 +11,8 @@ class PowerProduct(val variables: Variable*) extends scas.power.PowerProduct[Exp
   def lcm(x: ExpVector, y: ExpVector) = x.lcm(y)
   extension (x: ExpVector) {
     def multiply(y: ExpVector) = x.sum(y)
-    def / (y: ExpVector) = x.subtract(y)
-    def | (y: ExpVector) = x.divides(y)
+    def divide(y: ExpVector) = x.subtract(y)
+    def factorOf(y: ExpVector) = x.divides(y)
   }
   def compare(x: ExpVector, y: ExpVector) = x.compareTo(y)
   def dependencyOnVariables(x: ExpVector) = x.dependencyOnVariables

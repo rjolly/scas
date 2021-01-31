@@ -21,12 +21,14 @@ abstract class PowerProduct[M: ClassTag] extends Monoid[M] {
   def lcm(x: M, y: M): M
   def coprime(x: M, y: M) = gcd(x, y).isOne
   extension[U] (x: U)(using c: U => M) {
-    def / (y: M): M = c(x) / y
-    def | (y: M): Boolean = c(x) | y
+    def / (y: M): M = c(x).divide(y)
+    def | (y: M): Boolean = c(x).factorOf(y)
   }
   extension (x: M) {
-    def / (y: M): M
-    def | (y: M): Boolean
+    def /[U](y: U)(using c: U => M): M = x.divide(c(y))
+    def |[U](y: U)(using c: U => M): Boolean = x.factorOf(c(y))
+    def divide(y: M): M
+    def factorOf(y: M): Boolean
     def isUnit = x.isOne
   }
   def dependencyOnVariables(x: M): Array[Int]
