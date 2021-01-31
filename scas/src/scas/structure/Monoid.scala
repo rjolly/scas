@@ -5,6 +5,7 @@ import BigInteger.given
 
 trait Monoid[T] extends SemiGroup[T] {
   extension (a: T) {
+    def \[U](b: U)(using c: U => BigInteger): T = a \ c(b)
     def \ (b: BigInteger): T = {
       assert (b.signum >= 0)
       if (b.isZero) one else if ((b % 2).isZero) {
