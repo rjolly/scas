@@ -6,8 +6,8 @@ import edu.jas.structure.RingFactory
 class Ring[T <: RingElem[T] : RingFactory] extends scas.structure.ordered.Ring[T] {
   def factory = summon[RingFactory[T]]
   extension (x: T) {
-    def + (y: T) = x.sum(y)
-    def - (y: T) = x.subtract(y)
+    def add(y: T) = x.sum(y)
+    def subtract(y: T) = x.subtract(y)
     def * (y: T) = x.multiply(y)
   }
   def compare(x: T, y: T) = x.compareTo(y)

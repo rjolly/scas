@@ -11,13 +11,13 @@ abstract class Quotient[T: UniqueFactorizationDomain] extends Field[(T, T)] {
     (n / gcd, d / gcd)
   }
   def apply(n: T): (T, T) = (n, ring.one)
-  extension (x: (T, T)) def + (y: (T, T)) = {
+  extension (x: (T, T)) def add(y: (T, T)) = {
     val (a, b) = x
     val (c, d) = y
     val (b0, d0) = this(b, d)
     this(a * d0 + c * b0, b0 * d)
   }
-  extension (x: (T, T)) def - (y: (T, T)) = {
+  extension (x: (T, T)) def subtract(y: (T, T)) = {
     val (a, b) = x
     val (c, d) = y
     val (b0, d0) = this(b, d)

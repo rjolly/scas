@@ -8,8 +8,8 @@ import Matrix.Element
 object Double extends Field[Double] {
   given this.type = this
   extension (x: Double) {
-    def + (y: Double) = x + y
-    def - (y: Double) = x - y
+    def add(y: Double) = x + y
+    def subtract(y: Double) = x - y
     def * (y: Double) = x * y
     override def / (y: Double) = x / y
   }

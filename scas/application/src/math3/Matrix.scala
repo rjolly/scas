@@ -12,8 +12,8 @@ class Matrix(size: Int) extends Algebra[Element, Double] with Field[Element] {
   given Matrix = this
   def apply(ds: Double*): Element = Array2DRowRealMatrix(ds.grouped(size).map(_.toArray).toArray)
   extension (x: Element) {
-    def + (y: Element) = x.add(y)
-    def - (y: Element) = x.subtract(y)
+    def add(y: Element) = x.add(y)
+    def subtract(y: Element) = x.subtract(y)
     def * (y: Element) = x.multiply(y)
   }
   def inverse(x: Element) = MatrixUtils.inverse(x)

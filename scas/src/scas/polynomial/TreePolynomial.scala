@@ -15,7 +15,7 @@ class TreePolynomial[C : Ring, M : PowerProduct] extends Polynomial[Element[C, M
     this(r)
   }
 
-  extension (x: Element[C, M]) def + (y: Element[C, M]) = {
+  extension (x: Element[C, M]) def add(y: Element[C, M]) = {
     val r = new TreeMap(x)
     for ((t, b) <- y.asScala) {
       val c = r.getOrElse(t, ring.zero) + b
@@ -24,7 +24,7 @@ class TreePolynomial[C : Ring, M : PowerProduct] extends Polynomial[Element[C, M
     this(r)
   }
 
-  extension (x: Element[C, M]) override def - (y: Element[C, M]) = new TreeMap(x).subtract(pp.one, ring.one, y)
+  extension (x: Element[C, M]) override def subtract(y: Element[C, M]) = new TreeMap(x).subtract(pp.one, ring.one, y)
 
   extension (x: Element[C, M]) override def * (y: Element[C, M]) = {
     val r = new TreeMap(zero)

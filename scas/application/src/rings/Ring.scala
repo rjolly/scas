@@ -6,8 +6,8 @@ abstract class Ring[T] extends scas.structure.ordered.Ring[T] {
   def ring: cc.redberry.rings.Ring[T]
   def coder = Coder.mkCoder(ring)
   extension (x: T) {
-    def + (y: T) = ring.add(x, y)
-    def - (y: T) = ring.subtract(x, y)
+    def add(y: T) = ring.add(x, y)
+    def subtract(y: T) = ring.subtract(x, y)
     def * (y: T) = ring.multiply(x, y)
   }
   def compare(x: T, y: T) = ring.compare(x, y)

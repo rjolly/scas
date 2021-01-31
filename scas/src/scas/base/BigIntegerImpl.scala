@@ -7,8 +7,8 @@ import scala.util.FromDigits
 class BigIntegerImpl extends EuclidianDomain[BigInteger] with FromDigits[BigInteger] {
   def fromDigits(digits: String) = new BigInteger(digits)
   extension (x: BigInteger) {
-    def + (y: BigInteger) = x.add(y)
-    def - (y: BigInteger) = x.subtract(y)
+    def add(y: BigInteger) = x.add(y)
+    def subtract(y: BigInteger) = x.subtract(y)
     def * (y: BigInteger) = x.multiply(y)
   }
   def compare(x: BigInteger, y: BigInteger) = x.compareTo(y)

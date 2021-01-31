@@ -15,7 +15,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
   def characteristic = ring.characteristic
   override def apply(x: T) = sort(x.map((s, a) => (pp(s), ring(a))))
   val one = fromRing(ring.one)
-  extension (x: T) def - (y: T) = x.subtract(pp.one, ring.one, y)
+  extension (x: T) def subtract(y: T) = x.subtract(pp.one, ring.one, y)
   def equiv(x: T, y: T) = {
     val xs = iterator(x)
     val ys = iterator(y)
