@@ -9,7 +9,7 @@ copy(name + "/src", "build/sources");
 copy(name + "/resources", "build/sources");
 
 mkdir("dist");
-var name_rev = name + "_3.0.0-RC1";
+var name_rev = name + "_3.0.0-M4";
 jar("dist/" + name_rev + ".jar", "build/classes", ".*", "manifest.mf");
 jar("dist/" + name_rev + "-source.jar", "build/sources");
 cp("pom.xml", "dist/" + name_rev + ".pom")
