@@ -27,6 +27,6 @@ class RationalImpl extends Quotient[BigInteger] with Field[Rational] {
     if (d.isOne) n.toMathML else s"""<cn type="rational">$n<sep/>$d</cn>"""
   }
   override def toMathML = "<rationals/>"
-  override lazy val zero = 0
-  override lazy val one = 1
+  override lazy val zero = Rational(0)
+  override lazy val one = Rational(1)
 }

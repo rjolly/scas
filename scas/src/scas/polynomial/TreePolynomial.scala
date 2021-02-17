@@ -82,6 +82,6 @@ class TreePolynomial[C : Ring, M : PowerProduct] extends Polynomial[Element[C, M
 
 object TreePolynomial {
   type Element[C, M] = SortedMap[M, C]
-  given coef2poly[D, C, M](using Conversion[D, C], TreePolynomial[C, M]): Conversion[D, Element[C, M]] = (x: D) => (x: C): Element[C, M]
-  given coef2poly[C, M](using TreePolynomial[C, M]): Conversion[C, Element[C, M]] = summon[TreePolynomial[C, M]](_)
+  given coef2poly[D, C, M](using c: Conversion[D, C], factory: TreePolynomial[C, M]): Conversion[D, Element[C, M]] = x => factory(c(x))
+  given coef2poly[C, M](using factory: TreePolynomial[C, M]): Conversion[C, Element[C, M]] = factory(_)
 }
