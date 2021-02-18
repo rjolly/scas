@@ -3,7 +3,7 @@ mkdir("build/classes");
 mkdir("build/sources");
 
 var name = "scas";
-dotc(name + "/src", "build/classes", ["-language:implicitConversions"]);
+dotc(name + "/src", "build/classes", ["-language:experimental.genericNumberLiterals"]);
 copy(name + "/resources", "build/classes");
 copy(name + "/src", "build/sources");
 copy(name + "/resources", "build/sources");

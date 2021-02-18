@@ -10,7 +10,7 @@ abstract class Quotient[T: UniqueFactorizationDomain] extends Field[(T, T)] {
     val gcd = if (d.signum == -c.signum) -c else c
     (n / gcd, d / gcd)
   }
-  def apply(n: T): (T, T) = (n, ring.one)
+  def fromRing(n: T): (T, T) = (n, ring.one)
   extension (x: (T, T)) def add(y: (T, T)) = {
     val (a, b) = x
     val (c, d) = y
@@ -74,6 +74,6 @@ abstract class Quotient[T: UniqueFactorizationDomain] extends Field[(T, T)] {
     if (d.isOne) n.toMathML else s"<apply><divide/>${n.toMathML}${d.toMathML}</apply>"
   }
   def toMathML = s"<apply><divide/>${ring.toMathML}${ring.toMathML}</apply>"
-  def zero = this(ring.zero)
-  def one = this(ring.one)
+  def zero = fromRing(ring.zero)
+  def one = fromRing(ring.one)
 }

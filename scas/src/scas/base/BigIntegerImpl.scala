@@ -1,8 +1,9 @@
 package scas.base
 
-import scas.{BigInteger, int2bigInt}
+import scas.BigInteger
 import scas.structure.commutative.ordered.EuclidianDomain
 import scala.util.FromDigits
+import BigInteger.given
 
 class BigIntegerImpl extends EuclidianDomain[BigInteger] with FromDigits[BigInteger] {
   def fromDigits(digits: String) = new BigInteger(digits)

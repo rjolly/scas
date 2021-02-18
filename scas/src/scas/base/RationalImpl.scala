@@ -2,10 +2,13 @@ package scas.base
 
 import scas.structure.commutative.Quotient
 import scas.structure.commutative.ordered.Field
-import scas.{BigInteger, Rational, int2bigInt, bigInt2rational}
+import scas.{BigInteger, Rational}
+import scala.util.FromDigits
 import BigInteger.given
+import Rational.given
 
-class RationalImpl extends Quotient[BigInteger] with Field[Rational] {
+class RationalImpl extends Quotient[BigInteger] with Field[Rational] with FromDigits[Rational] {
+  def fromDigits(digits: String) = fromRing(BigInteger.fromDigits(digits))
   def compare(x: Rational, y: Rational) = {
     val (a, b) = x
     val (c, d) = y
