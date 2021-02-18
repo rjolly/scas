@@ -16,10 +16,10 @@ import BigInteger.given
 
 given int2bigInt: Conversion[Int, BigInteger] = cc.redberry.rings.bigint.BigInteger.valueOf(_)
 given long2bigInt: Conversion[Long, BigInteger] = cc.redberry.rings.bigint.BigInteger.valueOf(_)
-given coef2poly[U, C : MultivariatePolynomialRing](using Conversion[U, C]): Conversion[U, MultivariatePolynomial[C]] = (x: U) => (x: C): MultivariatePolynomial[C]
+given coef2poly[U, C : MultivariatePolynomialRing](using c: Conversion[U, C]): Conversion[U, MultivariatePolynomial[C]] = x => coef2poly.apply(c(x))
 given coef2poly[C : MultivariatePolynomialRing]: Conversion[C, MultivariatePolynomial[C]] = MultivariatePolynomialRing[C].ring.factory().createConstant(_)
 
-given bigInt2scas[U](using Conversion[U, BigInteger]): Conversion[U, scas.BigInteger] = (x: U) => (x: BigInteger): scas.BigInteger
-given bigInt2scas: Conversion[BigInteger, scas.BigInteger] = (x: BigInteger) => java.math.BigInteger(x.toByteArray)
+given bigInt2scas[U](using c: Conversion[U, BigInteger]): Conversion[U, scas.BigInteger] = x => bigInt2scas.apply(c(x))
+given bigInt2scas: Conversion[BigInteger, scas.BigInteger] = x => java.math.BigInteger(x.toByteArray)
 
-extension (a: Long) def \:(b: Long) = BigInteger(a) \ b
+extension (a: Long) def \:(b: Long) = long2bigInt(a) \ bigInt2scas.apply(long2bigInt(b))

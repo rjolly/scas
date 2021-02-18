@@ -14,7 +14,7 @@ import BigInteger.given
 given int2bigInt: Conversion[Int, BigInteger] = java.math.BigInteger.valueOf(_)
 given long2bigInt: Conversion[Long, BigInteger] = java.math.BigInteger.valueOf(_)
 
-extension (a: Long) def \:(b: Long) = BigInteger(long2bigInt(a)) \ long2bigInt(b)
+extension (a: Long) def \:(b: Long) = long2bigInt(a) \ long2bigInt(b)
 
 type Rational = (BigInteger, BigInteger)
 object Rational extends RationalImpl {

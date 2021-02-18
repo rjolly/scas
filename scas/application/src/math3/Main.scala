@@ -2,7 +2,8 @@ package math3
 
 import java.lang.Math
 import scas.structure.Field
-import scas.int2bigInt
+import scas.BigInteger
+import BigInteger.given
 import Matrix.Element
 
 object Double extends Field[Double] {
@@ -14,7 +15,7 @@ object Double extends Field[Double] {
     override def divide(y: Double) = x / y
   }
   def inverse(x: Double) = 1 / x
-  def characteristic = 0
+  def characteristic = BigInteger(0)
   def equiv(x: Double, y: Double) = x == y
   extension (x: Double) def signum = Math.signum(x).toInt
   def zero = 0
