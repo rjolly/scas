@@ -48,7 +48,7 @@ abstract class Quotient[T: UniqueFactorizationDomain] extends Field[(T, T)] {
     val (n, d) = x
     (-n, d)
   }
-  extension (a: (T, T)) override def \ (b: BigInteger) = if (b.signum < 0) inverse(a) \ -b else {
+  extension (a: (T, T)) override def pow(b: BigInteger) = if (b.signum < 0) inverse(a) \ -b else {
     val (n, d) = a
     (n \ b, d \ b)
   }

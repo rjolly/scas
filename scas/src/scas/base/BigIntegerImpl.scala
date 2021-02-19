@@ -25,7 +25,7 @@ class BigIntegerImpl extends EuclidianDomain[BigInteger] with FromDigits[BigInte
   lazy val characteristic = BigInteger(0)
   extension (x: BigInteger) def isUnit = abs(x).isOne
   extension (x: BigInteger) override def isZero = x.signum == 0
-  extension (a: BigInteger) override def \ (b: BigInteger) = a.pow(b.intValue)
+  extension (a: BigInteger) override def pow(b: BigInteger) = a.pow(b.intValue)
   extension (x: BigInteger) override def unary_- = x.negate
   override def abs(x: BigInteger) = x.abs
   extension (x: BigInteger) override def signum = x.signum

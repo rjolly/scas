@@ -1,13 +1,6 @@
 package scas.math
 
-trait Ordering[T] extends scala.math.Ordering[T] with PartialOrdering[T] {
-  extension (x: T) {
-    override def <=(y: T) = compare(x, y) <= 0
-    override def >=(y: T) = compare(x, y) >= 0
-    override def < (y: T) = compare(x, y) < 0
-    override def > (y: T) = compare(x, y) > 0
-  }
-}
+trait Ordering[T] extends scala.math.Ordering[T] with PartialOrdering[T]
 
 object Ordering {
   trait ByteOrdering extends Ordering[Byte] {

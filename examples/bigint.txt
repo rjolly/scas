@@ -1,5 +1,4 @@
 import scala.language.experimental.genericNumberLiterals
-import scala.language.implicitConversions
 import scas.{BigInteger, \:, int2bigInt}
 import BigInteger.{abs, unary_-, given}
 
@@ -7,10 +6,11 @@ assert(BigInteger(1) + 1 >< 1 + BigInteger(1))
 assert(BigInteger(1) - BigInteger(1) >< 0)
 assert(BigInteger(2) \ 2 >< BigInteger(4))
 assert(BigInteger(2) \ 64 >< BigInteger(18446744073709551616))
-assert(BigInteger(2) \ 64 >< 18446744073709551616)
+// assert(BigInteger(2) \ 64 >< 18446744073709551616)
+// number too large
 assert(BigInteger(2) \ 2 >< 4)
 assert(2 \:2 >< 4)
 assert(2 \:2 \:3 >< 256)
 assert((2 \:2) \ 3 >< 64)
-assert(abs(-1) >< -1.abs)
-assert(unary_-(-1) >< -1.unary_-)
+assert(abs(-1) >< BigInteger(-1).abs)
+assert(unary_-(-1) >< BigInteger(-1).unary_-)

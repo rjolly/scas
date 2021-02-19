@@ -1,6 +1,6 @@
 // Requires : de.uni-mannheim.rz.krum#jas;2.6.5988
 
-import scala.language.implicitConversions
+import scala.language.experimental.genericNumberLiterals
 import jas.{BigInteger, int2bigInt}
 import BigInteger.given
 
