@@ -4,9 +4,8 @@ import scas.structure.commutative.Residue
 import scas.structure.commutative.ordered.Field
 import scala.util.FromDigits
 import scas.BigInteger
-import BigInteger.given
 
-class ModInteger(val mod: BigInteger) extends Residue[BigInteger] with Field[BigInteger] with FromDigits[BigInteger] {
+class ModInteger(val mod: BigInteger) extends Residue(using BigInteger) with Field[BigInteger] with FromDigits[BigInteger] {
   def fromDigits(digits: String) = BigInteger.fromDigits(digits)
   given ModInteger = this
   assert (mod.isProbablePrime(100))
