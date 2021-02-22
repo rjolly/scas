@@ -19,4 +19,6 @@ class ModInteger(val mod: BigInteger) extends Residue(using BigInteger) with Fie
   def toMathML = s"<msub>${ring.toMathML}${BigInteger.toMathML(mod)}</msub>"
 }
 
-object ModInteger
+object ModInteger {
+  def apply[U](x: U)(using c: U => BigInteger) = new ModInteger(c(x))
+}
