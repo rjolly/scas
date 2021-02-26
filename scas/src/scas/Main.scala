@@ -25,7 +25,7 @@ object Rational extends RationalImpl {
 }
 import Rational.given
 
-given bigInt2rational[U](using c: Conversion[U, BigInteger]): Conversion[U, Rational] = x => (c(x), BigInteger(1))
+given bigInt2rational[U](using c: U => BigInteger): Conversion[U, Rational] = x => (c(x), BigInteger(1))
 
 extension (a: Long) def %%(b: Long) = Rational(long2bigInt(a), long2bigInt(b))
 

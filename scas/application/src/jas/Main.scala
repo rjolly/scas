@@ -27,10 +27,10 @@ class poly2scas[C <: RingElem[C] : GenPolynomialRing] extends Ring[GenPolynomial
 
 given int2bigInt: Conversion[Int, BigInteger] = new BigInteger(_)
 given long2bigInt: Conversion[Long, BigInteger] = new BigInteger(_)
-given coef2poly[U, C <: RingElem[C] : GenPolynomialRing](using c: Conversion[U, C]): Conversion[U, GenPolynomial[C]] = x => coef2poly.apply(c(x))
+given coef2poly[U, C <: RingElem[C] : GenPolynomialRing](using c: U => C): Conversion[U, GenPolynomial[C]] = x => coef2poly.apply(c(x))
 given coef2poly[C <: RingElem[C] : GenPolynomialRing]: Conversion[C, GenPolynomial[C]] = summon[GenPolynomialRing[C]].valueOf(_)
 
-given bigInt2scas[U](using c: Conversion[U, BigInteger]): Conversion[U, scas.BigInteger] = x => bigInt2scas.apply(c(x))
+given bigInt2scas[U](using c: U => BigInteger): Conversion[U, scas.BigInteger] = x => bigInt2scas.apply(c(x))
 given bigInt2scas: Conversion[BigInteger, scas.BigInteger] = _.`val`
 
 extension (a: Long) def \:(b: Long) = long2bigInt(a) \ bigInt2scas.apply(long2bigInt(b))
