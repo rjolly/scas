@@ -36,6 +36,7 @@ abstract class Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring
       for ((a, b) <- iterator(x)) r = r.subtract(a, -b, y)
       r
     }
+    def %*[U] (m: U)(using c: U => M): T = x%* c(m)
     def %* (m: M) = x.map((s, a) => (s * m, a))
   }
 
