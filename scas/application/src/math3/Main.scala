@@ -27,5 +27,5 @@ object Double extends Field[Double] {
   def toMathML = ???
 }
 
-given int2matrix(using Matrix): Conversion[Int, Element] = summon[Matrix].one%* _
-given double2matrix(using Matrix): Conversion[Double, Element] = summon[Matrix].one%* _
+given int2matrix(using Matrix): (Int => Element) = summon[Matrix].one%* _
+given double2matrix(using Matrix): (Double => Element) = summon[Matrix].one%* _

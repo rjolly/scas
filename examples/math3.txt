@@ -4,7 +4,7 @@ import math3.{Matrix, int2matrix}
 import scas.int2bigInt
 
 val m = new Matrix(3)
-import m.implicits.given
+import m.given
 
 val a = m(
   0, 1, 0,

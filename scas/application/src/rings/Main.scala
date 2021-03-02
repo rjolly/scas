@@ -14,10 +14,10 @@ object BigInteger extends Ring[BigInteger] with FromDigits[BigInteger] {
 }
 import BigInteger.given
 
-given int2bigInt: Conversion[Int, BigInteger] = cc.redberry.rings.bigint.BigInteger.valueOf(_)
-given long2bigInt: Conversion[Long, BigInteger] = cc.redberry.rings.bigint.BigInteger.valueOf(_)
-given coef2poly[U, C : MultivariatePolynomialRing](using c: U => C): Conversion[U, MultivariatePolynomial[C]] = x => MultivariatePolynomialRing[C].ring.factory().createConstant(c(x))
+given int2bigInt: (Int => BigInteger) = cc.redberry.rings.bigint.BigInteger.valueOf(_)
+given long2bigInt: (Long => BigInteger) = cc.redberry.rings.bigint.BigInteger.valueOf(_)
+given coef2poly[U, C : MultivariatePolynomialRing](using c: U => C): (U => MultivariatePolynomial[C]) = x => MultivariatePolynomialRing[C].ring.factory().createConstant(c(x))
 
-given bigInt2scas[U](using c: U => BigInteger): Conversion[U, scas.BigInteger] = x => java.math.BigInteger(c(x).toByteArray)
+given bigInt2scas[U](using c: U => BigInteger): (U => scas.BigInteger) = x => java.math.BigInteger(c(x).toByteArray)
 
 extension (a: Long) def \:(b: Long) = long2bigInt(a) \ bigInt2scas.apply(long2bigInt(b))
