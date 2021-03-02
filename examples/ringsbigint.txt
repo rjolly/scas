@@ -1,6 +1,6 @@
 // Requires : cc.redberry#rings;2.5.7
 
-import scala.language.implicitConversions
+import scala.language.experimental.genericNumberLiterals
 import rings.{BigInteger, int2bigInt, bigInt2scas, \:}
 import BigInteger.given
 

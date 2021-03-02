@@ -1,4 +1,3 @@
-import scala.language.implicitConversions
 import scas.{int2bigInt, Rational, bigInt2rational, %%}
 import Rational.given
 

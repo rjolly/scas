@@ -1,8 +1,7 @@
-import scala.language.implicitConversions
 import scas.{int2bigInt, int2powerProduct}
 import jas.PowerProduct
 
-val m = new PowerProduct("x")
+val m = PowerProduct("x")
 val Array(x) = m.generators
 import m.given
 

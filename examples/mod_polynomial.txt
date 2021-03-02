@@ -1,4 +1,3 @@
-import scala.language.implicitConversions
 import scas.{ModInteger, int2bigInt}
 import scas.power.Lexicographic
 import scas.polynomial.TreePolynomial

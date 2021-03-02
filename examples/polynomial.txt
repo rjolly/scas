@@ -1,30 +1,34 @@
 // Requires : de.uni-mannheim.rz.krum#jas;2.6.5988
 
 import scala.language.experimental.genericNumberLiterals
-import scala.language.implicitConversions
 import edu.jas.poly.TermOrderByName
 import edu.jas.poly.GenPolynomialRing
 import jas.{ZZ, BigInteger, poly2scas, coef2poly, int2bigInt}
 import BigInteger.given
 
-val r = new poly2scas(using GenPolynomialRing(ZZ, Array("x", "y", "z"), TermOrderByName.INVLEX))
-val Array(one, x, y, z) = r.gens
-import r.implicits.given
-
-val s = new poly2scas(using GenPolynomialRing(r.factory, Array("a"), TermOrderByName.INVLEX))
-val Array(_, a) = s.gens
-import s.implicits.given
-import s.{+, given}
-
 assert(BigInteger(1) + 1 >< 1 + BigInteger(1))
-assert(x + 1 >< 1 + x)
-// assert(x + 18446744073709551616 >< 18446744073709551616 + x)
-// number too large
-assert(x + BigInteger(1) >< BigInteger(1) + x)
-assert(x + BigInteger(18446744073709551616) >< BigInteger(18446744073709551616) + x)
-assert(x + one >< one + x)
-assert(x > one)
-assert(a + 1 >< 1 + a)
-assert(a + BigInteger(1) >< BigInteger(1) + a)
-assert(a + x >< x + a)
-assert(a > x)
+{
+  val r = new poly2scas(using GenPolynomialRing(ZZ, Array("x", "y", "z"), TermOrderByName.INVLEX))
+  val Array(one, x, y, z) = r.gens
+  import r.implicits.given
+  import r.given
+
+  assert(x + 1 >< 1 + x)
+  // assert(x + 18446744073709551616 >< 18446744073709551616 + x)
+  // number too large
+  assert(x + BigInteger(1) >< BigInteger(1) + x)
+  assert(x + BigInteger(18446744073709551616) >< BigInteger(18446744073709551616) + x)
+  assert(x + one >< one + x)
+  assert(x > one)
+  {
+    val s = new poly2scas(using GenPolynomialRing(r.factory, Array("a"), TermOrderByName.INVLEX))
+    val Array(_, a) = s.gens
+    import s.implicits.given
+    import s.given
+
+    assert(a + 1 >< 1 + a)
+    assert(a + BigInteger(1) >< BigInteger(1) + a)
+    assert(a + x >< x + a)
+    assert(a > x)
+  }
+}

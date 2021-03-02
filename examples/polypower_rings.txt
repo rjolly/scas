@@ -1,6 +1,5 @@
 // Requires : cc.redberry#rings;2.5.7
 
-import scala.language.implicitConversions
 import cc.redberry.rings.poly.multivar.MonomialOrder
 import rings.{BigInteger, MultivariatePolynomialRing, coef2poly, int2bigInt, long2bigInt, bigInt2scas}
 
@@ -10,6 +9,7 @@ import r.given
 
 val p = 1 + x + y + z
 // val p = 1 + x \ 2147483647 + y \ 2147483647 + z \ 2147483647
+// integer overflow: 2863311531
 // val p = 10000000001l + 10000000001l * x + 10000000001l * y + 10000000001l * z
 println("p: " + p)
 val q = p \ 20

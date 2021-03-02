@@ -1,4 +1,3 @@
-import scala.language.implicitConversions
 import scas.{Rational, int2bigInt, bigInt2rational, %%}
 import scas.power.Lexicographic
 import scas.polynomial.TreePolynomial

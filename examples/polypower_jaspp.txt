@@ -1,4 +1,3 @@
-import scala.language.implicitConversions
 import scas.{BigInteger, int2bigInt, long2bigInt}
 import scas.polynomial.TreePolynomial
 import jas.PowerProduct

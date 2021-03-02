@@ -24,3 +24,7 @@ class PowerProduct(val variables: Variable*) extends scas.power.PowerProduct[Exp
   }
   def size(x: ExpVector) = x.dependentVariables
 }
+
+object PowerProduct {
+  def apply[U](variables: U*)(using c: U => Variable) = new PowerProduct(variables.map(c): _*)
+}
