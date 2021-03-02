@@ -16,12 +16,8 @@ object BigInteger extends Ring[BigInteger](using ZZ) with FromDigits[BigInteger]
 }
 import BigInteger.given
 
-class poly2scas[C <: RingElem[C] : GenPolynomialRing] extends Ring[GenPolynomial[C]] {
+class poly2scas[C <: RingElem[C]](using override val factory: GenPolynomialRing[C]) extends Ring[GenPolynomial[C]] {
   given poly2scas[C] = this
-  override def factory: GenPolynomialRing[C] = summon[GenPolynomialRing[C]]
-  object implicits {
-    given GenPolynomialRing[C] = factory
-  }
   def gens = factory.getGenerators().asScala.toArray
 }
 
