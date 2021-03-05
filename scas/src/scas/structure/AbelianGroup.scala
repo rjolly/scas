@@ -1,13 +1,16 @@
 package scas.structure
 
+import scala.language.future
+import scas.util.{Conversion, as}
+
 trait AbelianGroup[T] extends Structure[T] {
-  extension[U] (x: U)(using c: U => T) {
-    def + (y: T) = c(x).add(y)
-    def - (y: T) = c(x).subtract(y)
+  extension[U : Conversion[T]] (x: U) {
+    def + (y: T) = x.as[T].add(y)
+    def - (y: T) = x.as[T].subtract(y)
   }
   extension (x: T) {
-    def +[U](y: U)(using c: U => T) = x.add(c(y))
-    def -[U](y: U)(using c: U => T) = x.subtract(c(y))
+    def +[U : Conversion[T]](y: U) = x.add(y.as[T])
+    def -[U : Conversion[T]](y: U) = x.subtract(y.as[T])
     def add(y: T): T
     def subtract(y: T): T
     def unary_- = zero - x
