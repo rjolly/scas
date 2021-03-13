@@ -1,6 +1,6 @@
 package scas.structure
 
-import scas.math.Equiv
+import scas.math.conversion.Equiv
 import scas.prettyprint.Show
 
 trait Structure[T] extends Equiv[T] with Show[T] {
