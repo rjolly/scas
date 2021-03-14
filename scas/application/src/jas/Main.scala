@@ -4,21 +4,21 @@ import scala.util.FromDigits
 import edu.jas.poly.GenPolynomialRing
 import edu.jas.poly.GenPolynomial
 import edu.jas.structure.RingElem
+import edu.jas.structure.RingFactory
 import scala.collection.JavaConverters.asScalaBufferConverter
 
 type BigInteger = edu.jas.arith.BigInteger
 
-val ZZ = new BigInteger()
+given ZZ: BigInteger = new BigInteger()
 
-object BigInteger extends Ring[BigInteger](using ZZ) with FromDigits[BigInteger] {
-  given this.type = this
+given BigInteger: FromDigits[BigInteger] with {
   def fromDigits(digits: String) = new BigInteger(digits)
+  def apply(x: BigInteger) = x
 }
-import BigInteger.given
 
-given poly2scas[C <: RingElem[C] : GenPolynomialRing]: Ring[GenPolynomial[C]] with {
-  extension (factory: GenPolynomialRing[C]) def gens = factory.getGenerators().asScala.toArray
-}
+given ring2scas[T <: RingElem[T] : RingFactory]: Ring[T] = new {}
+
+extension [C <: RingElem[C]](factory: GenPolynomialRing[C]) def gens = factory.getGenerators().asScala.toArray
 
 given int2bigInt: (Int => BigInteger) = new BigInteger(_)
 given long2bigInt: (Long => BigInteger) = new BigInteger(_)

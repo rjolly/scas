@@ -2,8 +2,8 @@
 
 import edu.jas.poly.TermOrderByName
 import edu.jas.poly.GenPolynomialRing
-import jas.{ZZ, BigInteger, poly2scas, coef2poly, int2bigInt, long2bigInt, bigInt2scas}
-
+import jas.{ZZ, BigInteger, ring2scas, coef2poly, int2bigInt, long2bigInt, bigInt2scas, gens}
+{
 given r: GenPolynomialRing[BigInteger] = new GenPolynomialRing(ZZ, Array("x", "y", "z"), TermOrderByName.INVLEX)
 val Array(one, x, y, z) = r.gens
 
@@ -20,3 +20,4 @@ val q2 = q * q1
 t = System.currentTimeMillis() - t;
 println("q2: " + q2.length)
 println("t: " + t)
+}

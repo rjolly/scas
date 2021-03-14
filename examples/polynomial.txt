@@ -4,14 +4,13 @@ import scala.language.experimental.genericNumberLiterals
 import edu.jas.poly.TermOrderByName
 import edu.jas.poly.GenPolynomialRing
 import edu.jas.poly.GenPolynomial
-import jas.{ZZ, BigInteger, poly2scas, coef2poly, int2bigInt}
-import BigInteger.given
+import jas.{ZZ, BigInteger, ring2scas, coef2poly, int2bigInt, gens}
 
 assert(BigInteger(1) + 1 >< 1 + BigInteger(1))
 {
   given r: GenPolynomialRing[BigInteger] = new GenPolynomialRing(ZZ, Array("x", "y", "z"), TermOrderByName.INVLEX)
   val Array(one, x, y, z) = r.gens
-  val r__ = poly2scas; import r__.+
+  val r__ = ring2scas; import r__.+
 
   assert(x + 1 >< 1 + x)
   // assert(x + 18446744073709551616 >< 18446744073709551616 + x)
@@ -23,7 +22,7 @@ assert(BigInteger(1) + 1 >< 1 + BigInteger(1))
   {
     given s: GenPolynomialRing[GenPolynomial[BigInteger]] = new GenPolynomialRing(r, Array("a"), TermOrderByName.INVLEX)
     val Array(_, a) = s.gens
-    val s__ = poly2scas; import s__.+
+    val s__ = ring2scas; import s__.+
 
     assert(a + 1 >< 1 + a)
     assert(a + BigInteger(1) >< BigInteger(1) + a)
