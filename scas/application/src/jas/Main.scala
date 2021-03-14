@@ -16,6 +16,10 @@ object BigInteger extends Ring[BigInteger](using ZZ) with FromDigits[BigInteger]
 }
 import BigInteger.given
 
+class Autogiven[T](self: T) {
+  given T = self
+}
+
 given poly2scas[C <: RingElem[C] : GenPolynomialRing]: Ring[GenPolynomial[C]] with {
   extension (factory: GenPolynomialRing[C]) def gens = factory.getGenerators().asScala.toArray
 }
