@@ -3,12 +3,12 @@
 import scala.language.experimental.genericNumberLiterals
 import edu.jas.poly.TermOrderByName
 import edu.jas.poly.GenPolynomialRing
-import jas.{ZZ, BigInteger, poly2scas, coef2poly, int2bigInt}
+import jas.{ZZ, BigInteger, coef2poly, int2bigInt, toScas}
 import BigInteger.given
 
 assert(BigInteger(1) + 1 >< 1 + BigInteger(1))
 {
-  val r = new poly2scas(using GenPolynomialRing(ZZ, Array("x", "y", "z"), TermOrderByName.INVLEX))
+  val r = GenPolynomialRing(ZZ, Array("x", "y", "z"), TermOrderByName.INVLEX).toScas
   val Array(one, x, y, z) = r.gens
   import r.given
 
@@ -20,7 +20,7 @@ assert(BigInteger(1) + 1 >< 1 + BigInteger(1))
   assert(x + one >< one + x)
   assert(x > one)
   {
-    val s = new poly2scas(using GenPolynomialRing(r.factory, Array("a"), TermOrderByName.INVLEX))
+    val s = GenPolynomialRing(r.factory, Array("a"), TermOrderByName.INVLEX).toScas
     val Array(_, a) = s.gens
     import s.given
 

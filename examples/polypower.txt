@@ -2,9 +2,9 @@
 
 import edu.jas.poly.TermOrderByName
 import edu.jas.poly.GenPolynomialRing
-import jas.{ZZ, poly2scas, coef2poly, int2bigInt, long2bigInt, bigInt2scas}
+import jas.{ZZ, coef2poly, int2bigInt, long2bigInt, bigInt2scas, toScas}
 
-val r = new poly2scas(using GenPolynomialRing(ZZ, Array("x", "y", "z"), TermOrderByName.INVLEX))
+val r = GenPolynomialRing(ZZ, Array("x", "y", "z"), TermOrderByName.INVLEX).toScas
 val Array(one, x, y, z) = r.gens
 import r.given
 

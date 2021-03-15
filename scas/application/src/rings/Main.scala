@@ -8,7 +8,7 @@ import cc.redberry.rings.poly.multivar.MultivariatePolynomial
 type BigInteger = cc.redberry.rings.bigint.BigInteger
 
 object BigInteger extends Ring[BigInteger] with FromDigits[BigInteger] {
-  given this.type = this
+  given BigInteger.type = this
   def fromDigits(digits: String) = new BigInteger(digits)
   val ring: Integers = Rings.Z
 }

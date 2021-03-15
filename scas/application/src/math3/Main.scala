@@ -7,7 +7,7 @@ import BigInteger.given
 import Matrix.Element
 
 object Double extends Field[Double] {
-  given this.type = this
+  given Double.type = this
   extension (x: Double) {
     def add(y: Double) = x + y
     def subtract(y: Double) = x - y
