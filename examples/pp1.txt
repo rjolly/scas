@@ -1,8 +1,7 @@
 import scas.{int2bigInt, int2powerProduct}
 import scas.power.Lexicographic
-import scas.variable.Variable
 
-val m = new Lexicographic[Int](Variable("x"))
+val m = new Lexicographic[Int]("x")
 val List(x) = m.generators.toList
 import m.given
 
