@@ -3,7 +3,7 @@ package scas.structure.commutative
 import scas.BigInteger
 import BigInteger.given
 
-abstract class Quotient[T: UniqueFactorizationDomain] extends Field[(T, T)] {
+trait Quotient[T: UniqueFactorizationDomain] extends Field[(T, T)] {
   def ring = UniqueFactorizationDomain[T]
   def apply(n: T, d: T) = {
     val c = ring.gcd(n, d)

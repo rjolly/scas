@@ -1,6 +1,6 @@
 package scas.structure.commutative
 
-abstract class Residue[T: UniqueFactorizationDomain] extends UniqueFactorizationDomain[T] {
+trait Residue[T: UniqueFactorizationDomain] extends UniqueFactorizationDomain[T] {
   def ring = UniqueFactorizationDomain[T]
   extension (x: T) {
     def signum = ring.signum(x)

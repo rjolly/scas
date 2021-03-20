@@ -7,10 +7,9 @@ import edu.jas.structure.RingElem
 
 type BigInteger = edu.jas.arith.BigInteger
 
-val ZZ = new BigInteger()
-
-object BigInteger extends Ring[BigInteger](using ZZ) with FromDigits[BigInteger] {
+object BigInteger extends Ring[BigInteger] with FromDigits[BigInteger] {
   given BigInteger.type = this
+  val factory = new BigInteger()
   def fromDigits(digits: String) = new BigInteger(digits)
 }
 import BigInteger.given
