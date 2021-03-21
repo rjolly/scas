@@ -28,5 +28,8 @@ class ArrayModule[R : ClassTag : ClassTagArray](using ring: Ring[R])(val dimensi
   override def toString = s"$ring\\$dimension"
   def toMathML = s"<apply><power/>${ring.toMathML}<cn>${dimension}</cn></apply>"
 
-  extension (ring: Ring[R]) def \ (n: Int) = this
+  extension (ring: Ring[R]) def \ (n: Int) = {
+    assert (n == dimension)
+    this
+  }
 }
