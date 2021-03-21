@@ -4,6 +4,7 @@ jasbigint.txt
 ringsbigint.txt
 mod_polynomial.txt
 modint.txt
+module.txt
 math3.txt
 poly.txt
 polynomial.txt
