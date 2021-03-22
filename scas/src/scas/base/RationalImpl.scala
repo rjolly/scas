@@ -10,13 +10,13 @@ import Rational.given
 class RationalImpl extends Quotient[BigInteger] with Field[Rational] with FromDigits[Rational] {
   def fromDigits(digits: String) = fromRing(BigInteger.fromDigits(digits))
   def compare(x: Rational, y: Rational) = {
-    val (a, b) = x
-    val (c, d) = y
+    val Rational(a, b) = x
+    val Rational(c, d) = y
     BigInteger.compare(a * d, c * b)
   }
   extension (x: Rational) override def signum = super[Quotient].signum(x)
   extension (x: Rational) override def toCode(level: Level) = {
-    val (n, d) = x
+    val Rational(n, d) = x
     if (d.isOne) n.toCode(level) else {
       if (n.bitLength < 64 && d.bitLength < 64) {
         val s = n.toCode(Level.Multiplication) + "%%" + d.toCode(Level.Power)
@@ -26,7 +26,7 @@ class RationalImpl extends Quotient[BigInteger] with Field[Rational] with FromDi
   }
   override def toString = "Rational"
   extension (x: Rational) override def toMathML = {
-    val (n, d) = x
+    val Rational(n, d) = x
     if (d.isOne) n.toMathML else s"""<cn type="rational">$n<sep/>$d</cn>"""
   }
   override def toMathML = "<rationals/>"
