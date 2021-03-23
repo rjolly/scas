@@ -8,7 +8,7 @@ import scas.prettyprint.Show
 
 type BigInteger = java.math.BigInteger
 object BigInteger extends BigIntegerImpl {
-  given BigIntegerImpl = this
+  given BigInteger.type = this
 }
 import BigInteger.given
 
@@ -22,11 +22,10 @@ extension (a: Long) {
 
 type Rational = Quotient.Element[BigInteger]
 object Rational extends RationalImpl {
-  given RationalImpl = this
+  given Rational.type = this
 }
-import Rational.given
 
-given bigInt2rational[U](using c: U => BigInteger): (U => Rational) = x => Rational(c(x), BigInteger(1))
+given bigInt2rational[U](using c: U => BigInteger): (U => Rational) = x => Rational.fromRing(c(x))
 
 extension (a: Long) def %%(b: Long) = Rational(long2bigInt(a), long2bigInt(b))
 

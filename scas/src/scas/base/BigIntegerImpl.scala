@@ -22,7 +22,7 @@ class BigIntegerImpl extends EuclidianDomain[BigInteger] with FromDigits[BigInte
       (q, r)
     }
   }
-  lazy val characteristic = BigInteger(0)
+  lazy val characteristic = 0
   extension (x: BigInteger) def isUnit = abs(x).isOne
   extension (x: BigInteger) override def isZero = x.signum == 0
   extension (a: BigInteger) override def pow(b: BigInteger) = a.pow(b.intValue)
@@ -37,6 +37,6 @@ class BigIntegerImpl extends EuclidianDomain[BigInteger] with FromDigits[BigInte
   override def toString = "BigInteger"
   extension (x: BigInteger) def toMathML = s"<cn>$x</cn>"
   def toMathML = "<integers/>"
-  lazy val zero = BigInteger(0)
-  lazy val one = BigInteger(1)
+  lazy val zero = 0
+  lazy val one = 1
 }

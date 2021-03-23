@@ -1,11 +1,18 @@
-import scas.{Rational, int2bigInt, bigInt2rational, %%}
+import scala.language.experimental.genericNumberLiterals
+import scas.{BigInteger, Rational, int2bigInt, bigInt2rational, %%}
 import scas.power.Lexicographic
 import scas.polynomial.TreePolynomial
 import TreePolynomial.coef2poly
+import BigInteger.given
+import Rational.given
 
-val r = new TreePolynomial(using Rational, Lexicographic[Int]("x"))
-val Array(x) = r.generators
-import r.given
+assert (Rational(1) >< 1)
+assert (Rational(1, 2) >< 1%%2)
+{
+  val r = new TreePolynomial(using Rational, Lexicographic[Int]("x"))
+  val List(x) = r.generators.toList
+  import r.given
 
-assert (x + 1 %%2 >< 1 %%2 + x)
-assert (x + 1 >< 1 + x)
+  assert (x + 1%%2 >< 1%%2 + x)
+  assert (x + 1 >< 1 + x)
+}

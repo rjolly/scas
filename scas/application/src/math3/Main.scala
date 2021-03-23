@@ -15,7 +15,7 @@ object Double extends Field[Double] {
     override def divide(y: Double) = x / y
   }
   def inverse(x: Double) = 1 / x
-  def characteristic = BigInteger(0)
+  def characteristic = 0
   def equiv(x: Double, y: Double) = x == y
   extension (x: Double) def signum = Math.signum(x).toInt
   def zero = 0
