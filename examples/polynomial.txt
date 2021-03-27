@@ -3,7 +3,7 @@
 import scala.language.experimental.genericNumberLiterals
 import edu.jas.poly.TermOrderByName
 import edu.jas.poly.GenPolynomialRing
-import jas.{BigInteger, coef2poly, int2bigInt, toScas}
+import jas.{BigInteger, toScas}
 import BigInteger.given
 
 assert(BigInteger(1) + 1 >< 1 + BigInteger(1))

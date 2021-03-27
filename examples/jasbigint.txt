@@ -1,7 +1,7 @@
 // Requires : de.uni-mannheim.rz.krum#jas;2.6.5988
 
 import scala.language.experimental.genericNumberLiterals
-import jas.{BigInteger, int2bigInt}
+import jas.BigInteger
 import BigInteger.given
 
 assert(BigInteger(1) + 1 >< 1 + BigInteger(1))
