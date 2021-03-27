@@ -1,6 +1,5 @@
 package scas
 
-import scas.power.PowerProduct
 import scas.prettyprint.Show
 
 type BigInteger = scas.base.BigInteger
@@ -15,5 +14,3 @@ def println[T: Show](x: T) = System.out.println(x.show)
 
 type ModInteger = scas.base.ModInteger
 val ModInteger = scas.base.ModInteger
-
-given int2powerProduct[M : PowerProduct]: (Int => M) = PowerProduct[M].apply(_)

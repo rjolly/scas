@@ -2,7 +2,6 @@ package scas.power
 
 import scas.math.Numeric
 import scas.variable.Variable
-import scas.int2powerProduct
 
 abstract class ArrayPowerProduct[N : Numeric : ClassTagArray] extends PowerProduct[Array[N]] {
   def numeric = Numeric[N]

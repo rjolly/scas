@@ -38,6 +38,8 @@ abstract class PowerProduct[M: ClassTag] extends Monoid[M] {
   override def apply(x: M) = x.convert(variables: _*)
   extension (x: M) def convert(from: Variable*): M
   def size(x: M): Int
+
+  given int2powerProduct: (Int => M) = apply(_)
 }
 
 object PowerProduct {
