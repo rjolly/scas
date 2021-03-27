@@ -20,8 +20,6 @@ val Rational = scas.base.Rational
 
 given bigInt2rational[U](using c: U => BigInteger): (U => Rational) = x => Rational.fromRing(c(x))
 
-extension (a: Long) def %%(b: Long) = Rational(long2bigInt(a), long2bigInt(b))
-
 def println[T: Show](x: T) = System.out.println(x.show)
 
 type ModInteger = scas.base.ModInteger

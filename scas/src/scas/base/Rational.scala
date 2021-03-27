@@ -1,5 +1,6 @@
 package scas.base
 
+import scas.long2bigInt
 import scas.structure.commutative.Quotient
 import scas.structure.commutative.ordered.Field
 import scala.util.FromDigits
@@ -15,6 +16,7 @@ object Rational extends Quotient[BigInteger] with Field[Rational] with FromDigit
     val Rational(c, d) = y
     BigInteger.compare(a * d, c * b)
   }
+  extension (a: Long) def %%(b: Long) = this(long2bigInt(a), long2bigInt(b))
   extension (x: Rational) override def signum = super[Quotient].signum(x)
   extension (x: Rational) override def toCode(level: Level) = {
     val Rational(n, d) = x
