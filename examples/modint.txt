@@ -1,5 +1,6 @@
 import scala.language.experimental.genericNumberLiterals
-import scas.{BigInteger, ModInteger, int2bigInt}
+import scas.{BigInteger, ModInteger}
+import BigInteger.int2bigInt
 
 val r = ModInteger(7)
 import r.given

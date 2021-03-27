@@ -1,6 +1,7 @@
-import scas.{BigInteger, int2bigInt, long2bigInt}
+import scas.BigInteger
 import scas.power.Lexicographic
 import scas.polynomial.TreePolynomial
+import BigInteger.{int2bigInt, long2bigInt}
 import TreePolynomial.coef2poly
 
 val r = new TreePolynomial(using BigInteger, Lexicographic[Int]("x", "y", "z"))

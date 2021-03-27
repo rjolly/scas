@@ -1,6 +1,5 @@
 package scas.base
 
-import scas.long2bigInt
 import scas.structure.commutative.Quotient
 import scas.structure.commutative.ordered.Field
 import scala.util.FromDigits

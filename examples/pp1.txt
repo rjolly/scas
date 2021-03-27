@@ -1,5 +1,6 @@
-import scas.{int2bigInt, int2powerProduct}
+import scas.{BigInteger, int2powerProduct}
 import scas.power.Lexicographic
+import BigInteger.int2bigInt
 
 val m = new Lexicographic[Int]("x")
 val List(x) = m.generators.toList

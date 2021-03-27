@@ -5,15 +5,6 @@ import scas.prettyprint.Show
 
 type BigInteger = scas.base.BigInteger
 val BigInteger = scas.base.BigInteger
-import scas.base.BigInteger.given
-
-given int2bigInt: (Int => BigInteger) = java.math.BigInteger.valueOf(_)
-given long2bigInt: (Long => BigInteger) = java.math.BigInteger.valueOf(_)
-
-extension (a: Long) {
-  def \ (b: Long) = long2bigInt(a) \ long2bigInt(b)
-  def \:(b: Long) = a \ b
-}
 
 type Rational = scas.base.Rational
 val Rational = scas.base.Rational

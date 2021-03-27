@@ -1,8 +1,9 @@
-import scas.{Rational, int2bigInt, bigInt2rational}
+import scas.{BigInteger, Rational, bigInt2rational}
 import scas.power.Lexicographic
 import scas.module.{Array, ArrayModule}
 import scas.polynomial.TreePolynomial
 import TreePolynomial.coef2poly
+import BigInteger.given
 import Rational.given
 {
   val r = new TreePolynomial(using Rational, Lexicographic[Int]("x"))

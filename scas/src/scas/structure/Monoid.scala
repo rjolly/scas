@@ -1,6 +1,6 @@
 package scas.structure
 
-import scas.{BigInteger, int2bigInt}
+import scas.BigInteger
 import BigInteger.given
 
 trait Monoid[T] extends SemiGroup[T] {

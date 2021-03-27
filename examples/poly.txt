@@ -1,5 +1,5 @@
 import scala.language.experimental.genericNumberLiterals
-import scas.{BigInteger, int2bigInt}
+import scas.BigInteger
 import scas.rendering.MathObject
 import scas.power.Lexicographic
 import scas.polynomial.TreePolynomial

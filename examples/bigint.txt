@@ -1,5 +1,5 @@
 import scala.language.experimental.genericNumberLiterals
-import scas.{BigInteger, \:, int2bigInt}
+import scas.BigInteger
 import BigInteger.{abs, unary_-, given}
 
 assert(BigInteger(1) + 1 >< 1 + BigInteger(1))

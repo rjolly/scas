@@ -1,6 +1,7 @@
-import scas.{BigInteger, int2bigInt, long2bigInt}
+import scas.BigInteger
 import scas.polynomial.TreePolynomial
 import jas.PowerProduct
+import BigInteger.{int2bigInt, long2bigInt}
 import TreePolynomial.coef2poly
 
 val r = new TreePolynomial(using BigInteger, PowerProduct("x", "y", "z"))

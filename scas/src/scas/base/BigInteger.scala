@@ -40,4 +40,12 @@ object BigInteger extends EuclidianDomain[BigInteger] with FromDigits[BigInteger
   def toMathML = "<integers/>"
   lazy val zero = 0
   lazy val one = 1
+
+  given int2bigInt: (Int => BigInteger) = java.math.BigInteger.valueOf(_)
+  given long2bigInt: (Long => BigInteger) = java.math.BigInteger.valueOf(_)
+
+  extension (a: Long) {
+    def \ (b: Long): BigInteger = long2bigInt(a) \ b
+    def \:(b: Long) = a \ b
+  }
 }

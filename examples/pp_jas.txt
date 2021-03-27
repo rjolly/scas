@@ -1,5 +1,6 @@
-import scas.{int2bigInt, int2powerProduct}
+import scas.{BigInteger, int2powerProduct}
 import jas.PowerProduct
+import BigInteger.int2bigInt
 
 val m = PowerProduct("x")
 val Array(x) = m.generators
