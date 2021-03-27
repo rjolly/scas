@@ -1,6 +1,7 @@
 package rings
 
 import cc.redberry.rings.io.Coder
+import BigInteger.bigInt2scas
 
 trait Ring[T] extends scas.structure.ordered.Ring[T] {
   def ring: cc.redberry.rings.Ring[T]

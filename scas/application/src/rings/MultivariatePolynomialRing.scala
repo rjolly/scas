@@ -11,8 +11,6 @@ class MultivariatePolynomialRing[C : Ring](monomialOrder: Comparator[DegreeVecto
   val ring: MultivariateRing[MultivariatePolynomial[C]] = MultivariateRing(MultivariatePolynomial.zero(variables.size, Ring[C].ring, monomialOrder))
   override def coder = Coder.mkMultivariateCoder(ring, Ring[C].coder, variables: _*)
   def gens = (for (i <- 0 until ring.nVariables()) yield ring.variable(i)).toArray
-}
 
-object MultivariatePolynomialRing {
-  def apply[C : MultivariatePolynomialRing] = summon[MultivariatePolynomialRing[C]]
+  given coef2poly[U](using c: U => C): (U => MultivariatePolynomial[C]) = x => ring.factory().createConstant(c(x))
 }

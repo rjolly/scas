@@ -1,7 +1,7 @@
 // Requires : cc.redberry#rings;2.5.7
 
 import scala.language.experimental.genericNumberLiterals
-import rings.{BigInteger, int2bigInt, bigInt2scas, \:}
+import rings.BigInteger
 import BigInteger.given
 
 assert(BigInteger(1) + 1 >< 1 + BigInteger(1))

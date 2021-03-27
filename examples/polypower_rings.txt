@@ -1,23 +1,24 @@
 // Requires : cc.redberry#rings;2.5.7
 
 import cc.redberry.rings.poly.multivar.MonomialOrder
-import rings.{BigInteger, MultivariatePolynomialRing, coef2poly, int2bigInt, long2bigInt, bigInt2scas}
+import rings.{BigInteger, MultivariatePolynomialRing}
+import BigInteger.given
+{
+  val r = new MultivariatePolynomialRing(MonomialOrder.LEX, "x", "y", "z")(using BigInteger)
+  val Array(x, y, z) = r.gens
+  import r.given
 
-val r = new MultivariatePolynomialRing(MonomialOrder.LEX, "x", "y", "z")(using BigInteger)
-val Array(x, y, z) = r.gens
-import r.given
-
-val p = 1 + x + y + z
-// val p = 1 + x \ 2147483647 + y \ 2147483647 + z \ 2147483647
-// integer overflow: 2863311531
-// val p = 10000000001l + 10000000001l * x + 10000000001l * y + 10000000001l * z
-println("p: " + p)
-val q = p \ 20
-println("q: " + q.size)
-val q1 = q + 1
-println("q1: " + q1.size)
-var t = System.currentTimeMillis();
-val q2 = q * q1
-t = System.currentTimeMillis() - t;
-println("q2: " + q2.size)
-println("t: " + t)
+  val p = 1 + x + y + z
+  // val p = 1 + x \ 32767 + y \ 32767 + z \ 32767
+  // val p = 10000000001l + 10000000001l * x + 10000000001l * y + 10000000001l * z
+  println("p: " + p)
+  val q = p \ 20
+  println("q: " + q.size)
+  val q1 = q + 1
+  println("q1: " + q1.size)
+  var t = System.currentTimeMillis();
+  val q2 = q * q1
+  t = System.currentTimeMillis() - t;
+  println("q2: " + q2.size)
+  println("t: " + t)
+}

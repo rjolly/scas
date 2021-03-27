@@ -2,7 +2,7 @@
 
 import scala.language.experimental.genericNumberLiterals
 import cc.redberry.rings.poly.multivar.MonomialOrder
-import rings.{BigInteger, MultivariatePolynomialRing, coef2poly, int2bigInt}
+import rings.{BigInteger, MultivariatePolynomialRing}
 import BigInteger.given
 
 assert(BigInteger(1) + 1 >< 1 + BigInteger(1))
