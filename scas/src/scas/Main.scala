@@ -1,14 +1,11 @@
 package scas
 
-import scas.base.{BigIntegerImpl, RationalImpl}
 import scas.power.PowerProduct
 import scas.prettyprint.Show
 
 type BigInteger = scas.base.BigInteger
-object BigInteger extends BigIntegerImpl {
-  given BigInteger.type = this
-}
-import BigInteger.given
+val BigInteger = scas.base.BigInteger
+import scas.base.BigInteger.given
 
 given int2bigInt: (Int => BigInteger) = java.math.BigInteger.valueOf(_)
 given long2bigInt: (Long => BigInteger) = java.math.BigInteger.valueOf(_)
@@ -19,9 +16,7 @@ extension (a: Long) {
 }
 
 type Rational = scas.base.Rational
-object Rational extends RationalImpl {
-  given Rational.type = this
-}
+val Rational = scas.base.Rational
 
 given bigInt2rational[U](using c: U => BigInteger): (U => Rational) = x => Rational.fromRing(c(x))
 

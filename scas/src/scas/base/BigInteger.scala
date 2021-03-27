@@ -1,13 +1,12 @@
 package scas.base
 
-import scas.BigInteger
 import scas.structure.commutative.ordered.EuclidianDomain
 import scala.util.FromDigits
-import BigInteger.given
 
 type BigInteger = java.math.BigInteger
 
-class BigIntegerImpl extends EuclidianDomain[BigInteger] with FromDigits[BigInteger] {
+object BigInteger extends EuclidianDomain[BigInteger] with FromDigits[BigInteger] {
+  given BigInteger.type = this
   def fromDigits(digits: String) = new BigInteger(digits)
   extension (x: BigInteger) {
     def add(y: BigInteger) = x.add(y)
