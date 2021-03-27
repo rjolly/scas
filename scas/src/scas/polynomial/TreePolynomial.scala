@@ -82,5 +82,6 @@ class TreePolynomial[C : Ring, M : PowerProduct] extends Polynomial[Element[C, M
 
 object TreePolynomial {
   type Element[C, M] = SortedMap[M, C]
+
   given coef2poly[D, C, M](using c: D => C, factory: TreePolynomial[C, M]): (D => Element[C, M]) = x => factory(c(x))
 }

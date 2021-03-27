@@ -2,11 +2,9 @@ package scas
 
 import scas.base.{BigIntegerImpl, RationalImpl}
 import scas.power.PowerProduct
-import scas.polynomial.Polynomial
-import scas.structure.commutative.Quotient
 import scas.prettyprint.Show
 
-type BigInteger = java.math.BigInteger
+type BigInteger = scas.base.BigInteger
 object BigInteger extends BigIntegerImpl {
   given BigInteger.type = this
 }
@@ -20,7 +18,7 @@ extension (a: Long) {
   def \:(b: Long) = a \ b
 }
 
-type Rational = Quotient.Element[BigInteger]
+type Rational = scas.base.Rational
 object Rational extends RationalImpl {
   given Rational.type = this
 }

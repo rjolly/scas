@@ -7,6 +7,8 @@ import scala.util.FromDigits
 import BigInteger.given
 import Rational.given
 
+type Rational = Quotient.Element[BigInteger]
+
 class RationalImpl extends Quotient[BigInteger] with Field[Rational] with FromDigits[Rational] {
   def fromDigits(digits: String) = fromRing(BigInteger.fromDigits(digits))
   def compare(x: Rational, y: Rational) = {
