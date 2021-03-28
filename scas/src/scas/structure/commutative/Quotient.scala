@@ -13,7 +13,7 @@ trait Quotient[T: UniqueFactorizationDomain] extends Field[Element[T]] {
     val gcd = if (d.signum == -c.signum) -c else c
     Element(n / gcd, d / gcd)
   }
-  def fromRing(n: T) = Element(n, ring.one)
+  def apply(n: T) = Element(n, ring.one)
   extension (x: Element[T]) def add(y: Element[T]) = {
     val Element(a, b) = x
     val Element(c, d) = y
@@ -77,8 +77,8 @@ trait Quotient[T: UniqueFactorizationDomain] extends Field[Element[T]] {
     if (d.isOne) n.toMathML else s"<apply><divide/>${n.toMathML}${d.toMathML}</apply>"
   }
   def toMathML = s"<apply><divide/>${ring.toMathML}${ring.toMathML}</apply>"
-  def zero = fromRing(ring.zero)
-  def one = fromRing(ring.one)
+  def zero = this(ring.zero)
+  def one = this(ring.one)
 }
 
 object Quotient {
