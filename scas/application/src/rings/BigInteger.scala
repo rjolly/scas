@@ -9,7 +9,6 @@ type BigInteger = cc.redberry.rings.bigint.BigInteger
 object BigInteger extends Ring[BigInteger] with FromDigits[BigInteger] {
   given BigInteger.type = this
   def fromDigits(digits: String) = new BigInteger(digits)
-  def apply(str: String) = new BigInteger(str)
   val ring: Integers = Rings.Z
 
   given int2bigInt: (Int => BigInteger) = cc.redberry.rings.bigint.BigInteger.valueOf(_)

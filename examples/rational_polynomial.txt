@@ -7,7 +7,7 @@ import BigInteger.given
 import Rational.given
 
 assert (Rational(1) >< 1)
-assert (Rational("1", "2") >< 1%%2)
+assert (Rational(1, 2) >< 1%%2)
 {
   val r = new TreePolynomial(using Rational, Lexicographic[Int]("x"))
   val List(x) = r.generators.toList

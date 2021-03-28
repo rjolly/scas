@@ -8,7 +8,6 @@ object BigInteger extends Ring[BigInteger] with FromDigits[BigInteger] {
   given BigInteger.type = this
   val factory = new BigInteger()
   def fromDigits(digits: String) = new BigInteger(digits)
-  def apply(str: String) = new BigInteger(str)
 
   given int2bigInt: (Int => BigInteger) = new BigInteger(_)
   given long2bigInt: (Long => BigInteger) = new BigInteger(_)
