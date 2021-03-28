@@ -3,13 +3,11 @@ import mill._, scalalib._, publish._
 
 object scas extends ScalaModule with PublishModule {
   def scalaVersion = sys.props("dottyVersion")
-  def scalacOptions = Seq("-language:experimental.genericNumberLiterals")
   def ivyDeps = Agg(
     ivy"org.scala-lang:scala-library:2.13.5"
   )
   object application extends ScalaModule {
     def scalaVersion = sys.props("dottyVersion")
-    def scalacOptions = Seq("-language:experimental.genericNumberLiterals")
     def moduleDeps = Seq(scas)
     def ivyDeps = Agg(
       ivy"org.scala-lang::scala3-compiler:${scalaVersion()}",

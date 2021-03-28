@@ -2,7 +2,7 @@ mkdir("build");
 mkdir("build/classes");
 
 var name = "scas.application";
-dotc("../" + name.replace(".", "/") + "/src", "build/classes", ["-language:experimental.genericNumberLiterals"]);
+dotc("../" + name.replace(".", "/") + "/src", "build/classes");
 
 mkdir("dist");
 var name_rev = name + "_3.0.0-RC2";

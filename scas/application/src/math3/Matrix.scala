@@ -18,7 +18,7 @@ class Matrix(size: Int) extends Algebra[Element, Double] with Field[Element] {
     def multiply(y: Element) = x.multiply(y)
   }
   def inverse(x: Element) = MatrixUtils.inverse(x)
-  def characteristic = 0
+  def characteristic = BigInteger(0)
   def equiv(x: Element, y: Element) = x == y
   extension (x: Element) def signum = if(size > 0) x.getEntry(0, 0).signum else 0
   extension (x: Double) def multiplyLeft(y: Element) = y.multiplyRight(x)
