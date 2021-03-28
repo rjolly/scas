@@ -1,6 +1,6 @@
 package scas.structure.commutative
 
-import scas.BigInteger
+import scas.base.BigInteger
 import Quotient.Element
 import BigInteger.given
 

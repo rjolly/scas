@@ -2,7 +2,7 @@ package math3
 
 import java.lang.Math
 import scas.structure.Field
-import scas.BigInteger
+import scas.base.BigInteger
 import BigInteger.given
 import Matrix.Element
 

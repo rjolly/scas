@@ -1,4 +1,4 @@
-import scas.BigInteger
+import scas.base.BigInteger
 import scas.polynomial.TreePolynomial
 import jas.PowerProduct
 import BigInteger.given

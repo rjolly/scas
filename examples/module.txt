@@ -1,4 +1,5 @@
-import scas.{BigInteger, Rational, bigInt2rational}
+import scas.base.{BigInteger, Rational}
+import scas.bigInt2rational
 import scas.power.Lexicographic
 import scas.module.{Array, ArrayModule}
 import scas.polynomial.TreePolynomial

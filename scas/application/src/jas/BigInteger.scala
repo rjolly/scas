@@ -14,5 +14,5 @@ object BigInteger extends Ring[BigInteger] with FromDigits[BigInteger] {
 
   extension (a: Long) def \:(b: Long) = long2bigInt(a) \ bigInt2scas.apply(b)
 
-  given bigInt2scas[U](using c: U => BigInteger): (U => scas.BigInteger) = x => (c(x)).`val`
+  given bigInt2scas[U](using c: U => BigInteger): (U => scas.base.BigInteger) = x => (c(x)).`val`
 }

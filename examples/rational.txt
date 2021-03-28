@@ -1,5 +1,6 @@
 import scala.language.experimental.genericNumberLiterals
-import scas.{BigInteger, Rational, bigInt2rational}
+import scas.base.{BigInteger, Rational}
+import scas.bigInt2rational
 import BigInteger.given
 {
   import Rational.given

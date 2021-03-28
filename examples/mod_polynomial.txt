@@ -1,4 +1,4 @@
-import scas.{BigInteger, ModInteger}
+import scas.base.{BigInteger, ModInteger}
 import scas.power.Lexicographic
 import scas.polynomial.TreePolynomial
 import TreePolynomial.coef2poly

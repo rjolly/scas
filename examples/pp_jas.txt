@@ -1,4 +1,4 @@
-import scas.BigInteger
+import scas.base.BigInteger
 import jas.PowerProduct
 import BigInteger.int2bigInt
 

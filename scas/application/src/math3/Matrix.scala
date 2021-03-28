@@ -4,7 +4,7 @@ import org.apache.commons.math3.linear.Array2DRowRealMatrix
 import org.apache.commons.math3.linear.MatrixUtils
 import org.apache.commons.math3.linear.RealMatrix
 import scas.structure.{Algebra, Field}
-import scas.BigInteger
+import scas.base.BigInteger
 import BigInteger.given
 import Matrix.Element
 import Double.given
