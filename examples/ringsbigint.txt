@@ -1,6 +1,5 @@
 // Requires : cc.redberry#rings;2.5.7
 
-import scala.language.experimental.genericNumberLiterals
 import rings.BigInteger
 import BigInteger.given
 
