@@ -1,3 +1,4 @@
+import scala.language.experimental.genericNumberLiterals
 import scas.base.{BigInteger, Rational}
 import Rational.Implicits.bigInt2rational
 import BigInteger.given
