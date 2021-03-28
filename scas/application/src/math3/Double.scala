@@ -4,7 +4,6 @@ import java.lang.Math
 import scas.structure.Field
 import scas.base.BigInteger
 import BigInteger.given
-import Matrix.Element
 
 object Double extends Field[Double] {
   given Double.type = this
@@ -26,6 +25,3 @@ object Double extends Field[Double] {
   }
   def toMathML = ???
 }
-
-given int2matrix(using Matrix): (Int => Element) = summon[Matrix].one%* _
-given double2matrix(using Matrix): (Double => Element) = summon[Matrix].one%* _
