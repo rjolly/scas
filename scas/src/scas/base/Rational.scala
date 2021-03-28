@@ -2,17 +2,15 @@ package scas.base
 
 import scas.structure.commutative.Quotient
 import scas.structure.commutative.ordered.Field
-import scala.util.FromDigits
 import BigInteger.given
 
 type Rational = Quotient.Element[BigInteger]
 
-object Rational extends Quotient[BigInteger] with Field[Rational] with FromDigits[Rational] {
+object Rational extends Quotient[BigInteger] with Field[Rational] {
   given Rational.type = this
   object Implicits {
     given bigInt2rational[U](using c: U => BigInteger): (U => Rational) = x => Rational(c(x))
   }
-  def fromDigits(digits: String) = this(BigInteger.fromDigits(digits))
   def apply(n: String, d: String): Rational = this(BigInteger(n), BigInteger(d))
   def compare(x: Rational, y: Rational) = {
     val Rational(a, b) = x

@@ -1,14 +1,12 @@
 package rings
 
-import scala.util.FromDigits
 import cc.redberry.rings.Rings
 import cc.redberry.rings.Integers
 
 type BigInteger = cc.redberry.rings.bigint.BigInteger
 
-object BigInteger extends Ring[BigInteger] with FromDigits[BigInteger] {
+object BigInteger extends Ring[BigInteger] {
   given BigInteger.type = this
-  def fromDigits(digits: String) = new BigInteger(digits)
   def apply(str: String) = new BigInteger(str)
   val ring: Integers = Rings.Z
 
