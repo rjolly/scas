@@ -5,7 +5,7 @@ object scas extends ScalaModule with PublishModule {
   def scalaVersion = sys.props("dottyVersion")
   def scalacOptions = Seq("-language:experimental.genericNumberLiterals")
   def ivyDeps = Agg(
-    ivy"org.scala-lang:scala-library:2.13.4"
+    ivy"org.scala-lang:scala-library:2.13.5"
   )
   object application extends ScalaModule {
     def scalaVersion = sys.props("dottyVersion")
@@ -18,7 +18,7 @@ object scas extends ScalaModule with PublishModule {
       ivy"org.apache.logging.log4j:log4j-api:2.14.0",
       ivy"cc.redberry:rings:2.5.7",
       ivy"org.apache.commons:commons-math3:3.6.1",
-      ivy"net.sourceforge.jscl-meditor:rendering:1.0"
+      ivy"net.sourceforge.jscl-meditor:rendering:1.1"
     )
     def test(args: String*) = run(args: _*)
   }

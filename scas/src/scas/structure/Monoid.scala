@@ -19,7 +19,7 @@ trait Monoid[T] extends SemiGroup[T] {
         a * a \ (b - 1)
       }
     }
-    def \:(b: BigInteger) = a \ b
+    def \:[U](b: U)(using c: U => BigInteger) = a \ b
   }
   extension (x: T) def isUnit: Boolean
   def one: T
