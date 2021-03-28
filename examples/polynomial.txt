@@ -1,4 +1,4 @@
-// Requires : de.uni-mannheim.rz.krum#jas;2.6.5988
+// Requires : de.uni-mannheim.rz.krum#jas;2.7.10
 
 import edu.jas.poly.TermOrderByName
 import edu.jas.poly.GenPolynomialRing
@@ -12,8 +12,6 @@ assert(BigInteger(1) + 1 >< 1 + BigInteger(1))
   import r.given
 
   assert(x + 1 >< 1 + x)
-  // assert(x + 18446744073709551616 >< 18446744073709551616 + x)
-  // number too large
   assert(x + BigInteger(1) >< BigInteger(1) + x)
   assert(x + BigInteger("18446744073709551616") >< BigInteger("18446744073709551616") + x)
   assert(x + one >< one + x)

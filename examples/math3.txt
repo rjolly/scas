@@ -1,4 +1,4 @@
-// Requires : org.apache.commons#commons-math3;3.5
+// Requires : org.apache.commons#commons-math3;3.6.1
 
 import math3.Matrix
 import scas.base.BigInteger

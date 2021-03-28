@@ -1,9 +1,7 @@
-// Requires : de.uni-mannheim.rz.krum#jas;2.6.5988
+// Requires : de.uni-mannheim.rz.krum#jas;2.7.10
 
 import jas.BigInteger
 import BigInteger.given
 
 assert(BigInteger(1) + 1 >< 1 + BigInteger(1))
-// assert(BigInteger(1) + 18446744073709551616 >< 18446744073709551616 + BigInteger(1))
-// number too large
 assert(BigInteger(1) - BigInteger(1) >< 0)

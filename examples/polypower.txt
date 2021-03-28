@@ -1,4 +1,4 @@
-// Requires : de.uni-mannheim.rz.krum#jas;2.6.5988
+// Requires : de.uni-mannheim.rz.krum#jas;2.7.10
 
 import edu.jas.poly.TermOrderByName
 import edu.jas.poly.GenPolynomialRing
