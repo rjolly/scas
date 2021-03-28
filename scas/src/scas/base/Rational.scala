@@ -13,6 +13,7 @@ object Rational extends Quotient[BigInteger] with Field[Rational] with FromDigit
     given bigInt2rational[U](using c: U => BigInteger): (U => Rational) = x => Rational(c(x))
   }
   def fromDigits(digits: String) = this(BigInteger.fromDigits(digits))
+  def apply(n: String, d: String): Rational = this(BigInteger(n), BigInteger(d))
   def compare(x: Rational, y: Rational) = {
     val Rational(a, b) = x
     val Rational(c, d) = y
