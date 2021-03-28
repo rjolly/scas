@@ -9,6 +9,9 @@ type Rational = Quotient.Element[BigInteger]
 
 object Rational extends Quotient[BigInteger] with Field[Rational] with FromDigits[Rational] {
   given Rational.type = this
+  object Implicits {
+    given bigInt2rational[U](using c: U => BigInteger): (U => Rational) = x => fromRing(c(x))
+  }
   def fromDigits(digits: String) = fromRing(BigInteger.fromDigits(digits))
   def compare(x: Rational, y: Rational) = {
     val Rational(a, b) = x

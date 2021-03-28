@@ -1,6 +1,6 @@
 import scala.language.experimental.genericNumberLiterals
 import scas.base.{BigInteger, Rational}
-import scas.bigInt2rational
+import Rational.Implicits.bigInt2rational
 import scas.power.Lexicographic
 import scas.polynomial.TreePolynomial
 import TreePolynomial.coef2poly
