@@ -1,6 +1,7 @@
 package scas.module
 
-import scas.structure.{Ring, Module}
+import scas.structure.Ring
+import scas.structure.conversion.Module
 import scas.util.ToFrags
 
 class ArrayModule[R : ClassTag : ClassTagArray](using ring: Ring[R])(val dimension: Int) extends Module[Array[R], R] {

@@ -1,4 +1,4 @@
-package scas.power
+package scas.power.conversion
 
 import scas.math.Numeric
 import scas.variable.Variable

@@ -1,6 +1,6 @@
 package scas.base
 
-import scas.structure.commutative.ordered.EuclidianDomain
+import scas.structure.commutative.ordered.conversion.EuclidianDomain
 
 type BigInteger = java.math.BigInteger
 

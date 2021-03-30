@@ -1,9 +1,8 @@
 package scas.structure
 
 trait NotQuiteField[T] extends Ring[T] {
-  extension[U] (x: U)(using c: U => T) def / (y: T) = c(x).divide(y)
   extension (x: T) {
-    def /[U](y: U)(using c: U => T) = x.divide(c(y))
     def divide(y: T): T
+    def / (y: T) = x.divide(y)
   }
 }

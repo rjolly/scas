@@ -1,7 +1,7 @@
 package scas.base
 
-import scas.structure.commutative.Quotient
-import scas.structure.commutative.ordered.Field
+import scas.structure.commutative.conversion.Quotient
+import scas.structure.commutative.ordered.conversion.Field
 import BigInteger.given
 
 type Rational = Quotient.Element[BigInteger]
@@ -18,7 +18,7 @@ object Rational extends Quotient[BigInteger] with Field[Rational] {
     BigInteger.compare(a * d, c * b)
   }
   extension (a: Long) def %%(b: Long) = this(long2bigInt(a), long2bigInt(b))
-  extension (x: Rational) override def signum = super[Quotient].signum(x)
+  extension (x: Rational) override def signum = super.signum(x)
   extension (x: Rational) override def toCode(level: Level) = {
     val Rational(n, d) = x
     if (d.isOne) n.toCode(level) else {

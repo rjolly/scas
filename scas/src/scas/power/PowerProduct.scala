@@ -5,8 +5,7 @@ import scas.structure.ordered.Monoid
 import scas.variable.Variable
 import scas.prettyprint.Show
 
-abstract class PowerProduct[M: ClassTag] extends Monoid[M] {
-  given PowerProduct[M] = this
+abstract class PowerProduct[M: scala.reflect.ClassTag] extends Monoid[M] {
   def variables: Seq[Variable]
   val length = variables.length
   def generator(variable: String): M = generator(variables.indexOf(variable))
@@ -20,15 +19,11 @@ abstract class PowerProduct[M: ClassTag] extends Monoid[M] {
   def gcd(x: M, y: M): M
   def lcm(x: M, y: M): M
   def coprime(x: M, y: M) = gcd(x, y).isOne
-  extension[U] (x: U)(using c: U => M) {
-    def / (y: M) = c(x).divide(y)
-    def | (y: M) = c(x).factorOf(y)
-  }
   extension (x: M) {
-    def /[U](y: U)(using c: U => M) = x.divide(c(y))
-    def |[U](y: U)(using c: U => M) = x.factorOf(c(y))
     def divide(y: M): M
     def factorOf(y: M): Boolean
+    def / (y: M) = x.divide(y)
+    def | (y: M) = x.factorOf(y)
     def isUnit = x.isOne
   }
   def dependencyOnVariables(x: M): Array[Int]
@@ -38,8 +33,6 @@ abstract class PowerProduct[M: ClassTag] extends Monoid[M] {
   override def apply(x: M) = x.convert(variables: _*)
   extension (x: M) def convert(from: Variable*): M
   def size(x: M): Int
-
-  given int2powerProduct: (Int => M) = apply(_)
 }
 
 object PowerProduct {

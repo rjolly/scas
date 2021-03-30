@@ -3,15 +3,7 @@ package scas.structure.commutative
 trait UniqueFactorizationDomain[T] extends scas.structure.NotQuiteField[T] {
   def gcd(x: T, y: T): T
   def lcm(x: T, y: T) = (x * y) / gcd(x, y)
-  extension[U] (x: U)(using c: U => T) {
-    def % (y: T) = c(x).remainder(y)
-    def /%(y: T) = c(x).divideAndRemainder(y)
-    def | (y: T) = c(x).factorOf(y)
-  }
   extension (x: T) {
-    def % [U](y: U)(using c: U => T) = x.remainder(c(y))
-    def /%[U](y: U)(using c: U => T) = x.divideAndRemainder(c(y))
-    def | [U](y: U)(using c: U => T) = x.factorOf(c(y))
     def divide(y: T) = {
       val (q, _) = x /%y
       q
@@ -22,6 +14,9 @@ trait UniqueFactorizationDomain[T] extends scas.structure.NotQuiteField[T] {
     }
     def divideAndRemainder(y: T): (T, T)
     def factorOf(y: T) = (y % x).isZero
+    def % (y: T) = x.remainder(y)
+    def /%(y: T) = x.divideAndRemainder(y)
+    def | (y: T) = x.factorOf(y)
   }
 }
 

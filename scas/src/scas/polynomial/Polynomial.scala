@@ -5,7 +5,7 @@ import scala.reflect.ClassTag
 import scas.structure.Ring
 import scas.power.PowerProduct
 
-trait Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends Ring[T] {
+trait Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends scas.structure.conversion.Ring[T] {
   def ring = Ring[C]
   def pp = PowerProduct[M]
   val zero = this()
