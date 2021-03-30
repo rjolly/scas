@@ -3,7 +3,7 @@ package jas
 import scas.variable.Variable
 import edu.jas.poly.ExpVector
 
-class PowerProduct(val variables: Variable*) extends scas.power.PowerProduct[ExpVector] {
+class PowerProduct(val variables: Variable*) extends scas.power.conversion.PowerProduct[ExpVector] {
   def one = ExpVector.create(length)
   def generator(n: Int) = ExpVector.create(length, n, 1)
   def degree(x: ExpVector) = x.degree
