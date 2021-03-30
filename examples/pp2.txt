@@ -1,4 +1,4 @@
-import scas.power.Lexicographic
+import scas.power.conversion.Lexicographic
 import scas.variable.Variable
 
 val m = new Lexicographic[Int]((for (i <- 0 until 4; j <- 0 until 2) yield Variable("a", Array(i, j): _*)): _*)

@@ -3,7 +3,7 @@ package rings
 import cc.redberry.rings.io.Coder
 import BigInteger.bigInt2scas
 
-trait Ring[T] extends scas.structure.ordered.Ring[T] {
+trait Ring[T] extends scas.structure.ordered.conversion.Ring[T] {
   def ring: cc.redberry.rings.Ring[T]
   def coder = Coder.mkCoder(ring)
   extension (x: T) {

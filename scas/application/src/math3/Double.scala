@@ -1,7 +1,7 @@
 package math3
 
 import java.lang.Math
-import scas.structure.Field
+import scas.structure.conversion.Field
 import scas.base.BigInteger
 import BigInteger.given
 
