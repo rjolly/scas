@@ -1,3 +1,3 @@
 package scas.structure.conversion
 
-trait Algebra[T, R: scas.structure.Field] extends scas.structure.Algebra[T, R] with VectorSpace[T, R] with SemiGroup[T]
+abstract class Algebra[T, R: scas.structure.Field] extends VectorSpace[T, R] with SemiGroup[T] with scas.structure.Algebra[T, R]
