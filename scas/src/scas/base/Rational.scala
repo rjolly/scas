@@ -1,9 +1,10 @@
 package scas.base
 
 import scas.structure.commutative.ordered.conversion.Quotient
+import scas.structure.commutative.Quotient.Element
 import BigInteger.given
 
-type Rational = Quotient.Element[BigInteger]
+type Rational = Element[BigInteger]
 
 object Rational extends Quotient[BigInteger] {
   given Rational.type = this

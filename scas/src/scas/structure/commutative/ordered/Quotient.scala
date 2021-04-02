@@ -1,6 +1,6 @@
 package scas.structure.commutative.ordered
 
-import Quotient.Element
+import scas.structure.commutative.Quotient.Element
 
 trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends scas.structure.commutative.Quotient[T] with Field[Element[T]] {
   def compare(x: Element[T], y: Element[T]) = {
@@ -10,5 +10,3 @@ trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends scas.structu
   }
   extension (x: Element[T]) override def signum = super.signum(x)
 }
-
-val Quotient = scas.structure.commutative.Quotient
