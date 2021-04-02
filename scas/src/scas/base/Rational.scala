@@ -34,6 +34,6 @@ object Rational extends Quotient[BigInteger] with Field[Rational] {
     if (d.isOne) n.toMathML else s"""<cn type="rational">$n<sep/>$d</cn>"""
   }
   override def toMathML = "<rationals/>"
-  override lazy val zero = { import Implicits.bigInt2rational; Rational(0) }
-  override lazy val one = { import Implicits.bigInt2rational; Rational(1) }
+  override val zero = { import Implicits.bigInt2rational; Rational(0) }
+  override val one = { import Implicits.bigInt2rational; Rational(1) }
 }
