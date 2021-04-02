@@ -26,5 +26,4 @@ object Rational extends Quotient[BigInteger] {
   override def toMathML = "<rationals/>"
   override val zero = Rational(0)
   override val one = Rational(1)
-  given bigInt2rational[U](using c: U => BigInteger): (U => Rational) = x => Rational(c(x))
 }
