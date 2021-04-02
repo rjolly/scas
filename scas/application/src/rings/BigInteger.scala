@@ -1,14 +1,13 @@
 package rings
 
 import cc.redberry.rings.Rings
-import cc.redberry.rings.Integers
 
 type BigInteger = cc.redberry.rings.bigint.BigInteger
 
 object BigInteger extends Ring[BigInteger] {
   given BigInteger.type = this
   def apply(str: String) = new BigInteger(str)
-  val ring: Integers = Rings.Z
+  val ring = Rings.Z
 
   given int2bigInt: (Int => BigInteger) = cc.redberry.rings.bigint.BigInteger.valueOf(_)
   given long2bigInt: (Long => BigInteger) = cc.redberry.rings.bigint.BigInteger.valueOf(_)

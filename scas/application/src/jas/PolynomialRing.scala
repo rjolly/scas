@@ -5,7 +5,7 @@ import edu.jas.poly.GenPolynomial
 import edu.jas.structure.RingElem
 import scala.collection.JavaConverters.asScalaBufferConverter
 
-class PolynomialRing[C <: RingElem[C]](using val factory: GenPolynomialRing[C]) extends Ring[GenPolynomial[C]] {
+class PolynomialRing[C <: RingElem[C]](val factory: GenPolynomialRing[C]) extends Ring[GenPolynomial[C]] {
   given PolynomialRing[C] = this
   def gens = factory.getGenerators().asScala.toArray
 
