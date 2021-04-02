@@ -7,9 +7,6 @@ type Rational = Quotient.Element[BigInteger]
 
 object Rational extends Quotient[BigInteger] {
   given Rational.type = this
-  object Implicits {
-    given bigInt2rational[U](using c: U => BigInteger): (U => Rational) = x => Rational(c(x))
-  }
   def apply(n: String, d: String): Rational = this(BigInteger(n), BigInteger(d))
   extension (a: Long) def %%(b: Long) = this(long2bigInt(a), long2bigInt(b))
   extension (x: Rational) override def toCode(level: Level) = {
@@ -27,6 +24,7 @@ object Rational extends Quotient[BigInteger] {
     if (d.isOne) n.toMathML else s"""<cn type="rational">$n<sep/>$d</cn>"""
   }
   override def toMathML = "<rationals/>"
-  override val zero = { import Implicits.bigInt2rational; Rational(0) }
-  override val one = { import Implicits.bigInt2rational; Rational(1) }
+  override val zero = Rational(0)
+  override val one = Rational(1)
+  given bigInt2rational[U](using c: U => BigInteger): (U => Rational) = x => Rational(c(x))
 }

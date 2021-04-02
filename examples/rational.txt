@@ -1,5 +1,4 @@
 import scas.base.{BigInteger, Rational}
-import Rational.Implicits.bigInt2rational
 import BigInteger.given
 {
   import Rational.given
