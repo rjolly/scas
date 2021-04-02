@@ -1,8 +1,7 @@
 import scas.base.BigInteger
 import scas.rendering.MathObject
 import scas.power.conversion.Lexicographic
-import scas.polynomial.TreePolynomial
-import TreePolynomial.coef2poly
+import scas.polynomial.conversion.TreePolynomial
 import BigInteger.given
 
 assert(BigInteger(1) + 1 >< 1 + BigInteger(1))

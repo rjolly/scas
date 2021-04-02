@@ -1,10 +1,9 @@
 // Requires : de.uni-mannheim.rz.krum#jas;2.7.10
 
 import scas.base.BigInteger
-import scas.polynomial.TreePolynomial
+import scas.polynomial.conversion.TreePolynomial
 import jas.PowerProduct
 import BigInteger.given
-import TreePolynomial.coef2poly
 {
   val r = new TreePolynomial(using BigInteger, PowerProduct("x", "y", "z"))
   val Array(x, y, z) = r.generators

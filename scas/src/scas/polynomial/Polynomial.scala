@@ -5,14 +5,14 @@ import scala.reflect.ClassTag
 import scas.structure.Ring
 import scas.power.PowerProduct
 
-trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) extends scas.structure.conversion.Ring[T] {
-  val zero = this()
+trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) extends Ring[T] {
+  lazy val zero = this()
   def generator(n: Int) = this(pp.generator(n))
   def generators = pp.generators.map(apply)
   extension (x: T) def signum = if (x.isZero) 0 else lastCoefficient(x).signum
   def characteristic = ring.characteristic
   override def apply(x: T) = sort(x.map((s, a) => (pp(s), ring(a))))
-  val one = this(ring.one)
+  lazy val one = this(ring.one)
   extension (x: T) def subtract(y: T) = x.subtract(pp.one, ring.one, y)
   def equiv(x: T, y: T) = {
     val xs = iterator(x)
@@ -34,8 +34,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
       for ((a, b) <- iterator(x)) r = r.subtract(a, -b, y)
       r
     }
-    def %*[U] (m: U)(using c: U => M): T = x.multiplyRight(c(m))
-    def multiplyRight(m: M) = x.map((s, a) => (s * m, a))
+    def %* (m: M) = x.map((s, a) => (s * m, a))
   }
 
   extension (x: T) def toCode(level: Level) = {
