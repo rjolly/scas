@@ -4,8 +4,7 @@ import scas.base.BigInteger
 import Quotient.Element
 import BigInteger.given
 
-trait Quotient[T: UniqueFactorizationDomain] extends Field[Element[T]] {
-  def ring = UniqueFactorizationDomain[T]
+trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends Field[Element[T]] {
   def apply(n: T, d: T): Element[T] = this(Element(n, d))
   override def apply(x: Element[T]) = {
     val Element(n, d) = x

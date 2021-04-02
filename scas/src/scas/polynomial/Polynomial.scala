@@ -5,9 +5,7 @@ import scala.reflect.ClassTag
 import scas.structure.Ring
 import scas.power.PowerProduct
 
-trait Polynomial[T : ClassTag, C : Ring, M : PowerProduct] extends scas.structure.conversion.Ring[T] {
-  def ring = Ring[C]
-  def pp = PowerProduct[M]
+trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) extends scas.structure.conversion.Ring[T] {
   val zero = this()
   def generator(n: Int) = this(pp.generator(n))
   def generators = pp.generators.map(apply)
