@@ -1,6 +1,8 @@
 package scas.power.conversion
 
+import scala.reflect.ClassTag
 import scas.math.Numeric
+import scas.util.ClassTagArray
 import scas.variable.Variable
 import Variable.string2variable
 

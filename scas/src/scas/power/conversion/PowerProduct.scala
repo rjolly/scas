@@ -1,5 +1,6 @@
 package scas.power.conversion
 
+import scala.reflect.ClassTag
 import scas.structure.ordered.conversion.Monoid
 
 abstract class PowerProduct[M: ClassTag] extends scas.power.PowerProduct[M] with Monoid[M] {

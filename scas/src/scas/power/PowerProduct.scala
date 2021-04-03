@@ -1,11 +1,12 @@
 package scas.power
 
+import scala.reflect.ClassTag
 import scas.math.Numeric
 import scas.structure.ordered.Monoid
 import scas.variable.Variable
 import scas.prettyprint.Show
 
-abstract class PowerProduct[M: scala.reflect.ClassTag] extends Monoid[M] {
+abstract class PowerProduct[M: ClassTag] extends Monoid[M] {
   def variables: Seq[Variable]
   val length = variables.length
   def generator(variable: String): M = generator(variables.indexOf(variable))

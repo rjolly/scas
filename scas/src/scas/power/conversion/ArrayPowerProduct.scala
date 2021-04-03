@@ -1,6 +1,7 @@
 package scas.power.conversion
 
 import scas.math.Numeric
+import scas.util.ClassTagArray
 import scas.variable.Variable
 
 abstract class ArrayPowerProduct[N : Numeric : ClassTagArray] extends PowerProduct[Array[N]] {

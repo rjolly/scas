@@ -9,7 +9,7 @@ trait Fragable[S, T : ClassTag]:
 object Fragable:
   given [U : Conversion[T], T : ClassTag]: Fragable[U, T] with
     extension (x: U)
-      def toFrags = Array(x.as[T])
+      def toFrags = Array(~x)
   given [T : ClassTag]: Fragable[EmptyTuple, T] with
     extension (x: EmptyTuple)
       def toFrags = Array()
