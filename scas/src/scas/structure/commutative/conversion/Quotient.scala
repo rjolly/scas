@@ -1,7 +1,8 @@
 package scas.structure.commutative.conversion
 
 import scas.structure.commutative.Quotient.Element
+import scas.util.{Conversion, unary_~}
 
 trait Quotient[T: scas.structure.commutative.UniqueFactorizationDomain] extends scas.structure.commutative.Quotient[T] with Field[Element[T]] {
-  given ring2quotient[U](using c: U => T): (U => Element[T]) = x => this(c(x))
+  given ring2quotient[U: Conversion[T]]: (U => Element[T]) = x => this(~x)
 }

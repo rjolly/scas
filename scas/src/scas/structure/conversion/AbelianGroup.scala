@@ -1,14 +1,17 @@
 package scas.structure.conversion
 
+import scala.annotation.targetName
+import scas.util.{Conversion, unary_~}
+
 trait AbelianGroup[T] extends scas.structure.AbelianGroup[T] with Structure[T] {
-  extension[U] (x: U)(using c: U => T) {
-    def + (y: T) = c(x).add(y)
-    def - (y: T) = c(x).subtract(y)
-    def unary_- = super.unary_-(c(x))
+  extension[U: Conversion[T]] (x: U) {
+    def + (y: T) = (~x).add(y)
+    def - (y: T) = (~x).subtract(y)
+    def unary_- = super.unary_-(~x)
   }
   extension (x: T) {
-    def +[U](y: U)(using c: U => T) = x.add(c(y))
-    def -[U](y: U)(using c: U => T) = x.subtract(c(y))
+    @targetName("add") def +[U: Conversion[T]](y: U) = x.add(~y)
+    @targetName("subtract") def -[U: Conversion[T]](y: U) = x.subtract(~y)
   }
-  def abs[U](x: U)(using c: U => T) = super.abs(c(x))
+  def abs[U: Conversion[T]](x: U) = super.abs(~x)
 }
