@@ -23,7 +23,7 @@ class ArrayModule[R : ClassTag : ClassTagArray](using ring: Ring[R])(val dimensi
     def subtract(y: Array[R]) = (for (i <- 0 until dimension) yield x(i) - y(i)).toArray
     def signum = x.foldLeft(0)((l, r) => if (l == 0) r.signum else l)
     def toCode(level: Level) = "Array(" + x.map(_.show).mkString(", ") + ")"
-    def toMathML = s"<vector>${x.map(_.toMathML)}</vector>"
+    def toMathML = s"<vector>${x.map(_.toMathML).mkString}</vector>"
   }
   def zero = (for (i <- 0 until dimension) yield ring.zero).toArray
   override def toString = s"$ring\\$dimension"
