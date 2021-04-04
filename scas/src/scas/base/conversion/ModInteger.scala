@@ -1,6 +1,5 @@
 package scas.base.conversion
 
-import scas.base.BigInteger
 import scas.structure.commutative.ordered.conversion.Field
 import scas.util.{Conversion, unary_~}
 
