@@ -1,4 +1,4 @@
-package scas.power.conversion
+package scas.power
 
 import scas.math.Numeric
 import scas.util.ClassTagArray

@@ -5,7 +5,7 @@ import scala.annotation.targetName
 import scas.structure.ordered.conversion.Monoid
 import scas.util.{Conversion, unary_~}
 
-abstract class PowerProduct[M: ClassTag] extends scas.power.PowerProduct[M] with Monoid[M] {
+trait PowerProduct[M: ClassTag] extends scas.power.PowerProduct[M] with Monoid[M] {
   given PowerProduct[M] = this
   extension[U: Conversion[M]] (x: U) {
     def / (y: M) = (~x).divide(y)

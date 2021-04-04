@@ -1,5 +1,5 @@
 import scas.base.BigInteger
-import scas.power.conversion.Lexicographic
+import scas.power.Lexicographic
 import scas.polynomial.conversion.TreePolynomial
 import BigInteger.given
 {
