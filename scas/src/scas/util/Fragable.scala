@@ -2,7 +2,8 @@ package scas.util
 
 import scala.reflect.ClassTag
 
-trait Fragable[S, T : ClassTag]:
+trait Fragable[S, T : ClassTag] extends (S => Array[T]):
+  def apply(x: S) = x.toFrags
   extension (x: S)
     def toFrags: Array[T]
 
