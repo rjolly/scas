@@ -1,4 +1,4 @@
-import scas.base.BigInteger
+import scas.base.conversion.BigInteger
 import scas.power.conversion.Lexicographic
 import BigInteger.int2bigInt
 

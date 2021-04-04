@@ -2,7 +2,7 @@ package math3
 
 import java.lang.Math
 import scas.structure.conversion.Field
-import scas.base.BigInteger
+import scas.base.conversion.BigInteger
 import BigInteger.given
 
 object Double extends Field[Double] {

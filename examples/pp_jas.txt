@@ -1,6 +1,6 @@
 // Requires : de.uni-mannheim.rz.krum#jas;2.7.10
 
-import scas.base.BigInteger
+import scas.base.conversion.BigInteger
 import jas.PowerProduct
 import BigInteger.int2bigInt
 
