@@ -16,14 +16,13 @@ assert(BigInteger(1) + 1 >< 1 + BigInteger(1))
   assert(x + BigInteger("18446744073709551616") >< BigInteger("18446744073709551616") + x)
   assert(x + one >< one + x)
   assert(x > one)
-  {
-    val s = GenPolynomialRing(r.factory, Array("a"), TermOrderByName.INVLEX).toScas
-    val Array(_, a) = s.gens
-    import s.given
 
-    assert(a + 1 >< 1 + a)
-    assert(a + BigInteger(1) >< BigInteger(1) + a)
-    assert(a + x >< x + a)
-    assert(a > x)
-  }
+  val s = GenPolynomialRing(r.factory, Array("a"), TermOrderByName.INVLEX).toScas
+  val Array(_, a) = s.gens
+  import s.given
+
+  assert(a + 1 >< 1 + a)
+  assert(a + BigInteger(1) >< BigInteger(1) + a)
+  assert(a + x >< x + a)
+  assert(a > x)
 }
