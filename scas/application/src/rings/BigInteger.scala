@@ -1,5 +1,6 @@
 package rings
 
+import scas.util.{Conversion, unary_~}
 import cc.redberry.rings.Rings
 
 type BigInteger = cc.redberry.rings.bigint.BigInteger
@@ -14,5 +15,5 @@ object BigInteger extends Ring[BigInteger] {
 
   extension (a: Long) def \:(b: Long) = long2bigInt(a) \ bigInt2scas.apply(b)
 
-  given bigInt2scas[U](using c: U => BigInteger): (U => scas.base.BigInteger) = x => java.math.BigInteger(c(x).toByteArray)
+  given bigInt2scas[U: Conversion[BigInteger]]: (U => scas.base.BigInteger) = x => java.math.BigInteger((~x).toByteArray)
 }

@@ -1,5 +1,6 @@
 package jas
 
+import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
 import edu.jas.poly.ExpVector
 
@@ -26,5 +27,5 @@ class PowerProduct(val variables: Variable*) extends scas.power.conversion.Power
 }
 
 object PowerProduct {
-  def apply[U](variables: U*)(using c: U => Variable) = new PowerProduct(variables.map(c): _*)
+  def apply[U: Conversion[Variable]](variables: U*) = new PowerProduct(variables.map(~_): _*)
 }

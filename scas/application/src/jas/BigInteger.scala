@@ -1,5 +1,7 @@
 package jas
 
+import scas.util.{Conversion, unary_~}
+
 type BigInteger = edu.jas.arith.BigInteger
 
 object BigInteger extends Ring[BigInteger] {
@@ -12,5 +14,5 @@ object BigInteger extends Ring[BigInteger] {
 
   extension (a: Long) def \:(b: Long) = long2bigInt(a) \ bigInt2scas.apply(b)
 
-  given bigInt2scas[U](using c: U => BigInteger): (U => scas.base.BigInteger) = x => (c(x)).`val`
+  given bigInt2scas[U: Conversion[BigInteger]]: (U => scas.base.BigInteger) = x => (~x).`val`
 }

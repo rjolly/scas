@@ -1,16 +1,19 @@
 package scas.math.conversion
 
+import scala.annotation.targetName
+import scas.util.{Conversion, unary_~}
+
 trait PartialOrdering[T] extends scas.math.PartialOrdering[T] with Equiv[T] {
-  extension[U] (x: U)(using c: U => T) {
-    def <=(y: T) = lteq(c(x), y)
-    def >=(y: T) = gteq(c(x), y)
-    def < (y: T) = lt(c(x), y)
-    def > (y: T) = gt(c(x), y)
+  extension[U: Conversion[T]] (x: U) {
+    def <=(y: T) = lteq(~x, y)
+    def >=(y: T) = gteq(~x, y)
+    def < (y: T) = lt(~x, y)
+    def > (y: T) = gt(~x, y)
   }
   extension (x: T) {
-    def <=[U](y: U)(using c: U => T) = lteq(x, c(y))
-    def >=[U](y: U)(using c: U => T) = gteq(x, c(y))
-    def < [U](y: U)(using c: U => T) = lt(x, c(y))
-    def > [U](y: U)(using c: U => T) = gt(x, c(y))
+    @targetName("lteq") def <=[U: Conversion[T]](y: U) = lteq(x, ~y)
+    @targetName("gteq") def >=[U: Conversion[T]](y: U) = gteq(x, ~y)
+    @targetName("lt") def < [U: Conversion[T]](y: U) = lt(x, ~y)
+    @targetName("gt") def > [U: Conversion[T]](y: U) = gt(x, ~y)
   }
 }

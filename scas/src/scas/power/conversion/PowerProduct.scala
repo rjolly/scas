@@ -1,17 +1,19 @@
 package scas.power.conversion
 
 import scala.reflect.ClassTag
+import scala.annotation.targetName
 import scas.structure.ordered.conversion.Monoid
+import scas.util.{Conversion, unary_~}
 
 abstract class PowerProduct[M: ClassTag] extends scas.power.PowerProduct[M] with Monoid[M] {
   given PowerProduct[M] = this
-  extension[U] (x: U)(using c: U => M) {
-    def / (y: M) = c(x).divide(y)
-    def | (y: M) = c(x).factorOf(y)
+  extension[U: Conversion[M]] (x: U) {
+    def / (y: M) = (~x).divide(y)
+    def | (y: M) = (~x).factorOf(y)
   }
   extension (x: M) {
-    def /[U](y: U)(using c: U => M) = x.divide(c(y))
-    def |[U](y: U)(using c: U => M) = x.factorOf(c(y))
+    @targetName("divide") def /[U: Conversion[M]](y: U) = x.divide(~y)
+    @targetName("factorOf") def |[U: Conversion[M]](y: U) = x.factorOf(~y)
   }
 
   given int2powerProduct: (Int => M) = apply(_)
