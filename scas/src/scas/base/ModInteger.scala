@@ -1,10 +1,9 @@
 package scas.base
 
-import scas.structure.commutative.ordered.Residue
-import scas.structure.commutative.ordered.conversion.Field
+import scas.structure.commutative.ordered.{Residue, Field}
+import BigInteger.given
 
-class ModInteger(val mod: BigInteger) extends Residue(using BigInteger) with Field[BigInteger] {
-  given ModInteger = this
+class ModInteger(val mod: BigInteger) extends Residue[BigInteger] with Field[BigInteger] {
   assert (mod.isProbablePrime(100))
   override def apply(x: BigInteger) = x.mod(mod)
   def characteristic = mod
@@ -12,8 +11,4 @@ class ModInteger(val mod: BigInteger) extends Residue(using BigInteger) with Fie
   def inverse(x: BigInteger) = x.modInverse(mod)
   override def toString = s"ModInteger($mod)"
   def toMathML = s"<msub>${BigInteger.toMathML}${BigInteger.toMathML(mod)}</msub>"
-}
-
-object ModInteger {
-  def apply[U](x: U)(using c: U => BigInteger) = new ModInteger(c(x))
 }

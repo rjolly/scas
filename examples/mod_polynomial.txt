@@ -1,4 +1,5 @@
-import scas.base.{BigInteger, ModInteger}
+import scas.base.BigInteger
+import scas.base.conversion.ModInteger
 import scas.power.conversion.Lexicographic
 import scas.polynomial.conversion.TreePolynomial
 import BigInteger.int2bigInt
