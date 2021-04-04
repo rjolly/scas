@@ -9,7 +9,3 @@ trait Structure[T] extends Equiv[T] with Show[T] {
   def math = Show.math(toMathML)
   def toMathML: String
 }
-
-object Structure {
-  def apply[T : Structure] = summon[Structure[T]]
-}

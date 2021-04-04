@@ -25,7 +25,6 @@ trait Numeric[T] extends Ordering[T] {
 }
 
 object Numeric {
-  def apply[T : Numeric] = summon[Numeric[T]]
   trait ByteIsIntegral extends Numeric[Byte]  {
     extension (x: Byte) {
       def + (y: Byte) = (x + y).toByte

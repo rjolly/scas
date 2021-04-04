@@ -35,7 +35,3 @@ trait PowerProduct[M: ClassTag] extends Monoid[M] {
   extension (x: M) def convert(from: Variable*): M
   def size(x: M): Int
 }
-
-object PowerProduct {
-  def apply[M : PowerProduct] = summon[PowerProduct[M]]
-}

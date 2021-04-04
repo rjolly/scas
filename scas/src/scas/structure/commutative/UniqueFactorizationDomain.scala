@@ -19,7 +19,3 @@ trait UniqueFactorizationDomain[T] extends scas.structure.NotQuiteField[T] {
     def | (y: T) = x.factorOf(y)
   }
 }
-
-object UniqueFactorizationDomain {
-  def apply[T : UniqueFactorizationDomain] = summon[UniqueFactorizationDomain[T]]
-}

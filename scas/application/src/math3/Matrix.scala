@@ -31,8 +31,8 @@ class Matrix(size: Int) extends Algebra[Element, Double] with Field[Element] {
   }
   def toMathML = ???
 
-  given int2matrix(using Matrix): (Int => Element) = summon[Matrix].one%* _
-  given double2matrix(using Matrix): (Double => Element) = summon[Matrix].one%* _
+  given int2matrix: (Int => Element) = one%* _
+  given double2matrix: (Double => Element) = one%* _
 }
 
 object Matrix {
