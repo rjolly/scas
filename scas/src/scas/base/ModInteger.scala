@@ -1,6 +1,7 @@
 package scas.base
 
-import scas.structure.commutative.ordered.conversion.{Residue, Field}
+import scas.structure.commutative.ordered.Residue
+import scas.structure.commutative.ordered.conversion.Field
 
 class ModInteger(val mod: BigInteger) extends Residue(using BigInteger) with Field[BigInteger] {
   given ModInteger = this
