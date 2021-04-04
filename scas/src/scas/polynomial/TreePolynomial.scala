@@ -6,7 +6,7 @@ import scas.structure.Ring
 import scas.power.PowerProduct
 import TreePolynomial.Element
 
-trait TreePolynomial[C, M](using ring: Ring[C], pp: PowerProduct[M]) extends Polynomial[Element[C, M], C, M] {
+class TreePolynomial[C, M](using ring: Ring[C], pp: PowerProduct[M]) extends Polynomial[Element[C, M], C, M] {
   override def apply(x: Element[C, M]) = Collections.unmodifiableSortedMap(x)
   def apply(s: (M, C)*) = {
     val r = new TreeMap[M, C](pp.reverse)
