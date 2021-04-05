@@ -2,22 +2,19 @@
 
 import cc.redberry.rings.poly.multivar.MonomialOrder
 import rings.{BigInteger, MultivariatePolynomialRing}
-import BigInteger.given
+import BigInteger.int2bigInt
 
-assert(BigInteger(1) + 1 >< 1 + BigInteger(1))
-{
-  val r = new MultivariatePolynomialRing(MonomialOrder.LEX, "x", "y", "z")(using BigInteger)
-  val Array(x, y, z) = r.gens
-  import r.given
+val r = new MultivariatePolynomialRing(MonomialOrder.LEX, "x", "y", "z")(using BigInteger)
+val Array(x, y, z) = r.gens
+import r.given
 
-  assert(x + 1 >< 1 + x)
-  assert(x + BigInteger(1) >< BigInteger(1) + x)
+assert(x + 1 >< 1 + x)
+assert(x + BigInteger(1) >< BigInteger(1) + x)
 
-  val s = new MultivariatePolynomialRing(MonomialOrder.LEX, "a")(using r)
-  val Array(a) = s.gens
-  import s.given
+val s = new MultivariatePolynomialRing(MonomialOrder.LEX, "a")(using r)
+val Array(a) = s.gens
+import s.given
 
-  assert(a + 1 >< 1 + a)
-  assert(a + BigInteger(1) >< BigInteger(1) + a)
-  assert(a + x >< x + a)
-}
+assert(a + 1 >< 1 + a)
+assert(a + BigInteger(1) >< BigInteger(1) + a)
+assert(a + x >< x + a)

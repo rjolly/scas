@@ -2,27 +2,26 @@ import scas.base.conversion.{BigInteger, Rational}
 import scas.power.conversion.Lexicographic
 import scas.module.conversion.{Array, ArrayModule}
 import scas.polynomial.conversion.TreePolynomial
-import BigInteger.given
-import Rational.given
-{
-  val r = new TreePolynomial(using Rational, Lexicographic[Int]("x"))
-  val List(x) = r.generators.toList
-  import r.given
+import BigInteger.int2bigInt
+import Rational.{ring2quotient, %%}
 
-  val v = new ArrayModule(using r)(2)
-  val e = v.generators
-  import v.given
+val r = new TreePolynomial(using Rational, Lexicographic[Int]("x"))
+val List(x) = r.generators.toList
+import r.given
 
-  assert (Array(1, 1%%2) >< e(0) + 1%%2 *%e(1))
-  assert (Array(1, x) >< e(0) + x *%e(1))
-  assert (2 *%e(0) >< e(0)%* 2)
-  assert (1%%2 *%e(0) >< e(0)%* (1%%2))
-  assert (x *%e(0) >< e(0)%* x)
-  assert (2 * x *%e(0) >< e(0)%* (2 * x))
-  assert (1%%2 * x *%e(0) >< e(0)%* (1%%2 * x))
-  assert (e(0) + e(1) >< e(0) + e(1))
-  assert ((2 *%e(0) + e(1)).show == "Array(2, 1)")
-  assert ((1%%2 *%e(0) + e(1)).show == "Array(1%%2, 1)")
-  //assert (v.toString == (Rational(x)\2).toString)
-  //assert (v.math == (Rational(x)\2).math)
-}
+val v = new ArrayModule(using r)(2)
+val e = v.generators
+import v.given
+
+assert (Array(1, 1%%2) >< e(0) + 1%%2 *%e(1))
+assert (Array(1, x) >< e(0) + x *%e(1))
+assert (2 *%e(0) >< e(0)%* 2)
+assert (1%%2 *%e(0) >< e(0)%* (1%%2))
+assert (x *%e(0) >< e(0)%* x)
+assert (2 * x *%e(0) >< e(0)%* (2 * x))
+assert (1%%2 * x *%e(0) >< e(0)%* (1%%2 * x))
+assert (e(0) + e(1) >< e(0) + e(1))
+assert ((2 *%e(0) + e(1)).show == "Array(2, 1)")
+assert ((1%%2 *%e(0) + e(1)).show == "Array(1%%2, 1)")
+//assert (v.toString == (Rational(x)\2).toString)
+//assert (v.math == (Rational(x)\2).math)

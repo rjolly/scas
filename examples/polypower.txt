@@ -3,23 +3,22 @@
 import edu.jas.poly.TermOrderByName
 import edu.jas.poly.GenPolynomialRing
 import jas.{BigInteger, toScas}
-import BigInteger.given
-{
-  val r = GenPolynomialRing(BigInteger.factory, Array("x", "y", "z"), TermOrderByName.INVLEX).toScas
-  val Array(one, x, y, z) = r.gens
-  import r.given
+import BigInteger.{int2bigInt, long2bigInt, bigInt2scas}
 
-  val p = 1 + x + y + z
-  // val p = 1 + x \ 2147483647 + y \ 2147483647 + z \ 2147483647
-  // val p = 10000000001l + 10000000001l * x + 10000000001l * y + 10000000001l * z
-  println("p: " + p)
-  val q = p \ 20
-  println("q: " + q.length)
-  val q1 = q + 1
-  println("q1: " + q1.length)
-  var t = System.currentTimeMillis();
-  val q2 = q * q1
-  t = System.currentTimeMillis() - t;
-  println("q2: " + q2.length)
-  println("t: " + t)
-}
+val r = GenPolynomialRing(BigInteger.factory, Array("x", "y", "z"), TermOrderByName.INVLEX).toScas
+val Array(one, x, y, z) = r.gens
+import r.given
+
+val p = 1 + x + y + z
+// val p = 1 + x \ 2147483647 + y \ 2147483647 + z \ 2147483647
+// val p = 10000000001l + 10000000001l * x + 10000000001l * y + 10000000001l * z
+println("p: " + p)
+val q = p \ 20
+println("q: " + q.length)
+val q1 = q + 1
+println("q1: " + q1.length)
+var t = System.currentTimeMillis();
+val q2 = q * q1
+t = System.currentTimeMillis() - t;
+println("q2: " + q2.length)
+println("t: " + t)

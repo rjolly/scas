@@ -1,16 +1,12 @@
 import scas.base.conversion.{BigInteger, Rational}
 import scas.power.conversion.Lexicographic
 import scas.polynomial.conversion.TreePolynomial
-import BigInteger.given
-import Rational.given
+import BigInteger.int2bigInt
+import Rational.{ring2quotient, %%}
 
-assert (Rational(1) >< 1)
-assert (Rational("1", "2") >< 1%%2)
-{
-  val r = new TreePolynomial(using Rational, Lexicographic[Int]("x"))
-  val List(x) = r.generators.toList
-  import r.given
+val r = new TreePolynomial(using Rational, Lexicographic[Int]("x"))
+val List(x) = r.generators.toList
+import r.given
 
-  assert (x + 1%%2 >< 1%%2 + x)
-  assert (x + 1 >< 1 + x)
-}
+assert (x + 1%%2 >< 1%%2 + x)
+assert (x + 1 >< 1 + x)
