@@ -15,9 +15,9 @@ class ArrayModule[R : ClassTag : ClassTagArray](using ring: Ring[R])(val dimensi
     }
     true
   }
-  extension (x: R) def multiplyLeft(y: Array[R]) = (for (i <- 0 until dimension) yield x * y(i)).toArray
+  extension (x: R) def *%(y: Array[R]) = (for (i <- 0 until dimension) yield x * y(i)).toArray
   extension (x: Array[R]) {
-    def multiplyRight(y: R) = (for (i <- 0 until dimension) yield x(i) * y).toArray
+    def %* (y: R) = (for (i <- 0 until dimension) yield x(i) * y).toArray
     def add(y: Array[R]) = (for (i <- 0 until dimension) yield x(i) + y(i)).toArray
     def subtract(y: Array[R]) = (for (i <- 0 until dimension) yield x(i) - y(i)).toArray
     def signum = x.foldLeft(0)((l, r) => if (l == 0) r.signum else l)

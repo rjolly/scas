@@ -3,14 +3,11 @@ package math3
 import org.apache.commons.math3.linear.Array2DRowRealMatrix
 import org.apache.commons.math3.linear.MatrixUtils
 import org.apache.commons.math3.linear.RealMatrix
-import scas.structure.conversion.{Algebra, Field}
-import scas.base.conversion.BigInteger
-import BigInteger.given
+import scas.structure.{Algebra, Field}
 import Matrix.Element
 import Double.given
 
-class Matrix(size: Int) extends Algebra[Element, Double] with Field[Element] {
-  given Matrix = this
+abstract class Matrix(size: Int) extends Algebra[Element, Double] with Field[Element] {
   def apply(ds: Double*): Element = Array2DRowRealMatrix(ds.grouped(size).map(_.toArray).toArray)
   extension (x: Element) {
     def add(y: Element) = x.add(y)
@@ -18,11 +15,10 @@ class Matrix(size: Int) extends Algebra[Element, Double] with Field[Element] {
     def multiply(y: Element) = x.multiply(y)
   }
   def inverse(x: Element) = MatrixUtils.inverse(x)
-  def characteristic = BigInteger(0)
   def equiv(x: Element, y: Element) = x == y
   extension (x: Element) def signum = if(size > 0) x.getEntry(0, 0).signum else 0
-  extension (x: Double) def multiplyLeft(y: Element) = y.multiplyRight(x)
-  extension (x: Element) def multiplyRight(y: Double) = x.scalarMultiply(y)
+  extension (x: Double) def *%(y: Element) = y%* x
+  extension (x: Element) def %* (y: Double) = x.scalarMultiply(y)
   def zero = MatrixUtils.createRealMatrix(size, size)
   def one = MatrixUtils.createRealIdentityMatrix(size)
   extension (x: Element) {
@@ -30,9 +26,6 @@ class Matrix(size: Int) extends Algebra[Element, Double] with Field[Element] {
     def toMathML = ???
   }
   def toMathML = ???
-
-  given int2matrix: (Int => Element) = one%* _
-  given double2matrix: (Double => Element) = one%* _
 }
 
 object Matrix {

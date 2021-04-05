@@ -1,9 +1,10 @@
 package scas.base.conversion
 
 import scas.structure.commutative.ordered.conversion.Quotient
+import scas.base.Rational.Impl
 import BigInteger.given
 
-object Rational extends scas.base.Rational.Impl with Quotient[BigInteger] {
+object Rational extends Impl with Quotient[BigInteger] {
   given Rational.type = this
   extension (a: Long) def %%(b: Long) = this(BigInteger(a), BigInteger(b))
   override val zero = Rational(0)
