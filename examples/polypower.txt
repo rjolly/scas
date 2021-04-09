@@ -2,12 +2,11 @@
 
 import edu.jas.poly.TermOrderByName
 import edu.jas.poly.GenPolynomialRing
-import jas.{BigInteger, toScas}
+import jas.{BigInteger, coef2poly, poly2scas}
 import BigInteger.{int2bigInt, long2bigInt, bigInt2scas}
 
-val r = GenPolynomialRing(BigInteger.factory, Array("x", "y", "z"), TermOrderByName.INVLEX).toScas
-val Array(one, x, y, z) = r.gens
-import r.given
+given r: GenPolynomialRing[BigInteger](BigInteger.factory, Array("x", "y", "z"), TermOrderByName.INVLEX) with {}
+val Array(one, x, y, z) = poly2scas(r).gens
 
 val p = 1 + x + y + z
 // val p = 1 + x \ 2147483647 + y \ 2147483647 + z \ 2147483647
