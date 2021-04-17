@@ -274,8 +274,9 @@
 	<xsl:text>)</xsl:text>
 </xsl:template>
 
-<xsl:template match="m:msub[*[1][self::m:integers]]">
-	<xsl:text>ModInteger(</xsl:text>
+<xsl:template match="m:msub">
+	<xsl:apply-templates select="*[1]"/>
+	<xsl:text>.residue(</xsl:text>
 	<xsl:apply-templates select="*[2]"/>
 	<xsl:text>)</xsl:text>
 </xsl:template>

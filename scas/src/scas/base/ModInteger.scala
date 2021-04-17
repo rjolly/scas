@@ -9,6 +9,11 @@ class ModInteger(val mod: BigInteger) extends Residue[BigInteger] with Field[Big
   def characteristic = mod
   extension (a: BigInteger) override def pow(b: BigInteger) = a.modPow(b, mod)
   def inverse(x: BigInteger) = x.modInverse(mod)
-  override def toString = s"ModInteger($mod)"
+  override def toString = s"$BigInteger.residue($mod)"
   def toMathML = s"<msub>${BigInteger.toMathML}${BigInteger.toMathML(mod)}</msub>"
+
+  extension (ring: BigInteger.Impl) def residue(n: BigInteger) = {
+    assert (n >< mod)
+    this
+  }
 }
