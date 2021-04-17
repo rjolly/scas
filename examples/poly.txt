@@ -3,8 +3,9 @@ import scas.rendering.MathObject
 import scas.power.conversion.Lexicographic
 import scas.polynomial.conversion.TreePolynomial
 import BigInteger.int2bigInt
+import scas.base.ZZ
 
-val r = new TreePolynomial(using BigInteger, Lexicographic[Int]("x", "y", "z"))
+val r = new TreePolynomial(using ZZ, Lexicographic[Int]("x", "y", "z"))
 val List(x, y, z) = r.generators.toList
 import r.given
 
