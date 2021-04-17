@@ -135,20 +135,16 @@
 	<xsl:call-template name="greek">
 		<xsl:with-param name="value" select="substring(text(), 0, $n)"/>
 	</xsl:call-template>
-	<xsl:value-of select="translate(substring(text(), $n), '&#x02032;','I')"/>
-</xsl:template>
-
-<xsl:template match="m:mrow">
-	<xsl:for-each select="*">
-		<xsl:text>(</xsl:text>
-		<xsl:apply-templates select="text()"/>
-		<xsl:text>)</xsl:text>
-	</xsl:for-each>
+	<xsl:value-of select="translate(substring(text(), $n), '&#x02032;', 'I')"/>
 </xsl:template>
 
 <xsl:template match="m:ci[*[1][self::m:msub[*[1][self::m:mi] and *[2][self::m:mrow]]]]">
 	<xsl:apply-templates select="*[1]/*[1]"/>
-	<xsl:apply-templates select="*[1]/*[2]"/>
+	<xsl:for-each select="*[1]/*[2]/*">
+		<xsl:text>(</xsl:text>
+		<xsl:apply-templates select="text()"/>
+		<xsl:text>)</xsl:text>
+	</xsl:for-each>
 </xsl:template>
 
 <xsl:template match="m:apply[*[1][self::m:minus] and count(*) = 2]">
@@ -261,7 +257,7 @@
 </xsl:template>
 
 <xsl:template match="m:apply[*[1][self::m:cartesianproduct]]">
-	<xsl:text>product(</xsl:text>
+	<xsl:text>Product(</xsl:text>
 	<xsl:apply-templates select="*[2]"/>
 	<xsl:text>, </xsl:text>
 	<xsl:apply-templates select="*[3]"/>
@@ -285,15 +281,15 @@
 </xsl:template>
 
 <xsl:template match="m:integers">
-	<xsl:text>BigInteger</xsl:text>
+	<xsl:text>ZZ</xsl:text>
 </xsl:template>
 
 <xsl:template match="m:rationals">
-	<xsl:text>Rational</xsl:text>
+	<xsl:text>QQ</xsl:text>
 </xsl:template>
 
 <xsl:template match="m:complexes">
-	<xsl:text>Complex</xsl:text>
+	<xsl:text>CC</xsl:text>
 </xsl:template>
 
 <xsl:template name="integer">

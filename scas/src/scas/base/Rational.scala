@@ -21,7 +21,7 @@ object Rational extends Impl {
         } else s"Rational($n, $d)"
       }
     }
-    override def toString = "Rational"
+    override def toString = "QQ"
     extension (x: Rational) override def toMathML = {
       val Rational(n, d) = x
       if (d.isOne) n.toMathML else s"""<cn type="rational">$n<sep/>$d</cn>"""

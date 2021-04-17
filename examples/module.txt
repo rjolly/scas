@@ -4,14 +4,15 @@ import scas.module.conversion.{Array, ArrayModule}
 import scas.polynomial.conversion.TreePolynomial
 import BigInteger.int2bigInt
 import Rational.{ring2quotient, %%}
+import scas.base.QQ
 
-val r = new TreePolynomial(using Rational, Lexicographic[Int]("x"))
+val r = new TreePolynomial(using QQ, Lexicographic[Int]("x"))
 val List(x) = r.generators.toList
 import r.given
 
-val v = new ArrayModule(using r)(2)
-val e = v.generators
-import v.given
+val s = new ArrayModule(using QQ(x))(2)
+val e = s.generators
+import s.given
 
 assert (Array(1, 1%%2) >< e(0) + 1%%2 *%e(1))
 assert (Array(1, x) >< e(0) + x *%e(1))
@@ -23,5 +24,5 @@ assert (1%%2 * x *%e(0) >< e(0)%* (1%%2 * x))
 assert (e(0) + e(1) >< e(0) + e(1))
 assert ((2 *%e(0) + e(1)).show == "Array(2, 1)")
 assert ((1%%2 *%e(0) + e(1)).show == "Array(1%%2, 1)")
-//assert (v.toString == (Rational(x)\2).toString)
-//assert (v.math == (Rational(x)\2).math)
+assert (s.toString == (QQ(x)\2).toString)
+assert (s.math == (QQ(x)\2).math)
