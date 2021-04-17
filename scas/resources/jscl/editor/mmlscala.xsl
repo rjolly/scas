@@ -277,7 +277,17 @@
 <xsl:template match="m:msub">
 	<xsl:apply-templates select="*[1]"/>
 	<xsl:text>.residue(</xsl:text>
-	<xsl:apply-templates select="*[2]"/>
+	<xsl:choose>
+		<xsl:when test="*[2][self::m:list]">
+			<xsl:for-each select="*[2]/*">
+				<xsl:apply-templates select="."/>
+				<xsl:if test="position() &lt; last()"><xsl:text>, </xsl:text></xsl:if>
+			</xsl:for-each>
+		</xsl:when>
+		<xsl:otherwise>
+			<xsl:apply-templates select="*[2]"/>
+		</xsl:otherwise>
+	</xsl:choose>
 	<xsl:text>)</xsl:text>
 </xsl:template>
 
