@@ -14,4 +14,6 @@ trait Residue[T](using ring: UniqueFactorizationDomain[T]) extends UniqueFactori
   }
   def zero = ring.zero
   def one = ring.one
+
+  extension (ring: UniqueFactorizationDomain[T]) def residue(s: T*): Residue[T]
 }

@@ -3,7 +3,7 @@ package math3
 import org.apache.commons.math3.linear.Array2DRowRealMatrix
 import org.apache.commons.math3.linear.MatrixUtils
 import org.apache.commons.math3.linear.RealMatrix
-import scas.structure.{Algebra, Field}
+import scas.structure.{Algebra, Ring, Field}
 import Matrix.Element
 import Double.given
 
@@ -26,6 +26,11 @@ abstract class Matrix(size: Int) extends Algebra[Element, Double] with Field[Ele
     def toMathML = ???
   }
   def toMathML = ???
+
+  extension (ring: Ring[Double]) def \ (n: Int) = {
+    assert (n == size * size)
+    this
+  }
 }
 
 object Matrix {
