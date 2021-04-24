@@ -27,7 +27,7 @@ class TreePolynomial[C, M](using ring: Ring[C], pp: PowerProduct[M]) extends Pol
 
   extension (x: Element[C, M]) override def multiply(y: Element[C, M]) = {
     val r = new TreeMap(zero)
-    for ((a, b) <- iterator(x)) r.subtract(a, -b, y)
+    for ((a, b) <- x.asScala) r.subtract(a, -b, y)
     this(r)
   }
 
@@ -49,7 +49,9 @@ class TreePolynomial[C, M](using ring: Ring[C], pp: PowerProduct[M]) extends Pol
 
   extension (x: Element[C, M]) override def subtract(m: M, c: C, y: Element[C, M]) = {
     val r = x
-    for ((s, a) <- y.asScala) {
+    val ys = iterator(y)
+    while (ys.hasNext) {
+      val (s, a) = ys.next
       val ac = a * c
       if (!ac.isZero) {
         val sm = s * m
