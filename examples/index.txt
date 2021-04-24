@@ -15,6 +15,7 @@ polypower_jaspp.txt
 polypower_rings.txt
 rational_polynomial.txt
 rational.txt
+product.txt
 pp_jas.txt
 pp1.txt
 pp2.txt
