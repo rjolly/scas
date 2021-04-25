@@ -4,8 +4,8 @@ trait AbelianGroup[T] extends Structure[T] {
   extension (x: T) {
     def add(y: T): T
     def subtract(y: T): T
-    def + (y: T) = x.add(y)
-    def - (y: T) = x.subtract(y)
+    inline def + (y: T) = x.add(y)
+    inline def - (y: T) = x.subtract(y)
     def unary_- = zero - x
     def isZero = x >< zero
     def signum: Int
