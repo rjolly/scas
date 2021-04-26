@@ -18,7 +18,7 @@ object Rational extends Impl {
         if (n.bitLength < 64 && d.bitLength < 64) {
           val s = n.toCode(Level.Multiplication) + "%%" + d.toCode(Level.Power)
           if (level > Level.Multiplication) fenced(s) else s
-        } else s"Rational($n, $d)"
+        } else s"Rational(\"$n\", \"$d\")"
       }
     }
     override def toString = "Rational"

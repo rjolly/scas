@@ -1,16 +1,12 @@
-import scas.base.BigInteger
-import scas.base.conversion.ModInteger
+import scas.base.ModInteger
 import scas.power.conversion.Lexicographic
 import scas.polynomial.conversion.TreePolynomial
 import scas.base.conversion.BigInteger.int2bigInt
 
-val s = ModInteger(2)
-import s.residue
-
-val r = new TreePolynomial(using BigInteger.residue(2), Lexicographic[Int]("x"))
+val r = new TreePolynomial(using ModInteger("2"), Lexicographic[Int]("x"))
 val List(x) = r.generators.toList
 import r.given
 
 assert(1 + x + 1 >< x)
-assert(r.toString == BigInteger.residue(2)(x).toString)
-assert(r.math == BigInteger.residue(2)(x).math)
+assert(r.toString == ModInteger("2")(x).toString)
+assert(r.math == ModInteger("2")(x).math)

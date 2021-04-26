@@ -67,4 +67,6 @@ class Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends Ring[Eleme
 
 object Product {
   case class Element[R1, R2](_1: R1, _2: R2)
+
+  def apply[R1, R2](ring1: Ring[R1], ring2: Ring[R2])(using factory: Product[R1, R2]) = factory
 }

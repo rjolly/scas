@@ -38,7 +38,7 @@ object BigInteger extends Impl {
     extension (x: BigInteger) def toCode(level: Level) = {
       if (x.bitLength < 32) x.toString
       else if (x.bitLength < 64) x.toString + "l"
-      else s"BigInteger($x)"
+      else s"BigInteger(\"$x\")"
     }
     override def toString = "BigInteger"
     extension (x: BigInteger) def toMathML = s"<cn>$x</cn>"

@@ -274,20 +274,21 @@
 	<xsl:text>)</xsl:text>
 </xsl:template>
 
-<xsl:template match="m:msub">
+<xsl:template match="m:msub[*[2][self::m:list]]">
 	<xsl:apply-templates select="*[1]"/>
 	<xsl:text>.residue(</xsl:text>
-	<xsl:choose>
-		<xsl:when test="*[2][self::m:list]">
-			<xsl:for-each select="*[2]/*">
-				<xsl:apply-templates select="."/>
-				<xsl:if test="position() &lt; last()"><xsl:text>, </xsl:text></xsl:if>
-			</xsl:for-each>
-		</xsl:when>
-		<xsl:otherwise>
-			<xsl:apply-templates select="*[2]"/>
-		</xsl:otherwise>
-	</xsl:choose>
+	<xsl:for-each select="*[2]/*">
+		<xsl:apply-templates select="."/>
+		<xsl:if test="position() &lt; last()"><xsl:text>, </xsl:text></xsl:if>
+	</xsl:for-each>
+	<xsl:text>)</xsl:text>
+</xsl:template>
+
+<xsl:template match="m:msub[*[1][self::m:integers] and *[2][self::m:cn]]">
+	<xsl:text>ModInteger(</xsl:text>
+	<xsl:text>&#x00022;</xsl:text>
+	<xsl:value-of select="*[2]/text()"/>
+	<xsl:text>&#x00022;</xsl:text>
 	<xsl:text>)</xsl:text>
 </xsl:template>
 

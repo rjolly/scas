@@ -10,4 +10,6 @@ class Product[R1: scas.structure.Ring, R2: scas.structure.Ring] extends scas.str
 
 object Product {
   def apply[R1, R2, U: Conversion[R1], V: Conversion[R2]](using factory: Product[R1, R2])(a: U, b: V) = factory(a, b)
+
+  export scas.structure.Product.apply
 }
