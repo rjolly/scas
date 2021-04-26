@@ -1,8 +1,7 @@
 // Requires : de.uni-mannheim.rz.krum#jas;2.7.10
 
-import scas.base.conversion.BigInteger
 import jas.PowerProduct
-import BigInteger.int2bigInt
+import scas.base.conversion.BigInteger.int2bigInt
 
 val m = PowerProduct("x")
 val Array(x) = m.generators

@@ -1,10 +1,10 @@
-import scas.base.conversion.{BigInteger, ModInteger}
+import scas.base.conversion.ModInteger
 import scas.structure.conversion.Product
-import BigInteger.given
+import scas.base.conversion.BigInteger.given
 
 val r = new Product(using ModInteger(3), ModInteger(5))
 import r.given
 
 assert (Product(1, 3) + Product(1, 3) >< Product(2, 1))
-assert (r.toString == "Product(ZZ.residue(3), ZZ.residue(5))")
+assert (r.toString == "Product(BigInteger.residue(3), BigInteger.residue(5))")
 assert (r.characteristic >< 15)

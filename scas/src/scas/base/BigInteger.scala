@@ -40,7 +40,7 @@ object BigInteger extends Impl {
       else if (x.bitLength < 64) x.toString + "l"
       else s"BigInteger($x)"
     }
-    override def toString = "ZZ"
+    override def toString = "BigInteger"
     extension (x: BigInteger) def toMathML = s"<cn>$x</cn>"
     def toMathML = "<integers/>"
   }

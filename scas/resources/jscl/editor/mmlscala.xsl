@@ -292,15 +292,15 @@
 </xsl:template>
 
 <xsl:template match="m:integers">
-	<xsl:text>ZZ</xsl:text>
+	<xsl:text>BigInteger</xsl:text>
 </xsl:template>
 
 <xsl:template match="m:rationals">
-	<xsl:text>QQ</xsl:text>
+	<xsl:text>Rational</xsl:text>
 </xsl:template>
 
 <xsl:template match="m:complexes">
-	<xsl:text>CC</xsl:text>
+	<xsl:text>Complex</xsl:text>
 </xsl:template>
 
 <xsl:template name="integer">

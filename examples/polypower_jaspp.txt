@@ -1,9 +1,9 @@
 // Requires : de.uni-mannheim.rz.krum#jas;2.7.10
 
-import scas.base.conversion.BigInteger
+import scas.base.BigInteger
 import scas.polynomial.conversion.TreePolynomial
 import jas.PowerProduct
-import BigInteger.{int2bigInt, long2bigInt}
+import scas.base.conversion.BigInteger.{int2bigInt, long2bigInt}
 
 val r = new TreePolynomial(using BigInteger, PowerProduct("x", "y", "z"))
 val Array(x, y, z) = r.generators
