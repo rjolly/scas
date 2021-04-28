@@ -1,7 +1,7 @@
 import scas.power.conversion.Lexicographic
 import scas.base.conversion.BigInteger.int2bigInt
 
-val m = new Lexicographic[Int]("x")
+val m = Lexicographic(0)("x")
 val List(x) = m.generators.toList
 import m.given
 
