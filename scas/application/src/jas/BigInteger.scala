@@ -12,7 +12,7 @@ object BigInteger extends Ring[BigInteger] {
   given int2bigInt: (Int => BigInteger) = new BigInteger(_)
   given long2bigInt: (Long => BigInteger) = new BigInteger(_)
 
-  extension (a: Long) def \:(b: Long) = BigInteger(a) \ b
+  extension (a: Long) def \:(b: Long) = long2bigInt(a) \ b
 
   given bigInt2scas[U: Conversion[BigInteger]]: (U => scas.base.BigInteger) = x => (~x).`val`
 }

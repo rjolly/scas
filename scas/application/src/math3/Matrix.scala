@@ -4,6 +4,7 @@ import org.apache.commons.math3.linear.Array2DRowRealMatrix
 import org.apache.commons.math3.linear.MatrixUtils
 import org.apache.commons.math3.linear.RealMatrix
 import scas.structure.{Algebra, Ring, Field}
+import scas.base.BigInteger
 import Matrix.Element
 import Double.given
 
@@ -19,6 +20,7 @@ abstract class Matrix(size: Int) extends Algebra[Element, Double] with Field[Ele
   extension (x: Element) def signum = if(size > 0) x.getEntry(0, 0).signum else 0
   extension (x: Double) def *%(y: Element) = y%* x
   extension (x: Element) def %* (y: Double) = x.scalarMultiply(y)
+  def characteristic = BigInteger("0")
   def zero = MatrixUtils.createRealMatrix(size, size)
   def one = MatrixUtils.createRealIdentityMatrix(size)
   extension (x: Element) {

@@ -8,7 +8,6 @@ import Double.Impl
 
 object Double extends Impl {
   given Double.type = this
-  def characteristic = BigInteger("0")
   abstract class Impl extends Field[Double] {
     extension (x: Double) {
       def add(y: Double) = x + y
@@ -19,6 +18,7 @@ object Double extends Impl {
     def inverse(x: Double) = 1 / x
     def equiv(x: Double, y: Double) = x == y
     extension (x: Double) def signum = Math.signum(x).toInt
+    def characteristic = BigInteger("0")
     def zero = 0
     def one = 1
     extension (x: Double) {
