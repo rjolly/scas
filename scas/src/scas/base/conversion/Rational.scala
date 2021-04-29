@@ -7,4 +7,6 @@ import BigInteger.given
 object Rational extends Impl with Quotient[BigInteger] {
   given Rational.type = this
   extension (a: Long) def %%(b: Long) = this(long2bigInt(a), long2bigInt(b))
+  override val zero = Rational("0")
+  override val one = Rational("1")
 }

@@ -2,18 +2,15 @@ package scas.base
 
 import scas.structure.commutative.ordered.Quotient
 import scas.structure.commutative.Quotient.Element
-import BigInteger.given
-import Rational.Impl
+import scas.base.conversion.BigInteger
+import BigInteger.self.given
 
 type Rational = Element[BigInteger]
 
-object Rational extends Impl {
-  given Rational.type = this
-  class Impl extends Quotient[BigInteger] {
+object Rational {
+  abstract class Impl extends Quotient[BigInteger] {
     def apply(n: String): Rational = this(BigInteger(n))
     def apply(n: String, d: String): Rational = this(BigInteger(n), BigInteger(d))
-    override val zero = Rational("0")
-    override val one = Rational("1")
     extension (x: Rational) override def toCode(level: Level) = {
       val Rational(n, d) = x
       if (d.isOne) n.toCode(level) else {

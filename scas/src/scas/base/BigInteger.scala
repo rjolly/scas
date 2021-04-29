@@ -1,13 +1,13 @@
 package scas.base
 
 import scas.structure.commutative.ordered.EuclidianDomain
-import BigInteger.Impl
 
 type BigInteger = java.math.BigInteger
 
-object BigInteger extends Impl {
-  given BigInteger.type = this
+object BigInteger {
   abstract class Impl extends EuclidianDomain[BigInteger] {
+    given instance: Impl
+    val self = this
     def apply(str: String) = new BigInteger(str)
     extension (x: BigInteger) {
       def add(y: BigInteger) = x.add(y)
@@ -30,9 +30,6 @@ object BigInteger extends Impl {
     extension (x: BigInteger) override def unary_- = x.negate
     override def abs(x: BigInteger) = x.abs
     extension (x: BigInteger) override def signum = x.signum
-    val characteristic = BigInteger("0")
-    val zero = BigInteger("0")
-    val one = BigInteger("1")
     extension (x: BigInteger) def toCode(level: Level) = {
       if (x.bitLength < 32) x.toString
       else if (x.bitLength < 64) x.toString + "l"

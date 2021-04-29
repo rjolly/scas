@@ -1,8 +1,8 @@
 package scas.structure.commutative
 
-import scas.base.BigInteger
+import scas.base.conversion.BigInteger
+import BigInteger.self.given
 import Quotient.Element
-import BigInteger.given
 
 trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends Field[Element[T]] {
   def apply(n: T, d: T): Element[T] = this(Element(n, d))

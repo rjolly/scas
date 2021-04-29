@@ -2,7 +2,8 @@ package scas.base
 
 import scas.structure.commutative.UniqueFactorizationDomain
 import scas.structure.commutative.ordered.{Residue, Field}
-import BigInteger.given
+import scas.base.conversion.BigInteger
+import BigInteger.self.given
 import ModInteger.Impl
 
 class ModInteger(val mod: BigInteger) extends Residue[BigInteger] with Field[BigInteger] {
