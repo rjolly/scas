@@ -1,7 +1,7 @@
-import scas.base.ModInteger
+import scas.base.conversion.{BigInteger, ModInteger}
 import scas.power.conversion.Lexicographic
 import scas.polynomial.conversion.TreePolynomial
-import scas.base.conversion.BigInteger.int2bigInt
+import BigInteger.int2bigInt
 
 val r = new TreePolynomial(using ModInteger("2"), Lexicographic[Int]("x"))
 val List(x) = r.generators.toList

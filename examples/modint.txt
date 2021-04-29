@@ -1,10 +1,10 @@
 import scas.base.conversion.{BigInteger, ModInteger}
 import BigInteger.int2bigInt
 
-val r = ModInteger(7)
+val r = ModInteger("7")
 import r.given
 
-assert (BigInteger(4) + 4 >< 4 + BigInteger(4))
-assert (BigInteger(4) + 4 >< 1)
-assert (BigInteger(4) * 2 >< 1)
-assert (BigInteger(4) \ 2 >< 2)
+assert (BigInteger("4") + 4 >< 4 + BigInteger("4"))
+assert (BigInteger("4") + 4 >< 1)
+assert (BigInteger("4") * 2 >< 1)
+assert (BigInteger("4") \ 2 >< 2)

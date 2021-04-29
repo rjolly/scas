@@ -1,8 +1,8 @@
-import scas.base.conversion.Rational
-import scas.base.conversion.BigInteger.int2bigInt
+import scas.base.conversion.{BigInteger, Rational}
+import BigInteger.int2bigInt
 import Rational.given
 
-assert (Rational(1) >< 1)
+assert (Rational("1") >< 1)
 assert (Rational("1", "2") >< 1%%2)
 assert (1 + 1%%2 >< 1%%2 + 1)
 assert (1%%2 + 3%%4 >< 5%%4)

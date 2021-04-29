@@ -1,7 +1,7 @@
-import scas.base.BigInteger
+import scas.base.conversion.BigInteger
 import scas.power.conversion.Lexicographic
 import scas.polynomial.conversion.TreePolynomial
-import scas.base.conversion.BigInteger.{int2bigInt, long2bigInt}
+import BigInteger.{int2bigInt, long2bigInt}
 
 val r = new TreePolynomial(using BigInteger, Lexicographic[Int]("x", "y", "z"))
 // val r = new TreePolynomial(using BigInteger, Lexicographic[Long]("x", "y", "z"))

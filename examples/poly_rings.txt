@@ -9,12 +9,12 @@ val Array(x, y, z) = r.gens
 import r.given
 
 assert(x + 1 >< 1 + x)
-assert(x + BigInteger(1) >< BigInteger(1) + x)
+assert(x + BigInteger("1") >< BigInteger("1") + x)
 
 val s = new MultivariatePolynomialRing(MonomialOrder.LEX, "a")(using r)
 val Array(a) = s.gens
 import s.given
 
 assert(a + 1 >< 1 + a)
-assert(a + BigInteger(1) >< BigInteger(1) + a)
+assert(a + BigInteger("1") >< BigInteger("1") + a)
 assert(a + x >< x + a)
