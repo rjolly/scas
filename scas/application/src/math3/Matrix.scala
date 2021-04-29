@@ -27,7 +27,7 @@ abstract class Matrix(size: Int) extends Algebra[Element, Double] with Field[Ele
   }
   def toMathML = ???
 
-  extension (ring: Ring[Double]) def \ (n: Int) = {
+  extension (ring: Ring[Double]) def module(n: Int) = {
     assert (n == size * size)
     this
   }

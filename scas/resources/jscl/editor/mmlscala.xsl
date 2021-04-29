@@ -292,6 +292,13 @@
 	<xsl:text>)</xsl:text>
 </xsl:template>
 
+<xsl:template match="m:msup[*[2][self::m:cn]]">
+	<xsl:apply-templates select="*[1]"/>
+	<xsl:text>.module(</xsl:text>
+	<xsl:value-of select="*[2]/text()"/>
+	<xsl:text>)</xsl:text>
+</xsl:template>
+
 <xsl:template match="m:integers">
 	<xsl:text>BigInteger</xsl:text>
 </xsl:template>

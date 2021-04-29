@@ -25,10 +25,10 @@ class ArrayModule[R : ClassTag : ClassTagArray](using ring: Ring[R])(val dimensi
     def toMathML = s"<vector>${x.map(_.toMathML).mkString}</vector>"
   }
   def zero = (for (i <- 0 until dimension) yield ring.zero).toArray
-  override def toString = s"$ring\\$dimension"
-  def toMathML = s"<apply><power/>${ring.toMathML}<cn>${dimension}</cn></apply>"
+  override def toString = s"$ring.module($dimension)"
+  def toMathML = s"<msup>${ring.toMathML}<cn>${dimension}</cn></msup>"
 
-  extension (ring: Ring[R]) def \ (n: Int) = {
+  extension (ring: Ring[R]) def module(n: Int) = {
     assert (n == dimension)
     this
   }
