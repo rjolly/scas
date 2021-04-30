@@ -16,7 +16,7 @@ object BigInteger extends Impl with EuclidianDomain[BigInteger] {
   given long2bigInt: (Long => BigInteger) = java.math.BigInteger.valueOf(_)
 
   extension (a: Long) {
-    def \ (b: Long): BigInteger = long2bigInt(a) \ b
+    def \ (b: Long): BigInteger = convert(a) \ b
     def \:(b: Long) = a \ b
   }
 }

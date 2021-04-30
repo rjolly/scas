@@ -13,7 +13,7 @@ object BigInteger extends Ring[BigInteger] {
   given int2bigInt: (Int => BigInteger) = cc.redberry.rings.bigint.BigInteger.valueOf(_)
   given long2bigInt: (Long => BigInteger) = cc.redberry.rings.bigint.BigInteger.valueOf(_)
 
-  extension (a: Long) def \:(b: Long) = long2bigInt(a) \ b
+  extension (a: Long) def \:(b: Long) = convert(a) \ b
 
   given bigInt2scas[U: Conversion[BigInteger]]: (U => scas.base.BigInteger) = x => java.math.BigInteger((~x).toByteArray)
 }
