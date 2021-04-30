@@ -7,7 +7,7 @@ import BigInteger.self.given
 
 class ModInteger(val mod: BigInteger) extends Residue[BigInteger] with Field[BigInteger] {
   assert (mod.isProbablePrime(100))
-  override def apply(x: BigInteger) = x.mod(mod)
+  def apply(x: BigInteger) = x.mod(mod)
   def characteristic = mod
   extension (a: BigInteger) override def pow(b: BigInteger) = a.modPow(b, mod)
   def inverse(x: BigInteger) = x.modInverse(mod)

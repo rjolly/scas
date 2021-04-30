@@ -6,7 +6,11 @@ import Quotient.Element
 
 trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends Field[Element[T]] {
   def apply(n: T, d: T): Element[T] = this(Element(n, d))
-  override def apply(x: Element[T]) = {
+  override def convert(x: Element[T]) = {
+    val Element(n, d) = x
+    this(ring.convert(n), ring.convert(d))
+  }
+  def apply(x: Element[T]) = {
     val Element(n, d) = x
     val c = ring.gcd(n, d)
     val gcd = if (d.signum == -c.signum) -c else c

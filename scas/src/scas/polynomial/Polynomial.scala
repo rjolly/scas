@@ -11,7 +11,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
   def generators = pp.generators.map(apply)
   extension (x: T) def signum = if (x.isZero) 0 else lastCoefficient(x).signum
   def characteristic = ring.characteristic
-  override def apply(x: T) = sort(x.map((s, a) => (pp(s), ring(a))))
+  override def convert(x: T) = sort(x.map((s, a) => (pp.convert(s), ring.convert(a))))
   lazy val one = this(ring.one)
   extension (x: T) def subtract(y: T) = x.subtract(pp.one, ring.one, y)
   def equiv(x: T, y: T) = {

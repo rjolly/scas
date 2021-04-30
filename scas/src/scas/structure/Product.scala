@@ -5,10 +5,10 @@ import BigInteger.self.{lcm, given}
 import Product.Element
 
 class Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends Ring[Element[R1, R2]] {
-  def apply(a: R1, b: R2): Element[R1, R2] = this(Element(a, b))
-  override def apply(x: Element[R1, R2]) = {
+  def apply(a: R1, b: R2) = Element(a, b)
+  override def convert(x: Element[R1, R2]) = {
     val Element(a, b) = x
-    Element(ring1(a), ring2(b))
+    Element(ring1.convert(a), ring2.convert(b))
   }
   extension (x: Element[R1, R2]) def add(y: Element[R1, R2]) = {
     val Element(a, b) = x
