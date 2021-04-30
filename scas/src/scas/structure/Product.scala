@@ -1,8 +1,8 @@
 package scas.structure
 
 import scas.base.conversion.BigInteger
-import Product.{Element, Impl}
 import BigInteger.self.{lcm, given}
+import Product.Element
 
 class Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends Ring[Element[R1, R2]] {
   def apply(a: R1, b: R2): Element[R1, R2] = this(Element(a, b))
@@ -65,10 +65,6 @@ class Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends Ring[Eleme
   def one = Element(ring1.one, ring2.one)
 }
 
-object Product extends Impl {
+object Product {
   case class Element[R1, R2](_1: R1, _2: R2)
-
-  class Impl {
-    def apply[R1, R2](ring1: Ring[R1], ring2: Ring[R2]) = new Product(using ring1, ring2)
-  }
 }
