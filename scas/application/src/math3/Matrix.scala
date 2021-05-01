@@ -9,7 +9,7 @@ import math3.conversion.Double
 import Matrix.Element
 import Double.given
 
-abstract class Matrix(size: Int) extends Algebra[Element, Double] with Field[Element] {
+class Matrix(size: Int) extends Algebra[Element, Double] with Field[Element] {
   def apply(ds: Double*): Element = Array2DRowRealMatrix(ds.grouped(size).map(_.toArray).toArray)
   extension (x: Element) {
     def add(y: Element) = x.add(y)

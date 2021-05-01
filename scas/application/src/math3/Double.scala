@@ -5,7 +5,7 @@ import scas.structure.Field
 import scas.base.conversion.BigInteger
 
 object Double {
-  abstract class Impl extends Field[Double] {
+  class Impl extends Field[Double] {
     extension (x: Double) {
       def add(y: Double) = x + y
       def subtract(y: Double) = x - y
