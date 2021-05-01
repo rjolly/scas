@@ -1,8 +1,8 @@
 package rings
 
 import cc.redberry.rings.io.Coder
-import scas.base.conversion.BigInteger
-import rings.BigInteger.given
+import scas.util.unary_~
+import BigInteger.given
 
 trait Ring[T] extends scas.structure.ordered.conversion.Ring[T] {
   def ring: cc.redberry.rings.Ring[T]
@@ -14,7 +14,7 @@ trait Ring[T] extends scas.structure.ordered.conversion.Ring[T] {
   }
   def compare(x: T, y: T) = ring.compare(x, y)
   extension (x: T) def isUnit = ring.isUnit(x)
-  def characteristic = BigInteger.convert(ring.characteristic)
+  def characteristic = ~ring.characteristic
   def zero = ring.getZero()
   def one = ring.getOne()
   extension (x: T) {
