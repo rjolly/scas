@@ -3,7 +3,7 @@ package scas.base
 import scas.structure.commutative.UniqueFactorizationDomain
 import scas.structure.commutative.ordered.{Residue, Field}
 import scas.base.conversion.BigInteger
-import BigInteger.self.given
+import BigInteger.given
 
 class ModInteger(val mod: BigInteger) extends Residue[BigInteger] with Field[BigInteger] {
   assert (mod.isProbablePrime(100))

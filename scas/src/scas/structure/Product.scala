@@ -1,7 +1,7 @@
 package scas.structure
 
 import scas.base.conversion.BigInteger
-import BigInteger.self.{lcm, given}
+import BigInteger.self.lcm
 import Product.Element
 
 class Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends Ring[Element[R1, R2]] {
