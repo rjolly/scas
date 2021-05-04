@@ -276,7 +276,7 @@
 
 <xsl:template match="m:msub[*[2][self::m:list]]">
 	<xsl:apply-templates select="*[1]"/>
-	<xsl:text>.residue(</xsl:text>
+	<xsl:text>(</xsl:text>
 	<xsl:for-each select="*[2]/*">
 		<xsl:apply-templates select="."/>
 		<xsl:if test="position() &lt; last()"><xsl:text>, </xsl:text></xsl:if>
@@ -294,7 +294,7 @@
 
 <xsl:template match="m:msup[*[2][self::m:cn]]">
 	<xsl:apply-templates select="*[1]"/>
-	<xsl:text>.module(</xsl:text>
+	<xsl:text>(</xsl:text>
 	<xsl:value-of select="*[2]/text()"/>
 	<xsl:text>)</xsl:text>
 </xsl:template>

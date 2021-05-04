@@ -30,7 +30,7 @@ class Matrix(size: Int) extends Algebra[Element, Double] with Field[Element] {
   }
   def toMathML = ???
 
-  extension (ring: Ring[Double]) def module(n: Int) = {
+  extension (ring: Ring[Double]) def apply(n: Int) = {
     assert (n == size * size)
     this
   }

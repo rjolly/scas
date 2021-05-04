@@ -14,9 +14,9 @@ class ModInteger(val mod: BigInteger) extends Residue[BigInteger] with Field[Big
   override def toString = s"ModInteger(\"$mod\")"
   def toMathML = s"<msub>${BigInteger.toMathML}${BigInteger.toMathML(mod)}</msub>"
 
-  extension (ring: UniqueFactorizationDomain[BigInteger]) def residue(str: String): scas.structure.commutative.Residue[BigInteger] = ring.residue(BigInteger(str))
+  extension (ring: UniqueFactorizationDomain[BigInteger]) def apply(str: String): scas.structure.commutative.Residue[BigInteger] = ring(BigInteger(str))
 
-  extension (ring: UniqueFactorizationDomain[BigInteger]) def residue(s: BigInteger*) = {
+  extension (ring: UniqueFactorizationDomain[BigInteger]) def apply(s: BigInteger*) = {
     assert (s.size == 1 && s(0) >< mod)
     this
   }

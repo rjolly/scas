@@ -1,0 +1,17 @@
+import scas.base.conversion.{BigInteger, Rational}
+import scas.module.conversion.{Array, ArrayModule}
+import BigInteger.int2bigInt
+import Rational.{ring2quotient, %%}
+
+val s = new ArrayModule(using Rational)(2)
+val e = s.generators
+import s.given
+
+assert (Array(1, 1%%2) >< e(0) + 1%%2 *%e(1))
+assert (2 *%e(0) >< e(0)%* 2)
+assert (1%%2 *%e(0) >< e(0)%* (1%%2))
+assert (e(0) + e(1) >< e(0) + e(1))
+assert ((2 *%e(0) + e(1)).show == Array(2, 1).show)
+assert ((1%%2 *%e(0) + e(1)).show == Array(1%%2, 1).show)
+assert (s.toString == Rational(2).toString)
+assert (s.math == Rational(2).math)
