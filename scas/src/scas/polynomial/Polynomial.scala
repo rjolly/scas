@@ -31,7 +31,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
   extension (x: T) {
     def multiply(y: T) = {
       var r = zero
-      for ((a, b) <- iterator(x)) r = r.subtract(a, -b, y)
+      for ((a, b) <- iterator(y)) r = r.subtract(a, -b, x)
       r
     }
     def %* (m: M) = x.map((s, a) => (s * m, a))
