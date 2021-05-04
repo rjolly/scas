@@ -1,0 +1,11 @@
+import scas.base.conversion.BigInteger
+import scas.power.conversion.Lexicographic
+import scas.polynomial.conversion.WeylAlgebra
+import BigInteger.int2bigInt
+
+val r = new WeylAlgebra(using BigInteger, Lexicographic[Int]("a", "x", "b", "y"))
+val List(a, x, b, y) = r.generators.toList
+import r.given
+
+assert (b * a + y * x >< 2+a*b+x*y)
+assert (r.toString == "BigInteger(a, x, b, y)[[b*a = 1+a*b], [y*x = 1+x*y]]")

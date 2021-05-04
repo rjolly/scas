@@ -13,6 +13,7 @@ polypower.txt
 polypower_scas.txt
 polypower_jaspp.txt
 polypower_rings.txt
+solvable_polynomial.txt
 rational_polynomial.txt
 rational.txt
 product.txt
