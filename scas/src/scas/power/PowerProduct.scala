@@ -4,7 +4,6 @@ import scala.reflect.ClassTag
 import scas.math.Numeric
 import scas.structure.ordered.Monoid
 import scas.variable.Variable
-import scas.prettyprint.Show
 
 trait PowerProduct[M: ClassTag] extends Monoid[M] {
   def variables: Seq[Variable]
@@ -29,8 +28,8 @@ trait PowerProduct[M: ClassTag] extends Monoid[M] {
   }
   def dependencyOnVariables(x: M): Array[Int]
   extension (x: M) def projection(n: Int): M
-  override def toString = Show.listed(variables.map(_.toString): _*)
-  def toMathML = Show.list(variables.map(_.toMathML): _*)
+  override def toString = s"List(${variables.map(_.toString).mkString(", ")})"
+  def toMathML = s"<list>${variables.map(_.toMathML).mkString}</list>"
   override def convert(x: M) = x.convert(variables: _*)
   extension (x: M) def convert(from: Variable*): M
   def size(x: M): Int

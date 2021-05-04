@@ -48,8 +48,21 @@ trait SolvablePolynomial[T : ClassTag, C : Ring, M](using pp: PowerProduct[M]) e
     val df = dependencyOnVariables(f)
     (de(0), df(0))
   }
-  override def toString = super.toString + "[" + (for ((a, b) <- table.asScala) yield "[" + (for ((e, f, p) <- b) yield e.show + "*" + f.show + " = " + p.show).mkString(", ") + "]").mkString(", ")+ "]"
-  override def toMathML = s"<apply>{super.toMathML}<list>{for ((a, b) <- table.asScala) yield <list>{for ((e, f, p) <- b) yield <apply><eq/><apply><times/>{e.toMathML}{f.toMathML}</apply>{p.toMathML}</apply>}</list>}</list></apply>"
+  override def toString = s"${super.toString}(${(for ((a, b) <- table.asScala; relation <- b) yield toString(relation)).mkString(", ")})"
+  def toString(relation: Relation) = {
+    val (e, f, p) = relation
+    s"${p.show}-${e.show}*${f.show}"
+  }
+  override def toMathML = s"<apply>${super.toMathML}<list>${(for ((a, b) <- table.asScala; relation <- b) yield toMathML(relation)).mkString}</list></apply>"
+  def toMathML(relation: Relation): String = {
+    val (e, f, p) = relation
+    s"<apply><minus/>${p.toMathML}<apply><times/>${e.toMathML}${f.toMathML}</apply></apply>"
+  }
+
+  extension (ring: Polynomial[T, C, M]) def apply(s: T*): SolvablePolynomial[T, C, M] = {
+    assert (s.foldLeft(true)((l, r) => l && r.isZero))
+    this
+  }
 
   extension (x: T) {
     final override def multiply(y: T) = super[Polynomial].multiply(x)(y)

@@ -13,8 +13,8 @@ trait Show[T] {
     def toMathML: String
   }
   extension (s: List[T]) {
-    def show: String = Show.listed(s.map(_.show): _*)
-    def math = Show.math(s.map(_.toMathML): _*)
+    def show: String = s"List(${s.map(_.show).mkString(", ")})"
+    def math = Show.math(s"<list>${s.map(_.toMathML).mkString}</list>")
   }
 }
 
@@ -27,9 +27,6 @@ object Show {
       def compare(x: Level, y: Level) = java.lang.Integer.compare(x.ordinal, y.ordinal)
     }
   }
-  inline def listed(s: String*) = s"List(${s.mkString(", ")})"
-  inline def list(s: String*) = s"<list>${s.mkString}</list>"
-  inline def math(s: String*): String = math(list(s: _*))
   inline def math(s: String) = s"<math>$s</math>"
   inline def fenced(s: String) = s"($s)"
 }
