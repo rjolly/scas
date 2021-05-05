@@ -2,6 +2,7 @@ package scas.polynomial
 
 import java.util.{SortedMap, TreeMap, Collections}
 import scala.collection.JavaConverters.mapAsScalaMapConverter
+import scala.annotation.targetName
 import scas.structure.Ring
 import scas.power.PowerProduct
 import TreePolynomial.Element
@@ -48,18 +49,19 @@ class TreePolynomial[C, M](using ring: Ring[C], pp: PowerProduct[M]) extends Pol
   extension (x: Element[C, M]) override def coefficient(m: M) = x.getOrElse(m, ring.zero)
 
   extension (x: Element[C, M]) override def subtract(m: M, c: C, y: Element[C, M]) = {
-    val r = x
-    val ys = iterator(y)
+    val ys = y.entrySet.iterator
     while (ys.hasNext) {
-      val (s, a) = ys.next
+      val sa = ys.next
+      val s = sa.getKey
+      val a = sa.getValue
       val ac = a * c
       if (!ac.isZero) {
         val sm = s * m
-        val cc = r.getOrElse(sm, ring.zero) - ac
-        if (cc.isZero) r.remove(sm) else r.put(sm, cc)
+        val cc = x.getOrElse(sm, ring.zero) - ac
+        if (cc.isZero) x.remove(sm) else x.put(sm, cc)
       }
     }
-    r
+    x
   }
 
   extension (x: Element[C, M]) def getOrElse(m: M, c: C) = {
@@ -67,7 +69,18 @@ class TreePolynomial[C, M](using ring: Ring[C], pp: PowerProduct[M]) extends Pol
     if (a == null) c else a
   }
 
-  extension (x: Element[C, M]) override def reduce(m: M, a: C, y: Element[C, M], b: C) = new TreeMap(super.multiply(x)(b)).subtract(m, a, y)
+  extension (x: Element[C, M]) @targetName("coefMultiply") override def multiply(c: C) = {
+    val xs = x.entrySet.iterator
+    while (xs.hasNext) {
+      val sa = xs.next
+      val s = sa.getKey
+      val a = sa.getValue
+      val ac = a * c
+      if (!ac.isZero) sa.setValue(ac)
+      else xs.remove
+    }
+    x
+  }
 
   extension (x: Element[C, M]) def map(f: (M, C) => (M, C)) = {
     val r = new TreeMap(zero)

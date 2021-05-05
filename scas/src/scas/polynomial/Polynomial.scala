@@ -192,9 +192,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
 
     def multiply(m: M, c: C) = x.map((s, a) => (s * m, a * c))
 
-    @targetName("coefMultiply") def multiply(c: C) = x.map(a => a * c)
-
-    def map(f: C => C): T = x.map((s, a) => (s, f(a)))
+    @targetName("coefMultiply") def multiply(c: C) = x.map((s, a) => (s, a * c))
 
     def map(f: (M, C) => (M, C)): T
   }
