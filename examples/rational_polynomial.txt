@@ -1,10 +1,10 @@
 import scas.base.conversion.{BigInteger, Rational}
 import scas.power.conversion.Lexicographic
-import scas.polynomial.conversion.TreePolynomial
+import scas.polynomial.tree.Polynomial
 import Rational.{ring2quotient, %%}
 import BigInteger.int2bigInt
 
-val r = new TreePolynomial(using Rational, Lexicographic[Int]("x"))
+val r = Polynomial(using Rational, Lexicographic[Int]("x"))
 val List(x) = r.generators.toList
 import r.given
 

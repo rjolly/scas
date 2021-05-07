@@ -1,4 +1,4 @@
-package scas.polynomial.conversion
+package scas.polynomial.tree
 
 import scas.structure.Ring
 import scas.power.PowerProduct

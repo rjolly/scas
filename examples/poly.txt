@@ -1,17 +1,17 @@
 import scas.rendering.MathObject
 import scas.base.conversion.BigInteger
 import scas.power.conversion.Lexicographic
-import scas.polynomial.conversion.TreePolynomial
+import scas.polynomial.tree.Polynomial
 import BigInteger.int2bigInt
 
-val r = new TreePolynomial(using BigInteger, Lexicographic[Int]("x", "y", "z"))
+val r = Polynomial(using BigInteger, Lexicographic[Int]("x", "y", "z"))
 val List(x, y, z) = r.generators.toList
 import r.given
 
 assert(x + 1 >< 1 + x)
 assert(x + BigInteger("1") >< BigInteger("1") + x)
 
-val s = new TreePolynomial(using BigInteger(x, y, z), Lexicographic[Int]("a"))
+val s = Polynomial(using BigInteger(x, y, z), Lexicographic[Int]("a"))
 val List(a) = s.generators.toList
 import s.given
 

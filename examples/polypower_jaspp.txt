@@ -2,11 +2,11 @@
 
 import edu.jas.poly.TermOrderByName
 import scas.base.conversion.BigInteger
-import scas.polynomial.conversion.TreePolynomial
+import scas.polynomial.tree.Polynomial
 import jas.PowerProduct
 import BigInteger.{int2bigInt, long2bigInt}
 
-val r = new TreePolynomial(using BigInteger, PowerProduct("x", "y", "z")(TermOrderByName.INVLEX))
+val r = Polynomial(using BigInteger, PowerProduct("x", "y", "z")(TermOrderByName.INVLEX))
 val Array(x, y, z) = r.generators
 import r.given
 

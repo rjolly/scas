@@ -1,10 +1,10 @@
 import scas.base.conversion.BigInteger
 import scas.power.conversion.Lexicographic
-import scas.polynomial.conversion.TreePolynomial
+import scas.polynomial.tree.Polynomial
 import BigInteger.{int2bigInt, long2bigInt}
 
-val r = new TreePolynomial(using BigInteger, Lexicographic[Int]("x", "y", "z"))
-// val r = new TreePolynomial(using BigInteger, Lexicographic[Long]("x", "y", "z"))
+val r = Polynomial(using BigInteger, Lexicographic[Int]("x", "y", "z"))
+// val r = Polynomial(using BigInteger, Lexicographic[Long]("x", "y", "z"))
 val List(x, y, z) = r.generators.toList
 import r.given
 

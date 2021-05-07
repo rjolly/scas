@@ -1,9 +1,9 @@
 import scas.base.conversion.BigInteger
 import scas.power.conversion.Lexicographic
-import scas.polynomial.conversion.WeylAlgebra
+import scas.polynomial.tree.WeylAlgebra
 import BigInteger.int2bigInt
 
-val r = new WeylAlgebra(using BigInteger, Lexicographic[Int]("a", "x", "b", "y"))
+val r = WeylAlgebra(using BigInteger, Lexicographic[Int]("a", "x", "b", "y"))
 val List(a, x, b, y) = r.generators.toList
 import r.given
 
