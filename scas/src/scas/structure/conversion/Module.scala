@@ -7,6 +7,6 @@ trait Module[T, R: scas.structure.Ring] extends scas.structure.Module[T, R] with
   extension[U: Conversion[R]] (x: U) def *%(y: T): T = (~x) *%y
   extension (x: T) {
     abstract override def %* (y: R) = super.%*(x)(y)
-    def %*[U: Conversion[R]] (y: U): T = x%* (~y)
+    def %* [U: Conversion[R]] (y: U): T = x%* (~y)
   }
 }
