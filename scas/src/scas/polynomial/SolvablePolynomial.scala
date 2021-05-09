@@ -60,13 +60,9 @@ trait SolvablePolynomial[T : ClassTag, C : Ring, M](using pp: PowerProduct[M]) e
   }
 
   extension (x: T) {
-    final override def multiply(y: T) = super[Polynomial].multiply(x)(y)
-
-    final override def subtract(m: M, c: C, y: T) = super[Polynomial].subtract(x)(m, c, y)
-
     final override def multiply(m: M, c: C) = (x%* m).multiply(c)
 
-    @targetName("coefMultiply") final override def multiply(c: C) = super[Polynomial].multiply(x)(c)
+    @targetName("coefMultiply") final override def multiply(c: C) = super.multiply(x)(c)
 
     final override def %* (m: M) = iterator(x).foldLeft(zero) { (l, r) =>
       val (s, _) = r
