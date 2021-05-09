@@ -7,12 +7,12 @@ import scas.power.PowerProduct
 
 trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) extends Ring[T] {
   lazy val zero = this()
+  lazy val one = this(ring.one)
   def generator(n: Int) = this(pp.generator(n))
   def generators = pp.generators.map(apply)
   extension (x: T) def signum = if (x.isZero) 0 else lastCoefficient(x).signum
   def characteristic = ring.characteristic
   override def convert(x: T) = sort(x.map((s, a) => (pp.convert(s), ring.convert(a))))
-  lazy val one = this(ring.one)
   extension (x: T) def subtract(y: T) = x.subtract(pp.one, ring.one, y)
   def equiv(x: T, y: T) = {
     val xs = iterator(x)
@@ -134,7 +134,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
     d
   }
 
-  extension (x: T) @tailrec final def reduce(ys: Iterator[T]): T = {
+  extension (x: T) @tailrec final def reduce(ys: Seq[T]): T = {
     val xs = iterator(x)
     if (xs.hasNext) {
       val (s, a) = xs.next
@@ -148,12 +148,12 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
     } else x
   }
 
-  extension (y: T) def reduce(s: M) = {
-    val (t, _) = head(y)
+  extension (x: T) def reduce(s: M) = {
+    val (t, _) = head(x)
     t | s
   }
 
-  extension (x: T) def reduce(ys: Iterator[T], tail: Boolean): T = {
+  extension (x: T) def reduce(ys: Seq[T], tail: Boolean): T = {
     val xs = iterator(x)
     if (xs.hasNext) {
       val (s, a) = xs.next
@@ -166,7 +166,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
     } else x
   }
 
-  extension (x: T) @tailrec final def reduce(m: M, ys: Iterator[T]): T = {
+  extension (x: T) @tailrec final def reduce(m: M, ys: Seq[T]): T = {
     val xs = x.iterator(m)
     if (xs.hasNext) {
       val (s, a) = xs.next

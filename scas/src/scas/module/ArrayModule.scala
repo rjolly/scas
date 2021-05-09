@@ -6,9 +6,9 @@ import scas.structure.Module
 import scas.util.ClassTagArray
 
 class ArrayModule[R : ClassTag : ClassTagArray](using ring: Ring[R])(val dimension: Int) extends Module[Array[R], R] {
+  def apply(x: Array[R]) = x
   def generator(n: Int) = (for (i <- 0 until dimension) yield if (i == n) ring.one else ring.zero).toArray
   def generators = (for (i <- 0 until dimension) yield generator(i)).toArray
-  def apply(x: Array[R]) = x
   override def convert(x: Array[R]) = (for (i <- 0 until dimension) yield if (i < x.length) ring.convert(x(i)) else ring.zero).toArray
   def equiv(x: Array[R], y: Array[R]): Boolean = {
     for (i <- 0 until dimension) {

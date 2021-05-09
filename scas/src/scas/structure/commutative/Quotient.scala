@@ -5,6 +5,7 @@ import BigInteger.self.given
 import Quotient.Element
 
 trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends Field[Element[T]] {
+  def apply(n: T) = Element(n, ring.one)
   def apply(n: T, d: T): Element[T] = this(Element(n, d))
   override def convert(x: Element[T]) = {
     val Element(n, d) = x
@@ -16,7 +17,6 @@ trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends Field[Elemen
     val gcd = if (d.signum == -c.signum) -c else c
     Element(n / gcd, d / gcd)
   }
-  def apply(n: T) = Element(n, ring.one)
   extension (x: Element[T]) def add(y: Element[T]) = {
     val Element(a, b) = x
     val Element(c, d) = y
