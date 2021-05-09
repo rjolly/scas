@@ -6,6 +6,7 @@ import scas.base.conversion.BigInteger
 
 object Double {
   class Impl extends Field[Double] {
+    def apply(n: Long) = n.toDouble
     extension (x: Double) {
       def add(y: Double) = x + y
       def subtract(y: Double) = x - y

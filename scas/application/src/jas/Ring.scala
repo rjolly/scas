@@ -5,6 +5,7 @@ import edu.jas.structure.RingFactory
 
 trait Ring[T <: RingElem[T]] extends scas.structure.ordered.conversion.Ring[T] {
   def factory: RingFactory[T]
+  def apply(n: Long) = factory.fromInteger(n)
   extension (x: T) {
     def add(y: T) = x.sum(y)
     def subtract(y: T) = x.subtract(y)

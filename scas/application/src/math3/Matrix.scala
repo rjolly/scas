@@ -10,6 +10,7 @@ import Matrix.Element
 import Double.given
 
 class Matrix(size: Int) extends Algebra[Element, Double] with Field[Element] {
+  def apply(n: Long) = one%* Double(n)
   def apply(ds: Double*): Element = Array2DRowRealMatrix(ds.grouped(size).map(_.toArray).toArray)
   extension (x: Element) {
     def add(y: Element) = x.add(y)

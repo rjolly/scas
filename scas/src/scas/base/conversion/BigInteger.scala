@@ -12,6 +12,6 @@ object BigInteger extends Impl with EuclidianDomain[BigInteger] {
   val zero = BigInteger("0")
   val one = BigInteger("1")
 
-  given int2bigInt: (Int => BigInteger) = java.math.BigInteger.valueOf(_)
-  given long2bigInt: (Long => BigInteger) = java.math.BigInteger.valueOf(_)
+  given int2bigInt: (Int => BigInteger) = this(_)
+  given long2bigInt: (Long => BigInteger) = this(_)
 }

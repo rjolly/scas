@@ -8,6 +8,7 @@ object BigInteger {
   abstract class Impl extends EuclidianDomain[BigInteger] {
     given instance: Impl
     val self = this
+    def apply(n: Long) = java.math.BigInteger.valueOf(n)
     def apply(str: String) = new BigInteger(str)
     extension (x: BigInteger) {
       def add(y: BigInteger) = x.add(y)
