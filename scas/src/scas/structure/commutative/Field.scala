@@ -8,3 +8,7 @@ trait Field[T] extends scas.structure.Field[T] with EuclidianDomain[T] {
     override def divideAndRemainder(y: T) = (x / y, x % y)
   }
 }
+
+object Field {
+  def apply[T : Field] = summon[Field[T]]
+}
