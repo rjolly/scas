@@ -4,6 +4,7 @@ import scala.annotation.{tailrec, targetName}
 import scala.reflect.ClassTag
 import scas.structure.Ring
 import scas.power.PowerProduct
+import scas.variable.Variable
 
 trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) extends Ring[T] {
   lazy val zero = this()
@@ -12,7 +13,8 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
   def generators = pp.generators.map(apply)
   extension (x: T) def signum = if (x.isZero) 0 else lastCoefficient(x).signum
   def characteristic = ring.characteristic
-  override def convert(x: T) = sort(x.map((s, a) => (pp.convert(s), ring.convert(a))))
+  override def convert(x: T) = x.convert(variables)
+  extension (x: T) def convert(from: Seq[Variable]) = sort(x.map((s, a) => (s.convert(from), ring.convert(a))))
   extension (x: T) def subtract(y: T) = x.subtract(pp.one, ring.one, y)
   def equiv(x: T, y: T) = {
     val xs = iterator(x)
