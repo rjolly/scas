@@ -1,7 +1,6 @@
 package scas.power
 
 import scala.reflect.ClassTag
-import scas.math.Numeric
 import scas.structure.ordered.Monoid
 import scas.variable.Variable
 
@@ -30,7 +29,7 @@ trait PowerProduct[M: ClassTag] extends Monoid[M] {
   extension (x: M) def projection(n: Int): M
   override def toString = s"List(${variables.map(_.toString).mkString(", ")})"
   def toMathML = s"<list>${variables.map(_.toMathML).mkString}</list>"
-  override def convert(x: M) = x.convert(variables: _*)
-  extension (x: M) def convert(from: Variable*): M
+  override def convert(x: M) = x.convert(variables)
+  extension (x: M) def convert(from: Seq[Variable]): M
   def size(x: M): Int
 }

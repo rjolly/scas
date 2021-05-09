@@ -5,7 +5,7 @@ import scas.math.Numeric
 import scas.util.{ClassTagArray, Conversion, unary_~}
 import scas.variable.Variable
 
-class Lexicographic[N : Numeric : ClassTag : ClassTagArray](variables: Variable*) extends scas.power.Lexicographic[N](variables: _*) with PowerProduct[Array[N]]
+class Lexicographic[N : Numeric : ClassTag : ClassTagArray](val variables: Variable*) extends scas.power.Lexicographic[N] with PowerProduct[Array[N]]
 
 object Lexicographic {
   inline def apply[N : ClassTag : ClassTagArray](using numeric: Numeric[N])(variables: String*): Lexicographic[N] = apply(numeric.fromInt(0))(variables: _*)
