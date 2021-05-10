@@ -7,8 +7,6 @@ import scas.power.PowerProduct
 import scas.variable.Variable
 
 trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) extends Ring[T] {
-  lazy val zero = this()
-  lazy val one = this(ring.one)
   def apply(n: Long) = this(ring(n))
   def generator(n: Int) = this(pp.generator(n))
   def generators = pp.generators.map(apply)
