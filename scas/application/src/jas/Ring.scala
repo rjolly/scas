@@ -3,7 +3,7 @@ package jas
 import edu.jas.structure.RingElem
 import edu.jas.structure.RingFactory
 
-trait Ring[T <: RingElem[T]] extends scas.structure.ordered.conversion.Ring[T] {
+trait Ring[T <: RingElem[T]] extends scas.structure.ordered.Ring[T] {
   def factory: RingFactory[T]
   def apply(n: Long) = factory.fromInteger(n)
   extension (x: T) {

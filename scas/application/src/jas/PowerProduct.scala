@@ -1,10 +1,10 @@
 package jas
 
-import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
 import edu.jas.poly.{ExpVector, TermOrder}
 
-class PowerProduct(val variables: Variable*)(tord: TermOrder) extends scas.power.conversion.PowerProduct[ExpVector] {
+abstract class PowerProduct(tord: TermOrder) extends scas.power.PowerProduct[ExpVector] {
+  def variables: Seq[Variable]
   val comp = tord.getDescendComparator
   def one = ExpVector.create(length)
   def generator(n: Int) = ExpVector.create(length, n, 1)
@@ -25,8 +25,4 @@ class PowerProduct(val variables: Variable*)(tord: TermOrder) extends scas.power
     def convert(from: Variable*) = ???
   }
   def size(x: ExpVector) = x.dependentVariables
-}
-
-object PowerProduct {
-  def apply[U: Conversion[Variable]](variables: U*)(tord: TermOrder) = new PowerProduct(variables.map(~_): _*)(tord)
 }

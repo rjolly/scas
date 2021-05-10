@@ -3,7 +3,7 @@
 import edu.jas.poly.TermOrderByName
 import scas.base.conversion.BigInteger
 import scas.polynomial.tree.mutable.Polynomial
-import jas.PowerProduct
+import jas.conversion.PowerProduct
 import BigInteger.{int2bigInt, long2bigInt}
 
 val r = Polynomial(using BigInteger, PowerProduct("x", "y", "z")(TermOrderByName.INVLEX))

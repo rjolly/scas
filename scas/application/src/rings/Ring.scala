@@ -1,10 +1,8 @@
 package rings
 
 import cc.redberry.rings.io.Coder
-import scas.util.unary_~
-import BigInteger.given
 
-trait Ring[T] extends scas.structure.ordered.conversion.Ring[T] {
+trait Ring[T] extends scas.structure.ordered.Ring[T] {
   def ring: cc.redberry.rings.Ring[T]
   def coder = Coder.mkCoder(ring)
   def apply(n: Long) = ring.valueOf(n)
@@ -15,7 +13,6 @@ trait Ring[T] extends scas.structure.ordered.conversion.Ring[T] {
   }
   def compare(x: T, y: T) = ring.compare(x, y)
   extension (x: T) def isUnit = ring.isUnit(x)
-  def characteristic = ~ring.characteristic
   def zero = ring.getZero()
   def one = ring.getOne()
   extension (x: T) {

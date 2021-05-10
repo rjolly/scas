@@ -1,6 +1,6 @@
 // Requires : cc.redberry#rings;2.5.7
 
-import rings.BigInteger
+import rings.conversion.BigInteger
 import BigInteger.given
 
 assert(BigInteger("1") + 1 >< 1 + BigInteger("1"))
