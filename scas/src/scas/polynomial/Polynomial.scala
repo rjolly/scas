@@ -155,16 +155,16 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
   }
 
   extension (x: T) def reduce(ys: Seq[T], tail: Boolean): T = {
-    val xs = iterator(x)
-    if (xs.hasNext) {
-      val (s, a) = xs.next
-      if (tail) {
+    if (tail) {
+      val xs = iterator(x)
+      if (xs.hasNext) {
+        val (s, a) = xs.next
         if (xs.hasNext) {
           val (s, a) = xs.next
           x.reduce(s, ys)
         } else x
-      } else x.reduce(s, ys)
-    } else x
+      } else x
+    } else x.reduce(ys)
   }
 
   extension (x: T) @tailrec final def reduce(m: M, ys: Seq[T]): T = {

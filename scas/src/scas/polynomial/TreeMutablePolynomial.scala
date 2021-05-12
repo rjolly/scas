@@ -8,13 +8,15 @@ import scas.power.PowerProduct
 import TreePolynomial.Element
 
 trait TreeMutablePolynomial[C, M](using ring: Ring[C], pp: PowerProduct[M]) extends TreePolynomial[C, M] {
-  extension (x: Element[C, M]) override def subtract(y: Element[C, M]) = new TreeMap(x).subtract(pp.one, ring.one, y)
+  extension (x: Element[C, M]) override def subtract(y: Element[C, M]) = unmodifiable(super.subtract(modifiable(x))(y))
 
   extension (x: Element[C, M]) override def multiply(y: Element[C, M]) = {
-    val r = new TreeMap(zero)
+    val r = modifiable(zero)
     for ((a, b) <- y.asScala) r.subtract(a, -b, x)
     unmodifiable(r)
   }
+
+  extension (x: Element[C, M]) override def reduce(ys: Seq[Element[C, M]], tail: Boolean) = unmodifiable(super.reduce(modifiable(x))(ys, tail))
 
   extension (x: Element[C, M]) override def subtract(m: M, c: C, y: Element[C, M]) = {
     val ys = y.entrySet.iterator

@@ -8,6 +8,7 @@ import TreePolynomial.Element
 
 trait TreePolynomial[C, M](using ring: Ring[C], pp: PowerProduct[M]) extends Polynomial[Element[C, M], C, M] {
   def unmodifiable(x: Element[C, M]) = Collections.unmodifiableSortedMap(x)
+  def modifiable(x: Element[C, M]) = new TreeMap(x)
   def apply(s: (M, C)*) = {
     val r = new TreeMap[M, C](pp.reverse)
     for ((m, c) <- s) r.put(m, c)
@@ -15,7 +16,7 @@ trait TreePolynomial[C, M](using ring: Ring[C], pp: PowerProduct[M]) extends Pol
   }
 
   extension (x: Element[C, M]) def add(y: Element[C, M]) = {
-    val r = new TreeMap(x)
+    val r = modifiable(x)
     for ((t, b) <- y.asScala) {
       val c = r.getOrElse(t, ring.zero) + b
       if (c.isZero) r.remove(t) else r.put(t, c)
@@ -45,7 +46,7 @@ trait TreePolynomial[C, M](using ring: Ring[C], pp: PowerProduct[M]) extends Pol
   }
 
   extension (x: Element[C, M]) def map(f: (M, C) => (M, C)) = {
-    val r = new TreeMap(zero)
+    val r = modifiable(zero)
     for ((s, a) <- x.asScala) {
       val (m, c) = f(s, a)
       if (!c.isZero) r.put(m, c)
