@@ -11,10 +11,11 @@ class ArrayModule[R : ClassTag : ClassTagArray](using ring: Ring[R])(val dimensi
   def generators = (for (i <- 0 until dimension) yield generator(i)).toArray
   override def convert(x: Array[R]) = (for (i <- 0 until dimension) yield if (i < x.length) ring.convert(x(i)) else ring.zero).toArray
   def equiv(x: Array[R], y: Array[R]): Boolean = {
+    var s = true
     for (i <- 0 until dimension) {
-      if (x(i) <> y(i)) return false
+      if (x(i) <> y(i)) s = false
     }
-    true
+    s
   }
   extension (x: R) def *%(y: Array[R]) = (for (i <- 0 until dimension) yield x * y(i)).toArray
   extension (x: Array[R]) {
