@@ -1,7 +1,7 @@
 package scas.polynomial
 
 import java.util.TreeMap
-import scala.collection.JavaConverters.mapAsScalaMapConverter
+import scala.jdk.CollectionConverters.MapHasAsScala
 import scala.annotation.targetName
 import scas.structure.Ring
 import scas.power.PowerProduct

@@ -2,7 +2,7 @@ package scas.polynomial
 
 import java.util.TreeMap
 import scala.annotation.targetName
-import scala.collection.JavaConverters.mapAsScalaMapConverter
+import scala.jdk.CollectionConverters.MapHasAsScala
 import scala.reflect.ClassTag
 import scala.math.Ordering
 import scas.structure.Ring

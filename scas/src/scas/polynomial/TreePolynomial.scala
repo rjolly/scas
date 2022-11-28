@@ -1,7 +1,7 @@
 package scas.polynomial
 
 import java.util.{SortedMap, TreeMap, Collections}
-import scala.collection.JavaConverters.mapAsScalaMapConverter
+import scala.jdk.CollectionConverters.MapHasAsScala
 import scas.structure.Ring
 import scas.power.PowerProduct
 import TreePolynomial.Element
