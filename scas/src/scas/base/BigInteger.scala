@@ -40,8 +40,8 @@ object BigInteger extends EuclidianDomain[BigInteger] {
   lazy val zero = BigInteger(0)
   lazy val one = BigInteger(1)
 
-  given int2bigInt: (Int => BigInteger) = java.math.BigInteger.valueOf(_)
-  given long2bigInt: (Long => BigInteger) = java.math.BigInteger.valueOf(_)
+  given int2bigInt: Conversion[Int, BigInteger] = java.math.BigInteger.valueOf(_)
+  given long2bigInt: Conversion[Long, BigInteger] = java.math.BigInteger.valueOf(_)
 
   extension (a: Long) {
     def \ (b: Long): BigInteger = long2bigInt(a) \ b

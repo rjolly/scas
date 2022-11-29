@@ -17,8 +17,8 @@
             <exclude org="org.apache.logging.log4j" module="log4j-core" name="*" type="*" ext="*" conf="" matcher="exact"/>
             <exclude org="org.apache.logging.log4j" module="log4j-api" name="*" type="*" ext="*" conf="" matcher="exact"/>
         </dependency>
-        <dependency org="org.apache.logging.log4j" name="log4j-core" rev="2.14.0" conf="runtime->default"/>
-        <dependency org="org.apache.logging.log4j" name="log4j-api" rev="2.14.0" conf="runtime->default"/>
+        <dependency org="org.apache.logging.log4j" name="log4j-core" rev="2.16.0" conf="runtime->default"/>
+        <dependency org="org.apache.logging.log4j" name="log4j-api" rev="2.16.0" conf="runtime->default"/>
         <dependency org="cc.redberry" name="rings" rev="2.5.7" conf="runtime->default">
             <exclude org="org.apache.commons" module="commons-math3" name="*" type="*" ext="*" conf="" matcher="exact"/>
         </dependency>
