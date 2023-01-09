@@ -1,6 +1,5 @@
 package scas.structure.commutative.conversion
 
-import scala.annotation.targetName
 import scas.util.{Conversion, unary_~}
 
 trait UniqueFactorizationDomain[T] extends scas.structure.commutative.UniqueFactorizationDomain[T] with scas.structure.conversion.NotQuiteField[T] {
@@ -14,8 +13,8 @@ trait UniqueFactorizationDomain[T] extends scas.structure.commutative.UniqueFact
     def | [V: Conversion[T]](y: V) = (~x).factorOf(~y)
   }
   extension (x: T) {
-    @targetName("remainder") def % [U: Conversion[T]](y: U) = x.remainder(~y)
-    @targetName("divideAndRemainder") def /%[U: Conversion[T]](y: U) = x.divideAndRemainder(~y)
-    @targetName("factorOf") def | [U: Conversion[T]](y: U) = x.factorOf(~y)
+    def % [U: Conversion[T]](y: U) = x.remainder(~y)
+    def /%[U: Conversion[T]](y: U) = x.divideAndRemainder(~y)
+    def | [U: Conversion[T]](y: U) = x.factorOf(~y)
   }
 }
