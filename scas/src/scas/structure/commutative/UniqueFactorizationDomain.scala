@@ -14,8 +14,8 @@ trait UniqueFactorizationDomain[T] extends scas.structure.NotQuiteField[T] {
     }
     def divideAndRemainder(y: T): (T, T)
     def factorOf(y: T) = (y % x).isZero
-    def % (y: T) = x.remainder(y)
-    def /%(y: T) = x.divideAndRemainder(y)
-    def | (y: T) = x.factorOf(y)
+    inline def % (y: T) = x.remainder(y)
+    inline def /%(y: T) = x.divideAndRemainder(y)
+    inline def | (y: T) = x.factorOf(y)
   }
 }

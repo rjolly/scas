@@ -21,8 +21,8 @@ trait PowerProduct[M: ClassTag] extends Monoid[M] {
   extension (x: M) {
     def divide(y: M): M
     def factorOf(y: M): Boolean
-    def / (y: M) = x.divide(y)
-    def | (y: M) = x.factorOf(y)
+    inline def / (y: M) = x.divide(y)
+    inline def | (y: M) = x.factorOf(y)
     def isUnit = x.isOne
   }
   def dependencyOnVariables(x: M): Array[Int]

@@ -8,13 +8,13 @@ trait UniqueFactorizationDomain[T] extends scas.structure.commutative.UniqueFact
   def lcm[U: Conversion[T], V: Conversion[T]](x: U, y: V): T = lcm(~x, ~y)
   override def lcm(x: T, y: T) = super.lcm(x, y)
   extension[U: Conversion[T]] (x: U) {
-    def % (y: T) = (~x).remainder(y)
-    def /%(y: T) = (~x).divideAndRemainder(y)
-    def | (y: T) = (~x).factorOf(y)
+    inline def % (y: T) = (~x).remainder(y)
+    inline def /%(y: T) = (~x).divideAndRemainder(y)
+    inline def | (y: T) = (~x).factorOf(y)
   }
   extension (x: T) {
-    def % [U: Conversion[T]](y: U) = x.remainder(~y)
-    def /%[U: Conversion[T]](y: U) = x.divideAndRemainder(~y)
-    def | [U: Conversion[T]](y: U) = x.factorOf(~y)
+    inline def % [U: Conversion[T]](y: U) = x.remainder(~y)
+    inline def /%[U: Conversion[T]](y: U) = x.divideAndRemainder(~y)
+    inline def | [U: Conversion[T]](y: U) = x.factorOf(~y)
   }
 }
