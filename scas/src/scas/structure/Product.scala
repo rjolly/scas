@@ -13,12 +13,12 @@ class Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends Ring[(R1, 
   extension (x: (R1, R2)) def add(y: (R1, R2)) = {
     val (a, b) = x
     val (c, d) = y
-    (a + c, b + d)
+    (a.add(c), b.add(d))
   }
   extension (x: (R1, R2)) def subtract(y: (R1, R2)) = {
     val (a, b) = x
     val (c, d) = y
-    (a - c, b - d)
+    (a.subtract(c), b.subtract(d))
   }
   extension (x: (R1, R2)) def multiply(y: (R1, R2)) = {
     val (a, b) = x

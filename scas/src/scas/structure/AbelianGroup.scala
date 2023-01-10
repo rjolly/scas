@@ -1,15 +1,23 @@
 package scas.structure
 
+import scas.util.{Conversion, unary_~}
+
 trait AbelianGroup[T] extends Structure[T] {
   extension (x: T) {
     def add(y: T): T
     def subtract(y: T): T
-    inline def + (y: T) = x.add(y)
-    inline def - (y: T) = x.subtract(y)
-    def unary_- = zero - x
+    inline def + [U: Conversion[T]](y: U) = x.add(~y)
+    inline def - [U: Conversion[T]](y: U) = x.subtract(~y)
+    def unary_- = zero.subtract(x)
     def isZero = x >< zero
     def signum: Int
   }
+  extension[U: Conversion[T]] (x: U) {
+    inline def + (y: T) = (~x).add(y)
+    inline def - (y: T) = (~x).subtract(y)
+    inline def unary_- : T = -(~x)
+  }
+  def abs[U: Conversion[T]](x: U): T = abs(~x)
   def abs(x: T) = if (x.signum < 0) -x else x
   def zero: T
 }
