@@ -35,7 +35,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
       for ((a, b) <- iterator(y)) r = r.subtract(a, -b, x)
       r
     }
-    def %* (m: M) = x.map((s, a) => (s * m, a))
+    def %* (m: M) = x.map((s, a) => (s.multiply(m), a))
   }
 
   extension (x: T) def toCode(level: Level) = {
@@ -191,9 +191,9 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
 
     def subtract(m: M, c: C, y: T) = x + y.multiply(m, -c)
 
-    def multiply(m: M, c: C) = x.map((s, a) => (s * m, a * c))
+    def multiply(m: M, c: C) = x.map((s, a) => (s.multiply(m), a.multiply(c)))
 
-    @targetName("coefMultiply") def multiply(c: C) = x.map((s, a) => (s, a * c))
+    @targetName("coefMultiply") def multiply(c: C) = x.map((s, a) => (s, a.multiply(c)))
 
     def map(f: (M, C) => (M, C)): T
   }

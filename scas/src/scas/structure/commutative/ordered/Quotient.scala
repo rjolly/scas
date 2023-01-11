@@ -6,7 +6,7 @@ trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends scas.structu
   def compare(x: Element[T], y: Element[T]) = {
     val Element(a, b) = x
     val Element(c, d) = y
-    ring.compare(a * d, c * b)
+    ring.compare(a.multiply(d), c.multiply(b))
   }
   extension (x: Element[T]) override def signum = super.signum(x)
 }

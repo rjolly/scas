@@ -24,9 +24,9 @@ trait TreeMutablePolynomial[C, M](using ring: Ring[C], pp: PowerProduct[M]) exte
       val sa = ys.next
       val s = sa.getKey
       val a = sa.getValue
-      val ac = a * c
+      val ac = a.multiply(c)
       if (!ac.isZero) {
-        val sm = s * m
+        val sm = s.multiply(m)
         val cc = x.getOrElse(sm, ring.zero).subtract(ac)
         if (cc.isZero) x.remove(sm) else x.put(sm, cc)
       }
@@ -40,7 +40,7 @@ trait TreeMutablePolynomial[C, M](using ring: Ring[C], pp: PowerProduct[M]) exte
       val sa = xs.next
       val s = sa.getKey
       val a = sa.getValue
-      val ac = a * c
+      val ac = a.multiply(c)
       if (!ac.isZero) sa.setValue(ac)
       else xs.remove
     }

@@ -30,7 +30,7 @@ trait SolvablePolynomial[T : ClassTag, C : Ring, M](using pp: PowerProduct[M]) e
     val key = makeKey(e, f)
     val list = table.asScala.getOrElse(key, Nil)
     list match {
-      case Nil => Relation(pp.one, pp.one, this(e * f))
+      case Nil => Relation(pp.one, pp.one, this(e.multiply(f)))
       case _ => {
         val Relation(e0, f0, p0) = select(list, Relation(e, f, zero))
         Relation(e / e0, f / f0, p0)
@@ -66,17 +66,17 @@ trait SolvablePolynomial[T : ClassTag, C : Ring, M](using pp: PowerProduct[M]) e
 
     final override def %* (m: M) = iterator(x).foldLeft(zero) { (l, r) =>
       val (s, _) = r
-      l + s.multiply(m)
+      l + s%* m
     }
   }
 
-  extension (e: M) @targetName("ppMultiply") def multiply(f: M) = {
+  extension (e: M) @targetName("ppMultiply") def %* (f: M): T = {
     val ep = dependencyOnVariables(e)
     val fp = dependencyOnVariables(f)
-    if (ep.length == 0 || fp.length == 0) this(e * f) else {
+    if (ep.length == 0 || fp.length == 0) this(e.multiply(f)) else {
       val el = ep(ep.length-1)
       val fl = fp(0)
-      if (el <= fl) this(e * f) else {
+      if (el <= fl) this(e.multiply(f)) else {
         val e2 = e.projection(el)
         val f2 = f.projection(fl)
         val e1 = e / e2
