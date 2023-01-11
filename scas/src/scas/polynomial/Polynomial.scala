@@ -1,6 +1,6 @@
 package scas.polynomial
 
-import scala.annotation.{tailrec, targetName}
+import scala.annotation.tailrec
 import scala.reflect.ClassTag
 import scas.structure.Ring
 import scas.power.PowerProduct
@@ -8,8 +8,8 @@ import scas.variable.Variable
 
 trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) extends Ring[T] {
   def apply(n: Long) = this(ring(n))
-  def generator(n: Int) = this(pp.generator(n))
-  def generators = pp.generators.map(apply)
+  def generator(n: Int) = fromPowerProduct(pp.generator(n))
+  def generators = pp.generators.map(fromPowerProduct)
   extension (x: T) def signum = if (x.isZero) 0 else lastCoefficient(x).signum
   def characteristic = ring.characteristic
   override def convert(x: T) = x.convert(variables)
@@ -85,8 +85,8 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
     this
   }
 
-  @targetName("fromRing") def apply(value: C): T = if(value.isZero) zero else this(pp.one, value)
-  @targetName("fromPowerProduct") def apply(value: M): T = this(value, ring.one)
+  def apply(value: C): T = if(value.isZero) zero else this(pp.one, value)
+  def fromPowerProduct(value: M): T = this(value, ring.one)
   def apply(m: M, c: C): T = this((m, c))
   def apply(s: (M, C)*): T
 
