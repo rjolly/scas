@@ -1,5 +1,6 @@
 package scas.structure
 
+import scas.util.{Conversion, unary_~}
 import scas.base.conversion.BigInteger
 import BigInteger.given
 
@@ -14,8 +15,14 @@ trait Monoid[T] extends SemiGroup[T] {
         a * a \ (b - 1)
       }
     }
-    def \ (b: BigInteger): T = a.pow(b)
-    def \:(b: BigInteger) = a \ b
+    def \ [U: Conversion[BigInteger]](b: U) = a.pow(~b)
+    def \:[U: Conversion[BigInteger]](b: U) = a \ b
+  }
+  extension[U: Conversion[T]] (a: U) {
+    def \ [V: Conversion[BigInteger]](b: V) = (~a).pow(~b)
+  }
+  extension[U: Conversion[T], V: Conversion[BigInteger]] (a: U) {
+    def \:(b: V) = a \ b
   }
   extension (x: T) {
     def isUnit: Boolean

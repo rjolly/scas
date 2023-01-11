@@ -36,7 +36,7 @@ class Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends Ring[(R1, 
   }
   extension (a: (R1, R2)) override def pow(b: BigInteger) = {
     val (c, d) = a
-    (c \ b, d \ b)
+    (c.pow(b), d.pow(b))
   }
   extension (x: (R1, R2)) def isUnit = {
     val (a, b) = x

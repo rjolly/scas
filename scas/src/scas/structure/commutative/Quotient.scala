@@ -57,7 +57,7 @@ trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends Field[Elemen
   }
   extension (a: Element[T]) override def pow(b: BigInteger) = if (b.signum < 0) inverse(a) \ -b else {
     val Element(n, d) = a
-    Element(n \ b, d \ b)
+    Element(n.pow(b), d.pow(b))
   }
   override def abs(x: Element[T]) = {
     val Element(n, d) = x
