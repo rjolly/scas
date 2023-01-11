@@ -187,13 +187,13 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
   }
 
   extension (x: T) {
-    def reduce(m: M, a: C, y: T, b: C) = x.multiply(b).subtract(m, a, y)
+    def reduce(m: M, a: C, y: T, b: C) = x.coefMultiply(b).subtract(m, a, y)
 
     def subtract(m: M, c: C, y: T) = x + y.multiply(m, -c)
 
     def multiply(m: M, c: C) = x.map((s, a) => (s.multiply(m), a.multiply(c)))
 
-    @targetName("coefMultiply") def multiply(c: C) = x.map((s, a) => (s, a.multiply(c)))
+    def coefMultiply(c: C) = x.map((s, a) => (s, a.multiply(c)))
 
     def map(f: (M, C) => (M, C)): T
   }

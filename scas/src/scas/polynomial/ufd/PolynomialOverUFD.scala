@@ -1,7 +1,6 @@
 package scas.polynomial.ufd
 
 import scala.reflect.ClassTag
-import scala.annotation.targetName
 import scas.structure.commutative.UniqueFactorizationDomain
 import scas.power.PowerProduct
 import scas.polynomial.Polynomial
@@ -45,7 +44,7 @@ trait PolynomialOverUFD[T : ClassTag, C, M : PowerProduct](using ring: UniqueFac
   extension (x: T) override def reduce(m: M, a: C, y: T, b: C) = {
     val gcd = ring.gcd(a, b)
     val (a0, b0) = (a / gcd, b / gcd)
-    x.multiply(b0).subtract(m, a0, y)
+    x.coefMultiply(b0).subtract(m, a0, y)
   }
   def content(x: T) = {
     val c = iterator(x).foldLeft(ring.zero) { (l, r) =>
@@ -58,9 +57,9 @@ trait PolynomialOverUFD[T : ClassTag, C, M : PowerProduct](using ring: UniqueFac
   def contentAndPrimitivePart(x: T) = {
     if (x.isZero) (ring.zero, zero) else {
       val c = content(x)
-      (c, x.divide(c))
+      (c, x.coefDivide(c))
     }
   }
   def primitivePart(x: T) = { val (c, p) = contentAndPrimitivePart(x) ; p }
-  extension (x: T) @targetName("coefDivide") def divide(c: C) = x.map((s, a) => (s, a / c))
+  extension (x: T) def coefDivide(c: C) = x.map((s, a) => (s, a / c))
 }

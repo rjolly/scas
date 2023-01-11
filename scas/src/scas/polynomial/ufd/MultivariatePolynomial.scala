@@ -13,7 +13,7 @@ trait MultivariatePolynomial[T[C, M], C, M](using ClassTag[T[C, M]])(using val r
   } else {
     val (a, p) = contentAndPrimitivePart(x)
     val (b, q) = contentAndPrimitivePart(y)
-    primitivePart(gcd1(p, q)).multiply(ring.gcd(a, b))
+    primitivePart(gcd1(p, q)).coefMultiply(ring.gcd(a, b))
   }
   extension (x: T[C, M]) def convertTo(s: MultivariatePolynomial[T, T[C, M], M]): T[T[C, M], M] = iterator(x).foldLeft(s.zero) { (l, r) =>
     val (m, c) = r

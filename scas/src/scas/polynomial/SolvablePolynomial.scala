@@ -1,7 +1,6 @@
 package scas.polynomial
 
 import java.util.TreeMap
-import scala.annotation.targetName
 import scala.jdk.CollectionConverters.MapHasAsScala
 import scala.reflect.ClassTag
 import scala.math.Ordering
@@ -60,17 +59,17 @@ trait SolvablePolynomial[T : ClassTag, C : Ring, M](using pp: PowerProduct[M]) e
   }
 
   extension (x: T) {
-    final override def multiply(m: M, c: C) = (x%* m).multiply(c)
+    final override def multiply(m: M, c: C) = (x%* m).coefMultiply(c)
 
-    @targetName("coefMultiply") final override def multiply(c: C) = super.multiply(x)(c)
+    final override def coefMultiply(c: C) = super.coefMultiply(x)(c)
 
     final override def %* (m: M) = iterator(x).foldLeft(zero) { (l, r) =>
       val (s, _) = r
-      l + s%* m
+      l + s.ppMultiply(m)
     }
   }
 
-  extension (e: M) @targetName("ppMultiply") def %* (f: M): T = {
+  extension (e: M) def ppMultiply(f: M): T = {
     val ep = dependencyOnVariables(e)
     val fp = dependencyOnVariables(f)
     if (ep.length == 0 || fp.length == 0) this(e.multiply(f)) else {
