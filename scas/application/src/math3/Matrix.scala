@@ -20,8 +20,8 @@ class Matrix(size: Int) extends Algebra[Element, Double] with Field[Element] {
   def inverse(x: Element) = MatrixUtils.inverse(x)
   def equiv(x: Element, y: Element) = x == y
   extension (x: Element) def signum = if(size > 0) x.getEntry(0, 0).signum else 0
-  extension (x: Double) def *%(y: Element) = y%* x
-  extension (x: Element) def %* (y: Double) = x.scalarMultiply(y)
+  extension (x: Double) def multiplyLeft(y: Element) = y%* x
+  extension (x: Element) def multiplyRight(y: Double) = x.scalarMultiply(y)
   def characteristic = BigInteger("0")
   def zero = MatrixUtils.createRealMatrix(size, size)
   def one = MatrixUtils.createRealIdentityMatrix(size)
