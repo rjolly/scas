@@ -1,10 +1,22 @@
 package scas.math
 
+import scas.util.{Conversion, unary_~}
+
 trait PartialOrdering[T] extends scala.math.PartialOrdering[T] with Equiv[T] {
   extension (x: T) {
-    def <=(y: T) = lteq(x, y)
-    def >=(y: T) = gteq(x, y)
-    def < (y: T) = lt(x, y)
-    def > (y: T) = gt(x, y)
+    inline def _lteq(y: T) = lteq(x, y)
+    inline def _gteq(y: T) = gteq(x, y)
+    inline def _lt(y: T) = lt(x, y)
+    inline def _gt(y: T) = gt(x, y)
+    inline def <=[U: Conversion[T]](y: U) = lteq(x, ~y)
+    inline def >=[U: Conversion[T]](y: U) = gteq(x, ~y)
+    inline def < [U: Conversion[T]](y: U) = lt(x, ~y)
+    inline def > [U: Conversion[T]](y: U) = gt(x, ~y)
+  }
+  extension[U: Conversion[T]] (x: U) {
+    inline def <=(y: T) = lteq(~x, y)
+    inline def >=(y: T) = gteq(~x, y)
+    inline def < (y: T) = lt(~x, y)
+    inline def > (y: T) = gt(~x, y)
   }
 }

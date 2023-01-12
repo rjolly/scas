@@ -39,6 +39,7 @@ trait ArrayPowerProductWithDegree[N : ClassTag : ClassTagArray](using numeric: N
     r
   }
   extension (x: Array[N]) def divide(y: Array[N]) = {
+    import numeric.>=
     val r = one
     for (i <- 0 to length) {
       assert (x(i) >= y(i))
@@ -47,6 +48,7 @@ trait ArrayPowerProductWithDegree[N : ClassTag : ClassTagArray](using numeric: N
     r
   }
   extension (x: Array[N]) def factorOf(y: Array[N]) = {
+    import numeric.>
     var i = 0
     while (i < length) {
       if (x(i) > y(i)) return false
@@ -60,6 +62,7 @@ trait ArrayPowerProductWithDegree[N : ClassTag : ClassTagArray](using numeric: N
     r
   }
   extension (x: Array[N]) def convert(from: Seq[Variable]) = {
+    import numeric.>
     val r = one
     val index = from.map(a => variables.indexOf(a))
     for (i <- 0 until x.length - 1) if (x(i) > numeric.zero) {

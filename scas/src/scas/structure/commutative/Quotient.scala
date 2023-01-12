@@ -38,6 +38,7 @@ trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends Field[Elemen
     Element(a0.multiply(c0), b0.multiply(d0))
   }
   def equiv(x: Element[T], y: Element[T]) = {
+    import ring.><
     val Element(a, b) = x
     val Element(c, d) = y
     a >< c && b >< d
@@ -69,6 +70,7 @@ trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends Field[Elemen
   }
   def characteristic = ring.characteristic
   extension (x: Element[T]) def toCode(level: Level) = {
+    import Level.ordering.>
     val Element(n, d) = x
     if (d.isOne) n.toCode(level) else {
       val s = n.toCode(Level.Multiplication) + "/" + d.toCode(Level.Power)

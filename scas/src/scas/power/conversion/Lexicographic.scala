@@ -15,8 +15,8 @@ object Lexicographic {
       var i = length
       while (i > 0) {
         i -= 1
-        if (numeric.<(x(i))(y(i))) return -1
-        else if (numeric.>(x(i))(y(i))) return 1
+        if (x(i)._lt(y(i))) return -1
+        else if (x(i)._gt(y(i))) return 1
       }
       0
     }

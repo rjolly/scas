@@ -24,6 +24,8 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
     !xs.hasNext && !ys.hasNext
   }
   def equiv(x: (M, C), y: (M, C)) = {
+    import ring.><
+    import pp.><
     val (s, a) = x
     val (t, b) = y
     s >< t && a >< b
@@ -39,6 +41,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
   }
 
   extension (x: T) def toCode(level: Level) = {
+    import Level.ordering.>
     var s = ring.zero.toCode(Level.Addition)
     var n = 0
     var m = 0
@@ -122,6 +125,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
   }
 
   extension (x: T) def coefficient(m: M) = {
+    import pp.><
     val xs = x.iterator(m)
     if (xs.hasNext) {
       val (s, a) = xs.next
