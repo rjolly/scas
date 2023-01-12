@@ -15,7 +15,7 @@ trait PolynomialOverUFD[T : ClassTag, C, M : PowerProduct](using ring: UniqueFac
       List(y).find(_.reduce(s, a)) match {
         case Some(y) => {
           val (t, b) = head(y)
-          val c = this(s / t, a / b)
+          val c = this(s.divide(t), a.divide(b))
           val (q, r) = (x - c * y).divideAndRemainder(y)
           (c + q, r)
         }
@@ -30,7 +30,7 @@ trait PolynomialOverUFD[T : ClassTag, C, M : PowerProduct](using ring: UniqueFac
       ys.find(_.reduce(s, a)) match {
         case Some(y) => {
           val (t, b) = head(y)
-          x.subtract(s / t, a / b, y).remainder(ys)
+          x.subtract(s.divide(t), a.divide(b), y).remainder(ys)
         }
         case None => x
       }
@@ -43,7 +43,7 @@ trait PolynomialOverUFD[T : ClassTag, C, M : PowerProduct](using ring: UniqueFac
   extension (x: T) def reduce(y: T): T = x.reduce(List(y))
   extension (x: T) override def reduce(m: M, a: C, y: T, b: C) = {
     val gcd = ring.gcd(a, b)
-    val (a0, b0) = (a / gcd, b / gcd)
+    val (a0, b0) = (a.divide(gcd), b.divide(gcd))
     x.coefMultiply(b0).subtract(m, a0, y)
   }
   def content(x: T) = {
@@ -61,5 +61,5 @@ trait PolynomialOverUFD[T : ClassTag, C, M : PowerProduct](using ring: UniqueFac
     }
   }
   def primitivePart(x: T) = { val (c, p) = contentAndPrimitivePart(x) ; p }
-  extension (x: T) def coefDivide(c: C) = x.map((s, a) => (s, a / c))
+  extension (x: T) def coefDivide(c: C) = x.map((s, a) => (s, a.divide(c)))
 }

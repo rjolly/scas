@@ -16,7 +16,7 @@ trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends Field[Elemen
     val Element(n, d) = x
     val c = ring.gcd(n, d)
     val gcd = if (d.signum == -c.signum) -c else c
-    Element(n / gcd, d / gcd)
+    Element(n.divide(gcd), d.divide(gcd))
   }
   extension (x: Element[T]) def add(y: Element[T]) = {
     val Element(a, b) = x
