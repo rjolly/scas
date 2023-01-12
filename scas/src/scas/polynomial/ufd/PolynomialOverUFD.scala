@@ -38,7 +38,7 @@ trait PolynomialOverUFD[T : ClassTag, C, M : PowerProduct](using ring: UniqueFac
   }
   extension (x: T) def reduce(s: M, a: C) = {
     val (t, b) = head(x)
-    (t | s) && (b | a)
+    (t.factorOf(s)) && (b.factorOf(a))
   }
   extension (x: T) def reduce(y: T): T = x.reduce(List(y))
   extension (x: T) override def reduce(m: M, a: C, y: T, b: C) = {
