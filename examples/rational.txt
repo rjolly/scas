@@ -1,4 +1,4 @@
-import scas.base.conversion.{BigInteger, Rational}
+import scas.base.{BigInteger, Rational}
 import BigInteger.int2bigInt
 import Rational.given
 

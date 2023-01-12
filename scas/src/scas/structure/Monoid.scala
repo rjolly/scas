@@ -1,7 +1,7 @@
 package scas.structure
 
 import scas.util.{Conversion, unary_~}
-import scas.base.conversion.BigInteger
+import scas.base.BigInteger
 import BigInteger.given
 
 trait Monoid[T] extends SemiGroup[T] {

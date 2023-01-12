@@ -1,6 +1,6 @@
 package scas.structure
 
-import scas.base.conversion.BigInteger
+import scas.base.BigInteger
 import BigInteger.lcm
 
 class Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends Ring[(R1, R2)] {
@@ -32,7 +32,7 @@ class Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends Ring[(R1, 
     val (c, d) = y
     a >< c && b >< d
   }
-  extension (x: (R1, R2)) override def unary_- = {
+  extension (x: (R1, R2)) override def negate = {
     val (a, b) = x
     (-a, -b)
   }

@@ -1,4 +1,4 @@
-import scas.base.conversion.{BigInteger, Rational}
+import scas.base.{BigInteger, Rational}
 import scas.power.conversion.Lexicographic
 import scas.module.conversion.{Array, ArrayModule}
 import scas.polynomial.tree.Polynomial

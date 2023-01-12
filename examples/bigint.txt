@@ -1,4 +1,4 @@
-import scas.base.conversion.BigInteger
+import scas.base.BigInteger
 import BigInteger.{abs, gcd, lcm, unary_-, given}
 
 assert(BigInteger("1") + 1 >< 1 + BigInteger("1"))

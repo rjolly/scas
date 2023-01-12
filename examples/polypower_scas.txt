@@ -1,4 +1,4 @@
-import scas.base.conversion.BigInteger
+import scas.base.BigInteger
 import scas.power.conversion.Lexicographic
 import scas.polynomial.tree.mutable.Polynomial
 import BigInteger.{int2bigInt, long2bigInt}

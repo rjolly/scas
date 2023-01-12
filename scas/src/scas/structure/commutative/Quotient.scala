@@ -1,10 +1,13 @@
 package scas.structure.commutative
 
-import scas.base.conversion.BigInteger
-import BigInteger.self.given
+import scas.base.BigInteger
+import scas.util.{Conversion, unary_~}
+import BigInteger.given
 import Quotient.Element
 
 trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends Field[Element[T]] {
+  given ring2quotient[U: Conversion[T]]: (U => Element[T]) = x => this(~x)
+
   def apply(n: T) = Element(n, ring.one)
   def apply(n: Long) = this(ring(n))
   def apply(n: T, d: T): Element[T] = this(Element(n, d))
@@ -15,7 +18,7 @@ trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends Field[Elemen
   def apply(x: Element[T]) = {
     val Element(n, d) = x
     val c = ring.gcd(n, d)
-    val gcd = if (d.signum == -c.signum) -c else c
+    val gcd = if (d.signum == -c.signum) c.negate else c
     Element(n.divide(gcd), d.divide(gcd))
   }
   extension (x: Element[T]) def add(y: Element[T]) = {
@@ -52,7 +55,7 @@ trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends Field[Elemen
     val Element(c, d) = y
     Element(ring.gcd(a, c), ring.lcm(b, d))
   }
-  extension (x: Element[T]) override def unary_- = {
+  extension (x: Element[T]) override def negate = {
     val Element(n, d) = x
     Element(-n, d)
   }

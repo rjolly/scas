@@ -1,6 +1,6 @@
 package scas.structure
 
-import scas.base.conversion.BigInteger
+import scas.base.BigInteger
 import scas.util.{Conversion, unary_~}
 import BigInteger.given
 

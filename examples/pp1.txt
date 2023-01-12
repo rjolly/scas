@@ -1,5 +1,5 @@
 import scas.power.conversion.Lexicographic
-import scas.base.conversion.BigInteger
+import scas.base.BigInteger
 import BigInteger.int2bigInt
 
 val m = Lexicographic(0)("x")
