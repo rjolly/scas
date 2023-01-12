@@ -2,6 +2,7 @@ package scas.power
 
 import scala.reflect.ClassTag
 import scas.structure.ordered.Monoid
+import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
 
 trait PowerProduct[M: ClassTag] extends Monoid[M] {
@@ -21,9 +22,13 @@ trait PowerProduct[M: ClassTag] extends Monoid[M] {
   extension (x: M) {
     def divide(y: M): M
     def factorOf(y: M): Boolean
-    inline def / (y: M) = x.divide(y)
-    inline def | (y: M) = x.factorOf(y)
+    inline def / [U: Conversion[M]](y: U) = x.divide(~y)
+    inline def | [U: Conversion[M]](y: U) = x.factorOf(~y)
     def isUnit = x.isOne
+  }
+  extension[U: Conversion[M]] (x: U) {
+    inline def / (y: M) = (~x).divide(y)
+    inline def | (y: M) = (~x).factorOf(y)
   }
   def dependencyOnVariables(x: M): Array[Int]
   extension (x: M) def projection(n: Int): M
