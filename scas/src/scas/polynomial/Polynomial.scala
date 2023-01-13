@@ -4,9 +4,12 @@ import scala.annotation.tailrec
 import scala.reflect.ClassTag
 import scas.structure.Ring
 import scas.power.PowerProduct
+import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
 
 trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) extends Ring[T] {
+  val zero = this()
+  val one = this(ring.one)
   def apply(n: Long) = this(ring(n))
   def generator(n: Int) = fromPowerProduct(pp.generator(n))
   def generators = pp.generators.map(fromPowerProduct)
@@ -37,7 +40,8 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
       for ((a, b) <- iterator(y)) r = r.subtract(a, -b, x)
       r
     }
-    def %* (m: M) = x.map((s, a) => (s.multiply(m), a))
+    def ppMultiplyRight(m: M) = x.map((s, a) => (s.multiply(m), a))
+    def %*[U: Conversion[M]] (m: U): T = x.ppMultiplyRight(~m)
   }
 
   extension (x: T) def toCode(level: Level) = {
@@ -203,4 +207,6 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
   }
 
   def sort(x: T) = this(x.toSeq.sortBy((s, _) => s)(pp.reverse): _*)
+
+  given coef2poly[D: Conversion[C]]: (D => T) = x => this(~x)
 }

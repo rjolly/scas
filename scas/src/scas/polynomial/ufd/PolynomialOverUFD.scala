@@ -52,7 +52,7 @@ trait PolynomialOverUFD[T : ClassTag, C, M : PowerProduct](using ring: UniqueFac
       ring.gcd(l, a)
     }
     val d = ring.abs(c)
-    if (x.signum < 0) -d else d
+    if (x.signum < 0) d.negate else d
   }
   def contentAndPrimitivePart(x: T) = {
     if (x.isZero) (ring.zero, zero) else {
