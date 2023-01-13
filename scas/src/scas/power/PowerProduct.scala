@@ -6,6 +6,7 @@ import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
 
 trait PowerProduct[M: ClassTag] extends Monoid[M] {
+  given PowerProduct[M] = this
   def variables: Seq[Variable]
   val length = variables.length
   def generator(variable: String): M = generator(variables.indexOf(variable))
@@ -37,4 +38,6 @@ trait PowerProduct[M: ClassTag] extends Monoid[M] {
   override def convert(x: M) = x.convert(variables)
   extension (x: M) def convert(from: Seq[Variable]): M
   def size(x: M): Int
+
+  given int2powerProduct: (Int => M) = apply(_)
 }

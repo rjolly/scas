@@ -1,5 +1,5 @@
 import scas.base.{BigInteger, Rational}
-import scas.power.conversion.Lexicographic
+import scas.power.Lexicographic
 import scas.polynomial.tree.Polynomial
 import Rational.{ring2quotient, %%}
 import BigInteger.int2bigInt

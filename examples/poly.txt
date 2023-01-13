@@ -1,6 +1,6 @@
 import scas.rendering.MathObject
 import scas.base.BigInteger
-import scas.power.conversion.Lexicographic
+import scas.power.Lexicographic
 import scas.polynomial.tree.Polynomial
 import BigInteger.int2bigInt
 
