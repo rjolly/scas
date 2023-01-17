@@ -1,5 +1,5 @@
 import scas.base.{BigInteger, ModInteger}
-import scas.module.conversion.{Array, ArrayModule}
+import scas.module.{Array, ArrayModule}
 import scas.structure.conversion.Product
 import BigInteger.int2bigInt
 

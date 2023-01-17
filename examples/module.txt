@@ -1,6 +1,6 @@
 import scas.base.{BigInteger, Rational}
 import scas.power.Lexicographic
-import scas.module.conversion.{Array, ArrayModule}
+import scas.module.{Array, ArrayModule}
 import scas.polynomial.tree.Polynomial
 import BigInteger.int2bigInt
 import Rational.{ring2quotient, %%}

@@ -1,5 +1,5 @@
 import scas.base.{BigInteger, Rational}
-import scas.module.conversion.{Array, ArrayModule}
+import scas.module.{Array, ArrayModule}
 import BigInteger.int2bigInt
 import Rational.{ring2quotient, %%}
 
