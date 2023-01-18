@@ -1,7 +1,7 @@
 // Requires : cc.redberry#rings;2.5.7
 
 import cc.redberry.rings.poly.multivar.MonomialOrder
-import rings.conversion.{BigInteger, MultivariatePolynomialRing}
+import rings.{BigInteger, MultivariatePolynomialRing}
 import BigInteger.{int2bigInt, long2bigInt, bigInt2scas}
 
 val r = new MultivariatePolynomialRing(MonomialOrder.LEX, "x", "y", "z")(using BigInteger)
