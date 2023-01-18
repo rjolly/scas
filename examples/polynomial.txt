@@ -2,7 +2,7 @@
 
 import edu.jas.poly.TermOrderByName
 import edu.jas.poly.GenPolynomialRing
-import jas.conversion.{BigInteger, poly2scas}
+import jas.{BigInteger, poly2scas}
 import BigInteger.int2bigInt
 
 val r = poly2scas(new GenPolynomialRing(BigInteger.factory, Array("x", "y", "z"), TermOrderByName.INVLEX))
