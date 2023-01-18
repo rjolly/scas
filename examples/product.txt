@@ -1,6 +1,6 @@
 import scas.base.{BigInteger, ModInteger}
 import scas.module.{Array, ArrayModule}
-import scas.structure.conversion.Product
+import scas.structure.Product
 import BigInteger.int2bigInt
 
 val r = new Product(using ModInteger("3"), ModInteger("5"))
