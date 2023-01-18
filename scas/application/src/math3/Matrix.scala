@@ -5,11 +5,11 @@ import org.apache.commons.math3.linear.MatrixUtils
 import org.apache.commons.math3.linear.RealMatrix
 import scas.structure.{Algebra, Ring, Field}
 import scas.base.BigInteger
-import math3.conversion.Double
 import Matrix.Element
 import Double.given
 
 class Matrix(size: Int) extends Algebra[Element, Double] with Field[Element] {
+  given Matrix = this
   def apply(n: Long) = one%* Double(n)
   def apply(ds: Double*): Element = Array2DRowRealMatrix(ds.grouped(size).map(_.toArray).toArray)
   extension (x: Element) {
@@ -35,6 +35,9 @@ class Matrix(size: Int) extends Algebra[Element, Double] with Field[Element] {
     assert (n == size * size)
     this
   }
+
+  given int2matrix: (Int => Element) = one%* _
+  given double2matrix: (Double => Element) = one%* _
 }
 
 object Matrix {
