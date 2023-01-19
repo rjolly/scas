@@ -15,11 +15,12 @@ object Rational extends Quotient[BigInteger] {
   def apply(n: String): Rational = this(BigInteger(n))
   def apply(n: String, d: String): Rational = this(BigInteger(n), BigInteger(d))
   extension (x: Rational) override def toCode(level: Level) = {
+    import Level.ordering.{> => gt}
     val Rational(n, d) = x
     if (d.isOne) n.toCode(level) else {
       if (n.bitLength < 64 && d.bitLength < 64) {
         val s = n.toCode(Level.Multiplication) + "%%" + d.toCode(Level.Power)
-        if (level._gt(Level.Multiplication)) fenced(s) else s
+        if (level.gt(Level.Multiplication)) fenced(s) else s
       } else s"Rational(\"$n\", \"$d\")"
     }
   }

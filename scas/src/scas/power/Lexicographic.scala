@@ -23,11 +23,12 @@ object Lexicographic {
 
   inline def apply[N : ClassTag : ClassTagArray, U: Conversion[Variable]](degree: N)(using numeric: Numeric[N])(variables: U*) = new Lexicographic[N](variables.map(~_): _*) {
     override def compare(x: Array[N], y: Array[N]) = {
+      import numeric.{< => lt, > => gt}
       var i = length
       while (i > 0) {
         i -= 1
-        if (x(i)._lt(y(i))) return -1
-        else if (x(i)._gt(y(i))) return 1
+        if (x(i).lt(y(i))) return -1
+        else if (x(i).gt(y(i))) return 1
       }
       0
     }
