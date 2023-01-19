@@ -2,11 +2,11 @@ import scas.base.BigInteger
 import scas.power.Lexicographic
 import scas.polynomial.tree.mutable.Polynomial
 import BigInteger.{int2bigInt, long2bigInt}
+import scas.coef2poly
 
-val r = Polynomial(using BigInteger, Lexicographic[Int]("x", "y", "z"))
-// val r = Polynomial(using BigInteger, Lexicographic[Long]("x", "y", "z"))
+given r: Polynomial[BigInteger, Array[Int]](using BigInteger, Lexicographic[Int]("x", "y", "z"))
+// given r: Polynomial[BigInteger, Array[Long]](using BigInteger, Lexicographic[Long]("x", "y", "z"))
 val List(x, y, z) = r.generators.toList
-import r.given
 
 val p = 1+x+y+z
 // val p = 1+x\2147483647+y\2147483647+z\2147483647

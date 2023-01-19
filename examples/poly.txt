@@ -1,19 +1,18 @@
 import scas.rendering.MathObject
 import scas.base.BigInteger
 import scas.power.Lexicographic
-import scas.polynomial.tree.Polynomial
+import scas.polynomial.TreePolynomial
 import BigInteger.int2bigInt
+import scas.{coef2poly, identity}
 
-val r = Polynomial(using BigInteger, Lexicographic[Int]("x", "y", "z"))
+given r: TreePolynomial[BigInteger, Array[Int]](using BigInteger, Lexicographic[Int]("x", "y", "z"))
 val List(x, y, z) = r.generators.toList
-import r.given
 
 assert(x + 1 >< 1 + x)
 assert(x + BigInteger("1") >< BigInteger("1") + x)
 
-val s = Polynomial(using BigInteger(x, y, z), Lexicographic[Int]("a"))
+given s: TreePolynomial[TreePolynomial.Element[BigInteger, Array[Int]], Array[Int]](using BigInteger(x, y, z), Lexicographic[Int]("a"))
 val List(a) = s.generators.toList
-import s.given
 
 assert(a + 1 >< 1 + a)
 assert(a + BigInteger("1") >< BigInteger("1") + a)
