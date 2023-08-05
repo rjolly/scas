@@ -1,9 +1,11 @@
 package scas.structure
 
+import scas.util.{Conversion, unary_~}
 import scas.base.BigInteger
 import BigInteger.lcm
 
 class Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends Ring[(R1, R2)] {
+  given Product[R1, R2] = this
   def apply(n: Long) = (ring1(n), ring2(n))
   def apply(a: R1, b: R2) = (a, b)
   override def convert(x: (R1, R2)) = {
@@ -65,4 +67,10 @@ class Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends Ring[(R1, 
   def toMathML = s"<apply><cartesianproduct/>${ring1.toMathML}${ring2.toMathML}</apply>"
   def zero = (ring1.zero, ring2.zero)
   def one = (ring1.one, ring2.one)
+}
+
+object Product {
+  def apply[R1, R2, U : Conversion[R1], V : Conversion[R2]](using factory: Product[R1, R2])(a: U, b: V) = factory(~a, ~b)
+
+  def apply[R1, R2](ring1: Ring[R1], ring2: Ring[R2]) = new Product(using ring1, ring2)
 }
