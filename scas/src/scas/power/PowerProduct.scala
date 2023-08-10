@@ -1,12 +1,15 @@
 package scas.power
 
 import scala.reflect.ClassTag
+import scas.math.PartialOrdering
 import scas.structure.ordered.Monoid
 import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
+import PowerProduct.Ops
 
 trait PowerProduct[M: ClassTag] extends Monoid[M] {
   given PowerProduct[M] = this
+  given Ops[M] with {}
   def variables: Seq[Variable]
   val length = variables.length
   def generator(variable: String): M = generator(variables.indexOf(variable))
@@ -27,10 +30,6 @@ trait PowerProduct[M: ClassTag] extends Monoid[M] {
     inline def | [U: Conversion[M]](y: U) = x.factorOf(~y)
     def isUnit = x.isOne
   }
-  extension[U: Conversion[M]] (x: U) {
-    inline def / (y: M) = (~x).divide(y)
-    inline def | (y: M) = (~x).factorOf(y)
-  }
   def dependencyOnVariables(x: M): Array[Int]
   extension (x: M) def projection(n: Int): M
   override def toString = s"List(${variables.map(_.toString).mkString(", ")})"
@@ -40,4 +39,13 @@ trait PowerProduct[M: ClassTag] extends Monoid[M] {
   def size(x: M): Int
 
   given int2powerProduct: (Int => M) = apply(_)
+}
+
+object PowerProduct {
+  trait Ops[M: PowerProduct] extends PartialOrdering.Ops[M] {
+    extension[U: Conversion[M]] (x: U) {
+      inline def / (y: M) = (~x).divide(y)
+      inline def | (y: M) = (~x).factorOf(y)
+    }
+  }
 }
