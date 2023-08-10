@@ -5,9 +5,8 @@ import scas.math.Numeric
 import scas.util.{ClassTagArray, Conversion, unary_~}
 import scas.variable.Variable
 
-class Lexicographic[N : ClassTag : ClassTagArray](using numeric: Numeric[N])(val variables: Variable*) extends ArrayPowerProductWithDegree[N] {
+class Lexicographic[N : Numeric : ClassTag : ClassTagArray](val variables: Variable*) extends ArrayPowerProductWithDegree[N] {
   def compare(x: Array[N], y: Array[N]) = {
-    import numeric.{<, >}
     var i = length
     while (i > 0) {
       i -= 1
@@ -26,8 +25,8 @@ object Lexicographic {
       var i = length
       while (i > 0) {
         i -= 1
-        if (x(i)._lt(y(i))) return -1
-        else if (x(i)._gt(y(i))) return 1
+        if (numeric.lt(x(i), y(i))) return -1
+        else if (numeric.gt(x(i), y(i))) return 1
       }
       0
     }

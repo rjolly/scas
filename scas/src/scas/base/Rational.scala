@@ -19,7 +19,7 @@ object Rational extends Quotient[BigInteger] {
     if (d.isOne) n.toCode(level) else {
       if (n.bitLength < 64 && d.bitLength < 64) {
         val s = n.toCode(Level.Multiplication) + "%%" + d.toCode(Level.Power)
-        if (level._gt(Level.Multiplication)) fenced(s) else s
+        if (level > Level.Multiplication) fenced(s) else s
       } else s"Rational(\"$n\", \"$d\")"
     }
   }
