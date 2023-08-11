@@ -1,7 +1,6 @@
 package scas.power
 
 import scala.reflect.ClassTag
-import scas.math.PartialOrdering
 import scas.structure.ordered.Monoid
 import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
@@ -42,7 +41,7 @@ trait PowerProduct[M: ClassTag] extends Monoid[M] {
 }
 
 object PowerProduct {
-  trait Ops[M: PowerProduct] extends PartialOrdering.Ops[M] {
+  trait Ops[M: PowerProduct] extends Monoid.Ops[M] {
     extension[U: Conversion[M]] (x: U) {
       inline def / (y: M) = (~x).divide(y)
       inline def | (y: M) = (~x).factorOf(y)
