@@ -23,7 +23,7 @@ object Show {
     case Addition, Multiplication, Power
   }
   object Level {
-    given ordering: Ordering[Level] with {
+    given Ordering[Level] with {
       def compare(x: Level, y: Level) = java.lang.Integer.compare(x.ordinal, y.ordinal)
     }
   }

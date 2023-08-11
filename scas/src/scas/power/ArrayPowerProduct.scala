@@ -5,12 +5,8 @@ import scas.util.ClassTagArray
 import scas.variable.Variable
 
 trait ArrayPowerProduct[N : ClassTagArray](using numeric: Numeric[N]) extends PowerProduct[Array[N]] {
-  def dependencyOnVariables(x: Array[N]) = {
-    import numeric.>
-    (for (i <- 0 until length if (x(i) > numeric.zero)) yield i).toArray
-  }
+  def dependencyOnVariables(x: Array[N]) = (for (i <- 0 until length if (x(i) > numeric.zero)) yield i).toArray
   extension (x: Array[N]) def toCode(level: Level) = {
-    import numeric.{>, ><}
     var s = "1"
     var m = 0
     for (i <- 0 until length) if (x(i) > numeric.zero) {
@@ -23,7 +19,6 @@ trait ArrayPowerProduct[N : ClassTagArray](using numeric: Numeric[N]) extends Po
     s
   }
   extension (x: Array[N]) def toMathML = {
-    import numeric.{>, ><}
     var s = "<cn>1</cn>"
     var m = 0
     for (i <- 0 until length) if (x(i) > numeric.zero) {
@@ -36,7 +31,6 @@ trait ArrayPowerProduct[N : ClassTagArray](using numeric: Numeric[N]) extends Po
     s
   }
   def size(x: Array[N]) = {
-    import numeric.>
     var m = 0
     for (i <- 0 until length) if (x(i) > numeric.zero) m += 1
     m
