@@ -5,7 +5,9 @@ import scas.structure.Field
 import scas.base.BigInteger
 
 object Double extends Field[Double] {
+  class Ops(using Double.type) extends Field.Ops[Double]
   given Double.type = this
+  given Ops = new Ops
   def apply(n: Long) = n.toDouble
   extension (x: Double) {
     def add(y: Double) = x + y

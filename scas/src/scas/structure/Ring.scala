@@ -6,5 +6,5 @@ trait Ring[T] extends AbelianGroup[T] with Monoid[T] {
 }
 
 object Ring {
-  trait Ops[T: Ring] extends AbelianGroup.Ops[T] with SemiGroup.Ops[T]
+  trait Ops[T: Ring] extends AbelianGroup.Ops[T] with Monoid.Ops[T]
 }

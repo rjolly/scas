@@ -72,6 +72,7 @@ trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends Field[Elemen
   }
   def characteristic = ring.characteristic
   extension (x: Element[T]) def toCode(level: Level) = {
+    import Level.ordering
     val Element(n, d) = x
     if (d.isOne) n.toCode(level) else {
       val s = n.toCode(Level.Multiplication) + "/" + d.toCode(Level.Power)
@@ -92,4 +93,5 @@ trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends Field[Elemen
 
 object Quotient {
   case class Element[T](numerator: T, denominator: T)
+  trait Ops[T : Quotient] extends Field.Ops[Element[T]]
 }

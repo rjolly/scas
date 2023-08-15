@@ -22,3 +22,7 @@ trait Ring[T <: RingElem[T]] extends scas.structure.ordered.Ring[T] {
   }
   def toMathML = ???
 }
+
+object Ring {
+  trait Ops[T <: RingElem[T] : Ring] extends scas.structure.ordered.Ring.Ops[T]
+}

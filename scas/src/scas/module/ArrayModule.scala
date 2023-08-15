@@ -1,12 +1,13 @@
 package scas.module
 
 import scala.reflect.ClassTag
-import scas.structure.Ring
-import scas.structure.Module
+import scas.structure.{Ring, Module}
 import scas.util.ClassTagArray
+import ArrayModule.Ops
 
 class ArrayModule[R : ClassTag : ClassTagArray](using ring: Ring[R])(val dimension: Int) extends Module[Array[R], R] {
   given ArrayModule[R] = this
+  given Ops[R] = new Ops[R]
   def apply(x: Array[R]) = x
   def generator(n: Int) = (for (i <- 0 until dimension) yield if (i == n) ring.one else ring.zero).toArray
   def generators = (for (i <- 0 until dimension) yield generator(i)).toArray
@@ -35,4 +36,8 @@ class ArrayModule[R : ClassTag : ClassTagArray](using ring: Ring[R])(val dimensi
     assert (n == dimension)
     this
   }
+}
+
+object ArrayModule {
+  class Ops[R : ArrayModule] extends Module.Ops[Array[R], R]
 }

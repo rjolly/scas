@@ -206,3 +206,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
 
   given coef2poly[D: Conversion[C]]: (D => T) = x => this(~x)
 }
+
+object Polynomial {
+  trait Ops[T, C, M](using Polynomial[T, C, M]) extends Ring.Ops[T]
+}

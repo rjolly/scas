@@ -59,4 +59,5 @@ abstract class TreePolynomial[C, M](using ring: Ring[C], pp: PowerProduct[M]) ex
 
 object TreePolynomial {
   type Element[C, M] = SortedMap[M, C]
+  trait Ops[C, M](using TreePolynomial[C, M]) extends Polynomial.Ops[Element[C, M], C, M]
 }

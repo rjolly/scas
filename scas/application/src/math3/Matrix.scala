@@ -5,11 +5,12 @@ import org.apache.commons.math3.linear.MatrixUtils
 import org.apache.commons.math3.linear.RealMatrix
 import scas.structure.{Algebra, Ring, Field}
 import scas.base.BigInteger
-import Matrix.Element
+import Matrix.{Element, Ops}
 import Double.given
 
 class Matrix(size: Int) extends Algebra[Element, Double] with Field[Element] {
   given Matrix = this
+  given Ops = new Ops
   def apply(n: Long) = one%* Double(n)
   def apply(ds: Double*): Element = Array2DRowRealMatrix(ds.grouped(size).map(_.toArray).toArray)
   extension (x: Element) {
@@ -42,4 +43,5 @@ class Matrix(size: Int) extends Algebra[Element, Double] with Field[Element] {
 
 object Matrix {
   type Element = RealMatrix
+  class Ops(using Matrix) extends Field.Ops[Element]
 }

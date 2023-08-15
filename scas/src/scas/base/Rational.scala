@@ -8,13 +8,16 @@ import BigInteger.given
 type Rational = Element[BigInteger]
 
 object Rational extends Quotient[BigInteger] {
+  class Ops(using Rational.type) extends Quotient.Ops[BigInteger]
   given Rational.type = this
+  given Ops = new Ops
   extension[U: Conversion[BigInteger]] (a: U) {
     def %%[V: Conversion[BigInteger]](b: V) = this(~a, ~b)
   }
   def apply(n: String): Rational = this(BigInteger(n))
   def apply(n: String, d: String): Rational = this(BigInteger(n), BigInteger(d))
   extension (x: Rational) override def toCode(level: Level) = {
+    import Level.ordering
     val Rational(n, d) = x
     if (d.isOne) n.toCode(level) else {
       if (n.bitLength < 64 && d.bitLength < 64) {

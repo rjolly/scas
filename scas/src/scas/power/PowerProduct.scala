@@ -6,9 +6,9 @@ import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
 import PowerProduct.Ops
 
-trait PowerProduct[M: ClassTag] extends Monoid[M] {
+trait PowerProduct[M : ClassTag] extends Monoid[M] {
   given PowerProduct[M] = this
-  given Ops[M] with {}
+  given Ops[M] = new Ops[M]
   def variables: Seq[Variable]
   val length = variables.length
   def generator(variable: String): M = generator(variables.indexOf(variable))
@@ -41,7 +41,7 @@ trait PowerProduct[M: ClassTag] extends Monoid[M] {
 }
 
 object PowerProduct {
-  trait Ops[M: PowerProduct] extends Monoid.Ops[M] {
+  class Ops[M : PowerProduct] extends Monoid.Ops[M] {
     extension[U: Conversion[M]] (x: U) {
       inline def / (y: M) = (~x).divide(y)
       inline def | (y: M) = (~x).factorOf(y)

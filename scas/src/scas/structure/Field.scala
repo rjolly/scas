@@ -9,4 +9,5 @@ trait Field[T] extends NotQuiteField[T] with NotQuiteGroup[T] {
 
 object Field {
   def apply[T : Field] = summon[Field[T]]
+  trait Ops[T: Field] extends NotQuiteField.Ops[T] with Monoid.Ops[T]
 }

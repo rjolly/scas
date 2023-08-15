@@ -3,9 +3,11 @@ package scas.structure
 import scas.util.{Conversion, unary_~}
 import scas.base.BigInteger
 import BigInteger.lcm
+import Product.Ops
 
 class Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends Ring[(R1, R2)] {
   given Product[R1, R2] = this
+  given Ops[R1, R2] = new Ops[R1, R2]
   def apply(n: Long) = (ring1(n), ring2(n))
   def apply(a: R1, b: R2) = (a, b)
   override def convert(x: (R1, R2)) = {
@@ -68,6 +70,8 @@ class Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends Ring[(R1, 
 }
 
 object Product {
+  class Ops[R1, R2](using Product[R1, R2]) extends Ring.Ops[(R1, R2)]
+
   def apply[R1, R2, U : Conversion[R1], V : Conversion[R2]](using factory: Product[R1, R2])(a: U, b: V) = factory(~a, ~b)
 
   def apply[R1, R2](ring1: Ring[R1], ring2: Ring[R2]) = new Product(using ring1, ring2)

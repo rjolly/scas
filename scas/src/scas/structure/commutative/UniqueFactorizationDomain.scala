@@ -22,9 +22,14 @@ trait UniqueFactorizationDomain[T] extends scas.structure.NotQuiteField[T] {
     inline def /%[U: Conversion[T]](y: U) = x.divideAndRemainder(~y)
     inline def | [U: Conversion[T]](y: U) = x.factorOf(~y)
   }
-  extension[U: Conversion[T]] (x: U) {
-    inline def % (y: T) = (~x).remainder(y)
-    inline def /%(y: T) = (~x).divideAndRemainder(y)
-    inline def | (y: T) = (~x).factorOf(y)
+}
+
+object UniqueFactorizationDomain {
+  trait Ops[T: UniqueFactorizationDomain] extends scas.structure.NotQuiteField.Ops[T] {
+    extension[U: Conversion[T]] (x: U) {
+      inline def % (y: T) = (~x).remainder(y)
+      inline def /%(y: T) = (~x).divideAndRemainder(y)
+      inline def | (y: T) = (~x).factorOf(y)
+    }
   }
 }

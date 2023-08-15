@@ -10,3 +10,7 @@ trait Module[T, R: Ring] extends AbelianGroup[T] {
 
   extension (ring: Ring[R]) def pow(n: Int): Module[T, R]
 }
+
+object Module {
+  trait Ops[T, R](using Module[T, R]) extends AbelianGroup.Ops[T]
+}

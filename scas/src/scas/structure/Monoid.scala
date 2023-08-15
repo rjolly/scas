@@ -30,3 +30,7 @@ trait Monoid[T] extends SemiGroup[T] {
   }
   def one: T
 }
+
+object Monoid {
+  trait Ops[T: Monoid] extends SemiGroup.Ops[T]
+}
