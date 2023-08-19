@@ -18,12 +18,6 @@ trait Monoid[T] extends SemiGroup[T] {
     def \ [U: Conversion[BigInteger]](b: U) = a.pow(~b)
     def \:[U: Conversion[BigInteger]](b: U) = a \ b
   }
-  extension[U: Conversion[T]] (a: U) {
-    def \ [V: Conversion[BigInteger]](b: V) = (~a).pow(~b)
-  }
-  extension[U: Conversion[T], V: Conversion[BigInteger]] (a: U) {
-    def \:(b: V) = a \ b
-  }
   extension (x: T) {
     def isUnit: Boolean
     def isOne = x >< one
@@ -32,5 +26,12 @@ trait Monoid[T] extends SemiGroup[T] {
 }
 
 object Monoid {
-  trait Ops[T: Monoid] extends SemiGroup.Ops[T]
+  trait Ops[T] extends SemiGroup.Ops[T] { this: Monoid[T] =>
+    extension[U: Conversion[T]] (a: U) {
+      def \ [V: Conversion[BigInteger]](b: V) = (~a).pow(~b)
+    }
+    extension[U: Conversion[T], V: Conversion[BigInteger]] (a: U) {
+      def \:(b: V) = a \ b
+    }
+  }
 }

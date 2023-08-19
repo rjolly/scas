@@ -24,5 +24,6 @@ trait Ring[T <: RingElem[T]] extends scas.structure.ordered.Ring[T] {
 }
 
 object Ring {
-  trait Ops[T <: RingElem[T] : Ring] extends scas.structure.ordered.Ring.Ops[T]
+  trait Ops[T <: RingElem[T]] extends scas.structure.ordered.Ring.Ops[T] { this: Ring[T] =>
+  }
 }

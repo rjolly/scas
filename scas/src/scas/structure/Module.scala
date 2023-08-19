@@ -12,5 +12,6 @@ trait Module[T, R: Ring] extends AbelianGroup[T] {
 }
 
 object Module {
-  trait Ops[T, R](using Module[T, R]) extends AbelianGroup.Ops[T]
+  trait Ops[T, R] extends AbelianGroup.Ops[T] { this: Module[T, R] =>
+  }
 }

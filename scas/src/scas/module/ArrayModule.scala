@@ -3,41 +3,45 @@ package scas.module
 import scala.reflect.ClassTag
 import scas.structure.{Ring, Module}
 import scas.util.ClassTagArray
-import ArrayModule.Ops
+import ArrayModule.{Impl, Ops}
 
-class ArrayModule[R : ClassTag : ClassTagArray](using ring: Ring[R])(val dimension: Int) extends Module[Array[R], R] {
+class ArrayModule[R : ClassTag : ClassTagArray](using ring: Ring[R])(val dimension: Int) extends Impl[R] with Ops[R] {
   given ArrayModule[R] = this
-  given Ops[R] = new Ops[R]
-  def apply(x: Array[R]) = x
-  def generator(n: Int) = (for (i <- 0 until dimension) yield if (i == n) ring.one else ring.zero).toArray
-  def generators = (for (i <- 0 until dimension) yield generator(i)).toArray
-  override def convert(x: Array[R]) = (for (i <- 0 until dimension) yield if (i < x.length) ring.convert(x(i)) else ring.zero).toArray
-  def equiv(x: Array[R], y: Array[R]): Boolean = {
-    var s = true
-    for (i <- 0 until dimension) {
-      if (x(i) <> y(i)) s = false
-    }
-    s
-  }
-  extension (x: R) def multiplyLeft(y: Array[R]) = (for (i <- 0 until dimension) yield x * y(i)).toArray
-  extension (x: Array[R]) {
-    def multiplyRight(y: R) = (for (i <- 0 until dimension) yield x(i) * y).toArray
-    def add(y: Array[R]) = (for (i <- 0 until dimension) yield x(i).add(y(i))).toArray
-    def subtract(y: Array[R]) = (for (i <- 0 until dimension) yield x(i).subtract(y(i))).toArray
-    def signum = x.foldLeft(0)((l, r) => if (l == 0) r.signum else l)
-    def toCode(level: Level) = "Array(" + x.map(_.show).mkString(", ") + ")"
-    def toMathML = s"<vector>${x.map(_.toMathML).mkString}</vector>"
-  }
-  def zero = (for (i <- 0 until dimension) yield ring.zero).toArray
-  override def toString = s"$ring.pow($dimension)"
-  def toMathML = s"<msup>${ring.toMathML}<cn>${dimension}</cn></msup>"
-
-  extension (ring: Ring[R]) def pow(n: Int) = {
-    assert (n == dimension)
-    this
-  }
 }
 
 object ArrayModule {
-  class Ops[R : ArrayModule] extends Module.Ops[Array[R], R]
+  trait Impl[R : ClassTag : ClassTagArray](using ring: Ring[R]) extends Module[Array[R], R] {
+    def dimension: Int
+    def apply(x: Array[R]) = x
+    def generator(n: Int) = (for (i <- 0 until dimension) yield if (i == n) ring.one else ring.zero).toArray
+    def generators = (for (i <- 0 until dimension) yield generator(i)).toArray
+    override def convert(x: Array[R]) = (for (i <- 0 until dimension) yield if (i < x.length) ring.convert(x(i)) else ring.zero).toArray
+    def equiv(x: Array[R], y: Array[R]): Boolean = {
+      var s = true
+      for (i <- 0 until dimension) {
+        if (x(i) <> y(i)) s = false
+      }
+      s
+    }
+    extension (x: R) def multiplyLeft(y: Array[R]) = (for (i <- 0 until dimension) yield x * y(i)).toArray
+    extension (x: Array[R]) {
+      def multiplyRight(y: R) = (for (i <- 0 until dimension) yield x(i) * y).toArray
+      def add(y: Array[R]) = (for (i <- 0 until dimension) yield x(i).add(y(i))).toArray
+      def subtract(y: Array[R]) = (for (i <- 0 until dimension) yield x(i).subtract(y(i))).toArray
+      def signum = x.foldLeft(0)((l, r) => if (l == 0) r.signum else l)
+      def toCode(level: Level) = "Array(" + x.map(_.show).mkString(", ") + ")"
+      def toMathML = s"<vector>${x.map(_.toMathML).mkString}</vector>"
+    }
+    def zero = (for (i <- 0 until dimension) yield ring.zero).toArray
+    override def toString = s"$ring.pow($dimension)"
+    def toMathML = s"<msup>${ring.toMathML}<cn>${dimension}</cn></msup>"
+
+    extension (ring: Ring[R]) def pow(n: Int) = {
+      assert (n == dimension)
+      this
+    }
+  }
+
+  trait Ops[R] extends Module.Ops[Array[R], R] { this: Impl[R] =>
+  }
 }

@@ -63,3 +63,8 @@ trait PolynomialOverUFD[T : ClassTag, C, M : PowerProduct](using ring: UniqueFac
   def primitivePart(x: T) = { val (c, p) = contentAndPrimitivePart(x) ; p }
   extension (x: T) def coefDivide(c: C) = x.map((s, a) => (s, a.divide(c)))
 }
+
+object PolynomialOverUFD {
+  trait Ops[T, C, M] extends Polynomial.Ops[T, C, M] with UniqueFactorizationDomain.Ops[T] { this: PolynomialOverUFD[T, C, M] =>
+  }
+}

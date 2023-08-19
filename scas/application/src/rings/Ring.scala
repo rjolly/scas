@@ -27,5 +27,6 @@ trait Ring[T] extends scas.structure.ordered.Ring[T] {
 
 object Ring {
   def apply[T : Ring] = summon[Ring[T]]
-  trait Ops[T : Ring] extends scas.structure.ordered.Ring.Ops[T]
+  trait Ops[T] extends scas.structure.ordered.Ring.Ops[T] { this: Ring[T] =>
+  }
 }

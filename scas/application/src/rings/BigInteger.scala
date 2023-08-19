@@ -5,10 +5,8 @@ import scas.util.{Conversion, unary_~}
 
 type BigInteger = cc.redberry.rings.bigint.BigInteger
 
-object BigInteger extends Ring[BigInteger] {
-  class Ops(using BigInteger.type) extends Ring.Ops[BigInteger]
+object BigInteger extends Ring[BigInteger] with Ring.Ops[BigInteger] {
   given BigInteger.type = this
-  given Ops = new Ops
   def apply(str: String) = new BigInteger(str)
   val ring = Rings.Z
 

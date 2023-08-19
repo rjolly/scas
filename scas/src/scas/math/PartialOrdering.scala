@@ -12,8 +12,7 @@ trait PartialOrdering[T] extends scala.math.PartialOrdering[T] with Equiv[T] {
 }
 
 object PartialOrdering {
-  trait Ops[T](using self: PartialOrdering[T]) extends Equiv.Ops[T] {
-    import self.{lteq, gteq, lt, gt}
+  trait Ops[T] extends Equiv.Ops[T] { this: PartialOrdering[T] =>
     extension [U: Conversion[T]](x: U) {
       inline def <=(y: T) = lteq(~x, y)
       inline def >=(y: T) = gteq(~x, y)

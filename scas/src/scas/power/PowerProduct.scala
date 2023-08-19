@@ -4,11 +4,8 @@ import scala.reflect.ClassTag
 import scas.structure.ordered.Monoid
 import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
-import PowerProduct.Ops
 
 trait PowerProduct[M : ClassTag] extends Monoid[M] {
-  given PowerProduct[M] = this
-  given Ops[M] = new Ops[M]
   def variables: Seq[Variable]
   val length = variables.length
   def generator(variable: String): M = generator(variables.indexOf(variable))
@@ -21,6 +18,8 @@ trait PowerProduct[M : ClassTag] extends Monoid[M] {
   }
   def gcd(x: M, y: M): M
   def lcm(x: M, y: M): M
+  def gcd[U: Conversion[M], V: Conversion[M]](x: U, y: V): M = gcd(~x, ~y)
+  def lcm[U: Conversion[M], V: Conversion[M]](x: U, y: V): M = lcm(~x, ~y)
   def coprime(x: M, y: M) = gcd(x, y).isOne
   extension (x: M) {
     def divide(y: M): M
@@ -41,7 +40,7 @@ trait PowerProduct[M : ClassTag] extends Monoid[M] {
 }
 
 object PowerProduct {
-  class Ops[M : PowerProduct] extends Monoid.Ops[M] {
+  trait Ops[M] extends Monoid.Ops[M] { this: PowerProduct[M] =>
     extension[U: Conversion[M]] (x: U) {
       inline def / (y: M) = (~x).divide(y)
       inline def | (y: M) = (~x).factorOf(y)

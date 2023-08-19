@@ -10,7 +10,7 @@ trait SemiGroup[T] extends Structure[T] {
 }
 
 object SemiGroup {
-  trait Ops[T: SemiGroup] {
+  trait Ops[T] extends Structure.Ops[T] { this: SemiGroup[T] =>
     extension[U: Conversion[T]] (x: U) inline def * (y: T) = (~x).multiply(y)
   }
 }

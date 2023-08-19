@@ -5,5 +5,6 @@ trait AbelianGroup[T] extends scas.structure.AbelianGroup[T] with Structure[T] {
 }
 
 object AbelianGroup {
-  trait Ops[T: AbelianGroup] extends scas.structure.AbelianGroup.Ops[T] with Structure.Ops[T]
+  trait Ops[T] extends scas.structure.AbelianGroup.Ops[T] with Structure.Ops[T] { this: AbelianGroup[T] =>
+  }
 }

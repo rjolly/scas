@@ -36,3 +36,8 @@ trait ArrayPowerProduct[N : ClassTagArray](using numeric: Numeric[N]) extends Po
     m
   }
 }
+
+object ArrayPowerProduct {
+  trait Ops[N] extends PowerProduct.Ops[Array[N]] { this: ArrayPowerProduct[N] =>
+  }
+}

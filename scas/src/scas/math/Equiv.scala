@@ -10,8 +10,7 @@ trait Equiv[T] extends scala.math.Equiv[T] {
 }
 
 object Equiv {
-  trait Ops[T](using self: Equiv[T]) {
-    import self.equiv
+  trait Ops[T] { this: Equiv[T] =>
     extension[U: Conversion[T]] (x: U) {
       inline def ><(y: T) = equiv(~x, y)
       inline def <>(y: T) = !equiv(~x, y)

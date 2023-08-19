@@ -8,9 +8,8 @@ import scas.base.BigInteger
 import Matrix.{Element, Ops}
 import Double.given
 
-class Matrix(size: Int) extends Algebra[Element, Double] with Field[Element] {
+class Matrix(size: Int) extends Algebra[Element, Double] with Field[Element] with Ops {
   given Matrix = this
-  given Ops = new Ops
   def apply(n: Long) = one%* Double(n)
   def apply(ds: Double*): Element = Array2DRowRealMatrix(ds.grouped(size).map(_.toArray).toArray)
   extension (x: Element) {
@@ -43,5 +42,6 @@ class Matrix(size: Int) extends Algebra[Element, Double] with Field[Element] {
 
 object Matrix {
   type Element = RealMatrix
-  class Ops(using Matrix) extends Field.Ops[Element]
+  trait Ops extends Algebra.Ops[Element, Double] with Field.Ops[Element] { this: Matrix =>
+  }
 }

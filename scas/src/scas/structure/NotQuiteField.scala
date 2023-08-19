@@ -10,7 +10,7 @@ trait NotQuiteField[T] extends Ring[T] {
 }
 
 object NotQuiteField {
-  trait Ops[T: NotQuiteField] extends Ring.Ops[T] {
+  trait Ops[T] extends Ring.Ops[T] { this: NotQuiteField[T] =>
     extension[U: Conversion[T]] (x: U) inline def / (y: T) = (~x).divide(y)
   }
 }

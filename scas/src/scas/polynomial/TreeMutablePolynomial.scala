@@ -48,5 +48,6 @@ trait TreeMutablePolynomial[C, M](using ring: Ring[C], pp: PowerProduct[M]) exte
 }
 
 object TreeMutablePolynomial {
-  trait Ops[C, M](using TreeMutablePolynomial[C, M]) extends Polynomial.Ops[Element[C, M], C, M]
+  trait Ops[C, M] extends Polynomial.Ops[Element[C, M], C, M] { this: TreeMutablePolynomial[C, M] =>
+  }
 }

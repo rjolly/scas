@@ -7,9 +7,8 @@ import scas.util.Conversion
 import scala.jdk.CollectionConverters.ListHasAsScala
 import PolynomialRing.Ops
 
-class PolynomialRing[C <: RingElem[C] : GenPolynomialRing] extends Ring[GenPolynomial[C]] {
+class PolynomialRing[C <: RingElem[C] : GenPolynomialRing] extends Ring[GenPolynomial[C]] with Ops[C] {
   given PolynomialRing[C] = this
-  given Ops[C] = new Ops[C]
   val factory: GenPolynomialRing[C] = summon[GenPolynomialRing[C]]
   def gens = factory.getGenerators().asScala.toArray
 
@@ -17,5 +16,6 @@ class PolynomialRing[C <: RingElem[C] : GenPolynomialRing] extends Ring[GenPolyn
 }
 
 object PolynomialRing {
-  class Ops[C <: RingElem[C] : PolynomialRing] extends Ring.Ops[GenPolynomial[C]]
+  trait Ops[C <: RingElem[C]] extends Ring.Ops[GenPolynomial[C]] { this: PolynomialRing[C] =>
+  }
 }

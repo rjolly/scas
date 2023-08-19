@@ -39,7 +39,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
       r
     }
     def ppMultiplyRight(m: M) = x.map((s, a) => (s.multiply(m), a))
-    def %*[U: Conversion[M]] (m: U): T = x.ppMultiplyRight(~m)
+    def %*[U: Conversion[M]] (m: U) = x.ppMultiplyRight(~m)
   }
 
   extension (x: T) def toCode(level: Level) = {
@@ -208,5 +208,6 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
 }
 
 object Polynomial {
-  trait Ops[T, C, M](using Polynomial[T, C, M]) extends Ring.Ops[T]
+  trait Ops[T, C, M] extends Ring.Ops[T] { this: Polynomial[T, C, M] =>
+  }
 }

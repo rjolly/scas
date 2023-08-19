@@ -8,9 +8,8 @@ import scas.util.{Conversion, unary_~}
 import MultivariatePolynomialRing.Ops
 import java.util.Comparator
 
-class MultivariatePolynomialRing[C : Ring](monomialOrder: Comparator[DegreeVector], variables: String*) extends Ring[MultivariatePolynomial[C]] {
+class MultivariatePolynomialRing[C : Ring](monomialOrder: Comparator[DegreeVector], variables: String*) extends Ring[MultivariatePolynomial[C]] with Ops[C] {
   given MultivariatePolynomialRing[C] = this
-  given Ops[C] = new Ops[C]
   val ring: MultivariateRing[MultivariatePolynomial[C]] = MultivariateRing(MultivariatePolynomial.zero(variables.size, Ring[C].ring, monomialOrder))
   override def coder = Coder.mkMultivariateCoder(ring, Ring[C].coder, variables: _*)
   def gens = (for (i <- 0 until ring.nVariables()) yield ring.variable(i)).toArray
@@ -19,5 +18,6 @@ class MultivariatePolynomialRing[C : Ring](monomialOrder: Comparator[DegreeVecto
 }
 
 object MultivariatePolynomialRing {
-  class Ops[C](using MultivariatePolynomialRing[C]) extends Ring.Ops[MultivariatePolynomial[C]]
+  trait Ops[C] extends Ring.Ops[MultivariatePolynomial[C]] { this: MultivariatePolynomialRing[C] =>
+  }
 }

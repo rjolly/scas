@@ -12,5 +12,6 @@ trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends scas.structu
 }
 
 object Quotient {
-  trait Ops[T : Quotient] extends scas.structure.commutative.Quotient.Ops[T] with Field.Ops[Element[T]]
+  trait Ops[T] extends scas.structure.commutative.Quotient.Ops[T] with Field.Ops[Element[T]] { this: Quotient[T] =>
+  }
 }
