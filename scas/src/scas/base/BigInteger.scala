@@ -5,10 +5,10 @@ import scas.structure.commutative.ordered.{EuclidianDomain, UniqueFactorizationD
 type BigInteger = java.math.BigInteger
 
 object BigInteger extends BigInteger.Impl with UniqueFactorizationDomain.Ops[BigInteger] {
-  val self: Impl = this
   given instance: BigInteger.type = this
   abstract class Impl extends EuclidianDomain[BigInteger] {
     given instance: Impl
+    val self: Impl = this
     def apply(n: Long) = java.math.BigInteger.valueOf(n)
     def apply(str: String) = new BigInteger(str)
     extension (x: BigInteger) {

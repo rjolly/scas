@@ -1,7 +1,7 @@
 import scas.base.{BigInteger, ModInteger}
 import BigInteger.int2bigInt
 
-val r = new ModInteger(BigInteger("7"))
+val r = ModInteger("7")
 import r.given
 
 assert (BigInteger("4") + 4 >< 4 + BigInteger("4"))

@@ -15,6 +15,7 @@ object Lexicographic {
 
   abstract class Impl[N : Numeric : ClassTag : ClassTagArray](val variables: Variable*) extends ArrayPowerProductWithDegree[N] {
     given instance: Impl[N]
+    val self: Impl[N] = this
     def compare(x: Array[N], y: Array[N]) = {
       var i = length
       while (i > 0) {
@@ -26,8 +27,7 @@ object Lexicographic {
     }
   }
 
-  inline def apply[N : ClassTag : ClassTagArray](using numeric: Numeric[N])(variables: String*): Impl[N] = new Impl[N](variables.map(~_): _*) {
-    given instance: Impl[N] = this
+  inline def apply[N : ClassTag : ClassTagArray](using numeric: Numeric[N])(variables: String*): Lexicographic[N] = new Lexicographic[N](variables.map(~_): _*) {
     override def compare(x: Array[N], y: Array[N]) = {
       var i = length
       while (i > 0) {

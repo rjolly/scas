@@ -12,6 +12,7 @@ class ModInteger(val mod: BigInteger) extends Impl with Field.Ops[BigInteger] {
 object ModInteger {
   abstract class Impl extends Residue[BigInteger] with Field[BigInteger] {
     given instance: Impl
+    val self: Impl = this
     assert (mod.isProbablePrime(100))
     def mod: BigInteger
     def apply(x: BigInteger) = x.mod(mod)
@@ -29,5 +30,5 @@ object ModInteger {
     }
   }
 
-  def apply(str: String): Impl = new ModInteger(BigInteger(str))
+  def apply(str: String) = new ModInteger(BigInteger(str))
 }

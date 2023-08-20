@@ -10,10 +10,9 @@ class ArrayModule[R : ClassTag : ClassTagArray](using Ring[R])(dimension: Int) e
 }
 
 object ArrayModule {
-  def apply[R : ClassTag : ClassTagArray](using Ring[R])(dimension: Int): Impl[R] = new ArrayModule[R](dimension)
-
   abstract class Impl[R : ClassTag : ClassTagArray](using ring: Ring[R])(val dimension: Int) extends Module[Array[R], R] {
     given instance: Impl[R]
+    val self: Impl[R] = this
     def apply(x: Array[R]) = x
     def generator(n: Int) = (for (i <- 0 until dimension) yield if (i == n) ring.one else ring.zero).toArray
     def generators = (for (i <- 0 until dimension) yield generator(i)).toArray

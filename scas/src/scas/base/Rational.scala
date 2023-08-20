@@ -10,10 +10,10 @@ import Rational.Impl
 type Rational = Element[BigInteger]
 
 object Rational extends Impl with Quotient.Ops[BigInteger] {
-  val self: Impl = this
   given instance: Rational.type = this
   abstract class Impl extends Quotient[BigInteger] {
     given instance: Impl
+    val self: Impl = this
     extension[U: Conversion[BigInteger]] (a: U) {
       def %%[V: Conversion[BigInteger]](b: V) = this(~a, ~b)
     }
