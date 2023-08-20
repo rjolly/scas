@@ -2,15 +2,16 @@ package scas.structure
 
 import scas.util.{Conversion, unary_~}
 import scas.base.BigInteger
-import Product.{Impl, Ops}
+import Product.Impl
 import BigInteger.lcm
 
-class Product[R1 : Ring, R2 : Ring] extends Impl[R1, R2] with Ops[R1, R2] {
-  given Product[R1, R2] = this
+class Product[R1 : Ring, R2 : Ring] extends Impl[R1, R2] with Ring.Ops[(R1, R2)] {
+  given instance: Product[R1, R2] = this
 }
 
 object Product {
-  trait Impl[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends Ring[(R1, R2)] {
+  abstract class Impl[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends Ring[(R1, R2)] {
+    given instance: Impl[R1, R2]
     def apply(n: Long) = (ring1(n), ring2(n))
     def apply(a: R1, b: R2) = (a, b)
     override def convert(x: (R1, R2)) = {
@@ -72,10 +73,7 @@ object Product {
     def one = (ring1.one, ring2.one)
   }
 
-  trait Ops[R1, R2] extends Ring.Ops[(R1, R2)] { this: Impl[R1, R2] =>
-  }
+  def apply[R1, R2, U : Conversion[R1], V : Conversion[R2]](using factory: Product.Impl[R1, R2])(a: U, b: V) = factory(~a, ~b)
 
-  def apply[R1, R2, U : Conversion[R1], V : Conversion[R2]](using factory: Product[R1, R2])(a: U, b: V) = factory(~a, ~b)
-
-  def apply[R1, R2](ring1: Ring[R1], ring2: Ring[R2]) = new Product(using ring1, ring2)
+  def apply[R1, R2](ring1: Ring[R1], ring2: Ring[R2]): Impl[R1, R2] = new Product(using ring1, ring2)
 }
