@@ -2,15 +2,16 @@ package scas.base
 
 import scas.structure.commutative.UniqueFactorizationDomain
 import scas.structure.commutative.ordered.{Residue, Field}
-import ModInteger.{Impl, Ops}
 import BigInteger.given
+import ModInteger.Impl
 
-class ModInteger(val mod: BigInteger) extends Impl with Ops {
-  given ModInteger = this
+class ModInteger(val mod: BigInteger) extends Impl with Field.Ops[BigInteger] {
+  given instance: ModInteger = this
 }
 
 object ModInteger {
-  trait Impl extends Residue[BigInteger] with Field[BigInteger] {
+  abstract class Impl extends Residue[BigInteger] with Field[BigInteger] {
+    given instance: Impl
     assert (mod.isProbablePrime(100))
     def mod: BigInteger
     def apply(x: BigInteger) = x.mod(mod)
@@ -28,8 +29,5 @@ object ModInteger {
     }
   }
 
-  trait Ops extends Field.Ops[BigInteger] { this: Impl =>
-  }
-
-  def apply(str: String) = new ModInteger(BigInteger(str))
+  def apply(str: String): Impl = new ModInteger(BigInteger(str))
 }

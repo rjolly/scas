@@ -4,14 +4,16 @@ import scas.structure.commutative.ordered.Quotient
 import scas.structure.commutative.Quotient.Element
 import scas.util.{Conversion, unary_~}
 import scas.prettyprint.Level
-import Rational.{Impl, Ops}
 import BigInteger.given
+import Rational.Impl
 
 type Rational = Element[BigInteger]
 
-object Rational extends Impl with Ops {
-  given Rational.type = this
-  trait Impl extends Quotient[BigInteger] {
+object Rational extends Impl with Quotient.Ops[BigInteger] {
+  val self: Impl = this
+  given instance: Rational.type = this
+  abstract class Impl extends Quotient[BigInteger] {
+    given instance: Impl
     extension[U: Conversion[BigInteger]] (a: U) {
       def %%[V: Conversion[BigInteger]](b: V) = this(~a, ~b)
     }
@@ -33,10 +35,7 @@ object Rational extends Impl with Ops {
       if (d.isOne) n.toMathML else s"""<cn type="rational">$n<sep/>$d</cn>"""
     }
     override def toMathML = "<rationals/>"
-    override val zero = Rational("0")
-    override val one = Rational("1")
-  }
-
-  trait Ops extends Quotient.Ops[BigInteger] { this: Impl =>
+    override lazy val zero = Rational("0")
+    override lazy val one = Rational("1")
   }
 }
