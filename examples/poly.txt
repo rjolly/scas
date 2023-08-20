@@ -2,7 +2,7 @@ import scas.rendering.MathObject
 import scas.base.BigInteger
 import scas.power.Lexicographic
 import scas.polynomial.tree.Polynomial
-import BigInteger.int2bigInt
+import BigInteger.given
 
 val r = Polynomial(using BigInteger, Lexicographic[Int]("x", "y", "z"))
 val List(x, y, z) = r.generators.toList

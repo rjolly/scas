@@ -1,7 +1,7 @@
 import scas.base.{BigInteger, ModInteger}
 import scas.power.Lexicographic
 import scas.polynomial.tree.Polynomial
-import BigInteger.int2bigInt
+import BigInteger.given
 
 val r = Polynomial(using ModInteger("2"), Lexicographic[Int]("x"))
 val List(x) = r.generators.toList

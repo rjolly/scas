@@ -1,8 +1,8 @@
 import scas.base.{BigInteger, Rational}
 import scas.power.Lexicographic
 import scas.polynomial.tree.Polynomial
-import Rational.{ring2quotient, %%}
 import BigInteger.int2bigInt
+import Rational.given
 
 val r = Polynomial(using Rational, Lexicographic[Int]("x"))
 val List(x) = r.generators.toList
