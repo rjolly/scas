@@ -9,8 +9,3 @@ trait NotQuiteGroup[T] extends Monoid[T] {
   def inverse(x: T): T
   def inverse[U: Conversion[T]](x: U): T = inverse(~x)
 }
-
-object NotQuiteGroup {
-  trait Ops[T] extends Monoid.Ops[T] { this: NotQuiteGroup[T] =>
-  }
-}

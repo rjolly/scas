@@ -1,11 +1,11 @@
 package scas.module
 
 import scala.reflect.ClassTag
-import scas.structure.{Ring, Module}
+import scas.structure.{Ring, Module, AbelianGroup}
 import scas.util.ClassTagArray
 import ArrayModule.Impl
 
-class ArrayModule[R : ClassTag : ClassTagArray](using Ring[R])(dimension: Int) extends Impl[R](dimension) with Module.Ops[Array[R], R] {
+class ArrayModule[R : ClassTag : ClassTagArray](using Ring[R])(dimension: Int) extends Impl[R](dimension) with AbelianGroup.Ops[Array[R]] {
   given instance: ArrayModule[R] = this
 }
 

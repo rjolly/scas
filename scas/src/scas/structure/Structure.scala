@@ -11,8 +11,3 @@ trait Structure[T] extends Equiv[T] with Show[T] {
   def math = tagged(toMathML)
   def toMathML: String
 }
-
-object Structure {
-  trait Ops[T] extends Equiv.Ops[T] { this: Structure[T] =>
-  }
-}

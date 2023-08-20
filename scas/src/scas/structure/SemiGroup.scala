@@ -1,5 +1,6 @@
 package scas.structure
 
+import scas.math.Equiv
 import scas.util.{Conversion, unary_~}
 
 trait SemiGroup[T] extends Structure[T] {
@@ -10,7 +11,7 @@ trait SemiGroup[T] extends Structure[T] {
 }
 
 object SemiGroup {
-  trait Ops[T] extends Structure.Ops[T] { this: SemiGroup[T] =>
+  trait Ops[T] extends Equiv.Ops[T] { this: SemiGroup[T] =>
     extension[U: Conversion[T]] (x: U) inline def * (y: T) = (~x).multiply(y)
   }
 }
