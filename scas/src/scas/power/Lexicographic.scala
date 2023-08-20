@@ -2,16 +2,19 @@ package scas.power
 
 import scala.reflect.ClassTag
 import scas.math.Numeric
-import scas.util.{ClassTagArray, Conversion, unary_~}
+import scas.util.{ClassTagArray, unary_~}
 import scas.variable.Variable
 import Lexicographic.Impl
 
-class Lexicographic[N : Numeric : ClassTag : ClassTagArray](val variables: Variable*) extends Impl[N] with ArrayPowerProduct.Ops[N] {
-  given Lexicographic[N] = this
+class Lexicographic[N : Numeric : ClassTag : ClassTagArray](variables: Variable*) extends Impl[N](variables: _*) with ArrayPowerProduct.Ops[N] {
+  given instance: Lexicographic[N] = this
 }
 
 object Lexicographic {
-  trait Impl[N : Numeric : ClassTag : ClassTagArray] extends ArrayPowerProductWithDegree[N] {
+  def apply[N : Numeric : ClassTag : ClassTagArray](degree: N)(variables: String*) = new Lexicographic[N](variables.map(~_): _*)
+
+  abstract class Impl[N : Numeric : ClassTag : ClassTagArray](val variables: Variable*) extends ArrayPowerProductWithDegree[N] {
+    given instance: Impl[N]
     def compare(x: Array[N], y: Array[N]) = {
       var i = length
       while (i > 0) {
@@ -23,9 +26,8 @@ object Lexicographic {
     }
   }
 
-  inline def apply[N : ClassTag : ClassTagArray](using numeric: Numeric[N])(variables: String*): Lexicographic[N] = apply(numeric.fromInt(0))(variables: _*)
-
-  inline def apply[N : ClassTag : ClassTagArray, U: Conversion[Variable]](degree: N)(using numeric: Numeric[N])(variables: U*) = new Lexicographic[N](variables.map(~_): _*) {
+  inline def apply[N : ClassTag : ClassTagArray](using numeric: Numeric[N])(variables: String*): Impl[N] = new Impl[N](variables.map(~_): _*) {
+    given instance: Impl[N] = this
     override def compare(x: Array[N], y: Array[N]) = {
       var i = length
       while (i > 0) {

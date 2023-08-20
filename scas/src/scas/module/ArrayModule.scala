@@ -3,15 +3,17 @@ package scas.module
 import scala.reflect.ClassTag
 import scas.structure.{Ring, Module}
 import scas.util.ClassTagArray
-import ArrayModule.{Impl, Ops}
+import ArrayModule.Impl
 
-class ArrayModule[R : ClassTag : ClassTagArray](using ring: Ring[R])(val dimension: Int) extends Impl[R] with Ops[R] {
-  given ArrayModule[R] = this
+class ArrayModule[R : ClassTag : ClassTagArray](using Ring[R])(dimension: Int) extends Impl[R](dimension) with Module.Ops[Array[R], R] {
+  given instance: ArrayModule[R] = this
 }
 
 object ArrayModule {
-  trait Impl[R : ClassTag : ClassTagArray](using ring: Ring[R]) extends Module[Array[R], R] {
-    def dimension: Int
+  def apply[R : ClassTag : ClassTagArray](using Ring[R])(dimension: Int): Impl[R] = new ArrayModule[R](dimension)
+
+  abstract class Impl[R : ClassTag : ClassTagArray](using ring: Ring[R])(val dimension: Int) extends Module[Array[R], R] {
+    given instance: Impl[R]
     def apply(x: Array[R]) = x
     def generator(n: Int) = (for (i <- 0 until dimension) yield if (i == n) ring.one else ring.zero).toArray
     def generators = (for (i <- 0 until dimension) yield generator(i)).toArray
@@ -40,8 +42,5 @@ object ArrayModule {
       assert (n == dimension)
       this
     }
-  }
-
-  trait Ops[R] extends Module.Ops[Array[R], R] { this: Impl[R] =>
   }
 }
