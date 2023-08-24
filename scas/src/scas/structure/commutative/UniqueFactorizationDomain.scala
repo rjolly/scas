@@ -5,7 +5,8 @@ import scas.util.{Conversion, unary_~}
 trait UniqueFactorizationDomain[T] extends UniqueFactorizationDomain.Impl[T] with scas.structure.NotQuiteField[T] {
   abstract override def gcd(x: T, y: T) = super.gcd(x, y)
   def gcd[U: Conversion[T], V: Conversion[T]](x: U, y: V): T = gcd(~x, ~y)
-  def lcm[U: Conversion[T], V: Conversion[T]](x: U, y: V) = super.lcm(~x, ~y)
+  def lcm[U: Conversion[T], V: Conversion[T]](x: U, y: V): T = lcm(~x, ~y)
+  override def lcm(x: T, y: T) = super.lcm(x, y)
   extension (x: T) {
     inline def % [U: Conversion[T]](y: U) = x.remainder(~y)
     inline def /%[U: Conversion[T]](y: U) = x.divideAndRemainder(~y)

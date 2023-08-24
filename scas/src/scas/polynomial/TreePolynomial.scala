@@ -6,12 +6,10 @@ import scas.structure.Ring
 import scas.power.PowerProduct
 import TreePolynomial.Element
 
-trait TreePolynomial[C : Ring.Impl, M : PowerProduct.Impl] extends TreePolynomial.Impl[C, M] with Polynomial[Element[C, M], C, M]
-
 object TreePolynomial {
   type Element[C, M] = SortedMap[M, C]
 
-  trait Impl[C, M](using ring: Ring.Impl[C], pp: PowerProduct.Impl[M]) extends Polynomial.Impl[Element[C, M], C, M] {
+  class Impl[C, M](using ring: Ring.Impl[C], pp: PowerProduct.Impl[M]) extends Polynomial.Impl[Element[C, M], C, M] {
     def unmodifiable(x: Element[C, M]) = Collections.unmodifiableSortedMap(x)
     def modifiable(x: Element[C, M]) = new TreeMap(x)
     def apply(s: (M, C)*) = {

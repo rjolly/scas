@@ -2,7 +2,7 @@ package scas.power
 
 import scala.reflect.ClassTag
 import scas.math.Numeric
-import scas.util.{ClassTagArray, Conversion, unary_~}
+import scas.util.{ClassTagArray, unary_~}
 import scas.variable.Variable
 
 class Lexicographic[N : Numeric : ClassTag : ClassTagArray](variables: Variable*) extends Lexicographic.Impl[N](variables: _*) with ArrayPowerProductWithDegree[N] {
@@ -10,6 +10,8 @@ class Lexicographic[N : Numeric : ClassTag : ClassTagArray](variables: Variable*
 }
 
 object Lexicographic {
+  def apply[N : Numeric : ClassTag : ClassTagArray](degree: N)(variables: String*) = new Lexicographic[N](variables.map(~_): _*)
+
   abstract class Impl[N : Numeric : ClassTag : ClassTagArray](val variables: Variable*) extends ArrayPowerProductWithDegree.Impl[N] {
     given instance: Impl[N]
     val self: Impl[N] = this
@@ -24,15 +26,14 @@ object Lexicographic {
     }
   }
 
-  inline def apply[N : ClassTag : ClassTagArray](using numeric: Numeric[N])(variables: String*): Lexicographic[N] = apply(numeric.fromInt(0))(variables: _*)
-
-  inline def apply[N : ClassTag : ClassTagArray, U: Conversion[Variable]](degree: N)(using numeric: Numeric[N])(variables: U*): Lexicographic[N] = new Lexicographic[N](variables.map(~_): _*) {
+  inline def apply[N : Numeric : ClassTag : ClassTagArray](variables: String*): Impl[N] = new Impl[N](variables.map(~_): _*) {
+    given instance: Impl[N] = this
     override def compare(x: Array[N], y: Array[N]) = {
       var i = length
       while (i > 0) {
         i -= 1
-        if (numeric.lt(x(i), y(i))) return -1
-        else if (numeric.gt(x(i), y(i))) return 1
+        if (x(i) < y(i)) return -1
+        else if (x(i) > y(i)) return 1
       }
       0
     }

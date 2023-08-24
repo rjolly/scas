@@ -43,7 +43,8 @@ object BigInteger extends BigInteger.Impl with EuclidianDomain[BigInteger] {
     def toMathML = "<integers/>"
     lazy val zero = BigInteger("0")
     lazy val one = BigInteger("1")
+
+    given int2bigInt: (Int => BigInteger) = this(_)
+    given long2bigInt: (Long => BigInteger) = this(_)
   }
-  given int2bigInt: (Int => BigInteger) = this(_)
-  given long2bigInt: (Long => BigInteger) = this(_)
 }
