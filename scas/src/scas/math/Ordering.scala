@@ -1,30 +1,40 @@
 package scas.math
 
-trait Ordering[T] extends scala.math.Ordering[T] with PartialOrdering[T]
+trait Ordering[T] extends Ordering.Impl[T] with PartialOrdering[T]
 
 object Ordering {
-  trait ByteOrdering extends Ordering[Byte] {
+  trait Impl[T] extends scala.math.Ordering[T] with PartialOrdering.Impl[T]
+
+  trait ByteOrdering extends Impl[Byte] {
     def compare(x: Byte, y: Byte) = java.lang.Byte.compare(x, y)
-    inline override def lt(x: Byte, y: Byte) = x < y
-    inline override def gt(x: Byte, y: Byte) = x > y
+    extension (x: Byte) {
+      inline override def < (y: Byte) = x < y
+      inline override def > (y: Byte) = x > y
+    }
   }
   given Byte: ByteOrdering with {}
-  trait ShortOrdering extends Ordering[Short] {
+  trait ShortOrdering extends Impl[Short] {
     def compare(x: Short, y: Short) = java.lang.Short.compare(x, y)
-    inline override def lt(x: Short, y: Short) = x < y
-    inline override def gt(x: Short, y: Short) = x > y
+    extension (x: Short) {
+      inline override def < (y: Short) = x < y
+      inline override def > (y: Short) = x > y
+    }
   }
   given Short: ShortOrdering with {}
-  trait IntOrdering extends Ordering[Int] {
+  trait IntOrdering extends Impl[Int] {
     def compare(x: Int, y: Int) = java.lang.Integer.compare(x, y)
-    inline override def lt(x: Int, y: Int) = x < y
-    inline override def gt(x: Int, y: Int) = x > y
+    extension (x: Int) {
+      inline override def < (y: Int) = x < y
+      inline override def > (y: Int) = x > y
+    }
   }
   given Int: IntOrdering with {}
-  trait LongOrdering extends Ordering[Long] {
+  trait LongOrdering extends Impl[Long] {
     def compare(x: Long, y: Long) = java.lang.Long.compare(x, y)
-    inline override def lt(x: Long, y: Long) = x < y
-    inline override def gt(x: Long, y: Long) = x > y
+    extension (x: Long) {
+      inline override def < (y: Long) = x < y
+      inline override def > (y: Long) = x > y
+    }
   }
   given Long: LongOrdering with {}
 }

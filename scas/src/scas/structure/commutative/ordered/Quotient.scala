@@ -2,16 +2,15 @@ package scas.structure.commutative.ordered
 
 import scas.structure.commutative.Quotient.Element
 
-trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends scas.structure.commutative.Quotient[T] with Field[Element[T]] {
-  def compare(x: Element[T], y: Element[T]) = {
-    val Element(a, b) = x
-    val Element(c, d) = y
-    ring.compare(a.multiply(d), c.multiply(b))
-  }
-  extension (x: Element[T]) override def signum = super.signum(x)
-}
+trait Quotient[T : UniqueFactorizationDomain.Impl] extends Quotient.Impl[T] with scas.structure.commutative.Quotient[T] with Field[Element[T]]
 
 object Quotient {
-  trait Ops[T] extends scas.structure.commutative.Quotient.Ops[T] with Field.Ops[Element[T]] { this: Quotient[T] =>
+  trait Impl[T](using ring: UniqueFactorizationDomain.Impl[T]) extends scas.structure.commutative.Quotient.Impl[T] with Field.Impl[Element[T]] {
+    def compare(x: Element[T], y: Element[T]) = {
+      val Element(a, b) = x
+      val Element(c, d) = y
+      ring.compare(a.multiply(d), c.multiply(b))
+    }
+    extension (x: Element[T]) override def signum = super.signum(x)
   }
 }

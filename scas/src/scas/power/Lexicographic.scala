@@ -4,14 +4,13 @@ import scala.reflect.ClassTag
 import scas.math.Numeric
 import scas.util.{ClassTagArray, Conversion, unary_~}
 import scas.variable.Variable
-import Lexicographic.Impl
 
-class Lexicographic[N : Numeric : ClassTag : ClassTagArray](variables: Variable*) extends Impl[N](variables: _*) with ArrayPowerProduct.Ops[N] {
+class Lexicographic[N : Numeric : ClassTag : ClassTagArray](variables: Variable*) extends Lexicographic.Impl[N](variables: _*) with ArrayPowerProductWithDegree[N] {
   given instance: Lexicographic[N] = this
 }
 
 object Lexicographic {
-  abstract class Impl[N : Numeric : ClassTag : ClassTagArray](val variables: Variable*) extends ArrayPowerProductWithDegree[N] {
+  abstract class Impl[N : Numeric : ClassTag : ClassTagArray](val variables: Variable*) extends ArrayPowerProductWithDegree.Impl[N] {
     given instance: Impl[N]
     val self: Impl[N] = this
     def compare(x: Array[N], y: Array[N]) = {

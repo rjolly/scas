@@ -4,9 +4,9 @@ import java.lang.Math
 import scas.structure.Field
 import scas.base.BigInteger
 
-object Double extends Double.Impl with Field.Ops[Double] {
+object Double extends Double.Impl with Field[Double] {
   given instance: Double.type = this
-  abstract class Impl extends Field[Double] {
+  abstract class Impl extends Field.Impl[Double] {
     given instance: Impl
     val self: Impl = this
     def apply(n: Long) = n.toDouble

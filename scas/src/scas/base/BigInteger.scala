@@ -1,12 +1,12 @@
 package scas.base
 
-import scas.structure.commutative.ordered.{EuclidianDomain, UniqueFactorizationDomain}
+import scas.structure.commutative.ordered.EuclidianDomain
 
 type BigInteger = java.math.BigInteger
 
-object BigInteger extends BigInteger.Impl with UniqueFactorizationDomain.Ops[BigInteger] {
+object BigInteger extends BigInteger.Impl with EuclidianDomain[BigInteger] {
   given instance: BigInteger.type = this
-  abstract class Impl extends EuclidianDomain[BigInteger] {
+  abstract class Impl extends EuclidianDomain.Impl[BigInteger] {
     given instance: Impl
     val self: Impl = this
     def apply(n: Long) = java.math.BigInteger.valueOf(n)
@@ -43,8 +43,7 @@ object BigInteger extends BigInteger.Impl with UniqueFactorizationDomain.Ops[Big
     def toMathML = "<integers/>"
     lazy val zero = BigInteger("0")
     lazy val one = BigInteger("1")
-
-    given int2bigInt: (Int => BigInteger) = this(_)
-    given long2bigInt: (Long => BigInteger) = this(_)
   }
+  given int2bigInt: (Int => BigInteger) = this(_)
+  given long2bigInt: (Long => BigInteger) = this(_)
 }

@@ -1,8 +1,7 @@
 package scas.structure.ordered
 
-trait Monoid[T] extends scas.structure.Monoid[T] with Structure[T]
+trait Monoid[T] extends Monoid.Impl[T] with scas.structure.Monoid[T] with Structure[T]
 
 object Monoid {
-  trait Ops[T] extends scas.structure.SemiGroup.Ops[T] with Structure.Ops[T] { this: Monoid[T] =>
-  }
+  trait Impl[T] extends scas.structure.Monoid.Impl[T] with Structure.Impl[T]
 }

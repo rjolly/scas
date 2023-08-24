@@ -1,14 +1,13 @@
 package scas.structure
 
-trait Field[T] extends NotQuiteField[T] with NotQuiteGroup[T] {
-  extension (x: T) {
-    def isUnit = !x.isZero
-    def divide(y: T) = x * inverse(y)
-  }
-}
+trait Field[T] extends Field.Impl[T] with NotQuiteField[T] with NotQuiteGroup[T]
 
 object Field {
-  def apply[T : Field] = summon[Field[T]]
-  trait Ops[T] extends NotQuiteField.Ops[T] with Monoid.Ops[T] { this: Field[T] =>
+  trait Impl[T] extends NotQuiteField.Impl[T] with NotQuiteGroup.Impl[T] {
+    extension (x: T) {
+      def isUnit = !x.isZero
+      def divide(y: T) = x * inverse(y)
+    }
   }
+  def apply[T : Impl] = summon[Impl[T]]
 }

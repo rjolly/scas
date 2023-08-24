@@ -1,8 +1,7 @@
 package scas.structure.commutative.ordered
 
-trait Field[T] extends scas.structure.commutative.Field[T] with EuclidianDomain[T]
+trait Field[T] extends Field.Impl[T] with scas.structure.commutative.Field[T] with EuclidianDomain[T]
 
 object Field {
-  trait Ops[T] extends scas.structure.commutative.Field.Ops[T] with UniqueFactorizationDomain.Ops[T] { this: Field[T] =>
-  }
+  trait Impl[T] extends scas.structure.commutative.Field.Impl[T] with EuclidianDomain.Impl[T]
 }

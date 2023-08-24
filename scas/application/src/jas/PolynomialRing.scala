@@ -6,7 +6,7 @@ import edu.jas.structure.RingElem
 import scas.util.Conversion
 import scala.jdk.CollectionConverters.ListHasAsScala
 
-class PolynomialRing[C <: RingElem[C] : GenPolynomialRing] extends Ring[GenPolynomial[C]] with Ring.Ops[GenPolynomial[C]] {
+class PolynomialRing[C <: RingElem[C] : GenPolynomialRing] extends Ring[GenPolynomial[C]] {
   given PolynomialRing[C] = this
   val factory: GenPolynomialRing[C] = summon[GenPolynomialRing[C]]
   def gens = factory.getGenerators().asScala.toArray

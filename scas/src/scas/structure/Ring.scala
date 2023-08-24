@@ -1,11 +1,10 @@
 package scas.structure
 
-trait Ring[T] extends AbelianGroup[T] with Monoid[T] {
-  def characteristic: scas.base.BigInteger
-  def apply(n: Long): T
-}
+trait Ring[T] extends Ring.Impl[T] with AbelianGroup[T] with Monoid[T]
 
 object Ring {
-  trait Ops[T] extends AbelianGroup.Ops[T] with Monoid.Ops[T] { this: Ring[T] =>
+  trait Impl[T] extends AbelianGroup.Impl[T] with Monoid.Impl[T] {
+    def characteristic: scas.base.BigInteger
+    def apply(n: Long): T
   }
 }

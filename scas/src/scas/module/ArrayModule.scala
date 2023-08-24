@@ -1,16 +1,15 @@
 package scas.module
 
 import scala.reflect.ClassTag
-import scas.structure.{Ring, Module, AbelianGroup}
+import scas.structure.{Ring, Module}
 import scas.util.ClassTagArray
-import ArrayModule.Impl
 
-class ArrayModule[R : ClassTag : ClassTagArray](using Ring[R])(dimension: Int) extends Impl[R](dimension) with AbelianGroup.Ops[Array[R]] {
+class ArrayModule[R : ClassTag : ClassTagArray](using Ring.Impl[R])(dimension: Int) extends ArrayModule.Impl[R](dimension) with Module[Array[R], R] {
   given instance: ArrayModule[R] = this
 }
 
 object ArrayModule {
-  abstract class Impl[R : ClassTag : ClassTagArray](using ring: Ring[R])(val dimension: Int) extends Module[Array[R], R] {
+  abstract class Impl[R : ClassTag : ClassTagArray](using ring: Ring.Impl[R])(val dimension: Int) extends Module.Impl[Array[R], R] {
     given instance: Impl[R]
     val self: Impl[R] = this
     def apply(x: Array[R]) = x
@@ -37,7 +36,7 @@ object ArrayModule {
     override def toString = s"$ring.pow($dimension)"
     def toMathML = s"<msup>${ring.toMathML}<cn>${dimension}</cn></msup>"
 
-    extension (ring: Ring[R]) def pow(n: Int) = {
+    extension (ring: Ring.Impl[R]) def pow(n: Int) = {
       assert (n == dimension)
       this
     }
