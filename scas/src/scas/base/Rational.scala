@@ -31,10 +31,10 @@ object Rational extends Rational.Impl with Quotient[BigInteger] {
       if (d.isOne) n.toMathML else s"""<cn type="rational">$n<sep/>$d</cn>"""
     }
     override def toMathML = "<rationals/>"
-    override lazy val zero = Rational("0")
-    override lazy val one = Rational("1")
   }
   extension[U: Conversion[BigInteger]] (a: U) {
     def %%[V: Conversion[BigInteger]](b: V) = this(~a, ~b)
   }
+  override val zero = Rational("0")
+  override val one = Rational("1")
 }

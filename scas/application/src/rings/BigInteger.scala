@@ -12,10 +12,9 @@ object BigInteger extends BigInteger.Impl with Ring[BigInteger] {
     val self: Impl = this
     def apply(str: String) = new BigInteger(str)
     val ring = Rings.Z
-
-    given int2bigInt: (Int => BigInteger) = cc.redberry.rings.bigint.BigInteger.valueOf(_)
-    given long2bigInt: (Long => BigInteger) = cc.redberry.rings.bigint.BigInteger.valueOf(_)
-
-    given bigInt2scas[U : Conversion[BigInteger]]: (U => scas.base.BigInteger) = x => java.math.BigInteger((~x).toByteArray)
   }
+  given int2bigInt: (Int => BigInteger) = cc.redberry.rings.bigint.BigInteger.valueOf(_)
+  given long2bigInt: (Long => BigInteger) = cc.redberry.rings.bigint.BigInteger.valueOf(_)
+
+  given bigInt2scas[U : Conversion[BigInteger]]: (U => scas.base.BigInteger) = x => java.math.BigInteger((~x).toByteArray)
 }

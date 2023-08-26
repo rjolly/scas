@@ -1,7 +1,7 @@
 import scas.base.BigInteger
 import scas.power.Lexicographic
 import scas.polynomial.tree.mutable.Polynomial
-import BigInteger.self.given
+import BigInteger.{int2bigInt, long2bigInt}
 
 val r = Polynomial(using BigInteger, Lexicographic[Int]("x", "y", "z"))
 // val r = Polynomial(using BigInteger, Lexicographic[Long]("x", "y", "z"))
