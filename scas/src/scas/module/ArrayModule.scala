@@ -6,5 +6,5 @@ import scas.structure.Module
 import scas.util.ClassTagArray
 
 class ArrayModule[R : ClassTag : ClassTagArray](using Ring[R])(dimension: Int) extends impl.ArrayModule[R](dimension) with Module[Array[R], R] {
-  given instance: impl.ArrayModule[R] = this
+  given instance: ArrayModule[R] = this
 }

@@ -7,7 +7,7 @@ type BigInteger = cc.redberry.rings.bigint.BigInteger
 
 object BigInteger extends BigInteger.Impl with Ring[BigInteger] {
   given instance: BigInteger.type = this
-  abstract class Impl extends Ring.Impl[BigInteger] {
+  abstract class Impl extends impl.Ring[BigInteger] {
     given instance: Impl
     val self: Impl = this
     def apply(str: String) = new BigInteger(str)
