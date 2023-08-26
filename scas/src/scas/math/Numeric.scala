@@ -1,6 +1,6 @@
 package scas.math
 
-trait Numeric[T] extends Ordering.Impl[T] {
+trait Numeric[T] extends impl.Ordering[T] {
   extension (x: T) {
     def + (y: T): T
     def - (y: T): T

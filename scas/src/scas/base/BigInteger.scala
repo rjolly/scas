@@ -1,12 +1,12 @@
 package scas.base
 
-import scas.structure.commutative.ordered.EuclidianDomain
+import scas.structure.commutative.ordered.impl.EuclidianDomain
 
 type BigInteger = java.math.BigInteger
 
-object BigInteger extends BigInteger.Impl with EuclidianDomain[BigInteger] {
+object BigInteger extends BigInteger.Impl with scas.structure.commutative.ordered.EuclidianDomain[BigInteger] {
   given instance: BigInteger.type = this
-  abstract class Impl extends EuclidianDomain.Impl[BigInteger] {
+  abstract class Impl extends EuclidianDomain[BigInteger] {
     given instance: Impl
     val self: Impl = this
     def apply(n: Long) = java.math.BigInteger.valueOf(n)
