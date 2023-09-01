@@ -8,7 +8,7 @@ import scas.util.{Conversion, unary_~}
 import java.util.Comparator
 
 class MultivariatePolynomialRing[C : impl.Ring](monomialOrder: Comparator[DegreeVector], variables: String*) extends Ring[MultivariatePolynomial[C]] {
-  given MultivariatePolynomialRing[C] = this
+  given instance: MultivariatePolynomialRing[C] = this
   val ring: MultivariateRing[MultivariatePolynomial[C]] = MultivariateRing(MultivariatePolynomial.zero(variables.size, impl.Ring[C].ring, monomialOrder))
   override def coder = Coder.mkMultivariateCoder(ring, impl.Ring[C].coder, variables: _*)
   def gens = (for (i <- 0 until ring.nVariables()) yield ring.variable(i)).toArray
