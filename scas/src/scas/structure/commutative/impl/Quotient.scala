@@ -1,7 +1,8 @@
 package scas.structure.commutative.impl
 
 import scas.base.BigInteger
-import BigInteger.self.given
+import BigInteger.given
+import scas.prettyprint.Level
 import scas.structure.commutative.Quotient.Element
 
 trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends Field[Element[T]] {
@@ -69,6 +70,7 @@ trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends Field[Elemen
   }
   def characteristic = ring.characteristic
   extension (x: Element[T]) def toCode(level: Level) = {
+    import Level.given
     val Element(n, d) = x
     if (d.isOne) n.toCode(level) else {
       val s = n.toCode(Level.Multiplication) + "/" + d.toCode(Level.Power)
