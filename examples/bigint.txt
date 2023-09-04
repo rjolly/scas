@@ -1,5 +1,5 @@
 import scas.base.BigInteger
-import BigInteger.{abs, gcd, lcm, unary_-, given}
+import BigInteger.{abs, gcd, lcm, given}
 
 assert(BigInteger("1") + 1 >< 1 + BigInteger("1"))
 assert(BigInteger("1") - BigInteger("1") >< 0)
@@ -15,8 +15,7 @@ assert(2 \ 2 >< 4)
 assert(2 \:2 >< 4)
 assert(2 \:2 \:3 >< 256)
 assert((2 \:2) \ 3 >< 64)
-assert(abs(-1) >< BigInteger("-1").abs)
-assert(unary_-(-1) >< BigInteger("-1").unary_-)
+assert(abs(-1) >< -BigInteger("-1"))
 assert(gcd(3, 5) >< 1)
 assert(lcm(3, 5) >< 15)
 assert(gcd(BigInteger("3"), BigInteger("5")) >< 1)

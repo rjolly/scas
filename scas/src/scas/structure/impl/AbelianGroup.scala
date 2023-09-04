@@ -6,7 +6,7 @@ trait AbelianGroup[T] extends Structure[T] {
     def subtract(y: T): T
     inline def + (y: T) = x.add(y)
     inline def - (y: T) = x.subtract(y)
-    def unary_- = x.negate
+    inline def unary_- = x.negate
     def negate = zero.subtract(x)
     def isZero = x >< zero
     def signum: Int
