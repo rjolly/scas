@@ -32,7 +32,7 @@ abstract class Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends R
     val (c, d) = y
     a >< c && b >< d
   }
-  extension (x: (R1, R2)) override def negate = {
+  extension (x: (R1, R2)) override def unary_- = {
     val (a, b) = x
     (-a, -b)
   }

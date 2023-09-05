@@ -29,7 +29,7 @@ object BigInteger extends BigInteger.Impl with scas.structure.commutative.ordere
     extension (x: BigInteger) def isUnit = abs(x).isOne
     extension (x: BigInteger) override def isZero = x.signum == 0
     extension (a: BigInteger) override def pow(b: BigInteger) = a.pow(b.intValue)
-    extension (x: BigInteger) override def negate = x.negate
+    extension (x: BigInteger) override def unary_- = x.negate
     override def abs(x: BigInteger) = x.abs
     extension (x: BigInteger) override def signum = x.signum
     extension (x: BigInteger) def toCode(level: Level) = {
