@@ -29,7 +29,7 @@ trait SolvablePolynomial[T : ClassTag, C : Ring, M](using pp: PowerProduct[M]) e
     val key = makeKey(e, f)
     val list = table.asScala.getOrElse(key, Nil)
     list match {
-      case Nil => Relation(pp.one, pp.one, fromPowerProduct(e.multiply(f)))
+      case Nil => Relation(pp.one, pp.one, fromPowerProduct(e * f))
       case _ => {
         val Relation(e0, f0, p0) = select(list, Relation(e, f, zero))
         Relation(e / e0, f / f0, p0)
@@ -72,10 +72,10 @@ trait SolvablePolynomial[T : ClassTag, C : Ring, M](using pp: PowerProduct[M]) e
   extension (e: M) def ppMultiply(f: M): T = {
     val ep = dependencyOnVariables(e)
     val fp = dependencyOnVariables(f)
-    if (ep.length == 0 || fp.length == 0) fromPowerProduct(e.multiply(f)) else {
+    if (ep.length == 0 || fp.length == 0) fromPowerProduct(e * f) else {
       val el = ep(ep.length-1)
       val fl = fp(0)
-      if (el <= fl) fromPowerProduct(e.multiply(f)) else {
+      if (el <= fl) fromPowerProduct(e * f) else {
         val e2 = e.projection(el)
         val f2 = f.projection(fl)
         val e1 = e / e2

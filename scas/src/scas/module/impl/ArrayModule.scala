@@ -21,8 +21,8 @@ abstract class ArrayModule[R : ClassTag : ClassTagArray](using ring: Ring[R])(va
   extension (x: R) def multiplyLeft(y: Array[R]) = (for (i <- 0 until dimension) yield x * y(i)).toArray
   extension (x: Array[R]) {
     def multiplyRight(y: R) = (for (i <- 0 until dimension) yield x(i) * y).toArray
-    def add(y: Array[R]) = (for (i <- 0 until dimension) yield x(i).add(y(i))).toArray
-    def subtract(y: Array[R]) = (for (i <- 0 until dimension) yield x(i).subtract(y(i))).toArray
+    def add(y: Array[R]) = (for (i <- 0 until dimension) yield x(i) + y(i)).toArray
+    def subtract(y: Array[R]) = (for (i <- 0 until dimension) yield x(i) - y(i)).toArray
     def signum = x.foldLeft(0)((l, r) => if (l == 0) r.signum else l)
     def toCode(level: Level) = "Array(" + x.map(_.show).mkString(", ") + ")"
     def toMathML = s"<vector>${x.map(_.toMathML).mkString}</vector>"

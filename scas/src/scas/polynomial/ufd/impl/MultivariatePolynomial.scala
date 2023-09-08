@@ -18,7 +18,7 @@ trait MultivariatePolynomial[T[C, M], C, M](using ClassTag[T[C, M]])(using ring:
   extension (x: T[C, M]) def convertTo(s: MultivariatePolynomial[T, T[C, M], M]): T[T[C, M], M] = iterator(x).foldLeft(s.zero) { (l, r) =>
     val (m, c) = r
     val t = m.projection(location)
-    l.add(s(t, this(m.divide(t), c)).convert(variables))
+    l + s(t, this(m / t, c)).convert(variables)
   }
   extension (x: T[T[C, M], M]) def convertFrom(s: MultivariatePolynomial[T, T[C, M], M]): T[C, M] = s.iterator(x).foldLeft(zero) { (l, r) =>
     val (m, c) = r

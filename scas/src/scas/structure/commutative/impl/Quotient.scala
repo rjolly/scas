@@ -17,26 +17,26 @@ trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends Field[Elemen
     val Element(n, d) = x
     val c = ring.gcd(n, d)
     val gcd = if (d.signum == -c.signum) -c else c
-    Element(n.divide(gcd), d.divide(gcd))
+    Element(n / gcd, d / gcd)
   }
   extension (x: Element[T]) def add(y: Element[T]) = {
     val Element(a, b) = x
     val Element(c, d) = y
     val Element(b0, d0) = this(b, d)
-    this((a.multiply(d0)).add(c.multiply(b0)), b0.multiply(d))
+    this((a * d0) + (c * b0), b0 * d)
   }
   extension (x: Element[T]) def subtract(y: Element[T]) = {
     val Element(a, b) = x
     val Element(c, d) = y
     val Element(b0, d0) = this(b, d)
-    this((a.multiply(d0)).subtract(c.multiply(b0)), b0.multiply(d))
+    this((a * d0) - (c * b0), b0 * d)
   }
   extension (x: Element[T]) def multiply(y: Element[T]) = {
     val Element(a, b) = x
     val Element(c, d) = y
     val Element(a0, d0) = this(a, d)
     val Element(c0, b0) = this(c, b)
-    Element(a0.multiply(c0), b0.multiply(d0))
+    Element(a0 * c0, b0 * d0)
   }
   def equiv(x: Element[T], y: Element[T]) = {
     val Element(a, b) = x

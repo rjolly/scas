@@ -18,7 +18,7 @@ class TreePolynomial[C, M](using ring: Ring[C], pp: PowerProduct[M]) extends Pol
   extension (x: Element[C, M]) def add(y: Element[C, M]) = {
     val r = modifiable(x)
     for ((t, b) <- y.asScala) {
-      val c = r.getOrElse(t, ring.zero).add(b)
+      val c = r.getOrElse(t, ring.zero) + b
       if (c.isZero) r.remove(t) else r.put(t, c)
     }
     unmodifiable(r)
