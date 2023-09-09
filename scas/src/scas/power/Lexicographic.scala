@@ -5,15 +5,18 @@ import scas.math.Numeric
 import scas.util.{ClassTagArray, unary_~}
 import scas.variable.Variable
 
-class Lexicographic[N : Numeric : ClassTag : ClassTagArray](variables: Variable*) extends impl.Lexicographic[N](variables: _*) with ArrayPowerProductWithDegree[N] {
+class Lexicographic[N : Numeric : ClassTag : ClassTagArray](val variables: Variable*) extends impl.Lexicographic[N] with PowerProduct[Array[N]] {
   given instance: Lexicographic[N] = this
 }
 
 object Lexicographic {
   def apply[N : Numeric : ClassTag : ClassTagArray](degree: N)(variables: String*) = new Lexicographic[N](variables.map(~_): _*)
 
-  inline def apply[N : Numeric : ClassTag : ClassTagArray](variables: String*): impl.Lexicographic[N] = new impl.Lexicographic[N](variables.map(~_): _*) {
-    given instance: impl.Lexicographic[N] = this
+  class Impl[N : Numeric : ClassTag : ClassTagArray](val variables: Variable*) extends impl.Lexicographic[N] {
+    given instance: Impl[N] = this
+  }
+
+  inline def apply[N : Numeric : ClassTag : ClassTagArray](variables: String*): Impl[N] = new Impl[N](variables.map(~_): _*) {
     override def compare(x: Array[N], y: Array[N]) = {
       var i = length
       while (i > 0) {
