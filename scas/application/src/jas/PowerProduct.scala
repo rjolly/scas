@@ -5,7 +5,7 @@ import scas.util.{Conversion, unary_~}
 import edu.jas.poly.{ExpVector, TermOrder}
 
 class PowerProduct(val variables: Variable*)(tord: TermOrder) extends scas.power.PowerProduct[ExpVector] {
-  given PowerProduct = this
+  given instance: PowerProduct = this
   val comp = tord.getDescendComparator
   def one = ExpVector.create(length)
   def generator(n: Int) = ExpVector.create(length, n, 1)
