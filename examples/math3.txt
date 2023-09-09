@@ -2,7 +2,7 @@
 
 import math3.Matrix
 import scas.base.BigInteger
-import BigInteger.int2bigInt
+import BigInteger.given
 
 val m = new Matrix(3)
 import m.given

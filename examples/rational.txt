@@ -1,5 +1,5 @@
 import scas.base.{BigInteger, Rational}
-import BigInteger.int2bigInt
+import BigInteger.given
 import Rational.given
 
 assert (Rational("1") >< 1)

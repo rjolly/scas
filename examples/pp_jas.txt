@@ -3,7 +3,7 @@
 import edu.jas.poly.TermOrderByName
 import jas.PowerProduct
 import scas.base.BigInteger
-import BigInteger.int2bigInt
+import BigInteger.given
 
 val m = PowerProduct("x")(TermOrderByName.LEX)
 val Array(x) = m.generators

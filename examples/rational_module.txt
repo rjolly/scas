@@ -1,6 +1,6 @@
 import scas.base.{BigInteger, Rational}
 import scas.module.{Array, ArrayModule}
-import BigInteger.int2bigInt
+import BigInteger.given
 import Rational.given
 
 val s = new ArrayModule(using Rational)(2)
