@@ -37,8 +37,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
       for ((a, b) <- iterator(y)) r = r.subtract(a, -b, x)
       r
     }
-    def ppMultiplyRight(m: M) = x.map((s, a) => (s * m, a))
-    def %* (m: M) = x.ppMultiplyRight(m)
+    def %* (m: M) = x.map((s, a) => (s * m, a))
   }
 
   extension (x: T) def toCode(level: Level) = {

@@ -63,7 +63,7 @@ trait SolvablePolynomial[T : ClassTag, C : Ring, M](using pp: PowerProduct[M]) e
 
     final override def coefMultiply(c: C) = super.coefMultiply(x)(c)
 
-    final override def ppMultiplyRight(m: M) = iterator(x).foldLeft(zero) { (l, r) =>
+    final override def %* (m: M) = iterator(x).foldLeft(zero) { (l, r) =>
       val (s, _) = r
       l + s.ppMultiply(m)
     }
