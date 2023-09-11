@@ -1,0 +1,9 @@
+import scas.base.BigInteger
+import scas.polynomial.tree.ufd.PolynomialWithSimpleGCD
+import BigInteger.given
+
+val r = PolynomialWithSimpleGCD(BigInteger)("x", "y", "z")
+val List(x, y, z) = r.generators.toList
+import r.{gcd, given}
+
+assert (gcd(x*y, x*z) >< x)
