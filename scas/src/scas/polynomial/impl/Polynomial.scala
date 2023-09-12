@@ -5,6 +5,9 @@ import scala.reflect.ClassTag
 import scas.structure.impl.Ring
 import scas.power.impl.PowerProduct
 import scas.variable.Variable
+import scas.prettyprint.Level
+import scas.base.BigInteger
+import BigInteger.given
 
 trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) extends Ring[T] {
   val zero = this()
@@ -41,6 +44,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
   }
 
   extension (x: T) def toCode(level: Level) = {
+    import Level.given
     var s = ring.zero.toCode(Level.Addition)
     var n = 0
     var m = 0
@@ -134,7 +138,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
   def degree(x: T) = {
     var d = 0l
     for ((a, _) <- iterator(x)) d = scala.math.max(d, pp.degree(a))
-    d
+    BigInteger(d)
   }
 
   extension (x: T) @tailrec final def reduce(ys: Seq[T]): T = {

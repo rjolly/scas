@@ -1,0 +1,12 @@
+import scas.base.BigInteger
+import scas.polynomial.tree.PolynomialWithSubresGCD
+import BigInteger.given
+
+val r = PolynomialWithSubresGCD(BigInteger)("x")
+val List(x) = r.generators.toList
+import r.{gcd, given}
+
+assert (gcd(0, 0) >< 0)
+assert (gcd(x, 0) >< x)
+assert (gcd(1, x) >< 1)
+assert (gcd((1+x)*(1+x), (1+x)*(1-x)) >< 1+x)
