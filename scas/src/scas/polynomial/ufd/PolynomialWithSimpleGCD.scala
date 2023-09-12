@@ -1,4 +1,4 @@
-package scas.polynomial.ufd.impl
+package scas.polynomial.ufd
 
 import scala.reflect.ClassTag
 import scas.structure.commutative.impl.UniqueFactorizationDomain
