@@ -12,7 +12,7 @@ import BigInteger.given
 trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) extends Ring[T] {
   val zero = this()
   val one = this(ring.one)
-  def apply(n: Long) = this(ring(n))
+  def apply(n: BigInteger) = this(ring(n))
   def generator(n: Int) = fromPowerProduct(pp.generator(n))
   def generators = pp.generators.map(fromPowerProduct)
   extension (x: T) def signum = if (x.isZero) 0 else lastCoefficient(x).signum
@@ -136,9 +136,9 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
   }
 
   def degree(x: T) = {
-    var d = 0l
-    for ((a, _) <- iterator(x)) d = scala.math.max(d, pp.degree(a))
-    BigInteger(d)
+    var d = BigInteger.zero
+    for ((a, _) <- iterator(x)) d = BigInteger.max(d, pp.degree(a))
+    d
   }
 
   extension (x: T) @tailrec final def reduce(ys: Seq[T]): T = {

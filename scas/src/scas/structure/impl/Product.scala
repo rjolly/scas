@@ -1,12 +1,11 @@
 package scas.structure.impl
 
 import scas.base.BigInteger
-import BigInteger.lcm
 
 abstract class Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends Ring[(R1, R2)] {
   given instance: Product[R1, R2]
   val self: Product[R1, R2] = this
-  def apply(n: Long) = (ring1(n), ring2(n))
+  def apply(n: BigInteger) = (ring1(n), ring2(n))
   def apply(a: R1, b: R2) = (a, b)
   override def convert(x: (R1, R2)) = {
     val (a, b) = x
@@ -52,7 +51,7 @@ abstract class Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends R
     val (a, b) = x
     if (a.signum == 0) b.signum else a.signum
   }
-  def characteristic = lcm(ring1.characteristic, ring2.characteristic)
+  def characteristic = BigInteger.lcm(ring1.characteristic, ring2.characteristic)
   extension (x: (R1, R2)) def toCode(level: Level) = {
     val (a, b) = x
     s"Product(${a.toCode(Level.Addition)}, ${b.toCode(Level.Addition)})"

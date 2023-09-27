@@ -3,6 +3,7 @@ package scas.power.impl
 import scala.reflect.ClassTag
 import scas.structure.ordered.impl.Monoid
 import scas.variable.Variable
+import scas.base.BigInteger
 
 trait PowerProduct[M : ClassTag] extends Monoid[M] {
   def variables: Seq[Variable]
@@ -10,11 +11,7 @@ trait PowerProduct[M : ClassTag] extends Monoid[M] {
   def generator(variable: String): M = generator(variables.indexOf(variable))
   def generator(n: Int): M
   def generators = (for (i <- 0 until length) yield generator(i)).toArray
-  def degree(x: M): Long
-  def apply(x: Int) = {
-    assert (x == 1)
-    one
-  }
+  def degree(x: M): BigInteger
   def gcd(x: M, y: M): M
   def lcm(x: M, y: M): M
   def coprime(x: M, y: M) = gcd(x, y).isOne

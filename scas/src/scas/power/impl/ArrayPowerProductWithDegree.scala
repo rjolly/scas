@@ -4,6 +4,7 @@ import scala.reflect.ClassTag
 import scas.math.Numeric
 import scas.util.ClassTagArray
 import scas.variable.Variable
+import java.math.BigInteger.valueOf
 
 trait ArrayPowerProductWithDegree[N : ClassTag : ClassTagArray](using numeric: Numeric[N]) extends ArrayPowerProduct[N] {
   def one = new Array[N](length + 1)
@@ -12,7 +13,7 @@ trait ArrayPowerProductWithDegree[N : ClassTag : ClassTagArray](using numeric: N
     for (i <- 0 to length) r(i) = numeric.fromInt(if (i == n || i == length) 1 else 0)
     r
   }
-  def degree(x: Array[N]) = x(length).toLong
+  def degree(x: Array[N]) = valueOf(x(length).toLong)
   def gcd(x: Array[N], y: Array[N]): Array[N] = {
     val r = one
     for (i <- 0 until length) {
