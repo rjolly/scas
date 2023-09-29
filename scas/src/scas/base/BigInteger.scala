@@ -1,5 +1,6 @@
 package scas.base
 
+import scala.annotation.targetName
 import scas.structure.commutative.ordered.impl.EuclidianDomain
 import scas.structure.commutative.ordered.UniqueFactorizationDomain
 import java.math.BigInteger.valueOf
@@ -11,7 +12,7 @@ object BigInteger extends BigInteger.Impl with UniqueFactorizationDomain[BigInte
   abstract class Impl extends EuclidianDomain[BigInteger] {
     given instance: Impl
     val self: Impl = this
-    def apply(n: BigInteger) = n
+    @targetName("fromInt") def apply(n: BigInteger) = n
     def apply(str: String) = new BigInteger(str)
     extension (x: BigInteger) {
       def add(y: BigInteger) = x.add(y)

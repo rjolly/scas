@@ -1,10 +1,11 @@
 package scas.structure.commutative.impl
 
+import scala.annotation.targetName
 import scas.base.BigInteger
 
 trait Residue[T](using ring: UniqueFactorizationDomain[T]) extends UniqueFactorizationDomain[T] {
   def apply(x: T): T
-  def apply(n: BigInteger) = this(ring(n))
+  @targetName("fromInt") def apply(n: BigInteger) = this(ring(n))
   override def convert(x: T) = this(ring.convert(x))
   extension (x: T) {
     def signum = ring.signum(x)

@@ -1,11 +1,12 @@
 package scas.structure.impl
 
+import scala.annotation.targetName
 import scas.base.BigInteger
 
 abstract class Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends Ring[(R1, R2)] {
   given instance: Product[R1, R2]
   val self: Product[R1, R2] = this
-  def apply(n: BigInteger) = (ring1(n), ring2(n))
+  @targetName("fromInt") def apply(n: BigInteger) = (ring1(n), ring2(n))
   def apply(a: R1, b: R2) = (a, b)
   override def convert(x: (R1, R2)) = {
     val (a, b) = x
