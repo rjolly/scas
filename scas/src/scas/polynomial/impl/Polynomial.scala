@@ -13,8 +13,8 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
   val zero = this()
   val one = this(ring.one)
   def fromInt(n: BigInteger) = this(ring.fromInt(n))
-  def generator(n: Int) = fromPowerProduct(pp.generator(n))
-  def generators = pp.generators.map(fromPowerProduct)
+  def generator(n: Int) = this(pp.generator(n))
+  def generators = pp.generators.map(apply)
   extension (x: T) def signum = if (x.isZero) 0 else lastCoefficient(x).signum
   def characteristic = ring.characteristic
   extension (x: T) def convert(from: PowerProduct[M]) = sort(x.map((s, a) => (s.convert(from), a)))
@@ -91,7 +91,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
   }
 
   def apply(value: C): T = if(value.isZero) zero else this(pp.one, value)
-  def fromPowerProduct(value: M): T = this(value, ring.one)
+  @targetName("fromPowerProduct") def apply(value: M): T = this(value, ring.one)
   def apply(m: M, c: C): T = this((m, c))
   def apply(s: (M, C)*): T
 

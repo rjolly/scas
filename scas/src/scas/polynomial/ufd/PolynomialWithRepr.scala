@@ -37,7 +37,7 @@ class PolynomialWithRepr[T : ClassTag, C : Field, M : PowerProduct](using factor
     }
     override def %* (m: M) = {
       val (p, e) = x
-      (p%* m, e%* factory.fromPowerProduct(m))
+      (p%* m, e%* factory(m))
     }
     override def multiply(m: M, c: C) = {
       val (p, e) = x
