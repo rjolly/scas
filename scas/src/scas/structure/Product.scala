@@ -1,6 +1,8 @@
 package scas.structure
 
 import scas.util.{Conversion, unary_~}
+import scas.base.BigInteger
+import BigInteger.given
 
 class Product[R1 : impl.Ring, R2 : impl.Ring] extends impl.Product[R1, R2] with Ring[(R1, R2)] {
   given instance: Product[R1, R2] = this

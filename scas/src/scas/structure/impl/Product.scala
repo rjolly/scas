@@ -1,7 +1,7 @@
 package scas.structure.impl
 
 import scas.base.BigInteger
-import BigInteger.lcm
+import BigInteger.{lcm, given}
 
 abstract class Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends Ring[(R1, R2)] {
   given instance: Product[R1, R2]

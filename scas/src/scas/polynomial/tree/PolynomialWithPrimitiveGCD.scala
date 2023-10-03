@@ -7,6 +7,8 @@ import scas.polynomial.impl.TreePolynomial
 import scas.polynomial.TreePolynomial.Element
 import scas.power.splittable.Lexicographic
 import scas.util.unary_~
+import scas.base.BigInteger
+import BigInteger.given
 
 class PolynomialWithPrimitiveGCD[C, M](using ring: UniqueFactorizationDomain[C], pp: PowerProduct[M]) extends TreePolynomial[C, M] with scas.polynomial.ufd.MultivariatePolynomial[Element, C, M] with scas.polynomial.ufd.PolynomialWithPrimitiveGCD[Element[C, M], C, M] with PolynomialOverUFD[Element[C, M], C, M] {
   given instance: PolynomialWithPrimitiveGCD[C, M] = this

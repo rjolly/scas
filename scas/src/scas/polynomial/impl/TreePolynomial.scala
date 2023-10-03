@@ -5,6 +5,8 @@ import scala.jdk.CollectionConverters.MapHasAsScala
 import scas.structure.impl.Ring
 import scas.power.impl.PowerProduct
 import scas.polynomial.TreePolynomial.Element
+import scas.base.BigInteger
+import BigInteger.given
 
 class TreePolynomial[C, M](using ring: Ring[C], pp: PowerProduct[M]) extends Polynomial[Element[C, M], C, M] {
   def unmodifiable(x: Element[C, M]) = Collections.unmodifiableSortedMap(x)

@@ -2,6 +2,7 @@ package scas.base
 
 import scas.structure.commutative.ordered.impl.EuclidianDomain
 import scas.structure.commutative.ordered.UniqueFactorizationDomain
+import BigInteger.given
 
 type BigInteger = java.math.BigInteger
 

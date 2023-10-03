@@ -4,6 +4,8 @@ import scas.structure.impl.Ring
 import scas.power.impl.PowerProduct
 import scas.polynomial.impl.TreePolynomial
 import scas.polynomial.TreePolynomial.Element
+import scas.base.BigInteger
+import BigInteger.given
 
 class Polynomial[C : Ring, M : PowerProduct] extends TreePolynomial[C, M] with scas.polynomial.Polynomial[Element[C, M], C, M] {
   given instance: Polynomial[C, M] = this
