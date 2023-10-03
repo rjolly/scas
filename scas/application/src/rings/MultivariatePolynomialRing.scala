@@ -5,6 +5,7 @@ import cc.redberry.rings.poly.MultivariateRing
 import cc.redberry.rings.poly.multivar.MultivariatePolynomial
 import cc.redberry.rings.poly.multivar.DegreeVector;
 import scas.util.{Conversion, unary_~}
+import scas.base.BigInteger.given
 import java.util.Comparator
 
 class MultivariatePolynomialRing[C : impl.Ring](monomialOrder: Comparator[DegreeVector], variables: String*) extends Ring[MultivariatePolynomial[C]] {

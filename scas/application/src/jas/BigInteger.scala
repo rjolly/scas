@@ -1,5 +1,6 @@
 package jas
 
+import scas.base.BigInteger.given
 import scas.util.{Conversion, unary_~}
 
 type BigInteger = edu.jas.arith.BigInteger

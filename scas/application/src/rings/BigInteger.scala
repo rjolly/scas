@@ -1,6 +1,7 @@
 package rings
 
 import cc.redberry.rings.Rings
+import scas.base.BigInteger.given
 import scas.util.{Conversion, unary_~}
 
 type BigInteger = cc.redberry.rings.bigint.BigInteger

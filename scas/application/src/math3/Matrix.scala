@@ -2,6 +2,7 @@ package math3
 
 import org.apache.commons.math3.linear.RealMatrix
 import scas.structure.{Algebra, Field}
+import scas.base.BigInteger.given
 import Matrix.Element
 import Double.given
 
