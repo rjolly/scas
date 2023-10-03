@@ -1,6 +1,6 @@
 package scas.polynomial.impl
 
-import scala.annotation.tailrec
+import scala.annotation.{tailrec, targetName}
 import scala.reflect.ClassTag
 import scas.structure.impl.Ring
 import scas.power.impl.PowerProduct
@@ -40,7 +40,8 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
       for ((a, b) <- iterator(y)) r = r.subtract(a, -b, x)
       r
     }
-    def %* (m: M) = x.map((s, a) => (s * m, a))
+    @targetName("ppMultiplyRight") def %* (m: M) = x.map((s, a) => (s * m, a))
+    def multiplyRight(y: BigInteger) = x.map((s, a) => (s, a%* y))
   }
 
   extension (x: T) def toCode(level: Level) = {

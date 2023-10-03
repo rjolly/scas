@@ -17,6 +17,7 @@ object BigInteger extends BigInteger.Impl with UniqueFactorizationDomain[BigInte
       def add(y: BigInteger) = x.add(y)
       def subtract(y: BigInteger) = x.subtract(y)
       def multiply(y: BigInteger) = x.multiply(y)
+      def multiplyRight(y: BigInteger) = x * y
     }
     def compare(x: BigInteger, y: BigInteger) = x.compareTo(y)
     override def gcd(x: BigInteger, y: BigInteger) = x.gcd(y)

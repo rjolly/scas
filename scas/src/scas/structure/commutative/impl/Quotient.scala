@@ -1,9 +1,9 @@
 package scas.structure.commutative.impl
 
-import scas.base.BigInteger
-import BigInteger.given
 import scas.prettyprint.Level
 import scas.structure.commutative.Quotient.Element
+import scas.base.BigInteger
+import BigInteger.given
 
 trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends Field[Element[T]] {
   def apply(n: T) = Element(n, ring.one)
@@ -37,6 +37,10 @@ trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends Field[Elemen
     val Element(a0, d0) = this(a, d)
     val Element(c0, b0) = this(c, b)
     Element(a0 * c0, b0 * d0)
+  }
+  extension (x: Element[T]) def multiplyRight(y: BigInteger) = {
+    val Element(a, b) = x
+    this(a%* y, b)
   }
   def equiv(x: Element[T], y: Element[T]) = {
     val Element(a, b) = x

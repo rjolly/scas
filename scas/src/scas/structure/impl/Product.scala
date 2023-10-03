@@ -27,6 +27,10 @@ abstract class Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends R
     val (c, d) = y
     (a * c, b * d)
   }
+  extension (x: (R1, R2)) def multiplyRight(y: BigInteger) = {
+    val (a, b) = x
+    (a%* y, b%* y)
+  }
   def equiv(x: (R1, R2), y: (R1, R2)) = {
     val (a, b) = x
     val (c, d) = y
