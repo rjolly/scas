@@ -8,7 +8,6 @@ import BigInteger.given
 trait Ring[T] extends scas.structure.ordered.impl.Ring[T] {
   def ring: cc.redberry.rings.Ring[T]
   def coder = Coder.mkCoder(ring)
-  def apply(n: Long) = ring.valueOf(n)
   extension (x: T) {
     def add(y: T) = ring.add(x, y)
     def subtract(y: T) = ring.subtract(x, y)

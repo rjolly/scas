@@ -6,7 +6,7 @@ import scas.power.impl.PowerProduct
 
 trait UnivariatePolynomial[T : ClassTag, C, M](using ring: Field[C], pp: PowerProduct[M]) extends PolynomialOverField[T, C, M] with EuclidianDomain[T] {
   assert (variables.length == 1)
-  def derivative(x: T) = x.map((a, b) => (a / pp.generator(0), b * ring(pp.degree(a))))
+  def derivative(x: T) = x.map((a, b) => (a / pp.generator(0), b))
   override def gcd(x: T, y: T) = gcd1(x, y)
   extension (x: T) def modInverse(mod: T): T
 }

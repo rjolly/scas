@@ -12,7 +12,6 @@ import BigInteger.given
 trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) extends Ring[T] {
   val zero = this()
   val one = this(ring.one)
-  def apply(n: Long) = this(ring(n))
   def generator(n: Int) = fromPowerProduct(pp.generator(n))
   def generators = pp.generators.map(fromPowerProduct)
   extension (x: T) def signum = if (x.isZero) 0 else lastCoefficient(x).signum

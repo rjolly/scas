@@ -10,7 +10,6 @@ object Double extends Double.Impl with scas.structure.Field[Double] {
   abstract class Impl extends Field[Double] {
     given instance: Impl
     val self: Impl = this
-    def apply(n: Long) = n.toDouble
     extension (x: Double) {
       def add(y: Double) = x + y
       def subtract(y: Double) = x - y

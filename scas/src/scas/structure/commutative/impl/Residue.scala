@@ -2,7 +2,6 @@ package scas.structure.commutative.impl
 
 trait Residue[T](using ring: UniqueFactorizationDomain[T]) extends UniqueFactorizationDomain[T] {
   def apply(x: T): T
-  def apply(n: Long) = this(ring(n))
   override def convert(x: T) = this(ring.convert(x))
   extension (x: T) {
     def signum = ring.signum(x)
