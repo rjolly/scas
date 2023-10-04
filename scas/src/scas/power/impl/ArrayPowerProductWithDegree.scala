@@ -59,9 +59,9 @@ trait ArrayPowerProductWithDegree[N : ClassTag : ClassTagArray](using numeric: N
     for (i <- 0 to length) r(i) = if (i == n || i == length) x(n) else numeric.zero
     r
   }
-  extension (x: Array[N]) def convert(from: Seq[Variable]) = {
+  extension (x: Array[N]) def convert(from: PowerProduct[Array[N]]) = {
     val r = one
-    val index = from.map(a => variables.indexOf(a))
+    val index = from.variables.map(a => variables.indexOf(a))
     for (i <- 0 until x.length - 1) if (x(i) > numeric.zero) {
       val c = index(i)
       assert (c > -1)
