@@ -8,10 +8,6 @@ abstract class Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends R
   val self: Product[R1, R2] = this
   def apply(n: Long) = (ring1(n), ring2(n))
   def apply(a: R1, b: R2) = (a, b)
-  override def convert(x: (R1, R2)) = {
-    val (a, b) = x
-    (ring1.convert(a), ring2.convert(b))
-  }
   extension (x: (R1, R2)) def add(y: (R1, R2)) = {
     val (a, b) = x
     val (c, d) = y
