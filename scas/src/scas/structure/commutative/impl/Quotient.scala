@@ -7,7 +7,7 @@ import scas.structure.commutative.Quotient.Element
 
 trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends Field[Element[T]] {
   def apply(n: T) = Element(n, ring.one)
-  def apply(n: Long) = this(ring(n))
+  def fromInt(n: BigInteger) = this(ring.fromInt(n))
   def apply(n: T, d: T): Element[T] = this(Element(n, d))
   def apply(x: Element[T]) = {
     val Element(n, d) = x

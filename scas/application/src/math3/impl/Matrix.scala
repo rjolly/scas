@@ -11,7 +11,7 @@ trait Matrix extends Algebra[Element, Double] with Field[Element] {
   given instance: Matrix
   val self: Matrix = this
   def size: Int
-  def apply(n: Long) = one%* Double(n)
+  def fromInt(n: BigInteger) = one%* Double.fromInt(n)
   def apply(ds: Double*): Element = Array2DRowRealMatrix(ds.grouped(size).map(_.toArray).toArray)
   extension (x: Element) {
     def add(y: Element) = x.add(y)

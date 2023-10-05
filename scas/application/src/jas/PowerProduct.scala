@@ -3,13 +3,15 @@ package jas
 import scas.variable.Variable
 import scas.util.{Conversion, unary_~}
 import edu.jas.poly.{ExpVector, TermOrder}
+import scas.base.BigInteger
+import BigInteger.given
 
 class PowerProduct(val variables: Variable*)(tord: TermOrder) extends scas.power.PowerProduct[ExpVector] {
   given instance: PowerProduct = this
   val comp = tord.getDescendComparator
   def one = ExpVector.create(length)
   def generator(n: Int) = ExpVector.create(length, n, 1)
-  def degree(x: ExpVector) = x.degree
+  def degree(x: ExpVector) = BigInteger.fromInt(x.degree)
   def gcd(x: ExpVector, y: ExpVector) = x.gcd(y)
   def lcm(x: ExpVector, y: ExpVector) = x.lcm(y)
   extension (x: ExpVector) {

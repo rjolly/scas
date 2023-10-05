@@ -1,8 +1,10 @@
 package scas.structure.commutative.impl
 
+import scas.base.BigInteger
+
 trait Residue[T](using ring: UniqueFactorizationDomain[T]) extends UniqueFactorizationDomain[T] {
   def apply(x: T): T
-  def apply(n: Long) = this(ring(n))
+  def fromInt(n: BigInteger) = this(ring.fromInt(n))
   extension (x: T) {
     def signum = ring.signum(x)
     def add(y: T) = this(ring.add(x)(y))
