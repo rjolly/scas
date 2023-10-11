@@ -5,8 +5,6 @@ import scas.math.Numeric
 import scas.util.ClassTagArray
 
 trait Lexicographic[N : Numeric : ClassTag : ClassTagArray] extends ArrayPowerProductWithDegree[N] {
-  given instance: Lexicographic[N]
-  val self: Lexicographic[N] = this
   def compare(x: Array[N], y: Array[N]) = {
     var i = length
     while (i > 0) {

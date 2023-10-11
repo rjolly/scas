@@ -12,9 +12,7 @@ class Lexicographic[N : Numeric : ClassTag : ClassTagArray](val variables: Varia
 object Lexicographic {
   def apply[N : Numeric : ClassTag : ClassTagArray](degree: N)(s: String*) = new Lexicographic[N](s.map(~_): _*)
 
-  class Impl[N : Numeric : ClassTag : ClassTagArray](val variables: Variable*) extends impl.Lexicographic[N] {
-    given instance: Impl[N] = this
-  }
+  class Impl[N : Numeric : ClassTag : ClassTagArray](val variables: Variable*) extends impl.Lexicographic[N]
 
   inline def apply[N : Numeric : ClassTag : ClassTagArray](s: String*): Impl[N] = new Impl[N](s.map(~_): _*) {
     override def compare(x: Array[N], y: Array[N]) = {

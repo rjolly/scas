@@ -8,8 +8,6 @@ import Double.given
 object Double extends Double.Impl with scas.structure.Field[Double] {
   given instance: Double.type = this
   abstract class Impl extends Field[Double] {
-    given instance: Impl
-    val self: Impl = this
     def fromInt(n: BigInteger) = n.doubleValue()
     extension (x: Double) {
       def add(y: Double) = x + y

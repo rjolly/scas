@@ -11,8 +11,6 @@ type Rational = Element[BigInteger]
 object Rational extends Rational.Impl with scas.structure.commutative.ordered.Quotient[BigInteger] {
   given instance: Rational.type = this
   abstract class Impl extends Quotient[BigInteger] {
-    given instance: Impl
-    val self: Impl = this
     def apply(n: String): Rational = this(BigInteger(n))
     def apply(n: String, d: String): Rational = this(BigInteger(n), BigInteger(d))
     extension (x: Rational) override def toCode(level: Level) = {

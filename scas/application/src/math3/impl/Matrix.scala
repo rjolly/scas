@@ -8,8 +8,6 @@ import math3.Matrix.Element
 import math3.Double
 
 trait Matrix extends Algebra[Element, Double] with Field[Element] {
-  given instance: Matrix
-  val self: Matrix = this
   def size: Int
   def fromInt(n: BigInteger) = one%* Double.fromInt(n)
   def apply(ds: Double*): Element = Array2DRowRealMatrix(ds.grouped(size).map(_.toArray).toArray)

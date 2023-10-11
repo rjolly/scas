@@ -6,8 +6,6 @@ import scas.base.BigInteger
 import BigInteger.given
 
 abstract class ModInteger extends Residue[BigInteger] with Field[BigInteger] {
-  given instance: ModInteger
-  val self: ModInteger = this
   assert (mod.isProbablePrime(100))
   def mod: BigInteger
   def apply(x: BigInteger) = x.mod(mod)
