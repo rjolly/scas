@@ -9,6 +9,8 @@ trait PolynomialOverField[T : ClassTag, C : Field, M : PowerProduct] extends Pol
   extension (x: T) override def coefDivide(c: C) = x.coefMultiply(Field[C].inverse(c))
   def monic(x: T) = if (x.isZero) zero else x.coefDivide(headCoefficient(x))
   @tailrec final def gcd1(x: T, y: T): T = if (y.isZero) monic(x) else gcd1(y, monic(x.reduce(y)))
-  extension (x: T) override def reduce(y: T) = super.reduce(x)(y)
-  extension (x: T) override def reduce(m: M, a: C, y: T, b: C) = x.subtract(m, a / b, y)
+  extension (x: T) {
+    override def reduce(m: M, a: C, y: T, b: C) = x.subtract(m, a / b, y)
+    override def reduce(y: T) = super.reduce(x)(y)
+  }
 }
