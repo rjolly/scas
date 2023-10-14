@@ -8,9 +8,9 @@ trait MultivariatePolynomial[T[C, M], C, M](using ClassTag[T[C, M]])(using ring:
   val location = variables.length - 1
   val take = pp.take(location)
   val drop = pp.drop(location)
-  def split: MultivariatePolynomial[T, T[C, M], M]
+  def newInstance: [C] => (UniqueFactorizationDomain[C], PowerProduct[M]) => MultivariatePolynomial[T, C, M]
   override def gcd(x: T[C, M], y: T[C, M]) = if (location > 0) {
-    val s = split
+    val s = newInstance(newInstance(ring, take), drop)
     s.gcd(x.convertTo(using s), y.convertTo(using s)).convertFrom(s)
   } else {
     val (a, p) = contentAndPrimitivePart(x)
