@@ -1,0 +1,11 @@
+import scas.base.{BigInteger, Rational}
+import scas.polynomial.tree.UnivariatePolynomial
+import BigInteger.given
+import Rational.given
+
+val r = UnivariatePolynomial(Rational)("x")
+val List(x) = r.generators.toList
+import r.{gcd, modInverse, given}
+
+assert (gcd((1+x) * (1+1%%2*x), (1+1%%2*x) * (1-x)) >< 2+x)
+assert ((1-x).modInverse((1+x) \ 2) >< 3%%4+1%%4*x)
