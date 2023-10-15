@@ -57,9 +57,9 @@ trait PolynomialOverUFD[T : ClassTag, C, M : PowerProduct](using ring: UniqueFac
   def contentAndPrimitivePart(x: T) = {
     if (x.isZero) (ring.zero, zero) else {
       val c = content(x)
-      (c, x.coefDivide(c))
+      (c, x%/ c)
     }
   }
   def primitivePart(x: T) = { val (c, p) = contentAndPrimitivePart(x) ; p }
-  extension (x: T) def coefDivide(c: C) = x.map((s, a) => (s, a / c))
+  extension (x: T) def %/ (c: C) = x.map((s, a) => (s, a / c))
 }
