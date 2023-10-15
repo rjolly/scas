@@ -1,6 +1,7 @@
 package scas.polynomial.ufd
 
 import scala.reflect.ClassTag
+import scala.annotation.targetName
 import scas.module.impl.ArrayModule
 import scas.polynomial.impl.Polynomial
 import scas.structure.commutative.impl.Field
@@ -42,9 +43,9 @@ class PolynomialWithRepr[T : ClassTag, C : Field, M : PowerProduct](using factor
       val (p, e) = x
       (p.multiply(m, c), e%* factory(m, c))
     }
-    override def coefMultiply(c: C) = {
+    @targetName("coefMultiply") override def %* (c: C) = {
       val (p, e) = x
-      (p.coefMultiply(c), e%* factory(c))
+      (p%* c, e%* factory(c))
     }
     def map(f: (M, C) => (M, C)) = {
       val (p, e) = x

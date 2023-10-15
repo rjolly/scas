@@ -1,6 +1,6 @@
 package scas.polynomial.impl
 
-import scala.annotation.tailrec
+import scala.annotation.{tailrec, targetName}
 import scala.reflect.ClassTag
 import scas.structure.impl.Ring
 import scas.power.impl.PowerProduct
@@ -192,13 +192,13 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
   }
 
   extension (x: T) {
-    def reduce(m: M, a: C, y: T, b: C) = x.coefMultiply(b).subtract(m, a, y)
+    def reduce(m: M, a: C, y: T, b: C) = (x%* b).subtract(m, a, y)
 
     def subtract(m: M, c: C, y: T) = x + y.multiply(m, -c)
 
     def multiply(m: M, c: C) = x.map((s, a) => (s * m, a * c))
 
-    def coefMultiply(c: C) = x.map((s, a) => (s, a * c))
+    @targetName("coefMultiply") def %* (c: C) = x.map((s, a) => (s, a * c))
 
     def map(f: (M, C) => (M, C)): T
   }

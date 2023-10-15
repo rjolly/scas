@@ -44,7 +44,7 @@ trait PolynomialOverUFD[T : ClassTag, C, M : PowerProduct](using ring: UniqueFac
   extension (x: T) override def reduce(m: M, a: C, y: T, b: C) = {
     val gcd = ring.gcd(a, b)
     val (a0, b0) = (a / gcd, b / gcd)
-    x.coefMultiply(b0).subtract(m, a0, y)
+    (x%* b0).subtract(m, a0, y)
   }
   def content(x: T) = {
     val c = iterator(x).foldLeft(ring.zero) { (l, r) =>

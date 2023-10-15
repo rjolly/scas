@@ -14,7 +14,7 @@ trait PolynomialWithSubresGCD[T : ClassTag, C, M : PowerProduct](using ring: Uni
     gcd(y, x.reduce(y).coefDivide(beta), headCoefficient(x) * phi\d, if (d >< 0) phi else if (d >< 1) headCoefficient(y) else headCoefficient(y)\d / phi\(d - 1))
   }
   extension (x: T) {
-    override def reduce(m: M, a: C, y: T, b: C) = x.coefMultiply(b).subtract(m, a, y)
+    override def reduce(m: M, a: C, y: T, b: C) = (x%* b).subtract(m, a, y)
     override def reduce(y: T) = super.reduce(x)(y)
   }
 }

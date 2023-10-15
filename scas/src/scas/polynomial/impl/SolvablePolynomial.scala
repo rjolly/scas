@@ -2,6 +2,7 @@ package scas.polynomial.impl
 
 import java.util.TreeMap
 import scala.jdk.CollectionConverters.MapHasAsScala
+import scala.annotation.targetName
 import scala.reflect.ClassTag
 import scala.math.Ordering
 import scas.structure.impl.Ring
@@ -59,9 +60,9 @@ trait SolvablePolynomial[T : ClassTag, C : Ring, M](using pp: PowerProduct[M]) e
   }
 
   extension (x: T) {
-    final override def multiply(m: M, c: C) = (x%* m).coefMultiply(c)
+    final override def multiply(m: M, c: C) = x%* m%* c
 
-    final override def coefMultiply(c: C) = super.coefMultiply(x)(c)
+    @targetName("coefMultiply") final override def %* (c: C) = super.%*(x)(c)
 
     final override def %* (m: M) = iterator(x).foldLeft(zero) { (l, r) =>
       val (s, _) = r

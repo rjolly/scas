@@ -1,6 +1,7 @@
 package scas.polynomial.impl
 
 import scala.jdk.CollectionConverters.MapHasAsScala
+import scala.annotation.targetName
 import scas.structure.impl.Ring
 import scas.power.impl.PowerProduct
 import scas.polynomial.TreePolynomial.Element
@@ -32,7 +33,7 @@ class TreeMutablePolynomial[C, M](using ring: Ring[C], pp: PowerProduct[M]) exte
     x
   }
 
-  extension (x: Element[C, M]) override def coefMultiply(c: C) = {
+  extension (x: Element[C, M]) @targetName("coefMultiply") override def %* (c: C) = {
     val xs = x.entrySet.iterator
     while (xs.hasNext) {
       val sa = xs.next
