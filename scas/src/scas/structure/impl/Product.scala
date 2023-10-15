@@ -3,7 +3,7 @@ package scas.structure.impl
 import scas.base.BigInteger
 import BigInteger.lcm
 
-abstract class Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends Ring[(R1, R2)] {
+class Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends Ring[(R1, R2)] {
   def apply(a: R1, b: R2) = (a, b)
   def fromInt(n: BigInteger) = (ring1.fromInt(n), ring2.fromInt(n))
   extension (x: (R1, R2)) def add(y: (R1, R2)) = {
