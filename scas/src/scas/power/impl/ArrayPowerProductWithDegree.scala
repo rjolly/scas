@@ -2,12 +2,11 @@ package scas.power.impl
 
 import scala.reflect.ClassTag
 import scas.math.Numeric
-import scas.util.ClassTagArray
 import scas.variable.Variable
 import scas.base.BigInteger
 import BigInteger.given
 
-trait ArrayPowerProductWithDegree[N : ClassTag : ClassTagArray](using numeric: Numeric[N]) extends ArrayPowerProduct[N] {
+trait ArrayPowerProductWithDegree[N : ClassTag](using numeric: Numeric[N]) extends ArrayPowerProduct[N] {
   def one = new Array[N](length + 1)
   def generator(n: Int) = {
     val r = one

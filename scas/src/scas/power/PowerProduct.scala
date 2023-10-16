@@ -1,10 +1,9 @@
 package scas.power
 
-import scala.reflect.ClassTag
 import scas.structure.ordered.Monoid
 import scas.util.{Conversion, unary_~}
 
-trait PowerProduct[M : ClassTag] extends impl.PowerProduct[M] with Monoid[M] {
+trait PowerProduct[M] extends impl.PowerProduct[M] with Monoid[M] {
   def apply(x: Int) = {
     assert (x == 1)
     one

@@ -1,10 +1,8 @@
 package scas.power.impl
 
-import scala.reflect.ClassTag
 import scas.math.Numeric
-import scas.util.ClassTagArray
 
-trait Lexicographic[N : Numeric : ClassTag : ClassTagArray] extends ArrayPowerProductWithDegree[N] {
+trait Lexicographic[N : Numeric] extends ArrayPowerProductWithDegree[N] {
   def compare(x: Array[N], y: Array[N]) = {
     var i = length
     while (i > 0) {

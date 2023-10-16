@@ -2,19 +2,19 @@ package scas.power
 
 import scala.reflect.ClassTag
 import scas.math.Numeric
-import scas.util.{ClassTagArray, unary_~}
+import scas.util.unary_~
 import scas.variable.Variable
 
-class Lexicographic[N : Numeric : ClassTag : ClassTagArray](val variables: Variable*) extends impl.Lexicographic[N] with PowerProduct[Array[N]] {
+class Lexicographic[N : Numeric : ClassTag](val variables: Variable*) extends impl.Lexicographic[N] with PowerProduct[Array[N]] {
   given instance: Lexicographic[N] = this
 }
 
 object Lexicographic {
-  def apply[N : Numeric : ClassTag : ClassTagArray](degree: N)(s: String*) = new Lexicographic[N](s.map(~_): _*)
+  def apply[N : Numeric : ClassTag](degree: N)(s: String*) = new Lexicographic[N](s.map(~_): _*)
 
-  class Impl[N : Numeric : ClassTag : ClassTagArray](val variables: Variable*) extends impl.Lexicographic[N]
+  class Impl[N : Numeric : ClassTag](val variables: Variable*) extends impl.Lexicographic[N]
 
-  inline def apply[N : Numeric : ClassTag : ClassTagArray](s: String*): Impl[N] = new Impl[N](s.map(~_): _*) {
+  inline def apply[N : Numeric : ClassTag](s: String*): Impl[N] = new Impl[N](s.map(~_): _*) {
     override def compare(x: Array[N], y: Array[N]) = {
       var i = length
       while (i > 0) {
