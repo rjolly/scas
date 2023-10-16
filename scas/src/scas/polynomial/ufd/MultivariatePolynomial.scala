@@ -1,10 +1,9 @@
 package scas.polynomial.ufd
 
-import scala.reflect.ClassTag
 import scas.power.splittable.impl.PowerProduct
 import scas.structure.commutative.impl.UniqueFactorizationDomain
 
-trait MultivariatePolynomial[T[C, M], C, M](using ClassTag[T[C, M]])(using ring: UniqueFactorizationDomain[C], pp: PowerProduct[M]) extends PolynomialOverUFD[T[C, M], C, M] {
+trait MultivariatePolynomial[T[C, M], C, M](using ring: UniqueFactorizationDomain[C], pp: PowerProduct[M]) extends PolynomialOverUFD[T[C, M], C, M] {
   val location = variables.length - 1
   val take = pp.take(location)
   val drop = pp.drop(location)

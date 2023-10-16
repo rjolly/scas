@@ -1,11 +1,10 @@
 package scas.polynomial.ufd
 
-import scala.reflect.ClassTag
 import scas.structure.commutative.impl.UniqueFactorizationDomain
 import scas.power.impl.PowerProduct
 import scas.polynomial.impl.Polynomial
 
-trait PolynomialOverUFD[T : ClassTag, C, M : PowerProduct](using ring: UniqueFactorizationDomain[C]) extends Polynomial[T, C, M] with UniqueFactorizationDomain[T] {
+trait PolynomialOverUFD[T, C, M : PowerProduct](using ring: UniqueFactorizationDomain[C]) extends Polynomial[T, C, M] with UniqueFactorizationDomain[T] {
   def gcd1(x: T, y: T): T
   extension (x: T) def divideAndRemainder(y: T) = {
     if (y.isZero) throw new ArithmeticException("Polynomial divide by zero")

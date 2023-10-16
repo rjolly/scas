@@ -1,11 +1,9 @@
 package scas.polynomial.ufd
 
-import scala.reflect.ClassTag
 import scala.annotation.tailrec
 import scas.structure.commutative.impl.Field
-import scas.power.impl.PowerProduct
 
-trait PolynomialOverField[T : ClassTag, C : Field, M : PowerProduct] extends PolynomialOverUFD[T, C, M] {
+trait PolynomialOverField[T, C : Field, M] extends PolynomialOverUFD[T, C, M] {
   extension (x: T) override def %/ (c: C) = x%* Field[C].inverse(c)
   def monic(x: T) = if (x.isZero) zero else x%/ headCoefficient(x)
   @tailrec final def gcd1(x: T, y: T): T = if (y.isZero) monic(x) else gcd1(y, monic(x.reduce(y)))

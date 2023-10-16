@@ -8,7 +8,7 @@ import scas.polynomial.TreePolynomial.Element
 import scas.power.splittable.Lexicographic
 import scas.util.unary_~
 
-class PolynomialWithSubresGCD[C, M](using ring: UniqueFactorizationDomain[C], pp: PowerProduct[M]) extends TreePolynomial[C, M] with scas.polynomial.ufd.MultivariatePolynomial[Element, C, M] with scas.polynomial.ufd.PolynomialWithSubresGCD[Element[C, M], C, M] with PolynomialOverUFD[Element[C, M], C, M] {
+class PolynomialWithSubresGCD[C : UniqueFactorizationDomain, M : PowerProduct] extends TreePolynomial[C, M] with scas.polynomial.ufd.MultivariatePolynomial[Element, C, M] with scas.polynomial.ufd.PolynomialWithSubresGCD[Element[C, M], C, M] with PolynomialOverUFD[Element[C, M], C, M] {
   given instance: PolynomialWithSubresGCD[C, M] = this
   def newInstance = [C] => (ring: UniqueFactorizationDomain[C], pp: PowerProduct[M]) => new PolynomialWithSubresGCD(using ring, pp)
 }

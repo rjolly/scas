@@ -1,13 +1,11 @@
 package scas.polynomial.ufd
 
-import scala.reflect.ClassTag
 import scas.structure.commutative.impl.UniqueFactorizationDomain
-import scas.power.impl.PowerProduct
 import scala.annotation.tailrec
 import scas.base.BigInteger
 import BigInteger.given
 
-trait PolynomialWithSubresGCD[T : ClassTag, C, M : PowerProduct](using ring: UniqueFactorizationDomain[C]) extends PolynomialOverUFD[T, C, M] {
+trait PolynomialWithSubresGCD[T, C, M](using ring: UniqueFactorizationDomain[C]) extends PolynomialOverUFD[T, C, M] {
   @tailrec final def gcd1(x: T, y: T): T = if (degree(x) < degree(y)) gcd1(y, x) else gcd(x, y, ring.one, ring.one)
   @tailrec final def gcd(x: T, y: T, beta: C, phi: C): T = if (y.isZero) x else if (x.isZero) y else {
     val d = degree(x) - degree(y)

@@ -3,12 +3,10 @@ package scas.polynomial.impl
 import java.util.TreeMap
 import scala.jdk.CollectionConverters.MapHasAsScala
 import scala.annotation.targetName
-import scala.reflect.ClassTag
 import scala.math.Ordering
-import scas.structure.impl.Ring
 import scas.power.impl.PowerProduct
 
-trait SolvablePolynomial[T : ClassTag, C : Ring, M](using pp: PowerProduct[M]) extends Polynomial[T, C, M] {
+trait SolvablePolynomial[T, C, M](using pp: PowerProduct[M]) extends Polynomial[T, C, M] {
   import pp.dependencyOnVariables
   type Key = (Int, Int)
   case class Relation(e: M, f: M, p: T) {
