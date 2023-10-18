@@ -13,6 +13,7 @@ polypower.txt
 polypower_scas.txt
 polypower_jaspp.txt
 polypower_rings.txt
+an.txt
 gcd_subres.txt
 gcd_multivariate.txt
 univariate_polynomial.txt
