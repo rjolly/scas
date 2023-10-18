@@ -27,7 +27,6 @@
 	<xsl:text>true</xsl:text>
 </xsl:template>
 
-
 <xsl:template match="m:false">
 	<xsl:text>false</xsl:text>
 </xsl:template>

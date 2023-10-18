@@ -5,7 +5,6 @@ import scala.reflect.ClassTag
 import scas.structure.impl.Ring
 import scas.power.impl.PowerProduct
 import scas.variable.Variable
-import scas.prettyprint.Level
 import scas.base.BigInteger
 import BigInteger.given
 

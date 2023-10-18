@@ -11,7 +11,7 @@ trait Residue[T](using ring: UniqueFactorizationDomain[T]) extends UniqueFactori
     def subtract(y: T) = this(ring.subtract(x)(y))
     def multiply(y: T) = this(ring.multiply(x)(y))
   }
-  def equiv(x: T, y: T) = ring.equiv(x, y)
+  def equiv(x: T, y: T) = ring.equiv(x - y, ring.zero)
   extension (x: T) {
     def toCode(level: Level) = ring.toCode(x)(level)
     def toMathML = ring.toMathML(x)

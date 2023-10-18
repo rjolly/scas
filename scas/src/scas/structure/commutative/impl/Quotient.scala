@@ -1,9 +1,8 @@
 package scas.structure.commutative.impl
 
+import scas.structure.commutative.Quotient.Element
 import scas.base.BigInteger
 import BigInteger.given
-import scas.prettyprint.Level
-import scas.structure.commutative.Quotient.Element
 
 trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends Field[Element[T]] {
   def apply(n: T) = Element(n, ring.one)
@@ -73,7 +72,7 @@ trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends Field[Elemen
       if (level > Level.Multiplication) fenced(s) else s
     }
   }
-  override def toString = s"$ring()"
+  override def toString = s"${ring}()"
   extension (x: Element[T]) def toMathML = {
     val Element(n, d) = x
     if (d.isOne) n.toMathML else s"<apply><divide/>${n.toMathML}${d.toMathML}</apply>"

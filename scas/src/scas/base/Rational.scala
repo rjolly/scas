@@ -3,7 +3,6 @@ package scas.base
 import scas.structure.commutative.ordered.impl.Quotient
 import scas.structure.commutative.Quotient.Element
 import scas.util.{Conversion, unary_~}
-import scas.prettyprint.Level
 import BigInteger.given
 
 type Rational = Element[BigInteger]
