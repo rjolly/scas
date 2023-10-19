@@ -4,7 +4,7 @@ import scas.polynomial.tree.SolvablePolynomial
 import BigInteger.given
 
 val r = SolvablePolynomial.weylAlgebra(BigInteger)("a", "x", "b", "y")
-val List(a, x, b, y) = r.generators.toList
+val List(a, x, b, y) = r.generators
 import r.given
 
 assert (b * a + y * x >< 2+a*b+x*y)

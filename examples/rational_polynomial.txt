@@ -5,7 +5,7 @@ import BigInteger.given
 import Rational.given
 
 val r = Polynomial(using Rational, Lexicographic[Int]("x"))
-val List(x) = r.generators.toList
+val List(x) = r.generators
 import r.given
 
 assert (x + 1%%2 >< 1%%2 + x)

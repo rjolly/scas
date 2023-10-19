@@ -19,7 +19,7 @@ class AlgebraicNumber[T, C, M](using ring: UnivariatePolynomial[T, C, M]) extend
   def toMathML = s"<msub>${ring.toMathML}<list>${list.map(_.toMathML).mkString}</list></msub>"
 
   extension (ring: Field[C]) def apply(s: T*) = {
-    assert (s == this.ring.generators.toList)
+    assert (s == this.ring.generators)
     this.ring
   }
   extension (ring: UniqueFactorizationDomain[T]) def apply(s: T*) = {

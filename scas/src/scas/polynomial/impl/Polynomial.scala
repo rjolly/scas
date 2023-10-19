@@ -85,7 +85,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
   def toMathML = s"<apply>${ring.toMathML}${pp.toMathML}</apply>"
 
   extension (ring: Ring[C]) def apply(s: T*): Polynomial[T, C, M] = {
-    assert (s == generators.toList)
+    assert (s == generators)
     this
   }
 

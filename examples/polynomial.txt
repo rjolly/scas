@@ -6,7 +6,7 @@ import jas.{BigInteger, poly2scas}
 import BigInteger.given
 
 val r = poly2scas(new GenPolynomialRing(BigInteger.factory, Array("x", "y", "z"), TermOrderByName.INVLEX))
-val Array(one, x, y, z) = r.gens
+val List(one, x, y, z) = r.gens
 import r.given
 
 assert(x + 1 >< 1 + x)
@@ -16,7 +16,7 @@ assert(x + one >< one + x)
 assert(x > one)
 
 val s = poly2scas(new GenPolynomialRing(r.factory, Array("a"), TermOrderByName.INVLEX))
-val Array(_, a) = s.gens
+val List(_, a) = s.gens
 import s.given
 
 assert(a + 1 >< 1 + a)
