@@ -102,7 +102,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
 
   extension (x: T) def toSeq = this.iterator(x).toSeq
 
-  def variables = pp.variables
+  export pp.variables
 
   def size(x: T): Int
 

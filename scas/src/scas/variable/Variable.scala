@@ -1,9 +1,11 @@
 package scas.variable
 
-import scas.structure.Structure
+import scas.structure.impl.Structure
 
-trait Variable {
+abstract class Variable {
   def toMathML: String
+  override def hashCode = toString.hashCode
+  override def equals(that: Any) = toString.equals(that.toString)
 }
 
 object Variable {

@@ -1,0 +1,6 @@
+import scas.base.{BigInteger, Rational, Complex}
+import BigInteger.given
+import Rational.given
+import Complex.{sqrt, given}
+
+assert ((1+sqrt(-1))/(1-sqrt(-1)) >< sqrt(-1))
