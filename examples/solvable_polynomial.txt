@@ -1,9 +1,9 @@
 import scas.base.BigInteger
 import scas.power.Lexicographic
-import scas.polynomial.tree.WeylAlgebra
+import scas.polynomial.tree.SolvablePolynomial
 import BigInteger.given
 
-val r = WeylAlgebra(using BigInteger, Lexicographic[Int]("a", "x", "b", "y"))
+val r = SolvablePolynomial.weylAlgebra(BigInteger)("a", "x", "b", "y")
 val List(a, x, b, y) = r.generators.toList
 import r.given
 
