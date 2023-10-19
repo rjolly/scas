@@ -2,7 +2,7 @@ import scas.power.Lexicographic
 import scas.variable.Variable
 
 val m = new Lexicographic[Int]((for (i <- 0 until 4; j <- 0 until 2) yield Variable("a", Array(i, j): _*)): _*)
-val a = m.generators.toList.grouped(2).toList
+val a = m.generators.grouped(2).toList
 val s = (for (i <- 0 until 4; j <- 0 until 2) yield a(i)(j)).toList
 import m.given
 

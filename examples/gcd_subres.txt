@@ -3,7 +3,7 @@ import scas.polynomial.tree.MultivariatePolynomial
 import BigInteger.given
 
 val r = MultivariatePolynomial.withSubresGCD(BigInteger)("x")
-val List(x) = r.generators.toList
+val List(x) = r.generators
 import r.{gcd, given}
 
 assert (gcd(0, 0) >< 0)

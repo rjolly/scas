@@ -6,7 +6,7 @@ import BigInteger.given
 import Rational.given
 
 val r = Polynomial(using Rational, Lexicographic[Int]("x"))
-val List(x) = r.generators.toList
+val List(x) = r.generators
 import r.given
 
 val s = new ArrayModule(using Rational(x))(2)

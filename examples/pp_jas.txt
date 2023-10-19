@@ -6,7 +6,7 @@ import scas.base.BigInteger
 import BigInteger.given
 
 val m = PowerProduct("x")(TermOrderByName.LEX)
-val Array(x) = m.generators
+val List(x) = m.generators
 import m.given
 
 assert(x > 1)
