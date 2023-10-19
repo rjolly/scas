@@ -4,7 +4,7 @@ import scas.polynomial.tree.Polynomial
 import BigInteger.given
 
 val r = Polynomial(using ModInteger("2"), Lexicographic[Int]("x"))
-val List(x) = r.generators.toList
+val List(x) = r.generators
 import r.given
 
 assert(1 + x + 1 >< x)

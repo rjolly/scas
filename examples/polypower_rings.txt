@@ -5,7 +5,7 @@ import rings.{BigInteger, MultivariatePolynomialRing}
 import BigInteger.given
 
 val r = new MultivariatePolynomialRing(MonomialOrder.LEX, "x", "y", "z")(using BigInteger)
-val Array(x, y, z) = r.gens
+val List(x, y, z) = r.gens
 import r.given
 
 val p = 1 + x + y + z

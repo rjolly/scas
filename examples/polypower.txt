@@ -6,7 +6,7 @@ import jas.{BigInteger, coef2poly, poly2scas}
 import BigInteger.{int2bigInt, long2bigInt, bigInt2scas}
 
 given r: GenPolynomialRing[BigInteger](BigInteger.factory, Array("x", "y", "z"), TermOrderByName.INVLEX)
-val Array(one, x, y, z) = poly2scas(r).gens
+val List(one, x, y, z) = poly2scas(r).gens
 
 val p = 1 + x + y + z
 // val p = 1 + x \ 2147483647 + y \ 2147483647 + z \ 2147483647

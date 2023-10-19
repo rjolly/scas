@@ -4,7 +4,7 @@ import BigInteger.given
 import Rational.given
 
 val r = AlgebraicNumber(Rational)("x")
-val List(x) = r.generators.toList
+val List(x) = r.generators
 import r.given
 r.update(2-x\2)
 
