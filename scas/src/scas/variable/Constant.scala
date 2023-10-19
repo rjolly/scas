@@ -2,7 +2,7 @@ package scas.variable
 
 import Variable.toMathML
 
-case class Constant(name: String, prime: Int, subscript: Int*) extends Variable {
+class Constant(name: String, prime: Int, subscript: Int*) extends Variable {
   override def toString = name + (for (i <- 0 until prime) yield "I").mkString + subscript.map("(" + _ + ")").mkString
   def toMathML = s"<ci>${bodyToMathML}</ci>"
   def bodyToMathML = if (subscript.isEmpty) namePrimeToMathML else s"<msub><mi>${namePrimeToMathML}</mi><mrow>${subscriptToMathML}</mrow></msub>"
