@@ -14,4 +14,8 @@ trait UnivariatePolynomial[T : ClassTag, C, M](using ring: Field[C], pp: PowerPr
     assert (p.isOne)
     e(0)
   }
+  extension (ring: Field[C]) def apply(s: T*) = {
+    assert (s == generators)
+    this
+  }
 }
