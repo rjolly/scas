@@ -5,7 +5,14 @@ import scas.power.impl.PowerProduct
 import scas.polynomial.Polynomial
 import scas.polynomial.impl.TreePolynomial
 import scas.polynomial.TreePolynomial.Element
+import scas.power.Lexicographic
+import scas.util.unary_~
 
 class SolvablePolynomial[C : Ring, M : PowerProduct] extends TreePolynomial[C, M] with scas.polynomial.impl.SolvablePolynomial[Element[C, M], C, M] with Polynomial[Element[C, M], C, M] {
   given instance: SolvablePolynomial[C, M] = this
+}
+
+object SolvablePolynomial {
+  def apply[C](ring: Ring[C])(s: String*) = new SolvablePolynomial(using ring, new Lexicographic[Int](s.map(~_): _*))
+  def weylAlgebra[C](ring: Ring[C])(s: String*) = new WeylAlgebra(using ring, new Lexicographic[Int](s.map(~_): _*))
 }
