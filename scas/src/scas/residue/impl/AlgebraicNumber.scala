@@ -2,7 +2,7 @@ package scas.residue.impl
 
 import scas.structure.commutative.impl.UniqueFactorizationDomain
 import scas.structure.commutative.impl.{Residue, Field}
-import scas.polynomial.ufd.UnivariatePolynomial
+import scas.polynomial.impl.UnivariatePolynomial
 
 class AlgebraicNumber[T, C, M](using ring: UnivariatePolynomial[T, C, M]) extends Residue[T] with Field[T] {
   var list = List.empty[T]

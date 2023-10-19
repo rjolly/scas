@@ -1,9 +1,8 @@
-package scas.polynomial.ufd
+package scas.polynomial.impl
 
 import scala.reflect.ClassTag
 import scala.annotation.targetName
 import scas.module.impl.ArrayModule
-import scas.polynomial.impl.Polynomial
 import scas.structure.commutative.impl.Field
 import scas.power.impl.PowerProduct
 import PolynomialWithRepr.Element

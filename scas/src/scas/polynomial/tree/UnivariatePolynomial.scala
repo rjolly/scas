@@ -8,7 +8,7 @@ import scas.polynomial.TreePolynomial.Element
 import scas.power.Lexicographic
 import scas.util.unary_~
 
-class UnivariatePolynomial[C : Field, M : PowerProduct] extends TreePolynomial[C, M] with scas.polynomial.ufd.UnivariatePolynomial[Element[C, M], C, M] with PolynomialOverUFD[Element[C, M], C, M] {
+class UnivariatePolynomial[C : Field, M : PowerProduct] extends TreePolynomial[C, M] with scas.polynomial.impl.UnivariatePolynomial[Element[C, M], C, M] with PolynomialOverUFD[Element[C, M], C, M] {
   given instance: UnivariatePolynomial[C, M] = this
 }
 
