@@ -1,4 +1,4 @@
-package scas.polynomial.ufd
+package scas.polynomial.impl
 
 import scala.reflect.ClassTag
 import scas.structure.commutative.impl.{Field, EuclidianDomain}

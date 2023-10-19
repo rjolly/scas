@@ -1,8 +1,7 @@
-package scas.polynomial.ufd
+package scas.polynomial.impl
 
 import scas.structure.commutative.impl.UniqueFactorizationDomain
 import scas.power.impl.PowerProduct
-import scas.polynomial.impl.Polynomial
 
 trait PolynomialOverUFD[T, C, M : PowerProduct](using ring: UniqueFactorizationDomain[C]) extends Polynomial[T, C, M] with UniqueFactorizationDomain[T] {
   def gcd1(x: T, y: T): T
