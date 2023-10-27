@@ -2,12 +2,13 @@ package scas.residue.tree
 
 import scas.power.impl.PowerProduct
 import scas.structure.commutative.impl.Field
-import scas.residue.impl.TreeAlgebraicNumber
+import scas.polynomial.tree.UnivariatePolynomial
 import scas.polynomial.TreePolynomial.Element
 import scas.power.Lexicographic
 import scas.variable.Variable
 
-class AlgebraicNumber[C : Field, M : PowerProduct] extends TreeAlgebraicNumber[C, M] with scas.residue.AlgebraicNumber[Element[C, M], C, M] {
+class AlgebraicNumber[C : Field, M : PowerProduct] extends scas.residue.AlgebraicNumber[Element[C, M], C, M] {
+  given ring: UnivariatePolynomial[C, M] = new UnivariatePolynomial[C, M]
   given instance: AlgebraicNumber[C, M] = this
 }
 

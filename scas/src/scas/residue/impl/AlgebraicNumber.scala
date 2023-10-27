@@ -5,17 +5,18 @@ import scas.structure.commutative.impl.{Residue, Field}
 import scas.polynomial.impl.UnivariatePolynomial
 import scas.variable.Variable
 
-class AlgebraicNumber[T, C, M](using val ring: UnivariatePolynomial[T, C, M]) extends Residue[T] with Field[T] {
+trait AlgebraicNumber[T, C, M] extends Residue[T] with Field[T] {
+  given ring: UnivariatePolynomial[T, C, M]
   var list = List.empty[T]
-  export ring.{generator, generators, variables}
+  def generators = ring.generators
   def update(mod: T): Unit = {
     // assert mod is irreducible
     list = List(mod)
   }
   def sqrt(x: T) = {
-    val n = variables.indexOf(Variable.sqrt(x))
+    val n = ring.variables.indexOf(Variable.sqrt(x))
     assert (n > -1)
-    generator(n)
+    ring.generator(n)
   }
   def apply(x: T) = x.reduce(list)
   def characteristic = ring.characteristic

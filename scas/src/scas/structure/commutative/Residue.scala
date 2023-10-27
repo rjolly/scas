@@ -1,3 +1,3 @@
 package scas.structure.commutative
 
-trait Residue[T : impl.UniqueFactorizationDomain] extends impl.Residue[T] with UniqueFactorizationDomain[T]
+trait Residue[T] extends impl.Residue[T] with UniqueFactorizationDomain[T]
