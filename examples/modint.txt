@@ -1,5 +1,5 @@
 import scas.base.{BigInteger, ModInteger}
-import BigInteger.int2bigInt
+import BigInteger.given
 
 val r = ModInteger("7")
 import r.given
