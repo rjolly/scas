@@ -7,4 +7,5 @@ import scas.polynomial.TreePolynomial.Element
 
 trait TreeAlgebraicNumber[C : Field, M : PowerProduct] extends AlgebraicNumber[Element[C, M], C, M] {
   val ring: UnivariatePolynomial[C, M] = new UnivariatePolynomial[C, M]
+  export ring.coef2poly
 }

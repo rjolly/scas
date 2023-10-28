@@ -24,7 +24,6 @@ trait AlgebraicNumber[T, C, M] extends Residue[T] with Field[T] {
   override def toString = s"${ring}(${list.map(_.show).mkString(", ")})"
   def toMathML = s"<msub>${ring.toMathML}<list>${list.map(_.toMathML).mkString}</list></msub>"
 
-  extension (ring: Field[C]) def apply(s: T*) = this.ring.apply(ring)(s: _*)
   extension (ring: UniqueFactorizationDomain[T]) def apply(s: T*) = {
     assert (s.size == 1 && s(0) >< list(0))
     this

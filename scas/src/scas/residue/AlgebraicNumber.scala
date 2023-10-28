@@ -5,5 +5,4 @@ import scas.util.{Conversion, unary_~}
 
 trait AlgebraicNumber[T, C, M] extends impl.AlgebraicNumber[T, C, M] with Field[T] {
   def sqrt[U: Conversion[T]](x: U) = super.sqrt(~x)
-  given coef2poly[D: Conversion[C]]: (D => T) = x => ring(~x)
 }
