@@ -8,6 +8,7 @@ import scas.power.impl.PowerProduct
 import PolynomialWithRepr.Element
 
 class PolynomialWithRepr[T : ClassTag, C : Field, M : PowerProduct](using factory: Polynomial[T, C, M])(dimension: Int) extends UnivariatePolynomial[Element[T], C, M] {
+  given instance: PolynomialWithRepr[T, C, M] = this
   given module: ArrayModule[T] = new ArrayModule[T](dimension)
   def apply(p: T, n: Int) = (p, module.generator(n))
   def apply(s: (M, C)*) = this(factory(s: _*))

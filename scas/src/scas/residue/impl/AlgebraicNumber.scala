@@ -4,7 +4,9 @@ import scas.structure.commutative.impl.{Residue, Field, UniqueFactorizationDomai
 import scas.polynomial.impl.UnivariatePolynomial
 import scas.variable.Variable
 
-class AlgebraicNumber[T, C, M](using val ring: UnivariatePolynomial[T, C, M]) extends Residue[T] with Field[T] {
+trait AlgebraicNumber[T, C, M] extends Residue[T] with Field[T] {
+  val ring: UnivariatePolynomial[T, C, M]
+  import ring.given
   var list = List.empty[T]
   export ring.{generator, generators, variables}
   def update(mod: T): Unit = {

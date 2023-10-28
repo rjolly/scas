@@ -2,7 +2,8 @@ package scas.structure.commutative.impl
 
 import scas.base.BigInteger
 
-trait Residue[T](using ring: UniqueFactorizationDomain[T]) extends UniqueFactorizationDomain[T] {
+trait Residue[T] extends UniqueFactorizationDomain[T] {
+  val ring: UniqueFactorizationDomain[T]
   def apply(x: T): T
   def fromInt(n: BigInteger) = this(ring.fromInt(n))
   extension (x: T) {

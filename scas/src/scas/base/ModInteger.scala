@@ -4,6 +4,7 @@ import scas.structure.commutative.ordered.{Residue, Field}
 import BigInteger.given
 
 class ModInteger(val mod: BigInteger) extends impl.ModInteger with Residue[BigInteger] with Field[BigInteger] {
+  val ring: BigInteger.type = BigInteger
   given instance: ModInteger = this
 }
 
