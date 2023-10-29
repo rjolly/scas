@@ -14,9 +14,8 @@ type Complex = Element[Rational, Array[Int]]
 object Complex extends Complex.Impl with AlgebraicNumber[Complex, Rational, Array[Int]] with scas.structure.commutative.StarUFD[Complex] {
   given instance: Complex.type = this
   abstract class Impl extends TreeAlgebraicNumber(using Rational, new Lexicographic[Int](Variable.sqrt(BigInteger("-1")))) with StarUFD[Complex] {
-    import ring.pp
-    def real(x: Complex) = ring(x.coefficient(pp.one))
-    def imag(x: Complex) = ring(x.coefficient(pp.generator(0)))
+    def real(x: Complex) = ring(x.coefficient(0))
+    def imag(x: Complex) = ring(x.coefficient(1))
     override def toString = "Complex"
     override def toMathML = "<complexes/>"
   }
