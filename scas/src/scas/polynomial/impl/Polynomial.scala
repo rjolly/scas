@@ -65,7 +65,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
       if (level > Level.Addition) fenced(s) else s
     }
   }
-  override def toString = s"$ring(${pp.variables.mkString(", ")})"
+  override def toString = s"${ring}(${variables.mkString(", ")})"
   extension (x: T) def toMathML = {
     var s = ring.zero.toMathML
     var n = 0
