@@ -1,6 +1,7 @@
 package scas.structure.commutative.impl
 
 trait UniqueFactorizationDomain[T] extends scas.structure.impl.NotQuiteField[T] {
+  given instance: UniqueFactorizationDomain[T]
   def gcd(x: T, y: T): T
   def lcm(x: T, y: T) = (x * y) / gcd(x, y)
   extension (x: T) {
