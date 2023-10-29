@@ -1,7 +1,7 @@
 package scas.quotient.impl
 
 import scas.structure.commutative.Quotient.Element
-import scas.structure.commutative.impl.Quotient
+import scas.structure.commutative.impl.{Field, Quotient}
 import scas.polynomial.impl.PolynomialOverField
 
 class RationalFunction[T, C, M](using ring: PolynomialOverField[T, C, M]) extends Quotient[T] {
@@ -13,4 +13,11 @@ class RationalFunction[T, C, M](using ring: PolynomialOverField[T, C, M]) extend
   }
   def generator(n: Int) = this(ring.generator(n))
   def generators = ring.generators.map(apply)
+  override def toString = ring.toString
+  def toMathML = ring.toMathML
+
+  extension (ring: Field[C]) def apply(s: Element[T]*): RationalFunction[T, C, M] = {
+    assert (s == generators)
+    this
+  }
 }

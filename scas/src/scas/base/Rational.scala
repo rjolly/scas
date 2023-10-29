@@ -27,7 +27,7 @@ object Rational extends Rational.Impl with scas.structure.commutative.ordered.Qu
       val Rational(n, d) = x
       if (d.isOne) n.toMathML else s"""<cn type="rational">$n<sep/>$d</cn>"""
     }
-    override def toMathML = "<rationals/>"
+    def toMathML = "<rationals/>"
   }
   extension[U: Conversion[BigInteger]] (a: U) {
     def %%[V: Conversion[BigInteger]](b: V) = this(~a, ~b)
