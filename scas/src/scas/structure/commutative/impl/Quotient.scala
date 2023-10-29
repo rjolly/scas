@@ -72,14 +72,13 @@ trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends Field[Elemen
       if (level > Level.Multiplication) fenced(s) else s
     }
   }
-  override def toString = s"${ring}()"
+  override def toString = s"${ring}.quotient()"
   extension (x: Element[T]) def toMathML = {
     val Element(n, d) = x
     if (d.isOne) n.toMathML else s"<apply><divide/>${n.toMathML}${d.toMathML}</apply>"
   }
-  def toMathML = s"<apply>${ring.toMathML}<list/></apply>"
   def zero = this(ring.zero)
   def one = this(ring.one)
 
-  extension (ring: UniqueFactorizationDomain[T]) def apply() = this
+  extension (ring: UniqueFactorizationDomain[T]) def quotient() = this
 }

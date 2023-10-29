@@ -5,12 +5,12 @@ import BigInteger.given
 import Rational.given
 
 val r = UnivariatePolynomial(Rational)("x")
+val List(x) = r.generators
 import r.given
 
-val s = Quotient(using r)
-val List(x) = s.generators
+val s = Quotient(using Rational(x))
 import s.given
 
 assert ((x/(2*x)).show == "1%%2")
-assert (s.toString == Rational(x)().toString)
-assert (s.math == Rational(x)().math)
+assert (s.toString == Rational(x).quotient().toString)
+assert (s.math == Rational(x).quotient().math)

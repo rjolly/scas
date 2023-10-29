@@ -263,6 +263,16 @@
 	<xsl:text>)</xsl:text>
 </xsl:template>
 
+<xsl:template match="m:apply[*[2][self::m:mfenced]]">
+	<xsl:apply-templates select="*[1]"/>
+	<xsl:text>(</xsl:text>
+	<xsl:for-each select="*[2]/*">
+		<xsl:apply-templates select="."/>
+		<xsl:if test="position() &lt; last()"><xsl:text>, </xsl:text></xsl:if>
+	</xsl:for-each>
+	<xsl:text>).quotient()</xsl:text>
+</xsl:template>
+
 <xsl:template match="m:apply[*[2][self::m:list]]">
 	<xsl:apply-templates select="*[1]"/>
 	<xsl:text>(</xsl:text>

@@ -12,4 +12,5 @@ trait Quotient[T, C, M](using ring: PolynomialOverField[T, C, M]) extends scas.s
   }
   def generator(n: Int) = this(ring.generator(n))
   def generators = ring.generators.map(apply)
+  def toMathML = ring.toMathML(true)
 }
