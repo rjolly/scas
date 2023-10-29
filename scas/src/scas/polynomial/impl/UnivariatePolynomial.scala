@@ -8,5 +8,5 @@ trait UnivariatePolynomial[T, C, M](using ring: Field[C], val pp: PowerProduct[M
   assert (variables.length == 1)
   def derivative(x: T) = x.map((a, b) => (a / pp.generator(0), b * ring.fromInt(pp.degree(a))))
   override def gcd(x: T, y: T) = gcd1(x, y)
-  @tailrec final def gcd1(x: T, y: T): T = if (y.isZero) monic(x) else gcd1(y, monic(x.reduce(y)))
+  @tailrec final def gcd1(x: T, y: T): T = if (y.isZero) x else gcd1(y, x.reduce(y))
 }
