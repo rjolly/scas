@@ -12,5 +12,5 @@ val List(x) = s.generators
 import s.given
 
 assert ((x/(2*x)).show == "1%%2")
-assert (s.toString == Rational(x)().toString)
-assert (s.math == Rational(x)().math)
+assert (s.toString == Rational(x).toString)
+assert (s.math == Rational(x).math)
