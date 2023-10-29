@@ -7,8 +7,9 @@ import scas.polynomial.impl.PolynomialOverField
 class RationalFunction[T, C, M](using ring: PolynomialOverField[T, C, M]) extends Quotient[T] {
   override def apply(x: Element[T]) = {
     val Element(n, d) = x
-    val c = ring.gcd(n, d)%* ring.lastCoefficient(d)
-    Element(n / c, d / c)
+    val c = ring.gcd(n, d)
+    val gcd = c%/ ring.lastCoefficient(c)%* ring.lastCoefficient(d)
+    Element(n / gcd, d / gcd)
   }
   def generator(n: Int) = this(ring.generator(n))
   def generators = ring.generators.map(apply)
