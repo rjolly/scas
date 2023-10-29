@@ -8,6 +8,7 @@ trait MultivariatePolynomial[T[C, M], C, M](using ring: UniqueFactorizationDomai
   val take = pp.take(location)
   val drop = pp.drop(location)
   def newInstance: [C] => (UniqueFactorizationDomain[C], PowerProduct[M]) => MultivariatePolynomial[T, C, M]
+  def gcd1(x: T[C, M], y: T[C, M]): T[C, M]
   override def gcd(x: T[C, M], y: T[C, M]) = if (location > 0) {
     val s = newInstance(newInstance(ring, take), drop)
     s.gcd(x.convertTo(using s), y.convertTo(using s)).convertFrom(s)

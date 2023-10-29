@@ -4,7 +4,6 @@ import scas.structure.commutative.impl.UniqueFactorizationDomain
 import scas.power.impl.PowerProduct
 
 trait PolynomialOverUFD[T, C, M : PowerProduct](using ring: UniqueFactorizationDomain[C]) extends Polynomial[T, C, M] with UniqueFactorizationDomain[T] {
-  def gcd1(x: T, y: T): T
   extension (x: T) def divideAndRemainder(y: T) = {
     if (y.isZero) throw new ArithmeticException("Polynomial divide by zero")
     else if (x.isZero) (zero, zero)

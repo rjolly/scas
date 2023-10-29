@@ -1,10 +1,10 @@
 package scas.residue.impl
 
 import scas.structure.commutative.impl.{Residue, Field, UniqueFactorizationDomain}
-import scas.polynomial.impl.UnivariatePolynomial
+import scas.polynomial.impl.PolynomialOverField
 import scas.variable.Variable
 
-class AlgebraicNumber[T, C, M](using val ring: UnivariatePolynomial[T, C, M]) extends Residue[T] with Field[T] {
+class AlgebraicNumber[T, C, M](using val ring: PolynomialOverField[T, C, M]) extends Residue[T] with Field[T] {
   var list = List.empty[T]
   export ring.{generator, generators, variables}
   def update(mod: T): Unit = {
