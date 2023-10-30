@@ -4,7 +4,7 @@ import scas.structure.commutative.impl.{Residue, Field, UniqueFactorizationDomai
 import scas.polynomial.impl.PolynomialOverField
 import scas.variable.Variable
 
-class AlgebraicNumber[T, C, M](using val ring: PolynomialOverField[T, C, M]) extends Residue[T] with Field[T] {
+trait AlgebraicNumber[T, C, M](using val ring: PolynomialOverField[T, C, M]) extends Residue[T] with Field[T] {
   var list = List.empty[T]
   export ring.{generator, generators, variables}
   def update(mod: T): Unit = {
@@ -22,7 +22,6 @@ class AlgebraicNumber[T, C, M](using val ring: PolynomialOverField[T, C, M]) ext
   override def toString = s"${ring}(${list.map(_.show).mkString(", ")})"
   def toMathML = s"<msub>${ring.toMathML}<list>${list.map(_.toMathML).mkString}</list></msub>"
 
-  extension (ring: Field[C]) def apply(s: T*) = this.ring.apply(ring)(s: _*)
   extension (ring: UniqueFactorizationDomain[T]) def apply(s: T*) = {
     assert (s.size == 1 && s(0) >< list(0))
     this
