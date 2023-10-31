@@ -10,9 +10,9 @@ trait PartialOrdering[T] extends impl.PartialOrdering[T] with Equiv[T] {
     inline def > [U: Conversion[T]](y: U) = gt(x, ~y)
   }
   extension [U: Conversion[T]](x: U) {
-    inline def <=(y: T) = lteq(~x, y)
-    inline def >=(y: T) = gteq(~x, y)
-    inline def < (y: T) = lt(~x, y)
-    inline def > (y: T) = gt(~x, y)
+    inline def <=[V: Conversion[T]](y: V) = lteq(~x, ~y)
+    inline def >=[V: Conversion[T]](y: V) = gteq(~x, ~y)
+    inline def < [V: Conversion[T]](y: V) = lt(~x, ~y)
+    inline def > [V: Conversion[T]](y: V) = gt(~x, ~y)
   }
 }

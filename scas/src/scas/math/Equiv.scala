@@ -8,7 +8,7 @@ trait Equiv[T] extends impl.Equiv[T] {
     inline def <>[U: Conversion[T]](y: U) = !equiv(x, ~y)
   }
   extension[U: Conversion[T]] (x: U) {
-    inline def ><(y: T) = equiv(~x, y)
-    inline def <>(y: T) = !equiv(~x, y)
+    inline def ><[V: Conversion[T]](y: V) = equiv(~x, ~y)
+    inline def <>[V: Conversion[T]](y: V) = !equiv(~x, ~y)
   }
 }

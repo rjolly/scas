@@ -13,8 +13,8 @@ trait UniqueFactorizationDomain[T] extends impl.UniqueFactorizationDomain[T] wit
     inline def | [U: Conversion[T]](y: U) = x.factorOf(~y)
   }
   extension[U: Conversion[T]] (x: U) {
-    inline def % (y: T) = (~x).remainder(y)
-    inline def /%(y: T) = (~x).divideAndRemainder(y)
-    inline def | (y: T) = (~x).factorOf(y)
+    inline def % [V: Conversion[T]](y: V) = (~x).remainder(~y)
+    inline def /%[V: Conversion[T]](y: V) = (~x).divideAndRemainder(~y)
+    inline def | [V: Conversion[T]](y: V) = (~x).factorOf(~y)
   }
 }
