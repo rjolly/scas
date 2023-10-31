@@ -1,5 +1,5 @@
 import scas.base.{BigInteger, Rational}
-import scas.quotient.tree.RationalFunction
+import scas.quotient.RationalFunction
 import BigInteger.given
 import Rational.given
 
