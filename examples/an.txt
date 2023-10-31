@@ -1,5 +1,5 @@
 import scas.base.{BigInteger, Rational}
-import scas.residue.tree.AlgebraicNumber
+import scas.residue.AlgebraicNumber
 import scas.variable.Variable
 import BigInteger.given
 import Rational.given
