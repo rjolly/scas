@@ -2,11 +2,12 @@ package scas.polynomial.tree
 
 import scas.power.splittable.impl.PowerProduct
 import scas.structure.commutative.impl.UniqueFactorizationDomain
+import scas.polynomial.PolynomialOverUFD
 import scas.polynomial.impl.TreePolynomial
 import scas.polynomial.TreePolynomial.Element
 import scas.power.splittable.Lexicographic
 
-abstract class MultivariatePolynomial[C : UniqueFactorizationDomain, M : PowerProduct] extends TreePolynomial[C, M] with scas.polynomial.impl.MultivariatePolynomial[Element, C, M]
+abstract class MultivariatePolynomial[C : UniqueFactorizationDomain, M : PowerProduct] extends TreePolynomial[C, M] with scas.polynomial.impl.MultivariatePolynomial[Element, C, M] with PolynomialOverUFD[Element[C, M], C, M]
 
 object MultivariatePolynomial {
   def apply[C](ring: UniqueFactorizationDomain[C])(s: String*) = new PolynomialWithSimpleGCD(using ring, Lexicographic(0)(s: _*))
