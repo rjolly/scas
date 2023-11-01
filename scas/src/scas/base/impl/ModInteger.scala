@@ -1,7 +1,8 @@
 package scas.base.impl
 
 import scas.structure.commutative.impl.UniqueFactorizationDomain
-import scas.structure.commutative.ordered.impl.{Residue, Field}
+import scas.structure.commutative.ordered.impl.Field
+import scas.structure.commutative.ordered.Residue
 import scas.base.BigInteger
 import BigInteger.given
 
