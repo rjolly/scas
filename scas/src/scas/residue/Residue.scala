@@ -1,7 +1,7 @@
 package scas.residue
 
 import scas.structure.commutative.Field
-import scas.polynomial.impl.PolynomialOverField
+import scas.polynomial.PolynomialOverField
 import scas.util.{Conversion, unary_~}
 
 trait Residue[T, C, M] extends impl.Residue[T, C, M] with Field[T] {

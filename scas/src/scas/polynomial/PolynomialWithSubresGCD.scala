@@ -1,4 +1,4 @@
-package scas.polynomial.impl
+package scas.polynomial
 
 import scas.structure.commutative.impl.UniqueFactorizationDomain
 import scala.annotation.tailrec
