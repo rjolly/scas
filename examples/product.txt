@@ -13,7 +13,7 @@ assert (r.toString == Product(ModInteger("3"), ModInteger("5")).toString)
 assert (r.math == Product(ModInteger("3"), ModInteger("5")).math)
 assert (r.characteristic.intValue == 15)
 
-val s = new ArrayModule(using Product(ModInteger("3"), ModInteger("5")))(2)
+val s = ArrayModule(Product(ModInteger("3"), ModInteger("5")))(2)
 val e = s.generators
 import s.given
 

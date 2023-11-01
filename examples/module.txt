@@ -9,7 +9,7 @@ val r = Polynomial(using Rational, Lexicographic[Int]("x"))
 val List(x) = r.generators
 import r.given
 
-val s = new ArrayModule(using Rational(x))(2)
+val s = ArrayModule(Rational(x))(2)
 val e = s.generators
 import s.given
 

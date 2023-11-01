@@ -3,7 +3,7 @@ import scas.module.{Array, ArrayModule}
 import BigInteger.given
 import Rational.given
 
-val s = new ArrayModule(using Rational)(2)
+val s = ArrayModule(Rational)(2)
 val e = s.generators
 import s.given
 
