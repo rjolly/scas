@@ -1,4 +1,4 @@
-package scas.polynomial.impl
+package scas.polynomial
 
 import scala.reflect.ClassTag
 import scas.structure.commutative.impl.Field

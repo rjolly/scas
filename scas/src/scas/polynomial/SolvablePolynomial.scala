@@ -1,4 +1,4 @@
-package scas.polynomial.impl
+package scas.polynomial
 
 import java.util.TreeMap
 import scala.jdk.CollectionConverters.MapHasAsScala

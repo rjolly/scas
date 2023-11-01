@@ -1,4 +1,4 @@
-package scas.polynomial.impl
+package scas.polynomial
 
 import scala.annotation.tailrec
 import scas.structure.commutative.impl.{Field, EuclidianDomain}

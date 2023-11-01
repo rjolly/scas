@@ -1,6 +1,6 @@
 package scas.quotient.impl
 
-import scas.polynomial.impl.PolynomialOverField
+import scas.polynomial.PolynomialOverField
 import scas.structure.commutative.Quotient.Element
 
 trait Quotient[T, C, M](using ring: PolynomialOverField[T, C, M]) extends scas.structure.commutative.impl.Quotient[T] {

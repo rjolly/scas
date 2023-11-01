@@ -1,7 +1,7 @@
 package scas.residue.impl
 
 import scas.structure.commutative.impl.{Field, UniqueFactorizationDomain}
-import scas.polynomial.impl.PolynomialOverField
+import scas.polynomial.PolynomialOverField
 import scas.variable.Variable
 
 trait Residue[T, C, M](using val ring: PolynomialOverField[T, C, M]) extends scas.structure.commutative.impl.Residue[T] with Field[T] {

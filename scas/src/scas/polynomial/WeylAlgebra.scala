@@ -1,4 +1,4 @@
-package scas.polynomial.impl
+package scas.polynomial
 
 trait WeylAlgebra[T, C, M] extends SolvablePolynomial[T, C, M] {
   val n = variables.length >> 1
