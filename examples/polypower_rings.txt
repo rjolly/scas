@@ -4,7 +4,7 @@ import cc.redberry.rings.poly.multivar.MonomialOrder
 import rings.{BigInteger, MultivariatePolynomialRing}
 import BigInteger.given
 
-val r = new MultivariatePolynomialRing(MonomialOrder.LEX, "x", "y", "z")(using BigInteger)
+val r = MultivariatePolynomialRing(MonomialOrder.LEX, "x", "y", "z")(using BigInteger)
 val List(x, y, z) = r.gens
 import r.given
 

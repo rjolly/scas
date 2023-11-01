@@ -5,9 +5,9 @@ import scas.util.{Conversion, unary_~}
 
 type BigInteger = cc.redberry.rings.bigint.BigInteger
 
-object BigInteger extends BigInteger.Impl with Ring[BigInteger] {
+object BigInteger extends BigInteger.Impl with conversion.Ring[BigInteger] {
   given instance: BigInteger.type = this
-  abstract class Impl extends impl.Ring[BigInteger] {
+  abstract class Impl extends Ring[BigInteger] {
     def apply(str: String) = new BigInteger(str)
     val ring = Rings.Z
   }
