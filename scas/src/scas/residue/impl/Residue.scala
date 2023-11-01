@@ -4,7 +4,7 @@ import scas.structure.commutative.impl.{Field, UniqueFactorizationDomain}
 import scas.polynomial.PolynomialOverField
 import scas.variable.Variable
 
-trait Residue[T, C, M](using val ring: PolynomialOverField[T, C, M]) extends scas.structure.commutative.impl.Residue[T] with Field[T] {
+trait Residue[T, C, M](using val ring: PolynomialOverField[T, C, M]) extends scas.structure.commutative.Residue[T] with Field[T] {
   var list = List.empty[T]
   export ring.generators
   def update(mod: T): Unit = {
