@@ -1,6 +1,6 @@
 package scas.polynomial.tree
 
-import scas.power.impl.PowerProduct
+import scas.power.PowerProduct
 import scas.structure.commutative.impl.Field
 import scas.polynomial.PolynomialOverUFD
 import scas.polynomial.impl.TreePolynomial
@@ -12,5 +12,5 @@ class UnivariatePolynomial[C : Field, M : PowerProduct] extends TreePolynomial[C
 }
 
 object UnivariatePolynomial {
-  def apply[C](ring: Field[C])(s: String*) = new UnivariatePolynomial(using ring, Lexicographic(0)(s: _*))
+  def apply[C](ring: Field[C])(s: String*) = new UnivariatePolynomial(using ring, Lexicographic[Int](s: _*))
 }

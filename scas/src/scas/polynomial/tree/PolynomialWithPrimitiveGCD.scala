@@ -1,6 +1,6 @@
 package scas.polynomial.tree
 
-import scas.power.splittable.impl.PowerProduct
+import scas.power.splittable.PowerProduct
 import scas.structure.commutative.impl.UniqueFactorizationDomain
 import scas.polynomial.TreePolynomial.Element
 

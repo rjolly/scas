@@ -2,7 +2,7 @@ package scas.polynomial.impl
 
 import scala.reflect.ClassTag
 import scas.structure.commutative.impl.Field
-import scas.power.impl.PowerProduct
+import scas.power.PowerProduct
 
 trait PolynomialOverField[T : ClassTag, C : Field, M : PowerProduct] extends PolynomialOverUFD[T, C, M] {
   extension (x: T) override def %/ (c: C) = x%* Field[C].inverse(c)

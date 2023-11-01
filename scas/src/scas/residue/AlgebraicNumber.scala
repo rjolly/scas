@@ -12,7 +12,7 @@ trait AlgebraicNumber[C, M] extends impl.AlgebraicNumber[C, M] with Residue[Elem
 
 object AlgebraicNumber {
   def apply[C](ring: Field[C])(s: Variable*) = {
-    given UnivariatePolynomial[C, Array[Int]] = new UnivariatePolynomial(using ring, new Lexicographic[Int](s: _*))
+    given UnivariatePolynomial[C, Array[Int]] = new UnivariatePolynomial(using ring, Lexicographic[Int](s: _*))
     new AlgebraicNumber[C, Array[Int]] {
       given instance: AlgebraicNumber[C, Array[Int]] = this
     }

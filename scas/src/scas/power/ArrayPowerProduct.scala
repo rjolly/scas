@@ -1,4 +1,4 @@
-package scas.power.impl
+package scas.power
 
 import scas.math.Numeric
 

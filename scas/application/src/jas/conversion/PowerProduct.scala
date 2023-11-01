@@ -5,7 +5,7 @@ import edu.jas.poly.{ExpVector, TermOrder}
 import scas.base.BigInteger
 import BigInteger.given
 
-class PowerProduct(val variables: Variable*)(tord: TermOrder) extends scas.power.PowerProduct[ExpVector] {
+class PowerProduct(val variables: Variable*)(tord: TermOrder) extends scas.power.conversion.PowerProduct[ExpVector] {
   given instance: PowerProduct = this
   val comp = tord.getDescendComparator
   def one = ExpVector.create(length)
@@ -24,7 +24,7 @@ class PowerProduct(val variables: Variable*)(tord: TermOrder) extends scas.power
     def projection(n: Int) = ???
     def toCode(level: Level) = x.toString(variables.map(_.toString).toArray)
     def toMathML = ???
-    def convert(from: scas.power.impl.PowerProduct[ExpVector]) = ???
+    def convert(from: scas.power.PowerProduct[ExpVector]) = ???
   }
   def size(x: ExpVector) = x.dependentVariables
 }

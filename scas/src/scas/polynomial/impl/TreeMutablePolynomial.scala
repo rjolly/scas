@@ -3,7 +3,7 @@ package scas.polynomial.impl
 import scala.jdk.CollectionConverters.MapHasAsScala
 import scala.annotation.targetName
 import scas.structure.impl.Ring
-import scas.power.impl.PowerProduct
+import scas.power.PowerProduct
 import scas.polynomial.TreePolynomial.Element
 
 class TreeMutablePolynomial[C, M : PowerProduct](using ring: Ring[C]) extends TreePolynomial[C, M] {

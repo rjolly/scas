@@ -1,7 +1,7 @@
 package scas.polynomial.impl
 
 import scas.structure.commutative.impl.UniqueFactorizationDomain
-import scas.power.impl.PowerProduct
+import scas.power.PowerProduct
 
 trait PolynomialOverUFD[T, C, M : PowerProduct](using ring: UniqueFactorizationDomain[C]) extends Polynomial[T, C, M] with UniqueFactorizationDomain[T] {
   extension (x: T) def divideAndRemainder(y: T) = {

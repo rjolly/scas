@@ -1,7 +1,7 @@
 package scas.polynomial.tree.mutable
 
 import scas.structure.impl.Ring
-import scas.power.impl.PowerProduct
+import scas.power.PowerProduct
 import scas.polynomial.impl.TreeMutablePolynomial
 import scas.polynomial.TreePolynomial.Element
 

@@ -4,7 +4,7 @@ import scala.reflect.ClassTag
 import scala.annotation.targetName
 import scas.module.ArrayModule
 import scas.structure.commutative.impl.Field
-import scas.power.impl.PowerProduct
+import scas.power.PowerProduct
 import PolynomialWithRepr.Element
 
 class PolynomialWithRepr[T : ClassTag, C : Field, M : PowerProduct](using factory: Polynomial[T, C, M])(dimension: Int) extends UnivariatePolynomial[Element[T], C, M] {

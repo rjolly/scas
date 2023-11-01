@@ -1,6 +1,6 @@
 package scas.polynomial.impl
 
-import scas.power.splittable.impl.PowerProduct
+import scas.power.splittable.PowerProduct
 import scas.structure.commutative.impl.UniqueFactorizationDomain
 
 trait MultivariatePolynomial[T[C, M], C, M](using ring: UniqueFactorizationDomain[C], pp: PowerProduct[M]) extends PolynomialOverUFD[T[C, M], C, M] {

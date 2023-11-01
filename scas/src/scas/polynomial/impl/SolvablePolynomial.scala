@@ -4,7 +4,7 @@ import java.util.TreeMap
 import scala.jdk.CollectionConverters.MapHasAsScala
 import scala.annotation.targetName
 import scala.math.Ordering
-import scas.power.impl.PowerProduct
+import scas.power.PowerProduct
 
 trait SolvablePolynomial[T, C, M](using pp: PowerProduct[M]) extends Polynomial[T, C, M] {
   import pp.dependencyOnVariables
