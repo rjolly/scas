@@ -4,10 +4,10 @@ import scas.structure.commutative.impl.Field
 import scas.polynomial.tree.UnivariatePolynomial
 import scas.polynomial.TreePolynomial.Element
 
-class RationalFunction[C, M](using ring: UnivariatePolynomial[C, M]) extends impl.RationalFunction[C, M] with scas.structure.commutative.conversion.Quotient[Element[C, M]] {
-  given instance: RationalFunction[C, M] = this
+trait RationalFunction[C, M](using ring: UnivariatePolynomial[C, M]) extends Quotient[Element[C, M], C, M] {
+  export ring.coef2poly
 }
 
 object RationalFunction {
-  def apply[C](ring: Field[C])(s: String*) = new RationalFunction(using UnivariatePolynomial(ring)(s: _*))
+  def apply[C](ring: Field[C])(s: String*) = new conversion.RationalFunction(using UnivariatePolynomial(ring)(s: _*))
 }
