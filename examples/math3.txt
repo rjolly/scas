@@ -4,7 +4,7 @@ import math3.Matrix
 import scas.base.BigInteger
 import BigInteger.given
 
-val m = new Matrix(3)
+val m = Matrix(3)
 import m.given
 
 val a = m(

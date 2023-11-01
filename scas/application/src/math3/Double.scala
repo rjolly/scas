@@ -3,7 +3,6 @@ package math3
 import java.lang.Math
 import scas.structure.impl.Field
 import scas.base.BigInteger
-import Double.given
 
 object Double extends Double.Impl with scas.structure.Field[Double] {
   given instance: Double.type = this
