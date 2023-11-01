@@ -1,4 +1,4 @@
-package jas
+package jas.conversion
 
 import edu.jas.poly.GenPolynomialRing
 import edu.jas.poly.GenPolynomial
