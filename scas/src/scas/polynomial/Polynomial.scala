@@ -4,6 +4,7 @@ import scala.annotation.{tailrec, targetName}
 import scala.reflect.ClassTag
 import scas.structure.Ring
 import scas.power.PowerProduct
+import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
 import scas.base.BigInteger
 import BigInteger.given
@@ -204,4 +205,6 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
   }
 
   def sort(x: T) = this(x.toSeq.sortBy((s, _) => s)(pp.reverse): _*)
+
+  given coef2poly[D: Conversion[C]]: (D => T) = x => this(~x)
 }

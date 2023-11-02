@@ -34,6 +34,9 @@ trait Matrix extends Algebra[Element, Double] with Field[Element] {
     assert (n == size * size)
     this
   }
+
+  given int2matrix: (Int => Element) = one%* _
+  given double2matrix: (Double => Element) = one%* _
 }
 
 object Matrix {
