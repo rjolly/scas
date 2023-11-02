@@ -2,12 +2,13 @@ package scas.base
 
 import scas.structure.commutative.ordered.Quotient
 import scas.structure.commutative.Quotient.Element
+import scas.structure.commutative.ordered.conversion.Field
 import scas.util.{Conversion, unary_~}
 import BigInteger.given
 
 type Rational = Element[BigInteger]
 
-object Rational extends Rational.Impl with scas.structure.commutative.ordered.conversion.Quotient[BigInteger] {
+object Rational extends Rational.Impl with Field[Rational] {
   given instance: Rational.type = this
   class Impl extends Quotient[BigInteger] {
     def apply(n: String): Rational = this(BigInteger(n))
