@@ -8,7 +8,7 @@ val r = UnivariatePolynomial(Rational)("x")
 val List(x) = r.generators
 import r.given
 
-val s = Residue(using Rational(x))(2-x\2)
+val s = Residue(Rational(x))(2-x\2)
 import s.given
 
 assert (2 >< x\2)

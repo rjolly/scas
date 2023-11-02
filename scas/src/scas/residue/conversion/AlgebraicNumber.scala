@@ -1,7 +1,7 @@
 package scas.residue.conversion
 
-import scas.polynomial.TreePolynomial.Element
+import scas.polynomial.PolynomialOverField
 
-trait AlgebraicNumber[C, M] extends scas.residue.AlgebraicNumber[C, M] with Residue[Element[C, M], C, M] {
-  given instance: AlgebraicNumber[C, M]
+class AlgebraicNumber[T, C, M](using PolynomialOverField[T, C, M]) extends Residue[T, C, M] {
+  given instance: AlgebraicNumber[T, C, M] = this
 }
