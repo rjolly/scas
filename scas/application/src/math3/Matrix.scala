@@ -3,7 +3,8 @@ package math3
 import org.apache.commons.math3.linear.Array2DRowRealMatrix
 import org.apache.commons.math3.linear.MatrixUtils
 import org.apache.commons.math3.linear.RealMatrix
-import scas.structure.impl.{Algebra, Ring, Field}
+import scas.structure.impl.{Ring, Field}
+import scas.structure.Algebra
 import scas.base.BigInteger
 import Matrix.Element
 

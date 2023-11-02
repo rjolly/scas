@@ -1,3 +1,5 @@
 package scas.structure
 
-trait AlgebraOverRing[T, R : impl.Ring] extends impl.AlgebraOverRing[T, R] with Module[T, R] with SemiGroup[T]
+import impl.SemiGroup
+
+trait AlgebraOverRing[T, R : Ring] extends Module[T, R] with SemiGroup[T]
