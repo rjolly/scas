@@ -1,12 +1,12 @@
 package scas.polynomial.tree
 
 import scas.power.{PowerProduct, Lexicographic}
+import scas.structure.commutative.conversion.UniqueFactorizationDomain
 import scas.structure.commutative.Field
-import scas.polynomial.conversion.PolynomialOverUFD
 import scas.polynomial.TreePolynomial
 import TreePolynomial.Element
 
-class UnivariatePolynomial[C : Field, M : PowerProduct] extends TreePolynomial[C, M] with scas.polynomial.UnivariatePolynomial[Element[C, M], C, M] with PolynomialOverUFD[Element[C, M], C, M] {
+class UnivariatePolynomial[C : Field, M : PowerProduct] extends TreePolynomial[C, M] with scas.polynomial.UnivariatePolynomial[Element[C, M], C, M] with UniqueFactorizationDomain[Element[C, M]] {
   given instance: UnivariatePolynomial[C, M] = this
 }
 
