@@ -4,7 +4,7 @@ import edu.jas.structure.RingElem
 import edu.jas.structure.RingFactory
 import scas.base.BigInteger
 
-trait Ring[T <: RingElem[T]] extends scas.structure.ordered.impl.Ring[T] {
+trait Ring[T <: RingElem[T]] extends scas.structure.ordered.Ring[T] {
   def factory: RingFactory[T]
   def fromInt(n: BigInteger) = factory.fromInteger(n)
   extension (x: T) {
