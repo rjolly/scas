@@ -1,7 +1,5 @@
 package scas.structure
 
-import impl.{Ring, AbelianGroup}
-
 trait Module[T, R : Ring] extends AbelianGroup[T] {
   extension (x: R) def multiplyLeft(y: T): T
   extension (x: T) def multiplyRight(y: R): T

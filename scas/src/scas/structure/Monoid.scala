@@ -1,17 +1,25 @@
 package scas.structure
 
-import scas.util.{Conversion, unary_~}
 import scas.base.BigInteger
+import BigInteger.given
 
-trait Monoid[T] extends impl.Monoid[T] with SemiGroup[T] {
+trait Monoid[T] extends SemiGroup[T] {
   extension (a: T) {
-    def \ [U: Conversion[BigInteger]](b: U) = a.pow(~b)
-    def \:[U: Conversion[BigInteger]](b: U) = a \ b
+    def pow(b: BigInteger): T = {
+      assert (b.signum >= 0)
+      if (b.isZero) one else if ((b % 2).isZero) {
+        val c = a \ (b / 2)
+        c * c
+      } else {
+        a * a \ (b - 1)
+      }
+    }
+    def \ (b: BigInteger) = a.pow(b)
+    def \:(b: BigInteger) = a \ b
   }
-  extension[U: Conversion[T]] (a: U) {
-    def \ [V: Conversion[BigInteger]](b: V) = (~a).pow(~b)
+  extension (x: T) {
+    def isUnit: Boolean
+    def isOne = x >< one
   }
-  extension[U: Conversion[T], V: Conversion[BigInteger]] (a: U) {
-    def \:(b: V) = a \ b
-  }
+  def one: T
 }

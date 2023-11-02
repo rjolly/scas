@@ -3,7 +3,6 @@ package scas.structure
 import scas.util.{Conversion, unary_~}
 import scas.base.BigInteger
 import BigInteger.lcm
-import impl.Ring
 
 class Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends Ring[(R1, R2)] {
   def apply(a: R1, b: R2) = (a, b)

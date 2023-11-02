@@ -1,6 +1,6 @@
 package scas.variable
 
-import scas.structure.impl.Structure
+import scas.structure.Structure
 
 abstract class Variable {
   def toMathML: String

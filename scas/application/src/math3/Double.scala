@@ -1,10 +1,10 @@
 package math3
 
 import java.lang.Math
-import scas.structure.impl.Field
+import scas.structure.Field
 import scas.base.BigInteger
 
-object Double extends Double.Impl with scas.structure.Field[Double] {
+object Double extends Double.Impl with scas.structure.conversion.Field[Double] {
   given instance: Double.type = this
   abstract class Impl extends Field[Double] {
     def fromInt(n: BigInteger) = n.doubleValue()

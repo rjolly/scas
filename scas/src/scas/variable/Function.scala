@@ -1,6 +1,6 @@
 package scas.variable
 
-import scas.structure.impl.Structure
+import scas.structure.Structure
 import Variable.toMathML
 
 class Function[T : Structure](name: String, parameter: T*) extends Variable {

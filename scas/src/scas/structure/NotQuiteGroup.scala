@@ -1,8 +1,9 @@
 package scas.structure
 
-import scas.util.{Conversion, unary_~}
+import scas.base.BigInteger
+import BigInteger.given
 
-trait NotQuiteGroup[T] extends impl.NotQuiteGroup[T] with Monoid[T] {
-  abstract override def inverse(x: T) = super.inverse(x)
-  def inverse[U: Conversion[T]](x: U): T = inverse(~x)
+trait NotQuiteGroup[T] extends Monoid[T] {
+  extension (a: T) override def pow(b: BigInteger) = if (b.signum < 0) inverse(a) \ -b else super.pow(a)(b)
+  def inverse(x: T): T
 }

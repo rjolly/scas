@@ -1,6 +1,6 @@
 package scas.polynomial.tree
 
-import scas.structure.impl.Ring
+import scas.structure.Ring
 import scas.power.PowerProduct
 import scas.polynomial.TreePolynomial
 import TreePolynomial.Element

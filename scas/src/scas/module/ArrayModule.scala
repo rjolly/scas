@@ -1,8 +1,7 @@
 package scas.module
 
 import scala.reflect.ClassTag
-import scas.structure.impl.Ring
-import scas.structure.Module
+import scas.structure.{Ring, Module}
 
 class ArrayModule[R : ClassTag](using ring: Ring[R])(val dimension: Int) extends Module[Array[R], R] {
   def apply(x: Array[R]) = x

@@ -2,7 +2,7 @@ package scas.polynomial
 
 import scala.annotation.{tailrec, targetName}
 import scala.reflect.ClassTag
-import scas.structure.impl.Ring
+import scas.structure.Ring
 import scas.power.PowerProduct
 import scas.variable.Variable
 import scas.base.BigInteger
