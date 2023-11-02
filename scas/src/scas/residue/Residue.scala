@@ -4,9 +4,9 @@ import scas.structure.commutative.{Field, UniqueFactorizationDomain}
 import scas.polynomial.PolynomialOverField
 import scas.variable.Variable
 
-trait Residue[T, C, M](using val ring: PolynomialOverField[T, C, M]) extends scas.structure.commutative.Residue[T] with Field[T] {
+trait Residue[T, C, M](using ring: PolynomialOverField[T, C, M]) extends scas.structure.commutative.Residue[T] with Field[T] {
   var list = List.empty[T]
-  export ring.generators
+  export ring.{generators, coef2poly}
   def update(mod: T): Unit = {
     // assert mod is irreducible
     list = List(mod)
@@ -30,10 +30,7 @@ trait Residue[T, C, M](using val ring: PolynomialOverField[T, C, M]) extends sca
 }
 
 object Residue {
-  class Impl[T, C, M](using ring: PolynomialOverField[T, C, M])(mod: T) extends conversion.Residue[T, C, M] {
-    given instance: Impl[T, C, M] = this
+  def apply[T, C, M](ring: PolynomialOverField[T, C, M])(mod: T) = new conversion.AlgebraicNumber(using ring) {
     update(mod)
   }
-
-  def apply[T, C, M](using ring: PolynomialOverField[T, C, M])(mod: T) = new Impl(using ring)(mod)
 }
