@@ -1,6 +1,6 @@
 package scas.polynomial
 
-import scas.structure.commutative.impl.UniqueFactorizationDomain
+import scas.structure.commutative.UniqueFactorizationDomain
 import scala.annotation.tailrec
 import scas.base.BigInteger
 import BigInteger.given

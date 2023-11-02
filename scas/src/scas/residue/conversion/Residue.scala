@@ -1,6 +1,6 @@
 package scas.residue.conversion
 
-import scas.structure.commutative.Field
+import scas.structure.commutative.conversion.Field
 import scas.util.{Conversion, unary_~}
 
 trait Residue[T, C, M] extends scas.residue.Residue[T, C, M] with Field[T] {

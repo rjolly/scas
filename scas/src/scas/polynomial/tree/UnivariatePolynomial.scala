@@ -1,7 +1,7 @@
 package scas.polynomial.tree
 
 import scas.power.{PowerProduct, Lexicographic}
-import scas.structure.commutative.impl.Field
+import scas.structure.commutative.Field
 import scas.polynomial.conversion.PolynomialOverUFD
 import scas.polynomial.TreePolynomial
 import TreePolynomial.Element
