@@ -1,6 +1,7 @@
 package math3.conversion
 
-import scas.structure.{Algebra, Field}
+import scas.structure.conversion.Algebra
+import scas.structure.Field
 import math3.Matrix.Element
 import math3.Double
 import Double.given
