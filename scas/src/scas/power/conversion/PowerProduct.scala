@@ -1,6 +1,6 @@
 package scas.power.conversion
 
-import scas.structure.ordered.Monoid
+import scas.structure.ordered.conversion.Monoid
 import scas.util.{Conversion, unary_~}
 
 trait PowerProduct[M] extends scas.power.PowerProduct[M] with Monoid[M] {

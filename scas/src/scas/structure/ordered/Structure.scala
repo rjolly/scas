@@ -1,3 +1,3 @@
 package scas.structure.ordered
 
-trait Structure[T] extends impl.Structure[T] with scas.structure.Structure[T] with scas.math.conversion.Ordering[T]
+trait Structure[T] extends scas.structure.impl.Structure[T] with scas.math.Ordering[T]

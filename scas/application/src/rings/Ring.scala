@@ -5,7 +5,7 @@ import scas.util.unary_~
 import rings.BigInteger
 import BigInteger.given
 
-trait Ring[T] extends scas.structure.ordered.impl.Ring[T] {
+trait Ring[T] extends scas.structure.ordered.Ring[T] {
   def ring: cc.redberry.rings.Ring[T]
   def coder = Coder.mkCoder(ring)
   def fromInt(n: scas.base.BigInteger) = ring.valueOfBigInteger(new BigInteger(n))

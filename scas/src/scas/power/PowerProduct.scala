@@ -1,6 +1,6 @@
 package scas.power
 
-import scas.structure.ordered.impl.Monoid
+import scas.structure.ordered.Monoid
 import scas.variable.Variable
 import scas.base.BigInteger
 
