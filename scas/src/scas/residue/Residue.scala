@@ -1,6 +1,6 @@
 package scas.residue
 
-import scas.structure.commutative.impl.{Field, UniqueFactorizationDomain}
+import scas.structure.commutative.{Field, UniqueFactorizationDomain}
 import scas.polynomial.PolynomialOverField
 import scas.variable.Variable
 

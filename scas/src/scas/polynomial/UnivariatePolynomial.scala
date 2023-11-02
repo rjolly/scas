@@ -1,7 +1,7 @@
 package scas.polynomial
 
 import scala.annotation.tailrec
-import scas.structure.commutative.impl.{Field, EuclidianDomain}
+import scas.structure.commutative.{Field, EuclidianDomain}
 import scas.power.PowerProduct
 
 trait UnivariatePolynomial[T, C, M](using ring: Field[C], val pp: PowerProduct[M]) extends PolynomialOverField[T, C, M] with EuclidianDomain[T] {

@@ -1,6 +1,5 @@
 package scas.structure.commutative
 
-import impl.UniqueFactorizationDomain
 import scas.base.BigInteger
 
 trait Residue[T](using ring: UniqueFactorizationDomain[T]) extends UniqueFactorizationDomain[T] {

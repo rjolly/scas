@@ -3,7 +3,7 @@ package scas.polynomial
 import scala.reflect.ClassTag
 import scala.annotation.targetName
 import scas.module.ArrayModule
-import scas.structure.commutative.impl.Field
+import scas.structure.commutative.Field
 import scas.power.PowerProduct
 import PolynomialWithRepr.Element
 

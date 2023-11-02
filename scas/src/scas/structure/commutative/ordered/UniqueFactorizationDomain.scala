@@ -1,3 +1,3 @@
 package scas.structure.commutative.ordered
 
-trait UniqueFactorizationDomain[T] extends impl.UniqueFactorizationDomain[T] with scas.structure.commutative.UniqueFactorizationDomain[T] with scas.structure.ordered.Ring[T]
+trait UniqueFactorizationDomain[T] extends scas.structure.commutative.UniqueFactorizationDomain[T] with scas.structure.ordered.impl.Ring[T]

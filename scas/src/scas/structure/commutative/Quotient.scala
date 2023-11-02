@@ -1,7 +1,6 @@
 package scas.structure.commutative
 
 import Quotient.Element
-import impl.{UniqueFactorizationDomain, Field}
 import scas.base.BigInteger
 import BigInteger.given
 

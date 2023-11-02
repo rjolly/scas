@@ -1,6 +1,6 @@
 package scas.quotient
 
-import scas.structure.commutative.impl.Field
+import scas.structure.commutative.Field
 import scas.polynomial.tree.UnivariatePolynomial
 import scas.polynomial.TreePolynomial.Element
 

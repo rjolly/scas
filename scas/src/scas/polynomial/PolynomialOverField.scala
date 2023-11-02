@@ -1,7 +1,7 @@
 package scas.polynomial
 
 import scala.reflect.ClassTag
-import scas.structure.commutative.impl.Field
+import scas.structure.commutative.Field
 import scas.power.PowerProduct
 
 trait PolynomialOverField[T : ClassTag, C : Field, M : PowerProduct] extends PolynomialOverUFD[T, C, M] {

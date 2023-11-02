@@ -1,6 +1,5 @@
 package scas.structure.commutative.conversion
 
-import scas.structure.commutative.Field
 import scas.structure.commutative.Quotient.Element
 import scas.util.{Conversion, unary_~}
 
