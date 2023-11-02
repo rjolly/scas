@@ -40,11 +40,11 @@ object BigInteger extends BigInteger.Impl with UniqueFactorizationDomain[BigInte
     override def toString = "BigInteger"
     extension (x: BigInteger) def toMathML = s"<cn>$x</cn>"
     def toMathML = "<integers/>"
+
+    given int2bigInt: (Int => BigInteger) = valueOf(_)
+    given long2bigInt: (Long => BigInteger) = valueOf(_)
   }
   val characteristic = BigInteger("0")
   val zero = BigInteger("0")
   val one = BigInteger("1")
-
-  given int2bigInt: (Int => BigInteger) = valueOf(_)
-  given long2bigInt: (Long => BigInteger) = valueOf(_)
 }

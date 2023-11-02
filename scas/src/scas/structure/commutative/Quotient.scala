@@ -1,6 +1,7 @@
 package scas.structure.commutative
 
 import Quotient.Element
+import scas.util.{Conversion, unary_~}
 import scas.base.BigInteger
 import BigInteger.given
 
@@ -81,6 +82,8 @@ trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends Field[Elemen
   def one = this(ring.one)
 
   extension (ring: UniqueFactorizationDomain[T]) def quotient() = this
+
+  given ring2quotient[U: Conversion[T]]: (U => Element[T]) = x => this(~x)
 }
 
 object Quotient {
