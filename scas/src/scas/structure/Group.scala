@@ -1,11 +1,25 @@
 package scas.structure
 
-import scas.structure.impl.AbelianGroup
-
-trait Group[T] extends impl.Group[T] with NotQuiteGroup[T]
+trait Group[T] extends NotQuiteGroup[T] {
+  extension (x: T) {
+    def isUnit = true
+  }
+}
 
 object Group {
-  class FromAbelian[T](using group: AbelianGroup[T]) extends impl.Group.FromAbelian[T] with Group[T] {
-    given instance: FromAbelian[T] = this
+  trait FromAbelian[T](using group: AbelianGroup[T]) extends Group[T] {
+    override def one = group.zero
+    extension (x: T) {
+      def multiply(y: T) = group.add(x)(y)
+    }
+    def inverse(x: T) = group.unary_-(x)
+    def equiv(x: T, y: T) = group.equiv(x, y)
+    extension (x: T) {
+      def toCode(level: Level) = group.toCode(x)(level)
+      def toMathML = group.toMathML(x)
+    }
+    def toMathML = group.toMathML
   }
+
+  def apply[T](group: AbelianGroup[T]) = new conversion.Group.FromAbelian(using group)
 }

@@ -2,7 +2,7 @@ package scas.structure.commutative.conversion
 
 import scas.util.{Conversion, unary_~}
 
-trait UniqueFactorizationDomain[T] extends scas.structure.commutative.UniqueFactorizationDomain[T] with scas.structure.NotQuiteField[T] {
+trait UniqueFactorizationDomain[T] extends scas.structure.commutative.UniqueFactorizationDomain[T] with scas.structure.conversion.NotQuiteField[T] {
   abstract override def gcd(x: T, y: T) = super.gcd(x, y)
   def gcd[U: Conversion[T], V: Conversion[T]](x: U, y: V): T = gcd(~x, ~y)
   def lcm[U: Conversion[T], V: Conversion[T]](x: U, y: V): T = lcm(~x, ~y)

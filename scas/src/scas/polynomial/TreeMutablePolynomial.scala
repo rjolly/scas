@@ -2,7 +2,7 @@ package scas.polynomial
 
 import scala.jdk.CollectionConverters.MapHasAsScala
 import scala.annotation.targetName
-import scas.structure.impl.Ring
+import scas.structure.Ring
 import scas.power.PowerProduct
 import TreePolynomial.Element
 
