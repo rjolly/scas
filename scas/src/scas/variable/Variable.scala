@@ -1,6 +1,6 @@
 package scas.variable
 
-import scas.structure.Structure
+import scas.prettyprint.Show
 
 abstract class Variable {
   def toMathML: String
@@ -14,8 +14,8 @@ object Variable {
   def apply(name: String, subscript: Int*): Variable = new Constant(name, 0, subscript: _*)
   def apply(name: String, prime: Int, subscript: Int*): Variable = new Constant(name, prime, subscript: _*)
 
-  def function[T : Structure](name: String, parameter: T*): Variable = new Function(name, parameter: _*)
-  def sqrt[T : Structure](x: T): Variable = new Sqrt(x)
+  def function[T : Show](name: String, parameter: T*): Variable = new Function(name, parameter: _*)
+  def sqrt[T : Show](x: T): Variable = new Sqrt(x)
 
   extension (name: String) def toMathML = greek.getOrElse(name, name)
   val greek = Map(
