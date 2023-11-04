@@ -1,4 +1,3 @@
-import scas.rendering.MathObject
 import scas.base.BigInteger
 import scas.power.Lexicographic
 import scas.polynomial.tree.Polynomial
@@ -19,5 +18,3 @@ assert(a + 1 >< 1 + a)
 assert(a + BigInteger("1") >< BigInteger("1") + a)
 assert(a + x >< x+a)
 assert((a + x).show == "x+a")
-assert((a + x).math == s.math(x+a))
-assert(MathObject(a + x).toString == "x+a")

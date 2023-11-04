@@ -13,4 +13,3 @@ import s.given
 
 assert ((x/(2*x)).show == "1%%2")
 assert (s.toString == Rational(x).quotient().toString)
-assert (s.math == Rational(x).quotient().math)

@@ -8,4 +8,3 @@ import r.given
 
 assert (b * a + y * x >< 2+a*b+x*y)
 assert (r.toString == BigInteger(a, x, b, y)(1+a*b-b*a, 1+x*y-y*x).toString)
-assert (r.math == BigInteger(a, x, b, y)(1+a*b-b*a, 1+x*y-y*x).math)
