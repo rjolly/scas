@@ -2,8 +2,9 @@ package scas.quotient
 
 import scas.structure.commutative.Field
 import scas.structure.commutative.Quotient.Element
-import scas.polynomial.tree.UnivariatePolynomial
+import scas.polynomial.tree.{UnivariatePolynomial, MultivariatePolynomial}
 import scas.polynomial.PolynomialOverField
+import scas.base.BigInteger
 
 trait RationalFunction[T, C, M](using ring: PolynomialOverField[T, C, M]) extends Quotient[T, C, M] {
   override def apply(x: Element[T]) = {
@@ -16,4 +17,5 @@ trait RationalFunction[T, C, M](using ring: PolynomialOverField[T, C, M]) extend
 
 object RationalFunction {
   def apply[C](ring: Field[C])(s: String*) = new conversion.RationalFunction(using UnivariatePolynomial(ring)(s: _*))
+  def integral(s: String*) = new conversion.RationalFunctionOverInteger(using MultivariatePolynomial(BigInteger)(s: _*))
 }

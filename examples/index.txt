@@ -16,6 +16,7 @@ polypower_rings.txt
 group.txt
 an.txt
 rf.txt
+rfi.txt
 residue.txt
 complex.txt
 quotient.txt
