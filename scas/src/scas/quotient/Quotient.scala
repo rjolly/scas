@@ -1,8 +1,8 @@
 package scas.quotient
 
-import scas.polynomial.PolynomialOverField
+import scas.polynomial.{PolynomialOverUFD, PolynomialOverField}
 
-trait Quotient[T, C, M](using ring: PolynomialOverField[T, C, M]) extends scas.structure.commutative.Quotient[T] {
+trait Quotient[T, C, M](using ring: PolynomialOverUFD[T, C, M]) extends scas.structure.commutative.Quotient[T] {
   def generator(n: Int) = this(ring.generator(n))
   def generators = ring.generators.map(apply)
   def toMathML = ring.toMathML(true)
@@ -10,5 +10,5 @@ trait Quotient[T, C, M](using ring: PolynomialOverField[T, C, M]) extends scas.s
 }
 
 object Quotient {
-  def apply[T, C, M](ring: PolynomialOverField[T, C, M]) = new conversion.Quotient(using ring)
+  def apply[T, C, M](ring: PolynomialOverField[T, C, M]) = new conversion.RationalFunction(using ring)
 }
