@@ -10,5 +10,5 @@ trait Quotient[T, C, M](using ring: PolynomialOverUFD[T, C, M]) extends scas.str
 }
 
 object Quotient {
-  def apply[T, C, M](ring: PolynomialOverField[T, C, M]) = new conversion.RationalFunction(using ring)
+  def apply[T, C, M](ring: PolynomialOverField[T, C, M]) = new conversion.RationalFunctionOverField(using ring)
 }
