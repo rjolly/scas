@@ -130,11 +130,9 @@
 </xsl:template>
 
 <xsl:template match="m:ci | m:mi">
-	<xsl:variable name="n" select="string-length(substring-before(text(), '&#x02032;'))+1"/>
 	<xsl:call-template name="greek">
-		<xsl:with-param name="value" select="substring(text(), 0, $n)"/>
+		<xsl:with-param name="value" select="text()"/>
 	</xsl:call-template>
-	<xsl:value-of select="translate(substring(text(), $n), '&#x02032;', 'I')"/>
 </xsl:template>
 
 <xsl:template match="m:ci[*[1][self::m:msub[*[1][self::m:mi] and *[2][self::m:mrow]]]]">
@@ -143,6 +141,25 @@
 		<xsl:text>(</xsl:text>
 		<xsl:apply-templates select="text()"/>
 		<xsl:text>)</xsl:text>
+	</xsl:for-each>
+</xsl:template>
+
+<xsl:template match="m:ci[*[1][self::m:msubsup[*[1][self::m:mi] and *[2][self::m:mrow] and *[3][self::m:mrow]]]]">
+	<xsl:apply-templates select="*[1]/*[1]"/>
+	<xsl:for-each select="*[1]/*[3]/*">
+		<xsl:text>_</xsl:text>
+	</xsl:for-each>
+	<xsl:for-each select="*[1]/*[2]/*">
+		<xsl:text>(</xsl:text>
+		<xsl:apply-templates select="text()"/>
+		<xsl:text>)</xsl:text>
+	</xsl:for-each>
+</xsl:template>
+
+<xsl:template match="m:ci[*[1][self::m:msup[*[1][self::m:mi] and *[2][self::m:mrow]]]]">
+	<xsl:apply-templates select="*[1]/*[1]"/>
+	<xsl:for-each select="*[1]/*[2]/*">
+		<xsl:text>_</xsl:text>
 	</xsl:for-each>
 </xsl:template>
 
