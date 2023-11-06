@@ -1,7 +1,6 @@
 package scas.variable
 
 import scas.prettyprint.Show
-import Variable.toMathML
 
 class Function[T : Show](name: String, parameter: T*) extends Variable {
   override def toString = name + "(" + parameter.map(_.show).mkString(", ") + ")"
