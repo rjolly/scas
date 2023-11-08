@@ -2,14 +2,14 @@ package scas.polynomial
 
 import scala.annotation.{tailrec, targetName}
 import scala.reflect.ClassTag
-import scas.structure.Ring
+import scas.structure.{Ring, AlgebraOverRing}
 import scas.power.PowerProduct
 import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
 import scas.base.BigInteger
 import BigInteger.given
 
-trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) extends Ring[T] {
+trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) extends Ring[T] with AlgebraOverRing[T, C] {
   val zero = this()
   val one = this(ring.one)
   def fromInt(n: BigInteger) = this(ring.fromInt(n))
@@ -39,7 +39,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
       for ((a, b) <- iterator(y)) r = r.subtract(a, -b, x)
       r
     }
-    @targetName("ppMultiplyRight") def %* (m: M) = x.map((s, a) => (s * m, a))
+    def ppMultiplyRight(m: M) = x.map((s, a) => (s * m, a))
   }
 
   extension (x: T) def toCode(level: Level) = {
@@ -199,9 +199,16 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
 
     def multiply(m: M, c: C) = x.map((s, a) => (s * m, a * c))
 
-    def %* (c: C) = x.map((s, a) => (s, a * c))
+    def multiplyRight(c: C) = x.map((s, a) => (s, a * c))
 
     def map(f: (M, C) => (M, C)): T
+  }
+
+  extension (c: C) def multiplyLeft(x: T) = x%* c
+
+  extension (ring: Ring[C]) def pow(n: Int) = {
+    assert(n == 0)
+    this
   }
 
   def sort(x: T) = this(x.toSeq.sortBy((s, _) => s)(pp.reverse): _*)

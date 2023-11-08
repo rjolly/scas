@@ -24,6 +24,6 @@ trait MultivariatePolynomial[T[C, M], C, M](using ring: UniqueFactorizationDomai
   }
   extension (x: T[T[C, M], M]) def convertFrom(s: MultivariatePolynomial[T, T[C, M], M]): T[C, M] = s.iterator(x).foldLeft(zero) { (l, r) =>
     val (m, c) = r
-    l + c.convert(take)%* m.convert(drop)
+    l + c.convert(take).ppMultiplyRight(m.convert(drop))
   }
 }
