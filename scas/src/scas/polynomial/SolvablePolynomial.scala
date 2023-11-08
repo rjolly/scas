@@ -2,7 +2,6 @@ package scas.polynomial
 
 import java.util.TreeMap
 import scala.jdk.CollectionConverters.MapHasAsScala
-import scala.annotation.targetName
 import scala.math.Ordering
 import scas.power.PowerProduct
 
@@ -58,11 +57,9 @@ trait SolvablePolynomial[T, C, M](using pp: PowerProduct[M]) extends Polynomial[
   }
 
   extension (x: T) {
-    final override def multiply(m: M, c: C) = x%* m%* c
+    final override def multiply(m: M, c: C) = x.ppMultiplyRight(m)%* c
 
-    final override def %* (c: C) = super.%*(x)(c)
-
-    @targetName("ppMultiplyRight") final override def %* (m: M) = iterator(x).foldLeft(zero) { (l, r) =>
+    final override def ppMultiplyRight(m: M) = iterator(x).foldLeft(zero) { (l, r) =>
       val (s, _) = r
       l + s.ppMultiply(m)
     }
@@ -82,14 +79,14 @@ trait SolvablePolynomial[T, C, M](using pp: PowerProduct[M]) extends Polynomial[
         val Relation(e3, f3, c3) = lookup(e2, f2)
         var cs = c3
         if (!(f3.isOne)) {
-          cs = cs%* f3
+          cs = cs.ppMultiplyRight(f3)
           update(e2 / e3, f2, cs)
         }
         if (!(e3.isOne)) {
           cs = this(e3) * cs
           update(e2, f2, cs)
         }
-        if (!(f1.isOne)) cs = cs%* f1
+        if (!(f1.isOne)) cs = cs.ppMultiplyRight(f1)
         if (!(e1.isOne)) cs = this(e1) * cs
         cs
       }

@@ -32,7 +32,7 @@ class TreeMutablePolynomial[C, M : PowerProduct](using ring: Ring[C]) extends Tr
     x
   }
 
-  extension (x: Element[C, M]) override def %* (c: C) = {
+  extension (x: Element[C, M]) override def multiplyRight(c: C) = {
     val xs = x.entrySet.iterator
     while (xs.hasNext) {
       val sa = xs.next

@@ -1,7 +1,6 @@
 package scas.polynomial
 
 import scala.reflect.ClassTag
-import scala.annotation.targetName
 import scas.module.ArrayModule
 import scas.structure.commutative.Field
 import scas.power.PowerProduct
@@ -34,15 +33,15 @@ class PolynomialWithRepr[T : ClassTag, C : Field, M : PowerProduct](using factor
       val (q, f) = y
       (p + q, e + f)
     }
-    @targetName("ppMultiplyRight") override def %* (m: M) = {
+    override def ppMultiplyRight(m: M) = {
       val (p, e) = x
-      (p%* m, e%* factory(m))
+      (p.ppMultiplyRight(m), e%* factory(m))
     }
     override def multiply(m: M, c: C) = {
       val (p, e) = x
       (p.multiply(m, c), e%* factory(m, c))
     }
-    override def %* (c: C) = {
+    override def multiplyRight(c: C) = {
       val (p, e) = x
       (p%* c, e%* factory(c))
     }
