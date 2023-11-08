@@ -4,7 +4,7 @@ import scas.structure.commutative.{Field, UniqueFactorizationDomain}
 import scas.polynomial.PolynomialOverField
 import scas.variable.Variable
 
-trait Residue[T, C, M](using ring: PolynomialOverField[T, C, M]) extends scas.structure.commutative.Residue[T] with Field[T] {
+trait Residue[T, C, M](using ring: PolynomialOverField[T, C, M]) extends scas.structure.commutative.Residue[T, T] with Field[T] {
   var list = List.empty[T]
   export ring.{generators, coef2poly}
   def update(mod: T): Unit = {
@@ -18,6 +18,8 @@ trait Residue[T, C, M](using ring: PolynomialOverField[T, C, M]) extends scas.st
     generator(n)
   }
   def apply(x: T) = x.reduce(list)
+  def unapply(x: T) = Some(x)
+  def fromRing(x: T) = x
   def characteristic = ring.characteristic
   def inverse(x: T) = x.modInverse(list(0))
   override def toString = s"${ring}(${list.map(_.show).mkString(", ")})"
