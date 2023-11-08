@@ -4,14 +4,28 @@ import scas.structure.commutative.UniqueFactorizationDomain
 import scas.structure.commutative.ordered.{Field, Residue}
 import BigInteger.given
 
-class ModInteger(mod: BigInteger) extends Residue[BigInteger] with Field[BigInteger] {
+class ModInteger(mod: BigInteger) extends Residue[Int, BigInteger] with Field[Int] {
   assert (mod.isProbablePrime(100))
-  def apply(x: BigInteger) = x.mod(mod)
+  def apply(x: BigInteger) = this(x.longValue)
+  def unapply(x: Int) = Some(int2bigInt(x))
+  def fromRing(x: BigInteger) = x.intValue
   def characteristic = mod
-  extension (a: BigInteger) override def pow(b: BigInteger) = a.modPow(b, mod)
-  def inverse(x: BigInteger) = x.modInverse(mod)
-  override def toString = s"ModInteger(\"$mod\")"
-  def toMathML = s"<msub>${BigInteger.toMathML}${BigInteger.toMathML(mod)}</msub>"
+  val m = mod.intValue
+  def apply(x: Long) = {
+      val c = (x % m).toInt
+      if (c < 0) c + m else c
+  }
+  extension (x: Int) {
+    override def signum = java.lang.Integer.signum(x)
+    override def add(y: Int) = this(x.toLong + y)
+    override def subtract(y: Int) = this(x.toLong - y)
+    override def multiply(y: Int) = this(x.toLong * y)
+    override def isZero = x.signum == 0
+  }
+  extension (a: Int) override def pow(b: BigInteger) = int2bigInt(a).modPow(b, mod).intValue
+  def inverse(x: Int) = int2bigInt(x).modInverse(mod).intValue
+  override def toString = s"ModInteger(\"${mod}\")"
+  def toMathML = s"<msub>${BigInteger.toMathML}${mod.toMathML}</msub>"
 
   extension (ring: UniqueFactorizationDomain[BigInteger]) def apply(s: BigInteger*) = {
     assert (s.size == 1 && s(0) >< mod)

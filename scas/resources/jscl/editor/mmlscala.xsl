@@ -37,7 +37,7 @@
 	<xsl:apply-templates select="*[2]">
 		<xsl:with-param name="p" select="0"/>
 	</xsl:apply-templates>
-	<xsl:text>&amp;</xsl:text>
+	<xsl:text>&amp;&amp;</xsl:text>
 	<xsl:apply-templates select="*[3]">
 	    	<xsl:with-param name="p" select="1"/>
 	</xsl:apply-templates>
