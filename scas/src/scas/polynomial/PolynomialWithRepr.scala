@@ -34,7 +34,7 @@ class PolynomialWithRepr[T : ClassTag, C : Field, M : PowerProduct](using factor
       val (q, f) = y
       (p + q, e + f)
     }
-    override def %* (m: M) = {
+    @targetName("ppMultiplyRight") override def %* (m: M) = {
       val (p, e) = x
       (p%* m, e%* factory(m))
     }
@@ -42,7 +42,7 @@ class PolynomialWithRepr[T : ClassTag, C : Field, M : PowerProduct](using factor
       val (p, e) = x
       (p.multiply(m, c), e%* factory(m, c))
     }
-    @targetName("coefMultiply") override def %* (c: C) = {
+    override def %* (c: C) = {
       val (p, e) = x
       (p%* c, e%* factory(c))
     }

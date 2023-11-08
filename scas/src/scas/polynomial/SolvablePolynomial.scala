@@ -60,9 +60,9 @@ trait SolvablePolynomial[T, C, M](using pp: PowerProduct[M]) extends Polynomial[
   extension (x: T) {
     final override def multiply(m: M, c: C) = x%* m%* c
 
-    @targetName("coefMultiply") final override def %* (c: C) = super.%*(x)(c)
+    final override def %* (c: C) = super.%*(x)(c)
 
-    final override def %* (m: M) = iterator(x).foldLeft(zero) { (l, r) =>
+    @targetName("ppMultiplyRight") final override def %* (m: M) = iterator(x).foldLeft(zero) { (l, r) =>
       val (s, _) = r
       l + s.ppMultiply(m)
     }
