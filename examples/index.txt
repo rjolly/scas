@@ -13,6 +13,7 @@ polypower.txt
 polypower_scas.txt
 polypower_jaspp.txt
 polypower_rings.txt
+boolean.txt
 group.txt
 an.txt
 gf.txt
