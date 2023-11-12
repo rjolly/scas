@@ -13,4 +13,4 @@ import s.given
 
 assert (2 >< x\2)
 assert (Rational("2") - x\2 >< 0)
-assert (s.toString == Rational(x)(2-x\2).toString)
+assert (s == Rational(x)(2-x\2))
