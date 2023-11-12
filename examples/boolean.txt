@@ -1,4 +1,4 @@
 import scas.base.Boolean
 import Boolean.given
 
-assert (1 + 1 >< 0)
+assert (true ^ true >< false)
