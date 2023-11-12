@@ -33,6 +33,4 @@ object Rational extends Rational.Impl with Field[Rational] {
   extension[U: Conversion[BigInteger]] (a: U) {
     def %%[V: Conversion[BigInteger]](b: V) = this(~a, ~b)
   }
-  override val zero = Rational("0")
-  override val one = Rational("1")
 }
