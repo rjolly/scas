@@ -48,7 +48,7 @@ trait SolvablePolynomial[T, C, M](using pp: PowerProduct[M]) extends Polynomial[
     val df = dependencyOnVariables(f)
     (de(0), df(0))
   }
-  override def toString = s"${super.toString}(${(for ((a, b) <- table.asScala; relation <- b) yield relation.toString).mkString(", ")})"
+  override def toString = s"${super.toString}(${(for ((a, b) <- table.asScala; relation <- b) yield relation).mkString(", ")})"
   override def toMathML = s"<msub>${super.toMathML}<list>${(for ((a, b) <- table.asScala; relation <- b) yield relation.toMathML).mkString}</list></msub>"
 
   extension (ring: Polynomial[T, C, M]) def apply(s: T*): SolvablePolynomial[T, C, M] = {
