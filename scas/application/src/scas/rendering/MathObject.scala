@@ -11,7 +11,7 @@ object MathObject {
   }
   def apply[T : Show](s: List[T]): MathObject = new MathObject {
     override def toString = s.show
-    def toMathML = s"<list>${s.map(_.toMathML).mkString}</list>"
+    def toMathML = s.toMathML
   }
   def apply[T](s: Show[T]): MathObject = new MathObject {
     override def toString = s.toString
