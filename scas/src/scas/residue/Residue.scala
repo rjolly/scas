@@ -22,8 +22,8 @@ trait Residue[T, C, M](using ring: PolynomialOverField[T, C, M]) extends scas.st
   def fromRing(x: T) = x
   def characteristic = ring.characteristic
   def inverse(x: T) = x.modInverse(list(0))
-  override def toString = s"${ring}(${list.map(_.show).mkString(", ")})"
-  def toMathML = s"<msub>${ring.toMathML}<list>${list.map(_.toMathML).mkString}</list></msub>"
+  override def toString = s"${ring}${list.show(true)}"
+  def toMathML = s"<msub>${ring.toMathML}${list.toMathML}</msub>"
 
   extension (ring: UniqueFactorizationDomain[T]) def apply(s: T*) = {
     assert (s.size == 1 && s(0) >< list(0))
