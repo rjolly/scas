@@ -8,4 +8,4 @@ val List(x) = r.generators
 import r.given
 
 assert(1 + x + 1 >< x)
-assert(r.toString == ModInteger("2")(x).toString)
+assert(r == ModInteger("2")(x))

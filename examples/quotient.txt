@@ -11,5 +11,5 @@ import r.given
 val s = Quotient(Rational(x))
 import s.given
 
-assert ((x/(2*x)).show == (1%%2).show)
-assert (s.toString == Rational(x).quotient().toString)
+assert (x/(2*x) >< 1%%2)
+assert (s == Rational(x).quotient())
