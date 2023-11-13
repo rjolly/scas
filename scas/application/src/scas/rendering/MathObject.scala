@@ -13,8 +13,4 @@ object MathObject {
     override def toString = s.show
     def toMathML = s.toMathML
   }
-  def apply[T](s: Show[T]): MathObject = new MathObject {
-    override def toString = s.toString
-    def toMathML = s.toMathML
-  }
 }
