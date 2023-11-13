@@ -58,6 +58,12 @@ abstract class Variable {
 
 object Variable {
   given string2variable: (String => Variable) = apply(_)
+  given Show[Variable] with {
+    extension (x: Variable) {
+      def toCode(level: Level) = x.toString
+      def toMathML = x.toMathML
+    }
+  }
 
   def apply(name: String, subscript: Int*): Variable = new Constant(name, 0, subscript: _*)
   def apply(name: String, prime: Int, subscript: Int*): Variable = new Constant(name, prime, subscript: _*)

@@ -4,6 +4,7 @@ import java.util.TreeMap
 import scala.jdk.CollectionConverters.MapHasAsScala
 import scala.math.Ordering
 import scas.power.PowerProduct
+import scas.prettyprint.Show
 
 trait SolvablePolynomial[T, C, M](using pp: PowerProduct[M]) extends Polynomial[T, C, M] {
   import pp.dependencyOnVariables
@@ -11,6 +12,14 @@ trait SolvablePolynomial[T, C, M](using pp: PowerProduct[M]) extends Polynomial[
   case class Relation(e: M, f: M, p: T) {
     override def toString = s"${p.show}-${e.show}*${f.show}"
     def toMathML = s"<apply><minus/>${p.toMathML}<apply><times/>${e.toMathML}${f.toMathML}</apply></apply>"
+  }
+  object Relation {
+    given Show[Relation] with {
+      extension (x: Relation) {
+        def toCode(level: Level) = x.toString
+        def toMathML = x.toMathML
+      }
+    }
   }
   val table = new TreeMap[Key, List[Relation]](Ordering[Key])
   def update(e: T, f: T, p: T): Unit = update(headPowerProduct(e), headPowerProduct(f), p)
@@ -48,8 +57,9 @@ trait SolvablePolynomial[T, C, M](using pp: PowerProduct[M]) extends Polynomial[
     val df = dependencyOnVariables(f)
     (de(0), df(0))
   }
-  override def toString = s"${super.toString}(${(for ((a, b) <- table.asScala; relation <- b) yield relation).mkString(", ")})"
-  override def toMathML = s"<msub>${super.toMathML}<list>${(for ((a, b) <- table.asScala; relation <- b) yield relation.toMathML).mkString}</list></msub>"
+  def toList = (for ((a, b) <- table.asScala; relation <- b) yield relation).toList
+  override def toString = s"${super.toString}${toList.show(true)}"
+  override def toMathML = s"<msub>${super.toMathML}${toList.toMathML}</msub>"
 
   extension (ring: Polynomial[T, C, M]) def apply(s: T*): SolvablePolynomial[T, C, M] = {
     assert (s.foldLeft(true)((l, r) => l && r.isZero))
