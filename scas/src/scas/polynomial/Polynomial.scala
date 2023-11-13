@@ -88,7 +88,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
   def toMathML(fenced: Boolean) = s"<apply>${ring.toMathML}${pp.toMathML(fenced)}</apply>"
 
   extension (ring: Ring[C]) def apply(s: T*): Polynomial[T, C, M] = {
-    given ArrayModule[T] = new ArrayModule[T](using this)(variables.length)
+    given ArrayModule[T] = new ArrayModule[T](using this)(length)
     assert (s.toArray >< generators.toArray)
     this
   }
@@ -106,7 +106,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
 
   extension (x: T) def toSeq = this.iterator(x).toSeq
 
-  export pp.variables
+  export pp.{variables, length}
 
   def size(x: T): Int
 
