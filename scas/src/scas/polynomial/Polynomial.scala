@@ -3,6 +3,7 @@ package scas.polynomial
 import scala.annotation.{tailrec, targetName}
 import scala.reflect.ClassTag
 import scas.structure.{Ring, AlgebraOverRing}
+import scas.module.ArrayModule
 import scas.power.PowerProduct
 import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
@@ -87,7 +88,8 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
   def toMathML(fenced: Boolean) = s"<apply>${ring.toMathML}${pp.toMathML(fenced)}</apply>"
 
   extension (ring: Ring[C]) def apply(s: T*): Polynomial[T, C, M] = {
-    assert (s == generators)
+    given ArrayModule[T] = new ArrayModule[T](using this)(variables.length)
+    assert (s.toArray >< generators.toArray)
     this
   }
 
