@@ -1,10 +1,12 @@
 package scas.residue
 
+import scala.reflect.ClassTag
 import scas.structure.commutative.{Field, UniqueFactorizationDomain}
 import scas.polynomial.PolynomialOverField
+import scas.module.ArrayModule
 import scas.variable.Variable
 
-trait Residue[T, C, M](using ring: PolynomialOverField[T, C, M]) extends scas.structure.commutative.Residue[T, T] with Field[T] {
+trait Residue[T : ClassTag, C, M](using ring: PolynomialOverField[T, C, M]) extends scas.structure.commutative.Residue[T, T] with Field[T] {
   var list = List.empty[T]
   export ring.{generators, coef2poly}
   def update(mod: T): Unit = {
@@ -26,13 +28,14 @@ trait Residue[T, C, M](using ring: PolynomialOverField[T, C, M]) extends scas.st
   def toMathML = s"<msub>${ring.toMathML}${list.toMathML}</msub>"
 
   extension (ring: UniqueFactorizationDomain[T]) def apply(s: T*) = {
-    assert (s.size == 1 && s(0) >< list(0))
+    given ArrayModule[T] = new ArrayModule[T](using this)(list.size)
+    assert (s.toArray >< list.toArray)
     this
   }
 }
 
 object Residue {
-  def apply[T, C, M](ring: PolynomialOverField[T, C, M])(mod: T) = new conversion.AlgebraicNumber(using ring) {
+  def apply[T : ClassTag, C, M](ring: PolynomialOverField[T, C, M])(mod: T) = new conversion.AlgebraicNumber(using ring) {
     update(mod)
   }
 }

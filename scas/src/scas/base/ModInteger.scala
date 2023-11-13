@@ -2,6 +2,7 @@ package scas.base
 
 import scas.structure.commutative.UniqueFactorizationDomain
 import scas.structure.commutative.ordered.{Field, Residue}
+import scas.module.ArrayModule
 import BigInteger.given
 
 class ModInteger(mod: BigInteger) extends Residue[Int, BigInteger] with Field[Int] {
@@ -28,7 +29,8 @@ class ModInteger(mod: BigInteger) extends Residue[Int, BigInteger] with Field[In
   def toMathML = s"<msub>${BigInteger.toMathML}${mod.toMathML}</msub>"
 
   extension (ring: UniqueFactorizationDomain[BigInteger]) def apply(s: BigInteger*) = {
-    assert (s.size == 1 && s(0) >< mod)
+    given ArrayModule[BigInteger] = new ArrayModule(using BigInteger)(1)
+    assert (s.toArray >< List(mod).toArray)
     this
   }
 }
