@@ -4,7 +4,7 @@ import scas.power.splittable.PowerProduct
 import scas.structure.commutative.UniqueFactorizationDomain
 
 trait MultivariatePolynomial[T[C, M], C, M](using ring: UniqueFactorizationDomain[C], pp: PowerProduct[M]) extends PolynomialOverUFD[T[C, M], C, M] {
-  val location = variables.length - 1
+  val location = length - 1
   val take = pp.take(location)
   val drop = pp.drop(location)
   def newInstance: [C] => (UniqueFactorizationDomain[C], PowerProduct[M]) => MultivariatePolynomial[T, C, M]
