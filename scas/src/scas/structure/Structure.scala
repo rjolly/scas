@@ -5,13 +5,19 @@ import scas.prettyprint.Show
 
 trait Structure[T] extends Equiv[T] with Show[T] {
   def random(numbits: Int)(using rnd: java.util.Random): T = ???
+  def fenced(s: String) = s"($s)"
+  export scas.prettyprint.Level
+  extension (x: T) {
+    def toCode(level: Level): String
+    def show = x.toCode(Level.Addition)
+  }
   def toMathML: String
 }
 
 object Structure {
   given [T]: Show[Structure[T]] with {
     extension (x: Structure[T]) {
-      def toCode(level: Level) = x.toString
+      def show = x.toString
       def toMathML = x.toMathML
     }
   }

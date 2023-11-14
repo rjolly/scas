@@ -1,11 +1,8 @@
 package scas.prettyprint
 
 trait Show[T] {
-  def fenced(s: String) = s"($s)"
-  export scas.prettyprint.Level
   extension (x: T) {
-    def toCode(level: Level): String
-    def show = x.toCode(Level.Addition)
+    def show: String
     def toMathML: String
   }
   extension (s: List[T]) {
