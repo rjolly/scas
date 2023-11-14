@@ -1,4 +1,13 @@
 import scas.base.Boolean
+import scas.power.Lexicographic
+import scas.polynomial.tree.BooleanPolynomial
 import Boolean.given
 
 assert (true ^ true >< false)
+
+val r = BooleanPolynomial("x")
+val List(x) = r.generators
+import r.given
+
+assert ((x ^ true >< true ^ x).isUnit)
+assert (r == Boolean(x))
