@@ -50,7 +50,7 @@ class Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends Ring[(R1, 
   def characteristic = lcm(ring1.characteristic, ring2.characteristic)
   extension (x: (R1, R2)) def toCode(level: Level) = {
     val (a, b) = x
-    s"Product(${a.toCode(Level.Addition)}, ${b.toCode(Level.Addition)})"
+    s"Product(${a.show}, ${b.show})"
   }
   override def toString = s"Product($ring1, $ring2)"
   extension (x: (R1, R2)) def toMathML = {

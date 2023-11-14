@@ -45,7 +45,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
 
   extension (x: T) def toCode(level: Level) = {
     import Level.given
-    var s = ring.zero.toCode(Level.Addition)
+    var s = ring.zero.show
     var n = 0
     var m = 0
     val p = if (size(x) == 1) level else Level.Addition
