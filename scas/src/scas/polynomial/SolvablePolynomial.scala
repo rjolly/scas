@@ -16,7 +16,7 @@ trait SolvablePolynomial[T, C, M](using pp: PowerProduct[M]) extends Polynomial[
   object Relation {
     given Show[Relation] with {
       extension (x: Relation) {
-        def toCode(level: Level) = x.toString
+        def show = x.toString
         def toMathML = x.toMathML
       }
     }

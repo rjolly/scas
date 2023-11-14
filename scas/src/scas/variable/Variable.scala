@@ -60,7 +60,7 @@ object Variable {
   given string2variable: (String => Variable) = apply(_)
   given Show[Variable] with {
     extension (x: Variable) {
-      def toCode(level: Level) = x.toString
+      def show = x.toString
       def toMathML = x.toMathML
     }
   }
