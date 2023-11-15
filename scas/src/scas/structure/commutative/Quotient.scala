@@ -19,13 +19,13 @@ trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends Field[Elemen
     val Element(a, b) = x
     val Element(c, d) = y
     val Element(b0, d0) = this(b, d)
-    this((a * d0) + (c * b0), b0 * d)
+    this(a * d0 + c * b0, b0 * d)
   }
   extension (x: Element[T]) def subtract(y: Element[T]) = {
     val Element(a, b) = x
     val Element(c, d) = y
     val Element(b0, d0) = this(b, d)
-    this((a * d0) - (c * b0), b0 * d)
+    this(a * d0 - c * b0, b0 * d)
   }
   extension (x: Element[T]) def multiply(y: Element[T]) = {
     val Element(a, b) = x
@@ -54,7 +54,7 @@ trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends Field[Elemen
   }
   extension (a: Element[T]) override def pow(b: BigInteger) = if (b.signum < 0) inverse(a) \ -b else {
     val Element(n, d) = a
-    Element(n.pow(b), d.pow(b))
+    Element(n \ b, d \ b)
   }
   override def abs(x: Element[T]) = {
     val Element(n, d) = x
@@ -73,7 +73,7 @@ trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends Field[Elemen
       if (level > Level.Multiplication) fenced(s) else s
     }
   }
-  override def toString = s"${ring}.quotient()"
+  override def toString = s"$ring.quotient()"
   extension (x: Element[T]) def toMathML = {
     val Element(n, d) = x
     if (d.isOne) n.toMathML else s"<apply><divide/>${n.toMathML}${d.toMathML}</apply>"

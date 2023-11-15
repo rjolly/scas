@@ -2,6 +2,7 @@ package scas.polynomial
 
 import java.util.TreeMap
 import scala.jdk.CollectionConverters.MapHasAsScala
+import scala.annotation.targetName
 import scala.math.Ordering
 import scas.power.PowerProduct
 import scas.prettyprint.Show
@@ -71,11 +72,11 @@ trait SolvablePolynomial[T, C, M](using pp: PowerProduct[M]) extends Polynomial[
 
     final override def ppMultiplyRight(m: M) = iterator(x).foldLeft(zero) { (l, r) =>
       val (s, _) = r
-      l + s.ppMultiply(m)
+      l + s.multiply(m)
     }
   }
 
-  extension (e: M) def ppMultiply(f: M): T = {
+  extension (e: M) @targetName("ppMultiply") def multiply(f: M) = {
     val ep = dependencyOnVariables(e)
     val fp = dependencyOnVariables(f)
     if (ep.length == 0 || fp.length == 0) this(e * f) else {

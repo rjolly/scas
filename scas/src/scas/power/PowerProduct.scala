@@ -11,6 +11,10 @@ trait PowerProduct[M] extends Monoid[M] {
   def generator(n: Int): M
   def generators = (for (i <- 0 until length) yield generator(i)).toList
   def degree(x: M): BigInteger
+  def apply(x: Int) = {
+    assert (x == 1)
+    one
+  }
 
   def gcd(x: M, y: M): M
   def lcm(x: M, y: M): M
@@ -30,4 +34,6 @@ trait PowerProduct[M] extends Monoid[M] {
   def toMathML(fenced: Boolean) = variables.toList.toMathML(fenced)
   extension (x: M) def convert(from: PowerProduct[M]): M
   def size(x: M): Int
+
+  given int2powerProduct: (Int => M) = this(_)
 }

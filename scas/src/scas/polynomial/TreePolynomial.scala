@@ -1,6 +1,6 @@
 package scas.polynomial
 
-import java.util.{TreeMap, Collections}
+import java.util.{SortedMap, TreeMap, Collections}
 import scala.jdk.CollectionConverters.MapHasAsScala
 import scas.structure.Ring
 import scas.power.PowerProduct
@@ -58,5 +58,5 @@ class TreePolynomial[C, M](using ring: Ring[C], pp: PowerProduct[M]) extends Pol
 }
 
 object TreePolynomial {
-  type Element[C, M] = java.util.SortedMap[M, C]
+  type Element[C, M] = SortedMap[M, C]
 }

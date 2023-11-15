@@ -9,7 +9,7 @@ class ArrayModule[R : ClassTag](using ring: Ring[R])(val dimension: Int) extends
   def generators = (for (i <- 0 until dimension) yield generator(i)).toList
   def equiv(x: Array[R], y: Array[R]): Boolean = {
     var s = true
-    for (i <- 0 until dimension) {
+    for (i <- 0 until dimension) if(s) {
       if (x(i) <> y(i)) s = false
     }
     s
