@@ -6,10 +6,11 @@ trait Show[T] {
     def toMathML: String
   }
   extension (s: List[T]) {
-    def show: String = s.show("List")
-    def show(bare: Boolean): String = s.show("")
+    def show: String = s.show(false)
+    def show(fenced: Boolean): String = s.show(if (fenced) "" else "List")
     def show(key: String): String = s"${key}(${s.map(_.show).mkString(", ")})"
-    def toMathML: String = s.toMathML("list")
+    def toMathML: String = s.toMathML(false)
+    def toMathML(fenced: Boolean): String = s.toMathML(if (fenced) "mfenced" else "list")
     def toMathML(tag: String): String = s"<${tag}>${s.map(_.toMathML).mkString}</${tag}>"
   }
 }
