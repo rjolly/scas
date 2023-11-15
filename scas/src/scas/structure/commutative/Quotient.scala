@@ -1,17 +1,14 @@
 package scas.structure.commutative
 
-import scas.base.conversion.BigInteger
-import BigInteger.self.given
 import Quotient.Element
+import scas.util.{Conversion, unary_~}
+import scas.base.BigInteger
+import BigInteger.given
 
 trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends Field[Element[T]] {
   def apply(n: T) = Element(n, ring.one)
-  def apply(n: Long) = this(ring(n))
+  def fromInt(n: BigInteger) = this(ring.fromInt(n))
   def apply(n: T, d: T): Element[T] = this(Element(n, d))
-  override def convert(x: Element[T]) = {
-    val Element(n, d) = x
-    this(ring.convert(n), ring.convert(d))
-  }
   def apply(x: Element[T]) = {
     val Element(n, d) = x
     val c = ring.gcd(n, d)
@@ -69,22 +66,24 @@ trait Quotient[T](using ring: UniqueFactorizationDomain[T]) extends Field[Elemen
   }
   def characteristic = ring.characteristic
   extension (x: Element[T]) def toCode(level: Level) = {
+    import Level.given
     val Element(n, d) = x
     if (d.isOne) n.toCode(level) else {
       val s = n.toCode(Level.Multiplication) + "/" + d.toCode(Level.Power)
       if (level > Level.Multiplication) fenced(s) else s
     }
   }
-  override def toString = s"$ring()"
+  override def toString = s"$ring.quotient()"
   extension (x: Element[T]) def toMathML = {
     val Element(n, d) = x
     if (d.isOne) n.toMathML else s"<apply><divide/>${n.toMathML}${d.toMathML}</apply>"
   }
-  def toMathML = s"<apply>${ring.toMathML}<list/></apply>"
-  def zero = this(ring.zero)
-  def one = this(ring.one)
+  val zero = this(ring.zero)
+  val one = this(ring.one)
 
-  extension (ring: UniqueFactorizationDomain[T]) def apply() = this
+  extension (ring: UniqueFactorizationDomain[T]) def quotient() = this
+
+  given ring2quotient[U: Conversion[T]]: (U => Element[T]) = x => this(~x)
 }
 
 object Quotient {

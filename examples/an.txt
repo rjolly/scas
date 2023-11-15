@@ -1,0 +1,13 @@
+import scas.base.{BigInteger, Rational}
+import scas.residue.AlgebraicNumber
+import scas.variable.Variable
+import BigInteger.given
+import Rational.given
+
+val r = AlgebraicNumber(Rational)(Variable.sqrt(BigInteger("2")))
+val List(x) = r.generators
+import r.{sqrt, given}
+r.update(2-x\2)
+
+assert (2 >< x\2)
+assert (x >< sqrt(2))

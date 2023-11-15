@@ -2,11 +2,12 @@ package math3
 
 import java.lang.Math
 import scas.structure.Field
-import scas.base.conversion.BigInteger
+import scas.base.BigInteger
 
-object Double {
-  class Impl extends Field[Double] {
-    def apply(n: Long) = n.toDouble
+object Double extends Double.Impl with scas.structure.conversion.Field[Double] {
+  given instance: Double.type = this
+  abstract class Impl extends Field[Double] {
+    def fromInt(n: BigInteger) = n.doubleValue()
     extension (x: Double) {
       def add(y: Double) = x + y
       def subtract(y: Double) = x - y

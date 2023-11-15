@@ -1,7 +1,7 @@
 package scas.variable
 
-import scas.structure.Structure
+import scas.prettyprint.Show
 
-case class Sqrt[T : Structure](x: T) extends FunctionImpl("sqrt", x) {
+class Sqrt[T : Show](x: T) extends Function("sqrt", x) {
   override def toMathML = s"<apply><root/>${x.toMathML}</apply>"
 }

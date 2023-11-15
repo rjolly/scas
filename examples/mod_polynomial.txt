@@ -1,12 +1,11 @@
-import scas.base.conversion.{BigInteger, ModInteger}
-import scas.power.conversion.Lexicographic
+import scas.base.{BigInteger, ModInteger}
+import scas.power.Lexicographic
 import scas.polynomial.tree.Polynomial
-import BigInteger.int2bigInt
+import BigInteger.given
 
 val r = Polynomial(using ModInteger("2"), Lexicographic[Int]("x"))
-val List(x) = r.generators.toList
+val List(x) = r.generators
 import r.given
 
 assert(1 + x + 1 >< x)
-assert(r.toString == ModInteger("2")(x).toString)
-assert(r.math == ModInteger("2")(x).math)
+assert(r == ModInteger("2")(x))

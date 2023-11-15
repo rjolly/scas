@@ -1,11 +1,11 @@
-import scas.base.conversion.BigInteger
-import scas.power.conversion.Lexicographic
+import scas.base.BigInteger
+import scas.power.Lexicographic
 import scas.polynomial.tree.mutable.Polynomial
-import BigInteger.{int2bigInt, long2bigInt}
+import BigInteger.given
 
 val r = Polynomial(using BigInteger, Lexicographic[Int]("x", "y", "z"))
 // val r = Polynomial(using BigInteger, Lexicographic[Long]("x", "y", "z"))
-val List(x, y, z) = r.generators.toList
+val List(x, y, z) = r.generators
 import r.given
 
 val p = 1+x+y+z

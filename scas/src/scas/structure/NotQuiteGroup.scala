@@ -1,6 +1,6 @@
 package scas.structure
 
-import scas.base.conversion.BigInteger
+import scas.base.BigInteger
 import BigInteger.given
 
 trait NotQuiteGroup[T] extends Monoid[T] {

@@ -1,22 +1,52 @@
 package scas.structure.commutative
 
-trait Residue[T](using ring: UniqueFactorizationDomain[T]) extends UniqueFactorizationDomain[T] {
-  def apply(x: T): T
-  def apply(n: Long) = this(ring(n))
-  override def convert(x: T) = this(ring.convert(x))
-  extension (x: T) {
-    def signum = ring.signum(x)
-    def add(y: T) = this(ring.add(x)(y))
-    def subtract(y: T) = this(ring.subtract(x)(y))
-    def multiply(y: T) = this(ring.multiply(x)(y))
-  }
-  def equiv(x: T, y: T) = ring.equiv(x, y)
-  extension (x: T) {
-    def toCode(level: Level) = ring.toCode(x)(level)
-    def toMathML = ring.toMathML(x)
-  }
-  def zero = ring.zero
-  def one = ring.one
+import scas.base.BigInteger
 
-  extension (ring: UniqueFactorizationDomain[T]) def apply(s: T*): Residue[T]
+trait Residue[T, R](using ring: UniqueFactorizationDomain[R]) extends UniqueFactorizationDomain[T] {
+  def apply(x: R): T
+  def fromInt(n: BigInteger) = this(ring.fromInt(n))
+  def fromRing(x: R): T
+  extension (x: T) {
+    def unapply: R
+    def signum = {
+      val a = x.unapply
+      ring.signum(a)
+    }
+    def add(y: T) = {
+      val a = x.unapply
+      val b = y.unapply
+      this(a + b)
+    }
+    def subtract(y: T) = {
+      val a = x.unapply
+      val b = y.unapply
+      this(a - b)
+    }
+    def multiply(y: T) = {
+      val a = x.unapply
+      val b = y.unapply
+      this(a * b)
+    }
+  }
+  def equiv(x: T, y: T) = {
+    val a = x.unapply
+    val b = y.unapply
+    val c = this(a).unapply
+    val d = this(b).unapply
+    c >< d
+  }
+  extension (x: T) {
+    def toCode(level: Level) = {
+      val a = x.unapply
+      a.toCode(level)
+    }
+    def toMathML = {
+      val a = x.unapply
+      a.toMathML
+    }
+  }
+  val zero = fromRing(ring.zero)
+  val one = fromRing(ring.one)
+
+  extension (ring: UniqueFactorizationDomain[R]) def apply(s: R*): Residue[T, R]
 }

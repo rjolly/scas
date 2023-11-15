@@ -1,11 +1,8 @@
 package scas.variable
 
-import scas.structure.Structure
-import Variable.toMathML
+import scas.prettyprint.Show
 
-abstract class FunctionImpl[T : Structure](name: String, parameter: T*) extends Variable {
-  override def toString = name + "(" + parameter.map(_.show).mkString(", ") + ")"
-  def toMathML = s"<apply><ci>${name.toMathML}</ci>${parameter.map(_.toMathML)}</apply>"
+class Function[T : Show](name: String, parameter: T*) extends Variable {
+  override def toString = s"$name(${parameter.toList.show(false)})"
+  def toMathML = s"<apply><ci>${name.toMathML}</ci>${parameter.toList.toMathML(false)}</apply>"
 }
-
-case class Function[T : Structure](name: String, parameter: T*) extends FunctionImpl(name, parameter: _*)

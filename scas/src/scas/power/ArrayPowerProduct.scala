@@ -1,10 +1,8 @@
 package scas.power
 
 import scas.math.Numeric
-import scas.util.ClassTagArray
-import scas.variable.Variable
 
-trait ArrayPowerProduct[N : ClassTagArray](using numeric: Numeric[N]) extends PowerProduct[Array[N]] {
+trait ArrayPowerProduct[N](using numeric: Numeric[N]) extends PowerProduct[Array[N]] {
   def dependencyOnVariables(x: Array[N]) = (for (i <- 0 until length if (x(i) > numeric.zero)) yield i).toArray
   extension (x: Array[N]) def toCode(level: Level) = {
     var s = "1"

@@ -1,13 +1,13 @@
 // Requires : de.uni-mannheim.rz.krum#jas;2.7.10
 
 import edu.jas.poly.TermOrderByName
-import scas.base.conversion.BigInteger
+import scas.base.BigInteger
 import scas.polynomial.tree.mutable.Polynomial
-import jas.conversion.PowerProduct
-import BigInteger.{int2bigInt, long2bigInt}
+import jas.PowerProduct
+import BigInteger.given
 
 val r = Polynomial(using BigInteger, PowerProduct("x", "y", "z")(TermOrderByName.INVLEX))
-val Array(x, y, z) = r.generators
+val List(x, y, z) = r.generators
 import r.given
 
 val p = 1 + x + y + z

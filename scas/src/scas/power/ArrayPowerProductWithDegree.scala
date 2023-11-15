@@ -2,17 +2,18 @@ package scas.power
 
 import scala.reflect.ClassTag
 import scas.math.Numeric
-import scas.util.ClassTagArray
 import scas.variable.Variable
+import scas.base.BigInteger
+import BigInteger.given
 
-trait ArrayPowerProductWithDegree[N : ClassTag : ClassTagArray](using numeric: Numeric[N]) extends ArrayPowerProduct[N] {
+trait ArrayPowerProductWithDegree[N : ClassTag](using numeric: Numeric[N]) extends ArrayPowerProduct[N] {
   def one = new Array[N](length + 1)
   def generator(n: Int) = {
     val r = one
     for (i <- 0 to length) r(i) = numeric.fromInt(if (i == n || i == length) 1 else 0)
     r
   }
-  def degree(x: Array[N]) = x(length).toLong
+  def degree(x: Array[N]) = BigInteger.fromInt(x(length).toLong)
   def gcd(x: Array[N], y: Array[N]): Array[N] = {
     val r = one
     for (i <- 0 until length) {
@@ -59,9 +60,9 @@ trait ArrayPowerProductWithDegree[N : ClassTag : ClassTagArray](using numeric: N
     for (i <- 0 to length) r(i) = if (i == n || i == length) x(n) else numeric.zero
     r
   }
-  extension (x: Array[N]) def convert(from: Seq[Variable]) = {
+  extension (x: Array[N]) def convert(from: PowerProduct[Array[N]]) = {
     val r = one
-    val index = from.map(a => variables.indexOf(a))
+    val index = from.variables.map(a => variables.indexOf(a))
     for (i <- 0 until x.length - 1) if (x(i) > numeric.zero) {
       val c = index(i)
       assert (c > -1)

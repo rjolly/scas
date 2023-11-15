@@ -1,13 +1,11 @@
 package scas.polynomial
 
-import java.util.TreeMap
-import scala.collection.JavaConverters.mapAsScalaMapConverter
-import scala.annotation.targetName
+import scala.jdk.CollectionConverters.MapHasAsScala
 import scas.structure.Ring
 import scas.power.PowerProduct
 import TreePolynomial.Element
 
-trait TreeMutablePolynomial[C, M](using ring: Ring[C], pp: PowerProduct[M]) extends TreePolynomial[C, M] {
+class TreeMutablePolynomial[C, M : PowerProduct](using ring: Ring[C]) extends TreePolynomial[C, M] {
   extension (x: Element[C, M]) override def subtract(y: Element[C, M]) = unmodifiable(super.subtract(modifiable(x))(y))
 
   extension (x: Element[C, M]) override def multiply(y: Element[C, M]) = {
@@ -34,7 +32,7 @@ trait TreeMutablePolynomial[C, M](using ring: Ring[C], pp: PowerProduct[M]) exte
     x
   }
 
-  extension (x: Element[C, M]) @targetName("coefMultiply") override def multiply(c: C) = {
+  extension (x: Element[C, M]) override def multiplyRight(c: C) = {
     val xs = x.entrySet.iterator
     while (xs.hasNext) {
       val sa = xs.next

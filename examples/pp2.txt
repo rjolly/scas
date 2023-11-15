@@ -1,10 +1,8 @@
-import scas.power.conversion.Lexicographic
+import scas.power.Lexicographic
 import scas.variable.Variable
 
-val m = new Lexicographic[Int]((for (i <- 0 until 4; j <- 0 until 2) yield Variable("a", Array(i, j): _*)): _*)
-val a = m.generators.toList.grouped(2).toList
-val s = (for (i <- 0 until 4; j <- 0 until 2) yield a(i)(j)).toList
+val m = Lexicographic(0)((for (i <- 0 until 4; j <- 0 until 2) yield Variable("a", Array(i, j): _*)): _*)
+val a = m.generators.grouped(2).toList
 import m.given
 
-assert(s.show == List(a(0)(0), a(0)(1), a(1)(0), a(1)(1), a(2)(0), a(2)(1), a(3)(0), a(3)(1)).show)
-assert(s.math == List(a(0)(0), a(0)(1), a(1)(0), a(1)(1), a(2)(0), a(2)(1), a(3)(0), a(3)(1)).math)
+assert(m.toString == List(a(0)(0), a(0)(1), a(1)(0), a(1)(1), a(2)(0), a(2)(1), a(3)(0), a(3)(1)).show)

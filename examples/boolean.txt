@@ -1,0 +1,4 @@
+import scas.base.Boolean
+import Boolean.given
+
+assert (true ^ true >< false)

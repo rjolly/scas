@@ -1,0 +1,9 @@
+import scas.polynomial.tree.PolynomialWithGB
+import scas.base.BigInteger
+import BigInteger.given
+
+val r = PolynomialWithGB(BigInteger)("x", "y")
+val List(x, y) = r.generators
+import r.given
+
+scas.prettyprint.println(r.gb(4 - (x\2 + y\2), 1 - x*y))

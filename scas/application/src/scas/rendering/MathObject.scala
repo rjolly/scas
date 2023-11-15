@@ -1,9 +1,16 @@
 package scas.rendering
 
-import scas.structure.Structure
-import scas.prettyprint.Show.Level
+import jscl.editor.rendering.MathObject
+import scas.util.{Conversion, unary_~}
+import scas.prettyprint.Show
 
-class MathObject[T : Structure](x: T) extends jscl.editor.rendering.MathObject {
-  override def toString = x.toCode(Level.Addition)
-  def toMathML = x.toMathML
+object MathObject {
+  def apply[U : Conversion[T], T : Show](x: U): MathObject = new MathObject {
+    override def toString = (~x).show
+    def toMathML = (~x).toMathML
+  }
+  def apply[T : Show](s: List[T]): MathObject = new MathObject {
+    override def toString = s.show
+    def toMathML = s.toMathML
+  }
 }

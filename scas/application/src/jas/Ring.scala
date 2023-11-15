@@ -2,10 +2,11 @@ package jas
 
 import edu.jas.structure.RingElem
 import edu.jas.structure.RingFactory
+import scas.base.BigInteger
 
 trait Ring[T <: RingElem[T]] extends scas.structure.ordered.Ring[T] {
   def factory: RingFactory[T]
-  def apply(n: Long) = factory.fromInteger(n)
+  def fromInt(n: BigInteger) = factory.fromInteger(n)
   extension (x: T) {
     def add(y: T) = x.sum(y)
     def subtract(y: T) = x.subtract(y)

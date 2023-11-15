@@ -1,0 +1,10 @@
+import scas.quotient.RationalFunction
+import scas.base.BigInteger
+import BigInteger.given
+
+val q = RationalFunction.integral("a", "b")
+val List(a, b) = q.generators
+import q.given
+
+assert ((a+b)\2 / (a\2-b\2) >< (a+b)/(a-b))
+assert (a / (2*a) >< 1%%2)

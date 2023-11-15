@@ -6,5 +6,3 @@ extension [U](x: U)
 type Conversion[T] = [X] =>> X => T
 
 type ToFrags[T] = [X] =>> Fragable[X, T]
-
-type ClassTagArray[N] = scala.reflect.ClassTag[Array[N]]

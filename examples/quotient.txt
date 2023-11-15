@@ -1,0 +1,15 @@
+import scas.base.{BigInteger, Rational}
+import scas.polynomial.tree.UnivariatePolynomial
+import scas.quotient.Quotient
+import BigInteger.given
+import Rational.given
+
+val r = UnivariatePolynomial(Rational)("x")
+val List(x) = r.generators
+import r.given
+
+val s = Quotient(Rational(x))
+import s.given
+
+assert (x/(2*x) >< 1%%2)
+assert (s == Rational(x).quotient())

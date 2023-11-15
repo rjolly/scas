@@ -1,9 +1,9 @@
-import scas.power.conversion.Lexicographic
-import scas.base.conversion.BigInteger
-import BigInteger.int2bigInt
+import scas.power.Lexicographic
+import scas.base.BigInteger
+import BigInteger.given
 
 val m = Lexicographic(0)("x")
-val List(x) = m.generators.toList
+val List(x) = m.generators
 import m.given
 
 assert(x > 1)

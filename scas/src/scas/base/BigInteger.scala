@@ -1,14 +1,15 @@
 package scas.base
 
 import scas.structure.commutative.ordered.EuclidianDomain
+import scas.structure.commutative.ordered.conversion.UniqueFactorizationDomain
+import java.math.BigInteger.valueOf
 
 type BigInteger = java.math.BigInteger
 
-object BigInteger {
+object BigInteger extends BigInteger.Impl with UniqueFactorizationDomain[BigInteger] {
+  given instance: BigInteger.type = this
   abstract class Impl extends EuclidianDomain[BigInteger] {
-    given instance: Impl
-    val self = this
-    def apply(n: Long) = java.math.BigInteger.valueOf(n)
+    def fromInt(n: BigInteger) = n
     def apply(str: String) = new BigInteger(str)
     extension (x: BigInteger) {
       def add(y: BigInteger) = x.add(y)
@@ -39,5 +40,11 @@ object BigInteger {
     override def toString = "BigInteger"
     extension (x: BigInteger) def toMathML = s"<cn>$x</cn>"
     def toMathML = "<integers/>"
+
+    given int2bigInt: (Int => BigInteger) = valueOf(_)
+    given long2bigInt: (Long => BigInteger) = valueOf(_)
   }
+  val characteristic = BigInteger("0")
+  val zero = BigInteger("0")
+  val one = BigInteger("1")
 }

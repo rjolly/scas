@@ -1,12 +1,10 @@
-import scas.base.conversion.BigInteger
-import scas.power.conversion.Lexicographic
-import scas.polynomial.tree.WeylAlgebra
-import BigInteger.int2bigInt
+import scas.base.BigInteger
+import scas.polynomial.tree.SolvablePolynomial
+import BigInteger.given
 
-val r = WeylAlgebra(using BigInteger, Lexicographic[Int]("a", "x", "b", "y"))
-val List(a, x, b, y) = r.generators.toList
+val r = SolvablePolynomial.weylAlgebra(BigInteger)("a", "x", "b", "y")
+val List(a, x, b, y) = r.generators
 import r.given
 
 assert (b * a + y * x >< 2+a*b+x*y)
-assert (r.toString == BigInteger(a, x, b, y)(1+a*b-b*a, 1+x*y-y*x).toString)
-assert (r.math == BigInteger(a, x, b, y)(1+a*b-b*a, 1+x*y-y*x).math)
+assert (r == BigInteger(a, x, b, y)(1+a*b-b*a, 1+x*y-y*x))
