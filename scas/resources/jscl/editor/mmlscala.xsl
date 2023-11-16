@@ -280,7 +280,7 @@
 	<xsl:text>)</xsl:text>
 </xsl:template>
 
-<xsl:template match="m:apply[*[2][self::m:mfenced]]">
+<xsl:template match="m:mrow[*[2][self::m:mfenced]]">
 	<xsl:apply-templates select="*[1]"/>
 	<xsl:text>(</xsl:text>
 	<xsl:for-each select="*[2]/*">
@@ -290,7 +290,7 @@
 	<xsl:text>).quotient()</xsl:text>
 </xsl:template>
 
-<xsl:template match="m:apply[*[2][self::m:list]]">
+<xsl:template match="m:mrow[*[2][self::m:mfenced[@open='[' and @close=']']]]">
 	<xsl:apply-templates select="*[1]"/>
 	<xsl:text>(</xsl:text>
 	<xsl:for-each select="*[2]/*">
@@ -300,7 +300,7 @@
 	<xsl:text>)</xsl:text>
 </xsl:template>
 
-<xsl:template match="m:msub[*[2][self::m:list]]">
+<xsl:template match="m:msub[*[2][self::m:mfenced]]">
 	<xsl:apply-templates select="*[1]"/>
 	<xsl:text>(</xsl:text>
 	<xsl:for-each select="*[2]/*">

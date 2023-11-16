@@ -24,8 +24,8 @@ trait Residue[T : ClassTag, C, M](using ring: PolynomialOverField[T, C, M]) exte
   def fromRing(x: T) = x
   def characteristic = ring.characteristic
   def inverse(x: T) = x.modInverse(list(0))
-  override def toString = s"${ring}${list.show(true)}"
-  def toMathML = s"<msub>${ring.toMathML}${list.toMathML}</msub>"
+  override def toString = s"${ring}(${list.show(false)})"
+  def toMathML = s"<msub>${ring.toMathML}<mfenced>${list.toMathML(false)}</mfenced></msub>"
 
   extension (ring: UniqueFactorizationDomain[T]) def apply(s: T*) = {
     given ArrayModule[T] = new ArrayModule[T](using this)(list.size)

@@ -59,8 +59,8 @@ trait SolvablePolynomial[T, C, M](using pp: PowerProduct[M]) extends Polynomial[
     (de(0), df(0))
   }
   def toList = (for ((a, b) <- table.asScala; relation <- b) yield relation).toList
-  override def toString = s"${super.toString}${toList.show(true)}"
-  override def toMathML = s"<msub>${super.toMathML}${toList.toMathML}</msub>"
+  override def toString = s"${super.toString}(${toList.show(false)})"
+  override def toMathML = s"<msub>${super.toMathML}<mfenced>${toList.toMathML(false)}</mfenced></msub>"
 
   extension (ring: Polynomial[T, C, M]) def apply(s: T*): SolvablePolynomial[T, C, M] = {
     assert (s.foldLeft(true)((l, r) => l && r.isZero))

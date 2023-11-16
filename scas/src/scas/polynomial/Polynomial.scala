@@ -67,7 +67,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
       if (level > Level.Addition) fenced(s) else s
     }
   }
-  override def toString = s"${ring}${variables.toList.show(true)}"
+  override def toString = s"${ring}(${variables.toList.show(false)})"
   extension (x: T) def toMathML = {
     var s = ring.zero.toMathML
     var n = 0
@@ -85,7 +85,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
     s
   }
   def toMathML = toMathML(false)
-  def toMathML(fenced: Boolean) = s"<apply>${ring.toMathML}${variables.toList.toMathML(fenced)}</apply>"
+  def toMathML(fenced: Boolean) = s"<mrow>${ring.toMathML}${if (fenced) "<mfenced>" else "<mfenced open=\"[\" close=\"]\">"}${variables.toList.toMathML(false)}</mfenced></mrow>"
 
   extension (ring: Ring[C]) def apply(s: T*): Polynomial[T, C, M] = {
     given ArrayModule[T] = new ArrayModule[T](using this)(length)
