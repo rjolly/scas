@@ -28,10 +28,8 @@ trait PowerProduct[M] extends Monoid[M] {
   }
   def dependencyOnVariables(x: M): Array[Int]
   extension (x: M) def projection(n: Int): M
-  override def toString: String = toString(false)
-  def toString(fenced: Boolean) = variables.toList.show(fenced)
-  def toMathML = toMathML(false)
-  def toMathML(fenced: Boolean) = variables.toList.toMathML(fenced)
+  override def toString = variables.toList.show(false)
+  def toMathML = variables.toList.toMathML(false)
   extension (x: M) def convert(from: PowerProduct[M]): M
   def size(x: M): Int
 
