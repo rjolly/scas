@@ -5,6 +5,6 @@ import BigInteger.given
 val r = GaloisField("2")("alpha")
 val List(alpha) = r.generators
 import r.given
-r.update(1+alpha+alpha\2)
+r.update(alpha\2+alpha+1)
 
-assert (alpha\2 >< 1+alpha)
+assert (alpha\2 >< alpha+1)

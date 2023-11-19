@@ -11,8 +11,8 @@ trait SolvablePolynomial[T, C, M](using pp: PowerProduct[M]) extends Polynomial[
   import pp.dependencyOnVariables
   type Key = (Int, Int)
   case class Relation(e: M, f: M, p: T) {
-    override def toString = s"${p.show}-${e.show}*${f.show}"
-    def toMathML = s"<apply><minus/>${p.toMathML}<apply><times/>${e.toMathML}${f.toMathML}</apply></apply>"
+    override def toString = s"${e.show}*${f.show}-${p.toCode(Level.Multiplication)}"
+    def toMathML = s"<apply><minus/><apply><times/>${e.toMathML}${f.toMathML}</apply>${p.toMathML}</apply>"
   }
   object Relation {
     given Show[Relation] with {

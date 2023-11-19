@@ -26,11 +26,7 @@ class TreePolynomial[C, M](using ring: Ring[C], pp: PowerProduct[M]) extends Pol
 
   def iterator(x: Element[C, M]) = x.asScala.iterator
 
-  extension (x: Element[C, M]) {
-    override def iterator(m: M) = x.tailMap(m).asScala.iterator
-
-    override def toSeq = x.asScala.toSeq
-  }
+  extension (x: Element[C, M]) override def iterator(m: M) = x.tailMap(m).asScala.iterator
 
   def size(x: Element[C, M]) = x.size
 

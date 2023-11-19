@@ -8,11 +8,11 @@ import Variable.string2variable
 
 trait Lexicographic[N : Numeric] extends ArrayPowerProductWithDegree[N] {
   def compare(x: Array[N], y: Array[N]) = {
-    var i = length
-    while (i > 0) {
-      i -= 1
+    var i = 0
+    while (i < length) {
       if (x(i) < y(i)) return -1
       if (x(i) > y(i)) return 1
+      i += 1
     }
     0
   }
@@ -29,11 +29,11 @@ object Lexicographic {
 
   inline def apply[N : Numeric : ClassTag](variables: Variable*): Impl[N] = new Impl[N](variables: _*) {
     override def compare(x: Array[N], y: Array[N]) = {
-      var i = length
-      while (i > 0) {
-        i -= 1
+      var i = 0
+      while (i < length) {
         if (x(i) < y(i)) return -1
         if (x(i) > y(i)) return 1
+        i += 1
       }
       0
     }

@@ -8,9 +8,9 @@ val r = Polynomial(using BigInteger, Lexicographic[Int]("x", "y", "z"))
 val List(x, y, z) = r.generators
 import r.given
 
-val p = 1+x+y+z
-// val p = 1+x\2147483647+y\2147483647+z\2147483647
-// val p = 10000000001l+10000000001l*x+10000000001l*y+10000000001l*z
+val p = x+y+z+1
+// val p = x\2147483647+y\2147483647+z\2147483647+1
+// val p = 10000000001l*x+10000000001l*y+10000000001l*z+10000000001l
 println("p: " + p.show)
 val q = p \ 20
 println("q: " + q.size)

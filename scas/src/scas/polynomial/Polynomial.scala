@@ -16,7 +16,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
   def fromInt(n: BigInteger) = this(ring.fromInt(n))
   def generator(n: Int) = this(pp.generator(n))
   def generators = pp.generators.map(apply)
-  extension (x: T) def signum = if (x.isZero) 0 else lastCoefficient(x).signum
+  extension (x: T) def signum = if (x.isZero) 0 else headCoefficient(x).signum
   def characteristic = ring.characteristic
   extension (x: T) def convert(from: PowerProduct[M]) = sort(x.map((s, a) => (s.convert(from), a)))
   extension (x: T) def subtract(y: T) = x.subtract(pp.one, ring.one, y)
@@ -49,7 +49,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
     var n = 0
     var m = 0
     val p = if (size(x) == 1) level else Level.Addition
-    for ((a, b) <- reverseIterator(x)) {
+    for ((a, b) <- iterator(x)) {
       val c = ring.abs(b)
       val g = b.signum < 0
       val (t, u) = if (a.isOne) (c.toCode(p), 1) else if (c.isOne) (a.toCode(p), pp.size(a)) else (c.toCode(Level.Multiplication) + "*" + a.show, 1 + pp.size(a))
@@ -71,7 +71,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
   extension (x: T) def toMathML = {
     var s = ring.zero.toMathML
     var n = 0
-    for ((a, b) <- reverseIterator(x)) {
+    for ((a, b) <- iterator(x)) {
       val c = ring.abs(b)
       val g = b.signum < 0
       val t =  if (a.isOne) c.toMathML else if (c.isOne) a.toMathML else s"<apply><times/>${c.toMathML}${a.toMathML}</apply>"
@@ -101,10 +101,6 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
   def iterator(x: T): Iterator[(M, C)]
 
   extension (x: T) def iterator(m: M): Iterator[(M, C)] = this.iterator(x).dropWhile((s, _) => s > m)
-
-  def reverseIterator(x: T) = x.toSeq.reverseIterator
-
-  extension (x: T) def toSeq = this.iterator(x).toSeq
 
   export pp.{variables, length}
 
@@ -213,7 +209,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
     this
   }
 
-  def sort(x: T) = this(x.toSeq.sortBy((s, _) => s)(pp.reverse): _*)
+  def sort(x: T) = this(iterator(x).toSeq.sortBy((s, _) => s)(pp.reverse): _*)
 
   given coef2poly[D: Conversion[C]]: (D => T) = x => this(~x)
 }

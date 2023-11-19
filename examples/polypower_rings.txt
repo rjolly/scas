@@ -8,9 +8,9 @@ val r = MultivariatePolynomialRing(MonomialOrder.LEX, "x", "y", "z")(using BigIn
 val List(x, y, z) = r.gens
 import r.given
 
-val p = 1 + x + y + z
-// val p = 1 + x \ 32767 + y \ 32767 + z \ 32767
-// val p = 10000000001l + 10000000001l * x + 10000000001l * y + 10000000001l * z
+val p = x + y + z + 1
+// val p = x \ 32767 + y \ 32767 + z \ 32767 + 1
+// val p = 10000000001l * x + 10000000001l * y + 10000000001l * z + 10000000001l
 println("p: " + p)
 val q = p \ 20
 println("q: " + q.size)

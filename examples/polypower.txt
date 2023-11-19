@@ -5,12 +5,12 @@ import edu.jas.poly.GenPolynomialRing
 import jas.{BigInteger, coef2poly, poly2scas}
 import BigInteger.{int2bigInt, long2bigInt, bigInt2scas}
 
-given r: GenPolynomialRing[BigInteger](BigInteger.factory, Array("x", "y", "z"), TermOrderByName.INVLEX)
+given r: GenPolynomialRing[BigInteger](BigInteger.factory, Array("x", "y", "z"), TermOrderByName.LEX)
 val List(one, x, y, z) = poly2scas(r).gens
 
-val p = 1 + x + y + z
-// val p = 1 + x \ 2147483647 + y \ 2147483647 + z \ 2147483647
-// val p = 10000000001l + 10000000001l * x + 10000000001l * y + 10000000001l * z
+val p = x + y + z + 1
+// val p = x \ 2147483647 + y \ 2147483647 + z \ 2147483647 + 1
+// val p = 10000000001l * x + 10000000001l * y + 10000000001l * z + 10000000001l
 println("p: " + p)
 val q = p \ 20
 println("q: " + q.length)

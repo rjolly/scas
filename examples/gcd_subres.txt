@@ -9,4 +9,4 @@ import r.{gcd, given}
 assert (gcd(0, 0) >< 0)
 assert (gcd(x, 0) >< x)
 assert (gcd(1, x) >< 1)
-assert (gcd((1+x)*(1+x), (1+x)*(1-x)) >< 1+x)
+assert (gcd((x+1)*(x+1), (x+1)*(x-1)) >< x+1)

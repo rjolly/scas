@@ -3,6 +3,6 @@ import BigInteger.given
 import Rational.given
 import Complex.{sqrt, conjugate, magnitude2, given}
 
-assert ((1+sqrt(-1))/(1-sqrt(-1)) >< sqrt(-1))
+assert ((sqrt(-1)-1)/(sqrt(-1)+1) >< sqrt(-1))
 assert (conjugate(sqrt(-1)) >< -sqrt(-1))
 assert (magnitude2(sqrt(-1)) >< 1)
