@@ -7,15 +7,16 @@ import scas.base.BigInteger
 import BigInteger.given
 
 trait ArrayPowerProductWithDegree[N : ClassTag](using numeric: Numeric[N]) extends ArrayPowerProduct[N] {
-  def one = new Array[N](length + 1)
+  def empty = new Array[N](length + 1)
+  val one = empty
   def generator(n: Int) = {
-    val r = one
+    val r = empty
     for (i <- 0 to length) r(i) = numeric.fromInt(if (i == n || i == length) 1 else 0)
     r
   }
   def degree(x: Array[N]) = BigInteger.fromInt(x(length).toLong)
   def gcd(x: Array[N], y: Array[N]): Array[N] = {
-    val r = one
+    val r = empty
     for (i <- 0 until length) {
       r(i) = numeric.min(x(i), y(i))
       r(length) += r(i)
@@ -23,7 +24,7 @@ trait ArrayPowerProductWithDegree[N : ClassTag](using numeric: Numeric[N]) exten
     r
   }
   def lcm(x: Array[N], y: Array[N]): Array[N] = {
-    val r = one
+    val r = empty
     for (i <- 0 until length) {
       r(i) = numeric.max(x(i), y(i))
       r(length) += r(i)
@@ -31,7 +32,7 @@ trait ArrayPowerProductWithDegree[N : ClassTag](using numeric: Numeric[N]) exten
     r
   }
   extension (x: Array[N]) def multiply(y: Array[N]) = {
-    val r = one
+    val r = empty
     var i = 0
     while (i <= length) {
       r(i) = x(i) + y(i)
@@ -40,7 +41,7 @@ trait ArrayPowerProductWithDegree[N : ClassTag](using numeric: Numeric[N]) exten
     r
   }
   extension (x: Array[N]) def divide(y: Array[N]) = {
-    val r = one
+    val r = empty
     for (i <- 0 to length) {
       assert (x(i) >= y(i))
       r(i) = x(i) - y(i)
@@ -56,12 +57,12 @@ trait ArrayPowerProductWithDegree[N : ClassTag](using numeric: Numeric[N]) exten
     true
   }
   extension (x: Array[N]) def projection(n: Int) = {
-    val r = one
+    val r = empty
     for (i <- 0 to length) r(i) = if (i == n || i == length) x(n) else numeric.zero
     r
   }
   extension (x: Array[N]) def convert(from: PowerProduct[Array[N]]) = {
-    val r = one
+    val r = empty
     val index = from.variables.map(a => variables.indexOf(a))
     for (i <- 0 until x.length - 1) if (x(i) > numeric.zero) {
       val c = index(i)

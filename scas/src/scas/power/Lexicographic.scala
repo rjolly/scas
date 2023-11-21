@@ -38,7 +38,7 @@ object Lexicographic {
       0
     }
     extension (x: Array[N]) override def multiply(y: Array[N]) = {
-      val r = one
+      val r = empty
       var i = 0
       while (i <= length) {
         r(i) = x(i) + y(i)
