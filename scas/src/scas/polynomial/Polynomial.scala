@@ -52,7 +52,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
     for ((a, b) <- reverseIterator(x)) {
       val c = ring.abs(b)
       val g = b.signum < 0
-      val (t, u) = if (a.isOne) (c.toCode(p), 1) else if (c.isOne) (a.toCode(p), pp.size(a)) else (c.toCode(Level.Multiplication) + "*" + a.toCode(Level.Multiplication), 1 + pp.size(a))
+      val (t, u) = if (a.isOne) (c.toCode(p), 1) else if (c.isOne) (a.toCode(p), pp.size(a)) else (c.toCode(Level.Multiplication) + "*" + a.show, 1 + pp.size(a))
       s = if (n == 0) {
         if (g) "-" + t else t
       } else {
