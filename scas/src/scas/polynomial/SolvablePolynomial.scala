@@ -83,8 +83,8 @@ trait SolvablePolynomial[T, C, M](using pp: PowerProduct[M]) extends Polynomial[
       val el = ep(ep.length-1)
       val fl = fp(0)
       if (el <= fl) this(e * f) else {
-        val e2 = e.projection(el)
-        val f2 = f.projection(fl)
+        val e2 = e.projection(el, el + 1)
+        val f2 = f.projection(fl, fl + 1)
         val e1 = e / e2
         val f1 = f / f2
         val Relation(e3, f3, c3) = lookup(e2, f2)
