@@ -31,45 +31,50 @@ trait ArrayPowerProductWithDegree[N : ClassTag](using numeric: Numeric[N]) exten
     }
     r
   }
-  extension (x: Array[N]) def multiply(y: Array[N]) = {
-    val r = empty
-    var i = 0
-    while (i <= length) {
-      r(i) = x(i) + y(i)
-      i += 1
+  extension (x: Array[N]) {
+    def multiply(y: Array[N]) = {
+      val r = empty
+      var i = 0
+      while (i <= length) {
+        r(i) = x(i) + y(i)
+        i += 1
+      }
+      r
     }
-    r
-  }
-  extension (x: Array[N]) def divide(y: Array[N]) = {
-    val r = empty
-    for (i <- 0 to length) {
-      assert (x(i) >= y(i))
-      r(i) = x(i) - y(i)
+    def divide(y: Array[N]) = {
+      val r = empty
+      for (i <- 0 to length) {
+        assert (x(i) >= y(i))
+        r(i) = x(i) - y(i)
+      }
+      r
     }
-    r
-  }
-  extension (x: Array[N]) def factorOf(y: Array[N]) = {
-    var i = 0
-    while (i < length) {
-      if (x(i) > y(i)) return false
-      i += 1
+    def factorOf(y: Array[N]) = {
+      var i = 0
+      while (i < length) {
+        if (x(i) > y(i)) return false
+        i += 1
+      }
+      true
     }
-    true
-  }
-  extension (x: Array[N]) def projection(n: Int) = {
-    val r = empty
-    for (i <- 0 to length) r(i) = if (i == n || i == length) x(n) else numeric.zero
-    r
-  }
-  extension (x: Array[N]) def convert(from: PowerProduct[Array[N]]) = {
-    val r = empty
-    val index = from.variables.map(a => variables.indexOf(a))
-    for (i <- 0 until x.length - 1) if (x(i) > numeric.zero) {
-      val c = index(i)
-      assert (c > -1)
-      r(c) = x(i)
+    def projection(begin: Int, end: Int) = {
+      val r = empty
+      for (i <- 0 until length) if (i >= begin && i < end) {
+        r(i) = x(i)
+        r(length) += r(i)
+      }
+      r
     }
-    r(length) = x(x.length - 1)
-    r
+    def convert(from: PowerProduct[Array[N]]) = {
+      val r = empty
+      val index = from.variables.map(a => variables.indexOf(a))
+      for (i <- 0 until x.length - 1) if (x(i) > numeric.zero) {
+        val c = index(i)
+        assert (c > -1)
+        r(c) = x(i)
+      }
+      r(length) = x(x.length - 1)
+      r
+    }
   }
 }
