@@ -68,12 +68,12 @@ trait ArrayPowerProductWithDegree[N : ClassTag](using numeric: Numeric[N]) exten
     def convert(from: PowerProduct[Array[N]]) = {
       val r = empty
       val index = from.variables.map(a => variables.indexOf(a))
-      for (i <- 0 until x.length - 1) if (x(i) > numeric.zero) {
+      for (i <- 0 until from.length) if (x(i) > numeric.zero) {
         val c = index(i)
         assert (c > -1)
         r(c) = x(i)
       }
-      r(length) = x(x.length - 1)
+      r(length) = x(from.length)
       r
     }
   }
