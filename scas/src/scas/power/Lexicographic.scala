@@ -12,7 +12,7 @@ trait Lexicographic[N : Numeric] extends ArrayPowerProductWithDegree[N] {
     while (i > 0) {
       i -= 1
       if (x(i) < y(i)) return -1
-      else if (x(i) > y(i)) return 1
+      if (x(i) > y(i)) return 1
     }
     0
   }
@@ -33,7 +33,7 @@ object Lexicographic {
       while (i > 0) {
         i -= 1
         if (x(i) < y(i)) return -1
-        else if (x(i) > y(i)) return 1
+        if (x(i) > y(i)) return 1
       }
       0
     }

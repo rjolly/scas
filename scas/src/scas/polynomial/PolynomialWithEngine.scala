@@ -44,11 +44,12 @@ trait PolynomialWithEngine[T : ClassTag, C, M](using ring: UniqueFactorizationDo
     def principal = if (m < n) j else i
     def coprime = pp.coprime(m, n)
     def b_criterion: Boolean = {
-      var r = false
-      for (k <- 0 until polys.size) if (!r) {
-        if ((headPowerProduct(k) | scm) && considered(i, k) && considered(j, k)) r = true
+      var k = 0
+      while (k < polys.size) {
+        if ((headPowerProduct(k) | scm) && considered(i, k) && considered(j, k)) return true
+        k += 1
       }
-      return r
+      false
     }
     def remove: Unit = {
       pairs.remove(this)
