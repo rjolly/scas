@@ -8,11 +8,12 @@ class ArrayModule[R : ClassTag](using ring: Ring[R])(val dimension: Int) extends
   def generator(n: Int) = (for (i <- 0 until dimension) yield if (i == n) ring.one else ring.zero).toArray
   def generators = (for (i <- 0 until dimension) yield generator(i)).toList
   def equiv(x: Array[R], y: Array[R]): Boolean = {
-    var s = true
-    for (i <- 0 until dimension) if(s) {
-      if (x(i) <> y(i)) s = false
+    var i = 0
+    while (i < dimension) {
+      if (x(i) <> y(i)) return false
+      i += 1
     }
-    s
+    true
   }
   extension (x: R) def multiplyLeft(y: Array[R]) = (for (i <- 0 until dimension) yield x * y(i)).toArray
   extension (x: Array[R]) {
