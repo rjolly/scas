@@ -2,11 +2,11 @@ package scas.polynomial
 
 import scala.reflect.ClassTag
 import scas.module.ArrayModule
-import scas.structure.commutative.Field
+import scas.structure.Ring
 import scas.power.PowerProduct
 import PolynomialWithRepr.Element
 
-class PolynomialWithRepr[T : ClassTag, C : Field, M : PowerProduct](using factory: Polynomial[T, C, M])(dimension: Int) extends UnivariatePolynomial[Element[T], C, M] {
+class PolynomialWithRepr[T : ClassTag, C : Ring, M : PowerProduct](using factory: Polynomial[T, C, M])(dimension: Int) extends Polynomial[Element[T], C, M] {
   given module: ArrayModule[T] = new ArrayModule[T](dimension)
   def apply(p: T, n: Int) = (p, module.generator(n))
   def apply(s: (M, C)*) = this(factory(s: _*))

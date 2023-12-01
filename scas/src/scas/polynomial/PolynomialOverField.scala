@@ -13,7 +13,7 @@ trait PolynomialOverField[T : ClassTag, C : Field, M : PowerProduct] extends Pol
     override def reduce(y: T) = super.reduce(x)(y)
   }
   extension (x: T) def modInverse(mod: T) = {
-    val s = new PolynomialWithRepr(using this)(1)
+    val s = new scas.polynomial.repr.UnivariatePolynomial(using this)(1)
     val (p, e) = s.monic(s.gcd(s(x, 0), s(mod)))
     assert (p.isOne)
     e(0)
