@@ -12,5 +12,5 @@ class BooleanPolynomial[M](using Field[Boolean], PowerProduct[M]) extends TreePo
 }
 
 object BooleanPolynomial {
-  def apply(s: String*) = new BooleanPolynomial(using Boolean, Lexicographic[Int](s: _*))
+  def apply(s: String*) = new BooleanPolynomial(using Boolean, Lexicographic[Int](s*))
 }

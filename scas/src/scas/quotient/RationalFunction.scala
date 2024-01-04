@@ -21,6 +21,6 @@ trait RationalFunction[T, M](using ring: PolynomialOverUFD[T, BigInteger, M]) ex
 }
 
 object RationalFunction {
-  def apply[C](ring: Field[C])(s: String*) = new conversion.RationalFunctionOverField(using UnivariatePolynomial(ring)(s: _*))
-  def integral(s: String*) = new conversion.RationalFunction(using MultivariatePolynomial(BigInteger)(s: _*))
+  def apply[C](ring: Field[C])(s: String*) = new conversion.RationalFunctionOverField(using UnivariatePolynomial(ring)(s*))
+  def integral(s: String*) = new conversion.RationalFunction(using MultivariatePolynomial(BigInteger)(s*))
 }

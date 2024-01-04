@@ -10,7 +10,7 @@ abstract class MultivariatePolynomial[C : UniqueFactorizationDomain, M : PowerPr
 }
 
 object MultivariatePolynomial {
-  def apply[C](ring: UniqueFactorizationDomain[C])(s: String*): MultivariatePolynomial[C, Array[Int]] = new PolynomialWithSimpleGCD(using ring, Lexicographic[Int](s: _*))
-  def withPrimitiveGCD[C](ring: UniqueFactorizationDomain[C])(s: String*): MultivariatePolynomial[C, Array[Int]] = new PolynomialWithPrimitiveGCD(using ring, Lexicographic[Int](s: _*))
-  def withSubresGCD[C](ring: UniqueFactorizationDomain[C])(s: String*): MultivariatePolynomial[C, Array[Int]] = new PolynomialWithSubresGCD(using ring, Lexicographic[Int](s: _*))
+  def apply[C](ring: UniqueFactorizationDomain[C])(s: String*): MultivariatePolynomial[C, Array[Int]] = new PolynomialWithSimpleGCD(using ring, Lexicographic[Int](s*))
+  def withPrimitiveGCD[C](ring: UniqueFactorizationDomain[C])(s: String*): MultivariatePolynomial[C, Array[Int]] = new PolynomialWithPrimitiveGCD(using ring, Lexicographic[Int](s*))
+  def withSubresGCD[C](ring: UniqueFactorizationDomain[C])(s: String*): MultivariatePolynomial[C, Array[Int]] = new PolynomialWithSubresGCD(using ring, Lexicographic[Int](s*))
 }

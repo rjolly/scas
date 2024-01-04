@@ -6,5 +6,5 @@ import scas.power.Lexicographic
 import scas.variable.Variable
 
 object AlgebraicNumber {
-  def apply[C](ring: Field[C])(s: Variable*) = new conversion.AlgebraicNumber(using new UnivariatePolynomial(using ring, Lexicographic[Int](s: _*)))
+  def apply[C](ring: Field[C])(s: Variable*) = new conversion.AlgebraicNumber(using new UnivariatePolynomial(using ring, Lexicographic[Int](s*)))
 }

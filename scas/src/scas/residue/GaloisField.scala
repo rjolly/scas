@@ -5,5 +5,5 @@ import scas.polynomial.PolynomialOverField
 import scas.base.ModInteger
 
 object GaloisField {
-  def apply(str: String)(s: String*) = new conversion.GaloisField(using UnivariatePolynomial(ModInteger(str))(s: _*))
+  def apply(str: String)(s: String*) = new conversion.GaloisField(using UnivariatePolynomial(ModInteger(str))(s*))
 }
