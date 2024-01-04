@@ -4,44 +4,45 @@ import scas.base.BigInteger
 
 trait Residue[T, R](using ring: UniqueFactorizationDomain[R]) extends UniqueFactorizationDomain[T] {
   def apply(x: R): T
+  val self = this
+  def unapply(x: T): Option[R]
   def fromInt(n: BigInteger) = this(ring.fromInt(n))
   def fromRing(x: R): T
   extension (x: T) {
-    def unapply: R
     def signum = {
-      val a = x.unapply
+      val self(a) = x: @unchecked
       ring.signum(a)
     }
     def add(y: T) = {
-      val a = x.unapply
-      val b = y.unapply
+      val self(a) = x: @unchecked
+      val self(b) = y: @unchecked
       this(a + b)
     }
     def subtract(y: T) = {
-      val a = x.unapply
-      val b = y.unapply
+      val self(a) = x: @unchecked
+      val self(b) = y: @unchecked
       this(a - b)
     }
     def multiply(y: T) = {
-      val a = x.unapply
-      val b = y.unapply
+      val self(a) = x: @unchecked
+      val self(b) = y: @unchecked
       this(a * b)
     }
   }
   def equiv(x: T, y: T) = {
-    val a = x.unapply
-    val b = y.unapply
-    val c = this(a).unapply
-    val d = this(b).unapply
+    val self(a) = x: @unchecked
+    val self(b) = y: @unchecked
+    val self(c) = this(a): @unchecked
+    val self(d) = this(b): @unchecked
     c >< d
   }
   extension (x: T) {
     def toCode(level: Level) = {
-      val a = x.unapply
+      val self(a) = x: @unchecked
       a.toCode(level)
     }
     def toMathML = {
-      val a = x.unapply
+      val self(a) = x: @unchecked
       a.toMathML
     }
   }

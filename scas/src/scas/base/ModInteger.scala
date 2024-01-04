@@ -8,6 +8,7 @@ import BigInteger.given
 class ModInteger(mod: BigInteger) extends Residue[Int, BigInteger] with Field[Int] {
   assert (mod.isProbablePrime(100))
   def apply(x: BigInteger) = this(x.longValue)
+  def unapply(x: Int) = Some(int2bigInt(x))
   def fromRing(x: BigInteger) = x.intValue
   def characteristic = mod
   val m = mod.intValue
@@ -16,7 +17,6 @@ class ModInteger(mod: BigInteger) extends Residue[Int, BigInteger] with Field[In
       if (c < 0) c + m else c
   }
   extension (x: Int) {
-    def unapply = int2bigInt(x)
     override def signum = java.lang.Integer.signum(x)
     override def add(y: Int) = this(x.toLong + y)
     override def subtract(y: Int) = this(x.toLong - y)

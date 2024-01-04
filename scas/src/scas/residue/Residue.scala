@@ -20,7 +20,7 @@ trait Residue[T : ClassTag, C, M](using ring: PolynomialOverField[T, C, M]) exte
     generator(n)
   }
   def apply(x: T) = x.reduce(list)
-  extension (x: T) def unapply = x
+  def unapply(x: T) = Some(x)
   def fromRing(x: T) = x
   def characteristic = ring.characteristic
   def inverse(x: T) = x.modInverse(list(0))
