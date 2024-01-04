@@ -10,5 +10,5 @@ class PolynomialWithGB[C : UniqueFactorizationDomain, M : PowerProduct] extends 
 }
 
 object PolynomialWithGB {
-  def apply[C](ring: UniqueFactorizationDomain[C])(s: String*) = new PolynomialWithGB(using ring, Lexicographic[Int](s: _*))
+  def apply[C](ring: UniqueFactorizationDomain[C])(s: String*) = new PolynomialWithGB(using ring, Lexicographic[Int](s*))
 }

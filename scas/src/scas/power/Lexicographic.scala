@@ -19,15 +19,15 @@ trait Lexicographic[N : Numeric] extends ArrayPowerProductWithDegree[N] {
 }
 
 object Lexicographic {
-  def apply[N : Numeric : ClassTag](degree: N)(variables: Variable*) = new conversion.Lexicographic[N](variables: _*)
+  def apply[N : Numeric : ClassTag](degree: N)(variables: Variable*) = new conversion.Lexicographic[N](variables*)
 
-  @targetName("applyString") def apply[N : Numeric : ClassTag](degree: N)(s: String*): conversion.Lexicographic[N] = this(degree)(s.map(string2variable): _*)
+  @targetName("applyString") def apply[N : Numeric : ClassTag](degree: N)(s: String*): conversion.Lexicographic[N] = this(degree)(s.map(string2variable)*)
 
   class Impl[N : Numeric : ClassTag](val variables: Variable*) extends Lexicographic[N]
 
-  @targetName("applyString") inline def apply[N : Numeric : ClassTag](s: String*): Impl[N] = this(s.map(string2variable): _*)
+  @targetName("applyString") inline def apply[N : Numeric : ClassTag](s: String*): Impl[N] = this(s.map(string2variable)*)
 
-  inline def apply[N : Numeric : ClassTag](variables: Variable*): Impl[N] = new Impl[N](variables: _*) {
+  inline def apply[N : Numeric : ClassTag](variables: Variable*): Impl[N] = new Impl[N](variables*) {
     override def compare(x: Array[N], y: Array[N]) = {
       var i = length
       while (i > 0) {

@@ -10,6 +10,6 @@ class SolvablePolynomial[C : Ring, M : PowerProduct] extends TreePolynomial[C, M
 }
 
 object SolvablePolynomial {
-  def apply[C](ring: Ring[C])(s: String*) = new SolvablePolynomial(using ring, Lexicographic[Int](s: _*))
-  def weylAlgebra[C](ring: Ring[C])(s: String*): SolvablePolynomial[C, Array[Int]] = new SolvablePolynomial(using ring, Lexicographic[Int](s: _*)) with WeylAlgebra[Element[C, Array[Int]], C, Array[Int]]
+  def apply[C](ring: Ring[C])(s: String*) = new SolvablePolynomial(using ring, Lexicographic[Int](s*))
+  def weylAlgebra[C](ring: Ring[C])(s: String*): SolvablePolynomial[C, Array[Int]] = new SolvablePolynomial(using ring, Lexicographic[Int](s*)) with WeylAlgebra[Element[C, Array[Int]], C, Array[Int]]
 }

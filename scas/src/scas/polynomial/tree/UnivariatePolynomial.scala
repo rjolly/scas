@@ -11,5 +11,5 @@ class UnivariatePolynomial[C : Field, M : PowerProduct] extends TreePolynomial[C
 }
 
 object UnivariatePolynomial {
-  def apply[C](ring: Field[C])(s: String*) = new UnivariatePolynomial(using ring, Lexicographic[Int](s: _*))
+  def apply[C](ring: Field[C])(s: String*) = new UnivariatePolynomial(using ring, Lexicographic[Int](s*))
 }

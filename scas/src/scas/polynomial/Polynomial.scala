@@ -213,7 +213,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
     this
   }
 
-  def sort(x: T) = this(x.toSeq.sortBy((s, _) => s)(pp.reverse): _*)
+  def sort(x: T) = this(x.toSeq.sortBy((s, _) => s)(pp.reverse)*)
 
   given coef2poly[D: Conversion[C]]: (D => T) = x => this(~x)
 }
