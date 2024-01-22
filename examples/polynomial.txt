@@ -1,11 +1,12 @@
 // Requires : de.uni-mannheim.rz.krum#jas;2.7.10
 
 import edu.jas.poly.TermOrderByName
-import edu.jas.poly.GenPolynomialRing
+import edu.jas.poly.{GenPolynomial, GenPolynomialRing}
 import jas.{BigInteger, poly2scas}
 import BigInteger.given
 
-val r = poly2scas(new GenPolynomialRing(BigInteger.factory, Array("x", "y", "z"), TermOrderByName.INVLEX))
+given GenPolynomialRing[BigInteger](BigInteger.factory, Array("x", "y", "z"), TermOrderByName.INVLEX)
+val r = poly2scas
 val List(one, x, y, z) = r.gens
 import r.given
 
@@ -15,7 +16,8 @@ assert(x + BigInteger("18446744073709551616") >< BigInteger("1844674407370955161
 assert(x + one >< one + x)
 assert(x > one)
 
-val s = poly2scas(new GenPolynomialRing(r.factory, Array("a"), TermOrderByName.INVLEX))
+given GenPolynomialRing[GenPolynomial[BigInteger]](r.factory, Array("a"), TermOrderByName.INVLEX)
+val s = poly2scas[GenPolynomial[BigInteger]]
 val List(_, a) = s.gens
 import s.given
 
