@@ -8,12 +8,12 @@ trait Fragable[S, T : ClassTag] extends (S => Array[T]):
     def toFrags: Array[T]
 
 object Fragable:
-  given [U : Conversion[T], T : ClassTag]: Fragable[U, T] with
+  given [U : Conversion[T], T : ClassTag]: Fragable[U, T] = new:
     extension (x: U)
       def toFrags = Array(~x)
-  given [T : ClassTag]: Fragable[EmptyTuple, T] with
+  given [T : ClassTag]: Fragable[EmptyTuple, T] = new:
     extension (x: EmptyTuple)
       def toFrags = Array()
-  given [A : ToFrags[T], B <: Tuple : ToFrags[T], T : ClassTag]: Fragable[A *: B, T] with
+  given [A : ToFrags[T], B <: Tuple : ToFrags[T], T : ClassTag]: Fragable[A *: B, T] = new:
     extension (x: A *: B)
       def toFrags = x.head.toFrags ++ x.tail.toFrags

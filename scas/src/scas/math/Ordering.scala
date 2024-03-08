@@ -10,7 +10,7 @@ object Ordering {
       inline override def > (y: Byte) = x > y
     }
   }
-  given Byte: ByteOrdering with {}
+  given Byte: ByteOrdering = new {}
   trait ShortOrdering extends Ordering[Short] {
     def compare(x: Short, y: Short) = java.lang.Short.compare(x, y)
     extension (x: Short) {
@@ -18,7 +18,7 @@ object Ordering {
       inline override def > (y: Short) = x > y
     }
   }
-  given Short: ShortOrdering with {}
+  given Short: ShortOrdering = new {}
   trait IntOrdering extends Ordering[Int] {
     def compare(x: Int, y: Int) = java.lang.Integer.compare(x, y)
     extension (x: Int) {
@@ -26,7 +26,7 @@ object Ordering {
       inline override def > (y: Int) = x > y
     }
   }
-  given Int: IntOrdering with {}
+  given Int: IntOrdering = new {}
   trait LongOrdering extends Ordering[Long] {
     def compare(x: Long, y: Long) = java.lang.Long.compare(x, y)
     extension (x: Long) {
@@ -34,5 +34,5 @@ object Ordering {
       inline override def > (y: Long) = x > y
     }
   }
-  given Long: LongOrdering with {}
+  given Long: LongOrdering = new {}
 }
