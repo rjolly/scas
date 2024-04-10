@@ -24,6 +24,7 @@ class TreeMutablePolynomial[C, M : PowerProduct](using ring: Ring[C]) extends Tr
       val a = sa.getValue
       val ac = a * c
       if (!ac.isZero) {
+        import ring.-
         val sm = s * m
         val cc = x.getOrElse(sm, ring.zero) - ac
         if (cc.isZero) x.remove(sm) else x.put(sm, cc)

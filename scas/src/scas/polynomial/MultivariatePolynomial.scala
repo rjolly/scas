@@ -17,6 +17,7 @@ trait MultivariatePolynomial[T[C, M], C, M](using ring: UniqueFactorizationDomai
     primitivePart(gcd1(p, q))%* ring.gcd(a, b)
   }
   extension (x: T[C, M]) def convertTo(using s: MultivariatePolynomial[T, T[C, M], M]): T[T[C, M], M] = iterator(x).foldLeft(s.zero) { (l, r) =>
+    import s.+
     val (m, c) = r
     val t = m.projection(0, 1)
     l + s(take.convert(t)(pp), this(drop.convert(m / t)(pp), c))
