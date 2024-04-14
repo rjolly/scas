@@ -29,9 +29,10 @@ class PolynomialWithRepr[T : ClassTag, C : Ring, M : PowerProduct](using factory
   }
   extension (x: Element[T]) {
     def add(y: Element[T]) = {
+      import factory.{+, given}
       val (p, e) = x
       val (q, f) = y
-      (factory.+(p)(q), module.+(e)(f))
+      (p + q, module.+(e)(f))
     }
     override def ppMultiplyRight(m: M) = {
       val (p, e) = x

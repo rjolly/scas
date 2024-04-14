@@ -11,6 +11,7 @@ import scas.base.BigInteger
 import BigInteger.given
 
 trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) extends Ring[T] with AlgebraOverRing[T, C] {
+  given instance: Polynomial[T, C, M]
   val zero = this()
   val one = this(ring.one)
   def fromInt(n: BigInteger) = this(ring.fromInt(n))
@@ -18,7 +19,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
   def generators = pp.generators.map(apply)
   extension (x: T) def signum = if (x.isZero) 0 else lastCoefficient(x).signum
   def characteristic = ring.characteristic
-  extension (x: T) def convert(from: PowerProduct[M]) = sort(x.map((s, a) => (s.convert(from), a)))
+  extension (x: T) def convert(from: PowerProduct[M]): T = sort(x.map((s, a) => (s.convert(from), a)))
   extension (x: T) def subtract(y: T) = x.subtract(pp.one, ring.one, y)
   def equiv(x: T, y: T) = {
     val xs = iterator(x)
@@ -85,7 +86,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
     s
   }
   def toMathML = toMathML(false)
-  def toMathML(fenced: Boolean) = s"<mrow>${ring.toMathML}${if (fenced) "<mfenced>" else "<mfenced open=\"[\" close=\"]\">"}${variables.toList.toMathML(false)}</mfenced></mrow>"
+  def toMathML(fenced: Boolean): String = s"<mrow>${ring.toMathML}${if (fenced) "<mfenced>" else "<mfenced open=\"[\" close=\"]\">"}${variables.toList.toMathML(false)}</mfenced></mrow>"
 
   extension (ring: Ring[C]) def apply(s: T*): Polynomial[T, C, M] = {
     given ArrayModule[T] = new ArrayModule[T](using this)(length)
