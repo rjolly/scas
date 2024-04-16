@@ -1,5 +1,8 @@
 package scas.structure
 
+import scas.base.BigInteger
+import BigInteger.given
+
 trait StarRing[T] extends Ring[T] {
   def real(x: T): T
   def imag(x: T): T
@@ -8,5 +11,5 @@ trait StarRing[T] extends Ring[T] {
     def isImag = real(x) >< zero
   }
   def conjugate(x: T): T
-  def magnitude2(x: T): T
+  def magnitude2(x: T) = real(x)\2 + imag(x)\2
 }

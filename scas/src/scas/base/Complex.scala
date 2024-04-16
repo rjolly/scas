@@ -17,9 +17,9 @@ object Complex extends Complex.Impl(using new UnivariatePolynomial(using Rationa
     import ring.pp
     def real(x: Complex) = ring(x.coefficient(pp.one))
     def imag(x: Complex) = ring(x.coefficient(pp.generator(0)))
+    override def conjugate(x: Complex) = real(x) - sqrt(-1) * imag(x)
     override def toString = "Complex"
     override def toMathML = "<complexes/>"
   }
-  override def conjugate(x: Complex) = real(x) - sqrt(-1) * imag(x)
   update(1 + sqrt(-1)\2)
 }
