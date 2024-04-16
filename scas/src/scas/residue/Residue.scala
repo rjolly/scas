@@ -1,6 +1,7 @@
 package scas.residue
 
 import scala.reflect.ClassTag
+import scas.util.{Conversion, unary_~}
 import scas.structure.commutative.{Field, UniqueFactorizationDomain}
 import scas.polynomial.PolynomialOverField
 import scas.module.ArrayModule
@@ -14,6 +15,7 @@ trait Residue[T : ClassTag, C, M](using ring: PolynomialOverField[T, C, M]) exte
     list = List(mod)
   }
   import ring.{generator, variables}
+  def sqrt[U: Conversion[T]](x: U): T = sqrt(~x)
   def sqrt(x: T) = {
     val n = variables.indexOf(Variable.sqrt(x))
     assert (n > -1)
