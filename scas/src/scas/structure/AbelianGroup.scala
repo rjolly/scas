@@ -13,5 +13,6 @@ trait AbelianGroup[T] extends Structure[T] {
     def signum: Int
   }
   def abs(x: T) = if (x.signum < 0) -x else x
+  def abs[U: Conversion[T]](x: U): T = abs(~x)
   def zero: T
 }
