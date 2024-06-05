@@ -1,3 +1,3 @@
 package scas.structure.conversion
 
-trait AlgebraOverRing[T, R : scas.structure.Ring] extends scas.structure.AlgebraOverRing[T, R] with Module[T, R] with SemiGroup[T]
+trait AlgebraOverRing[T, R : scas.structure.Ring] extends scas.structure.AlgebraOverRing[T, R] with AbelianGroup[T] with SemiGroup[T]
