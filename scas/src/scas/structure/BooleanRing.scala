@@ -1,5 +1,7 @@
 package scas.structure
 
+import scas.util.{Conversion, unary_~}
+
 trait BooleanRing[T] extends Ring[T] {
   extension (x: T) {
     def and(y: T) = x * y
@@ -7,9 +9,9 @@ trait BooleanRing[T] extends Ring[T] {
     def xor(y: T) = x + y
     def unary_! = x ^ one
     def implies(y: T) = y || !x
-    def && (y: T) = x.and(y)
-    def || (y: T) = x.or(y)
-    def ^ (y: T) = x.xor(y)
-    def >> (y: T) = x.implies(y)
+    inline def && [U: Conversion[T]](y: U) = x.and(~y)
+    inline def || [U: Conversion[T]](y: U) = x.or(~y)
+    inline def ^ [U: Conversion[T]](y: U) = x.xor(~y)
+    inline def >> [U: Conversion[T]](y: U) = x.implies(~y)
   }
 }
