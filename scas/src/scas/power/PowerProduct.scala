@@ -1,5 +1,6 @@
 package scas.power
 
+import scas.util.{Conversion, unary_~}
 import scas.structure.ordered.Monoid
 import scas.variable.Variable
 import scas.base.BigInteger
@@ -22,8 +23,8 @@ trait PowerProduct[M] extends Monoid[M] {
   extension (x: M) {
     def divide(y: M): M
     def factorOf(y: M): Boolean
-    inline def / (y: M) = x.divide(y)
-    inline def | (y: M) = x.factorOf(y)
+    inline def / [U: Conversion[M]](y: U) = x.divide(~y)
+    inline def | [U: Conversion[M]](y: U) = x.factorOf(~y)
     def isUnit = x.isOne
   }
   def dependencyOnVariables(x: M): Array[Int]
