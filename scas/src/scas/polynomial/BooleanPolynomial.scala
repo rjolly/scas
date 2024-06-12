@@ -1,6 +1,6 @@
 package scas.polynomial
 
 import scas.base.Boolean
-import scas.structure.commutative.BooleanUFD
+import scas.structure.BooleanRing
 
-trait BooleanPolynomial[T, M] extends UnivariatePolynomial[T, Boolean, M] with BooleanUFD[T]
+trait BooleanPolynomial[T, M] extends UnivariatePolynomial[T, Boolean, M] with BooleanRing[T]
