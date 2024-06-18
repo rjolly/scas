@@ -6,7 +6,7 @@ import scas.variable.Variable
 import scas.util.unary_~
 
 class Lexicographic[N : Numeric : ClassTag](val variables: Variable*) extends PowerProduct[Array[N]] with scas.power.Lexicographic[N] {
-  def newInstance(variables: Seq[Variable]) = new Lexicographic[N](variables*)
+  def newInstance(variables: Variable*) = new Lexicographic[N](variables*)
 }
 
 object Lexicographic {
