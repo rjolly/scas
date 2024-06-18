@@ -6,7 +6,7 @@ import scas.math.Numeric
 import scas.variable.Variable
 import Variable.string2variable
 
-trait Lexicographic[N : Numeric] extends ArrayPowerProductWithDegree[N] {
+abstract class Lexicographic[N : Numeric : ClassTag](val variables: Variable*) extends ArrayPowerProductWithDegree[N] {
   def compare(x: Array[N], y: Array[N]) = {
     var i = length
     while (i > 0) {
@@ -23,11 +23,11 @@ object Lexicographic {
 
   @targetName("applyString") def apply[N : Numeric : ClassTag](degree: N)(s: String*): conversion.Lexicographic[N] = this(degree)(s.map(string2variable)*)
 
-  class Impl[N : Numeric : ClassTag](val variables: Variable*) extends Lexicographic[N]
+  @targetName("applyString") inline def apply[N : Numeric : ClassTag](s: String*): Lexicographic[N] = this(s.map(string2variable)*)
 
-  @targetName("applyString") inline def apply[N : Numeric : ClassTag](s: String*): Impl[N] = this(s.map(string2variable)*)
+  inline def apply[N : Numeric : ClassTag](variables: Variable*): Lexicographic[N] = new Lexicographic[N](variables*) {
+    def newInstance(variables: Variable*) = this
 
-  inline def apply[N : Numeric : ClassTag](variables: Variable*): Impl[N] = new Impl[N](variables*) {
     override def compare(x: Array[N], y: Array[N]) = {
       var i = length
       while (i > 0) {

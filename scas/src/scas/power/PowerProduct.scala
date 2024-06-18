@@ -8,6 +8,9 @@ import scas.base.BigInteger
 trait PowerProduct[M] extends Monoid[M] {
   def variables: Seq[Variable]
   val length = variables.length
+  def take(n: Int) = newInstance(variables.take(n)*)
+  def drop(n: Int) = newInstance(variables.drop(n)*)
+  def newInstance(variables: Variable*): PowerProduct[M]
   def generator(variable: String): M = generator(variables.indexOf(variable))
   def generator(n: Int): M
   def generators = (for (i <- 0 until length) yield generator(i)).toList
