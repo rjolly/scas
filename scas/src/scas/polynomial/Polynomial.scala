@@ -18,6 +18,7 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
   def generators = pp.generators.map(apply)
   extension (x: T) def signum = if (x.isZero) 0 else lastCoefficient(x).signum
   def characteristic = ring.characteristic
+  def newInstance(pp: PowerProduct[M]): Polynomial[T, C, M]
   extension (x: T) def convert(from: PowerProduct[M]) = sort(x.map((s, a) => (s.convert(from), a)))
   extension (x: T) def subtract(y: T) = x.subtract(pp.one, ring.one, y)
   def equiv(x: T, y: T) = {
