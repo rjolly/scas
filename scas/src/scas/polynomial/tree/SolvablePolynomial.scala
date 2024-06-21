@@ -6,6 +6,8 @@ import scas.polynomial.{TreePolynomial, WeylAlgebra}
 import TreePolynomial.Element
 
 class SolvablePolynomial[C : Ring, M : PowerProduct] extends TreePolynomial[C, M] with scas.polynomial.SolvablePolynomial[Element[C, M], C, M] with scas.structure.conversion.Ring[Element[C, M]] {
+  given ring: Ring[C] = summon
+  given pp: PowerProduct[M] = summon
   given instance: SolvablePolynomial[C, M] = this
 }
 

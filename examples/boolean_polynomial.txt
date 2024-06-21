@@ -5,7 +5,7 @@ import Boolean.given
 
 val r = BooleanPolynomial("x")
 val List(x) = r.generators
-import r.given
+import r.{instance, coef2poly}
 
 assert ((x ^ true >< true ^ x).isUnit)
 assert (r == Boolean(x))

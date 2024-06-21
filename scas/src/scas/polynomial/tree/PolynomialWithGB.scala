@@ -6,6 +6,8 @@ import scas.polynomial.TreePolynomial
 import TreePolynomial.Element
 
 class PolynomialWithGB[C : UniqueFactorizationDomain, M : PowerProduct] extends TreePolynomial[C, M] with scas.polynomial.PolynomialWithGB[Element[C, M], C, M] with scas.structure.commutative.conversion.UniqueFactorizationDomain[Element[C, M]] {
+  given ring: UniqueFactorizationDomain[C] = summon
+  given pp: PowerProduct[M] = summon
   given instance: PolynomialWithGB[C, M] = this
 }
 
