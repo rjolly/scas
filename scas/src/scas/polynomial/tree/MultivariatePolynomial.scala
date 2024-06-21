@@ -6,6 +6,8 @@ import scas.polynomial.TreePolynomial
 import TreePolynomial.Element
 
 abstract class MultivariatePolynomial[C : UniqueFactorizationDomain, M : PowerProduct] extends TreePolynomial[C, M] with scas.polynomial.MultivariatePolynomial[Element, C, M] with scas.structure.commutative.conversion.UniqueFactorizationDomain[Element[C, M]] {
+  given ring: UniqueFactorizationDomain[C] = summon
+  given pp: PowerProduct[M] = summon
   given instance: MultivariatePolynomial[C, M]
 }
 

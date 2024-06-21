@@ -7,6 +7,8 @@ import scas.polynomial.TreePolynomial
 import TreePolynomial.Element
 
 class UnivariatePolynomial[C : Field, M : PowerProduct] extends TreePolynomial[C, M] with scas.polynomial.UnivariatePolynomial[Element[C, M], C, M] with UniqueFactorizationDomain[Element[C, M]] {
+  given ring: Field[C] = summon
+  given pp: PowerProduct[M] = summon
   given instance: UnivariatePolynomial[C, M] = this
 }
 

@@ -1,10 +1,9 @@
 package scas.polynomial
 
 import scala.annotation.tailrec
-import scas.structure.commutative.{Field, EuclidianDomain}
-import scas.power.PowerProduct
+import scas.structure.commutative.EuclidianDomain
 
-trait UnivariatePolynomial[T, C, M](using ring: Field[C], val pp: PowerProduct[M]) extends PolynomialOverField[T, C, M] with EuclidianDomain[T] {
+trait UnivariatePolynomial[T, C, M] extends PolynomialOverField[T, C, M] with EuclidianDomain[T] {
   assert (length == 1)
   def derivative(x: T) = x.map((a, b) => (a / pp.generator(0), b * ring.fromInt(pp.degree(a))))
   override def gcd(x: T, y: T) = gcd1(x, y)

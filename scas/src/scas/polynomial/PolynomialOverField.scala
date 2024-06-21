@@ -3,9 +3,9 @@ package scas.polynomial
 import scala.reflect.ClassTag
 import scas.structure.commutative.Field
 import scas.module.ArrayModule
-import scas.power.PowerProduct
 
-trait PolynomialOverField[T : ClassTag, C : Field, M : PowerProduct] extends PolynomialOverUFD[T, C, M] {
+trait PolynomialOverField[T : ClassTag, C, M] extends PolynomialOverUFD[T, C, M] {
+  given ring: Field[C]
   extension (x: T) override def %/ (c: C) = x%* Field[C].inverse(c)
   def monic(x: T) = if (x.isZero) zero else x%/ headCoefficient(x)
   extension (x: T) {
