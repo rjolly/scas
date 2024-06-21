@@ -5,10 +5,8 @@ import scala.jdk.CollectionConverters.SetHasAsScala
 import scala.collection.mutable.ArrayBuffer
 import scala.reflect.ClassTag
 import scala.math.Ordering
-import scas.structure.commutative.UniqueFactorizationDomain
-import scas.power.PowerProduct
 
-trait PolynomialWithEngine[T : ClassTag, C, M](using ring: UniqueFactorizationDomain[C], pp: PowerProduct[M]) extends PolynomialOverUFD[T, C, M] {
+trait PolynomialWithEngine[T : ClassTag, C, M] extends PolynomialOverUFD[T, C, M] {
   def normalize(x: T) = primitivePart(x)
   def s_polynomial(x: T, y: T) = {
     val (m, a) = head(x)

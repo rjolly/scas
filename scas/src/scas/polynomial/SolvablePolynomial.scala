@@ -4,11 +4,9 @@ import java.util.TreeMap
 import scala.jdk.CollectionConverters.MapHasAsScala
 import scala.annotation.targetName
 import scala.math.Ordering
-import scas.power.PowerProduct
 import scas.prettyprint.Show
 
-trait SolvablePolynomial[T, C, M](using pp: PowerProduct[M]) extends Polynomial[T, C, M] {
-  import pp.dependencyOnVariables
+trait SolvablePolynomial[T, C, M] extends Polynomial[T, C, M] {
   type Key = (Int, Int)
   case class Relation(e: M, f: M, p: T) {
     override def toString = s"${p.show}-${e.show}*${f.show}"
@@ -54,8 +52,8 @@ trait SolvablePolynomial[T, C, M](using pp: PowerProduct[M]) extends Polynomial[
     (ex | ey) && (fx | fy)
   }
   def makeKey(e: M, f: M) = {
-    val de = dependencyOnVariables(e)
-    val df = dependencyOnVariables(f)
+    val de = pp.dependencyOnVariables(e)
+    val df = pp.dependencyOnVariables(f)
     (de(0), df(0))
   }
   def toList = (for ((a, b) <- table.asScala; relation <- b) yield relation).toList
@@ -77,8 +75,8 @@ trait SolvablePolynomial[T, C, M](using pp: PowerProduct[M]) extends Polynomial[
   }
 
   extension (e: M) @targetName("ppMultiply") def multiply(f: M) = {
-    val ep = dependencyOnVariables(e)
-    val fp = dependencyOnVariables(f)
+    val ep = pp.dependencyOnVariables(e)
+    val fp = pp.dependencyOnVariables(f)
     if (ep.length == 0 || fp.length == 0) this(e * f) else {
       val el = ep(ep.length-1)
       val fl = fp(0)

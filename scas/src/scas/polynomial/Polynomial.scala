@@ -1,6 +1,7 @@
 package scas.polynomial
 
 import scala.annotation.{tailrec, targetName}
+import scala.compiletime.deferred
 import scala.reflect.ClassTag
 import scas.structure.{Ring, AlgebraOverRing}
 import scas.module.ArrayModule
@@ -10,7 +11,9 @@ import scas.variable.Variable
 import scas.base.BigInteger
 import BigInteger.given
 
-trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) extends Ring[T] with AlgebraOverRing[T, C] {
+trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] {
+  given ring: Ring[C] = deferred
+  given pp: PowerProduct[M] = deferred
   val zero = this()
   val one = this(ring.one)
   def fromInt(n: BigInteger) = this(ring.fromInt(n))
@@ -107,7 +110,9 @@ trait Polynomial[T : ClassTag, C, M](using ring: Ring[C], pp: PowerProduct[M]) e
 
   extension (x: T) def toSeq = this.iterator(x).toSeq
 
-  export pp.{variables, length}
+  def variables = pp.variables
+
+  def length = pp.length
 
   def size(x: T): Int
 

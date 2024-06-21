@@ -6,14 +6,14 @@ import BigInteger.given
 
 val r = Polynomial(using BigInteger, Lexicographic[Int]("x", "y", "z"))
 val List(x, y, z) = r.generators
-import r.given
+import r.{instance, coef2poly}
 
 assert(x + 1 >< 1 + x)
 assert(x + BigInteger("1") >< BigInteger("1") + x)
 
 val s = Polynomial(using BigInteger(x, y, z), Lexicographic[Int]("a"))
 val List(a) = s.generators
-import s.given
+import s.{instance, coef2poly}
 
 assert(a + 1 >< 1 + a)
 assert(a + BigInteger("1") >< BigInteger("1") + a)

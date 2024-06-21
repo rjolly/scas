@@ -6,7 +6,7 @@ import BigInteger.given
 
 val r = Polynomial(using ModInteger("2"), Lexicographic[Int]("x"))
 val List(x) = r.generators
-import r.given
+import r.{instance, coef2poly}
 
 assert(1 + x + 1 >< x)
 assert(r == ModInteger("2")(x))
