@@ -1,12 +1,11 @@
 package scas.polynomial
 
 import scala.jdk.CollectionConverters.MapHasAsScala
-import scas.structure.Ring
 import scas.power.PowerProduct
 import TreePolynomial.Element
 
-abstract class TreeMutablePolynomial[C : Ring, M] extends TreePolynomial[C, M] {
-  override def newInstance(pp: PowerProduct[M]) = new tree.mutable.Polynomial(using ring, pp)
+abstract class TreeMutablePolynomial[C, M] extends TreePolynomial[C, M] {
+  override def newInstance(pp: PowerProduct[M]) = new tree.mutable.Polynomial(ring, pp)
 
   extension (x: Element[C, M]) override def subtract(y: Element[C, M]) = unmodifiable(super.subtract(modifiable(x))(y))
 

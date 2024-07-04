@@ -6,7 +6,7 @@ import scas.polynomial.tree.mutable.Polynomial
 import jas.PowerProduct
 import BigInteger.given
 
-val r = Polynomial(using BigInteger, PowerProduct("x", "y", "z")(TermOrderByName.INVLEX))
+val r = Polynomial(BigInteger, PowerProduct("x", "y", "z")(TermOrderByName.INVLEX))
 val List(x, y, z) = r.generators
 import r.given
 

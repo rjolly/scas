@@ -3,8 +3,8 @@ import scas.power.Lexicographic
 import scas.polynomial.tree.mutable.Polynomial
 import BigInteger.given
 
-val r = Polynomial(using BigInteger, Lexicographic[Int]("x", "y", "z"))
-// val r = Polynomial(using BigInteger, Lexicographic[Long]("x", "y", "z"))
+val r = Polynomial(BigInteger, Lexicographic[Int]("x", "y", "z"))
+// val r = Polynomial(BigInteger, Lexicographic[Long]("x", "y", "z"))
 val List(x, y, z) = r.generators
 import r.given
 

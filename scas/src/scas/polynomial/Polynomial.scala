@@ -11,8 +11,10 @@ import scas.base.BigInteger
 import BigInteger.given
 
 trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] {
-  given ring: Ring[C]
-  given pp: PowerProduct[M]
+  def ring: Ring[C]
+  given Ring[C] = ring
+  def pp: PowerProduct[M]
+  given PowerProduct[M] = pp
   val zero = this()
   val one = this(ring.one)
   def fromInt(n: BigInteger) = this(ring.fromInt(n))
@@ -91,7 +93,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
   def toMathML(fenced: Boolean) = s"<mrow>${ring.toMathML}${if (fenced) "<mfenced>" else "<mfenced open=\"[\" close=\"]\">"}${variables.toList.toMathML(false)}</mfenced></mrow>"
 
   extension (ring: Ring[C]) def apply(s: T*): Polynomial[T, C, M] = {
-    given ArrayModule[T] = new ArrayModule[T](using this)(length)
+    given ArrayModule[T] = new ArrayModule[T](this, length)
     assert (s.toArray >< generators.toArray)
     this
   }

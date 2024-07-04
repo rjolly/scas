@@ -5,7 +5,7 @@ import scas.polynomial.tree.mutable.Polynomial
 import rings.BigInteger
 import BigInteger.given
 
-val r = Polynomial(using BigInteger, Lexicographic[Int]("x", "y", "z"))
+val r = Polynomial(BigInteger, Lexicographic[Int]("x", "y", "z"))
 val List(x, y, z) = r.generators
 import r.given
 

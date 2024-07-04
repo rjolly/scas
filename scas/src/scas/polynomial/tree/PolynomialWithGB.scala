@@ -5,12 +5,10 @@ import scas.structure.commutative.UniqueFactorizationDomain
 import scas.polynomial.TreePolynomial
 import TreePolynomial.Element
 
-class PolynomialWithGB[C : UniqueFactorizationDomain, M : PowerProduct] extends TreePolynomial[C, M] with scas.polynomial.PolynomialWithGB[Element[C, M], C, M] with scas.structure.commutative.conversion.UniqueFactorizationDomain[Element[C, M]] {
-  given ring: UniqueFactorizationDomain[C] = summon
-  given pp: PowerProduct[M] = summon
+class PolynomialWithGB[C, M](val ring: UniqueFactorizationDomain[C], val pp: PowerProduct[M]) extends TreePolynomial[C, M] with scas.polynomial.PolynomialWithGB[Element[C, M], C, M] with scas.structure.commutative.conversion.UniqueFactorizationDomain[Element[C, M]] {
   given instance: PolynomialWithGB[C, M] = this
 }
 
 object PolynomialWithGB {
-  def apply[C](ring: UniqueFactorizationDomain[C])(s: String*) = new PolynomialWithGB(using ring, Lexicographic[Int](s*))
+  def apply[C](ring: UniqueFactorizationDomain[C])(s: String*) = new PolynomialWithGB(ring, Lexicographic[Int](s*))
 }

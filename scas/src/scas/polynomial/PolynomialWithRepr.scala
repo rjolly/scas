@@ -2,13 +2,13 @@ package scas.polynomial
 
 import scala.reflect.ClassTag
 import scas.module.ArrayModule
-import scas.structure.Ring
 import scas.power.PowerProduct
 import PolynomialWithRepr.Element
 
-abstract class PolynomialWithRepr[T : ClassTag, C : Ring, M : PowerProduct](using factory: Polynomial[T, C, M])(dimension: Int) extends Polynomial[Element[T], C, M] {
-  given pp: PowerProduct[M] = summon
-  given module: ArrayModule[T] = new ArrayModule[T](dimension)
+abstract class PolynomialWithRepr[T : ClassTag, C, M](val pp: PowerProduct[M], dimension: Int) extends Polynomial[Element[T], C, M] {
+  def factory: Polynomial[T, C, M]
+  given Polynomial[T, C, M] = factory
+  given module: ArrayModule[T] = new ArrayModule(factory, dimension)
   def newInstance(pp: PowerProduct[M]) = this
   def apply(p: T, n: Int) = (p, module.generator(n))
   def apply(s: (M, C)*) = this(factory(s*))

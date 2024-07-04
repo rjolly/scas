@@ -10,7 +10,7 @@ import scas.base.Boolean
 import Boolean.given
 
 class BooleanPolynomial(s: String*) extends TreePolynomial[Boolean, Array[Int]] with scas.polynomial.BooleanPolynomial[Element[Boolean, Array[Int]], Array[Int]] with UniqueFactorizationDomain[Element[Boolean, Array[Int]]] with BooleanRing[Element[Boolean, Array[Int]]] {
-  given ring: Field[Boolean] = Boolean
-  given pp: PowerProduct[Array[Int]] = Lexicographic[Int](s*)
+  lazy val ring = Boolean
+  lazy val pp = Lexicographic[Int](s*)
   given instance: BooleanPolynomial = this
 }

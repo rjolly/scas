@@ -4,7 +4,7 @@ import scas.polynomial.tree.Polynomial
 import BigInteger.given
 import Rational.given
 
-val r = Polynomial(using Rational, Lexicographic[Int]("x"))
+val r = Polynomial(Rational, Lexicographic[Int]("x"))
 val List(x) = r.generators
 import r.{instance, coef2poly}
 

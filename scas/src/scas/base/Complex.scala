@@ -11,7 +11,7 @@ import Rational.given
 
 type Complex = Element[Rational, Array[Int]]
 
-object Complex extends Complex.Impl(using new UnivariatePolynomial(using Rational, Lexicographic[Int](Variable.sqrt(BigInteger("-1"))))) with scas.residue.conversion.Residue[Complex, Rational, Array[Int]] {
+object Complex extends Complex.Impl(using new UnivariatePolynomial(Rational, Lexicographic[Int](Variable.sqrt(BigInteger("-1"))))) with scas.residue.conversion.Residue[Complex, Rational, Array[Int]] {
   given instance: Complex.type = this
   class Impl(using ring: UnivariatePolynomial[Rational, Array[Int]]) extends Residue[Complex, Rational, Array[Int]] with StarUFD[Complex] {
     import ring.pp

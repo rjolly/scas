@@ -3,7 +3,8 @@ package scas.polynomial
 import scas.structure.commutative.UniqueFactorizationDomain
 
 trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactorizationDomain[T] {
-  given ring: UniqueFactorizationDomain[C]
+  def ring: UniqueFactorizationDomain[C]
+  given UniqueFactorizationDomain[C] = ring
   extension (x: T) def divideAndRemainder(y: T) = {
     if (y.isZero) throw new ArithmeticException("Polynomial divide by zero")
     else if (x.isZero) (zero, zero)

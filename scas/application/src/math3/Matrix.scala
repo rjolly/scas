@@ -8,6 +8,7 @@ import scas.base.BigInteger
 import Matrix.Element
 
 trait Matrix extends Algebra[Element, Double] with Field[Element] {
+  val ring = Double
   def size: Int
   def fromInt(n: BigInteger) = one%* Double.fromInt(n)
   def apply(ds: Double*): Element = Array2DRowRealMatrix(ds.grouped(size).map(_.toArray).toArray)

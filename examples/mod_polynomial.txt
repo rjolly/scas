@@ -3,7 +3,7 @@ import scas.power.Lexicographic
 import scas.polynomial.tree.Polynomial
 import BigInteger.given
 
-val r = Polynomial(using ModInteger("2"), Lexicographic[Int]("x"))
+val r = Polynomial(ModInteger("2"), Lexicographic[Int]("x"))
 val List(x) = r.generators
 import r.{instance, coef2poly}
 
