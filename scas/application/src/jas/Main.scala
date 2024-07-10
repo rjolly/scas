@@ -5,6 +5,6 @@ import edu.jas.poly.GenPolynomial
 import edu.jas.structure.RingElem
 import scas.util.{Conversion, unary_~}
 
-given poly2scas[C <: RingElem[C] : GenPolynomialRing]: conversion.PolynomialRing[C] with {}
+given [C <: RingElem[C] : GenPolynomialRing] => conversion.PolynomialRing[C] as poly2scas
 
-given coef2poly[C <: RingElem[C] : GenPolynomialRing, D : Conversion[C]]: (D => GenPolynomial[C]) = x => summon[GenPolynomialRing[C]].valueOf(~x)
+given [C <: RingElem[C] : GenPolynomialRing, D : Conversion[C]] => (D => GenPolynomial[C]) as coef2poly = x => summon[GenPolynomialRing[C]].valueOf(~x)
