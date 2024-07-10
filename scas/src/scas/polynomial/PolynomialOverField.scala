@@ -19,7 +19,7 @@ trait PolynomialOverField[T : ClassTag, C, M] extends PolynomialOverUFD[T, C, M]
     e(0)
   }
   extension (ring: Field[C]) def apply(s: T*) = {
-    given ArrayModule[T] = new ArrayModule[T](using this)(variables.length)
+    given ArrayModule[T] = new ArrayModule(using this)(variables.length)
     assert (s.toArray >< generators.toArray)
     this
   }
