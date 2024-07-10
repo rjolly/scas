@@ -1,3 +1,4 @@
+import language.experimental.modularity
 import scas.base.{BigInteger, Rational}
 import scas.polynomial.tree.UnivariatePolynomial
 import BigInteger.given

@@ -1,3 +1,4 @@
+import language.experimental.modularity
 import scas.base.{BigInteger, ModInteger}
 import BigInteger.given
 

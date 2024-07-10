@@ -1,3 +1,4 @@
+import language.experimental.modularity
 import scas.base.{BigInteger, Rational, Complex}
 import BigInteger.given
 import Rational.given

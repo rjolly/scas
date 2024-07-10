@@ -1,5 +1,6 @@
 // Requires : de.uni-mannheim.rz.krum#jas;2.7.10
 
+import language.experimental.modularity
 import edu.jas.poly.TermOrderByName
 import scas.base.BigInteger
 import scas.polynomial.tree.mutable.Polynomial

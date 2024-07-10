@@ -39,7 +39,7 @@ object Numeric {
       override def signum = java.lang.Integer.signum(x)
     }
   }
-  given ByteIsIntegral: ByteIsIntegral with Ordering.ByteOrdering with {}
+  given ByteIsIntegral with Ordering.ByteOrdering as ByteIsIntegral
   trait ShortIsIntegral extends Numeric[Short] {
     extension (x: Short) {
       def + (y: Short) = (x + y).toShort
@@ -54,7 +54,7 @@ object Numeric {
       override def signum = java.lang.Integer.signum(x)
     }
   }
-  given ShortIsIntegral: ShortIsIntegral with Ordering.ShortOrdering with {}
+  given ShortIsIntegral with Ordering.ShortOrdering as ShortIsIntegral
   trait IntIsIntegral extends Numeric[Int] {
     extension (x: Int) {
       def + (y: Int) = x + y
@@ -69,7 +69,7 @@ object Numeric {
       override def signum = java.lang.Integer.signum(x)
     }
   }
-  given IntIsIntegral: IntIsIntegral with Ordering.IntOrdering with {}
+  given IntIsIntegral with Ordering.IntOrdering as IntIsIntegral
   trait LongIsIntegral extends Numeric[Long] {
     extension (x: Long) {
       def + (y: Long) = x + y
@@ -84,5 +84,5 @@ object Numeric {
       override def signum = java.lang.Long.signum(x)
     }
   }
-  given LongIsIntegral: LongIsIntegral with Ordering.LongOrdering with {}
+  given LongIsIntegral with Ordering.LongOrdering as LongIsIntegral
 }

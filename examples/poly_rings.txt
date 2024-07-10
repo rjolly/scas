@@ -1,5 +1,6 @@
 // Requires : cc.redberry#rings;2.5.7
 
+import language.experimental.modularity
 import cc.redberry.rings.poly.multivar.MonomialOrder
 import rings.{BigInteger, MultivariatePolynomialRing}
 import BigInteger.given

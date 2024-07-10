@@ -1,5 +1,6 @@
 // Requires : cc.redberry#rings;2.5.7
 
+import language.experimental.modularity
 import rings.BigInteger
 import BigInteger.given
 

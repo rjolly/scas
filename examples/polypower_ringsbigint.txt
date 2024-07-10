@@ -1,5 +1,6 @@
 // Requires : cc.redberry#rings;2.5.7
 
+import language.experimental.modularity
 import scas.power.Lexicographic
 import scas.polynomial.tree.mutable.Polynomial
 import rings.BigInteger

@@ -19,6 +19,6 @@
         <artifact name="scas_3" type="pom" ext="pom" conf="pom"/>
     </publications>
     <dependencies>
-        <dependency org="org.scala-lang" name="scala-library" rev="2.13.12" conf="compile->master;runtime->default"/>
+        <dependency org="org.scala-lang" name="scala-library" rev="2.13.14" conf="compile->master;runtime->default"/>
     </dependencies>
 </ivy-module>

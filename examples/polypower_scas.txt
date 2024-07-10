@@ -1,3 +1,4 @@
+import language.experimental.modularity
 import scas.base.BigInteger
 import scas.power.Lexicographic
 import scas.polynomial.tree.mutable.Polynomial

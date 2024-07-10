@@ -1,3 +1,4 @@
+import language.experimental.modularity
 import scas.quotient.RationalFunction
 import scas.base.BigInteger
 import BigInteger.given

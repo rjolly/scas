@@ -1,3 +1,4 @@
+import language.experimental.modularity
 import scas.polynomial.tree.PolynomialWithGB
 import scas.base.BigInteger
 import BigInteger.given
