@@ -7,11 +7,11 @@ import Rational.given
 
 val r = Polynomial(Rational, Lexicographic[Int]("x"))
 val List(x) = r.generators
-import r.{instance, coef2poly}
+import r.given
 
 val s = ArrayModule(Rational(x))(2)
 val e = s.generators
-import s.instance
+import s.given
 
 assert (Array(1, 1%%2) >< e(0) + 1%%2 *%e(1))
 assert (Array(1, x) >< e(0) + x *%e(1))
