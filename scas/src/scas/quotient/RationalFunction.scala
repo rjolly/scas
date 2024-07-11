@@ -5,6 +5,8 @@ import scas.structure.commutative.Quotient.Element
 import scas.polynomial.tree.{UnivariatePolynomial, MultivariatePolynomial}
 import scas.polynomial.PolynomialOverUFD
 import scas.base.{BigInteger, Rational}
+import scas.variable.Variable
+import scas.util.Conversion
 import BigInteger.given
 import Rational.given
 
@@ -21,6 +23,6 @@ trait RationalFunction[T, M](using ring: PolynomialOverUFD[T, BigInteger, M]) ex
 }
 
 object RationalFunction {
-  def apply[C](ring: Field[C])(s: String*) = new conversion.RationalFunctionOverField(using UnivariatePolynomial(ring)(s*))
+  def apply[C, S : Conversion[Variable]](ring: Field[C])(s: S*) = new conversion.RationalFunctionOverField(using UnivariatePolynomial(ring)(s*))
   def integral(s: String*) = new conversion.RationalFunction(using MultivariatePolynomial(BigInteger)(s*))
 }

@@ -2,8 +2,10 @@ import language.experimental.modularity
 import scas.base.{BigInteger, Rational}
 import scas.polynomial.tree.UnivariatePolynomial
 import scas.quotient.Quotient
+import scas.variable.Variable
 import BigInteger.given
 import Rational.given
+import Variable.given
 
 val r = UnivariatePolynomial(Rational)("x")
 val List(x) = r.generators
