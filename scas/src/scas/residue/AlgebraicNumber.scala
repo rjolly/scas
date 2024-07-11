@@ -4,7 +4,8 @@ import scas.polynomial.tree.UnivariatePolynomial
 import scas.structure.commutative.Field
 import scas.power.Lexicographic
 import scas.variable.Variable
+import scas.util.Conversion
 
 object AlgebraicNumber {
-  def apply[C](ring: Field[C])(s: Variable*) = new conversion.AlgebraicNumber(using new UnivariatePolynomial(using ring)(s*))
+  def apply[C, S : Conversion[Variable]](ring: Field[C])(s: S*) = new conversion.AlgebraicNumber(using UnivariatePolynomial(ring)(s*))
 }
