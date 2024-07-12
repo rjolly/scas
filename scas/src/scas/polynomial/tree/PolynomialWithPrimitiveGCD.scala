@@ -6,6 +6,5 @@ import scas.polynomial.TreePolynomial.Element
 import scas.variable.Variable
 
 class PolynomialWithPrimitiveGCD[C](using UniqueFactorizationDomain[C])(s: Variable*) extends MultivariatePolynomial[C](s*) with scas.polynomial.PolynomialWithPrimitiveGCD[Element, C, Array[Int]] {
-  given instance: MultivariatePolynomial[C] = this
   def newInstance = [C] => (ring: UniqueFactorizationDomain[C], pp: PowerProduct[Array[Int]]) => new PolynomialWithPrimitiveGCD(using ring)(pp.variables*)
 }
