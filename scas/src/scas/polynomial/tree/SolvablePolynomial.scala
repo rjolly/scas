@@ -7,6 +7,7 @@ import TreePolynomial.Element
 
 class SolvablePolynomial[C : Ring, M : PowerProduct] extends TreePolynomial[C, M] with scas.polynomial.SolvablePolynomial[Element[C, M], C, M] with scas.structure.conversion.Ring[Element[C, M]] {
   given instance: SolvablePolynomial[C, M] = this
+  def newInstance(pp: PowerProduct[M]) = new SolvablePolynomial(using ring, pp)
 }
 
 object SolvablePolynomial {

@@ -5,8 +5,6 @@ import scas.power.PowerProduct
 import TreePolynomial.Element
 
 trait TreeMutablePolynomial[C, M] extends TreePolynomial[C, M] {
-  override def newInstance(pp: PowerProduct[M]) = new tree.mutable.Polynomial(using ring, pp)
-
   extension (x: Element[C, M]) override def subtract(y: Element[C, M]) = unmodifiable(super.subtract(modifiable(x))(y))
 
   extension (x: Element[C, M]) override def multiply(y: Element[C, M]) = {

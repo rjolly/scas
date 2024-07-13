@@ -10,6 +10,7 @@ import TreePolynomial.Element
 
 class UnivariatePolynomial[C](using Field[C])(s: Variable*) extends TreePolynomial[C, Array[Int]] with scas.polynomial.UnivariatePolynomial[Element[C, Array[Int]], C, Array[Int]] with UniqueFactorizationDomain[Element[C, Array[Int]]] {
   override given pp: PowerProduct[Array[Int]] = Lexicographic[Int](s*)
+  def newInstance(pp: PowerProduct[Array[Int]]) = new UnivariatePolynomial(pp.variables*)
   given instance: UnivariatePolynomial[C] = this
 }
 

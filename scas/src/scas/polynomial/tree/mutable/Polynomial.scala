@@ -7,4 +7,5 @@ import scas.polynomial.TreePolynomial.Element
 
 class Polynomial[C : Ring, M : PowerProduct] extends TreeMutablePolynomial[C, M] with scas.structure.conversion.Ring[Element[C, M]] {
   given instance: Polynomial[C, M] = this
+  def newInstance(pp: PowerProduct[M]) = new Polynomial(using ring, pp)
 }

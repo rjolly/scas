@@ -6,7 +6,7 @@ import scas.structure.commutative.UniqueFactorizationDomain
 trait MultivariatePolynomial[T[C, M], C, M] extends PolynomialOverUFD[T[C, M], C, M] {
   val take = pp.take(1)
   val drop = pp.drop(1)
-  override def newInstance(pp: PowerProduct[M]): MultivariatePolynomial[T, C, M] = newInstance(ring, pp)
+  def newInstance(pp: PowerProduct[M]): MultivariatePolynomial[T, C, M] = newInstance(ring, pp)
   def newInstance: [C] => (UniqueFactorizationDomain[C], PowerProduct[M]) => MultivariatePolynomial[T, C, M]
   def gcd1(x: T[C, M], y: T[C, M]): T[C, M]
   def gcd(x: T[C, M], y: T[C, M]) = if (length > 1) {
