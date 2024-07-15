@@ -6,8 +6,8 @@ import scas.structure.Ring
 import scas.power.PowerProduct
 import PolynomialWithRepr.Element
 
-abstract class PolynomialWithRepr[T : ClassTag, C : Ring, M : PowerProduct](using factory: Polynomial[T, C, M])(dimension: Int) extends Polynomial[Element[T], C, M] {
-  given pp: PowerProduct[M] = summon
+abstract class PolynomialWithRepr[T : ClassTag, C, M](dimension: Int) extends Polynomial[Element[T], C, M] {
+  given factory: Polynomial[T, C, M]
   given module: ArrayModule[T] = new ArrayModule(using factory)(dimension)
   def apply(p: T, n: Int) = (p, module.generator(n))
   def apply(s: (M, C)*) = this(factory(s*))

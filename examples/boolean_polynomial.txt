@@ -3,7 +3,7 @@ import scas.power.Lexicographic
 import scas.polynomial.tree.BooleanPolynomial
 import Boolean.given
 
-val r = BooleanPolynomial("x")
+val r = BooleanPolynomial(using Lexicographic[Int]("x"))
 val List(x) = r.generators
 import r.{instance, coef2poly}
 

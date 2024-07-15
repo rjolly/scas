@@ -2,17 +2,12 @@ package scas.polynomial.tree
 
 import scas.power.{PowerProduct, Lexicographic}
 import scas.structure.commutative.UniqueFactorizationDomain
+import scas.variable.Variable
+import scas.util.{Conversion, unary_~}
 import scas.polynomial.TreePolynomial
 import TreePolynomial.Element
 
-abstract class MultivariatePolynomial[C : UniqueFactorizationDomain, M : PowerProduct] extends TreePolynomial[C, M] with scas.polynomial.MultivariatePolynomial[Element, C, M] with scas.structure.commutative.conversion.UniqueFactorizationDomain[Element[C, M]] {
-  given instance: MultivariatePolynomial[C, M] = this
-  given ring: UniqueFactorizationDomain[C] = summon
-  given pp: PowerProduct[M] = summon
-}
-
-object MultivariatePolynomial {
-  def apply[C](ring: UniqueFactorizationDomain[C])(s: String*): MultivariatePolynomial[C, Array[Int]] = new PolynomialWithSimpleGCD(using ring, Lexicographic(0)(s*))
-  def withPrimitiveGCD[C](ring: UniqueFactorizationDomain[C])(s: String*): MultivariatePolynomial[C, Array[Int]] = new PolynomialWithPrimitiveGCD(using ring, Lexicographic(0)(s*))
-  def withSubresGCD[C](ring: UniqueFactorizationDomain[C])(s: String*): MultivariatePolynomial[C, Array[Int]] = new PolynomialWithSubresGCD(using ring, Lexicographic(0)(s*))
+abstract class MultivariatePolynomial[C, S : Conversion[Variable]](using val ring: UniqueFactorizationDomain[C])(s: S*) extends TreePolynomial[C, Array[Int]] with scas.polynomial.MultivariatePolynomial[Element, C, Array[Int]] with scas.structure.commutative.conversion.UniqueFactorizationDomain[Element[C, Array[Int]]] {
+  given pp: PowerProduct[Array[Int]] = Lexicographic(0)(s.map(~_)*)
+  given instance: MultivariatePolynomial[C, S] = this
 }

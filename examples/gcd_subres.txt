@@ -1,8 +1,8 @@
 import scas.base.BigInteger
-import scas.polynomial.tree.MultivariatePolynomial
+import scas.polynomial.tree.PolynomialWithSubresGCD
 import BigInteger.given
 
-val r = MultivariatePolynomial.withSubresGCD(BigInteger)("x")
+val r = PolynomialWithSubresGCD(using BigInteger)("x")
 val List(x) = r.generators
 import r.{gcd, given}
 
