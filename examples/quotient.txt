@@ -2,14 +2,14 @@ import scas.base.{BigInteger, Rational}
 import scas.polynomial.tree.UnivariatePolynomial
 import scas.quotient.Quotient
 import BigInteger.given
-import Rational.given
+import Rational.{ring => instance, given}
 
 val r = UnivariatePolynomial(using Rational)("x")
 val List(x) = r.generators
-import r.given
+import r.{instance, coef2poly}
 
 val s = Quotient(Rational(x))
-import s.given
+import s.{instance, ring2quotient}
 
 assert (x/(2*x) >< 1%%2)
 assert (s == Rational(x).quotient())

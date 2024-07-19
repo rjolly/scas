@@ -1,11 +1,11 @@
 import scas.base.{BigInteger, Rational}
 import scas.quotient.RationalFunction
 import BigInteger.given
-import Rational.given
+import Rational.{ring => instance, given}
 
 val q = RationalFunction(Rational)("x")
 val List(x) = q.generators
-import q.given
+import q.{instance, coef2poly, ring2quotient}
 
 assert (x + 1%%2 >< 1%%2 + x)
 assert (x + 1 >< 1 + x)

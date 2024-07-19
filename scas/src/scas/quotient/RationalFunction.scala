@@ -3,15 +3,15 @@ package scas.quotient
 import scas.structure.commutative.Field
 import scas.structure.commutative.Quotient.Element
 import scas.polynomial.tree.{UnivariatePolynomial, PolynomialWithSimpleGCD}
-import scas.polynomial.PolynomialOverUFD
 import scas.base.{BigInteger, Rational}
 import scas.variable.Variable
 import scas.util.Conversion
 import BigInteger.given
 import Rational.given
 
-trait RationalFunction[T, M](using ring: PolynomialOverUFD[T, BigInteger, M]) extends Quotient[T, BigInteger, M] {
-  import ring.{degree, headCoefficient}
+trait RationalFunction[T, M] extends Quotient[T, BigInteger, M] {
+  def degree(x: T) = ring.degree(x)
+  def headCoefficient(x: T) = ring.headCoefficient(x)
   extension (x: Element[T]) override def toCode(level: Level) = {
     val Element(n, d) = x
     if(degree(n) >< 0 && degree(d) >< 0) Rational(headCoefficient(n), headCoefficient(d)).toCode(level) else super.toCode(x)(level)

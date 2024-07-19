@@ -2,7 +2,7 @@ import scas.base.{BigInteger, Rational}
 import scas.power.Lexicographic
 import scas.polynomial.tree.Polynomial
 import BigInteger.given
-import Rational.given
+import Rational.{ring => instance, given}
 
 val r = Polynomial(using Rational, Lexicographic.inlined(0)("x"))
 val List(x) = r.generators

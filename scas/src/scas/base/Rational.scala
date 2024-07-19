@@ -4,13 +4,13 @@ import scas.structure.commutative.ordered.Quotient
 import scas.structure.commutative.Quotient.Element
 import scas.structure.commutative.ordered.conversion.Field
 import scas.util.{Conversion, unary_~}
-import BigInteger.given
 
 type Rational = Element[BigInteger]
 
 object Rational extends Rational.Impl with Field[Rational] {
   given instance: Rational.type = this
   class Impl extends Quotient[BigInteger] {
+    given ring: BigInteger.type = BigInteger
     def apply(n: String): Rational = this(BigInteger(n))
     def apply(n: String, d: String): Rational = this(BigInteger(n), BigInteger(d))
     extension (x: Rational) override def toCode(level: Level) = {

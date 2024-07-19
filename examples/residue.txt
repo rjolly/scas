@@ -2,7 +2,7 @@ import scas.base.{BigInteger, Rational}
 import scas.polynomial.tree.UnivariatePolynomial
 import scas.residue.Residue
 import BigInteger.given
-import Rational.given
+import Rational.{ring => instance, given}
 
 val r = UnivariatePolynomial(using Rational)("x")
 val List(x) = r.generators

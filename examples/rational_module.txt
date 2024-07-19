@@ -1,11 +1,11 @@
 import scas.base.{BigInteger, Rational}
 import scas.module.{Array, ArrayModule}
 import BigInteger.given
-import Rational.given
+import Rational.{ring => instance, given}
 
 val s = ArrayModule(Rational)(2)
 val e = s.generators
-import s.given
+import s.instance
 
 assert (Array(1, 1%%2) >< e(0) + 1%%2 *%e(1))
 assert (2 *%e(0) >< e(0)%* 2)
