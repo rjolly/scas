@@ -3,7 +3,7 @@ import scas.power.Lexicographic
 import scas.polynomial.tree.WeylAlgebra
 import BigInteger.given
 
-val r = WeylAlgebra(using BigInteger, Lexicographic[Int]("a", "x", "b", "y"))
+val r = WeylAlgebra(using BigInteger, Lexicographic.inlined(0)("a", "x", "b", "y"))
 val List(a, x, b, y) = r.generators
 import r.given
 

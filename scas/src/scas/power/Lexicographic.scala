@@ -1,12 +1,13 @@
 package scas.power
 
-import scala.annotation.targetName
 import scala.reflect.ClassTag
 import scas.math.Numeric
 import scas.variable.Variable
-import Variable.string2variable
+import scas.util.{Conversion, unary_~}
 
-abstract class Lexicographic[N : Numeric : ClassTag](val variables: Variable*) extends ArrayPowerProductWithDegree[N] {
+class Lexicographic[N : Numeric : ClassTag](val variables: Variable*) extends ArrayPowerProductWithDegree[N] {
+  def newInstance(variables: Variable*) = new Lexicographic[N](variables*)
+
   def compare(x: Array[N], y: Array[N]) = {
     var i = length
     while (i > 0) {
@@ -19,14 +20,10 @@ abstract class Lexicographic[N : Numeric : ClassTag](val variables: Variable*) e
 }
 
 object Lexicographic {
-  def apply[N : Numeric : ClassTag](degree: N)(variables: Variable*) = new conversion.Lexicographic[N](variables*)
+  def apply[N : Numeric : ClassTag, S : Conversion[Variable]](degree: N)(variables: S*) = new conversion.Lexicographic[N](variables.map(~_)*)
 
-  @targetName("applyString") def apply[N : Numeric : ClassTag](degree: N)(s: String*): conversion.Lexicographic[N] = this(degree)(s.map(string2variable)*)
-
-  @targetName("applyString") inline def apply[N : Numeric : ClassTag](s: String*): Lexicographic[N] = this(s.map(string2variable)*)
-
-  inline def apply[N : Numeric : ClassTag](variables: Variable*): Lexicographic[N] = new Lexicographic[N](variables*) {
-    def newInstance(variables: Variable*) = ???
+  inline def inlined[N : Numeric : ClassTag, S : Conversion[Variable]](degree: N)(variables: S*): Lexicographic[N] = new Lexicographic[N](variables.map(~_)*) {
+    override def newInstance(variables: Variable*) = ???
 
     override def compare(x: Array[N], y: Array[N]) = {
       var i = length
