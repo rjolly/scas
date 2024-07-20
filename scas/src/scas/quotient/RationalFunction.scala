@@ -2,7 +2,6 @@ package scas.quotient
 
 import scas.structure.commutative.Field
 import scas.structure.commutative.Quotient.Element
-import scas.polynomial.tree.{UnivariatePolynomial, PolynomialWithSimpleGCD}
 import scas.base.{BigInteger, Rational}
 import scas.variable.Variable
 import scas.util.Conversion
@@ -23,6 +22,6 @@ trait RationalFunction[T, M] extends Quotient[T, BigInteger, M] {
 }
 
 object RationalFunction {
-  def apply[C, S : Conversion[Variable]](ring: Field[C])(s: S*) = new conversion.RationalFunctionOverField(using UnivariatePolynomial(using ring)(s*))
-  def integral(s: String*) = new conversion.RationalFunction(using PolynomialWithSimpleGCD(using BigInteger)(s*))
+  def apply[C, S : Conversion[Variable]](ring: Field[C])(s: S*) = new conversion.RationalFunctionOverField(using ring)(s*)
+  def integral[S : Conversion[Variable]](s: S*) = new conversion.RationalFunction(s*)
 }
