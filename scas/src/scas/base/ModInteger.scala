@@ -7,6 +7,7 @@ import BigInteger.given
 
 class ModInteger(mod: BigInteger) extends Residue[Int, BigInteger] with Field[Int] {
   assert (mod.isProbablePrime(100))
+  given ring: BigInteger.type = BigInteger
   def apply(x: BigInteger) = this(x.longValue)
   def fromRing(x: BigInteger) = x.intValue
   def characteristic = mod

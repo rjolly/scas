@@ -4,7 +4,7 @@ import BigInteger.given
 
 val r = GaloisField("2")("alpha")
 val List(alpha) = r.generators
-import r.given
+import r.{instance, coef2poly}
 r.update(1+alpha+alpha\2)
 
 assert (alpha\2 >< 1+alpha)

@@ -10,9 +10,10 @@ import Rational.given
 
 type Complex = Element[Rational, Array[Int]]
 
-object Complex extends Complex.Impl(using new UnivariatePolynomial(using Rational)(Variable.sqrt(BigInteger("-1")))) with scas.residue.conversion.Residue[Complex, Rational, Array[Int]] {
+object Complex extends Complex.Impl with scas.residue.conversion.Residue[Complex, Rational, Array[Int]] {
   given instance: Complex.type = this
-  class Impl(using ring: UnivariatePolynomial[Rational, Variable]) extends Residue[Complex, Rational, Array[Int]] with StarUFD[Complex] {
+  class Impl extends Residue[Complex, Rational, Array[Int]] with StarUFD[Complex] {
+    given ring: UnivariatePolynomial[Rational, Variable] = new UnivariatePolynomial(using Rational)(Variable.sqrt(BigInteger("-1")))
     import ring.pp
     def real(x: Complex) = ring(x.coefficient(pp.one))
     def imag(x: Complex) = ring(x.coefficient(pp.generator(0)))
