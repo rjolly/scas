@@ -2,10 +2,9 @@ package scas.base
 
 import scas.structure.commutative.StarUFD
 import scas.structure.commutative.conversion.Field
-import scas.polynomial.tree.UnivariatePolynomial
 import scas.polynomial.TreePolynomial.Element
+import scas.residue.AlgebraicNumber
 import scas.variable.Variable
-import scas.residue.Residue
 import BigInteger.given
 import Rational.given
 
@@ -13,8 +12,7 @@ type Complex = Element[Rational, Array[Int]]
 
 object Complex extends Complex.Impl with Field[Complex] {
   given instance: Complex.type = this
-  class Impl extends Residue[Complex, Rational, Array[Int]] with StarUFD[Complex] {
-    given ring: UnivariatePolynomial[Rational, Variable] = new UnivariatePolynomial(using Rational)(Variable.sqrt(BigInteger("-1")))
+  class Impl extends AlgebraicNumber(using Rational)(Variable.sqrt(BigInteger("-1"))) with StarUFD[Complex] {
     import ring.pp
     def real(x: Complex) = ring(x.coefficient(pp.one))
     def imag(x: Complex) = ring(x.coefficient(pp.generator(0)))
