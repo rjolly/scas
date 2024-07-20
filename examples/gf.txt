@@ -1,8 +1,8 @@
-import scas.residue.GaloisField
+import scas.residue.AlgebraicNumber
 import scas.base.BigInteger
 import BigInteger.given
 
-val r = GaloisField("2")("alpha")
+val r = AlgebraicNumber.galoisField("2")("alpha")
 val List(alpha) = r.generators
 import r.{instance, coef2poly}
 r.update(1+alpha+alpha\2)
