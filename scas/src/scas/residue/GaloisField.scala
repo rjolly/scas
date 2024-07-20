@@ -1,11 +1,8 @@
 package scas.residue
 
-import scas.polynomial.tree.UnivariatePolynomial
-import scas.polynomial.PolynomialOverField
 import scas.variable.Variable
 import scas.util.Conversion
-import scas.base.ModInteger
 
 object GaloisField {
-  def apply[S : Conversion[Variable]](str: String)(s: S*) = new conversion.GaloisField(using UnivariatePolynomial(using ModInteger(str))(s*))
+  def apply[S : Conversion[Variable]](str: String)(s: S*) = new conversion.GaloisField(str)(s*)
 }

@@ -1,9 +1,13 @@
 package scas.residue.conversion
 
-import scala.reflect.ClassTag
-import scas.polynomial.PolynomialOverField
-import scas.base.BigInteger
+import scas.structure.commutative.conversion.Field
+import scas.polynomial.tree.UnivariatePolynomial
+import scas.polynomial.TreePolynomial.Element
+import scas.variable.Variable
+import scas.util.Conversion
+import scas.base.ModInteger
 
-class GaloisField[T, M](using val ring: PolynomialOverField[T, Int, M])(using ClassTag[T]) extends Residue[T, Int, M] {
-  given instance: GaloisField[T, M] = this
+class GaloisField[S : Conversion[Variable]](str: String)(s: S*) extends scas.residue.Residue[Element[Int, Array[Int]], Int, Array[Int]] with Field[Element[Int, Array[Int]]] {
+  given ring: UnivariatePolynomial[Int, S] = new UnivariatePolynomial(using ModInteger(str))(s*)
+  given instance: GaloisField[S] = this
 }

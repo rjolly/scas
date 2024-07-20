@@ -40,7 +40,5 @@ trait Residue[T : ClassTag, C, M] extends scas.structure.commutative.Residue[T, 
 }
 
 object Residue {
-  def apply[T : ClassTag, C, M](ring: PolynomialOverField[T, C, M])(mod: T) = new conversion.AlgebraicNumber(using ring) {
-    update(mod)
-  }
+  def apply[T : ClassTag, C, M](ring: PolynomialOverField[T, C, M])(mod: T) = new conversion.Residue(using ring)(mod)
 }
