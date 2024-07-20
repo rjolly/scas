@@ -12,5 +12,5 @@ trait Quotient[T, C, M] extends scas.structure.commutative.Quotient[T] {
 }
 
 object Quotient {
-  def apply[T, C, M](ring: PolynomialOverField[T, C, M]) = new conversion.RationalFunctionOverField(using ring)
+  def apply[T, C, M](ring: PolynomialOverField[T, C, M]) = new conversion.Quotient(using ring)
 }
