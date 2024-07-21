@@ -9,6 +9,9 @@ type Rational = Element[BigInteger]
 
 object Rational extends Rational.Impl with Field[Rational] {
   given instance: Rational.type = this
+  object Implicits {
+    export Rational.{instance, ring2quotient}
+  }
   class Impl extends Quotient[BigInteger] {
     given ring: BigInteger.type = BigInteger
     def apply(n: String): Rational = this(BigInteger(n))

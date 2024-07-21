@@ -1,6 +1,6 @@
 import scas.base.{BigInteger, Rational, Complex}
 import BigInteger.given
-import Rational.{ring => instance, given}
+import Rational.Implicits.given
 import Complex.{sqrt, conjugate, magnitude2, instance, coef2poly}
 
 assert ((1+sqrt(-1))/(1-sqrt(-1)) >< sqrt(-1))
