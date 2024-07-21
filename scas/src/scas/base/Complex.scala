@@ -12,6 +12,9 @@ type Complex = Element[Rational, Array[Int]]
 
 object Complex extends Complex.Impl with Field[Complex] {
   given instance: Complex.type = this
+  object Implicits {
+    export Complex.{instance, coef2poly}
+  }
   class Impl extends AlgebraicNumber(using Rational)(Variable.sqrt(BigInteger("-1"))) with StarUFD[Complex] {
     import ring.pp
     def real(x: Complex) = ring(x.coefficient(pp.one))

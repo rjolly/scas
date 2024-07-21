@@ -1,7 +1,8 @@
 import scas.base.{BigInteger, Rational, Complex}
 import BigInteger.given
 import Rational.Implicits.given
-import Complex.{sqrt, conjugate, magnitude2, instance, coef2poly}
+import Complex.Implicits.given
+import Complex.{sqrt, conjugate, magnitude2}
 
 assert ((1+sqrt(-1))/(1-sqrt(-1)) >< sqrt(-1))
 assert (conjugate(sqrt(-1)) >< -sqrt(-1))
