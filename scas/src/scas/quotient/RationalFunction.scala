@@ -22,6 +22,6 @@ trait RationalFunction[T, M] extends Quotient[T, BigInteger, M] {
 }
 
 object RationalFunction {
-  def apply[C, S : Conversion[Variable]](ring: Field[C])(s: S*) = new conversion.RationalFunctionOverField(using ring)(s*)
+  def apply[C, S : Conversion[Variable]](ring: Field[C])(s: S) = new conversion.RationalFunctionOverField(using ring)(s)
   def integral[S : Conversion[Variable]](s: S*) = new conversion.RationalFunction(s*)
 }

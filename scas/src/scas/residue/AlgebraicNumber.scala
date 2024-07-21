@@ -7,11 +7,11 @@ import scas.variable.Variable
 import scas.util.Conversion
 import scas.base.ModInteger
 
-class AlgebraicNumber[C, S : Conversion[Variable]](using Field[C])(s: S*) extends Residue[Element[C, Array[Int]], C, Array[Int]] {
-  given ring: UnivariatePolynomial[C, S] = new UnivariatePolynomial(s*)
+class AlgebraicNumber[C, S : Conversion[Variable]](using Field[C])(s: S) extends Residue[Element[C, Array[Int]], C, Array[Int]] {
+  given ring: UnivariatePolynomial[C, S] = new UnivariatePolynomial(s)
 }
 
 object AlgebraicNumber {
-  def apply[C, S : Conversion[Variable]](ring: Field[C])(s: S*) = new conversion.AlgebraicNumber(using ring)(s*)
-  def galoisField[S : Conversion[Variable]](str: String)(s: S*) = this(ModInteger(str))(s*)
+  def apply[C, S : Conversion[Variable]](ring: Field[C])(s: S) = new conversion.AlgebraicNumber(using ring)(s)
+  def galoisField[S : Conversion[Variable]](str: String)(s: S) = this(ModInteger(str))(s)
 }
