@@ -4,7 +4,7 @@ import BigInteger.given
 
 val a = BigInteger("1")
 val r = Group(BigInteger)
-import r.given
+import r.instance
 
 assert (a * a >< 2)
 assert (a \ -1 >< -1)

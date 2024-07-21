@@ -2,7 +2,8 @@ package scas.group
 
 import scas.structure.{AbelianGroup, Group}
 
-trait FromAbelian[T](using group: AbelianGroup[T]) extends Group[T] {
+trait FromAbelian[T] extends Group[T] {
+  given group: AbelianGroup[T]
   override def one = group.zero
   extension (x: T) {
     def multiply(y: T) = group.add(x)(y)
