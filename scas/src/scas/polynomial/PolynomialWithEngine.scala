@@ -24,44 +24,42 @@ trait PolynomialWithEngine[T : ClassTag, C, M] extends PolynomialOverUFD[T, C, M
 
   type P <: Pair
 
-  class Pair(val i: Int, val j: Int) { this: P =>
-    val m = headPowerProduct(i)
-    val n = headPowerProduct(j)
-    val scm = pp.lcm(m, n)
+  class Pair(val i: Int, val j: Int, val m: M, val n: M, val scm: M) {
     def key = (scm, j, i)
-    def process: Unit = {
-      if(!b_criterion) {
-        println("{" + i + ", " + j + "}, " + scm.show + ", " + reduction)
-        val p = normalize(s_polynomial(polys(i), polys(j)).reduce(polys.toSeq))
-        if (!p.isZero) update(p)
-        npairs += 1
-      }
-      remove
-    }
     def reduction = if (m < n) m | n else n | m
     def principal = if (m < n) j else i
     def coprime = pp.coprime(m, n)
-    def b_criterion: Boolean = {
-      var k = 0
-      while (k < polys.size) {
-        if ((headPowerProduct(k) | scm) && considered(i, k) && considered(j, k)) return true
-        k += 1
-      }
-      false
+  }
+
+  def process(pa: P): Unit = {
+    if(!b_criterion(pa)) {
+      println("{" + pa.i + ", " + pa.j + "}, " + pa.scm.show + ", " + pa.reduction)
+      val p = normalize(s_polynomial(polys(pa.i), polys(pa.j)).reduce(polys.toSeq))
+      if (!p.isZero) update(p)
+      npairs += 1
     }
-    def remove: Unit = {
-      pairs.remove(this)
-      if(reduction) removed(principal) = true
+    remove(pa)
+  }
+  def b_criterion(pa: P): Boolean = {
+    var k = 0
+    while (k < polys.size) {
+      if ((headPowerProduct(k) | pa.scm) && considered(pa.i, k) && considered(pa.j, k)) return true
+      k += 1
     }
-    def add: Unit = {
-      pairs.add(this)
-      if (coprime) remove
-    }
+    false
+  }
+  def remove(pa: P): Unit = {
+    pairs.remove(pa)
+    if(pa.reduction) removed(pa.principal) = true
+  }
+  def add(pa: P): Unit = {
+    pairs.add(pa)
+    if (pa.coprime) remove(pa)
   }
 
   def apply(i: Int, j: Int): P
   def sorted(i: Int, j: Int) = if (i > j) apply(j, i) else apply(i, j)
-  def make(index: Int): Unit = for (i <- 0 until index) apply(i, index).add
+  def make(index: Int): Unit = for (i <- 0 until index) add(apply(i, index))
   def considered(i: Int, j: Int) = !pairs.contains(sorted(i, j))
 
   given ordering: Ordering[P] = Ordering by { (pair: P) => pair.key }
@@ -101,7 +99,7 @@ trait PolynomialWithEngine[T : ClassTag, C, M] extends PolynomialOverUFD[T, C, M
 
   def process: Unit = {
     println("process")
-    while(!pairs.isEmpty) pairs.asScala.head.process
+    while(!pairs.isEmpty) process(pairs.asScala.head)
   }
 
   def reduce: Unit = {
