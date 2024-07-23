@@ -10,4 +10,5 @@ class PolynomialWithGB[C, M](using val ring: UniqueFactorizationDomain[C], val p
   object Implicits {
     export PolynomialWithGB.this.{instance, coef2poly}
   }
+  def newInstance(pp: PowerProduct[M]) = new PolynomialWithGB(using ring, pp)
 }

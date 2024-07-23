@@ -1,6 +1,9 @@
 package scas.polynomial
 
+import scas.power.PowerProduct
+
 trait PolynomialWithGB[T, C, M] extends PolynomialOverUFD[T, C, M] {
+  def newInstance(pp: PowerProduct[M]): PolynomialWithGB[T, C, M]
   def normalize(x: T) = primitivePart(x)
   def s_polynomial(x: T, y: T) = {
     val (m, a) = head(x)
