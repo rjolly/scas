@@ -2,45 +2,22 @@ package scas.polynomial
 
 import java.util.TreeSet
 import scala.jdk.CollectionConverters.SetHasAsScala
-import scala.collection.mutable.ArrayBuffer
-import scala.reflect.ClassTag
+import scala.collection.mutable.ListBuffer
 import scala.math.Ordering
 
-trait PolynomialWithEngine[T : ClassTag, C, M] extends PolynomialOverUFD[T, C, M] {
-  def normalize(x: T) = primitivePart(x)
-  def s_polynomial(x: T, y: T) = {
-    val (m, a) = head(x)
-    val (n, b) = head(y)
-    val gcd = pp.gcd(m, n)
-    val (m0, n0) = (m / gcd, n / gcd)
-    x.ppMultiplyRight(n0).reduce(m0, a, y, b)
-  }
-  def gcd(x: T, y: T) = {
-    val (a, p) = contentAndPrimitivePart(x)
-    val (b, q) = contentAndPrimitivePart(y)
-    val list = gb(p, q)
-    (if (list.size == 1) list(0) else one)%* ring.gcd(a, b)
-  }
+class Engine[T, C, M](using factory: PolynomialWithGB[T, C, M]) {
+  import factory.{normalize, s_polynomial, pp}
 
-  type P <: Pair
-
-  class Pair(val i: Int, val j: Int, val m: M, val n: M, val scm: M) {
-    def key = (scm, j, i)
-    def reduction = if (m < n) m | n else n | m
-    def principal = if (m < n) j else i
-    def coprime = pp.coprime(m, n)
-  }
-
-  def process(pa: P): Unit = {
+  def process(pa: Pair[M]): Unit = {
     if(!b_criterion(pa)) {
-      println("{" + pa.i + ", " + pa.j + "}, " + pa.scm.show + ", " + pa.reduction)
+      println(pa)
       val p = normalize(s_polynomial(polys(pa.i), polys(pa.j)).reduce(polys.toSeq))
       if (!p.isZero) update(p)
       npairs += 1
     }
     remove(pa)
   }
-  def b_criterion(pa: P): Boolean = {
+  def b_criterion(pa: Pair[M]): Boolean = {
     var k = 0
     while (k < polys.size) {
       if ((headPowerProduct(k) | pa.scm) && considered(pa.i, k) && considered(pa.j, k)) return true
@@ -48,31 +25,36 @@ trait PolynomialWithEngine[T : ClassTag, C, M] extends PolynomialOverUFD[T, C, M
     }
     false
   }
-  def remove(pa: P): Unit = {
+  def remove(pa: Pair[M]): Unit = {
     pairs.remove(pa)
     if(pa.reduction) removed(pa.principal) = true
   }
-  def add(pa: P): Unit = {
+  def add(pa: Pair[M]): Unit = {
     pairs.add(pa)
     if (pa.coprime) remove(pa)
   }
 
-  def apply(i: Int, j: Int): P
+  def apply(i: Int, j: Int) = {
+    val m = headPowerProduct(i)
+    val n = headPowerProduct(j)
+    val scm = pp.lcm(m, n)
+    new Pair(i, j, m, n, scm)
+  }
   def sorted(i: Int, j: Int) = if (i > j) apply(j, i) else apply(i, j)
   def make(index: Int): Unit = for (i <- 0 until index) add(apply(i, index))
   def considered(i: Int, j: Int) = !pairs.contains(sorted(i, j))
 
-  given ordering: Ordering[P] = Ordering by { (pair: P) => pair.key }
+  given ordering: Ordering[Pair[M]] = Ordering by { (pair: Pair[M]) => pair.key }
 
   var pairs = new TreeSet(ordering)
-  val removed = new ArrayBuffer[Boolean]
-  val polys = new ArrayBuffer[T]
+  val removed = new ListBuffer[Boolean]
+  val polys = new ListBuffer[T]
   var npairs = 0
   var npolys = 0
 
-  def headPowerProduct(i: Int): M = headPowerProduct(polys(i))
+  def headPowerProduct(i: Int) = factory.headPowerProduct(polys(i))
 
-  def gb(xs: T*) = {
+  def process(xs: Seq[T]): List[T] = {
     update(xs)
     process
     reduce
@@ -116,8 +98,8 @@ trait PolynomialWithEngine[T : ClassTag, C, M] extends PolynomialOverUFD[T, C, M
 
   def toList = {
     println("signature = (" + npairs + ", " + npolys + ", " + polys.size + ")")
-    val a = polys.toArray
+    val a = polys.toList
     polys.clear
-    a.toList
+    a
   }
 }
