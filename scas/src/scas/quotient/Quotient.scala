@@ -3,7 +3,7 @@ package scas.quotient
 import scas.polynomial.{PolynomialOverUFD, PolynomialOverField}
 import scas.util.Conversion
 
-trait Quotient[T, C, M] extends scas.structure.commutative.Quotient[T] {
+abstract class Quotient[T, C, M] extends scas.structure.commutative.Quotient[T] {
   given ring: PolynomialOverUFD[T, C, M]
   def generator(n: Int) = this(ring.generator(n))
   def generators = ring.generators.map(apply)

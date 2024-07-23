@@ -3,7 +3,7 @@ package scas.quotient
 import scas.structure.commutative.Quotient.Element
 import scas.polynomial.PolynomialOverField
 
-trait RationalFunctionOverField[T, C, M] extends Quotient[T, C, M] {
+abstract class RationalFunctionOverField[T, C, M] extends Quotient[T, C, M] {
   given ring: PolynomialOverField[T, C, M]
   override def apply(x: Element[T]) = {
     val Element(n, d) = x

@@ -8,7 +8,7 @@ import scas.util.Conversion
 import BigInteger.given
 import Rational.given
 
-trait RationalFunction[T, M] extends Quotient[T, BigInteger, M] {
+abstract class RationalFunction[T, M] extends Quotient[T, BigInteger, M] {
   def degree(x: T) = ring.degree(x)
   def headCoefficient(x: T) = ring.headCoefficient(x)
   extension (x: Element[T]) override def toCode(level: Level) = {

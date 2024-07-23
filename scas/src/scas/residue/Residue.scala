@@ -7,7 +7,7 @@ import scas.polynomial.PolynomialOverField
 import scas.module.ArrayModule
 import scas.variable.Variable
 
-trait Residue[T : ClassTag, C, M] extends scas.structure.commutative.Residue[T, T] with Field[T] {
+abstract class Residue[T : ClassTag, C, M] extends scas.structure.commutative.Residue[T, T] with Field[T] {
   given ring: PolynomialOverField[T, C, M]
   var list = List.empty[T]
   def generators = ring.generators
