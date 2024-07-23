@@ -90,7 +90,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
   def toMathML(fenced: Boolean) = s"<mrow>${ring.toMathML}${if (fenced) "<mfenced>" else "<mfenced open=\"[\" close=\"]\">"}${variables.toList.toMathML(false)}</mfenced></mrow>"
 
   extension (ring: Ring[C]) def apply(s: T*): Polynomial[T, C, M] = {
-    given ArrayModule[T] = new ArrayModule(using this)(length)
+    given ArrayModule[T] = ArrayModule(this)(length)
     assert (s.toArray >< generators.toArray)
     this
   }

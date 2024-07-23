@@ -33,7 +33,7 @@ trait Residue[T : ClassTag, C, M] extends scas.structure.commutative.Residue[T, 
   def toMathML = s"<msub>${ring.toMathML}<mfenced>${list.toMathML(false)}</mfenced></msub>"
 
   extension (ring: UniqueFactorizationDomain[T]) def apply(s: T*) = {
-    given ArrayModule[T] = new ArrayModule(using this)(list.size)
+    given ArrayModule[T] = ArrayModule(this)(list.size)
     assert (s.toArray >< list.toArray)
     this
   }

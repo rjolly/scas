@@ -30,7 +30,7 @@ class ModInteger(mod: BigInteger) extends Residue[Int, BigInteger] with Field[In
   def toMathML = s"<msub>${BigInteger.toMathML}${mod.toMathML}</msub>"
 
   extension (ring: UniqueFactorizationDomain[BigInteger]) def apply(s: BigInteger*) = {
-    given ArrayModule[BigInteger] = new ArrayModule(using BigInteger)(1)
+    given ArrayModule[BigInteger] = ArrayModule(BigInteger)(1)
     assert (s.toArray >< List(mod).toArray)
     this
   }

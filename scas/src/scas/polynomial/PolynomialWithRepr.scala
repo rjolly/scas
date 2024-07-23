@@ -8,7 +8,7 @@ import PolynomialWithRepr.Element
 
 abstract class PolynomialWithRepr[T : ClassTag, C, M](dimension: Int) extends Polynomial[Element[T], C, M] {
   given factory: Polynomial[T, C, M]
-  given module: ArrayModule[T] = new ArrayModule(using factory)(dimension)
+  given module: ArrayModule[T] = ArrayModule(factory)(dimension)
   def apply(p: T, n: Int) = (p, module.generator(n))
   def apply(s: (M, C)*) = this(factory(s*))
   def apply(p: T) = (p, module.zero)
