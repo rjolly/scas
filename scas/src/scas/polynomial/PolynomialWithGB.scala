@@ -1,9 +1,12 @@
 package scas.polynomial
 
-import scas.power.PowerProduct
+import scala.reflect.ClassTag
+import scas.math.Numeric
+import scas.power.ArrayPowerProduct
 
-trait PolynomialWithGB[T, C, M] extends PolynomialOverUFD[T, C, M] {
-  def newInstance(pp: PowerProduct[M]): PolynomialWithGB[T, C, M]
+trait PolynomialWithGB[T : ClassTag, C, N : Numeric : ClassTag] extends PolynomialOverUFD[T, C, Array[N]] {
+  given pp: ArrayPowerProduct[N]
+  def newInstance(pp: ArrayPowerProduct[N]): PolynomialWithGB[T, C, N]
   def normalize(x: T) = primitivePart(x)
   def s_polynomial(x: T, y: T) = {
     val (m, a) = head(x)
@@ -15,8 +18,13 @@ trait PolynomialWithGB[T, C, M] extends PolynomialOverUFD[T, C, M] {
   def gcd(x: T, y: T) = {
     val (a, p) = contentAndPrimitivePart(x)
     val (b, q) = contentAndPrimitivePart(y)
-    val list = gb(p, q)
-    (if (list.size == 1) list(0) else one)%* ring.gcd(a, b)
+    given module: Module[T, C, N] = new Module(using this)("c", 3)
+    val list = module.gb(
+      Array(p, one, zero),
+      Array(q, zero, one)
+    )
+    val Array(_, u, v) = list.last
+    (p / v)%* ring.gcd(a, b)
   }
   def gb(xs: T*) = {
     new Engine(using this).process(xs)

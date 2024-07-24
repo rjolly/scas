@@ -6,7 +6,7 @@ import scas.variable.Variable
 import scas.base.BigInteger
 import BigInteger.given
 
-class POT[N : ClassTag](using numeric: Numeric[N])(factory: PowerProduct[Array[N]], name: String, dimension: Int) extends ArrayPowerProductWithDegree[N] {
+class POT[N : ClassTag](using numeric: Numeric[N])(factory: ArrayPowerProduct[N], name: String, dimension: Int) extends ArrayPowerProductWithDegree[N] {
   val variables = factory.variables ++ (for (i <- 0 until dimension) yield Variable(name, Array(i)*))
   def newInstance(variables: Variable*) = new POT(factory.newInstance(variables*), name, dimension)
 

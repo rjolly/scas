@@ -1,14 +1,16 @@
 package scas.polynomial.tree
 
-import scas.power.PowerProduct
+import scala.reflect.ClassTag
+import scas.math.Numeric
+import scas.power.ArrayPowerProduct
 import scas.structure.commutative.UniqueFactorizationDomain
 import scas.polynomial.TreePolynomial
 import TreePolynomial.Element
 
-class PolynomialWithGB[C, M](using val ring: UniqueFactorizationDomain[C], val pp: PowerProduct[M]) extends TreePolynomial[C, M] with scas.polynomial.PolynomialWithGB[Element[C, M], C, M] with scas.structure.commutative.conversion.UniqueFactorizationDomain[Element[C, M]] {
-  given instance: PolynomialWithGB[C, M] = this
+class PolynomialWithGB[C, N](using val ring: UniqueFactorizationDomain[C], val pp: ArrayPowerProduct[N])(using ClassTag[N], Numeric[N]) extends TreePolynomial[C, Array[N]] with scas.polynomial.PolynomialWithGB[Element[C, Array[N]], C, N] with scas.structure.commutative.conversion.UniqueFactorizationDomain[Element[C, Array[N]]] {
+  given instance: PolynomialWithGB[C, N] = this
   object Implicits {
     export PolynomialWithGB.this.{instance, coef2poly}
   }
-  def newInstance(pp: PowerProduct[M]) = new PolynomialWithGB(using ring, pp)
+  def newInstance(pp: ArrayPowerProduct[N]) = new PolynomialWithGB(using ring, pp)
 }

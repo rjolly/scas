@@ -5,10 +5,10 @@ import scala.jdk.CollectionConverters.SetHasAsScala
 import scala.collection.mutable.ListBuffer
 import scala.math.Ordering
 
-class Engine[T, C, M](using factory: PolynomialWithGB[T, C, M]) {
+class Engine[T, C, N](using factory: PolynomialWithGB[T, C, N]) {
   import factory.{normalize, s_polynomial, pp}
 
-  def process(pa: Pair[M]): Unit = {
+  def process(pa: Pair[N]): Unit = {
     if(!b_criterion(pa)) {
       println(pa)
       val p = normalize(s_polynomial(polys(pa.i), polys(pa.j)).reduce(polys.toSeq))
@@ -17,7 +17,7 @@ class Engine[T, C, M](using factory: PolynomialWithGB[T, C, M]) {
     }
     remove(pa)
   }
-  def b_criterion(pa: Pair[M]): Boolean = {
+  def b_criterion(pa: Pair[N]): Boolean = {
     var k = 0
     while (k < polys.size) {
       if ((headPowerProduct(k) | pa.scm) && considered(pa.i, k) && considered(pa.j, k)) return true
@@ -25,11 +25,11 @@ class Engine[T, C, M](using factory: PolynomialWithGB[T, C, M]) {
     }
     false
   }
-  def remove(pa: Pair[M]): Unit = {
+  def remove(pa: Pair[N]): Unit = {
     pairs.remove(pa)
     if(pa.reduction) removed(pa.principal) = true
   }
-  def add(pa: Pair[M]): Unit = {
+  def add(pa: Pair[N]): Unit = {
     pairs.add(pa)
     if (pa.coprime) remove(pa)
   }
@@ -44,7 +44,7 @@ class Engine[T, C, M](using factory: PolynomialWithGB[T, C, M]) {
   def make(index: Int): Unit = for (i <- 0 until index) add(apply(i, index))
   def considered(i: Int, j: Int) = !pairs.contains(sorted(i, j))
 
-  given ordering: Ordering[Pair[M]] = Ordering by { (pair: Pair[M]) => pair.key }
+  given ordering: Ordering[Pair[N]] = Ordering by { (pair: Pair[N]) => pair.key }
 
   var pairs = new TreeSet(ordering)
   val removed = new ListBuffer[Boolean]
