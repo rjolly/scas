@@ -1,0 +1,11 @@
+import scas.polynomial.tree.PolynomialWithGB
+import scas.power.DegreeReverseLexicographic
+import scas.base.BigInteger
+import BigInteger.given
+
+val r = PolynomialWithGB(using BigInteger, DegreeReverseLexicographic(0)("x", "y", "z"))
+val List(x, y, z) = r.generators
+import r.Implicits.given
+import r.gcd
+
+assert (gcd(x*y, x*z) >< x)

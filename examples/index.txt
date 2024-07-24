@@ -25,6 +25,7 @@ complex.txt
 quotient.txt
 gcd_subres.txt
 gcd_multivariate.txt
+gb_gcd.txt
 gb.txt
 univariate_polynomial.txt
 solvable_polynomial.txt
