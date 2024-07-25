@@ -57,11 +57,11 @@ abstract class ArrayPowerProductWithDegree[N : ClassTag](using numeric: Numeric[
       }
       true
     }
-    def projection(n: Int) = {
+    def projection(n: Int, m: Int) = {
       val r = empty
-      for (i <- 0 until length) if (i == n) {
+      for (i <- 0 until length) if (i >= n && i < m) {
         r(i) = x(i)
-        r(length) = x(i)
+        r(length) += x(i)
       }
       r
     }

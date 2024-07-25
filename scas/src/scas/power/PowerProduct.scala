@@ -32,7 +32,8 @@ abstract class PowerProduct[M] extends Monoid[M] {
   }
   def dependencyOnVariables(x: M): Array[Int]
   extension (x: M) {
-    def projection(n: Int): M
+    def projection(n: Int): M = projection(n, n + 1)
+    def projection(n: Int, m: Int): M
     def convert(from: PowerProduct[M]): M
   }
   override def toString = variables.toList.show

@@ -67,9 +67,9 @@ class POT[N : ClassTag](using numeric: Numeric[N])(factory: ArrayPowerProduct[N]
       }
       true
     }
-    override def projection(n: Int) = {
-      val r = super.projection(x)(n)
-      for (i <- 0 until dimension) if (length + i == n) {
+    override def projection(n: Int, m: Int) = {
+      val r = super.projection(x)(n, m)
+      for (i <- 0 until dimension) if (length + i >= n && length + i < m) {
         r(length + 1 + i) = x(length + 1 + i)
       }
       r

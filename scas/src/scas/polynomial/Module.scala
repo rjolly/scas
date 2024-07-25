@@ -20,11 +20,11 @@ class Module[T : ClassTag, C, N : Numeric : ClassTag](using val ring: Polynomial
     })
   }
   extension (x: T) def convertFrom(s: PolynomialWithGB[T, C, N]): Array[T] = s.iterator(x).foldLeft(zero) { (l, r) =>
+    import s.pp
     val (m, c) = r
+    val n = m.projection(pp.length, pp.length + dimension)
     l + (for (i <- 0 until dimension) yield {
-      import s.pp
-      val n = m.projection(pp.length + i)
-      if (n.isOne) ring.zero else s(m / n, c).convert(pp)
+      if (n >< pp.generator(pp.length + i)) s(m / n, c).convert(pp) else ring.zero
     }).toArray
   }
 }

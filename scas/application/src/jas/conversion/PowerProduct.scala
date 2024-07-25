@@ -22,7 +22,7 @@ class PowerProduct(val variables: Variable*)(tord: TermOrder) extends scas.power
   def compare(x: ExpVector, y: ExpVector) = comp.compare(x, y)
   def dependencyOnVariables(x: ExpVector) = x.dependencyOnVariables
   extension (x: ExpVector) {
-    def projection(n: Int) = ???
+    def projection(n: Int, m: Int) = ???
     def convert(from: scas.power.PowerProduct[ExpVector]) = ???
     def toCode(level: Level) = x.toString(variables.map(_.toString).toArray)
     def toMathML = ???
