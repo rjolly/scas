@@ -3,6 +3,9 @@ package scas.polynomial
 import scala.reflect.ClassTag
 import scas.math.Numeric
 import scas.power.ArrayPowerProduct
+import scas.module.Array
+import scas.base.BigInteger
+import BigInteger.given
 
 trait PolynomialWithGB[T : ClassTag, C, N : Numeric : ClassTag] extends PolynomialOverUFD[T, C, Array[N]] {
   given pp: ArrayPowerProduct[N]
@@ -20,8 +23,8 @@ trait PolynomialWithGB[T : ClassTag, C, N : Numeric : ClassTag] extends Polynomi
     val (b, q) = contentAndPrimitivePart(y)
     given module: Module[T, C, N] = new Module(using this)("c", 3)
     val list = module.gb(
-      Array(p, one, zero),
-      Array(q, zero, one)
+      Array(p, 1, 0),
+      Array(q, 0, 1)
     )
     val Array(_, u, v) = list.last
     (p / v)%* ring.gcd(a, b)
