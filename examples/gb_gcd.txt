@@ -1,3 +1,5 @@
+// See https://www.researchgate.net/publication/312962853_Polynomial_GCDs_by_Syzygies
+
 import scas.polynomial.tree.PolynomialWithGB
 import scas.power.DegreeReverseLexicographic
 import scas.base.BigInteger
