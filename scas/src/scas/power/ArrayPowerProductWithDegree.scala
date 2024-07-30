@@ -2,7 +2,6 @@ package scas.power
 
 import scala.reflect.ClassTag
 import scas.math.Numeric
-import scas.variable.Variable
 import scas.base.BigInteger
 import BigInteger.given
 

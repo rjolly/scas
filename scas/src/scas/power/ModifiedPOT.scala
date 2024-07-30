@@ -2,7 +2,6 @@ package scas.power
 
 import scala.reflect.ClassTag
 import scas.math.Numeric
-import scas.variable.Variable
 
 class ModifiedPOT[N : Numeric : ClassTag](factory: ArrayPowerProduct[N], name: String, dimension: Int) extends POT(factory, name, dimension) {
   override def compare(x: Array[N], y: Array[N]) = {

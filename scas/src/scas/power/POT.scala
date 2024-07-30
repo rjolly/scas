@@ -3,8 +3,6 @@ package scas.power
 import scala.reflect.ClassTag
 import scas.math.Numeric
 import scas.variable.Variable
-import scas.base.BigInteger
-import BigInteger.given
 
 class POT[N : ClassTag](using numeric: Numeric[N])(factory: ArrayPowerProduct[N], name: String, dimension: Int) extends ArrayPowerProductWithDegree[N] {
   val variables = factory.variables ++ (for (i <- 0 until dimension) yield Variable(name, Array(i)*))

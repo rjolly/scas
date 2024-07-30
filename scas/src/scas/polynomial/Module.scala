@@ -2,10 +2,8 @@ package scas.polynomial
 
 import scala.reflect.ClassTag
 import scas.module.ArrayModule
-import scas.structure.Ring
 import scas.power.ModifiedPOT
 import scas.math.Numeric
-import scas.variable.Variable
 
 class Module[T : ClassTag, C, N : Numeric : ClassTag](using val ring: PolynomialWithGB[T, C, N])(name: String, dimension: Int) extends ArrayModule[T](dimension) {
   def gb(xs: Array[T]*) = {

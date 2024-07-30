@@ -2,8 +2,6 @@ package scas.polynomial
 
 import scala.reflect.ClassTag
 import scas.module.ArrayModule
-import scas.structure.Ring
-import scas.power.PowerProduct
 import PolynomialWithRepr.Element
 
 abstract class PolynomialWithRepr[T : ClassTag, C, M](dimension: Int) extends Polynomial[Element[T], C, M] {
