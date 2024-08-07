@@ -13,12 +13,3 @@ trait Structure[T] extends Equiv[T] with Show[T] {
   }
   def toMathML: String
 }
-
-object Structure {
-  given [T]: Show[Structure[T]] with {
-    extension (x: Structure[T]) {
-      def show = x.toString
-      def toMathML = x.toMathML
-    }
-  }
-}
