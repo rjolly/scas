@@ -3,6 +3,7 @@ mkdir("build/classes");
 
 var name = "scas.application";
 dotc("../" + name.replace(".", "/") + "/src", "build/classes");
+copy("../" + name.replace(".", "/") + "/resources", "build/classes");
 
 mkdir("dist");
 var name_rev = name + "_3";
