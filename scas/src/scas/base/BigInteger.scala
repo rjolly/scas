@@ -9,6 +9,8 @@ type BigInteger = java.math.BigInteger
 object BigInteger extends BigInteger.Impl with UniqueFactorizationDomain[BigInteger] {
   given instance: BigInteger.type = this
   abstract class Impl extends EuclidianDomain[BigInteger] {
+    val zero = this("0")
+    val one = this("1")
     def fromInt(n: BigInteger) = n
     def apply(str: String) = new BigInteger(str)
     extension (x: BigInteger) {
@@ -26,6 +28,7 @@ object BigInteger extends BigInteger.Impl with UniqueFactorizationDomain[BigInte
         (q, r)
       }
     }
+    def characteristic = zero
     extension (x: BigInteger) def isUnit = abs(x).isOne
     extension (x: BigInteger) override def isZero = x.signum == 0
     extension (a: BigInteger) override def pow(b: BigInteger) = a.pow(b.intValue)
@@ -44,7 +47,4 @@ object BigInteger extends BigInteger.Impl with UniqueFactorizationDomain[BigInte
     given int2bigInt: (Int => BigInteger) = valueOf(_)
     given long2bigInt: (Long => BigInteger) = valueOf(_)
   }
-  val characteristic = BigInteger("0")
-  val zero = BigInteger("0")
-  val one = BigInteger("1")
 }
