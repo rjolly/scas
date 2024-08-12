@@ -6,7 +6,7 @@ import scas.module.ArrayModule
 
 trait PolynomialOverField[T : ClassTag, C, M] extends PolynomialOverUFD[T, C, M] {
   given ring: Field[C]
-  extension (x: T) override def %/ (c: C) = x%* Field[C].inverse(c)
+  extension (x: T) override def %/ (c: C) = x%* ring.inverse(c)
   def monic(x: T) = if (x.isZero) zero else x%/ headCoefficient(x)
   extension (x: T) {
     override def reduce(m: M, a: C, y: T, b: C) = x.subtract(m, a / b, y)
