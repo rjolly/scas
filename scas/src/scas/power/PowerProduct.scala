@@ -11,7 +11,7 @@ abstract class PowerProduct[M] extends Monoid[M] {
   def take(n: Int) = newInstance(variables.take(n)*)
   def drop(n: Int) = newInstance(variables.drop(n)*)
   def newInstance(variables: Variable*): PowerProduct[M]
-  def generator(variable: String): M = generator(variables.indexOf(variable))
+  def generator(variable: Variable): M = generator(variables.indexOf(variable))
   def generator(n: Int): M
   def generators = (for (i <- 0 until length) yield generator(i)).toList
   def degree(x: M): BigInteger
