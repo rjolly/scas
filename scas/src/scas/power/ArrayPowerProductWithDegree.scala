@@ -66,13 +66,14 @@ abstract class ArrayPowerProductWithDegree[N : ClassTag](using numeric: Numeric[
     }
     def convert(from: PowerProduct[Array[N]]) = {
       val r = empty
+      val l = if (from == this) x.length - 1 else from.length
       val index = from.variables.map(a => variables.indexOf(a))
-      for (i <- 0 until from.length) if (x(i) > numeric.zero) {
+      for (i <- 0 until l) if (x(i) > numeric.zero) {
         val c = index(i)
         assert (c > -1)
         r(c) = x(i)
       }
-      r(length) = x(from.length)
+      r(length) = x(l)
       r
     }
   }
