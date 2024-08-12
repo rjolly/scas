@@ -1,7 +1,6 @@
 package scas.polynomial
 
-import java.util.TreeSet
-import scala.jdk.CollectionConverters.SetHasAsScala
+import scala.collection.immutable.SortedSet
 import scala.collection.mutable.ListBuffer
 import scala.math.Ordering
 
@@ -26,11 +25,11 @@ class Engine[T, C, N](using factory: PolynomialWithGB[T, C, N]) {
     false
   }
   def remove(pa: Pair[N]): Unit = {
-    pairs.remove(pa)
+    pairs -= pa
     if(pa.reduction) removed(pa.principal) = true
   }
   def add(pa: Pair[N]): Unit = {
-    pairs.add(pa)
+    pairs += pa
     if (pa.coprime) remove(pa)
   }
 
@@ -46,9 +45,9 @@ class Engine[T, C, N](using factory: PolynomialWithGB[T, C, N]) {
 
   given ordering: Ordering[Pair[N]] = Ordering by { (pair: Pair[N]) => pair.key }
 
-  var pairs = new TreeSet(ordering)
-  val removed = new ListBuffer[Boolean]
-  val polys = new ListBuffer[T]
+  var pairs = SortedSet.empty[Pair[N]]
+  val removed = ListBuffer.empty[Boolean]
+  val polys = ListBuffer.empty[T]
   var npairs = 0
   var npolys = 0
 
@@ -81,7 +80,7 @@ class Engine[T, C, N](using factory: PolynomialWithGB[T, C, N]) {
 
   def process: Unit = {
     println("process")
-    while(!pairs.isEmpty) process(pairs.asScala.head)
+    while(!pairs.isEmpty) process(pairs.head)
   }
 
   def reduce: Unit = {
