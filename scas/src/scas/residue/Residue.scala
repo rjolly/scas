@@ -9,14 +9,12 @@ import scas.variable.Variable
 
 class Residue[T : ClassTag, C, M](using val ring: PolynomialOverField[T, C, M]) extends scas.structure.commutative.Residue[T, T] with Field[T] {
   var list = List.empty[T]
-  def generators = ring.generators
-  given coef2poly[D: Conversion[C]]: (D => T) = ring.coef2poly
+  export ring.{generators, coef2poly}
   def update(mod: T): Unit = {
     // assert mod is irreducible
     list = List(mod)
   }
-  def generator = ring.generator
-  def variables = ring.variables
+  import ring.{generator, variables}
   def sqrt[U: Conversion[T]](x: U): T = sqrt(~x)
   def sqrt(x: T) = {
     val n = variables.indexOf(Variable.sqrt(x))
