@@ -2,8 +2,8 @@ package scas.scripting
 
 object Parsers extends scala.util.parsing.combinator.RegexParsers {
   def obj: Parser[Object] = {
-    val poly = PolyParsers()
-    ComplexParsers.obj ||| poly.obj
+    val rf = RFParsers(PolyParsers.newInstance())
+    ComplexParsers.obj ||| rf.obj
   }
 
   def apply(input: String) = {
