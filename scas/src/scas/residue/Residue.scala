@@ -7,8 +7,7 @@ import scas.polynomial.PolynomialOverField
 import scas.module.ArrayModule
 import scas.variable.Variable
 
-abstract class Residue[T : ClassTag, C, M] extends scas.structure.commutative.Residue[T, T] with Field[T] {
-  given ring: PolynomialOverField[T, C, M]
+class Residue[T : ClassTag, C, M](using val ring: PolynomialOverField[T, C, M]) extends scas.structure.commutative.Residue[T, T] with Field[T] {
   var list = List.empty[T]
   def generators = ring.generators
   given coef2poly[D: Conversion[C]]: (D => T) = ring.coef2poly

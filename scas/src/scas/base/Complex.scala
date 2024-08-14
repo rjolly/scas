@@ -15,7 +15,7 @@ object Complex extends Complex.Impl with Field[Complex] {
   object Implicits {
     export Complex.{instance, coef2poly}
   }
-  class Impl extends AlgebraicNumber(using Rational)(Variable.sqrt(BigInteger("-1"))) with StarUFD[Complex] {
+  class Impl extends AlgebraicNumber(Rational)(Variable.sqrt(BigInteger("-1"))) with StarUFD[Complex] {
     import ring.pp
     def real(x: Complex) = ring(x.coefficient(pp.one))
     def imag(x: Complex) = ring(x.coefficient(pp.generator(0)))
