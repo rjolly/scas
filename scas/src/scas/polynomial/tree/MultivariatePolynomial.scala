@@ -5,9 +5,13 @@ import scas.structure.commutative.UniqueFactorizationDomain
 import scas.variable.Variable
 import scas.util.Conversion
 import scas.polynomial.TreePolynomial
-import TreePolynomial.Element
+import MultivariatePolynomial.Element
 
-abstract class MultivariatePolynomial[C, S : Conversion[Variable]](using val ring: UniqueFactorizationDomain[C])(s: S*) extends TreePolynomial[C, Array[Int]] with scas.polynomial.MultivariatePolynomial[Element, C, Array[Int]] with scas.structure.commutative.conversion.UniqueFactorizationDomain[Element[C, Array[Int]]] {
+abstract class MultivariatePolynomial[C, S : Conversion[Variable]](using val ring: UniqueFactorizationDomain[C])(s: S*) extends TreePolynomial[C, Array[Int]] with scas.polynomial.MultivariatePolynomial[TreePolynomial.Element, C, Array[Int]] with scas.structure.commutative.conversion.UniqueFactorizationDomain[Element[C]] {
   given pp: PowerProduct[Array[Int]] = Lexicographic(0)(s*)
   given instance: MultivariatePolynomial[C, S] = this
+}
+
+object MultivariatePolynomial {
+  type Element[C] = TreePolynomial.Element[C, Array[Int]]
 }
