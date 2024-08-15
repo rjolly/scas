@@ -8,11 +8,11 @@ import scas.module.ArrayModule
 import scas.variable.Variable
 
 class Residue[T : ClassTag, C, M](using val ring: PolynomialOverField[T, C, M]) extends scas.structure.commutative.Residue[T, T] with Field[T] {
-  var list = List.empty[T]
+  var mods = List.empty[T]
   export ring.{generators, coef2poly}
-  def update(mod: T): Unit = {
+  def update(s: T*): Unit = {
     // assert mod is irreducible
-    list = List(mod)
+    mods ++= s
   }
   import ring.{generator, variables}
   def sqrt[U: Conversion[T]](x: U): T = sqrt(~x)
@@ -21,21 +21,21 @@ class Residue[T : ClassTag, C, M](using val ring: PolynomialOverField[T, C, M]) 
     assert (n > -1)
     generator(n)
   }
-  def apply(x: T) = x.reduce(list)
+  def apply(x: T) = ring.remainder(x)(mods)
   extension (x: T) def unapply = x
   def fromRing(x: T) = x
   def characteristic = ring.characteristic
-  def inverse(x: T) = x.modInverse(list(0))
-  override def toString = s"${ring}(${list.show(false)})"
-  def toMathML = s"<msub>${ring.toMathML}<mfenced>${list.toMathML(false)}</mfenced></msub>"
+  def inverse(x: T) = x.modInverse(mods*)
+  override def toString = s"${ring}(${mods.show(false)})"
+  def toMathML = s"<msub>${ring.toMathML}<mfenced>${mods.toMathML(false)}</mfenced></msub>"
 
   extension (ring: UniqueFactorizationDomain[T]) def apply(s: T*) = {
-    given ArrayModule[T] = ArrayModule(this)(list.size)
-    assert (s.toArray >< list.toArray)
+    given ArrayModule[T] = ArrayModule(this)(mods.size)
+    assert (s.toArray >< mods.toArray)
     this
   }
 }
 
 object Residue {
-  def apply[T : ClassTag, C, M](ring: PolynomialOverField[T, C, M])(mod: T) = new conversion.Residue(using ring)(mod)
+  def apply[T : ClassTag, C, M](ring: PolynomialOverField[T, C, M])(s: T*) = new conversion.Residue(using ring)(s*)
 }

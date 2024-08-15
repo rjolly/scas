@@ -8,16 +8,7 @@ trait PolynomialOverField[T : ClassTag, C, M] extends PolynomialOverUFD[T, C, M]
   given ring: Field[C]
   extension (x: T) override def %/ (c: C) = x%* ring.inverse(c)
   def monic(x: T) = if (x.isZero) zero else x%/ headCoefficient(x)
-  extension (x: T) {
-    override def reduce(m: M, a: C, y: T, b: C) = x.subtract(m, a / b, y)
-    override def reduce(y: T) = super.reduce(x)(y)
-  }
-  extension (x: T) def modInverse(mod: T) = {
-    val s = new scas.polynomial.repr.UnivariatePolynomial(using this)(1)
-    val (p, e) = s.monic(s.gcd(s(x, 0), s(mod)))
-    assert (p.isOne)
-    e(0)
-  }
+  extension (x: T) def modInverse(mods: T*): T
   extension (ring: Field[C]) def apply(s: T*) = {
     given ArrayModule[T] = ArrayModule(this)(variables.length)
     assert (s.toArray >< generators.toArray)
