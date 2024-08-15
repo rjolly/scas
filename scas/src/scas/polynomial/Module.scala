@@ -8,7 +8,7 @@ import scas.math.Numeric
 class Module[T : ClassTag, C, N : Numeric : ClassTag](using val ring: PolynomialWithGB[T, C, N])(name: String, dimension: Int) extends ArrayModule[T](dimension) {
   def gb(xs: Array[T]*) = {
     val s = ring.newInstance(new ModifiedPOT(ring.pp, name, dimension))
-    s.gb((xs.map(_.convertTo(using s)) ++ products(using s))*).map(_.convertFrom(s))
+    s.gb((xs.map(_.convertTo(using s)) ++ products(using s))*).map(_.convertFrom(s)).filter(!_.isZero)
   }
   def products(using s: PolynomialWithGB[T, C, N]) = for (i <- 0 until dimension; j <- i until dimension) yield s.generator(s.length + i) * s.generator(s.length + j)
   extension (x: Array[T]) def convertTo(using s: PolynomialWithGB[T, C, N]): T = {
