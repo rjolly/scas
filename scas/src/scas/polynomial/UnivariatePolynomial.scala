@@ -16,8 +16,8 @@ trait UnivariatePolynomial[T : ClassTag, C, M] extends PolynomialOverField[T, C,
   extension (x: T) def modInverse(mods: T*) = {
     assert (mods.length == 1)
     val s = new scas.polynomial.repr.UnivariatePolynomial(using this)(1)
-    val (p, e) = s.monic(s.gcd(s(x, 0), s(mods(0))))
-    assert (p.isOne)
-    e(0)
+    val (p, e) = s.gcd(s(x, 0), s(mods(0)))
+    assert (p.isUnit)
+    e(0) / p
   }
 }
