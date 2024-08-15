@@ -24,6 +24,6 @@ class RationalFunction(using val ring: PolynomialOverUFD[MultivariatePolynomial.
 }
 
 object RationalFunction {
-  def apply[C, S : Conversion[Variable]](ring: Field[C])(s: S) = new conversion.RationalFunctionOverField(ring)(s)
+  def apply[C, S : Conversion[Variable]](ring: Field[C])(s: S*) = new conversion.RationalFunctionOverField(ring)(s*)
   def integral[S : Conversion[Variable]](s: S*) = new conversion.RationalFunction(s*)
 }
