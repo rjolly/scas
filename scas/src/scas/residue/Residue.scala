@@ -7,19 +7,20 @@ import scas.polynomial.PolynomialOverField
 import scas.module.ArrayModule
 import scas.variable.Variable
 
-class Residue[T : ClassTag, C, M](using val ring: PolynomialOverField[T, C, M]) extends scas.structure.commutative.Residue[T, T] with Field[T] {
+abstract class Residue[T : ClassTag, C, M] extends scas.structure.commutative.Residue[T, T] with Field[T] {
+  given ring: PolynomialOverField[T, C, M]
   var mods = List.empty[T]
-  export ring.{generators, coef2poly}
+  def generators = ring.generators
+  given coef2poly[D: Conversion[C]]: (D => T) = ring.coef2poly
   def update(s: T*): Unit = {
     // assert mod is irreducible
     mods ++= s
   }
-  import ring.{generator, variables}
   def sqrt[U: Conversion[T]](x: U): T = sqrt(~x)
   def sqrt(x: T) = {
-    val n = variables.indexOf(Variable.sqrt(x))
+    val n = ring.variables.indexOf(Variable.sqrt(x))
     assert (n > -1)
-    generator(n)
+    ring.generator(n)
   }
   def apply(x: T) = ring.remainder(x)(mods)
   extension (x: T) def unapply = x
