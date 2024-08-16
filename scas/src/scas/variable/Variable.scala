@@ -52,7 +52,7 @@ abstract class Variable {
     "phi"     -> "&#x003C6;",
     "chi"     -> "&#x003C7;",
     "psi"     -> "&#x003C8;",
-    "omega"   -> "&#x003C9"
+    "omega"   -> "&#x003C9;"
   ).getOrElse(name, name)
 }
 
