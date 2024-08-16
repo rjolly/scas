@@ -79,8 +79,6 @@ trait Quotient[T] extends Field[Element[T]] {
     val Element(n, d) = x
     if (d.isOne) n.toMathML else s"<apply><divide/>${n.toMathML}${d.toMathML}</apply>"
   }
-  val zero = this(ring.zero)
-  val one = this(ring.one)
 
   extension (ring: UniqueFactorizationDomain[T]) def quotient() = this
 

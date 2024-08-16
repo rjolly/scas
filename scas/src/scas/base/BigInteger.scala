@@ -9,9 +9,9 @@ type BigInteger = java.math.BigInteger
 object BigInteger extends BigInteger.Impl with UniqueFactorizationDomain[BigInteger] {
   given instance: BigInteger.type = this
   abstract class Impl extends EuclidianDomain[BigInteger] {
-    val zero = this("0")
-    val one = this("1")
     def fromInt(n: BigInteger) = n
+    override val zero = this("0")
+    override val one = this("1")
     def apply(str: String) = new BigInteger(str)
     extension (x: BigInteger) {
       def add(y: BigInteger) = x.add(y)

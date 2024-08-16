@@ -11,6 +11,8 @@ trait Matrix extends Algebra[Element, Double] with Field[Element] {
   given ring: Field[Double] = Double
   def size: Int
   def fromInt(n: BigInteger) = one%* Double.fromInt(n)
+  override def zero = MatrixUtils.createRealMatrix(size, size)
+  override def one = MatrixUtils.createRealIdentityMatrix(size)
   def apply(ds: Double*): Element = Array2DRowRealMatrix(ds.grouped(size).map(_.toArray).toArray)
   extension (x: Element) {
     def add(y: Element) = x.add(y)
@@ -23,8 +25,6 @@ trait Matrix extends Algebra[Element, Double] with Field[Element] {
   extension (x: Double) def multiplyLeft(y: Element) = y%* x
   extension (x: Element) def multiplyRight(y: Double) = x.scalarMultiply(y)
   def characteristic = BigInteger("0")
-  def zero = MatrixUtils.createRealMatrix(size, size)
-  def one = MatrixUtils.createRealIdentityMatrix(size)
   extension (x: Element) {
     def toCode(level: Level) = x.toString
     def toMathML = ???

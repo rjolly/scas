@@ -58,8 +58,6 @@ class Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends Ring[(R1, 
     s"<apply><cartesianproduct/>${a.toMathML}${b.toMathML}</apply>"
   }
   def toMathML = s"<apply><cartesianproduct/>${ring1.toMathML}${ring2.toMathML}</apply>"
-  def zero = (ring1.zero, ring2.zero)
-  def one = (ring1.one, ring2.one)
 }
 
 object Product {

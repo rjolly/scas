@@ -13,8 +13,8 @@ import BigInteger.given
 trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] {
   given ring: Ring[C]
   given pp: PowerProduct[M]
-  val zero = this()
-  val one = this(ring.one)
+  override val zero = this()
+  override val one = this(ring.one)
   def fromInt(n: BigInteger) = this(ring.fromInt(n))
   def generator(n: Int) = this(pp.generator(n))
   def generators = pp.generators.map(apply)

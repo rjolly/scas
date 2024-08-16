@@ -46,8 +46,6 @@ trait Residue[T, R] extends UniqueFactorizationDomain[T] {
       a.toMathML
     }
   }
-  def zero = fromRing(ring.zero)
-  def one = fromRing(ring.one)
 
   extension (ring: UniqueFactorizationDomain[R]) def apply(s: R*): Residue[T, R]
 }

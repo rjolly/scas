@@ -16,6 +16,8 @@ object Rational extends Rational.Impl with Field[Rational] {
     given ring: BigInteger.type = BigInteger
     def apply(n: String): Rational = this(BigInteger(n))
     def apply(n: String, d: String): Rational = this(BigInteger(n), BigInteger(d))
+    override val zero = this("0")
+    override val one = this("1")
     extension (x: Rational) override def toCode(level: Level) = {
       import Level.given
       val Rational(n, d) = x
