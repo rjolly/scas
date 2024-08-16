@@ -21,7 +21,7 @@ trait SolvablePolynomial[T, C, M] extends Polynomial[T, C, M] {
     }
   }
   val table = new TreeMap[Key, List[Relation]](Ordering[Key])
-  def update(e: T, f: T, p: T): Unit = update(headPowerProduct(e), headPowerProduct(f), p)
+  def update(e: T, f: T, p: T): Unit = update(e.headPowerProduct, f.headPowerProduct, p)
   def update(e: M, f: M, p: T) = {
     val key = makeKey(e, f)
     val list = table.asScala.getOrElse(key, Nil)
@@ -68,7 +68,7 @@ trait SolvablePolynomial[T, C, M] extends Polynomial[T, C, M] {
   extension (x: T) {
     final override def multiply(m: M, c: C) = x.ppMultiplyRight(m)%* c
 
-    final override def ppMultiplyRight(m: M) = iterator(x).foldLeft(zero) { (l, r) =>
+    final override def ppMultiplyRight(m: M) = x.iterator.foldLeft(zero) { (l, r) =>
       val (s, _) = r
       l + s.multiply(m)
     }

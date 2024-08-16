@@ -18,14 +18,14 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
   def fromInt(n: BigInteger) = this(ring.fromInt(n))
   def generator(n: Int) = this(pp.generator(n))
   def generators = pp.generators.map(apply)
-  extension (x: T) def signum = if (x.isZero) 0 else lastCoefficient(x).signum
+  extension (x: T) def signum = if (x.isZero) 0 else x.lastCoefficient.signum
   def characteristic = ring.characteristic
   extension (x: T) def convert: T = x.convert(pp)
   extension (x: T) def convert(from: PowerProduct[M]) = x.map((s, a) => (s.convert(from), a)).sort
   extension (x: T) def subtract(y: T) = x.subtract(pp.one, ring.one, y)
   def equiv(x: T, y: T) = {
-    val xs = iterator(x)
-    val ys = iterator(y)
+    val xs = x.iterator
+    val ys = y.iterator
     while (xs.hasNext && ys.hasNext) {
       if (!equiv(xs.next, ys.next)) return false
     }
@@ -36,11 +36,11 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
     val (t, b) = y
     s >< t && a >< b
   }
-  extension (x: T) def isUnit = if (x.degree > 0 || x.isZero) false else headCoefficient(x).isUnit
+  extension (x: T) def isUnit = if (x.degree > 0 || x.isZero) false else x.headCoefficient.isUnit
   extension (x: T) {
     def multiply(y: T) = {
       var r = zero
-      for ((a, b) <- iterator(y)) r = r.subtract(a, -b, x)
+      for ((a, b) <- y.iterator) r = r.subtract(a, -b, x)
       r
     }
     def ppMultiplyRight(m: M) = x.map((s, a) => (s * m, a))
@@ -101,103 +101,103 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
   def apply(m: M, c: C): T = this((m, c))
   def apply(s: (M, C)*): T
 
-  def iterator(x: T): Iterator[(M, C)]
-
-  extension (x: T) def iterator(m: M): Iterator[(M, C)] = this.iterator(x).dropWhile((s, _) => s > m)
-
-  def reverseIterator(x: T) = x.toSeq.reverseIterator
-
-  extension (x: T) def toSeq = this.iterator(x).toSeq
-
   def variables = pp.variables
 
   def length = pp.length
 
-  extension (x: T) def size: Int
+  extension (x: T) {
+    def iterator: Iterator[(M, C)]
 
-  def head(x: T): (M, C)
+    def reverseIterator = x.toSeq.reverseIterator
 
-  def headPowerProduct(x: T) = {
-    val (a, _) = head(x)
-    a
-  }
+    def iterator(m: M): Iterator[(M, C)] = x.iterator.dropWhile((s, _) => s > m)
 
-  def headCoefficient(x: T) = {
-    val (_, b) = head(x)
-    b
-  }
+    def toSeq = x.iterator.toSeq
 
-  def last(x: T): (M, C)
+    def size: Int
 
-  def lastCoefficient(x: T) = {
-    val (_, b) = last(x)
-    b
-  }
+    def head: (M, C)
 
-  extension (x: T) def coefficient(m: M) = {
-    val xs = x.iterator(m)
-    if (xs.hasNext) {
-      val (s, a) = xs.next
-      if (s >< m) a else ring.zero
-    } else ring.zero
-  }
+    def headPowerProduct = {
+      val (a, _) = x.head
+      a
+    }
 
-  extension (x: T) def degree: BigInteger = iterator(x).foldLeft(BigInteger.zero) { case (l, (a, _)) =>
-    BigInteger.max(l, a.degree)
-  }
+    def headCoefficient = {
+      val (_, b) = x.head
+      b
+    }
 
-  extension (x: T) @tailrec final def reduce(ys: Seq[T]): T = {
-    val xs = iterator(x)
-    if (xs.hasNext) {
-      val (s, a) = xs.next
-      ys.find(_.reduce(s)) match {
-        case Some(y) => {
-          val (t, b) = head(y)
-          x.reduce(s / t, a, y, b).reduce(ys)
-        }
-        case None => x
-      }
-    } else x
-  }
+    def last: (M, C)
 
-  extension (x: T) def reduce(s: M) = {
-    val (t, _) = head(x)
-    t | s
-  }
+    def lastCoefficient = {
+      val (_, b) = x.last
+      b
+    }
 
-  extension (x: T) def reduce(ys: Seq[T], tail: Boolean): T = {
-    if (tail) {
-      val xs = iterator(x)
+    def coefficient(m: M) = {
+      val xs = x.iterator(m)
       if (xs.hasNext) {
         val (s, a) = xs.next
+        if (s >< m) a else ring.zero
+      } else ring.zero
+    }
+
+    def degree: BigInteger = x.iterator.foldLeft(BigInteger.zero) { case (l, (a, _)) =>
+      BigInteger.max(l, a.degree)
+    }
+
+    @tailrec final def reduce(ys: Seq[T]): T = {
+      val xs = x.iterator
+      if (xs.hasNext) {
+        val (s, a) = xs.next
+        ys.find(_.reduce(s)) match {
+          case Some(y) => {
+            val (t, b) = y.head
+            x.reduce(s / t, a, y, b).reduce(ys)
+          }
+          case None => x
+        }
+      } else x
+    }
+
+    def reduce(s: M) = {
+      val (t, _) = x.head
+      t | s
+    }
+
+    def reduce(ys: Seq[T], tail: Boolean): T = {
+      if (tail) {
+        val xs = x.iterator
         if (xs.hasNext) {
           val (s, a) = xs.next
-          x.reduce(s, ys)
-        } else x
-      } else x
-    } else x.reduce(ys)
-  }
-
-  extension (x: T) @tailrec final def reduce(m: M, ys: Seq[T]): T = {
-    val xs = x.iterator(m)
-    if (xs.hasNext) {
-      val (s, a) = xs.next
-      ys.find(_.reduce(s)) match {
-        case Some(y) => {
-          val (t, b) = head(y)
-          x.reduce(s / t, a, y, b).reduce(m, ys)
-        }
-        case None => {
           if (xs.hasNext) {
             val (s, a) = xs.next
             x.reduce(s, ys)
           } else x
-        }
-      }
-    } else x
-  }
+        } else x
+      } else x.reduce(ys)
+    }
 
-  extension (x: T) {
+    @tailrec final def reduce(m: M, ys: Seq[T]): T = {
+      val xs = x.iterator(m)
+      if (xs.hasNext) {
+        val (s, a) = xs.next
+        ys.find(_.reduce(s)) match {
+          case Some(y) => {
+            val (t, b) = y.head
+            x.reduce(s / t, a, y, b).reduce(m, ys)
+          }
+          case None => {
+            if (xs.hasNext) {
+              val (s, a) = xs.next
+              x.reduce(s, ys)
+            } else x
+          }
+        }
+      } else x
+    }
+
     def reduce(m: M, a: C, y: T, b: C) = (x%* b).subtract(m, a, y)
 
     def subtract(m: M, c: C, y: T) = x + y.multiply(m, -c)
@@ -207,6 +207,8 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
     def multiplyRight(c: C) = x.map((s, a) => (s, a * c))
 
     def map(f: (M, C) => (M, C)): T
+
+    def sort = this(x.toSeq.sortBy((s, _) => s)(pp.reverse)*)
   }
 
   extension (c: C) def multiplyLeft(x: T) = x%* c
@@ -215,8 +217,6 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
     assert(n == 0)
     this
   }
-
-  extension (x: T) def sort = this(x.toSeq.sortBy((s, _) => s)(pp.reverse)*)
 
   given coef2poly[D: Conversion[C]]: (D => T) = x => this(~x)
 }

@@ -12,8 +12,8 @@ trait PolynomialWithGB[T : ClassTag, C, N : Numeric : ClassTag] extends Polynomi
   def newInstance(pp: ArrayPowerProduct[N]): PolynomialWithGB[T, C, N]
   def normalize(x: T) = primitivePart(x)
   def s_polynomial(x: T, y: T) = {
-    val (m, a) = head(x)
-    val (n, b) = head(y)
+    val (m, a) = x.head
+    val (n, b) = y.head
     val gcd = pp.gcd(m, n)
     val (m0, n0) = (m / gcd, n / gcd)
     x.ppMultiplyRight(n0).reduce(m0, a, y, b)

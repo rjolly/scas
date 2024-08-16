@@ -10,23 +10,23 @@ abstract class PolynomialWithRepr[T : ClassTag, C, M](dimension: Int) extends Po
   def apply(p: T, n: Int) = (p, module.generator(n))
   def apply(s: (M, C)*) = this(factory(s*))
   def apply(p: T) = (p, module.zero)
-  def iterator(x: Element[T]) = {
-    val (p, _) = x
-    factory.iterator(p)
-  }
-  extension (x: Element[T]) def size = {
-    val (p, _) = x
-    p.size
-  }
-  def head(x: Element[T]) = {
-    val (p, _) = x
-    factory.head(p)
-  }
-  def last(x: Element[T]) = {
-    val (p, _) = x
-    factory.last(p)
-  }
   extension (x: Element[T]) {
+    def iterator = {
+      val (p, _) = x
+      p.iterator
+    }
+    def size = {
+      val (p, _) = x
+      p.size
+    }
+    def head = {
+      val (p, _) = x
+      p.head
+    }
+    def last = {
+      val (p, _) = x
+      p.last
+    }
     def add(y: Element[T]) = {
       val (p, e) = x
       val (q, f) = y

@@ -12,14 +12,13 @@ import Rational.given
 
 class RationalFunction(using val ring: PolynomialOverUFD[MultivariatePolynomial.Element[BigInteger], BigInteger, Array[Int]]) extends Quotient[MultivariatePolynomial.Element[BigInteger], BigInteger, Array[Int]] {
   def this(s: Variable*) = this(using new PolynomialWithSubresGCD(using BigInteger)(s*))
-  import ring.headCoefficient
   extension (x: Element[MultivariatePolynomial.Element[BigInteger]]) override def toCode(level: Level) = {
     val Element(n, d) = x
-    if(n.degree >< 0 && d.degree >< 0) Rational(headCoefficient(n), headCoefficient(d)).toCode(level) else super.toCode(x)(level)
+    if(n.degree >< 0 && d.degree >< 0) Rational(n.headCoefficient, d.headCoefficient).toCode(level) else super.toCode(x)(level)
   }
   extension (x: Element[MultivariatePolynomial.Element[BigInteger]]) override def toMathML = {
     val Element(n, d) = x
-    if(n.degree >< 0 && d.degree >< 0) Rational(headCoefficient(n), headCoefficient(d)).toMathML else super.toMathML(x)
+    if(n.degree >< 0 && d.degree >< 0) Rational(n.headCoefficient, d.headCoefficient).toMathML else super.toMathML(x)
   }
 }
 

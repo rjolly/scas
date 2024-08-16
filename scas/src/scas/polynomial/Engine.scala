@@ -19,7 +19,7 @@ class Engine[T, C, N](using factory: PolynomialWithGB[T, C, N]) {
   def b_criterion(pa: Pair[N]): Boolean = {
     var k = 0
     while (k < polys.size) {
-      if ((headPowerProduct(k) | pa.scm) && considered(pa.i, k) && considered(pa.j, k)) return true
+      if ((k.headPowerProduct | pa.scm) && considered(pa.i, k) && considered(pa.j, k)) return true
       k += 1
     }
     false
@@ -34,8 +34,8 @@ class Engine[T, C, N](using factory: PolynomialWithGB[T, C, N]) {
   }
 
   def apply(i: Int, j: Int) = {
-    val m = headPowerProduct(i)
-    val n = headPowerProduct(j)
+    val m = i.headPowerProduct
+    val n = j.headPowerProduct
     val scm = pp.lcm(m, n)
     new Pair(i, j, m, n, scm)
   }
@@ -51,7 +51,7 @@ class Engine[T, C, N](using factory: PolynomialWithGB[T, C, N]) {
   var npairs = 0
   var npolys = 0
 
-  def headPowerProduct(i: Int) = factory.headPowerProduct(polys(i))
+  extension (i: Int) def headPowerProduct = polys(i).headPowerProduct
 
   def process(xs: Seq[T]): List[T] = {
     update(xs)
@@ -73,7 +73,7 @@ class Engine[T, C, N](using factory: PolynomialWithGB[T, C, N]) {
     polys += poly
     removed += false
     val index = polys.size - 1
-    println("(" + headPowerProduct(index).show + ", " + index + ")")
+    println("(" + index.headPowerProduct.show + ", " + index + ")")
     make(index)
     npolys += 1
   }
@@ -91,7 +91,7 @@ class Engine[T, C, N](using factory: PolynomialWithGB[T, C, N]) {
     }
     for (i <- 0 until polys.size) {
       polys(i) = normalize(polys(i).reduce(polys.toSeq, true))
-      println("(" + headPowerProduct(i).show + ")")
+      println("(" + i.headPowerProduct.show + ")")
     }
   }
 

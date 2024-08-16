@@ -11,7 +11,7 @@ class RationalFunctionOverField[C](using val ring: PolynomialOverField[Multivari
   override def apply(x: Element[MultivariatePolynomial.Element[C]]) = {
     val Element(n, d) = x
     val c = ring.gcd(n, d)
-    val gcd = c%/ ring.lastCoefficient(c)%* ring.lastCoefficient(d)
+    val gcd = c%/ c.lastCoefficient%* d.lastCoefficient
     Element(n / gcd, d / gcd)
   }
 }

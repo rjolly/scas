@@ -22,37 +22,37 @@ abstract class TreePolynomial[C, M] extends Polynomial[Element[C, M], C, M] {
     unmodifiable(r)
   }
 
-  def iterator(x: Element[C, M]) = x.asScala.iterator
-
   extension (x: Element[C, M]) {
+    def iterator = x.asScala.iterator
+
     override def iterator(m: M) = x.tailMap(m).asScala.iterator
 
     override def toSeq = x.asScala.toSeq
-  }
 
-  extension (x: Element[C, M]) def size = x.size
+    def size = x.size
 
-  def head(x: Element[C, M]) = x.asScala.head
+    def head = x.asScala.head
 
-  def last(x: Element[C, M]) = x.asScala.last
+    def last = x.asScala.last
 
-  extension (x: Element[C, M]) override def coefficient(m: M) = x.getOrElse(m, ring.zero)
+    override def coefficient(m: M) = x.getOrElse(m, ring.zero)
 
-  extension (x: Element[C, M]) def getOrElse(m: M, c: C) = {
-    val a = x.get(m)
-    if (a == null) c else a
-  }
-
-  extension (x: Element[C, M]) def map(f: (M, C) => (M, C)) = {
-    val r = modifiable(zero)
-    for ((s, a) <- x.asScala) {
-      val (m, c) = f(s, a)
-      if (!c.isZero) r.put(m, c)
+    def getOrElse(m: M, c: C) = {
+      val a = x.get(m)
+      if (a == null) c else a
     }
-    unmodifiable(r)
-  }
 
-  extension (x: Element[C, M]) override def sort = x
+    def map(f: (M, C) => (M, C)) = {
+      val r = modifiable(zero)
+      for ((s, a) <- x.asScala) {
+        val (m, c) = f(s, a)
+        if (!c.isZero) r.put(m, c)
+      }
+      unmodifiable(r)
+    }
+
+    override def sort = x
+  }
 }
 
 object TreePolynomial {
