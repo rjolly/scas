@@ -13,7 +13,7 @@ abstract class ArrayPowerProductWithDegree[N : ClassTag](using numeric: Numeric[
     for (i <- 0 to length) r(i) = numeric.fromInt(if (i == n || i == length) 1 else 0)
     r
   }
-  def degree(x: Array[N]) = BigInteger.fromInt(x(length).toLong)
+  extension (x: Array[N]) def degree = BigInteger.fromInt(x(length).toLong)
   def gcd(x: Array[N], y: Array[N]): Array[N] = {
     val r = empty
     for (i <- 0 until length) {

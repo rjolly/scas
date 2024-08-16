@@ -36,7 +36,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
     val (t, b) = y
     s >< t && a >< b
   }
-  extension (x: T) def isUnit = if (degree(x) > 0 || x.isZero) false else headCoefficient(x).isUnit
+  extension (x: T) def isUnit = if (x.degree > 0 || x.isZero) false else headCoefficient(x).isUnit
   extension (x: T) {
     def multiply(y: T) = {
       var r = zero
@@ -142,10 +142,8 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
     } else ring.zero
   }
 
-  def degree(x: T) = {
-    var d = BigInteger.zero
-    for ((a, _) <- iterator(x)) d = BigInteger.max(d, pp.degree(a))
-    d
+  extension (x: T) def degree: BigInteger = iterator(x).foldLeft(BigInteger.zero) { case (l, (a, _)) =>
+    BigInteger.max(l, a.degree)
   }
 
   extension (x: T) @tailrec final def reduce(ys: Seq[T]): T = {

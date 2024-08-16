@@ -11,7 +11,7 @@ class PowerProduct(val variables: Variable*)(tord: TermOrder) extends scas.power
   val comp = tord.getDescendComparator
   val one = ExpVector.create(length)
   def generator(n: Int) = ExpVector.create(length, n, 1)
-  def degree(x: ExpVector) = BigInteger.fromInt(x.degree)
+  extension (x: ExpVector) def degree = BigInteger.fromInt(x.degree)
   def gcd(x: ExpVector, y: ExpVector) = x.gcd(y)
   def lcm(x: ExpVector, y: ExpVector) = x.lcm(y)
   extension (x: ExpVector) {
