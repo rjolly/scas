@@ -1,12 +1,13 @@
 package math3
 
 import java.lang.Math
-import scas.structure.Field
+import scas.structure.commutative.Field
 import scas.base.BigInteger
 
 object Double extends Double.Impl with scas.structure.conversion.Field[Double] {
   given instance: Double.type = this
   abstract class Impl extends Field[Double] {
+    override def random(numbits: Int)(using rnd: java.util.Random) = rnd.nextDouble()
     def fromInt(n: BigInteger) = n.doubleValue()
     extension (x: Double) {
       def add(y: Double) = x + y
@@ -22,8 +23,9 @@ object Double extends Double.Impl with scas.structure.conversion.Field[Double] {
     def one = 1
     extension (x: Double) {
       def toCode(level: Level) = x.toString
-      def toMathML = ???
+      def toMathML = s"<cn>$x</cn>"
     }
-    def toMathML = ???
+    override def toString = "Double"
+    def toMathML = "<reals/>"
   }
 }
