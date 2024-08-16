@@ -5,9 +5,14 @@ import BigInteger.given
 import Rational.Implicits.given
 
 val r = AlgebraicNumber(Rational)(Variable.sqrt(BigInteger("2")))
-val List(x) = r.generators
 import r.{sqrt, instance, coef2poly}
-r.update(2-x\2)
+r.update(2-sqrt(2)\2)
 
-assert (2 >< x\2)
-assert (x >< sqrt(2))
+assert (2 >< sqrt(2)\2)
+assert(1/(1-sqrt(2)) >< -(1+sqrt(2)))
+
+r.extend(Variable.sqrt(1-sqrt(2)))
+r.update(1-sqrt(2)-sqrt(1-sqrt(2))\2)
+
+assert (1-sqrt(2) >< sqrt(1-sqrt(2))\2)
+assert (1/(1-sqrt(1-sqrt(2))) >< 1%%2*sqrt(2)*(1+sqrt(1-sqrt(2))))

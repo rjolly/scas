@@ -34,6 +34,8 @@ class ModInteger(mod: BigInteger) extends Residue[Int, BigInteger] with Field[In
     assert (s.toArray >< List(mod).toArray)
     this
   }
+  override val zero = 0
+  override val one = 1
 }
 
 object ModInteger {
