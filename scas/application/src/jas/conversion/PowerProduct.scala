@@ -27,5 +27,5 @@ class PowerProduct(val variables: Variable*)(tord: TermOrder) extends scas.power
     def toCode(level: Level) = x.toString(variables.map(_.toString).toArray)
     def toMathML = ???
   }
-  def size(x: ExpVector) = x.dependentVariables
+  extension (x: ExpVector) def size = x.dependentVariables
 }

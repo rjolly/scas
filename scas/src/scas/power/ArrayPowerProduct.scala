@@ -30,7 +30,7 @@ abstract class ArrayPowerProduct[N](using numeric: Numeric[N]) extends PowerProd
     }
     s
   }
-  def size(x: Array[N]) = {
+  extension (x: Array[N]) def size = {
     var m = 0
     for (i <- 0 until length) if (x(i) > numeric.zero) m += 1
     m

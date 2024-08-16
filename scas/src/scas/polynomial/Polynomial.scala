@@ -55,7 +55,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
     for ((a, b) <- reverseIterator(x)) {
       val c = ring.abs(b)
       val g = b.signum < 0
-      val (t, u) = if (a.isOne) (c.toCode(p), 1) else if (c.isOne) (a.toCode(p), pp.size(a)) else (c.toCode(Level.Multiplication) + "*" + a.show, 1 + pp.size(a))
+      val (t, u) = if (a.isOne) (c.toCode(p), 1) else if (c.isOne) (a.toCode(p), a.size) else (c.toCode(Level.Multiplication) + "*" + a.show, 1 + a.size)
       s = if (n == 0) {
         if (g) "-" + t else t
       } else {

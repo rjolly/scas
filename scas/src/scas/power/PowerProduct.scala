@@ -38,7 +38,7 @@ abstract class PowerProduct[M] extends Monoid[M] {
   }
   override def toString = variables.toList.show
   def toMathML = variables.toList.toMathML
-  def size(x: M): Int
+  extension (x: M) def size: Int
 
   given int2powerProduct: (Int => M) = this(_)
 }

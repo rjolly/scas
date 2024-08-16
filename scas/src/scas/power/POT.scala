@@ -98,7 +98,7 @@ class POT[N : ClassTag](using numeric: Numeric[N])(factory: ArrayPowerProduct[N]
     }
     s
   }
-  override def size(x: Array[N]) = {
+  extension (x: Array[N]) override def size = {
     var m = super.size(x)
     for (i <- 0 until dimension) if (x(length + 1 + i) > numeric.zero) m += 1
     m
