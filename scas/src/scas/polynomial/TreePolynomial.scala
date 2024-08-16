@@ -30,7 +30,7 @@ abstract class TreePolynomial[C, M] extends Polynomial[Element[C, M], C, M] {
     override def toSeq = x.asScala.toSeq
   }
 
-  def size(x: Element[C, M]) = x.size
+  extension (x: Element[C, M]) def size = x.size
 
   def head(x: Element[C, M]) = x.asScala.head
 

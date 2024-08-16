@@ -14,9 +14,9 @@ abstract class PolynomialWithRepr[T : ClassTag, C, M](dimension: Int) extends Po
     val (p, _) = x
     factory.iterator(p)
   }
-  def size(x: Element[T]) = {
+  extension (x: Element[T]) def size = {
     val (p, _) = x
-    factory.size(p)
+    p.size
   }
   def head(x: Element[T]) = {
     val (p, _) = x

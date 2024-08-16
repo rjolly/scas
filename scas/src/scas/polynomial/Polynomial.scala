@@ -51,7 +51,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
     var s = ring.zero.show
     var n = 0
     var m = 0
-    val p = if (size(x) == 1) level else Level.Addition
+    val p = if (x.size == 1) level else Level.Addition
     for ((a, b) <- reverseIterator(x)) {
       val c = ring.abs(b)
       val g = b.signum < 0
@@ -113,7 +113,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
 
   def length = pp.length
 
-  def size(x: T): Int
+  extension (x: T) def size: Int
 
   def head(x: T): (M, C)
 
