@@ -52,7 +52,7 @@ abstract class TreePolynomial[C, M] extends Polynomial[Element[C, M], C, M] {
     unmodifiable(r)
   }
 
-  override def sort(x: Element[C, M]) = x
+  extension (x: Element[C, M]) override def sort = x
 }
 
 object TreePolynomial {

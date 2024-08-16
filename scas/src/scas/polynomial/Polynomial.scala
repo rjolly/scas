@@ -21,7 +21,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
   extension (x: T) def signum = if (x.isZero) 0 else lastCoefficient(x).signum
   def characteristic = ring.characteristic
   extension (x: T) def convert: T = x.convert(pp)
-  extension (x: T) def convert(from: PowerProduct[M]) = sort(x.map((s, a) => (s.convert(from), a)))
+  extension (x: T) def convert(from: PowerProduct[M]) = x.map((s, a) => (s.convert(from), a)).sort
   extension (x: T) def subtract(y: T) = x.subtract(pp.one, ring.one, y)
   def equiv(x: T, y: T) = {
     val xs = iterator(x)
@@ -218,7 +218,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
     this
   }
 
-  def sort(x: T) = this(x.toSeq.sortBy((s, _) => s)(pp.reverse)*)
+  extension (x: T) def sort = this(x.toSeq.sortBy((s, _) => s)(pp.reverse)*)
 
   given coef2poly[D: Conversion[C]]: (D => T) = x => this(~x)
 }
