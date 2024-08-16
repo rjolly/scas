@@ -7,7 +7,6 @@ import scas.structure.commutative.Field
 import AlgebraicNumber.newInstance
 import scas.variable.Variable
 import scas.util.Conversion
-import scas.base.ModInteger
 
 class AlgebraicNumber[C](using var ring: PolynomialOverField[Element[C, Array[Int]], C, Array[Int]]) extends Residue[Element[C, Array[Int]], C, Array[Int]] {
   def this(ring: Field[C])(s: Variable*) = this(using newInstance(ring)(s*))
@@ -20,6 +19,5 @@ class AlgebraicNumber[C](using var ring: PolynomialOverField[Element[C, Array[In
 
 object AlgebraicNumber {
   def apply[C, S : Conversion[Variable]](ring: Field[C])(s: S*) = new conversion.AlgebraicNumber(ring)(s*)
-  def galoisField[S : Conversion[Variable]](str: String)(s: S*) = this(ModInteger(str))(s*)
   def newInstance[C](ring: Field[C])(s: Variable*) = new scas.polynomial.tree.PolynomialOverField(using ring, DegreeReverseLexicographic(0)(s*))
 }
