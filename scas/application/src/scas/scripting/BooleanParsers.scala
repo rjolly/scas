@@ -18,10 +18,10 @@ class BooleanParsers(val rf: RFParsers) extends UFDParsers[Boolean] {
   def base: Parser[Boolean] = boolean | "(" ~> expr <~ ")"
   override def term: Parser[Boolean] = function | base
   @nowarn("msg=match may not be exhaustive")
-  override def expr: Parser[Boolean] = term ~ rep(("&" | "|" | "^") ~ term) ^^ {
+  override def expr: Parser[Boolean] = term ~ rep(("&&" | "||" | "^") ~ term) ^^ {
     case term ~ list => list.foldLeft(term) {
-      case (x, "&" ~ y) => x && y
-      case (x, "|" ~ y) => x || y
+      case (x, "&&" ~ y) => x && y
+      case (x, "||" ~ y) => x || y
       case (x, "^" ~ y) => x ^ y
     }
   }
