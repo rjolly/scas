@@ -2,14 +2,14 @@ package scas.scripting
 
 import Parsers._
 import scas.polynomial.tree.PolynomialWithSubresGCD
-import scas.polynomial.tree.MultivariatePolynomial.Element
+import scas.polynomial.TreePolynomial.Element
 import scas.polynomial.PolynomialOverUFD
 import PolyParsers.newInstance
 import scas.variable.Variable
 import scas.base.BigInteger
 import BigInteger.given
 
-type Poly = Element[BigInteger]
+type Poly = Element[BigInteger, Array[Int]]
 
 class PolyParsers(using var structure: PolynomialOverUFD[Poly, BigInteger, Array[Int]]) extends RingParsers[Poly] {
   def function: Parser[Poly] = ("factor") ~ ("(" ~> Int.expr) <~ ")" ^^ {

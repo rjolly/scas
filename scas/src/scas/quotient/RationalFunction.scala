@@ -1,13 +1,14 @@
 package scas.quotient
 
 import scas.structure.commutative.Field
-import scas.polynomial.tree.{MultivariatePolynomial, PolynomialWithSubresGCD}
+import scas.polynomial.tree.PolynomialWithSubresGCD
+import scas.polynomial.TreePolynomial.Element
 import scas.polynomial.PolynomialOverUFD
 import scas.base.BigInteger
 import scas.variable.Variable
 import scas.util.Conversion
 
-class RationalFunction(using val ring: PolynomialOverUFD[MultivariatePolynomial.Element[BigInteger], BigInteger, Array[Int]]) extends QuotientOverInteger[MultivariatePolynomial.Element[BigInteger], Array[Int]] {
+class RationalFunction(using val ring: PolynomialOverUFD[Element[BigInteger, Array[Int]], BigInteger, Array[Int]]) extends QuotientOverInteger[Element[BigInteger, Array[Int]], Array[Int]] {
   def this(s: Variable*) = this(using new PolynomialWithSubresGCD(using BigInteger)(s*))
 }
 
