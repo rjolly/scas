@@ -1,7 +1,7 @@
 package scas.quotient
 
 import scas.structure.commutative.Quotient.Element
-import scas.polynomial.PolynomialOverUFD
+import scas.polynomial.{PolynomialOverUFD, PolynomialOverField}
 import scas.util.Conversion
 
 abstract class Quotient[T, C, M] extends scas.structure.commutative.Quotient[T] {
@@ -17,5 +17,5 @@ abstract class Quotient[T, C, M] extends scas.structure.commutative.Quotient[T] 
 }
 
 object Quotient {
-  def apply[T, C, M](ring: PolynomialOverUFD[T, C, M]) = new conversion.Quotient(using ring)
+  def apply[T, C, M](ring: PolynomialOverField[T, C, M]) = new conversion.QuotientOverField(using ring)
 }

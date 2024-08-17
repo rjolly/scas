@@ -6,12 +6,6 @@ import scas.polynomial.tree.{MultivariatePolynomial, MultivariatePolynomialOverF
 import scas.polynomial.PolynomialOverField
 import scas.variable.Variable
 
-class RationalFunctionOverField[C](using val ring: PolynomialOverField[MultivariatePolynomial.Element[C], C, Array[Int]]) extends Quotient[MultivariatePolynomial.Element[C], C, Array[Int]] {
+class RationalFunctionOverField[C](using val ring: PolynomialOverField[MultivariatePolynomial.Element[C], C, Array[Int]]) extends QuotientOverField[MultivariatePolynomial.Element[C], C, Array[Int]] {
   def this(ring: Field[C])(s: Variable*) = this(using new MultivariatePolynomialOverField(using ring)(s*))
-  override def apply(x: Element[MultivariatePolynomial.Element[C]]) = {
-    val Element(n, d) = x
-    val c = ring.gcd(n, d)
-    val gcd = c%/ c.lastCoefficient%* d.lastCoefficient
-    Element(n / gcd, d / gcd)
-  }
 }
