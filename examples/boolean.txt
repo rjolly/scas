@@ -1,4 +1,12 @@
 import scas.base.Boolean
+import scas.residue.BooleanAlgebra
 import Boolean.given
 
-assert (true ^ true >< false)
+assert ((true ^ true) >< false)
+
+val r = BooleanAlgebra("x")
+val List(x) = r.generators
+import r.{instance, coef2poly}
+
+assert ((x ^ true) >< (true ^ x))
+assert (r == Boolean(x))

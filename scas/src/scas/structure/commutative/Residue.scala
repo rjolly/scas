@@ -28,6 +28,23 @@ trait Residue[T, R] extends UniqueFactorizationDomain[T] {
       val b = y.unapply
       this(a * b)
     }
+    def isUnit = ring.isUnit(x.unapply)
+    override def divide(y: T) = {
+      val a = x.unapply
+      val b = y.unapply
+      this(a / b)
+    }
+    override def remainder(y: T) = {
+      val a = x.unapply
+      val b = y.unapply
+      this(a % b)
+    }
+    def divideAndRemainder(y: T) = (x / y, x % y)
+  }
+  def gcd(x: T, y: T) = {
+    val a = x.unapply
+    val b = y.unapply
+    this(ring.gcd(a, b))
   }
   def equiv(x: T, y: T) = {
     val a = x.unapply

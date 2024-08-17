@@ -1,11 +1,11 @@
 package scas.polynomial.tree
 
 import scas.power.PowerProduct
-import scas.structure.conversion.BooleanRing
-import scas.structure.commutative.conversion.UniqueFactorizationDomain
-import scas.polynomial.TreePolynomial
-import TreePolynomial.Element
+import scas.structure.commutative.UniqueFactorizationDomain
+import scas.variable.Variable
+import scas.util.Conversion
+import scas.polynomial.TreePolynomial.Element
 
-class BooleanPolynomial[M](using val pp: PowerProduct[M]) extends TreePolynomial[Boolean, M] with scas.polynomial.BooleanPolynomial[Element[Boolean, M], M] with UniqueFactorizationDomain[Element[Boolean, M]] with BooleanRing[Element[Boolean, M]] {
-  given instance: BooleanPolynomial[M] = this
+class BooleanPolynomial[S : Conversion[Variable]](s: S*) extends MultivariatePolynomial[Boolean, S] with scas.polynomial.BooleanPolynomial[Element, Array[Int]] {
+  def newInstance = [C] => (ring: UniqueFactorizationDomain[C], pp: PowerProduct[Array[Int]]) => new PolynomialWithSubresGCD(using ring)(pp.variables*)
 }
