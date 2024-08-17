@@ -5,9 +5,10 @@ import Boolean.given
 
 assert ((true ^ true) >< false)
 
-val r = BooleanAlgebra("x")
-val List(x) = r.generators
+val r = BooleanAlgebra("x", "y")
+val List(x, y) = r.generators
 import r.{instance, coef2poly, ring}
 
 assert ((x ^ true) >< (true ^ x))
-assert (r == Boolean(x)(x+x\2))
+assert ((x ^ y) >< ((x || y) ^ (x && y)))
+assert (r == Boolean(x, y)(x+x\2, y+y\2))
