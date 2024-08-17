@@ -2,7 +2,7 @@ package scas.residue
 
 import scala.reflect.ClassTag
 import scas.util.Conversion
-import scas.polynomial.{PolynomialOverUFD, PolynomialOverField}
+import scas.polynomial.{PolynomialOverUFD, PolynomialWithModInverse}
 import scas.module.ArrayModule
 
 abstract class Residue[T : ClassTag, C, M] extends scas.structure.commutative.Residue[T, T] {
@@ -31,5 +31,5 @@ abstract class Residue[T : ClassTag, C, M] extends scas.structure.commutative.Re
 }
 
 object Residue {
-  def apply[T : ClassTag, C, M](ring: PolynomialOverField[T, C, M])(s: T*) = new conversion.ResidueOverField(using ring)(s*)
+  def apply[T : ClassTag, C, M](ring: PolynomialWithModInverse[T, C, M])(s: T*) = new conversion.ResidueOverField(using ring)(s*)
 }
