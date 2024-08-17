@@ -2,6 +2,7 @@ package scas.polynomial
 
 import scala.reflect.ClassTag
 import scas.math.Numeric
+import scas.structure.commutative.Field
 import scas.power.ArrayPowerProduct
 import scas.module.Array
 import scas.variable.Variable
@@ -18,5 +19,9 @@ trait PolynomialOverFieldWithGB[T : ClassTag, C, N : Numeric : ClassTag] extends
     val Array(p, q) = list.head
     assert (p.isUnit)
     q / p
+  }
+  extension (ring: Field[C]) override def apply(s: T*): PolynomialOverFieldWithGB[T, C, N] = {
+    same(s*)
+    this
   }
 }

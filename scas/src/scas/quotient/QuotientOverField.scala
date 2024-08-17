@@ -14,4 +14,6 @@ abstract class QuotientOverField[T, C, M] extends Quotient[T, C, M] {
     val gcd = c%/ (c.lastCoefficient / d.lastCoefficient)
     Element(n / gcd, d / gcd)
   }
+
+  extension (ring: PolynomialOverField[T, C, M]) def quotient() = this
 }

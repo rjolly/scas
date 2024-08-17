@@ -64,5 +64,9 @@ trait Residue[T, R] extends UniqueFactorizationDomain[T] {
     }
   }
 
-  extension (ring: UniqueFactorizationDomain[R]) def apply(s: R*): Residue[T, R]
+  extension (ring: UniqueFactorizationDomain[R]) def apply(s: R*) = {
+    same(s*)
+    this
+  }
+  def same(s: R*): Unit
 }

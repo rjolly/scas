@@ -2,7 +2,6 @@ package scas.residue
 
 import scala.reflect.ClassTag
 import scas.util.Conversion
-import scas.structure.commutative.UniqueFactorizationDomain
 import scas.polynomial.{PolynomialOverUFD, PolynomialOverField}
 import scas.module.ArrayModule
 
@@ -21,7 +20,7 @@ abstract class Residue[T : ClassTag, C, M] extends scas.structure.commutative.Re
   override def toString = s"${ring}(${mods.show(false)})"
   def toMathML = s"<msub>${ring.toMathML}<mfenced>${mods.toMathML(false)}</mfenced></msub>"
 
-  extension (ring: UniqueFactorizationDomain[T]) def apply(s: T*) = {
+  extension (ring: PolynomialOverUFD[T, C, M]) def apply(s: T*) = {
     same(s*)
     this
   }

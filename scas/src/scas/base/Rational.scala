@@ -34,6 +34,8 @@ object Rational extends Rational.Impl with Field[Rational] {
       if (d.isOne) n.toMathML else s"""<cn type="rational">$n<sep/>$d</cn>"""
     }
     def toMathML = "<rationals/>"
+
+    extension (ring: BigInteger.Impl) def quotient() = this
   }
   extension[U: Conversion[BigInteger]] (a: U) {
     def %%[V: Conversion[BigInteger]](b: V) = this(~a, ~b)

@@ -59,4 +59,9 @@ trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactoriz
   }
   def primitivePart(x: T) = { val (c, p) = contentAndPrimitivePart(x) ; p }
   extension (x: T) def %/ (c: C) = x.map((s, a) => (s, a / c))
+
+  extension (ring: UniqueFactorizationDomain[C]) def apply(s: T*) = {
+    same(s*)
+    this
+  }
 }

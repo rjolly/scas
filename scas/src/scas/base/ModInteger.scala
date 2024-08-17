@@ -1,6 +1,5 @@
 package scas.base
 
-import scas.structure.commutative.UniqueFactorizationDomain
 import scas.structure.commutative.ordered.{Residue, Field}
 import scas.module.ArrayModule
 import BigInteger.given
@@ -29,10 +28,13 @@ class ModInteger(mod: BigInteger) extends Residue[Int, BigInteger] with Field[In
   override def toString = s"ModInteger(\"${mod}\")"
   def toMathML = s"<msub>${BigInteger.toMathML}${mod.toMathML}</msub>"
 
-  extension (ring: UniqueFactorizationDomain[BigInteger]) def apply(s: BigInteger*) = {
+  extension (ring: BigInteger.Impl) def apply(s: BigInteger*) = {
+    same(s*)
+    this
+  }
+  def same(s: BigInteger*): Unit = {
     given ArrayModule[BigInteger] = ArrayModule(BigInteger)(1)
     assert (s.toArray >< List(mod).toArray)
-    this
   }
   override val zero = 0
   override val one = 1
