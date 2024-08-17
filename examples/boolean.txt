@@ -1,12 +1,13 @@
-import scas.base.Boolean
+import scas.base.{BigInteger, Boolean}
 import scas.residue.BooleanAlgebra
+import BigInteger.given
 import Boolean.given
 
 assert ((true ^ true) >< false)
 
 val r = BooleanAlgebra("x")
 val List(x) = r.generators
-import r.{instance, coef2poly}
+import r.{instance, coef2poly, ring}
 
 assert ((x ^ true) >< (true ^ x))
-assert (r == Boolean(x))
+assert (r == Boolean(x)(x+x\2))

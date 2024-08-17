@@ -16,7 +16,7 @@ abstract class ResidueOverField[T : ClassTag, C, M] extends Residue[T, C, M] wit
   }
   def inverse(x: T) = x.modInverse(mods*)
 
-  extension (ring: Field[T]) def apply(s: T*): ResidueOverField[T, C, M] = {
+  extension (ring: Field[T]) def apply(s: T*) = {
     same(s*)
     this
   }
