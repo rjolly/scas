@@ -14,7 +14,6 @@ class AlgebraicNumber[C](using var ring: PolynomialOverFieldWithGB[Element[C, Ar
     ring = ring.newInstance((ring.variables ++ s)*)
     mods = mods.map(_.convert)
   }
-  extension (x: Element[C, Array[Int]]) def convert = ring.convert(x)
 }
 
 object AlgebraicNumber {

@@ -10,9 +10,9 @@ abstract class ResidueOverField[T : ClassTag, C, M] extends Residue[T, C, M] wit
   given ring: PolynomialWithModInverse[T, C, M]
   def sqrt[U: Conversion[T]](x: U): T = sqrt(~x)
   def sqrt(x: T) = {
-    val n = ring.variables.indexOf(Variable.sqrt(x))
+    val n = variables.indexOf(Variable.sqrt(x))
     assert (n > -1)
-    ring.generator(n)
+    generator(n)
   }
   def inverse(x: T) = x.modInverse(mods*)
 
