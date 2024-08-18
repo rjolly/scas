@@ -1,5 +1,6 @@
 package scas.residue
 
+import scala.annotation.targetName
 import scala.reflect.ClassTag
 import scas.util.Conversion
 import scas.polynomial.{PolynomialOverUFD, PolynomialWithModInverse}
@@ -8,12 +9,16 @@ import scas.module.ArrayModule
 abstract class Residue[T : ClassTag, C, M] extends scas.structure.commutative.Residue[T, T] {
   given ring: PolynomialOverUFD[T, C, M]
   var mods = List.empty[T]
+  def variables = ring.variables
+  def generator(n: Int) = ring.generator(n)
   def generators = ring.generators
   given coef2poly[D: Conversion[C]]: (D => T) = ring.coef2poly
   def update(s: T*): Unit = {
     mods ++= s
   }
+  @targetName("fromCoefficient") def apply(x: C) = ring(x)
   def apply(x: T) = ring.remainder(x)(mods)
+  extension (x: T) def convert = ring.convert(x)
   extension (x: T) def unapply = x
   def fromRing(x: T) = x
   def characteristic = ring.characteristic
