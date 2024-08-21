@@ -1,17 +1,13 @@
 package scas.scripting
 
 import Parsers._
-import scas.polynomial.tree.PolynomialWithSubresGCD
-import scas.polynomial.TreePolynomial.Element
 import scas.polynomial.PolynomialOverUFD
-import PolyParsers.newInstance
 import scas.variable.Variable
 import scas.base.BigInteger
 import BigInteger.given
 
-type Poly = Element[BigInteger, Array[Int]]
-
 class PolyParsers(using var structure: PolynomialOverUFD[Poly, BigInteger, Array[Int]]) extends RingParsers[Poly] {
+  def this(dummy: Boolean, variables: Variable*) = this(using Poly(variables*))
   def function: Parser[Poly] = ("factor") ~ ("(" ~> Int.expr) <~ ")" ^^ {
     case "factor" ~ x if (x <> 0) => factor(x)
   }
@@ -28,7 +24,7 @@ class PolyParsers(using var structure: PolynomialOverUFD[Poly, BigInteger, Array
     if (variables.contains(a)) structure.generator(variables.indexOf(a))
     else {
       val s = variables ++ Seq(a)
-      structure = newInstance(s*)
+      structure = Poly(s*)
       structure.generator(variables.length)
     }
   }
@@ -47,7 +43,4 @@ class PolyParsers(using var structure: PolynomialOverUFD[Poly, BigInteger, Array
   }
 }
 
-object PolyParsers {
-  def apply(variables: Variable*) = new PolyParsers(using newInstance(variables*))
-  def newInstance(variables: Variable*) = PolynomialWithSubresGCD(variables*)
-}
+object PolyParsers extends PolyParsers(false)
