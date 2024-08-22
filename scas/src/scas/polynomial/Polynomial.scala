@@ -138,6 +138,8 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
       b
     }
 
+    @targetName("coef") def coefficient(y: T): T = this(x.coefficient(y.headPowerProduct))
+
     def coefficient(m: M) = {
       val xs = x.iterator(m)
       if (xs.hasNext) {
