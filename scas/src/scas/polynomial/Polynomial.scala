@@ -171,7 +171,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
       val xs = x.iterator
       if (xs.hasNext) {
         val (s, a) = xs.next
-        ys.find(_.reduce(s, a, remainder)) match {
+        ys.find_reduce(s, a, remainder) match {
           case Some(y) => {
             val (t, b) = y.head
             x.reduce(s / t, a, y, b, remainder).reduce(remainder, ys*)
@@ -203,7 +203,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
       val xs = x.iterator(m)
       if (xs.hasNext) {
         val (s, a) = xs.next
-        ys.find(_.reduce(s, a, remainder)) match {
+        ys.find_reduce(s, a, remainder) match {
           case Some(y) => {
             val (t, b) = y.head
             x.reduce(s / t, a, y, b, remainder).reduce(remainder, m, ys*)
@@ -229,6 +229,15 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
     def map(f: (M, C) => (M, C)): T
 
     def sort = this(x.toSeq.sortBy((s, _) => s)(pp.reverse)*)
+  }
+
+  extension (ys: Seq[T]) def find_reduce(s: M, a: C, remainder: Boolean): Option[T] = {
+    val yi = ys.iterator
+    while (yi.hasNext) {
+      val y = yi.next
+      if (y.reduce(s, a, remainder)) return Some(y)
+    }
+    return None
   }
 
   extension (c: C) def multiplyLeft(x: T) = x%* c

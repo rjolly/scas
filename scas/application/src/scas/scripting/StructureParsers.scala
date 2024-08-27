@@ -3,6 +3,7 @@ package scas.scripting
 import Parsers._
 import scala.annotation.nowarn
 import scas.rendering.MathObject
+import scas.base.Boolean
 
 trait StructureParsers[T] {
   given structure: scas.structure.Structure[T]

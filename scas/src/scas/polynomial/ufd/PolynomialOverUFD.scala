@@ -3,8 +3,6 @@ package scas.polynomial.ufd
 import scala.annotation.tailrec
 import scas.polynomial.Polynomial
 import scas.structure.commutative.UniqueFactorizationDomain
-import scas.base.Boolean
-import Boolean.given
 
 trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactorizationDomain[T] {
   given ring: UniqueFactorizationDomain[C]
@@ -26,7 +24,7 @@ trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactoriz
     def remainder(ys: T*): T = x.reduce(true, false, ys*)
     override def reduce(s: M, a: C, remainder: Boolean) = {
       val (t, b) = x.head
-      (t | s) && (remainder >> (b | a))
+      (t | s) && (!remainder || (b | a))
     }
     override def reduce(m: M, a: C, y: T, b: C, remainder: Boolean) = {
       if (remainder) x.subtract(m, a / b, y) else {
