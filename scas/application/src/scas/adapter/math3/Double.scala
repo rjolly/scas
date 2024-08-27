@@ -4,7 +4,7 @@ import java.lang.Math
 import scas.structure.commutative.Field
 import scas.base.BigInteger
 
-type Double = scala.Double
+type Double = java.lang.Double
 
 object Double extends Double.Impl with Field.Conv[Double] {
   given instance: Double.type = this
@@ -14,13 +14,13 @@ object Double extends Double.Impl with Field.Conv[Double] {
     override val zero = 0
     override val one = 1
     extension (x: Double) {
-      def add(y: Double) = x + y
-      def subtract(y: Double) = x - y
-      def multiply(y: Double) = x * y
-      override def divide(y: Double) = x / y
+      def add(y: Double) = x.doubleValue() + y.doubleValue()
+      def subtract(y: Double) = x.doubleValue() - y.doubleValue()
+      def multiply(y: Double) = x.doubleValue() * y.doubleValue()
+      override def divide(y: Double) = x.doubleValue() / y.doubleValue()
     }
     def inverse(x: Double) = 1 / x
-    def equiv(x: Double, y: Double) = x == y
+    def equiv(x: Double, y: Double) = x.doubleValue() == y.doubleValue()
     extension (x: Double) def signum = Math.signum(x).toInt
     def characteristic = BigInteger("0")
     extension (x: Double) {

@@ -4,6 +4,7 @@ import Parsers._
 import scala.annotation.nowarn
 import scas.polynomial.TreePolynomial.Element
 import scas.variable.Variable
+import scas.base.Boolean
 
 type BA = Element[Boolean, Array[Int]]
 

@@ -23,7 +23,8 @@ trait Residue[T : ClassTag, C, N] extends scas.structure.commutative.Residue[T, 
   def fromRing(x: T) = x
   def characteristic = ring.characteristic
   def gb(dummy: Boolean, xs: T*) = ring.gb((xs ++ mods)*)
-  def gb(xs: T*): List[T] = gb(false, xs*).filter(!_.isZero)
+  def gb(xs: T*): List[T] = gb(false, xs*).filterNonZero
+  extension (xs: List[T]) def filterNonZero = xs.foldLeft(List.empty[T])((l, r) => if (r.isZero) l else l ++ List(r))
   override def toString = s"${ring}(${mods.show(false)})"
   def toMathML = s"<msub>${ring.toMathML}<mfenced>${mods.toMathML(false)}</mfenced></msub>"
 

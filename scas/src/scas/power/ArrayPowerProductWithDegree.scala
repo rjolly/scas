@@ -2,6 +2,7 @@ package scas.power
 
 import scala.reflect.ClassTag
 import scas.math.Numeric
+import scas.variable.Variable
 import scas.base.BigInteger
 import BigInteger.given
 
@@ -67,7 +68,7 @@ trait ArrayPowerProductWithDegree[N : ClassTag](using numeric: Numeric[N]) exten
     def convert(from: PowerProduct[Array[N]]) = {
       val r = empty
       val l = if (from == this) x.length - 1 else from.length
-      val index = from.variables.map(a => variables.indexOf(a))
+      val index = from.variables.mapIndexOf
       for (i <- 0 until l) if (x(i) > numeric.zero) {
         val c = index(i)
         assert (c > -1)
@@ -77,4 +78,5 @@ trait ArrayPowerProductWithDegree[N : ClassTag](using numeric: Numeric[N]) exten
       r
     }
   }
+  extension (s: Seq[Variable]) def mapIndexOf = s.foldLeft(Seq.empty[Int])((l, r) => l ++ Seq(variables.indexOf(r)))
 }

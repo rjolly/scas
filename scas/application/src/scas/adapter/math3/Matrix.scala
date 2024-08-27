@@ -1,5 +1,6 @@
 package scas.adapter.math3
 
+import java.lang.Double.valueOf
 import org.apache.commons.math3.linear.Array2DRowRealMatrix
 import org.apache.commons.math3.linear.MatrixUtils
 import org.apache.commons.math3.linear.RealMatrix
@@ -14,7 +15,7 @@ trait Matrix extends Algebra[Element, Double] with Field[Element] {
   def fromInt(n: BigInteger) = one%* Double.fromInt(n)
   override def zero = MatrixUtils.createRealMatrix(size, size)
   override def one = MatrixUtils.createRealIdentityMatrix(size)
-  def apply(ds: Double*): Element = Array2DRowRealMatrix(ds.grouped(size).map(_.toArray).toArray)
+  def apply(ds: Double*): Element = Array2DRowRealMatrix(ds.map(_.doubleValue()).grouped(size).map(_.toArray).toArray)
   extension (x: Element) {
     def add(y: Element) = x.add(y)
     def subtract(y: Element) = x.subtract(y)
@@ -37,7 +38,7 @@ trait Matrix extends Algebra[Element, Double] with Field[Element] {
     this
   }
 
-  given int2matrix: (Int => Element) = one%* _
+  given int2matrix: (Int => Element) = x => one%* valueOf(x)
   given double2matrix: (Double => Element) = one%* _
 }
 

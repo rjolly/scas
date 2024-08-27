@@ -4,7 +4,7 @@ import scala.compiletime.deferred
 import scas.structure.BooleanRing
 import scas.structure.commutative.Field
 
-type Boolean = scala.Boolean
+type Boolean = java.lang.Boolean
 
 object Boolean extends Boolean.Impl with Field.Conv[Boolean] with BooleanRing.Conv[Boolean] {
   override given instance: Boolean.type = this
@@ -15,13 +15,13 @@ object Boolean extends Boolean.Impl with Field.Conv[Boolean] with BooleanRing.Co
     override val zero = false
     override val one = true
     extension (x: Boolean) {
-      def add(y: Boolean) = x ^ y
+      def add(y: Boolean) = x.booleanValue() ^ y.booleanValue()
       def subtract(y: Boolean) = x + y
-      def multiply(y: Boolean) = x && y
+      def multiply(y: Boolean) = x.booleanValue() && y.booleanValue()
     }
     def inverse(x: Boolean) = x
     val characteristic = BigInteger("2")
-    def equiv(x: Boolean, y: Boolean) = x == y
+    def equiv(x: Boolean, y: Boolean) = x.booleanValue() == y.booleanValue()
     extension (x: Boolean) def signum = if (x) 1 else 0
     extension (x: Boolean) def toCode(level: Level) = x.toString
     override def toString = "Boolean"

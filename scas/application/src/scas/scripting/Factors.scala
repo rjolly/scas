@@ -13,13 +13,22 @@ abstract class Factors[T, N](using ring: Ring[T], numeric: Numeric[N]) extends R
   def fromInt(n: BigInteger) = apply(ring.fromInt(n))
   def apply(x: T): Element[T, N] = if (x.isOne) empty else if (x.signum < 0) apply(-x) + ((-ring.one, numeric.one)) else empty + ((x, numeric.one))
   extension (x: Element[T, N]) {
-    override def convert = x.map((a, b) => (a.convert, b))
+    override def convert = x.mapConvert
+    def mapConvert = x.foldLeft(empty) { (l, r) =>
+      val (a, b) = r
+      l + ((a.convert, b))
+    }
     override def isZero = x.getOrElse(ring.zero, numeric.zero) >< numeric.one
     override def isOne = x.isEmpty
     def add(y: Element[T, N]) = {
-      val (a, b) = x.partition((c, _) => y.contains(c))
-      val (_, d) = y.partition((c, _) => a.contains(c))
+      val (a, b) = x.partitionContains(y)
+      val (_, d) = y.partitionContains(a)
       a * this(b.expand + d.expand)
+    }
+    def partitionContains(y: Element[T, N]) = x.foldLeft((empty, empty)) { (l, r) =>
+      val (a, b) = l
+      val (c, d) = r
+      if (y.contains(c)) (a + r, b) else (a, b + r)
     }
     def expand = x.foldLeft(ring.one) { (l, r) =>
       val (a, b) = r
