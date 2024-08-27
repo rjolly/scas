@@ -2,6 +2,7 @@ package scas.scripting
 
 import Parsers._
 import scala.annotation.nowarn
+import scas.base.Boolean
 
 trait OrderingParsers[T] extends StructureParsers[T] {
   given structure: scas.structure.ordered.Structure[T]

@@ -8,8 +8,9 @@ import scas.math.Numeric
 class Module[T : ClassTag, C, N : Numeric : ClassTag](using ring: PolynomialWithGB[T, C, N])(name: String, dimension: Int) extends ArrayModule[T](dimension) {
   def gb(xs: Array[T]*) = {
     val s = ring.newInstance(new ModifiedPOT(ring.pp, name, dimension))
-    s.gb((xs.map(_.convertTo(using s)) ++ products(using s))*).map(_.convertFrom(s)).filter(!_.isZero)
+    s.gb((xs.map(_.convertTo(using s)) ++ products(using s))*).map(_.convertFrom(s)).filterNonZero
   }
+  extension (xs: Seq[Array[T]]) def filterNonZero = xs.foldLeft(Seq.empty[Array[T]])((l, r) => if (r.isZero) l else l ++ Seq(r))
   def products(using s: PolynomialWithGB[T, C, N]) = {
     import s.pp
     for (i <- 0 until dimension; j <- i until dimension) yield s.generator(pp.length + i) * s.generator(pp.length + j)
