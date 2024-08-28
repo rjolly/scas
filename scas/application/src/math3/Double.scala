@@ -4,6 +4,8 @@ import java.lang.Math
 import scas.structure.commutative.Field
 import scas.base.BigInteger
 
+type Double = scala.Double
+
 object Double extends Double.Impl with scas.structure.conversion.Field[Double] {
   given instance: Double.type = this
   abstract class Impl extends Field[Double] {
