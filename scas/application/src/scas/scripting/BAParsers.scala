@@ -40,6 +40,10 @@ class BAParsers(using var structure: BooleanAlgebra) extends BooleanRingParsers[
       case (x, "||" ~ y) => x.convert || y.convert
     }
   }
+
+  def reset: Unit = {
+    structure = BooleanAlgebra()
+  }
 }
 
 object BAParsers extends BAParsers(false)

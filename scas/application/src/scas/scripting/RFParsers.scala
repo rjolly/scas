@@ -34,6 +34,10 @@ class RFParsers(using var structure: RationalFunction) extends UFDParsers[RF] {
       case (x, "-" ~ y) => x.convert - y.convert
     }
   }
+
+  def reset: Unit = {
+    poly.reset
+  }
 }
 
 object RFParsers extends RFParsers(Poly())
