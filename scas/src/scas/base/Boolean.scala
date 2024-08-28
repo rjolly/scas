@@ -3,6 +3,8 @@ package scas.base
 import scas.structure.BooleanRing
 import scas.structure.commutative.Field
 
+type Boolean = scala.Boolean
+
 object Boolean extends Boolean.Impl with scas.structure.commutative.conversion.Field[Boolean] with scas.structure.conversion.BooleanRing[Boolean] {
   given instance: Boolean.type = this
   abstract class Impl extends Field[Boolean] with BooleanRing[Boolean] {
