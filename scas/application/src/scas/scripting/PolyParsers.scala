@@ -41,6 +41,10 @@ class PolyParsers(using var structure: PolynomialOverUFD[Poly, BigInteger, Array
       case (x, "-" ~ y) => x.convert - y.convert
     }
   }
+
+  def reset: Unit = {
+    structure = Poly()
+  }
 }
 
 object PolyParsers extends PolyParsers(false)
