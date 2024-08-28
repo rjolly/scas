@@ -38,7 +38,7 @@ object Int extends OrderedRingParsers[BigInteger] {
   }
 
   def sieve(n: BigInteger): LazyList[BigInteger] = {
-    if (primes.takeWhile(p => p * p <= n).exists(n % _ >< 0)) sieve(n + 2)
+    if (primes.takeWhile(p => p * p <= n).exists(_ | n)) sieve(n + 2)
     else n #:: sieve(n + 2)
   }
 
