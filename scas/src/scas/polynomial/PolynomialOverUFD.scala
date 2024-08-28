@@ -9,15 +9,12 @@ trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactoriz
     else if (x.isZero) (zero, zero)
     else {
       val (s, a) = x.head
-      List(y).find(_.reduce(s, a)) match {
-        case Some(y) => {
-          val (t, b) = y.head
-          val c = this(s / t, a / b)
-          val (q, r) = (x - c * y).divideAndRemainder(y)
-          (c + q, r)
-        }
-        case None => (zero, x)
-      }
+      if (y.reduce(s, a)) {
+        val (t, b) = y.head
+        val c = this(s / t, a / b)
+        val (q, r) = (x - c * y).divideAndRemainder(y)
+        (c + q, r)
+      } else (zero, x)
     }
   }
   extension (x: T) def remainder(ys: Seq[T]): T = {
