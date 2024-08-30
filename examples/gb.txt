@@ -7,4 +7,4 @@ val r = PolynomialWithGB(using BigInteger, Lexicographic.inlined(0)("x", "y"))
 val List(x, y) = r.generators
 import r.Implicits.given
 
-scas.prettyprint.println(r.gb(4 - (x\2 + y\2), 1 - x*y))
+assert(r.gb(4 - (x\2 + y\2), 1 - x*y) == List(4*x-x\3-y, 1-4*x\2+x\4))
