@@ -3,11 +3,11 @@ package scas.residue
 import scala.reflect.ClassTag
 import scas.util.{Conversion, unary_~}
 import scas.structure.commutative.Field
-import scas.polynomial.PolynomialWithModInverse
+import scas.polynomial.PolynomialOverFieldWithGB
 import scas.variable.Variable
 
-abstract class ResidueOverField[T : ClassTag, C, M] extends Residue[T, C, M] with Field[T] {
-  given ring: PolynomialWithModInverse[T, C, M]
+abstract class ResidueOverField[T : ClassTag, C, N] extends Residue[T, C, N] with Field[T] {
+  given ring: PolynomialOverFieldWithGB[T, C, N]
   def sqrt[U: Conversion[T]](x: U): T = sqrt(~x)
   def sqrt(x: T) = {
     val n = variables.indexOf(Variable.sqrt(x))
@@ -16,7 +16,7 @@ abstract class ResidueOverField[T : ClassTag, C, M] extends Residue[T, C, M] wit
   }
   def inverse(x: T) = x.modInverse(mods*)
 
-  extension (ring: PolynomialWithModInverse[T, C, M]) def apply(s: T*) = {
+  extension (ring: PolynomialOverFieldWithGB[T, C, N]) def apply(s: T*) = {
     same(s*)
     this
   }
