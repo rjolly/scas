@@ -1,6 +1,7 @@
 package scas.scripting
 
 import Parsers._
+import scala.annotation.nowarn
 import scas.polynomial.PolynomialOverUFD
 import scas.variable.Variable
 import scas.base.BigInteger
@@ -14,7 +15,7 @@ class PolyParsers(using var structure: PolynomialOverUFD[Poly, BigInteger, Array
   def factor(x: BigInteger) = {
     val map = Int.factor(BigInteger.abs(x))
     map.foldLeft(structure.fromInt(BigInteger.signum(x))) { case (l, (a, b)) =>
-      val x = generator(Variable(a.toString))
+      val x = generator(Variable.fenced(a))
       l.convert * x \ b
     }
   }
@@ -40,6 +41,11 @@ class PolyParsers(using var structure: PolynomialOverUFD[Poly, BigInteger, Array
       case (x, "+" ~ y) => x.convert + y.convert
       case (x, "-" ~ y) => x.convert - y.convert
     }
+  }
+  @nowarn("msg=match may not be exhaustive")
+  override def comparison: Parser[Boolean] = expr ~ (literal("=") | literal("<>")) ~ expr ^^ {
+    case x ~ "=" ~ y => x.convert >< y.convert
+    case x ~ "<>" ~ y => x.convert <> y.convert
   }
 
   def reset: Unit = {

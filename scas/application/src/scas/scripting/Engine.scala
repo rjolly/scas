@@ -23,7 +23,10 @@ class Engine(@BeanProperty val factory: ScriptEngineFactory) extends AbstractScr
         code = cat + "\n"
         null
       }
-      case Left(msg) => throw new ScriptException(msg)
+      case Left(msg) => {
+        Parsers.reset
+        throw new ScriptException(msg)
+      }
     }
   }
 

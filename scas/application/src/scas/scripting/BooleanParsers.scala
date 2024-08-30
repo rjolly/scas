@@ -16,5 +16,5 @@ object BooleanParsers extends BooleanRingParsers[Boolean] {
       case (x, "<>" ~ y) => x <> y
     }
   }
-  override def function: Parser[Boolean] = DoubleParsers.comparison | RationalParsers.comparison | ComplexParsers.comparison | RFParsers.comparison | BAParsers.comparison | comparison
+  override def impl: Parser[Boolean] = DoubleParsers.comparison | RationalParsers.comparison | ComplexParsers.comparison | RFParsers.comparison | BAParsers.comparison | comparison
 }

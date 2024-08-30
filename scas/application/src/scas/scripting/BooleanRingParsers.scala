@@ -10,13 +10,13 @@ trait BooleanRingParsers[T] extends RingParsers[T] {
       case None => base
     }
   }
-  def function: Parser[T] = term ~ rep("=>" ~ term) ^^ {
+  def impl: Parser[T] = term ~ rep("=>" ~ term) ^^ {
     case term ~ list => list.foldLeft(term) {
       case (x, "=>" ~ y) => x >> y
     }
   }
-  def conj: Parser[T] = function ~ rep("&" ~ function) ^^ {
-    case func ~ list => list.foldLeft(func) {
+  def conj: Parser[T] = impl ~ rep("&" ~ impl) ^^ {
+    case impl ~ list => list.foldLeft(impl) {
       case (x, "&" ~ y) => x && y
     }
   }

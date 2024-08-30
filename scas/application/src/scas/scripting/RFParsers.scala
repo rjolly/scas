@@ -34,6 +34,11 @@ class RFParsers(using var structure: RationalFunction) extends UFDParsers[RF] {
       case (x, "-" ~ y) => x.convert - y.convert
     }
   }
+  @nowarn("msg=match may not be exhaustive")
+  override def comparison: Parser[Boolean] = expr ~ ("=" | "<>") ~ expr ^^ {
+    case x ~ "=" ~ y => x.convert >< y.convert
+    case x ~ "<>" ~ y => x.convert <> y.convert
+  }
 
   def reset: Unit = {
     poly.reset

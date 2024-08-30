@@ -1,6 +1,7 @@
 package scas.scripting
 
 import Parsers._
+import scala.annotation.nowarn
 import scas.polynomial.TreePolynomial.Element
 import scas.residue.BooleanAlgebra
 import scas.variable.Variable
@@ -9,6 +10,17 @@ type BA = Element[Boolean, Array[Int]]
 
 class BAParsers(using var structure: BooleanAlgebra) extends BooleanRingParsers[BA] {
   def this(dummy: Boolean) = this(using BooleanAlgebra())
+  def function: Parser[BA] = ("factor") ~ ("(" ~> expr) <~ ")" ^^ {
+    case "factor" ~ x => factor(x)
+  }
+  def factor(x: BA) = {
+    val list = structure.gb(x)
+    val s = list.foldLeft(structure.one) { case (l, a) =>
+      val x = generator(Variable.fenced(!(a.convert)))
+      l.convert * x
+    }
+    !s
+  }
   def generator: Parser[BA] = Var.parser ^^ { generator(_) }
   def generator(a: Variable) = {
     val variables = structure.variables
@@ -19,14 +31,14 @@ class BAParsers(using var structure: BooleanAlgebra) extends BooleanRingParsers[
       structure.generator(variables.length)
     }
   }
-  def base: Parser[BA] = BooleanParsers.base ^^ { structure(_) } | generator | "(" ~> expr <~ ")"
-  override def function: Parser[BA] = term ~ rep("=>" ~ term) ^^ {
+  def base: Parser[BA] = BooleanParsers.base ^^ { structure(_) } | function | generator | "(" ~> expr <~ ")"
+  override def impl: Parser[BA] = term ~ rep("=>" ~ term) ^^ {
     case term ~ list => list.foldLeft(term) {
       case (x, "=>" ~ y) => x.convert >> y.convert
     }
   }
-  override def conj: Parser[BA] = function ~ rep("&" ~ function) ^^ {
-    case func ~ list => list.foldLeft(func) {
+  override def conj: Parser[BA] = impl ~ rep("&" ~ impl) ^^ {
+    case impl ~ list => list.foldLeft(impl) {
       case (x, "&" ~ y) => x.convert && y.convert
     }
   }
@@ -39,6 +51,11 @@ class BAParsers(using var structure: BooleanAlgebra) extends BooleanRingParsers[
     case disj ~ list => list.foldLeft(disj) {
       case (x, "|" ~ y) => x.convert || y.convert
     }
+  }
+  @nowarn("msg=match may not be exhaustive")
+  override def comparison: Parser[Boolean] = expr ~ ("=" | "<>") ~ expr ^^ {
+    case x ~ "=" ~ y => x.convert >< y.convert
+    case x ~ "<>" ~ y => x.convert <> y.convert
   }
 
   def reset: Unit = {
