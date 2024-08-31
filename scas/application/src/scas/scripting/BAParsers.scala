@@ -16,8 +16,11 @@ class BAParsers(using var structure: BooleanAlgebra) extends BooleanRingParsers[
   def factor(x: BA) = {
     val list = structure.gb(x)
     val s = list.foldLeft(structure.one) { case (l, a) =>
-      val x = generator(Variable.fenced(!(a.convert)))
-      l.convert * x
+      val c = a.convert
+      if (!c.isZero) {
+        val x = generator(Variable.fenced(!c))
+        l.convert * x
+      } else l
     }
     !s
   }
