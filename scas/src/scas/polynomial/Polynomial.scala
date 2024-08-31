@@ -181,7 +181,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
             x.reduce(s, ys)
           } else x
         } else x
-      } else x.reduce(ys)
+      } else x.reduce(ys).reduce(ys, true)
     }
 
     @tailrec final def reduce(m: M, ys: Seq[T]): T = {
