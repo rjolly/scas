@@ -14,7 +14,7 @@ abstract class Residue[T : ClassTag, C, N] extends scas.structure.commutative.Re
   def generators = ring.generators
   given coef2poly[D: Conversion[C]]: (D => T) = ring.coef2poly
   def update(s: T*): Unit = {
-    mods ++= s
+    mods = gb(s.filter(!_.isZero)*)
   }
   @targetName("fromCoefficient") def apply(x: C) = ring(x)
   def apply(x: T) = ring.remainder(x)(mods, false)

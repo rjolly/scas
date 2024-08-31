@@ -10,7 +10,7 @@ type BA = Element[Boolean, Array[Int]]
 
 class BAParsers(using var structure: BooleanAlgebra) extends BooleanRingParsers[BA] {
   def this(dummy: Boolean) = this(using BooleanAlgebra())
-  def function: Parser[BA] = ("factor") ~ ("(" ~> expr) <~ ")" ^^ {
+  def function1: Parser[BA] = ("factor") ~ ("(" ~> expr) <~ ")" ^^ {
     case "factor" ~ x => factor(x)
   }
   def factor(x: BA) = {
@@ -24,6 +24,14 @@ class BAParsers(using var structure: BooleanAlgebra) extends BooleanRingParsers[
     }
     !s
   }
+  @nowarn("msg=match may not be exhaustive")
+  def functionn: Parser[BA] = ("mod") ~ ("(" ~> expr) ~ rep("," ~> expr) <~ ")" ^^ {
+    case "mod" ~ expr ~ list => {
+      structure.update(list.map(_.convert)*)
+      !structure(expr.convert)
+    }
+  }
+  def function: Parser[BA] = function1 | functionn
   def generator: Parser[BA] = Var.parser ^^ { generator(_) }
   def generator(a: Variable) = {
     val variables = structure.variables
