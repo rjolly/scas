@@ -4,41 +4,43 @@ import scas.structure.commutative.UniqueFactorizationDomain
 
 trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactorizationDomain[T] {
   given ring: UniqueFactorizationDomain[C]
-  extension (x: T) def divideAndRemainder(y: T) = {
-    if (y.isZero) throw new ArithmeticException("Polynomial divide by zero")
-    else if (x.isZero) (zero, zero)
-    else {
-      val (s, a) = x.head
-      if (y.reduce(s, a)) {
-        val (t, b) = y.head
-        val c = this(s / t, a / b)
-        val (q, r) = (x - c * y).divideAndRemainder(y)
-        (c + q, r)
-      } else (zero, x)
-    }
-  }
-  extension (x: T) def remainder(ys: Seq[T]): T = {
-    val it = x.iterator
-    if (it.hasNext) {
-      val (s, a) = it.next
-      ys.find(_.reduce(s, a)) match {
-        case Some(y) => {
+  extension (x: T) {
+    def divideAndRemainder(y: T) = {
+      if (y.isZero) throw new ArithmeticException("Polynomial divide by zero")
+      else if (x.isZero) (zero, zero)
+      else {
+        val (s, a) = x.head
+        if (y.reduce(s, a)) {
           val (t, b) = y.head
-          x.subtract(s / t, a / b, y).remainder(ys)
-        }
-        case None => x
+          val c = this(s / t, a / b)
+          val (q, r) = (x - c * y).divideAndRemainder(y)
+          (c + q, r)
+        } else (zero, x)
       }
-    } else x
-  }
-  extension (x: T) def reduce(s: M, a: C) = {
-    val (t, b) = x.head
-    (t | s) && (b | a)
-  }
-  extension (x: T) def reduce(y: T): T = x.reduce(List(y))
-  extension (x: T) override def reduce(m: M, a: C, y: T, b: C) = {
-    val gcd = ring.gcd(a, b)
-    val (a0, b0) = (a / gcd, b / gcd)
-    (x%* b0).subtract(m, a0, y)
+    }
+    def remainder(ys: Seq[T]): T = {
+      val it = x.iterator
+      if (it.hasNext) {
+        val (s, a) = it.next
+        ys.find(_.reduce(s, a)) match {
+          case Some(y) => {
+            val (t, b) = y.head
+            x.subtract(s / t, a / b, y).remainder(ys)
+          }
+          case None => x
+        }
+      } else x
+    }
+    def reduce(s: M, a: C) = {
+      val (t, b) = x.head
+      (t | s) && (b | a)
+    }
+    def reduce(y: T): T = x.reduce(List(y))
+    override def reduce(m: M, a: C, y: T, b: C) = {
+      val gcd = ring.gcd(a, b)
+      val (a0, b0) = (a / gcd, b / gcd)
+      (x%* b0).subtract(m, a0, y)
+    }
   }
   def content(x: T) = {
     val c = x.iterator.foldLeft(ring.zero) { (l, r) =>
