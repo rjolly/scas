@@ -12,7 +12,7 @@ object BigInteger extends BigInteger.Impl with UniqueFactorizationDomain[BigInte
     def fromInt(n: BigInteger) = n
     override val zero = this("0")
     override val one = this("1")
-    def apply(str: String) = new BigInteger(str)
+    def apply(str: String): BigInteger = new BigInteger(str)
     extension (x: BigInteger) {
       def add(y: BigInteger) = x.add(y)
       def subtract(y: BigInteger) = x.subtract(y)

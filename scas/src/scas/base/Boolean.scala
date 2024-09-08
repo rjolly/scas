@@ -8,7 +8,7 @@ type Boolean = scala.Boolean
 object Boolean extends Boolean.Impl with scas.structure.commutative.conversion.Field[Boolean] with scas.structure.conversion.BooleanRing[Boolean] {
   given instance: Boolean.type = this
   abstract class Impl extends Field[Boolean] with BooleanRing[Boolean] {
-    def fromInt(n: BigInteger) = n.signum() != 0
+    def fromInt(n: BigInteger) = n.signum != 0
     override val zero = false
     override val one = true
     extension (x: Boolean) {
