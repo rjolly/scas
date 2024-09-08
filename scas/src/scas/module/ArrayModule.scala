@@ -2,6 +2,7 @@ package scas.module
 
 import scala.reflect.ClassTag
 import scas.structure.{Ring, Module}
+import scas.prettyprint.Show.given
 
 abstract class ArrayModule[R : ClassTag](val dimension: Int) extends Module[Array[R], R] {
   def apply(x: Array[R]) = x

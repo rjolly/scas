@@ -9,6 +9,7 @@ import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
 import scas.base.BigInteger
 import BigInteger.given
+import scas.prettyprint.Show.given
 
 trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] {
   given ring: Ring[C]

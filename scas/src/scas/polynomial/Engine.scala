@@ -3,6 +3,7 @@ package scas.polynomial
 import scala.collection.immutable.SortedSet
 import scala.collection.mutable.ListBuffer
 import scala.math.Ordering
+import scas.prettyprint.Show.given
 
 class Engine[T, C, N](using factory: PolynomialWithGB[T, C, N]) {
   import factory.{normalize, s_polynomial, pp}

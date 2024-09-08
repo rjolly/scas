@@ -5,6 +5,7 @@ import scala.reflect.ClassTag
 import scas.util.Conversion
 import scas.polynomial.{PolynomialWithGB, PolynomialOverFieldWithGB}
 import scas.module.ArrayModule
+import scas.prettyprint.Show.given
 
 abstract class Residue[T : ClassTag, C, N] extends scas.structure.commutative.Residue[T, T] {
   given ring: PolynomialWithGB[T, C, N]

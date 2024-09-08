@@ -4,6 +4,7 @@ import scas.util.{Conversion, unary_~}
 import scas.structure.ordered.Monoid
 import scas.variable.Variable
 import scas.base.BigInteger
+import scas.prettyprint.Show.given
 
 abstract class PowerProduct[M] extends Monoid[M] {
   def variables: Seq[Variable]
