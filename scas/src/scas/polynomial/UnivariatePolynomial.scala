@@ -11,7 +11,7 @@ trait UnivariatePolynomial[T : ClassTag, C, M] extends PolynomialWithModInverse[
   @tailrec final def gcd1(x: T, y: T): T = if (y.isZero) x else gcd1(y, x.reduce(y))
   extension (x: T) {
     override def reduce(m: M, a: C, y: T, b: C) = x.subtract(m, a / b, y)
-    override def reduce(y: T) = super.reduce(x)(y)
+    override def reduce(ys: T*) = super.reduce(x)(ys*)
   }
   extension (x: T) def modInverse(mods: T*) = {
     assert (mods.length == 1)

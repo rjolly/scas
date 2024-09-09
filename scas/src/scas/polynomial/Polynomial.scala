@@ -153,14 +153,14 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
       BigInteger.max(l, a.degree)
     }
 
-    @tailrec final def reduce(ys: Seq[T]): T = {
+    @tailrec final def reduce(ys: T*): T = {
       val xs = x.iterator
       if (xs.hasNext) {
         val (s, a) = xs.next
         ys.find(_.reduce(s)) match {
           case Some(y) => {
             val (t, b) = y.head
-            x.reduce(s / t, a, y, b).reduce(ys)
+            x.reduce(s / t, a, y, b).reduce(ys*)
           }
           case None => x
         }
@@ -172,32 +172,32 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
       t | s
     }
 
-    def reduce(ys: Seq[T], tail: Boolean): T = {
+    def reduce(tail: Boolean, ys: T*): T = {
       if (tail) {
         val xs = x.iterator
         if (xs.hasNext) {
           val (s, a) = xs.next
           if (xs.hasNext) {
             val (s, a) = xs.next
-            x.reduce(s, ys)
+            x.reduce(s, ys*)
           } else x
         } else x
-      } else x.reduce(ys).reduce(ys, true)
+      } else x.reduce(ys*).reduce(true, ys*)
     }
 
-    @tailrec final def reduce(m: M, ys: Seq[T]): T = {
+    @tailrec final def reduce(m: M, ys: T*): T = {
       val xs = x.iterator(m)
       if (xs.hasNext) {
         val (s, a) = xs.next
         ys.find(_.reduce(s)) match {
           case Some(y) => {
             val (t, b) = y.head
-            x.reduce(s / t, a, y, b).reduce(m, ys)
+            x.reduce(s / t, a, y, b).reduce(m, ys*)
           }
           case None => {
             if (xs.hasNext) {
               val (s, a) = xs.next
-              x.reduce(s, ys)
+              x.reduce(s, ys*)
             } else x
           }
         }

@@ -12,7 +12,7 @@ abstract class TreeMutablePolynomial[C, M] extends TreePolynomial[C, M] {
     unmodifiable(r)
   }
 
-  extension (x: Element[C, M]) override def reduce(ys: Seq[Element[C, M]], tail: Boolean) = unmodifiable(super.reduce(modifiable(x))(ys, tail))
+  extension (x: Element[C, M]) override def reduce(tail: Boolean, ys: Element[C, M]*) = unmodifiable(super.reduce(modifiable(x))(tail, ys*))
 
   extension (x: Element[C, M]) override def subtract(m: M, c: C, y: Element[C, M]) = {
     val ys = y.entrySet.iterator

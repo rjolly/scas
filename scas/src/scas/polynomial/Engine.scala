@@ -11,7 +11,7 @@ class Engine[T, C, N](using factory: PolynomialWithGB[T, C, N]) {
   def process(pa: Pair[N]): Unit = {
     if(!b_criterion(pa)) {
       println(pa)
-      val p = normalize(s_polynomial(polys(pa.i), polys(pa.j)).reduce(polys.toSeq))
+      val p = normalize(s_polynomial(polys(pa.i), polys(pa.j)).reduce(polys.toSeq*))
       if (!p.isZero) update(p)
       npairs += 1
     }
@@ -91,7 +91,7 @@ class Engine[T, C, N](using factory: PolynomialWithGB[T, C, N]) {
       polys.remove(i)
     }
     for (i <- 0 until polys.size) {
-      polys(i) = normalize(polys(i).reduce(polys.toSeq, true))
+      polys(i) = normalize(polys(i).reduce(true, polys.toSeq*))
       println("(" + i.headPowerProduct.show + ")")
     }
   }

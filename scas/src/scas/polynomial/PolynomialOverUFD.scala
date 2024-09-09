@@ -19,14 +19,14 @@ trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactoriz
         } else (zero, x)
       }
     }
-    @tailrec final def remainder(ys: Seq[T]): T = {
+    @tailrec final def remainder(ys: T*): T = {
       val it = x.iterator
       if (it.hasNext) {
         val (s, a) = it.next
         ys.find(_.reduce(s, a)) match {
           case Some(y) => {
             val (t, b) = y.head
-            x.subtract(s / t, a / b, y).remainder(ys)
+            x.subtract(s / t, a / b, y).remainder(ys*)
           }
           case None => x
         }
@@ -36,37 +36,36 @@ trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactoriz
       val (t, b) = x.head
       (t | s) && (b | a)
     }
-    def remainder(ys: Seq[T], tail: Boolean): T = {
+    def remainder(tail: Boolean, ys: T*): T = {
       if (tail) {
         val xs = x.iterator
         if (xs.hasNext) {
           val (s, a) = xs.next
           if (xs.hasNext) {
             val (s, a) = xs.next
-            x.remainder(s, ys)
+            x.remainder(s, ys*)
           } else x
         } else x
-      } else x.remainder(ys).remainder(ys, true)
+      } else x.remainder(ys*).remainder(true, ys*)
     }
-    @tailrec final def remainder(m: M, ys: Seq[T]): T = {
+    @tailrec final def remainder(m: M, ys: T*): T = {
       val xs = x.iterator(m)
       if (xs.hasNext) {
         val (s, a) = xs.next
         ys.find(_.reduce(s, a)) match {
           case Some(y) => {
             val (t, b) = y.head
-            x.subtract(s / t, a / b, y).remainder(m, ys)
+            x.subtract(s / t, a / b, y).remainder(m, ys*)
           }
           case None => {
             if (xs.hasNext) {
               val (s, a) = xs.next
-              x.remainder(s, ys)
+              x.remainder(s, ys*)
             } else x
           }
         }
       } else x
     }
-    def reduce(y: T): T = x.reduce(List(y))
     override def reduce(m: M, a: C, y: T, b: C) = {
       val gcd = ring.gcd(a, b)
       val (a0, b0) = (a / gcd, b / gcd)

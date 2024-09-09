@@ -12,6 +12,6 @@ trait PolynomialWithSubresGCD[T[C, M], C, M] extends MultivariatePolynomial[T, C
   }
   extension (x: T[C, M]) {
     override def reduce(m: M, a: C, y: T[C, M], b: C) = (x%* b).subtract(m, a, y)
-    override def reduce(y: T[C, M]) = super.reduce(x)(y)
+    override def reduce(ys: T[C, M]*) = super.reduce(x)(ys*)
   }
 }
