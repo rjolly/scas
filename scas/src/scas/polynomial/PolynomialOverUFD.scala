@@ -2,6 +2,8 @@ package scas.polynomial
 
 import scala.annotation.tailrec
 import scas.structure.commutative.UniqueFactorizationDomain
+import scas.base.Boolean
+import Boolean.given
 
 trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactorizationDomain[T] {
   given ring: UniqueFactorizationDomain[C]
@@ -11,7 +13,7 @@ trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactoriz
       else if (x.isZero) (zero, zero)
       else {
         val (s, a) = x.head
-        if (y.reduce(s, a)) {
+        if (y.reduce(s, a, true)) {
           val (t, b) = y.head
           val c = this(s / t, a / b)
           val (q, r) = (x - c * y).divideAndRemainder(y)
@@ -19,55 +21,14 @@ trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactoriz
         } else (zero, x)
       }
     }
-    @tailrec final def remainder(ys: T*): T = {
-      val it = x.iterator
-      if (it.hasNext) {
-        val (s, a) = it.next
-        ys.find(_.reduce(s, a)) match {
-          case Some(y) => {
-            val (t, b) = y.head
-            x.subtract(s / t, a / b, y).remainder(ys*)
-          }
-          case None => x
-        }
-      } else x
-    }
-    def reduce(s: M, a: C) = {
+    def remainder(ys: T*): T = x.reduce(true, false, ys*)
+    override def reduce(s: M, a: C, remainder: Boolean) = {
       val (t, b) = x.head
-      (t | s) && (b | a)
-    }
-    def remainder(tail: Boolean, ys: T*): T = {
-      if (tail) {
-        val xs = x.iterator
-        if (xs.hasNext) {
-          val (s, a) = xs.next
-          if (xs.hasNext) {
-            val (s, a) = xs.next
-            x.remainder(s, ys*)
-          } else x
-        } else x
-      } else x.remainder(ys*).remainder(true, ys*)
-    }
-    @tailrec final def remainder(m: M, ys: T*): T = {
-      val xs = x.iterator(m)
-      if (xs.hasNext) {
-        val (s, a) = xs.next
-        ys.find(_.reduce(s, a)) match {
-          case Some(y) => {
-            val (t, b) = y.head
-            x.subtract(s / t, a / b, y).remainder(m, ys*)
-          }
-          case None => {
-            if (xs.hasNext) {
-              val (s, a) = xs.next
-              x.remainder(s, ys*)
-            } else x
-          }
-        }
-      } else x
+      (t | s) && (remainder >> (b | a))
     }
     override def reduce(m: M, a: C, y: T, b: C) = {
-      val gcd = ring.gcd(a, b)
+      val c = ring.gcd(a, b)
+      val gcd = if (b.signum == -c.signum) -c else c
       val (a0, b0) = (a / gcd, b / gcd)
       (x%* b0).subtract(m, a0, y)
     }

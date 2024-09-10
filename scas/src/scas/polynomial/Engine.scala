@@ -91,7 +91,7 @@ class Engine[T, C, N](using factory: PolynomialWithGB[T, C, N]) {
       polys.remove(i)
     }
     for (i <- 0 until polys.size) {
-      polys(i) = normalize(polys(i).reduce(true, polys.toSeq*))
+      polys(i) = normalize(polys(i).reduce(false, true, polys.toSeq*))
       println("(" + i.headPowerProduct.show + ")")
     }
   }
