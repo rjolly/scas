@@ -153,51 +153,53 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
       BigInteger.max(l, a.degree)
     }
 
-    @tailrec final def reduce(ys: T*): T = {
+    def reduce(ys: T*): T = x.reduce(false, ys*)
+
+    @tailrec final def reduce(remainder: Boolean, ys: T*): T = {
       val xs = x.iterator
       if (xs.hasNext) {
         val (s, a) = xs.next
-        ys.find(_.reduce(s)) match {
+        ys.find(_.reduce(s, a, remainder)) match {
           case Some(y) => {
             val (t, b) = y.head
-            x.reduce(s / t, a, y, b).reduce(ys*)
+            x.reduce(s / t, a, y, b).reduce(remainder, ys*)
           }
           case None => x
         }
       } else x
     }
 
-    def reduce(s: M) = {
+    def reduce(s: M, a: C, remainder: Boolean) = {
       val (t, _) = x.head
-      t | s
+      (t | s)
     }
 
-    def reduce(tail: Boolean, ys: T*): T = {
+    def reduce(remainder: Boolean, tail: Boolean, ys: T*): T = {
       if (tail) {
         val xs = x.iterator
         if (xs.hasNext) {
           val (s, a) = xs.next
           if (xs.hasNext) {
             val (s, a) = xs.next
-            x.reduce(s, ys*)
+            x.reduce(remainder, s, ys*)
           } else x
         } else x
-      } else x.reduce(ys*).reduce(true, ys*)
+      } else x.reduce(remainder, ys*).reduce(remainder, true, ys*)
     }
 
-    @tailrec final def reduce(m: M, ys: T*): T = {
+    @tailrec final def reduce(remainder: Boolean, m: M, ys: T*): T = {
       val xs = x.iterator(m)
       if (xs.hasNext) {
         val (s, a) = xs.next
-        ys.find(_.reduce(s)) match {
+        ys.find(_.reduce(s, a, remainder)) match {
           case Some(y) => {
             val (t, b) = y.head
-            x.reduce(s / t, a, y, b).reduce(m, ys*)
+            x.reduce(s / t, a, y, b).reduce(remainder, m, ys*)
           }
           case None => {
             if (xs.hasNext) {
               val (s, a) = xs.next
-              x.reduce(s, ys*)
+              x.reduce(remainder, s, ys*)
             } else x
           }
         }

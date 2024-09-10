@@ -18,7 +18,7 @@ abstract class Residue[T : ClassTag, C, N] extends scas.structure.commutative.Re
     mods = gb(s.filter(!_.isZero)*)
   }
   @targetName("fromCoefficient") def apply(x: C) = ring(x)
-  def apply(x: T) = ring.remainder(x)(false, mods*)
+  def apply(x: T) = ring.remainder(x)(mods*)
   extension (x: T) def convert = ring.convert(x)
   extension (x: T) def unapply = x
   def fromRing(x: T) = x
