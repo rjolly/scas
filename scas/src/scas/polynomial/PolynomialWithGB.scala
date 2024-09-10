@@ -16,7 +16,7 @@ trait PolynomialWithGB[T : ClassTag, C, N : Numeric : ClassTag] extends Polynomi
     val (n, b) = y.head
     val gcd = pp.gcd(m, n)
     val (m0, n0) = (m / gcd, n / gcd)
-    x.ppMultiplyRight(n0).reduce(m0, a, y, b)
+    x.ppMultiplyRight(n0).reduce(m0, a, y, b, false)
   }
   def gcd(x: T, y: T) = {
     val (a, p) = contentAndPrimitivePart(x)

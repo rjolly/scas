@@ -11,7 +11,7 @@ trait PolynomialWithSubresGCD[T[C, M], C, M] extends MultivariatePolynomial[T, C
     gcd(y, x.reduce(y)%/ beta, x.headCoefficient * phi\d, if (d >< 0) phi else if (d >< 1) y.headCoefficient else y.headCoefficient\d / phi\(d - 1))
   }
   extension (x: T[C, M]) {
-    override def reduce(m: M, a: C, y: T[C, M], b: C) = (x%* b).subtract(m, a, y)
+    override def reduce(m: M, a: C, y: T[C, M], b: C, remainder: Boolean) = (x%* b).subtract(m, a, y)
     override def reduce(ys: T[C, M]*) = super.reduce(x)(ys*)
   }
 }
