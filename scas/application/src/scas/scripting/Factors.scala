@@ -1,14 +1,12 @@
 package scas.scripting
 
-import scala.collection.immutable.{Map, SortedMap}
 import scas.util.{Conversion, unary_~}
-import scas.structure.ordered.Ring
-import scas.structure.Monoid
+import scas.structure.{Ring, Monoid}
 import scas.math.Numeric
 import Factors.Element
 
 class Factors[T, N](using ring: Ring[T], numeric: Numeric[N]) extends Monoid[Element[T, N]] {
-  def empty = SortedMap.empty[T, N]
+  def empty = Map.empty[T, N]
   val one = empty
   def apply(x: T): Element[T, N] = if (x.isOne) empty else if (x.signum < 0) apply(-x) + ((-ring.one, numeric.one)) else empty + ((x, numeric.one))
   extension (x: Element[T, N]) override def isOne = x.isEmpty

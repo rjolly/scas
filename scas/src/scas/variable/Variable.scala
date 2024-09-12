@@ -67,7 +67,7 @@ object Variable {
 
   def apply(name: String, subscript: Int*): Variable = new Constant(name, 0, subscript*)
   def apply(name: String, prime: Int, subscript: Int*): Variable = new Constant(name, prime, subscript*)
-  def fenced[T : Show](parameter: T) = function("", parameter)
+
   def function[T : Show](name: String, parameter: T*): Variable = new Function(name, parameter*)
   def sqrt[T : Show](x: T): Variable = new Sqrt(x)
 }
