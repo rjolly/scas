@@ -10,28 +10,13 @@ type BA = Element[Boolean, Array[Int]]
 
 class BAParsers(using var structure: BooleanAlgebra) extends BooleanRingParsers[BA] {
   def this(dummy: Boolean) = this(using BooleanAlgebra())
-  def function1: Parser[BA] = ("factor") ~ ("(" ~> expr) <~ ")" ^^ {
-    case "factor" ~ x => factor(x)
-  }
-  def factor(x: BA) = {
-    val list = structure.gb(x)
-    val s = list.foldLeft(structure.one) { case (l, a) =>
-      val c = a.convert
-      if (!c.isZero) {
-        val x = generator(Variable.fenced(!c))
-        l.convert * x
-      } else l
-    }
-    !s
-  }
   @nowarn("msg=match may not be exhaustive")
-  def functionn: Parser[BA] = ("mod") ~ ("(" ~> expr) ~ rep("," ~> expr) <~ ")" ^^ {
+  def function: Parser[BA] = ("mod") ~ ("(" ~> expr) ~ rep("," ~> expr) <~ ")" ^^ {
     case "mod" ~ expr ~ list => {
       structure.update(list.map(_.convert)*)
       !structure(expr.convert)
     }
   }
-  def function: Parser[BA] = function1 | functionn
   def generator: Parser[BA] = Var.parser ^^ { generator(_) }
   def generator(a: Variable) = {
     val variables = structure.variables

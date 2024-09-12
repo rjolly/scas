@@ -2,7 +2,7 @@ package scas.scripting
 
 object Parsers extends scala.util.parsing.combinator.RegexParsers {
   def obj: Parser[Object] = {
-    Fn().graph | (DoubleParsers.obj ||| RationalParsers.obj ||| ComplexParsers.obj ||| RFParsers.obj ||| FactorParsers.obj ||| BAParsers.obj ||| BooleanParsers.obj)
+    Fn().graph | (DoubleParsers.obj ||| RationalParsers.obj ||| ComplexParsers.obj ||| RFParsers.obj ||| FactorParsers.obj ||| NFParsers.obj ||| BAParsers.obj ||| BooleanParsers.obj)
   }
 
   def apply(input: String) = {
@@ -16,5 +16,6 @@ object Parsers extends scala.util.parsing.combinator.RegexParsers {
   def reset: Unit = {
     RFParsers.reset
     BAParsers.reset
+    NFParsers.reset
   }
 }
