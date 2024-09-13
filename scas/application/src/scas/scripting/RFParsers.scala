@@ -20,11 +20,29 @@ class RFParsers(using var structure: RationalFunction) extends UFDParsers[RF] {
       structure(x)
     }
   } | "(" ~> expr <~ ")"
+  override def unsignedFactor: Parser[RF] = base ~ opt(("**" | "^") ~> Int.factor) ^^ {
+    case x ~ option => option match {
+      case Some(exp) => x.convert \ exp
+      case None => x
+    }
+  }
+  override def factor: Parser[RF] = opt("-") ~ unsignedFactor ^^ {
+    case option ~ factor => option match {
+      case Some(sign) => -factor.convert
+      case None => factor
+    }
+  }
   @nowarn("msg=match may not be exhaustive")
   override def unsignedTerm: Parser[RF] = unsignedFactor ~ rep(("*" | "/") ~ factor) ^^ {
     case factor ~ list => list.foldLeft(factor) {
       case (x, "*" ~ y) => x.convert * y.convert
       case (x, "/" ~ y) => x.convert / y.convert
+    }
+  }
+  override def term: Parser[RF] = opt("-") ~ unsignedTerm ^^ {
+    case option ~ term => option match {
+      case Some(sign) => -term.convert
+      case None => term
     }
   }
   @nowarn("msg=match may not be exhaustive")
