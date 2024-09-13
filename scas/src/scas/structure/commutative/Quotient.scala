@@ -16,24 +16,38 @@ trait Quotient[T] extends Field[Element[T]] {
     val gcd = if (d.signum == -c.signum) -c else c
     Element(n / gcd, d / gcd)
   }
-  extension (x: Element[T]) def add(y: Element[T]) = {
-    val Element(a, b) = x
-    val Element(c, d) = y
-    val Element(b0, d0) = this(b, d)
-    this(a * d0 + c * b0, b0 * d)
-  }
-  extension (x: Element[T]) def subtract(y: Element[T]) = {
-    val Element(a, b) = x
-    val Element(c, d) = y
-    val Element(b0, d0) = this(b, d)
-    this(a * d0 - c * b0, b0 * d)
-  }
-  extension (x: Element[T]) def multiply(y: Element[T]) = {
-    val Element(a, b) = x
-    val Element(c, d) = y
-    val Element(a0, d0) = this(a, d)
-    val Element(c0, b0) = this(c, b)
-    Element(a0 * c0, b0 * d0)
+  extension (x: Element[T]) {
+    def add(y: Element[T]) = {
+      val Element(a, b) = x
+      val Element(c, d) = y
+      val Element(b0, d0) = this(b, d)
+      this(a * d0 + c * b0, b0 * d)
+    }
+    def subtract(y: Element[T]) = {
+      val Element(a, b) = x
+      val Element(c, d) = y
+      val Element(b0, d0) = this(b, d)
+      this(a * d0 - c * b0, b0 * d)
+    }
+    def multiply(y: Element[T]) = {
+      val Element(a, b) = x
+      val Element(c, d) = y
+      val Element(a0, d0) = this(a, d)
+      val Element(c0, b0) = this(c, b)
+      Element(a0 * c0, b0 * d0)
+    }
+    override def unary_- = {
+      val Element(n, d) = x
+      Element(-n, d)
+    }
+    override def pow(b: BigInteger) = if (b.signum < 0) inverse(x) \ -b else {
+      val Element(n, d) = x
+      Element(n \ b, d \ b)
+    }
+    def signum = {
+      val Element(n, _) = x
+      n.signum
+    }
   }
   def equiv(x: Element[T], y: Element[T]) = {
     val Element(a, b) = x
@@ -49,21 +63,9 @@ trait Quotient[T] extends Field[Element[T]] {
     val Element(c, d) = y
     Element(ring.gcd(a, c), ring.lcm(b, d))
   }
-  extension (x: Element[T]) override def unary_- = {
-    val Element(n, d) = x
-    Element(-n, d)
-  }
-  extension (a: Element[T]) override def pow(b: BigInteger) = if (b.signum < 0) inverse(a) \ -b else {
-    val Element(n, d) = a
-    Element(n \ b, d \ b)
-  }
   override def abs(x: Element[T]) = {
     val Element(n, d) = x
     Element(ring.abs(n), d)
-  }
-  extension (x: Element[T]) def signum = {
-    val Element(n, _) = x
-    n.signum
   }
   def characteristic = ring.characteristic
   extension (x: Element[T]) def toCode(level: Level) = {

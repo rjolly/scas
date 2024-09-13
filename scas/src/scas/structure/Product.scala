@@ -7,47 +7,49 @@ import BigInteger.lcm
 class Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends Ring[(R1, R2)] {
   def apply(a: R1, b: R2) = (a, b)
   def fromInt(n: BigInteger) = (ring1.fromInt(n), ring2.fromInt(n))
-  extension (x: (R1, R2)) def add(y: (R1, R2)) = {
-    val (a, b) = x
-    val (c, d) = y
-    (a + c, b + d)
-  }
-  extension (x: (R1, R2)) def subtract(y: (R1, R2)) = {
-    val (a, b) = x
-    val (c, d) = y
-    (a - c, b - d)
-  }
-  extension (x: (R1, R2)) def multiply(y: (R1, R2)) = {
-    val (a, b) = x
-    val (c, d) = y
-    (a * c, b * d)
-  }
-  def equiv(x: (R1, R2), y: (R1, R2)) = {
-    val (a, b) = x
-    val (c, d) = y
-    a >< c && b >< d
-  }
-  extension (x: (R1, R2)) override def unary_- = {
-    val (a, b) = x
-    (-a, -b)
-  }
-  extension (a: (R1, R2)) override def pow(b: BigInteger) = {
-    val (c, d) = a
-    (c \ b, d \ b)
-  }
-  extension (x: (R1, R2)) def isUnit = {
-    val (a, b) = x
-    a.isUnit && b.isUnit
+  extension (x: (R1, R2)) {
+    def add(y: (R1, R2)) = {
+      val (a, b) = x
+      val (c, d) = y
+      (a + c, b + d)
+    }
+    def subtract(y: (R1, R2)) = {
+      val (a, b) = x
+      val (c, d) = y
+      (a - c, b - d)
+    }
+    def multiply(y: (R1, R2)) = {
+      val (a, b) = x
+      val (c, d) = y
+      (a * c, b * d)
+    }
+    override def unary_- = {
+      val (a, b) = x
+      (-a, -b)
+    }
+    override def pow(b: BigInteger) = {
+      val (c, d) = x
+      (c \ b, d \ b)
+    }
+    def isUnit = {
+      val (a, b) = x
+      a.isUnit && b.isUnit
+    }
+    def signum = {
+      val (a, b) = x
+      if (a.signum == 0) b.signum else a.signum
+    }
   }
   override def abs(x: (R1, R2)) = {
     val (a, b) = x
     (ring1.abs(a), ring2.abs(b))
   }
-  extension (x: (R1, R2)) def signum = {
-    val (a, b) = x
-    if (a.signum == 0) b.signum else a.signum
-  }
   def characteristic = lcm(ring1.characteristic, ring2.characteristic)
+  def equiv(x: (R1, R2), y: (R1, R2)) = {
+    val (a, b) = x
+    val (c, d) = y
+    a >< c && b >< d
+  }
   extension (x: (R1, R2)) def toCode(level: Level) = {
     val (a, b) = x
     s"Product(${a.show}, ${b.show})"
