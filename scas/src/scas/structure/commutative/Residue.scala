@@ -29,6 +29,7 @@ trait Residue[T, R] extends UniqueFactorizationDomain[T] {
       this(a * b)
     }
     def isUnit = ring.isUnit(x.unapply)
+    override def convert = this(x.unapply.convert)
     override def divide(y: T) = {
       val a = x.unapply
       val b = y.unapply
