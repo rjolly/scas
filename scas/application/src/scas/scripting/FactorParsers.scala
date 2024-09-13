@@ -7,7 +7,7 @@ import Factors.Element
 
 type FS = Element[BigInteger, Int]
 
-object FactorParsers extends MonoidParsers[FS] {
+object FactorParsers extends RingParsers[FS] {
   given structure: Factors[BigInteger, Int] = new Factors
   import structure.ring2factors
   def base: Parser[FS] = ("factor") ~ ("(" ~> Int.expr) <~ ")" ^^ {

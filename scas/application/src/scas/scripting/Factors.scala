@@ -1,24 +1,41 @@
 package scas.scripting
 
 import scas.util.{Conversion, unary_~}
-import scas.structure.{Ring, Monoid}
+import scas.structure.Ring
 import scas.math.Numeric
+import scas.base.BigInteger
+import BigInteger.given
 import Factors.Element
 
-class Factors[T, N](using ring: Ring[T], numeric: Numeric[N]) extends Monoid[Element[T, N]] {
+class Factors[T, N](using ring: Ring[T], numeric: Numeric[N]) extends Ring[Element[T, N]] {
   def empty = Map.empty[T, N]
-  val one = empty
+  override val zero = empty + ((ring.zero, numeric.one))
+  override val one = empty
+  def fromInt(n: BigInteger) = apply(ring.fromInt(n))
   def apply(x: T): Element[T, N] = if (x.isOne) empty else if (x.signum < 0) apply(-x) + ((-ring.one, numeric.one)) else empty + ((x, numeric.one))
-  extension (x: Element[T, N]) override def isOne = x.isEmpty
-  extension (x: Element[T, N]) def isUnit = if (x.isOne) true else {
-    val (a, b) = x.head
-    a.isUnit
+  extension (x: Element[T, N]) {
+    override def isZero = x.getOrElse(ring.zero, numeric.zero) >< numeric.one
+    override def isOne = x.isEmpty
+    def add(y: Element[T, N]) = {
+      val (a, b) = x.partition((c, _) => y.contains(c))
+      val (_, d) = y.partition((c, _) => a.contains(c))
+      a * this(b.expand + d.expand)
+    }
+    def expand = x.foldLeft(ring.one) { (l, r) =>
+      val (a, b) = r
+      l * a \ b.toLong
+    }
+    def subtract(y: Element[T, N]) = x + (-y)
+    def multiply(y: Element[T, N]) = if (x.isZero || y.isZero) zero else y.foldLeft(x)((l, r) => {
+      val (a, b) = r
+      val c = l.getOrElse(a, numeric.zero)
+      if (a >< -ring.one && b >< numeric.one && c >< numeric.one) l - a else l + ((a, c + b))
+    })
+    def isUnit = abs(x).isOne
+    override def unary_- = x * this(-ring.one)
+    def signum = if (x.isZero) 0 else if(x.getOrElse(-ring.one, numeric.zero) >< numeric.one) -1 else 1
   }
-  extension (x: Element[T, N]) def multiply(y: Element[T, N]) = y.foldLeft(x)((l, r) => {
-    val (a, b) = r
-    val c = l.getOrElse(a, numeric.zero)
-    if (a >< -ring.one && b >< numeric.one && c >< numeric.one) l - a else l + ((a, c + b))
-  })
+  def characteristic = ring.characteristic
   def equiv(x: Element[T, N], y: Element[T, N]) = {
     val xs = x.iterator
     val ys = y.iterator
