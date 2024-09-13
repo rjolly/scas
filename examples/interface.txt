@@ -2,6 +2,6 @@ val manager = new javax.script.ScriptEngineManager
 val engine = manager.getEngineByName("scas")
 import engine.eval
 assert(eval("x+x").toString == "2*x")
-assert(eval("1").toString == "1.0")
+assert(eval("1").toString == "1")
 assert(eval("1+x").toString == "1+x")
-assert(eval("1/4").toString == "0.25")
+assert(eval("1/4").toString == "1%%4")
