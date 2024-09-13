@@ -4,6 +4,7 @@ import scas.math.Equiv
 import scas.prettyprint.Show
 
 trait Structure[T] extends Equiv[T] with Show[T] {
+  extension (x: T) def convert = x
   def random(numbits: Int)(using rnd: java.util.Random): T = ???
   def fenced(s: String) = s"($s)"
   export scas.prettyprint.Level

@@ -44,6 +44,10 @@ trait Quotient[T] extends Field[Element[T]] {
       val Element(n, d) = x
       Element(n \ b, d \ b)
     }
+    override def convert = {
+      val Element(n, d) = x
+      Element(n.convert, d.convert)
+    }
     def signum = {
       val Element(n, _) = x
       n.signum

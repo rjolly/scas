@@ -21,7 +21,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
   def generators = pp.generators.map(apply)
   extension (x: T) def signum = if (x.isZero) 0 else x.lastCoefficient.signum
   def characteristic = ring.characteristic
-  extension (x: T) def convert: T = x.convert(pp)
+  extension (x: T) override def convert: T = x.convert(pp)
   extension (x: T) def convert(from: PowerProduct[M]) = x.map((s, a) => (s.convert(from), a)).sort
   extension (x: T) def subtract(y: T) = x.subtract(pp.one, ring.one, y)
   def equiv(x: T, y: T) = {
