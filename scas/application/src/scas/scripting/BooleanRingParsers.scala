@@ -12,22 +12,22 @@ trait BooleanRingParsers[T] extends RingParsers[T] {
   }
   def impl: Parser[T] = term ~ rep("=>" ~ term) ^^ {
     case term ~ list => list.foldLeft(term) {
-      case (x, "=>" ~ y) => x >> y
+      case (x, "=>" ~ y) => x.convert >> y.convert
     }
   }
   def conj: Parser[T] = impl ~ rep("&" ~ impl) ^^ {
     case impl ~ list => list.foldLeft(impl) {
-      case (x, "&" ~ y) => x && y
+      case (x, "&" ~ y) => x.convert && y.convert
     }
   }
   def disj: Parser[T] = conj ~ rep("^" ~ conj) ^^ {
     case conj ~ list => list.foldLeft(conj) {
-      case (x, "^" ~ y) => x ^ y
+      case (x, "^" ~ y) => x.convert ^ y.convert
     }
   }
   override def expr: Parser[T] = disj ~ rep("|" ~ disj) ^^ {
     case disj ~ list => list.foldLeft(disj) {
-      case (x, "|" ~ y) => x || y
+      case (x, "|" ~ y) => x.convert || y.convert
     }
   }
 }

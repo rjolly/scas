@@ -6,7 +6,7 @@ import BigInteger.given
 import Rational.Implicits.given
 import Complex.{sqrt, real, imag, conjugate, coef2poly, ring}
 
-object ComplexParsers extends UFDParsers[Complex] {
+object ComplexParsers extends FieldParsers[Complex] {
   given structure: Complex.Impl = Complex
   def number: Parser[Complex] = RationalParsers.base ^^ { ring(_) }
   def function: Parser[Complex] = (literal("sqrt") | literal("real") | literal("imag") | literal("conjugate")) ~ ("(" ~> expr) <~ ")" ^^ {
