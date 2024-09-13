@@ -5,7 +5,7 @@ import scas.rendering.Graph
 import scas.variable.Variable
 import Function.{sinh, cosh, tanh, sin, cos, tan, asin, acos, atan, exp, log, sqrt, abs, pow, identity}
 
-class Fn(var n: Variable*) extends UFDParsers[Double => Double] {
+class Fn(var n: Variable*) extends FieldParsers[Double => Double] {
   given structure: Function.type = Function
 
   def function: Parser[Double => Double] = ("sinh" | "cosh" | "tanh" | "sin" | "cos" | "tan" | "asin" | "acos" | "atan" | "exp" | "log" | "sqrt" | "abs") ~ ("(" ~> expr) <~ ")" ^^ {

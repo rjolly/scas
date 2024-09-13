@@ -28,31 +28,6 @@ class BAParsers(using var structure: BooleanAlgebra) extends BooleanRingParsers[
     }
   }
   def base: Parser[BA] = BooleanParsers.base ^^ { structure(_) } | function | generator | "(" ~> expr <~ ")"
-  override def impl: Parser[BA] = term ~ rep("=>" ~ term) ^^ {
-    case term ~ list => list.foldLeft(term) {
-      case (x, "=>" ~ y) => x.convert >> y.convert
-    }
-  }
-  override def conj: Parser[BA] = impl ~ rep("&" ~ impl) ^^ {
-    case impl ~ list => list.foldLeft(impl) {
-      case (x, "&" ~ y) => x.convert && y.convert
-    }
-  }
-  override def disj: Parser[BA] = conj ~ rep("^" ~ conj) ^^ {
-    case conj ~ list => list.foldLeft(conj) {
-      case (x, "^" ~ y) => x.convert ^ y.convert
-    }
-  }
-  override def expr: Parser[BA] = disj ~ rep("|" ~ disj) ^^ {
-    case disj ~ list => list.foldLeft(disj) {
-      case (x, "|" ~ y) => x.convert || y.convert
-    }
-  }
-  @nowarn("msg=match may not be exhaustive")
-  override def comparison: Parser[Boolean] = expr ~ ("=" | "<>") ~ expr ^^ {
-    case x ~ "=" ~ y => x.convert >< y.convert
-    case x ~ "<>" ~ y => x.convert <> y.convert
-  }
 
   def reset: Unit = {
     structure = BooleanAlgebra()

@@ -1,13 +1,12 @@
 package scas.scripting
 
 import Parsers._
-import scala.annotation.nowarn
 import scas.polynomial.PolynomialOverUFD
 import scas.variable.Variable
 import scas.base.BigInteger
 import BigInteger.given
 
-class PolyParsers(using var structure: PolynomialOverUFD[Poly, BigInteger, Array[Int]]) extends RingParsers[Poly] {
+class PolyParsers(using var structure: PolynomialOverUFD[Poly, BigInteger, Array[Int]]) extends UFDParsers[Poly] {
   def this(dummy: Boolean, variables: Variable*) = this(using Poly(variables*))
   def generator: Parser[Poly] = Var.parser ^^ { generator(_) }
   def generator(a: Variable) = {
@@ -20,41 +19,6 @@ class PolyParsers(using var structure: PolynomialOverUFD[Poly, BigInteger, Array
     }
   }
   def base: Parser[Poly] = Int.base ^^ { structure(_) } | generator | "(" ~> expr <~ ")"
-  override def unsignedFactor: Parser[Poly] = base ~ opt((literal("**") | literal("^")) ~> Int.unsignedFactor) ^^ {
-    case x ~ option => option match {
-      case Some(exp) => x.convert \ exp
-      case None => x
-    }
-  }
-  override def factor: Parser[Poly] = opt("-") ~ unsignedFactor ^^ {
-    case option ~ factor => option match {
-      case Some(sign) => -factor.convert
-      case None => factor
-    }
-  }
-  override def unsignedTerm: Parser[Poly] = unsignedFactor ~ rep((literal("*") | literal("/")) ~ factor) ^^ {
-    case factor ~ list => list.foldLeft(factor) {
-      case (x, "*" ~ y) => x.convert * y.convert
-      case (x, "/" ~ y) => x.convert / y.convert
-    }
-  }
-  override def term: Parser[Poly] = opt("-") ~ unsignedTerm ^^ {
-    case option ~ term => option match {
-      case Some(sign) => -term.convert
-      case None => term
-    }
-  }
-  override def expr: Parser[Poly] = term ~ rep((literal("+") | literal("-")) ~ unsignedTerm) ^^ {
-    case term ~ list => list.foldLeft(term) {
-      case (x, "+" ~ y) => x.convert + y.convert
-      case (x, "-" ~ y) => x.convert - y.convert
-    }
-  }
-  @nowarn("msg=match may not be exhaustive")
-  override def comparison: Parser[Boolean] = expr ~ (literal("=") | literal("<>")) ~ expr ^^ {
-    case x ~ "=" ~ y => x.convert >< y.convert
-    case x ~ "<>" ~ y => x.convert <> y.convert
-  }
 
   def reset: Unit = {
     structure = Poly()
