@@ -4,5 +4,25 @@ import scas.residue.BooleanAlgebra
 
 class NormalForm(using val ring: BooleanAlgebra) extends Factors[BA, Int] {
   def empty = Map.empty[BA, Int]
-  def factor(x: BA) = ring.gb(!x).foldLeft(one)((l, a) => l * this(!a))
+  override def apply(x: BA) = if (x.isZero) zero else ring.gb(x).foldLeft(one)((l, a) => if (!a.isZero) l * super.apply(a) else l)
+  extension (x: NF) override def toCode(level: Level) = {
+    var s = ring.one.show
+    var m = 0
+    for ((a, b) <- x) {
+      val t = a.show
+      s = if (m == 0) t else s + "|" + t
+      m += 1
+    }
+    s
+  }
+  extension (x: NF) override def toMathML = {
+    var s = ring.one.toMathML
+    var m = 0
+    for ((a, b) <- x) {
+      val t = a.toMathML
+      s = if (m == 0) t else s"<apply><or/>$s$t</apply>"
+      m += 1
+    }
+    s
+  }
 }

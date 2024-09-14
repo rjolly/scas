@@ -12,10 +12,11 @@ class BAParsers(using var structure: BooleanAlgebra) extends BooleanRingParsers[
   def this(dummy: Boolean) = this(using BooleanAlgebra())
   @nowarn("msg=match may not be exhaustive")
   def function: Parser[BA] = ("mod") ~ ("(" ~> expr) ~ rep("," ~> expr) <~ ")" ^^ {
-    case "mod" ~ expr ~ list => {
-      structure.update(list.map(_.convert)*)
-      !structure(expr.convert)
-    }
+    case "mod" ~ expr ~ list => mod(expr.convert, list.map(_.convert)*)
+  }
+  def mod(expr: BA, list: BA*) = {
+    structure.update(list.map(!_)*)
+    !structure(!expr)
   }
   def generator: Parser[BA] = Var.parser ^^ { generator(_) }
   def generator(a: Variable) = {
