@@ -19,7 +19,7 @@ object Int extends OrderedRingParsers[BigInteger] {
   def function: Parser[BigInteger] = function1 | function2
   def base: Parser[BigInteger] = number | function | "(" ~> expr <~ ")"
 
-  def factorial(x: BigInteger): BigInteger = factorial(BigInteger("1"), x)
+  def factorial(x: BigInteger): BigInteger = factorial(BigInteger.one, x)
 
   @tailrec final def factorial(res: BigInteger, x: BigInteger): BigInteger = if (x > 1) factorial(x * res, x - 1) else res
 }
