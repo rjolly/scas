@@ -7,8 +7,8 @@ import scas.base.BigInteger
 import BigInteger.given
 import Factors.Element
 
-class Factors[T, N](using ring: Ring[T], numeric: Numeric[N]) extends Ring[Element[T, N]] {
-  def empty = Map.empty[T, N]
+abstract class Factors[T, N](using ring: Ring[T], numeric: Numeric[N]) extends Ring[Element[T, N]] {
+  def empty: Element[T, N]
   override val zero = empty + ((ring.zero, numeric.one))
   override val one = empty
   def fromInt(n: BigInteger) = apply(ring.fromInt(n))
