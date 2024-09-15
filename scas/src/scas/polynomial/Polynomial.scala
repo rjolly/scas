@@ -47,7 +47,8 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
     def ppMultiplyRight(m: M) = x.map((s, a) => (s * m, a))
   }
 
-  extension (x: T) def toCode(level: Level) = {
+  extension (x: T) def toCode(level: Level) = toCode(level, "+", "*")
+  extension (x: T) def toCode(level: Level, plus: String, times: String): String = {
     import Level.given
     var s = ring.zero.show
     var n = 0
@@ -56,11 +57,11 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
     for ((a, b) <- reverseIterator(x)) {
       val c = ring.abs(b)
       val g = b.signum < 0
-      val (t, u) = if (a.isOne) (c.toCode(p), 1) else if (c.isOne) (a.toCode(p), a.size) else (c.toCode(Level.Multiplication) + "*" + a.show, 1 + a.size)
+      val (t, u) = if (a.isOne) (c.toCode(p), 1) else if (c.isOne) (a.toCode(p, times), a.size) else (c.toCode(Level.Multiplication) + "*" + a.show, 1 + a.size)
       s = if (n == 0) {
         if (g) "-" + t else t
       } else {
-        if (g) s + "-" + t else s + "+" + t
+        if (g) s + "-" + t else s + plus + t
       }
       m = if (g) u + 1 else u
       n += 1
@@ -72,17 +73,18 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
     }
   }
   override def toString = s"${ring}(${variables.toList.show(false)})"
-  extension (x: T) def toMathML = {
+  extension (x: T) def toMathML = toMathML("plus", "times")
+  extension (x: T) def toMathML(plus: String, times: String): String = {
     var s = ring.zero.toMathML
     var n = 0
     for ((a, b) <- reverseIterator(x)) {
       val c = ring.abs(b)
       val g = b.signum < 0
-      val t =  if (a.isOne) c.toMathML else if (c.isOne) a.toMathML else s"<apply><times/>${c.toMathML}${a.toMathML}</apply>"
+      val t =  if (a.isOne) c.toMathML else if (c.isOne) a.toMathML(times) else s"<apply><times/>${c.toMathML}${a.toMathML}</apply>"
       s = if (n == 0) {
         if (g) s"<apply><minus/>$t</apply>" else t
       } else {
-        if (g) s"<apply><minus/>$s$t</apply>" else s"<apply><plus/>$s$t</apply>"
+        if (g) s"<apply><minus/>$s$t</apply>" else s"<apply><$plus/>$s$t</apply>"
       }
       n += 1
     }
