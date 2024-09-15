@@ -39,7 +39,7 @@
 	</xsl:apply-templates>
 	<xsl:text> &amp;&amp; </xsl:text>
 	<xsl:apply-templates select="*[3]">
-	    	<xsl:with-param name="p" select="1"/>
+	    	<xsl:with-param name="p" select="0"/>
 	</xsl:apply-templates>
 	<xsl:if test="0 &lt; $p"><xsl:text>)</xsl:text></xsl:if>
 </xsl:template>
@@ -52,7 +52,7 @@
 	</xsl:apply-templates>
 	<xsl:text> || </xsl:text>
 	<xsl:apply-templates select="*[3]">
-	    	<xsl:with-param name="p" select="1"/>
+	    	<xsl:with-param name="p" select="0"/>
 	</xsl:apply-templates>
 	<xsl:if test="0 &lt; $p"><xsl:text>)</xsl:text></xsl:if>
 </xsl:template>
@@ -65,7 +65,7 @@
 	</xsl:apply-templates>
 	<xsl:text> ^ </xsl:text>
 	<xsl:apply-templates select="*[3]">
-	    	<xsl:with-param name="p" select="1"/>
+	    	<xsl:with-param name="p" select="0"/>
 	</xsl:apply-templates>
 	<xsl:if test="0 &lt; $p"><xsl:text>)</xsl:text></xsl:if>
 </xsl:template>
