@@ -151,6 +151,8 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
       } else ring.zero
     }
 
+    def coefOne = x.coefficient(one)
+
     def degree: BigInteger = x.iterator.foldLeft(BigInteger.zero) { case (l, (a, _)) =>
       BigInteger.max(l, a.degree)
     }
