@@ -9,8 +9,8 @@ class NormalForm(using val ring: BooleanAlgebra) extends Factors[BA, Int] {
     var s = ring.one.show
     var m = 0
     for ((a, b) <- x) {
-      val t = a.show
-      s = if (m == 0) t else s + "|" + t
+      val t = if (!a.isNot) a.show else s"!${(!a).toCode(Level.Multiplication)}"
+      s = if (m == 0) t else s + " || " + t
       m += 1
     }
     s
@@ -19,7 +19,7 @@ class NormalForm(using val ring: BooleanAlgebra) extends Factors[BA, Int] {
     var s = ring.one.toMathML
     var m = 0
     for ((a, b) <- x) {
-      val t = a.toMathML
+      val t = if (!a.isNot) a.toMathML else s"<apply><not/>${(!a).toMathML}</apply>"
       s = if (m == 0) t else s"<apply><or/>$s$t</apply>"
       m += 1
     }
