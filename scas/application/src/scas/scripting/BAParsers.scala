@@ -3,7 +3,6 @@ package scas.scripting
 import Parsers._
 import scala.annotation.nowarn
 import scas.polynomial.TreePolynomial.Element
-import scas.residue.BooleanAlgebra
 import scas.variable.Variable
 
 type BA = Element[Boolean, Array[Int]]
