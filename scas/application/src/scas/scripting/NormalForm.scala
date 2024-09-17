@@ -3,9 +3,9 @@ package scas.scripting
 import scas.residue.BooleanAlgebra
 import Factors.Element
 
-class NormalForm(conj: Boolean)(using val ring: BooleanAlgebra) extends Factors[BA, Int] {
+class NormalForm(conj: Boolean)(using ring: BooleanAlgebra) extends Factors[BA, Int] {
   def empty = Map.empty[BA, Int]
-  override def apply(x: BA) = if (x.isZero) zero else ring.gb(if (conj) !x else x).foldLeft(one)((l, a) => l * super.apply(if (conj) !a else a))
+  def apply(x: BA) = if (x.isZero) zero else ring.gb(if (conj) !x else x).foldLeft(empty)((l, a) => l%* (if (conj) !a else a))
   extension (x: Element[BA, Int]) {
     override def toCode(level: Level) = {
       val p = if (x.size == 1) level else if(conj) Level.Multiplication else Level.Addition

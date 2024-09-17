@@ -1,42 +1,34 @@
 package scas.scripting
 
-import scas.util.{Conversion, unary_~}
-import scas.structure.Ring
+import scas.structure.{Ring, Module}
 import scas.math.Numeric
 import scas.base.BigInteger
 import BigInteger.given
 import Factors.Element
 
-abstract class Factors[T, N](using ring: Ring[T], numeric: Numeric[N]) extends Ring[Element[T, N]] {
+abstract class Factors[T, N](using val ring: Ring[T], numeric: Numeric[N]) extends Module[Element[T, N], T] {
   def empty: Element[T, N]
   override val zero = empty + ((ring.zero, numeric.one))
-  override val one = empty
-  def fromInt(n: BigInteger) = apply(ring.fromInt(n))
-  def apply(x: T): Element[T, N] = if (x.isOne) empty else if (x.signum < 0) apply(-x) + ((-ring.one, numeric.one)) else empty + ((x, numeric.one))
   extension (x: Element[T, N]) {
     override def convert = x.map((a, b) => (a.convert, b))
     override def isZero = x.getOrElse(ring.zero, numeric.zero) >< numeric.one
-    override def isOne = x.isEmpty
     def add(y: Element[T, N]) = {
       val (a, b) = x.partition((c, _) => y.contains(c))
       val (_, d) = y.partition((c, _) => a.contains(c))
-      a * this(b.expand + d.expand)
+      a%* (b.expand + d.expand)
     }
     def expand = x.foldLeft(ring.one) { (l, r) =>
       val (a, b) = r
       l * a \ b.toLong
     }
     def subtract(y: Element[T, N]) = x + (-y)
-    def multiply(y: Element[T, N]) = if (x.isZero || y.isZero) zero else y.foldLeft(x)((l, r) => {
-      val (a, b) = r
-      val c = l.getOrElse(a, numeric.zero)
-      if (a >< -ring.one && b >< numeric.one && c >< numeric.one) l - a else l + ((a, c + b))
-    })
-    def isUnit = abs(x).isOne
-    override def unary_- = x * this(-ring.one)
+    def multiplyRight(c: T) = if (x.isZero || c.isZero) zero else if (c.isOne) x else {
+      val d = x.getOrElse(c, numeric.zero)
+      x + ((c, d + numeric.one))
+    }
+    override def unary_- = x%* (-ring.one)
     def signum = if (x.isZero) 0 else if(x.getOrElse(-ring.one, numeric.zero) >< numeric.one) -1 else 1
   }
-  def characteristic = ring.characteristic
   def equiv(x: Element[T, N], y: Element[T, N]) = {
     val xs = x.iterator
     val ys = y.iterator
@@ -47,6 +39,12 @@ abstract class Factors[T, N](using ring: Ring[T], numeric: Numeric[N]) extends R
       else if (b <> d) return false
     }
     !xs.hasNext && !ys.hasNext
+  }
+  extension (c: T) def multiplyLeft(x: Element[T, N]) = x%* c
+
+  extension (ring: Ring[T]) def pow(n: Int) = {
+    assert (n == 0)
+    this
   }
   extension (x: Element[T, N]) def toCode(level: Level) = {
     var s = ring.one.show
@@ -59,7 +57,6 @@ abstract class Factors[T, N](using ring: Ring[T], numeric: Numeric[N]) extends R
     }
     s
   }
-  override def toString = s"Product($ring)"
   extension (x: Element[T, N]) def toMathML = {
     var s = ring.one.toMathML
     var m = 0
@@ -70,9 +67,8 @@ abstract class Factors[T, N](using ring: Ring[T], numeric: Numeric[N]) extends R
     }
     s
   }
-  def toMathML = s"<apply><cartesianproduct/>${ring.toMathML}</apply>"
-
-  given ring2factors[S: Conversion[T]]: (S => Element[T, N]) = x => this(~x)
+  override def toString = s"$ring.pow(0)"
+  def toMathML = s"<msup>${ring.toMathML}<cn>0</cn></msup>"
 }
 
 object Factors {
