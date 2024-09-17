@@ -33,15 +33,15 @@
 
 <xsl:template match="m:apply[*[1][self::m:and]]">
 	<xsl:param name="p" select="0"/>
-	<xsl:if test="0 &lt; $p"><xsl:text>(</xsl:text></xsl:if>
+	<xsl:if test="1 &lt; $p"><xsl:text>(</xsl:text></xsl:if>
 	<xsl:apply-templates select="*[2]">
-		<xsl:with-param name="p" select="0"/>
+		<xsl:with-param name="p" select="1"/>
 	</xsl:apply-templates>
 	<xsl:text> &amp;&amp; </xsl:text>
 	<xsl:apply-templates select="*[3]">
-	    	<xsl:with-param name="p" select="0"/>
+	    	<xsl:with-param name="p" select="1"/>
 	</xsl:apply-templates>
-	<xsl:if test="0 &lt; $p"><xsl:text>)</xsl:text></xsl:if>
+	<xsl:if test="1 &lt; $p"><xsl:text>)</xsl:text></xsl:if>
 </xsl:template>
 
 <xsl:template match="m:apply[*[1][self::m:or]]">
@@ -72,12 +72,12 @@
 
 <xsl:template match="m:apply[*[1][self::m:not]]">
 	<xsl:param name="p" select="0"/>
-	<xsl:if test="0 &lt; $p"><xsl:text>(</xsl:text></xsl:if>
+	<xsl:if test="2 &lt; $p"><xsl:text>(</xsl:text></xsl:if>
 	<xsl:text>!</xsl:text>
 	<xsl:apply-templates select="*[2]">
-		<xsl:with-param name="p" select="1"/>
+		<xsl:with-param name="p" select="2"/>
 	</xsl:apply-templates>
-	<xsl:if test="0 &lt; $p"><xsl:text>)</xsl:text></xsl:if>
+	<xsl:if test="2 &lt; $p"><xsl:text>)</xsl:text></xsl:if>
 </xsl:template>
 
 <xsl:template match="m:apply[*[1][self::m:implies]]">
@@ -88,7 +88,7 @@
 	</xsl:apply-templates>
 	<xsl:text> &gt;&gt; </xsl:text>
 	<xsl:apply-templates select="*[3]">
-	    	<xsl:with-param name="p" select="1"/>
+	    	<xsl:with-param name="p" select="0"/>
 	</xsl:apply-templates>
 	<xsl:if test="0 &lt; $p"><xsl:text>)</xsl:text></xsl:if>
 </xsl:template>
