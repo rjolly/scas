@@ -2,9 +2,9 @@ package scas.scripting
 
 import Parsers._
 
-object FactorParsers extends RingParsers[FS] {
+object FactorParsers extends StructureParsers[FS] {
   given structure: FS.type = FS
-  def base: Parser[FS] = ("factor") ~ ("(" ~> Int.expr) <~ ")" ^^ {
+  def expr: Parser[FS] = ("factor") ~ ("(" ~> Int.expr) <~ ")" ^^ {
     case "factor" ~ x => structure.factor(x)
   }
 }

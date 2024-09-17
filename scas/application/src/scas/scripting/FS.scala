@@ -11,7 +11,7 @@ type FS = Element[BigInteger, Int]
 object FS extends Factors[BigInteger, Int] {
   def empty = SortedMap.empty[BigInteger, Int]
 
-  def factor(x: BigInteger): FS = if(x.isZero) zero else factor(BigInteger.abs(x), one, primes)*BigInteger.signum(x)
+  def factor(x: BigInteger): FS = if(x.isZero) zero else factor(BigInteger.abs(x), empty, primes)%* BigInteger.signum(x)
 
   @tailrec final def factor(x: BigInteger, map: FS, primes: LazyList[BigInteger]): FS = {
     val y = primes.head
