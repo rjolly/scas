@@ -1,6 +1,5 @@
 package scas.scripting
 
-import scas.util.{Conversion, unary_~}
 import scas.structure.Ring
 import scas.math.Numeric
 import scas.base.BigInteger
@@ -71,8 +70,6 @@ abstract class Factors[T, N](using ring: Ring[T], numeric: Numeric[N]) extends R
     s
   }
   def toMathML = s"<apply><cartesianproduct/>${ring.toMathML}</apply>"
-
-  given ring2factors[S: Conversion[T]]: (S => Element[T, N]) = x => this(~x)
 }
 
 object Factors {

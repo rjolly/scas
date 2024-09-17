@@ -1,6 +1,7 @@
 package scas.scripting
 
 import scala.annotation.tailrec
+import scas.util.{Conversion, unary_~}
 import scala.collection.immutable.SortedMap
 import scas.base.BigInteger
 import BigInteger.given
@@ -11,7 +12,8 @@ type FS = Element[BigInteger, Int]
 object FS extends Factors[BigInteger, Int] {
   def empty = SortedMap.empty[BigInteger, Int]
 
-  def factor(x: BigInteger): FS = if(x.isZero) zero else factor(BigInteger.abs(x), one, primes)*BigInteger.signum(x)
+  def apply[U: Conversion[BigInteger]](x: U) = super.apply(~x)
+  override def apply(x: BigInteger) = if(x.isZero) zero else factor(BigInteger.abs(x), one, primes)*this(BigInteger.signum(x))
 
   @tailrec final def factor(x: BigInteger, map: FS, primes: LazyList[BigInteger]): FS = {
     val y = primes.head
