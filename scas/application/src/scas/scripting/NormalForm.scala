@@ -12,7 +12,7 @@ class NormalForm(conj: Boolean)(using val ring: BooleanAlgebra) extends Factors[
       var s = ring.one.show
       var m = 0
       for ((a, b) <- x) {
-        val t = if (!a.isNot || !conj) a.toCode(p) else s"!${(!a).toCode(Level.Power)}"
+        val t = a.toCode(p)
         val times = if(conj) " && " else " || "
         s = if (m == 0) t else s + times + t
         m += 1
@@ -23,7 +23,7 @@ class NormalForm(conj: Boolean)(using val ring: BooleanAlgebra) extends Factors[
       var s = ring.one.toMathML
       var m = 0
       for ((a, b) <- x) {
-        val t = if (!a.isNot || !conj) a.toMathML else s"<apply><not/>${(!a).toMathML}</apply>"
+        val t = a.toMathML
         val times = if(conj) "and" else "or"
         s = if (m == 0) t else s"<apply><${times}/>$s$t</apply>"
         m += 1
