@@ -3,7 +3,7 @@ package scas.scripting
 import scas.residue.BooleanAlgebra
 import Factors.Element
 
-class NormalForm(conj: Boolean)(using ring: BooleanAlgebra) extends Factors[BA, Int] {
+class NormalForm(recurse: Boolean, conj: Boolean)(using ring: BooleanAlgebra) extends Factors[BA, Int] {
   def empty = Map.empty[BA, Int]
   def apply(x: BA) = if (x.isZero) zero else ring.gb(if (conj) !x else x).foldLeft(empty)((l, a) => l%* (if (conj) !a else a))
   extension (x: Element[BA, Int]) {
@@ -12,7 +12,7 @@ class NormalForm(conj: Boolean)(using ring: BooleanAlgebra) extends Factors[BA, 
       var s = ring.one.show
       var m = 0
       for ((a, b) <- x) {
-        val t = if (!a.isNot || !conj) a.toCode(p) else s"!${(!a).toCode(Level.Power)}"
+        val t = if (!a.isNot || recurse) a.toCode(p) else s"!${(!a).toCode(Level.Power)}"
         val times = if(conj) " && " else " || "
         s = if (m == 0) t else s + times + t
         m += 1
@@ -23,7 +23,7 @@ class NormalForm(conj: Boolean)(using ring: BooleanAlgebra) extends Factors[BA, 
       var s = ring.one.toMathML
       var m = 0
       for ((a, b) <- x) {
-        val t = if (!a.isNot || !conj) a.toMathML else s"<apply><not/>${(!a).toMathML}</apply>"
+        val t = if (!a.isNot || recurse) a.toMathML else s"<apply><not/>${(!a).toMathML}</apply>"
         val times = if(conj) "and" else "or"
         s = if (m == 0) t else s"<apply><${times}/>$s$t</apply>"
         m += 1
