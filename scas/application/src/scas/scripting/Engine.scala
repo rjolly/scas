@@ -25,6 +25,7 @@ class Engine(@BeanProperty val factory: ScriptEngineFactory) extends AbstractScr
       }
       case Left(msg) => {
         Parsers.reset
+        code = ""
         throw new ScriptException(msg)
       }
     }
