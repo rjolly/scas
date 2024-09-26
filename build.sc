@@ -16,7 +16,8 @@ object scas extends ScalaModule with PublishModule {
       ivy"org.apache.logging.log4j:log4j-api:2.16.0",
       ivy"cc.redberry:rings:2.5.7",
       ivy"org.apache.commons:commons-math3:3.6.1",
-      ivy"net.sourceforge.jscl-meditor:rendering:1.1"
+      ivy"net.sourceforge.jscl-meditor:rendering:1.1",
+      ivy"org.scala-lang.modules:scala-parser-combinators_3:2.4.0"
     )
     def test(args: String*) = run(args: _*)
   }
