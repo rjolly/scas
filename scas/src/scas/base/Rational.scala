@@ -36,7 +36,4 @@ object Rational extends Rational.Impl {
 
     extension (ring: BigInteger.Impl) def quotient() = this
   }
-  extension[U: Conversion[BigInteger]] (a: U) {
-    def %%[V: Conversion[BigInteger]](b: V) = this(~a, ~b)
-  }
 }

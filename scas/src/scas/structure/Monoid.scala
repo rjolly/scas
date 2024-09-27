@@ -16,7 +16,6 @@ trait Monoid[T] extends SemiGroup[T] {
       }
     }
     def \ [U: Conversion[BigInteger]](b: U) = a.pow(~b)
-    def \:[U: Conversion[BigInteger]](b: U) = a \ b
   }
   extension (x: T) {
     def isUnit: Boolean
