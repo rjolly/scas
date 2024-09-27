@@ -19,7 +19,7 @@ object scas extends ScalaModule with PublishModule {
       ivy"net.sourceforge.jscl-meditor:rendering:1.1",
       ivy"org.scala-lang.modules:scala-parser-combinators_3:2.4.0"
     )
-    def test(args: String*) = run(args: _*)
+    def test(args: String*) = run(Target.task(Args(args)))
   }
   def publishVersion = "3.0"
 
@@ -33,11 +33,4 @@ object scas extends ScalaModule with PublishModule {
       Developer("rjolly", "Raphael Jolly", "https://github.com/rjolly")
     )
   )
-
-  override def docJar = T {
-    val outDir = T.dest
-    val javadocDir = outDir / 'javadoc
-    os.makeDir.all(javadocDir)
-    eval.Result.Success(modules.Jvm.createJar(Agg(javadocDir))(outDir))
-  }
 }
