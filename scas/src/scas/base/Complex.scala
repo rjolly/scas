@@ -1,7 +1,6 @@
 package scas.base
 
 import scas.structure.commutative.StarUFD
-import scas.structure.commutative.conversion.Field
 import scas.polynomial.TreePolynomial.Element
 import scas.residue.AlgebraicNumber
 import scas.variable.Variable
@@ -10,7 +9,7 @@ import Rational.Implicits.given
 
 type Complex = Element[Rational, Array[Int]]
 
-object Complex extends Complex.Impl with Field[Complex] {
+object Complex extends Complex.Impl {
   given instance: Complex.type = this
   object Implicits {
     export Complex.{instance, coef2poly}

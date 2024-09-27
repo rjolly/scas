@@ -15,5 +15,5 @@ abstract class Quotient[T, C, M] extends scas.structure.commutative.Quotient[T] 
 }
 
 object Quotient {
-  def apply[T, C, M](ring: PolynomialOverField[T, C, M]) = new conversion.QuotientOverField(using ring)
+  def apply[T, C, M](ring: PolynomialOverField[T, C, M]) = new QuotientOverField(using ring)
 }

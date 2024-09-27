@@ -7,5 +7,5 @@ trait Group[T] extends NotQuiteGroup[T] {
 }
 
 object Group {
-  def apply[T](group: AbelianGroup[T]) = new scas.group.conversion.FromAbelian(using group)
+  def apply[T](group: AbelianGroup[T]) = new scas.group.FromAbelian(using group)
 }

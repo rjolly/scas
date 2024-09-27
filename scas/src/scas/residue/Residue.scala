@@ -38,5 +38,5 @@ abstract class Residue[T : ClassTag, C, N] extends scas.structure.commutative.Re
 }
 
 object Residue {
-  def apply[T : ClassTag, C, N](ring: PolynomialOverFieldWithGB[T, C, N])(s: T*) = new conversion.ResidueOverField(using ring)(s*)
+  def apply[T : ClassTag, C, N](ring: PolynomialOverFieldWithGB[T, C, N])(s: T*) = new ResidueOverField(using ring)(s*)
 }

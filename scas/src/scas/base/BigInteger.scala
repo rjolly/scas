@@ -1,12 +1,11 @@
 package scas.base
 
 import scas.structure.commutative.ordered.EuclidianDomain
-import scas.structure.commutative.ordered.conversion.UniqueFactorizationDomain
 import java.math.BigInteger.valueOf
 
 type BigInteger = java.math.BigInteger
 
-object BigInteger extends BigInteger.Impl with UniqueFactorizationDomain[BigInteger] {
+object BigInteger extends BigInteger.Impl {
   given instance: BigInteger.type = this
   abstract class Impl extends EuclidianDomain[BigInteger] {
     def fromInt(n: BigInteger) = n

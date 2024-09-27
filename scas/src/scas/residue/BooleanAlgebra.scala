@@ -5,7 +5,7 @@ import scas.structure.BooleanRing
 import scas.polynomial.TreePolynomial.Element
 import scas.polynomial.PolynomialWithGB
 import scas.variable.Variable
-import scas.util.Conversion
+import scas.util.{Conversion, unary_~}
 import scas.base.{BigInteger, Boolean}
 import BigInteger.given
 
@@ -19,5 +19,5 @@ class BooleanAlgebra(using val ring: PolynomialWithGB[Element[Boolean, Array[Int
 }
 
 object BooleanAlgebra {
-  def apply[S : Conversion[Variable]](s: S*) = new conversion.BooleanAlgebra(s*)
+  def apply[S : Conversion[Variable]](s: S*) = new BooleanAlgebra(s.map(~_)*)
 }

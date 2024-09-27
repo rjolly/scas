@@ -41,5 +41,5 @@ class ModInteger(mod: BigInteger) extends Residue[Int, BigInteger] with Field[In
 }
 
 object ModInteger {
-  def apply(str: String) = new conversion.ModInteger(BigInteger(str))
+  def apply(str: String) = new ModInteger(BigInteger(str))
 }

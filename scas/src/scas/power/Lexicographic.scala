@@ -21,7 +21,7 @@ class Lexicographic[N : Numeric : ClassTag](val variables: Variable*) extends Ar
 }
 
 object Lexicographic {
-  def apply[N : Numeric : ClassTag, S : Conversion[Variable]](degree: N)(variables: S*) = new conversion.Lexicographic[N](variables.map(~_)*)
+  def apply[N : Numeric : ClassTag, S : Conversion[Variable]](degree: N)(variables: S*) = new Lexicographic[N](variables.map(~_)*)
 
   @nowarn("msg=New anonymous class definition will be duplicated at each inline site") inline def inlined[N : Numeric : ClassTag, S : Conversion[Variable]](degree: N)(variables: S*): Lexicographic[N] = new Lexicographic[N](variables.map(~_)*) {
     override def newInstance(variables: Variable*) = ???
