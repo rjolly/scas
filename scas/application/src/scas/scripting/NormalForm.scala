@@ -5,7 +5,11 @@ import Factors.Element
 
 class NormalForm(conj: Boolean)(using val ring: BooleanAlgebra) extends Factors[BA, Int] {
   def empty = Map.empty[BA, Int]
-  override def apply(x: BA) = if (x.isZero) zero else ring.gb(if (conj) !x else x).foldLeft(one)((l, a) => l * super.apply(if (conj) !a else a))
+  override def apply(x: BA) = if (x.isZero) zero else {
+    val s = ring.gb(flip(x)).foldLeft(one)((l, a) => l * super.apply(flip(a)))
+    if (s.contains(x)) super.apply(x) else s
+  }
+  def flip(x: BA) = if (conj) !x else x
   extension (x: Element[BA, Int]) {
     override def toCode(level: Level) = {
       val p = if (x.size == 1) level else if(conj) Level.Multiplication else Level.Addition
