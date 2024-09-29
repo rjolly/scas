@@ -4,13 +4,15 @@ import scala.collection.immutable.SortedSet
 import scala.collection.mutable.ListBuffer
 import scala.math.Ordering
 import scas.prettyprint.Show.given
+import java.util.logging.Logger
 
 class Engine[T, C, N](using factory: PolynomialWithGB[T, C, N]) {
   import factory.{normalize, s_polynomial, pp}
+  val logger = Logger.getLogger(getClass().getName());
 
   def process(pa: Pair[N]): Unit = {
     if(!b_criterion(pa)) {
-      println(pa)
+      logger.config(pa.toString)
       val p = normalize(s_polynomial(polys(pa.i), polys(pa.j)).reduce(polys.toSeq*))
       if (!p.isZero) update(p)
       npairs += 1
@@ -62,7 +64,7 @@ class Engine[T, C, N](using factory: PolynomialWithGB[T, C, N]) {
   }
 
   def update(s: Seq[T]): Unit = {
-    println(s.toList.show)
+    logger.config(s.toList.show)
     s.foreach { p =>
       if (!p.isZero) update(p)
     }
@@ -74,32 +76,30 @@ class Engine[T, C, N](using factory: PolynomialWithGB[T, C, N]) {
     polys += poly
     removed += false
     val index = polys.size - 1
-    println("(" + index.headPowerProduct.show + ", " + index + ")")
+    logger.config("(" + index.headPowerProduct.show + ", " + index + ")")
     make(index)
     npolys += 1
   }
 
   def process: Unit = {
-    println("process")
+    logger.config("process")
     while(!pairs.isEmpty) process(pairs.head)
   }
 
   def reduce: Unit = {
-    println("reduce")
+    logger.config("reduce")
     for (i <- polys.size - 1 to 0 by -1 if removed(i)) {
       removed.remove(i)
       polys.remove(i)
     }
     for (i <- 0 until polys.size) {
       polys(i) = normalize(polys(i).reduce(false, true, polys.toSeq*))
-      println("(" + i.headPowerProduct.show + ")")
+      logger.config("(" + i.headPowerProduct.show + ")")
     }
   }
 
   def toList = {
-    println("signature = (" + npairs + ", " + npolys + ", " + polys.size + ")")
-    val a = polys.toList
-    polys.clear
-    a
+    logger.config("statistic = (" + npairs + ", " + npolys + ", " + polys.size + ")")
+    polys.toList
   }
 }
