@@ -82,15 +82,15 @@
 
 <xsl:template match="m:apply[*[1][self::m:implies]]">
 	<xsl:param name="p" select="0"/>
-	<xsl:if test="0 &lt; $p"><xsl:text>(</xsl:text></xsl:if>
+	<xsl:if test="2 &lt; $p"><xsl:text>(</xsl:text></xsl:if>
 	<xsl:apply-templates select="*[2]">
-		<xsl:with-param name="p" select="0"/>
+		<xsl:with-param name="p" select="2"/>
 	</xsl:apply-templates>
 	<xsl:text>=&gt;</xsl:text>
 	<xsl:apply-templates select="*[3]">
-	    	<xsl:with-param name="p" select="0"/>
+	    	<xsl:with-param name="p" select="2"/>
 	</xsl:apply-templates>
-	<xsl:if test="0 &lt; $p"><xsl:text>)</xsl:text></xsl:if>
+	<xsl:if test="2 &lt; $p"><xsl:text>)</xsl:text></xsl:if>
 </xsl:template>
 
 <xsl:template match="m:cn">

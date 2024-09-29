@@ -1,6 +1,5 @@
 package scas.scripting
 
-import scas.residue.BooleanAlgebra
 import Factors.Element
 
 class NormalForm(conj: Boolean)(using val ring: BooleanAlgebra) extends Factors[BA, Int] {
