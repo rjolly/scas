@@ -1,6 +1,6 @@
 // Requires : de.uni-mannheim.rz.krum#jas;2.7.10
 
-import jas.BigInteger
+import scas.adapter.jas.BigInteger
 import BigInteger.given
 
 assert(BigInteger("1") + 1 >< 1 + BigInteger("1"))

@@ -1,4 +1,4 @@
-package math3
+package scas.adapter.math3
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix
 import org.apache.commons.math3.linear.MatrixUtils

@@ -1,4 +1,4 @@
-package jas
+package scas.adapter.jas
 
 import edu.jas.structure.RingElem
 import edu.jas.structure.RingFactory

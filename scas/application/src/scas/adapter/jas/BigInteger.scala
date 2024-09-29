@@ -1,4 +1,4 @@
-package jas
+package scas.adapter.jas
 
 import scas.util.{Conversion, unary_~}
 

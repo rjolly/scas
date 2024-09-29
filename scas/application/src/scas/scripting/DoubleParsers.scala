@@ -1,7 +1,7 @@
 package scas.scripting
 
 import Parsers.{log => _, _}
-import math3.Double
+import scas.adapter.math3.Double
 import Math.{sinh, cosh, tanh, sin, cos, tan, asin, acos, atan, exp, log, pow, PI}
 
 object DoubleParsers extends FieldParsers[Double] {

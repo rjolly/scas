@@ -2,7 +2,7 @@
 
 import scas.power.Lexicographic
 import scas.polynomial.tree.mutable.Polynomial
-import rings.BigInteger
+import scas.adapter.rings.BigInteger
 import BigInteger.given
 
 val r = Polynomial(using BigInteger, Lexicographic.inlined(0)("x", "y", "z"))

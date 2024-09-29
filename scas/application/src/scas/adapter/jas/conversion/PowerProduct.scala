@@ -1,4 +1,4 @@
-package jas.conversion
+package scas.adapter.jas.conversion
 
 import scas.variable.Variable
 import edu.jas.poly.{ExpVector, TermOrder}

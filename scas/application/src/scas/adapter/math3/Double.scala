@@ -1,4 +1,4 @@
-package math3
+package scas.adapter.math3
 
 import java.lang.Math
 import scas.structure.commutative.Field
