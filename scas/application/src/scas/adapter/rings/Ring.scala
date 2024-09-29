@@ -1,8 +1,7 @@
-package rings
+package scas.adapter.rings
 
 import cc.redberry.rings.io.Coder
 import scas.util.unary_~
-import rings.BigInteger
 import BigInteger.given
 
 trait Ring[T] extends scas.structure.ordered.Ring[T] {

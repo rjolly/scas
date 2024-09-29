@@ -1,7 +1,7 @@
 // Requires : de.uni-mannheim.rz.krum#jas;2.7.10
 
 import edu.jas.poly.TermOrderByName
-import jas.PowerProduct
+import scas.adapter.jas.PowerProduct
 import scas.base.BigInteger
 import BigInteger.given
 

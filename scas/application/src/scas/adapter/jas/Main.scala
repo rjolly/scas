@@ -1,4 +1,4 @@
-package jas
+package scas.adapter.jas
 
 import edu.jas.poly.GenPolynomialRing
 import edu.jas.poly.GenPolynomial

@@ -1,4 +1,4 @@
-package jas.conversion
+package scas.adapter.jas.conversion
 
 import edu.jas.poly.GenPolynomialRing
 import edu.jas.poly.GenPolynomial
@@ -11,5 +11,5 @@ class PolynomialRing[C <: RingElem[C] : GenPolynomialRing] extends Ring[GenPolyn
   val factory: GenPolynomialRing[C] = summon
   def gens = factory.getGenerators().asScala.toList
 
-  given coef2poly[D : Conversion[C]]: (D => GenPolynomial[C]) = jas.coef2poly
+  given coef2poly[D : Conversion[C]]: (D => GenPolynomial[C]) = scas.adapter.jas.coef2poly
 }

@@ -2,7 +2,7 @@
 
 import edu.jas.poly.TermOrderByName
 import edu.jas.poly.{GenPolynomial, GenPolynomialRing}
-import jas.{BigInteger, poly2scas}
+import scas.adapter.jas.{BigInteger, poly2scas}
 import BigInteger.given
 
 given GenPolynomialRing[BigInteger](BigInteger.factory, Array("x", "y", "z"), TermOrderByName.INVLEX)

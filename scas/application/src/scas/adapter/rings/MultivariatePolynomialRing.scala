@@ -1,4 +1,4 @@
-package rings
+package scas.adapter.rings
 
 import cc.redberry.rings.io.Coder
 import cc.redberry.rings.poly.MultivariateRing
