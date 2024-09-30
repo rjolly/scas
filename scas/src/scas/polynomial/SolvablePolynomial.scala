@@ -5,6 +5,7 @@ import scala.jdk.CollectionConverters.MapHasAsScala
 import scala.annotation.targetName
 import scala.math.Ordering
 import scas.prettyprint.Show
+import Show.given
 
 trait SolvablePolynomial[T, C, M] extends Polynomial[T, C, M] {
   type Key = (Int, Int)
