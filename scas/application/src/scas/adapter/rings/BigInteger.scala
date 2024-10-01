@@ -6,7 +6,7 @@ import cc.redberry.rings.bigint.BigInteger.valueOf
 
 type BigInteger = cc.redberry.rings.bigint.BigInteger
 
-object BigInteger extends BigInteger.Impl with conversion.Ring[BigInteger] {
+object BigInteger extends BigInteger.Impl with Ring.Conv[BigInteger] {
   given instance: BigInteger.type = this
   abstract class Impl extends Ring[BigInteger] {
     def apply(str: String) = new BigInteger(str)

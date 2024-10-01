@@ -13,3 +13,7 @@ trait Ring[T] extends AbelianGroup[T] with Monoid[T] {
 
   given bigInt2ring[U: Conversion[BigInteger]]: (U => T) = fromInt[U]
 }
+
+object Ring {
+  trait Conv[T] extends Ring[T] with AbelianGroup.Conv[T] with Monoid.Conv[T]
+}

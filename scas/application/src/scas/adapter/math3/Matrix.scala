@@ -3,9 +3,10 @@ package scas.adapter.math3
 import org.apache.commons.math3.linear.Array2DRowRealMatrix
 import org.apache.commons.math3.linear.MatrixUtils
 import org.apache.commons.math3.linear.RealMatrix
-import scas.structure.{Algebra, Ring, Field}
+import scas.structure.{Algebra, Ring, Field, AlgebraOverRing}
 import scas.base.BigInteger
 import Matrix.Element
+import Double.given
 
 trait Matrix extends Algebra[Element, Double] with Field[Element] {
   given ring: Field[Double] = Double
@@ -42,5 +43,9 @@ trait Matrix extends Algebra[Element, Double] with Field[Element] {
 
 object Matrix {
   type Element = RealMatrix
-  def apply(size: Int) = new conversion.Matrix(size)
+  def apply(size: Int) = new Conv(size)
+
+  class Conv(val size: Int) extends Matrix with AlgebraOverRing.Conv[Element, Double] with Field.Conv[Element] {
+    given instance: Conv = this
+  }
 }

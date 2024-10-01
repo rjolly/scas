@@ -1,8 +1,9 @@
 package scas.structure.commutative
 
+import scas.structure.NotQuiteField
 import scas.util.{Conversion, unary_~}
 
-trait UniqueFactorizationDomain[T] extends scas.structure.NotQuiteField[T] {
+trait UniqueFactorizationDomain[T] extends NotQuiteField[T] {
   def gcd(x: T, y: T): T
   def lcm(x: T, y: T) = (x * y) / gcd(x, y)
   def gcd[U: Conversion[T], V: Conversion[T]](x: U, y: V): T = gcd(~x, ~y)
@@ -21,5 +22,15 @@ trait UniqueFactorizationDomain[T] extends scas.structure.NotQuiteField[T] {
     inline def % [U: Conversion[T]](y: U) = x.remainder(~y)
     inline def /%[U: Conversion[T]](y: U) = x.divideAndRemainder(~y)
     inline def | [U: Conversion[T]](y: U) = x.factorOf(~y)
+  }
+}
+
+object UniqueFactorizationDomain {
+  trait Conv[T] extends UniqueFactorizationDomain[T] with NotQuiteField.Conv[T] {
+    extension[U: Conversion[T]] (x: U) {
+      inline def % [V: Conversion[T]](y: V) = (~x).remainder(~y)
+      inline def /%[V: Conversion[T]](y: V) = (~x).divideAndRemainder(~y)
+      inline def | [V: Conversion[T]](y: V) = (~x).factorOf(~y)
+    }
   }
 }

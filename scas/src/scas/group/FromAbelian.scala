@@ -1,6 +1,6 @@
 package scas.group
 
-import scas.structure.{AbelianGroup, Group}
+import scas.structure.{AbelianGroup, Group, Monoid}
 
 trait FromAbelian[T] extends Group[T] {
   given group: AbelianGroup[T]
@@ -15,4 +15,10 @@ trait FromAbelian[T] extends Group[T] {
     def toMathML = group.toMathML(x)
   }
   def toMathML = group.toMathML
+}
+
+object FromAbelian {
+  class Conv[T](using val group: AbelianGroup[T]) extends FromAbelian[T] with Monoid.Conv[T] {
+    given instance: Conv[T] = this
+  }
 }

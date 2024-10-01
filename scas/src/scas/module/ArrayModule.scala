@@ -1,7 +1,7 @@
 package scas.module
 
 import scala.reflect.ClassTag
-import scas.structure.{Ring, Module}
+import scas.structure.{Ring, Module, AbelianGroup}
 import scas.prettyprint.Show.given
 
 abstract class ArrayModule[R : ClassTag](val dimension: Int) extends Module[Array[R], R] {
@@ -36,5 +36,9 @@ abstract class ArrayModule[R : ClassTag](val dimension: Int) extends Module[Arra
 }
 
 object ArrayModule {
-  def apply[R : ClassTag](ring: Ring[R])(dimension: Int) = new conversion.ArrayModule(using ring)(dimension)
+  def apply[R : ClassTag](ring: Ring[R])(dimension: Int) = new Conv(using ring)(dimension)
+
+  class Conv[R : ClassTag](using val ring: Ring[R])(dimension: Int) extends ArrayModule[R](dimension) with AbelianGroup.Conv[Array[R]] {
+    given instance: Conv[R] = this
+  }
 }

@@ -27,4 +27,6 @@ trait Ring[T] extends scas.structure.ordered.Ring[T] {
 
 object Ring {
   def apply[T : Ring] = summon[Ring[T]]
+
+  trait Conv[T] extends Ring[T] with scas.structure.ordered.Ring.Conv[T]
 }

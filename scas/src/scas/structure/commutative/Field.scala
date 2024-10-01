@@ -11,4 +11,6 @@ trait Field[T] extends scas.structure.Field[T] with EuclidianDomain[T] {
 
 object Field {
   def apply[T : Field] = summon[Field[T]]
+
+  trait Conv[T] extends Field[T] with scas.structure.Field.Conv[T] with UniqueFactorizationDomain.Conv[T]
 }

@@ -1,13 +1,12 @@
 package scas.base
 
-import scas.structure.commutative.ordered.Quotient
+import scas.structure.commutative.ordered.{Quotient, Field}
 import scas.structure.commutative.Quotient.Element
-import scas.structure.commutative.ordered.conversion.Field
 import scas.util.{Conversion, unary_~}
 
 type Rational = Element[BigInteger]
 
-object Rational extends Rational.Impl with Field[Rational] {
+object Rational extends Rational.Impl with Field.Conv[Rational] {
   given instance: Rational.type = this
   object Implicits {
     export Rational.{instance, ring2quotient}

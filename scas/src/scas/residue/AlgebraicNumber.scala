@@ -5,8 +5,8 @@ import scas.polynomial.TreePolynomial.Element
 import scas.polynomial.tree.PolynomialOverField
 import scas.polynomial.PolynomialOverFieldWithGB
 import scas.structure.commutative.Field
+import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
-import scas.util.Conversion
 
 class AlgebraicNumber[C](using var ring: PolynomialOverFieldWithGB[Element[C, Array[Int]], C, Int]) extends ResidueOverField[Element[C, Array[Int]], C, Int] {
   def this(ring: Field[C])(s: Variable*) = this(using new PolynomialOverField(using ring, DegreeReverseLexicographic(0)(s*)))
@@ -17,5 +17,9 @@ class AlgebraicNumber[C](using var ring: PolynomialOverFieldWithGB[Element[C, Ar
 }
 
 object AlgebraicNumber {
-  def apply[C, S : Conversion[Variable]](ring: Field[C])(s: S*) = new conversion.AlgebraicNumber(ring)(s*)
+  def apply[C, S : Conversion[Variable]](ring: Field[C])(s: S*) = new Conv(ring)(s*)
+
+  class Conv[C, S : Conversion[Variable]](ring: Field[C])(s: S*) extends AlgebraicNumber(ring)(s.map(~_)*) with Field.Conv[Element[C, Array[Int]]] {
+    given instance: Conv[C, S] = this
+  }
 }

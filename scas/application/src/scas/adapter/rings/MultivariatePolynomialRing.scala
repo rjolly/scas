@@ -16,6 +16,9 @@ trait MultivariatePolynomialRing[C : Ring](monomialOrder: Comparator[DegreeVecto
 }
 
 object MultivariatePolynomialRing {
-  def apply[C : Ring](monomialOrder: Comparator[DegreeVector], variables: String*) = new conversion.MultivariatePolynomialRing(monomialOrder, variables*)
-}
+  def apply[C : Ring](monomialOrder: Comparator[DegreeVector], variables: String*) = new Conv(monomialOrder, variables*)
 
+  class Conv[C : Ring](monomialOrder: Comparator[DegreeVector], variables: String*) extends MultivariatePolynomialRing[C](monomialOrder, variables*) with Ring.Conv[MultivariatePolynomial[C]] {
+    given instance: Conv[C] = this
+  }
+}

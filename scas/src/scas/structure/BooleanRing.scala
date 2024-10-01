@@ -15,3 +15,14 @@ trait BooleanRing[T] extends Ring[T] {
     inline def >> [U: Conversion[T]](y: U) = x.implies(~y)
   }
 }
+
+object BooleanRing {
+  trait Conv[T] extends BooleanRing[T] with Ring.Conv[T] {
+    extension[U: Conversion[T]] (x: U) {
+      inline def && [V: Conversion[T]](y: V) = (~x).and(~y)
+      inline def || [V: Conversion[T]](y: V) = (~x).or(~y)
+      inline def ^ [V: Conversion[T]](y: V) = (~x).xor(~y)
+      inline def >> [V: Conversion[T]](y: V) = (~x).implies(~y)
+    }
+  }
+}

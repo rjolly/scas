@@ -6,7 +6,7 @@ import scas.base.BigInteger
 
 type Double = scala.Double
 
-object Double extends Double.Impl with scas.structure.conversion.Field[Double] {
+object Double extends Double.Impl with Field.Conv[Double] {
   given instance: Double.type = this
   abstract class Impl extends Field[Double] {
     override def random(numbits: Int)(using rnd: java.util.Random) = rnd.nextDouble()

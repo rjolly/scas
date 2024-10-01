@@ -2,10 +2,11 @@ package scas.residue
 
 import scas.power.Lexicographic
 import scas.structure.BooleanRing
+import scas.structure.commutative.UniqueFactorizationDomain
 import scas.polynomial.TreePolynomial.Element
 import scas.polynomial.PolynomialWithGB
 import scas.variable.Variable
-import scas.util.Conversion
+import scas.util.{Conversion, unary_~}
 import scas.base.{BigInteger, Boolean}
 import BigInteger.given
 
@@ -19,5 +20,9 @@ class BooleanAlgebra(using val ring: PolynomialWithGB[Element[Boolean, Array[Int
 }
 
 object BooleanAlgebra {
-  def apply[S : Conversion[Variable]](s: S*) = new conversion.BooleanAlgebra(s*)
+  def apply[S : Conversion[Variable]](s: S*) = new Conv(s*)
+
+  class Conv[S : Conversion[Variable]](s: S*) extends BooleanAlgebra(s.map(~_)*) with UniqueFactorizationDomain.Conv[Element[Boolean, Array[Int]]] with BooleanRing.Conv[Element[Boolean, Array[Int]]] {
+    given instance: Conv[S] = this
+  }
 }

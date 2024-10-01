@@ -23,3 +23,7 @@ trait Ring[T <: RingElem[T]] extends scas.structure.ordered.Ring[T] {
   }
   def toMathML = ???
 }
+
+object Ring {
+  trait Conv[T <: RingElem[T]] extends Ring[T] with scas.structure.ordered.Ring.Conv[T]
+}

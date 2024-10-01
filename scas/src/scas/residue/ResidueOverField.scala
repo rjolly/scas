@@ -1,9 +1,9 @@
 package scas.residue
 
 import scala.reflect.ClassTag
-import scas.util.{Conversion, unary_~}
 import scas.structure.commutative.Field
 import scas.polynomial.PolynomialOverFieldWithGB
+import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
 
 abstract class ResidueOverField[T : ClassTag, C, N] extends Residue[T, C, N] with Field[T] {
@@ -19,5 +19,12 @@ abstract class ResidueOverField[T : ClassTag, C, N] extends Residue[T, C, N] wit
   extension (ring: PolynomialOverFieldWithGB[T, C, N]) def apply(s: T*) = {
     same(s*)
     this
+  }
+}
+
+object ResidueOverField {
+  class Conv[T : ClassTag, C, N](using val ring: PolynomialOverFieldWithGB[T, C, N])(s: T*) extends ResidueOverField[T, C, N] with Field.Conv[T] {
+    given instance: Conv[T, C, N] = this
+    update(s*)
   }
 }

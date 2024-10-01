@@ -17,3 +17,9 @@ abstract class QuotientOverField[T, C, M] extends Quotient[T, C, M] {
 
   extension (ring: PolynomialOverField[T, C, M]) def quotient() = this
 }
+
+object QuotientOverField {
+  class Conv[T, C, M](using val ring: PolynomialOverField[T, C, M]) extends QuotientOverField[T, C, M] with Field.Conv[Element[T]] {
+    given instance: Conv[T, C, M] = this
+  }
+}

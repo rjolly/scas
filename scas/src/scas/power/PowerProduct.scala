@@ -48,3 +48,12 @@ abstract class PowerProduct[M] extends Monoid[M] {
 
   given int2powerProduct: (Int => M) = this(_)
 }
+
+object PowerProduct {
+  trait Conv[M] extends PowerProduct[M] with Monoid.Conv[M] {
+    extension[U: Conversion[M]] (x: U) {
+      inline def / (y: M) = (~x).divide(y)
+      inline def | (y: M) = (~x).factorOf(y)
+    }
+  }
+}

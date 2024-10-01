@@ -1,5 +1,6 @@
 package scas.structure
 
+import scas.math.Equiv
 import scas.util.{Conversion, unary_~}
 
 trait AbelianGroup[T] extends Structure[T] {
@@ -15,4 +16,13 @@ trait AbelianGroup[T] extends Structure[T] {
   def abs(x: T) = if (x.signum < 0) -x else x
   def abs[U: Conversion[T]](x: U): T = abs(~x)
   def zero: T
+}
+
+object AbelianGroup {
+  trait Conv[T] extends AbelianGroup[T] with Equiv.Conv[T] {
+    extension[U: Conversion[T]] (x: U) {
+      inline def + [V: Conversion[T]](y: V) = (~x).add(~y)
+      inline def - [V: Conversion[T]](y: V) = (~x).subtract(~y)
+    }
+  }
 }

@@ -4,7 +4,7 @@ import scas.util.{Conversion, unary_~}
 
 type BigInteger = edu.jas.arith.BigInteger
 
-object BigInteger extends BigInteger.Impl with conversion.Ring[BigInteger] {
+object BigInteger extends BigInteger.Impl with Ring.Conv[BigInteger] {
   given instance: BigInteger.type = this
   abstract class Impl extends Ring[BigInteger] {
     val factory = new BigInteger()

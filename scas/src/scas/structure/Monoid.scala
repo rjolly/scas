@@ -24,3 +24,14 @@ trait Monoid[T] extends SemiGroup[T] {
   }
   def one: T
 }
+
+object Monoid {
+  trait Conv[T] extends Monoid[T] with SemiGroup.Conv[T] {
+    extension[U: Conversion[T]] (a: U) {
+      def \ [V: Conversion[BigInteger]](b: V) = (~a).pow(~b)
+    }
+    extension[U: Conversion[T], V: Conversion[BigInteger]] (a: U) {
+      def \:(b: V) = a \ b
+    }
+  }
+}
