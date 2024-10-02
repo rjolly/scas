@@ -65,6 +65,7 @@ class POT[N : ClassTag](using numeric: Numeric[N])(factory: ArrayPowerProduct[N]
       }
       true
     }
+    override def dependencyOnVariables = super.dependencyOnVariables(x) ++ (for (i <- 0 until dimension if (x(length + 1 + i) > numeric.zero)) yield length + i).toArray
     override def projection(n: Int, m: Int) = {
       val r = super.projection(x)(n, m)
       for (i <- 0 until dimension) if (length + i >= n && length + i < m) {
@@ -72,35 +73,34 @@ class POT[N : ClassTag](using numeric: Numeric[N])(factory: ArrayPowerProduct[N]
       }
       r
     }
-  }
-  override def dependencyOnVariables(x: Array[N]) = super.dependencyOnVariables(x) ++ (for (i <- 0 until dimension if (x(length + 1 + i) > numeric.zero)) yield length + i).toArray
-  extension (x: Array[N]) override def toCode(level: Level, times: String) = {
-    var s = super.toCode(x)(level, times)
-    var m = super.size(x)
-    for (i <- 0 until dimension) if (x(length + 1 + i) > numeric.zero) {
-      val a = variables(length + i)
-      val b = x(length + 1 + i)
-      val t = if (b >< numeric.one) a.toString else s"$a\\$b"
-      s = if (m == 0) t else s + times + t
-      m += 1
+    override def size = {
+      var m = super.size(x)
+      for (i <- 0 until dimension) if (x(length + 1 + i) > numeric.zero) m += 1
+      m
     }
-    s
-  }
-  extension (x: Array[N]) override def toMathML(times: String) = {
-    var s = super.toMathML(x)(times)
-    var m = super.size(x)
-    for (i <- 0 until dimension) if (x(length + 1 + i) > numeric.zero) {
-      val a = variables(length + i)
-      val b = x(length + 1 + i)
-      val t = if (b >< numeric.one) a.toMathML else s"<apply><power/>${a.toMathML}<cn>$b</cn></apply>"
-      s = if (m == 0) t else s"<apply><$times/>$s$t</apply>"
-      m += 1
+    override def toCode(level: Level, times: String) = {
+      var s = super.toCode(x)(level, times)
+      var m = super.size(x)
+      for (i <- 0 until dimension) if (x(length + 1 + i) > numeric.zero) {
+        val a = variables(length + i)
+        val b = x(length + 1 + i)
+        val t = if (b >< numeric.one) a.toString else s"$a\\$b"
+        s = if (m == 0) t else s + times + t
+        m += 1
+      }
+      s
     }
-    s
-  }
-  extension (x: Array[N]) override def size = {
-    var m = super.size(x)
-    for (i <- 0 until dimension) if (x(length + 1 + i) > numeric.zero) m += 1
-    m
+    override def toMathML(times: String) = {
+      var s = super.toMathML(x)(times)
+      var m = super.size(x)
+      for (i <- 0 until dimension) if (x(length + 1 + i) > numeric.zero) {
+        val a = variables(length + i)
+        val b = x(length + 1 + i)
+        val t = if (b >< numeric.one) a.toMathML else s"<apply><power/>${a.toMathML}<cn>$b</cn></apply>"
+        s = if (m == 0) t else s"<apply><$times/>$s$t</apply>"
+        m += 1
+      }
+      s
+    }
   }
 }
