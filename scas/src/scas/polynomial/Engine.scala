@@ -46,9 +46,9 @@ class Engine[T, C, N](using factory: PolynomialWithGB[T, C, N]) {
   def make(index: Int): Unit = for (i <- 0 until index) add(apply(i, index))
   def considered(i: Int, j: Int) = !pairs.contains(sorted(i, j))
 
-  given ordering: Ordering[Pair[N]] = Ordering by { (pair: Pair[N]) => pair.key }
+  def ordering = Ordering by { (pair: Pair[N]) => pair.key }
 
-  var pairs = SortedSet.empty[Pair[N]]
+  var pairs = SortedSet.empty(using ordering)
   val removed = ListBuffer.empty[Boolean]
   val polys = ListBuffer.empty[T]
   var npairs = 0
