@@ -6,11 +6,11 @@ import scala.math.Ordering
 import scas.prettyprint.Show.given
 import java.util.logging.Logger
 
-class Engine[T, C, N](using factory: PolynomialWithGB[T, C, N]) {
+trait Engine[T, C, N, P[N] <: Pair[N]](using factory: PolynomialWithGB[T, C, N]) {
   import factory.{normalize, s_polynomial, pp}
   val logger = Logger.getLogger(getClass().getName());
 
-  def process(pa: Pair[N]): Unit = {
+  def process(pa: P[N]): Unit = {
     if(!b_criterion(pa)) {
       logger.config(pa.toString)
       val p = normalize(s_polynomial(polys(pa.i), polys(pa.j)).reduce(polys.toSeq*))
@@ -19,7 +19,7 @@ class Engine[T, C, N](using factory: PolynomialWithGB[T, C, N]) {
     }
     remove(pa)
   }
-  def b_criterion(pa: Pair[N]): Boolean = {
+  def b_criterion(pa: P[N]): Boolean = {
     var k = 0
     while (k < polys.size) {
       if ((k.headPowerProduct | pa.scm) && considered(pa.i, k) && considered(pa.j, k)) return true
@@ -27,26 +27,21 @@ class Engine[T, C, N](using factory: PolynomialWithGB[T, C, N]) {
     }
     false
   }
-  def remove(pa: Pair[N]): Unit = {
+  def remove(pa: P[N]): Unit = {
     pairs -= pa
     if(pa.reduction) removed(pa.principal) = true
   }
-  def add(pa: Pair[N]): Unit = {
+  def add(pa: P[N]): Unit = {
     pairs += pa
     if (pa.coprime) remove(pa)
   }
 
-  def apply(i: Int, j: Int) = {
-    val m = i.headPowerProduct
-    val n = j.headPowerProduct
-    val scm = pp.lcm(m, n)
-    new Pair(i, j, m, n, scm)
-  }
+  def apply(i: Int, j: Int): P[N]
   def sorted(i: Int, j: Int) = if (i > j) apply(j, i) else apply(i, j)
   def make(index: Int): Unit = for (i <- 0 until index) add(apply(i, index))
   def considered(i: Int, j: Int) = !pairs.contains(sorted(i, j))
 
-  def ordering = Ordering by { (pair: Pair[N]) => pair.key }
+  def ordering = Ordering by { (pair: P[N]) => pair.key }
 
   var pairs = SortedSet.empty(using ordering)
   val removed = ListBuffer.empty[Boolean]

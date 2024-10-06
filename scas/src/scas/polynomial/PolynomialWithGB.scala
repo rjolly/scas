@@ -29,7 +29,5 @@ trait PolynomialWithGB[T : ClassTag, C, N : Numeric : ClassTag] extends Polynomi
     val Array(_, u, v) = list.last
     (p / v)%* ring.gcd(a, b)
   }
-  def gb(xs: T*) = {
-    new Engine(using this).process(xs)
-  }
+  def gb(xs: T*) = new GBEngine(using this).process(xs)
 }
