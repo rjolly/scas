@@ -10,14 +10,6 @@ import BigInteger.given
 trait PolynomialWithGB[T : ClassTag, C, N : Numeric : ClassTag] extends PolynomialOverUFD[T, C, Array[N]] {
   given pp: ArrayPowerProduct[N]
   def newInstance(pp: ArrayPowerProduct[N]): PolynomialWithGB[T, C, N]
-  def normalize(x: T) = primitivePart(x)
-  def s_polynomial(x: T, y: T) = {
-    val (m, a) = x.head
-    val (n, b) = y.head
-    val gcd = pp.gcd(m, n)
-    val (m0, n0) = (m / gcd, n / gcd)
-    x.ppMultiplyRight(n0).reduce(m0, a, y, b, false)
-  }
   def gcd(x: T, y: T) = {
     val (a, p) = contentAndPrimitivePart(x)
     val (b, q) = contentAndPrimitivePart(y)
@@ -29,5 +21,4 @@ trait PolynomialWithGB[T : ClassTag, C, N : Numeric : ClassTag] extends Polynomi
     val Array(_, u, v) = list.last
     (p / v)%* ring.gcd(a, b)
   }
-  def gb(xs: T*) = new GBEngine(using this).process(xs)
 }

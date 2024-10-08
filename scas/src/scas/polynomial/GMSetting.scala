@@ -4,15 +4,15 @@ import scala.collection.immutable.SortedSet
 import scala.collection.mutable.ArrayBuffer
 import scala.math.Ordering
 
-trait GMSetting[T, C, N, P[N] <: Pair[N]](using factory: PolynomialWithGB[T, C, N]) extends Engine[T, C, N, P] {
+trait GMSetting[T, C, M, P[M] <: Pair[M]](using factory: Polynomial[T, C, M]) extends Engine[T, C, M, P] {
   import factory.pp
 
-  override def b_criterion(pa: P[N]) = false
+  override def b_criterion(pa: P[M]) = false
 
-  extension (p1: P[N]) def | (p2: P[N]) = (p1.scm | p2.scm) && (p1.scm < p2.scm)
+  extension (p1: P[M]) def | (p2: P[M]) = (p1.scm | p2.scm) && (p1.scm < p2.scm)
 
   override def make(index: Int): Unit = {
-    val buffer = new ArrayBuffer[P[N]]
+    val buffer = new ArrayBuffer[P[M]]
     for (pair <- pairs) {
       val p1 = apply(pair.i, index)
       val p2 = apply(pair.j, index)
@@ -36,5 +36,5 @@ trait GMSetting[T, C, N, P[N] <: Pair[N]](using factory: PolynomialWithGB[T, C, 
     }
   }
 
-  def natural = Ordering by { (pair: P[N]) => pair.key }
+  def natural = Ordering by { (pair: P[M]) => pair.key }
 }

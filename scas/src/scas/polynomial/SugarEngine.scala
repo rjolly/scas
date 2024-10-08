@@ -5,10 +5,10 @@ import scas.base.BigInteger
 import BigInteger.{max, given}
 import scala.math.Ordering
 
-class SugarEngine[T, C, N](using factory: PolynomialWithSugar[T, C, N]) extends GMSetting[Element[T], C, N, SugarPair] {
+class SugarEngine[T, C, M](using factory: PolynomialWithSugar[T, C, M]) extends GMSetting[Element[T], C, M, SugarPair] {
   import factory.pp
 
-  override def ordering = Ordering by { (pair: SugarPair[N]) => pair.skey }
+  override def ordering = Ordering by { (pair: SugarPair[M]) => pair.skey }
 
   override def apply(i: Int, j: Int) = {
     val m = i.headPowerProduct

@@ -1,8 +1,8 @@
 package scas.polynomial
 
-import scas.power.ArrayPowerProduct
+import scas.power.PowerProduct
 
-class Pair[N](using pp: ArrayPowerProduct[N])(val i: Int, val j: Int, val m: Array[N], val n: Array[N], val scm: Array[N]) {
+class Pair[M](using pp: PowerProduct[M])(val i: Int, val j: Int, val m: M, val n: M, val scm: M) {
   def key = (scm, j, i)
   override def toString = "{" + i + ", " + j + "}, " + scm.show + ", " + reduction
   def reduction = if (m < n) m | n else n | m

@@ -1,20 +1,21 @@
 package scas.polynomial
 
 import scala.annotation.targetName
-import scala.reflect.ClassTag
-import scas.math.Numeric
-import scas.power.ArrayPowerProduct
-import scas.structure.commutative.UniqueFactorizationDomain
+import scas.power.PowerProduct
+import scas.structure.Ring
 import PolynomialWithSugar.Element
 import scas.base.BigInteger
 import BigInteger.{max, given}
 
-class PolynomialWithSugar[T, C, N : Numeric : ClassTag](using factory: PolynomialWithGB[T, C, N])(using ClassTag[T]) extends PolynomialWithGB[Element[T], C, N] {
-  given ring: UniqueFactorizationDomain[C] = factory.ring
-  given pp: ArrayPowerProduct[N] = factory.pp
-  def newInstance(pp: ArrayPowerProduct[N]) = new PolynomialWithSugar(using factory.newInstance(pp))
-  def apply(s: (Array[N], C)*) = this(factory(s*))
+class PolynomialWithSugar[T, C, M](using factory: Polynomial[T, C, M]) extends Polynomial[Element[T], C, M] {
+  given ring: Ring[C] = factory.ring
+  given pp: PowerProduct[M] = factory.pp
+  def apply(s: (M, C)*) = this(factory(s*))
   @targetName("fromSelf") def apply(p: T) = (p, p.degree)
+  override def normalize(x: Element[T]) = {
+    val (p, e) = x
+    (factory.normalize(p), e)
+  }
   extension (x: Element[T]) {
     def iterator = {
       val (p, _) = x
@@ -37,15 +38,15 @@ class PolynomialWithSugar[T, C, N : Numeric : ClassTag](using factory: Polynomia
       val (q, f) = y
       (p + q, max(e, f))
     }
-    override def ppMultiplyRight(m: Array[N]) = {
+    override def ppMultiplyRight(m: M) = {
       val (p, e) = x
       (p.ppMultiplyRight(m), e + m.degree)
     }
-    override def multiply(m: Array[N], c: C) = {
+    override def multiply(m: M, c: C) = {
       val (p, e) = x
       (p.multiply(m, c), e + m.degree)
     }
-    def map(f: (Array[N], C) => (Array[N], C)) = {
+    def map(f: (M, C) => (M, C)) = {
       val (p, e) = x
       (p.map(f), e)
     }

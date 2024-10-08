@@ -1,6 +1,6 @@
 package scas.polynomial
 
-class GBEngine[T, C, N](using factory: PolynomialWithGB[T, C, N]) extends Engine[T, C, N, Pair] {
+class GBEngine[T, C, M](using factory: Polynomial[T, C, M]) extends Engine[T, C, M, Pair] {
   import factory.pp
 
   def apply(i: Int, j: Int) = {

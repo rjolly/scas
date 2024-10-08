@@ -46,6 +46,15 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
     }
     def ppMultiplyRight(m: M) = x.map((s, a) => (s * m, a))
   }
+  def normalize(x: T) = x
+  def s_polynomial(x: T, y: T) = {
+    val (m, a) = x.head
+    val (n, b) = y.head
+    val gcd = pp.gcd(m, n)
+    val (m0, n0) = (m / gcd, n / gcd)
+    x.ppMultiplyRight(n0).reduce(m0, a, y, b, false)
+  }
+  def gb(xs: T*) = new GBEngine(using this).process(xs)
 
   extension (x: T) def toCode(level: Level) = toCode(level, "+", "*")
   extension (x: T) def toCode(level: Level, plus: String, times: String): String = {
