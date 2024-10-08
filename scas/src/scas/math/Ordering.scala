@@ -5,6 +5,13 @@ import scas.util.{Conversion, unary_~}
 trait Ordering[T] extends scala.math.Ordering[T] with PartialOrdering[T]
 
 object Ordering {
+  given [T](using ord: scala.math.Ordering[T]): Ordering[T] with {
+    def compare(x: T, y: T) = ord.compare(x, y)
+    override def lt(x: T, y: T): Boolean = ord.lt(x, y)
+    override def gt(x: T, y: T): Boolean = ord.gt(x, y)
+    override def gteq(x: T, y: T): Boolean = ord.gteq(x, y)
+    override def lteq(x: T, y: T): Boolean = ord.lteq(x, y)
+  }
   trait ByteOrdering extends Ordering[Byte] {
     def compare(x: Byte, y: Byte) = java.lang.Byte.compare(x, y)
     extension (x: Byte) {
