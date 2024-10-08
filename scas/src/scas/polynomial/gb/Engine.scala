@@ -53,7 +53,7 @@ trait Engine[T, C, M, P[M] <: Pair[M]](using factory: Polynomial[T, C, M]) {
 
   extension (i: Int) def headPowerProduct = polys(i).headPowerProduct
 
-  def process(xs: Seq[T]): List[T] = {
+  def process(xs: T*): List[T] = {
     update(xs)
     process
     reduce

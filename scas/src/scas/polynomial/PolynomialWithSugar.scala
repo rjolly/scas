@@ -52,7 +52,7 @@ class PolynomialWithSugar[T, C, M](using factory: Polynomial[T, C, M]) extends P
       (p.map(f), e)
     }
   }
-  override def gb(xs: Element[T]*) = new SugarEngine(using this).process(xs)
+  override def gb(xs: Element[T]*) = new SugarEngine(using this).process(xs*)
 }
 
 object PolynomialWithSugar {
