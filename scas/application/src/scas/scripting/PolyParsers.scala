@@ -1,7 +1,7 @@
 package scas.scripting
 
 import Parsers._
-import scas.polynomial.PolynomialOverUFD
+import scas.polynomial.ufd.PolynomialOverUFD
 import scas.variable.Variable
 import scas.base.BigInteger
 import BigInteger.given

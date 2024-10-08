@@ -1,5 +1,6 @@
-package scas.polynomial
+package scas.polynomial.gb
 
+import scas.polynomial.PolynomialWithSugar
 import PolynomialWithSugar.Element
 import scas.base.BigInteger
 import BigInteger.{max, given}

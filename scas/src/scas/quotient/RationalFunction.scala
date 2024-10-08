@@ -4,7 +4,7 @@ import scas.structure.commutative.Field
 import scas.structure.commutative.Quotient.{Element => Quotient_Element}
 import scas.polynomial.tree.PolynomialWithSubresGCD
 import scas.polynomial.TreePolynomial.Element
-import scas.polynomial.PolynomialOverUFD
+import scas.polynomial.ufd.PolynomialOverUFD
 import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
 import scas.base.BigInteger

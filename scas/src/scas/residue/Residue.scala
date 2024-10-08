@@ -3,7 +3,7 @@ package scas.residue
 import scala.annotation.targetName
 import scala.reflect.ClassTag
 import scas.util.Conversion
-import scas.polynomial.{PolynomialWithGB, PolynomialOverFieldWithGB}
+import scas.polynomial.ufd.{PolynomialWithGB, PolynomialOverFieldWithGB}
 import scas.module.ArrayModule
 import scas.prettyprint.Show.given
 

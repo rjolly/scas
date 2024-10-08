@@ -3,7 +3,7 @@ package scas.residue
 import scas.power.DegreeReverseLexicographic
 import scas.polynomial.TreePolynomial.Element
 import scas.polynomial.tree.PolynomialOverField
-import scas.polynomial.PolynomialOverFieldWithGB
+import scas.polynomial.ufd.PolynomialOverFieldWithGB
 import scas.structure.commutative.Field
 import scas.util.{Conversion, unary_~}
 import scas.variable.Variable

@@ -1,7 +1,8 @@
-package scas.polynomial
+package scas.polynomial.gb
 
 import scala.collection.immutable.SortedSet
 import scala.collection.mutable.ArrayBuffer
+import scas.polynomial.Polynomial
 import scala.math.Ordering
 
 trait GMSetting[T, C, M, P[M] <: Pair[M]](using factory: Polynomial[T, C, M]) extends Engine[T, C, M, P] {

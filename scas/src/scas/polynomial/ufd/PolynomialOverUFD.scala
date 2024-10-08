@@ -1,6 +1,7 @@
-package scas.polynomial
+package scas.polynomial.ufd
 
 import scala.annotation.tailrec
+import scas.polynomial.Polynomial
 import scas.structure.commutative.UniqueFactorizationDomain
 import scas.base.Boolean
 import Boolean.given

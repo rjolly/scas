@@ -1,4 +1,4 @@
-package scas.polynomial
+package scas.polynomial.gb
 
 import scas.power.PowerProduct
 import scas.base.BigInteger

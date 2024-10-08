@@ -1,4 +1,4 @@
-package scas.polynomial
+package scas.polynomial.ufd
 
 import scala.reflect.ClassTag
 import scala.annotation.tailrec

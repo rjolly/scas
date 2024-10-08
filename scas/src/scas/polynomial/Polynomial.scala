@@ -3,6 +3,7 @@ package scas.polynomial
 import scala.annotation.{tailrec, targetName}
 import scala.reflect.ClassTag
 import scas.structure.{Ring, AlgebraOverRing}
+import scas.polynomial.gb.GBEngine
 import scas.module.ArrayModule
 import scas.power.PowerProduct
 import scas.util.{Conversion, unary_~}

@@ -1,4 +1,4 @@
-package scas.polynomial
+package scas.polynomial.ufd
 
 import scas.power.PowerProduct
 import scas.structure.commutative.UniqueFactorizationDomain

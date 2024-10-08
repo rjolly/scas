@@ -1,7 +1,8 @@
-package scas.polynomial
+package scas.polynomial.gb
 
 import scala.collection.immutable.SortedSet
 import scala.collection.mutable.ListBuffer
+import scas.polynomial.Polynomial
 import scala.math.Ordering
 import scas.prettyprint.Show.given
 import java.util.logging.Logger

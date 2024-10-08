@@ -3,6 +3,7 @@ package scas.polynomial
 import scala.annotation.targetName
 import scas.power.PowerProduct
 import scas.structure.Ring
+import scas.polynomial.gb.SugarEngine
 import PolynomialWithSugar.Element
 import scas.base.BigInteger
 import BigInteger.{max, given}

@@ -2,7 +2,7 @@ package scas.quotient
 
 import scas.structure.commutative.Field
 import scas.structure.commutative.Quotient.Element
-import scas.polynomial.PolynomialOverField
+import scas.polynomial.ufd.PolynomialOverField
 import scas.util.Conversion
 
 abstract class QuotientOverField[T, C, M] extends Quotient[T, C, M] {

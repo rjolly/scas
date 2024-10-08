@@ -3,8 +3,8 @@ package scas.quotient
 import scas.structure.commutative.Field
 import scas.structure.commutative.Quotient.{Element => Quotient_Element}
 import scas.polynomial.tree.MultivariatePolynomialOverField
+import scas.polynomial.ufd.PolynomialOverField
 import scas.polynomial.TreePolynomial.Element
-import scas.polynomial.PolynomialOverField
 import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
 

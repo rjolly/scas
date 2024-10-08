@@ -4,7 +4,7 @@ import scas.power.Lexicographic
 import scas.structure.BooleanRing
 import scas.structure.commutative.UniqueFactorizationDomain
 import scas.polynomial.TreePolynomial.Element
-import scas.polynomial.PolynomialWithGB
+import scas.polynomial.ufd.PolynomialWithGB
 import scas.variable.Variable
 import scas.util.{Conversion, unary_~}
 import scas.base.{BigInteger, Boolean}
