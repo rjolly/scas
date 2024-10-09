@@ -3,7 +3,6 @@ package scas.polynomial
 import scala.annotation.{tailrec, targetName}
 import scala.reflect.ClassTag
 import scas.structure.{Ring, AlgebraOverRing}
-import scas.polynomial.gb.GBEngine
 import scas.module.ArrayModule
 import scas.power.PowerProduct
 import scas.util.{Conversion, unary_~}
@@ -55,7 +54,6 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
     val (m0, n0) = (m / gcd, n / gcd)
     x.ppMultiplyRight(n0).reduce(m0, a, y, b, false)
   }
-  def gb(xs: T*) = new GBEngine(using this).process(xs*)
 
   extension (x: T) def toCode(level: Level) = toCode(level, "+", "*")
   extension (x: T) def toCode(level: Level, plus: String, times: String): String = {

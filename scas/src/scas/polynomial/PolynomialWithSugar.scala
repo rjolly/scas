@@ -3,7 +3,6 @@ package scas.polynomial
 import scala.annotation.targetName
 import scas.power.PowerProduct
 import scas.structure.Ring
-import scas.polynomial.gb.SugarEngine
 import PolynomialWithSugar.Element
 import scas.base.BigInteger
 import BigInteger.{max, given}
@@ -52,7 +51,6 @@ class PolynomialWithSugar[T, C, M](using factory: Polynomial[T, C, M]) extends P
       (p.map(f), e)
     }
   }
-  override def gb(xs: Element[T]*) = new SugarEngine(using this).process(xs*)
 }
 
 object PolynomialWithSugar {
