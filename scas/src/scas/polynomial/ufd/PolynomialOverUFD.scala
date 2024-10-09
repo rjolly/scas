@@ -36,6 +36,8 @@ trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactoriz
         (x%* b0).subtract(m, a0, y)
       }
     }
+    def divideRight(c: C) = x.map((s, a) => (s, a / c))
+    def %/ (c: C) = x.divideRight(c)
   }
   def content(x: T) = {
     val c = x.iterator.foldLeft(ring.zero) { (l, r) =>
@@ -52,7 +54,6 @@ trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactoriz
     }
   }
   def primitivePart(x: T) = { val (c, p) = contentAndPrimitivePart(x) ; p }
-  extension (x: T) def %/ (c: C) = x.map((s, a) => (s, a / c))
 
   extension (ring: UniqueFactorizationDomain[C]) def apply(s: T*) = {
     same(s*)
