@@ -72,12 +72,12 @@ trait SolvablePolynomial[T, C, M] extends Polynomial[T, C, M] {
 
     @targetName("ppMultiplyRight") final override def %* (m: M) = x.iterator.foldLeft(zero) { (l, r) =>
       val (s, _) = r
-      l + s.multiply(m)
+      l + s%*%m
     }
     override def %* [U: Conversion[C]](y: U) = x.multiplyRight(~y)
   }
 
-  extension (e: M) @targetName("ppMultiply") def multiply(f: M) = {
+  extension (e: M) def %*%(f: M): T = {
     val ep = pp.dependencyOnVariables(e)
     val fp = pp.dependencyOnVariables(f)
     if (ep.length == 0 || fp.length == 0) this(e * f) else {
