@@ -4,6 +4,7 @@ import java.util.TreeMap
 import scala.jdk.CollectionConverters.MapHasAsScala
 import scala.annotation.targetName
 import scala.math.Ordering
+import scas.util.{Conversion, unary_~}
 import scas.prettyprint.Show
 import Show.given
 
@@ -67,12 +68,13 @@ trait SolvablePolynomial[T, C, M] extends Polynomial[T, C, M] {
   }
 
   extension (x: T) {
-    final override def multiply(m: M, c: C) = x.ppMultiplyRight(m)%* c
+    final override def multiply(m: M, c: C) = x%* m%* c
 
-    final override def ppMultiplyRight(m: M) = x.iterator.foldLeft(zero) { (l, r) =>
+    @targetName("ppMultiplyRight") final override def %* (m: M) = x.iterator.foldLeft(zero) { (l, r) =>
       val (s, _) = r
       l + s.multiply(m)
     }
+    override def %* [U: Conversion[C]](y: U) = x.multiplyRight(~y)
   }
 
   extension (e: M) @targetName("ppMultiply") def multiply(f: M) = {
@@ -89,14 +91,14 @@ trait SolvablePolynomial[T, C, M] extends Polynomial[T, C, M] {
         val Relation(e3, f3, c3) = lookup(e2, f2)
         var cs = c3
         if (!(f3.isOne)) {
-          cs = cs.ppMultiplyRight(f3)
+          cs = cs%* f3
           update(e2 / e3, f2, cs)
         }
         if (!(e3.isOne)) {
           cs = this(e3) * cs
           update(e2, f2, cs)
         }
-        if (!(f1.isOne)) cs = cs.ppMultiplyRight(f1)
+        if (!(f1.isOne)) cs = cs%* f1
         if (!(e1.isOne)) cs = this(e1) * cs
         cs
       }

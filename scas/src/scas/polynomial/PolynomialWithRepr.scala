@@ -1,5 +1,6 @@
 package scas.polynomial
 
+import scala.annotation.targetName
 import scala.reflect.ClassTag
 import scas.module.ArrayModule
 import PolynomialWithRepr.Element
@@ -32,9 +33,9 @@ abstract class PolynomialWithRepr[T : ClassTag, C, M](dimension: Int) extends Po
       val (q, f) = y
       (p + q, e + f)
     }
-    override def ppMultiplyRight(m: M) = {
+    @targetName("ppMultiplyRight") override def %* (m: M) = {
       val (p, e) = x
-      (p.ppMultiplyRight(m), e%* factory(m))
+      (p%* m, e%* factory(m))
     }
     override def multiply(m: M, c: C) = {
       val (p, e) = x

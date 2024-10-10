@@ -23,6 +23,6 @@ trait MultivariatePolynomial[T[C, M], C, M] extends PolynomialOverUFD[T[C, M], C
   }
   extension (x: T[T[C, M], M]) def convertFrom(s: MultivariatePolynomial[T, T[C, M], M]): T[C, M] = s.iterator(x).foldLeft(zero) { (l, r) =>
     val (m, c) = r
-    l + c.convert(drop).ppMultiplyRight(m.convert(take))
+    l + c.convert(drop)%* m.convert(take)
   }
 }

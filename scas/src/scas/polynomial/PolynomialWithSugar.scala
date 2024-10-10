@@ -38,9 +38,9 @@ class PolynomialWithSugar[T, C, M](using factory: Polynomial[T, C, M]) extends P
       val (q, f) = y
       (p + q, max(e, f))
     }
-    override def ppMultiplyRight(m: M) = {
+    @targetName("ppMultiplyRight") override def %* (m: M) = {
       val (p, e) = x
-      (p.ppMultiplyRight(m), e + m.degree)
+      (p%* m, e + m.degree)
     }
     override def multiply(m: M, c: C) = {
       val (p, e) = x

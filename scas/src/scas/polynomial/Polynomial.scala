@@ -44,7 +44,8 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
       for ((a, b) <- y.iterator) r = r.subtract(a, -b, x)
       r
     }
-    def ppMultiplyRight(m: M) = x.map((s, a) => (s * m, a))
+    @targetName("ppMultiplyRight") def %* (m: M) = x.map((s, a) => (s * m, a))
+    override def %* [U: Conversion[C]](y: U) = x.multiplyRight(~y)
   }
   def normalize(x: T) = x
   def s_polynomial(x: T, y: T) = {
@@ -52,7 +53,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
     val (n, b) = y.head
     val gcd = pp.gcd(m, n)
     val (m0, n0) = (m / gcd, n / gcd)
-    x.ppMultiplyRight(n0).reduce(m0, a, y, b, false)
+    (x%* n0).reduce(m0, a, y, b, false)
   }
 
   extension (x: T) def toCode(level: Level) = toCode(level, "+", "*")
