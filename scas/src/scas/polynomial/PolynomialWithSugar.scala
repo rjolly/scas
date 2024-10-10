@@ -11,7 +11,7 @@ class PolynomialWithSugar[T, C, M](using factory: Polynomial[T, C, M]) extends P
   given ring: Ring[C] = factory.ring
   given pp: PowerProduct[M] = factory.pp
   def apply(s: (M, C)*) = this(factory(s*))
-  @targetName("fromSelf") def apply(p: T) = (p, p.degree)
+  @targetName("fromPolynomial") def apply(p: T) = (p, p.degree)
   override def normalize(x: Element[T]) = {
     val (p, e) = x
     (factory.normalize(p), e)
