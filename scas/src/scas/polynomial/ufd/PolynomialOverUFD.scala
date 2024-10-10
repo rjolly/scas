@@ -15,7 +15,7 @@ trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactoriz
       else if (x.isZero) (zero, zero)
       else {
         val (s, a) = x.head
-        if (y.reduce(s, a, true)) {
+        if (y.factorOf(s, a, true)) {
           val (t, b) = y.head
           val c = this(s / t, a / b)
           val (q, r) = (x - c * y).divideAndRemainder(y)
@@ -24,10 +24,11 @@ trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactoriz
       }
     }
     def remainder(ys: T*): T = x.reduce(true, false, ys*)
-    override def reduce(s: M, a: C, remainder: Boolean) = {
+    override def factorOf(s: M, a: C, remainder: Boolean) = {
       val (t, b) = x.head
       (t | s) && (remainder >> (b | a))
     }
+    override def reduce(remainder: Boolean, tail: Boolean, ys: T*) = super.reduce(x)(remainder, tail, ys*)
     override def reduce(m: M, a: C, y: T, b: C, remainder: Boolean) = {
       if (remainder) x.subtract(m, a / b, y) else {
         val c = ring.gcd(a, b)

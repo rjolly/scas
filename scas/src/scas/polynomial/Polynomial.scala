@@ -172,7 +172,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
       val xs = x.iterator
       if (xs.hasNext) {
         val (s, a) = xs.next
-        ys.find(_.reduce(s, a, remainder)) match {
+        ys.find(_.factorOf(s, a, remainder)) match {
           case Some(y) => {
             val (t, b) = y.head
             x.reduce(s / t, a, y, b, remainder).reduce(remainder, ys*)
@@ -182,7 +182,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
       } else x
     }
 
-    def reduce(s: M, a: C, remainder: Boolean) = {
+    def factorOf(s: M, a: C, remainder: Boolean) = {
       val (t, _) = x.head
       (t | s)
     }
@@ -204,7 +204,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
       val xs = x.iterator(m)
       if (xs.hasNext) {
         val (s, a) = xs.next
-        ys.find(_.reduce(s, a, remainder)) match {
+        ys.find(_.factorOf(s, a, remainder)) match {
           case Some(y) => {
             val (t, b) = y.head
             x.reduce(s / t, a, y, b, remainder).reduce(remainder, m, ys*)
