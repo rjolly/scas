@@ -4,7 +4,8 @@ import mill._, scalalib._, publish._
 object scas extends ScalaModule with PublishModule {
   def scalaVersion = sys.props("dottyVersion")
   def ivyDeps = Agg(
-    ivy"org.scala-lang:scala-library:2.13.14"
+    ivy"org.scala-lang:scala-library:2.13.14",
+    ivy"org.scala-lang.modules:scala-parallel-collections_3:1.0.4"
   )
   object application extends ScalaModule {
     def scalaVersion = sys.props("dottyVersion")
