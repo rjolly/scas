@@ -24,13 +24,13 @@ trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactoriz
       }
     }
     def remainder(ys: T*): T = x.reduce(true, false, ys*)
-    override def factorOf(s: M, a: C, remainder: Boolean) = {
+    override def factorOf(s: M, a: C, strict: Boolean) = {
       val (t, b) = x.head
-      (t | s) && (remainder >> (b | a))
+      (t | s) && (strict >> (b | a))
     }
-    override def reduce(remainder: Boolean, tail: Boolean, ys: T*) = super.reduce(x)(remainder, tail, ys*)
-    override def reduce(m: M, a: C, y: T, b: C, remainder: Boolean) = {
-      if (remainder) x.subtract(m, a / b, y) else {
+    override def reduce(strict: Boolean, tail: Boolean, ys: T*) = super.reduce(x)(strict, tail, ys*)
+    override def reduce(m: M, a: C, y: T, b: C, strict: Boolean) = {
+      if (strict) x.subtract(m, a / b, y) else {
         val c = ring.gcd(a, b)
         val gcd = if (b.signum == -c.signum) -c else c
         val (a0, b0) = (a / gcd, b / gcd)
