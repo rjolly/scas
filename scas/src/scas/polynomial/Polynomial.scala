@@ -168,58 +168,58 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
 
     def reduce(ys: T*): T = x.reduce(false, ys*)
 
-    @tailrec final def reduce(remainder: Boolean, ys: T*): T = {
+    @tailrec final def reduce(strict: Boolean, ys: T*): T = {
       val xs = x.iterator
       if (xs.hasNext) {
         val (s, a) = xs.next
-        ys.find(_.factorOf(s, a, remainder)) match {
+        ys.find(_.factorOf(s, a, strict)) match {
           case Some(y) => {
             val (t, b) = y.head
-            x.reduce(s / t, a, y, b, remainder).reduce(remainder, ys*)
+            x.reduce(s / t, a, y, b, strict).reduce(strict, ys*)
           }
           case None => x
         }
       } else x
     }
 
-    def factorOf(s: M, a: C, remainder: Boolean) = {
+    def factorOf(s: M, a: C, strict: Boolean) = {
       val (t, _) = x.head
       (t | s)
     }
 
-    def reduce(remainder: Boolean, tail: Boolean, ys: T*): T = {
+    def reduce(strict: Boolean, tail: Boolean, ys: T*): T = {
       if (tail) {
         val xs = x.iterator
         if (xs.hasNext) {
           val (s, a) = xs.next
           if (xs.hasNext) {
             val (s, a) = xs.next
-            x.reduce(remainder, s, ys*)
+            x.reduce(strict, s, ys*)
           } else x
         } else x
-      } else x.reduce(remainder, ys*).reduce(remainder, true, ys*)
+      } else x.reduce(strict, ys*).reduce(strict, true, ys*)
     }
 
-    @tailrec final def reduce(remainder: Boolean, m: M, ys: T*): T = {
+    @tailrec final def reduce(strict: Boolean, m: M, ys: T*): T = {
       val xs = x.iterator(m)
       if (xs.hasNext) {
         val (s, a) = xs.next
-        ys.find(_.factorOf(s, a, remainder)) match {
+        ys.find(_.factorOf(s, a, strict)) match {
           case Some(y) => {
             val (t, b) = y.head
-            x.reduce(s / t, a, y, b, remainder).reduce(remainder, m, ys*)
+            x.reduce(s / t, a, y, b, strict).reduce(strict, m, ys*)
           }
           case None => {
             if (xs.hasNext) {
               val (s, a) = xs.next
-              x.reduce(remainder, s, ys*)
+              x.reduce(strict, s, ys*)
             } else x
           }
         }
       } else x
     }
 
-    def reduce(m: M, a: C, y: T, b: C, remainder: Boolean) = (x%* b).subtract(m, a, y)
+    def reduce(m: M, a: C, y: T, b: C, strict: Boolean) = (x%* b).subtract(m, a, y)
 
     def subtract(m: M, c: C, y: T) = x + y.multiply(m, -c)
 
