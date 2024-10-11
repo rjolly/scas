@@ -3,8 +3,7 @@ package scas.polynomial.ufd
 import scala.annotation.tailrec
 import scas.polynomial.Polynomial
 import scas.structure.commutative.UniqueFactorizationDomain
-import scas.base.Boolean
-import Boolean.given
+import scas.base.Boolean.given
 
 trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactorizationDomain[T] {
   given ring: UniqueFactorizationDomain[C]
