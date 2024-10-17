@@ -7,28 +7,33 @@ trait ListPolynomial[C, M] extends Polynomial[Element[C, M], C, M] {
   def apply(s: (M, C)*) = List(s*)
 
   extension (x: Element[C, M]) {
-    def add(y: Element[C, M]) = {
+    def add(y: Element[C, M]) = x.subtract(pp.one, -ring.one, y)
+
+    override def subtract(m: M, c: C, y: Element[C, M]) = {
       val res = new ListBuffer[(M, C)]
       var leftx = x
       var lefty = y
       while (!leftx.isEmpty && !lefty.isEmpty) {
         val (s, a) = leftx.head
         val (t, b) = lefty.head
-        if (s > t) {
+        val u = t * m
+        if (s > u) {
           res += leftx.head
           leftx = leftx.tail
-        } else if (s < t) {
-          res += lefty.head
+        } else if (s < u) {
+          val d = b * c
+          if (!d.isZero) res += ((u, -d))
           lefty = lefty.tail
         } else {
-          val c = a + b
-          if (!c.isZero) res += ((s, c))
+          val d = b * c
+          val e = a - d
+          if (!e.isZero) res += ((s, e))
           leftx = leftx.tail
           lefty = lefty.tail
         }
       }
       res ++= leftx
-      res ++= lefty
+      res ++= lefty.multiply(m, -c)
       res.toList
     }
 
