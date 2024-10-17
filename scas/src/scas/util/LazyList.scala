@@ -34,6 +34,8 @@ object LazyList {
 
   def apply[A](s: A*): LazyList[A] = if (!s.isEmpty) s.head #:: apply(s.tail*) else LazyList.Nil
 
+  extension [A](s: Stream[A]) def seq: LazyList[A] = if (!s.isEmpty) s.head #:: s.tail.await.seq else LazyList.Nil
+
   private class Iterator[+A](private var stream: LazyList[A]) extends scala.collection.Iterator[A] {
     override def hasNext: Boolean = !stream.isEmpty
 
