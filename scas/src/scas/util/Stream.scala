@@ -33,6 +33,16 @@ object Stream {
     def #:(xs1: => Stream[A]): Stream[A] =
       Cons(x, xs1)
 
+  final class sCons[+A](hd: A, tl: => Stream[A]) extends Stream[A] {
+    def isEmpty = false
+    def head = hd
+    def tail = tl
+  }
+
+  extension [A](x: A)
+    def #::(xs1: => Stream[A]): Stream[A] =
+      sCons(x, xs1)
+
   def apply[A](s: A*): Stream[A] = if (!s.isEmpty) s.head #: apply(s.tail*) else Stream.Nil
 
   private class Iterator[+A](private var stream: Stream[A]) extends scala.collection.Iterator[A] {
