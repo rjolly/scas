@@ -32,7 +32,7 @@ object Stream {
     def #:(xs1: Future[Stream[A]]): Stream[A] =
       Cons(x, xs1)
 
-  def apply[A](s: A*): Stream[A] = if (!s.isEmpty) s.head #: Future(apply(s.tail*)) else Stream.Nil
+  def apply[A](s: A*): Stream[A] = if (!s.isEmpty) s.head #: Lazy(apply(s.tail*)) else Stream.Nil
 
   private class Iterator[+A](private var stream: Stream[A]) extends scala.collection.Iterator[A] {
     override def hasNext: Boolean = !stream.isEmpty
