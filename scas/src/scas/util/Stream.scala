@@ -35,6 +35,18 @@ object Stream {
 
   def apply[A](s: A*): Stream[A] = if (!s.isEmpty) s.head #: apply(s.tail*) else Stream.Nil
 
+  final class sCons[+A](hd: A, tl: => Stream[A]) extends Stream[A] {
+    def isEmpty = false
+    def head = hd
+    lazy val tail = tl
+  }
+
+  extension [A](x: A)
+    def #::(xs1: => Stream[A]): Stream[A] =
+      sCons(x, xs1)
+
+  def sequential[A](s: A*): Stream[A] = if (!s.isEmpty) s.head #:: sequential(s.tail*) else Stream.Nil
+
   private class Iterator[+A](private var stream: Stream[A]) extends scala.collection.Iterator[A] {
     override def hasNext: Boolean = !stream.isEmpty
 

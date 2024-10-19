@@ -34,7 +34,7 @@ trait StreamPolynomial[C, M] extends Polynomial[Element[C, M], C, M] {
     def map(f: (M, C) => (M, C)) = if (!x.isEmpty) {
       val (s, a) = x.head
       val (m, c) = f(s, a)
-      val result = (m, c)#:x.tail.map(f)
+      val result = (m, c)#::x.tail.map(f)
       if (!c.isZero) result else result.tail
     } else Stream.Nil
   }
