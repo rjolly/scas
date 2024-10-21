@@ -1,0 +1,13 @@
+import scas.util.virtual.Stream
+
+val n = 20000
+def primes = sieve(Stream.sequential.range(2, n, 1))
+def sieve(s: Stream[Int]): Stream[Int] = if(!s.isEmpty) {
+  val head = s.head
+  head #: sieve(s.tail.filter(_ % head != 0))
+} else Stream.Nil
+println("n: " + n)
+var t = System.currentTimeMillis();
+primes.force
+t = System.currentTimeMillis() - t;
+println("t: " + t)

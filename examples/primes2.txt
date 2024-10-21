@@ -1,0 +1,15 @@
+import scas.immutable.Stream
+import Stream.{ConsWrapper, Empty, #::}
+import scala.concurrent.ExecutionContext.Implicits.global
+import scas.concurrent.future
+val nn = 1000000
+val primes = 2#::future(sieve(3))
+def sieve(n: Int): Stream[Int] = if (n < nn) {
+  if (primes.takeWhile(p => p * p <= n).exists(n % _ == 0)) sieve(n + 2)
+  else n#::future(sieve(n + 2))
+} else Empty
+println("n: " + nn)
+var t = System.currentTimeMillis();
+primes.force
+t = System.currentTimeMillis() - t;
+println("t: " + t)
