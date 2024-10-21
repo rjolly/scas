@@ -18,6 +18,6 @@ val q1 = q + 1
 println("q1: " + q1.size)
 var t = System.currentTimeMillis();
 val q2 = q * q1
-t = System.currentTimeMillis() - t;
 println("q2: " + q2.size)
+t = System.currentTimeMillis() - t;
 println("t: " + t)
