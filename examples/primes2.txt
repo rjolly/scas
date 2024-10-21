@@ -1,0 +1,14 @@
+import scas.util.{Stream, Lazy, await, given}
+
+val n = 20000
+val primes = 2 #: Lazy(sieve(Stream.sequential.from(3, 2)))
+def sieve(s: Stream[Int]): Stream[Int] = {
+  val head = s.head
+  if (primes.takeWhile(n => n * n <= head).exists(head % _ == 0)) s.tail.map(sieve(_)).await
+  else head #: s.tail.map(sieve(_))
+}
+println("n: " + n)
+var t = System.currentTimeMillis();
+println("s: " + primes.takeWhile(_ < n).size)
+t = System.currentTimeMillis() - t;
+println("t: " + t)

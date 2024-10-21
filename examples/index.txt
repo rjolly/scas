@@ -11,7 +11,6 @@ polynomial.txt
 poly_rings.txt
 polypower.txt
 polypower_scas.txt
-polypower_jaspp.txt
 polypower_rings.txt
 boolean.txt
 group.txt
@@ -33,6 +32,8 @@ rational_polynomial.txt
 rational_module.txt
 rational.txt
 product.txt
+primes1.txt
+primes2.txt
 pp_jas.txt
 pp1.txt
 pp2.txt
