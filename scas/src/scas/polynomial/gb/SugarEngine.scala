@@ -3,15 +3,22 @@ package scas.polynomial.gb
 import scala.annotation.targetName
 import scas.polynomial.{Polynomial, PolynomialWithSugar}
 import PolynomialWithSugar.Element
-import scas.base.BigInteger
-import BigInteger.{max, given}
+import scas.base.{BigInteger, Boolean}
+import BigInteger.self.{max, given}
+import Boolean.self.given
 import scala.math.Ordering
+import scas.math.Ordering.given
 
-class SugarEngine[T, C, M](using factory: PolynomialWithSugar[T, C, M]) extends GMSetting[Element[T], C, M, SugarPair] {
-  def this(factory: Polynomial[T, C, M]) = this(using PolynomialWithSugar(using factory))
+class SugarEngine[T, C, M](fussy: Boolean)(using factory: PolynomialWithSugar[T, C, M]) extends GMSetting[Element[T], C, M, SugarPair] {
+  def this(fussy: Boolean)(factory: Polynomial[T, C, M]) = this(fussy)(using PolynomialWithSugar(using factory))
+  def this(factory: Polynomial[T, C, M]) = this(false)(factory)
   import factory.pp
 
   override def ordering = Ordering by { (pair: SugarPair[M]) => pair.skey }
+
+  override def natural = if (fussy) ordering else super.natural
+
+  extension (p1: SugarPair[M]) override def | (p2: SugarPair[M]) = super.|(p1)(p2) && (fussy >> (p1 < p2))
 
   override def apply(i: Int, j: Int) = {
     val m = i.headPowerProduct

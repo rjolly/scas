@@ -8,6 +8,8 @@ type BigInteger = java.math.BigInteger
 object BigInteger extends BigInteger.Impl with UniqueFactorizationDomain.Conv[BigInteger] {
   given instance: BigInteger.type = this
   abstract class Impl extends EuclidianDomain[BigInteger] {
+    given instance: BigInteger.Impl
+    val self = this
     def fromInt(n: BigInteger) = n
     override val zero = this("0")
     override val one = this("1")

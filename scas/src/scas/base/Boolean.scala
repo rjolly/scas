@@ -8,6 +8,8 @@ type Boolean = scala.Boolean
 object Boolean extends Boolean.Impl with Field.Conv[Boolean] with BooleanRing.Conv[Boolean] {
   given instance: Boolean.type = this
   abstract class Impl extends Field[Boolean] with BooleanRing[Boolean] {
+    given instance: Boolean.Impl
+    val self = this
     def fromInt(n: BigInteger) = n.signum != 0
     override val zero = false
     override val one = true
