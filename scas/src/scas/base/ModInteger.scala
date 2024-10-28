@@ -8,7 +8,7 @@ class ModInteger(mod: BigInteger) extends Residue[Int, BigInteger] with Field[In
   assert (mod.isProbablePrime(100))
   given ring: BigInteger.type = BigInteger
   def apply(x: BigInteger) = this(x.longValue)
-  def fromRing(x: BigInteger) = x.intValue
+  def fromRing(x: BigInteger) = this(x)
   def characteristic = mod
   val m = mod.intValue
   def apply(x: Long) = {
