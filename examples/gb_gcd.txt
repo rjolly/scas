@@ -7,7 +7,6 @@ import BigInteger.given
 
 val r = PolynomialWithGB(using BigInteger, DegreeReverseLexicographic(0)("x", "y", "z"))
 val List(x, y, z) = r.generators
-import r.Implicits.given
-import r.gcd
+import r.{gcd, given}
 
 assert (gcd(x*y, x*z) >< x)
