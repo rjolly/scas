@@ -6,8 +6,7 @@ import PolynomialWithSugar.Element
 import scas.base.{BigInteger, Boolean}
 import BigInteger.self.{max, given}
 import Boolean.self.given
-import scala.math.Ordering
-import scas.math.Ordering.given
+import scas.math.Ordering
 
 class SugarEngine[T, C, M](fussy: Boolean)(using factory: PolynomialWithSugar[T, C, M]) extends GMSetting[Element[T], C, M, SugarPair] {
   def this(fussy: Boolean)(factory: Polynomial[T, C, M]) = this(fussy)(using PolynomialWithSugar(using factory))
