@@ -8,11 +8,8 @@ type Rational = Element[BigInteger]
 
 object Rational extends Rational.Impl with Field.Conv[Rational] {
   given instance: Rational.type = this
-  object Implicits {
-    export Rational.{instance, ring2quotient}
-  }
   class Impl extends Quotient[BigInteger] {
-    given ring: BigInteger.type = BigInteger
+    given ring: BigInteger.Impl = BigInteger
     def apply(n: String): Rational = this(BigInteger(n))
     def apply(n: String, d: String): Rational = this(BigInteger(n), BigInteger(d))
     override val zero = this("0")

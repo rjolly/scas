@@ -5,7 +5,7 @@ import scas.polynomial.TreePolynomial.Element
 import scas.residue.AlgebraicNumber
 import scas.variable.Variable
 import BigInteger.given
-import Rational.Implicits.given
+import Rational.given
 
 type Complex = Element[Rational, Array[Int]]
 

@@ -3,7 +3,7 @@ import scas.polynomial.tree.PolynomialOverFieldWithGB
 import scas.power.DegreeReverseLexicographic
 import scas.residue.Residue
 import BigInteger.given
-import Rational.Implicits.given
+import Rational.given
 
 val r = PolynomialOverFieldWithGB(using Rational, DegreeReverseLexicographic(0)("x", "y"))
 val List(x, y) = r.generators

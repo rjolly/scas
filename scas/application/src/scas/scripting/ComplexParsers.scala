@@ -3,7 +3,7 @@ package scas.scripting
 import Parsers._
 import scas.base.{BigInteger, Rational, Complex}
 import BigInteger.given
-import Rational.Implicits.given
+import Rational.given
 import Complex.{sqrt, real, imag, conjugate, coef2poly, ring}
 
 object ComplexParsers extends FieldParsers[Complex] {

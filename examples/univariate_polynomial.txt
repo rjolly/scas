@@ -1,7 +1,7 @@
 import scas.base.{BigInteger, Rational}
 import scas.polynomial.tree.UnivariatePolynomial
 import BigInteger.given
-import Rational.Implicits.given
+import Rational.given
 
 val r = UnivariatePolynomial(using Rational)("x")
 val List(x) = r.generators
