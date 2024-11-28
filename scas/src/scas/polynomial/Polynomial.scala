@@ -107,7 +107,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
     this
   }
   def same(s: T*): Unit = {
-    given ArrayModule[T] = ArrayModule(this)(length)
+    given ArrayModule[T] = ArrayModule(this)(pp.length)
     assert (s.toArray >< generators.toArray)
   }
 
@@ -117,8 +117,6 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
   def apply(s: (M, C)*): T
 
   def variables = pp.variables
-
-  def length = pp.length
 
   extension (x: T) {
     def iterator: Iterator[(M, C)]

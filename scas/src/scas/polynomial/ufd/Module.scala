@@ -10,11 +10,15 @@ class Module[T : ClassTag, C, N : Numeric : ClassTag](using val ring: Polynomial
     val s = ring.newInstance(new ModifiedPOT(ring.pp, name, dimension))
     s.gb((xs.map(_.convertTo(using s)) ++ products(using s))*).map(_.convertFrom(s)).filter(!_.isZero)
   }
-  def products(using s: PolynomialWithGB[T, C, N]) = for (i <- 0 until dimension; j <- i until dimension) yield s.generator(s.length + i) * s.generator(s.length + j)
+  def products(using s: PolynomialWithGB[T, C, N]) = {
+    import s.pp
+    for (i <- 0 until dimension; j <- i until dimension) yield s.generator(pp.length + i) * s.generator(pp.length + j)
+  }
   extension (x: Array[T]) def convertTo(using s: PolynomialWithGB[T, C, N]): T = {
     x.zipWithIndex.foldLeft(s.zero)((l, r) => {
+      import ring.pp
       val (p, n) = r
-      l + p.convert(ring.pp) * s.generator(ring.length + n)
+      l + p.convert(pp) * s.generator(pp.length + n)
     })
   }
   extension (x: T) def convertFrom(s: PolynomialWithGB[T, C, N]): Array[T] = s.iterator(x).foldLeft(zero) { (l, r) =>
