@@ -5,7 +5,7 @@ import scas.math.Numeric
 import scas.base.BigInteger
 import BigInteger.given
 
-abstract class ArrayPowerProductWithDegree[N : ClassTag](using numeric: Numeric[N]) extends ArrayPowerProduct[N] {
+trait ArrayPowerProductWithDegree[N : ClassTag](using numeric: Numeric[N]) extends ArrayPowerProduct[N] {
   def empty = new Array[N](length + 1)
   val one = empty
   def generator(n: Int) = {

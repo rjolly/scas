@@ -6,7 +6,7 @@ import scas.variable.Variable
 import scas.base.BigInteger
 import scas.prettyprint.Show.given
 
-abstract class PowerProduct[M] extends Monoid[M] {
+trait PowerProduct[M] extends Monoid[M] {
   def variables: Seq[Variable]
   def length = variables.length
   def take(n: Int) = newInstance(variables.take(n)*)
