@@ -23,6 +23,8 @@ abstract class TreePolynomial[C, M] extends Polynomial[Element[C, M], C, M] {
   }
 
   extension (x: Element[C, M]) {
+    override def isZero = x.isEmpty
+
     def iterator = x.asScala.iterator
 
     override def iterator(m: M) = x.tailMap(m).asScala.iterator
