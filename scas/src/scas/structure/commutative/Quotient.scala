@@ -88,7 +88,7 @@ trait Quotient[T] extends Field[Element[T]] {
 
   extension (ring: UniqueFactorizationDomain[T]) def quotient() = this
 
-  given ring2quotient[U: Conversion[T]]: (U => Element[T]) = x => this(~x)
+  given ring2quotient: [U: Conversion[T]] => (U => Element[T]) = x => this(~x)
 }
 
 object Quotient {
