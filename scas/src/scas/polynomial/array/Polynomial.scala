@@ -6,6 +6,6 @@ import scas.power.offset.PowerProduct
 import scas.polynomial.ArrayPolynomial
 import ArrayPolynomial.Element
 
-class Polynomial[C, N](using val ring: Ring[C], val pp: PowerProduct[N])(using val cm1: ClassTag[N], val cm2: ClassTag[C]) extends ArrayPolynomial[C, N] with Ring.Conv[Element[C, N]] {
+class Polynomial[C : {Ring, ClassTag}, N : {PowerProduct, ClassTag}] extends ArrayPolynomial[C, N] with Ring.Conv[Element[C, N]] {
   given instance: Polynomial[C, N] = this
 }
