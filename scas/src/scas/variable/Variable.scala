@@ -58,7 +58,7 @@ abstract class Variable {
 
 object Variable {
   given string2variable: (String => Variable) = apply(_)
-  given Show[Variable] with {
+  given Show[Variable] {
     extension (x: Variable) {
       def show = x.toString
       def toMathML = x.toMathML
