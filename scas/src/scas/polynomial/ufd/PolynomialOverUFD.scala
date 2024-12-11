@@ -1,12 +1,13 @@
 package scas.polynomial.ufd
 
 import scala.annotation.tailrec
+import scala.compiletime.deferred
 import scas.polynomial.Polynomial
 import scas.structure.commutative.UniqueFactorizationDomain
 import scas.base.Boolean.given
 
 trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactorizationDomain[T] {
-  given ring: UniqueFactorizationDomain[C]
+  given ring: UniqueFactorizationDomain[C] = deferred
   override def normalize(x: T) = primitivePart(x)
   extension (x: T) {
     def divideAndRemainder(y: T) = {
