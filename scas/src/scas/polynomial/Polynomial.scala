@@ -237,5 +237,5 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
     this
   }
 
-  given coef2poly[D: Conversion[C]]: (D => T) = x => this(~x)
+  given coef2poly: [D: Conversion[C]] => (D => T) = x => this(~x)
 }

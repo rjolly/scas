@@ -11,7 +11,7 @@ trait Ring[T] extends AbelianGroup[T] with Monoid[T] {
   def zero = fromInt(0)
   def one = fromInt(1)
 
-  given bigInt2ring[U: Conversion[BigInteger]]: (U => T) = fromInt[U]
+  given bigInt2ring: [U: Conversion[BigInteger]] => (U => T) = fromInt[U]
 }
 
 object Ring {
