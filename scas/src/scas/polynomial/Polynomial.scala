@@ -1,6 +1,7 @@
 package scas.polynomial
 
 import scala.annotation.{tailrec, targetName}
+import scala.compiletime.deferred
 import scala.reflect.ClassTag
 import scas.structure.{Ring, AlgebraOverRing}
 import scas.module.ArrayModule
@@ -12,8 +13,8 @@ import BigInteger.given
 import scas.prettyprint.Show.given
 
 trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] {
-  given ring: Ring[C]
-  given pp: PowerProduct[M]
+  given ring: Ring[C] = deferred
+  given pp: PowerProduct[M] = deferred
   override val zero = this()
   override val one = this(ring.one)
   def fromInt(n: BigInteger) = this(ring.fromInt(n))

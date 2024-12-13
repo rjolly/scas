@@ -1,14 +1,15 @@
 package scas.polynomial
 
 import scala.annotation.targetName
+import scala.compiletime.deferred
 import scala.reflect.ClassTag
 import scas.module.ArrayModule
 import PolynomialWithRepr.Element
 
 trait PolynomialWithRepr[T, C, M] extends Polynomial[Element[T], C, M] {
   def dimension: Int
-  given cm: ClassTag[T]
-  given factory: Polynomial[T, C, M]
+  given ClassTag[T] = deferred
+  given factory: Polynomial[T, C, M] = deferred
   given module: ArrayModule[T] = ArrayModule(factory)(dimension)
   def apply(p: T, n: Int) = (p, module.generator(n))
   def apply(s: (M, C)*) = this(factory(s*))
