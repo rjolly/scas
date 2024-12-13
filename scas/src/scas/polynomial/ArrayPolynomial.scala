@@ -2,13 +2,14 @@ package scas.polynomial
 
 import scala.reflect.ClassTag
 import scala.annotation.tailrec
+import scala.compiletime.deferred
 import scas.power.offset.PowerProduct
 import ArrayPolynomial.Element
 
 trait ArrayPolynomial[C, N] extends Polynomial[Element[C, N], C, Array[N]] {
-  given pp: PowerProduct[N]
-  given cm1: ClassTag[N]
-  given cm2: ClassTag[C]
+  given pp: PowerProduct[N] = deferred
+  given ClassTag[N] = deferred
+  given ClassTag[C] = deferred
   def length = pp.one.length
   def zero(n: Int): Element[C, N] = Element(new Array[N](n * length), new Array[C](n), Array(0))
   def apply(s: (Array[N], C)*) = {
