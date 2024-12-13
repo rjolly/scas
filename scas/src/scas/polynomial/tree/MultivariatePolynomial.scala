@@ -7,7 +7,8 @@ import scas.util.{Conversion, unary_~}
 import scas.polynomial.TreePolynomial
 import TreePolynomial.Element
 
-trait MultivariatePolynomial[C](s: Variable*) extends TreePolynomial[C, Array[Int]] with scas.polynomial.ufd.MultivariatePolynomial[Element, C, Array[Int]] with UniqueFactorizationDomain.Conv[Element[C, Array[Int]]] {
+trait MultivariatePolynomial[C] extends TreePolynomial[C, Array[Int]] with scas.polynomial.ufd.MultivariatePolynomial[Element, C, Array[Int]] with UniqueFactorizationDomain.Conv[Element[C, Array[Int]]] {
+  def s: Seq[Variable]
   given pp: PowerProduct[Array[Int]] = new Lexicographic[Int](s*)
   given instance: MultivariatePolynomial[C] = this
 }
