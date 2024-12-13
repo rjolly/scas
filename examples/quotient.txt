@@ -4,7 +4,7 @@ import scas.quotient.Quotient
 import BigInteger.given
 import Rational.given
 
-val r = UnivariatePolynomial(using Rational)("x")
+val r = UnivariatePolynomial(Rational)("x")
 val List(x) = r.generators
 import r.{instance, coef2poly}
 
