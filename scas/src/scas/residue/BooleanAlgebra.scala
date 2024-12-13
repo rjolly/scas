@@ -20,9 +20,9 @@ class BooleanAlgebra(using val ring: PolynomialWithGB[Element[Boolean, Array[Int
 }
 
 object BooleanAlgebra {
-  def apply[S : Conversion[Variable]](s: S*) = new Conv(s*)
+  def apply[S : Conversion[Variable]](s: S*) = new Conv(s.map(~_)*)
 
-  class Conv[S : Conversion[Variable]](s: S*) extends BooleanAlgebra(s.map(~_)*) with UniqueFactorizationDomain.Conv[Element[Boolean, Array[Int]]] with BooleanRing.Conv[Element[Boolean, Array[Int]]] {
-    given instance: Conv[S] = this
+  class Conv(s: Variable*) extends BooleanAlgebra(s*) with UniqueFactorizationDomain.Conv[Element[Boolean, Array[Int]]] with BooleanRing.Conv[Element[Boolean, Array[Int]]] {
+    given instance: Conv = this
   }
 }
