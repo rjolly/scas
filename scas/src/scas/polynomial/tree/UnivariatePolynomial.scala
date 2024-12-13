@@ -7,8 +7,8 @@ import scas.util.{Conversion, unary_~}
 import scas.polynomial.TreePolynomial
 import TreePolynomial.Element
 
-class UnivariatePolynomial[C](using val ring: Field[C])(s: Variable) extends TreePolynomial[C, Array[Int]] with scas.polynomial.ufd.UnivariatePolynomial[Element[C, Array[Int]], C, Array[Int]] with UniqueFactorizationDomain.Conv[Element[C, Array[Int]]] {
-  given pp: PowerProduct[Array[Int]] = Lexicographic.inlined(0)(s)
+class UnivariatePolynomial[C](using Field[C])(s: Variable) extends TreePolynomial[C, Array[Int]] with scas.polynomial.ufd.UnivariatePolynomial[Element[C, Array[Int]], C, Array[Int]] with UniqueFactorizationDomain.Conv[Element[C, Array[Int]]] {
+  override given pp: PowerProduct[Array[Int]] = Lexicographic.inlined(0)(s)
   given instance: UnivariatePolynomial[C] = this
 }
 

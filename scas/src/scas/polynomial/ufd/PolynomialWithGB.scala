@@ -1,5 +1,6 @@
 package scas.polynomial.ufd
 
+import scala.compiletime.deferred
 import scala.reflect.ClassTag
 import scas.math.Numeric
 import scas.power.ArrayPowerProduct
@@ -9,7 +10,7 @@ import scas.base.BigInteger
 import BigInteger.given
 
 trait PolynomialWithGB[T : ClassTag, C, N : Numeric : ClassTag] extends PolynomialOverUFD[T, C, Array[N]] {
-  given pp: ArrayPowerProduct[N]
+  given pp: ArrayPowerProduct[N] = deferred
   def newInstance(pp: ArrayPowerProduct[N]): PolynomialWithGB[T, C, N]
   def gcd(x: T, y: T) = {
     val (a, p) = contentAndPrimitivePart(x)
