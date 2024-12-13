@@ -3,7 +3,7 @@ package scas.polynomial
 import scala.jdk.CollectionConverters.MapHasAsScala
 import TreePolynomial.Element
 
-abstract class TreeMutablePolynomial[C, M] extends TreePolynomial[C, M] {
+trait TreeMutablePolynomial[C, M] extends TreePolynomial[C, M] {
   extension (x: Element[C, M]) {
     override def subtract(y: Element[C, M]) = unmodifiable(super.subtract(modifiable(x))(y))
 
