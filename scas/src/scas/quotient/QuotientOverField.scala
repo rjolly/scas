@@ -5,7 +5,7 @@ import scas.structure.commutative.Quotient.Element
 import scas.polynomial.ufd.PolynomialOverField
 import scas.util.Conversion
 
-abstract class QuotientOverField[T, C, M] extends Quotient[T, C, M] {
+trait QuotientOverField[T, C, M] extends Quotient[T, C, M] {
   given ring: PolynomialOverField[T, C, M]
   given Field[C] = ring.ring
   override def apply(x: Element[T]) = {
