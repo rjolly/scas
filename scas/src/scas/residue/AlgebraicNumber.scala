@@ -16,9 +16,9 @@ class AlgebraicNumber[C](using var ring: PolynomialOverFieldWithGB[Element[C, Ar
 }
 
 object AlgebraicNumber {
-  def apply[C, S : Conversion[Variable]](ring: Field[C])(s: S*) = new Conv(ring)(s*)
+  def apply[C, S : Conversion[Variable]](ring: Field[C])(s: S*) = new Conv(ring)(s.map(~_)*)
 
-  class Conv[C, S : Conversion[Variable]](ring: Field[C])(s: S*) extends AlgebraicNumber(ring)(s.map(~_)*) with Field.Conv[Element[C, Array[Int]]] {
-    given instance: Conv[C, S] = this
+  class Conv[C](ring: Field[C])(s: Variable*) extends AlgebraicNumber(ring)(s*) with Field.Conv[Element[C, Array[Int]]] {
+    given instance: Conv[C] = this
   }
 }

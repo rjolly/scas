@@ -9,9 +9,9 @@ import scas.base.ModInteger
 class GaloisField(str: String)(s: Variable*) extends AlgebraicNumber(ModInteger(str))(s*)
 
 object GaloisField {
-  def apply[S : Conversion[Variable]](str: String)(s: S*) = new Conv(str)(s*)
+  def apply[S : Conversion[Variable]](str: String)(s: S*) = new Conv(str)(s.map(~_)*)
 
-  class Conv[S : Conversion[Variable]](str: String)(s: S*) extends GaloisField(str)(s.map(~_)*) with Field.Conv[Element[Int, Array[Int]]] {
-    given instance: Conv[S] = this
+  class Conv(str: String)(s: Variable*) extends GaloisField(str)(s*) with Field.Conv[Element[Int, Array[Int]]] {
+    given instance: Conv = this
   }
 }
