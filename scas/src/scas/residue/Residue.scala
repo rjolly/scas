@@ -7,7 +7,7 @@ import scas.polynomial.ufd.{PolynomialWithGB, PolynomialOverFieldWithGB}
 import scas.module.ArrayModule
 import scas.prettyprint.Show.given
 
-abstract class Residue[T : ClassTag, C, N] extends scas.structure.commutative.Residue[T, T] {
+trait Residue[T : ClassTag, C, N] extends scas.structure.commutative.Residue[T, T] {
   given ring: PolynomialWithGB[T, C, N]
   var mods = List.empty[T]
   def variables = ring.variables

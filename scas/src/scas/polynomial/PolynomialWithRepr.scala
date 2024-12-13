@@ -5,7 +5,7 @@ import scala.reflect.ClassTag
 import scas.module.ArrayModule
 import PolynomialWithRepr.Element
 
-abstract class PolynomialWithRepr[T : ClassTag, C, M](dimension: Int) extends Polynomial[Element[T], C, M] {
+trait PolynomialWithRepr[T : ClassTag, C, M](dimension: Int) extends Polynomial[Element[T], C, M] {
   given factory: Polynomial[T, C, M]
   given module: ArrayModule[T] = ArrayModule(factory)(dimension)
   def apply(p: T, n: Int) = (p, module.generator(n))
