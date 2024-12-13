@@ -14,11 +14,11 @@ class RationalFunction(using val ring: PolynomialOverUFD[Element[BigInteger, Arr
 }
 
 object RationalFunction {
-  def apply[C, S : Conversion[Variable]](ring: Field[C])(s: S*) = new RationalFunctionOverField.Conv(ring)(s*)
-  def integral[S : Conversion[Variable]](s: S*) = new Conv(s*)
+  def apply[C, S : Conversion[Variable]](ring: Field[C])(s: S*) = new RationalFunctionOverField.Conv(ring)(s.map(~_)*)
+  def integral[S : Conversion[Variable]](s: S*) = new Conv(s.map(~_)*)
 
-  class Conv[S : Conversion[Variable]](s: S*) extends RationalFunction(s.map(~_)*) with Field.Conv[Quotient_Element[Element[BigInteger, Array[Int]]]] {
-    given instance: Conv[S] = this
+  class Conv(s: Variable*) extends RationalFunction(s*) with Field.Conv[Quotient_Element[Element[BigInteger, Array[Int]]]] {
+    given instance: Conv = this
     extension[U: Conversion[BigInteger]] (a: U) {
       def %%[V: Conversion[BigInteger]](b: V) = this(ring(~a), ring(~b))
     }
