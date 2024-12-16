@@ -1,6 +1,7 @@
 package scas.residue
 
 import scala.annotation.targetName
+import scala.compiletime.deferred
 import scala.reflect.ClassTag
 import scas.util.Conversion
 import scas.polynomial.ufd.{PolynomialWithGB, PolynomialOverFieldWithGB}
@@ -8,7 +9,7 @@ import scas.module.ArrayModule
 import scas.prettyprint.Show.given
 
 trait Residue[T : ClassTag, C, N] extends scas.structure.commutative.Residue[T, T] {
-  given ring: PolynomialWithGB[T, C, N]
+  given ring: () => PolynomialWithGB[T, C, N] = deferred
   var mods = List.empty[T]
   def variables = ring.variables
   def generator(n: Int) = ring.generator(n)
@@ -38,5 +39,5 @@ trait Residue[T : ClassTag, C, N] extends scas.structure.commutative.Residue[T, 
 }
 
 object Residue {
-  def apply[T : ClassTag, C, N](ring: PolynomialOverFieldWithGB[T, C, N])(s: T*) = new ResidueOverField.Conv(using ring)(s*)
+  def apply[T : ClassTag, C, N](ring: PolynomialOverFieldWithGB[T, C, N])(s: T*) = new ResidueOverField.Conv(ring)(s*)
 }
