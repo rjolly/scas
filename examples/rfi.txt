@@ -4,7 +4,7 @@ import BigInteger.given
 
 val q = RationalFunction.integral("a", "b")
 val List(a, b) = q.generators
-import q.{instance, coef2poly, ring2quotient}
+import q.given
 
 assert ((a+b)\2 / (a\2-b\2) >< (a+b)/(a-b))
 assert (a / (2*a) >< 1%%2)
