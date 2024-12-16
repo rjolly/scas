@@ -1,7 +1,9 @@
 package scas.structure.commutative.ordered
 
+import scala.compiletime.deferred
+
 trait Residue[T, R] extends scas.structure.commutative.Residue[T, R] with UniqueFactorizationDomain[T] {
-  given ring: UniqueFactorizationDomain[R]
+  given ring: () => UniqueFactorizationDomain[R] = deferred
   def compare(x: T, y: T) = {
     val a = x.unapply
     val b = y.unapply
