@@ -1,9 +1,10 @@
 package scas.structure.commutative
 
+import scala.compiletime.deferred
 import scas.base.BigInteger
 
 trait Residue[T, R] extends UniqueFactorizationDomain[T] {
-  given ring: UniqueFactorizationDomain[R]
+  given ring: () => UniqueFactorizationDomain[R] = deferred
   def apply(x: R): T
   def fromInt(n: BigInteger) = this(ring.fromInt(n))
   def fromRing(x: R): T
