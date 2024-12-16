@@ -6,7 +6,7 @@ import Rational.given
 
 val r = Polynomial(using Rational, Lexicographic.inlined(0)("x"))
 val List(x) = r.generators
-import r.{instance, coef2poly}
+import r.given
 
 assert (x + 1%%2 >< 1%%2 + x)
 assert (x + 1 >< 1 + x)

@@ -6,10 +6,10 @@ import Rational.given
 
 val r = UnivariatePolynomial(Rational)("x")
 val List(x) = r.generators
-import r.{instance, coef2poly}
+import r.given
 
 val s = Quotient(Rational(x))
-import s.{instance, ring2quotient}
+import s.given
 
 assert (x/(2*x) >< 1%%2)
 assert (s == Rational(x).quotient())

@@ -7,10 +7,10 @@ import Rational.given
 
 val r = PolynomialOverFieldWithGB(using Rational, DegreeReverseLexicographic(0)("x", "y"))
 val List(x, y) = r.generators
-import r.{instance, coef2poly}
+import r.given
 
 val s = Residue(Rational(x, y))(2-x\2, 1-x-y\2)
-import s.instance
+import s.given
 
 assert (2 >< x\2)
 assert (1 >< x+y\2)
