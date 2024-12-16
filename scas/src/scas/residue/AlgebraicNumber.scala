@@ -7,10 +7,11 @@ import scas.structure.commutative.Field
 import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
 
-class AlgebraicNumber[C](using var ring: PolynomialOverFieldWithGB[Element[C, Array[Int]], C, Int]) extends ResidueOverField[Element[C, Array[Int]], C, Int] {
-  def this(ring: Field[C])(s: Variable*) = this(using new scas.polynomial.tree.PolynomialOverFieldWithGB(using ring, new DegreeReverseLexicographic[Int](s*)))
+class AlgebraicNumber[C](var using_ring: PolynomialOverFieldWithGB[Element[C, Array[Int]], C, Int]) extends ResidueOverField[Element[C, Array[Int]], C, Int] {
+  def this(ring: Field[C])(s: Variable*) = this(new scas.polynomial.tree.PolynomialOverFieldWithGB(using ring, new DegreeReverseLexicographic[Int](s*)))
+  override given ring: () => PolynomialOverFieldWithGB[Element[C, Array[Int]], C, Int] = using_ring
   def extend(s: Variable*): Unit = {
-    ring = ring.newInstance((ring.variables ++ s)*)
+    using_ring = ring.newInstance((ring.variables ++ s)*)
     mods = mods.map(_.convert)
   }
 }
