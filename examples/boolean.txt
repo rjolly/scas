@@ -7,7 +7,7 @@ assert ((true ^ true) >< false)
 
 val r = BooleanAlgebra("x", "y")
 val List(x, y) = r.generators
-import r.{instance, coef2poly, ring}
+import r.given
 
 assert ((x ^ true) >< (true ^ x))
 assert ((x ^ y) >< ((x || y) ^ (x && y)))
