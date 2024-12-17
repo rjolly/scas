@@ -9,7 +9,7 @@ import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
 import scas.base.BigInteger
 
-class RationalFunction(using val ring: PolynomialOverUFD[Element[BigInteger, Array[Int]], BigInteger, Array[Int]]) extends QuotientOverInteger[Element[BigInteger, Array[Int]], Array[Int]] {
+class RationalFunction(using PolynomialOverUFD[Element[BigInteger, Array[Int]], BigInteger, Array[Int]]) extends QuotientOverInteger[Element[BigInteger, Array[Int]], Array[Int]] {
   def this(s: Variable*) = this(using new PolynomialWithSubresGCD(using BigInteger)(s*))
 }
 
