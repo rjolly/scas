@@ -1,11 +1,12 @@
 package scas.structure
 
+import scala.compiletime.deferred
 import scas.util.{Conversion, unary_~}
 import scas.base.BigInteger
 import BigInteger.lcm
 
-abstract class Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends Ring[(R1, R2)] {
-  given instance: Product[R1, R2]
+trait Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends Ring[(R1, R2)] {
+  given instance: Product[R1, R2] = deferred
   val self = this
   def apply(a: R1, b: R2) = (a, b)
   def fromInt(n: BigInteger) = (ring1.fromInt(n), ring2.fromInt(n))
@@ -70,6 +71,6 @@ object Product {
   def apply[R1, R2](ring1: Ring[R1], ring2: Ring[R2]) = new Conv(using ring1, ring2)
 
   class Conv[R1 : Ring, R2 : Ring] extends Product[R1, R2] with Ring.Conv[(R1, R2)] {
-    given instance: Conv[R1, R2] = this
+    override given instance: Conv[R1, R2] = this
   }
 }
