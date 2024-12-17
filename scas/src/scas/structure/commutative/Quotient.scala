@@ -1,12 +1,13 @@
 package scas.structure.commutative
 
 import Quotient.Element
+import scala.compiletime.deferred
 import scas.util.{Conversion, unary_~}
 import scas.base.BigInteger
 import BigInteger.given
 
 trait Quotient[T] extends Field[Element[T]] {
-  given ring: UniqueFactorizationDomain[T]
+  given ring: UniqueFactorizationDomain[T] = deferred
   def apply(n: T) = Element(n, ring.one)
   def fromInt(n: BigInteger) = this(ring.fromInt(n))
   def apply(n: T, d: T): Element[T] = this(Element(n, d))
