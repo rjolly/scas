@@ -1,9 +1,10 @@
 package scas.structure.commutative.ordered
 
+import scala.compiletime.deferred
 import scas.structure.commutative.Quotient.Element
 
 trait Quotient[T] extends scas.structure.commutative.Quotient[T] with Field[Element[T]] {
-  given ring: UniqueFactorizationDomain[T]
+  given ring: UniqueFactorizationDomain[T] = deferred
   def compare(x: Element[T], y: Element[T]) = {
     val Element(a, b) = x
     val Element(c, d) = y
