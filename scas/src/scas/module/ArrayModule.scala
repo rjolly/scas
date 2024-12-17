@@ -1,10 +1,11 @@
 package scas.module
 
 import scala.reflect.ClassTag
-import scas.structure.{Ring, Module, AbelianGroup}
+import scas.structure.{Ring, Module}
 import scas.prettyprint.Show.given
 
-abstract class ArrayModule[R : ClassTag](val dimension: Int) extends Module[Array[R], R] {
+class ArrayModule[R : ClassTag](using val ring: Ring[R])(val dimension: Int) extends Module[Array[R], R] {
+  given instance: ArrayModule[R] = this
   def apply(x: Array[R]) = x
   def generator(n: Int) = (for (i <- 0 until dimension) yield if (i == n) ring.one else ring.zero).toArray
   def generators = (for (i <- 0 until dimension) yield generator(i)).toList
@@ -36,9 +37,5 @@ abstract class ArrayModule[R : ClassTag](val dimension: Int) extends Module[Arra
 }
 
 object ArrayModule {
-  def apply[R : ClassTag](ring: Ring[R])(dimension: Int) = new Conv(using ring)(dimension)
-
-  class Conv[R : ClassTag](using val ring: Ring[R])(dimension: Int) extends ArrayModule[R](dimension) with AbelianGroup.Conv[Array[R]] {
-    given instance: Conv[R] = this
-  }
+  def apply[R : ClassTag](ring: Ring[R])(dimension: Int) = new ArrayModule(using ring)(dimension)
 }
