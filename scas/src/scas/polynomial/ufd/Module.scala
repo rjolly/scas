@@ -5,7 +5,7 @@ import scas.module.ArrayModule
 import scas.power.ModifiedPOT
 import scas.math.Numeric
 
-class Module[T : ClassTag, C, N : Numeric : ClassTag](using val ring: PolynomialWithGB[T, C, N])(name: String, dimension: Int) extends ArrayModule[T](dimension) {
+class Module[T : ClassTag, C, N : Numeric : ClassTag](using val ring: PolynomialWithGB[T, C, N])(name: String, val dimension: Int) extends ArrayModule[T] {
   def gb(xs: Array[T]*) = {
     val s = ring.newInstance(new ModifiedPOT(ring.pp, name, dimension))
     s.gb((xs.map(_.convertTo(using s)) ++ products(using s))*).map(_.convertFrom(s)).filter(!_.isZero)
