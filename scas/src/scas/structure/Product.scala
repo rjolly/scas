@@ -4,9 +4,8 @@ import scas.util.{Conversion, unary_~}
 import scas.base.BigInteger
 import BigInteger.lcm
 
-abstract class Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends Ring[(R1, R2)] {
-  given instance: Product[R1, R2]
-  val self = this
+class Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends Ring[(R1, R2)] {
+  given instance: Product[R1, R2] = this
   def apply(a: R1, b: R2) = (a, b)
   def fromInt(n: BigInteger) = (ring1.fromInt(n), ring2.fromInt(n))
   extension (x: (R1, R2)) {
@@ -67,9 +66,5 @@ abstract class Product[R1, R2](using ring1: Ring[R1], ring2: Ring[R2]) extends R
 object Product {
   def apply[R1, R2, U : Conversion[R1], V : Conversion[R2]](using factory: Product[R1, R2])(a: U, b: V) = factory(~a, ~b)
 
-  def apply[R1, R2](ring1: Ring[R1], ring2: Ring[R2]) = new Conv(using ring1, ring2)
-
-  class Conv[R1 : Ring, R2 : Ring] extends Product[R1, R2] with Ring.Conv[(R1, R2)] {
-    given instance: Conv[R1, R2] = this
-  }
+  def apply[R1, R2](ring1: Ring[R1], ring2: Ring[R2]) = new Product(using ring1, ring2)
 }
