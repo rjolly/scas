@@ -13,7 +13,7 @@ trait PolynomialOverFieldWithGB[T : ClassTag, C, N : Numeric : ClassTag] extends
   def newInstance(pp: ArrayPowerProduct[N]): PolynomialOverFieldWithGB[T, C, N]
   def newInstance(s: Variable*): PolynomialOverFieldWithGB[T, C, N] = newInstance(pp.newInstance(s*))
   extension (x: T) def modInverse(mods: T*) = {
-    given module: Module[T, C, N] = new Module(using this)("c", 2)
+    given module: Module[T, C, N] = new Module(this)("c", 2)
     val s = Seq(Array(x, 1)) ++ mods.map(Array(_, 0))
     val list = module.gb(s*)
     val Array(p, q) = list.head

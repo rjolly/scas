@@ -39,7 +39,7 @@ trait ArrayModule[R : ClassTag] extends Module[Array[R], R] {
 object ArrayModule {
   def apply[R : ClassTag](ring: Ring[R])(dimension: Int) = new Conv(using ring)(dimension)
 
-  class Conv[R : ClassTag](using val ring: Ring[R])(val dimension: Int) extends ArrayModule[R] with AbelianGroup.Conv[Array[R]] {
+  class Conv[R : ClassTag](using Ring[R])(val dimension: Int) extends ArrayModule[R] with AbelianGroup.Conv[Array[R]] {
     given instance: Conv[R] = this
   }
 }
