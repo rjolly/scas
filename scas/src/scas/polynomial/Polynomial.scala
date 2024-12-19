@@ -82,7 +82,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
       if (level > Level.Addition) fenced(s) else s
     }
   }
-  override def toString = s"${ring}(${variables.toList.show(false)})"
+  override def toString = s"${ring}(${pp.variables.toList.show(false)})"
   extension (x: T) def toMathML = toMathML("plus", "times")
   extension (x: T) def toMathML(plus: String, times: String): String = {
     var s = ring.zero.toMathML
@@ -101,7 +101,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
     s
   }
   def toMathML = toMathML(false)
-  def toMathML(fenced: Boolean) = s"<mrow>${ring.toMathML}${if (fenced) "<mfenced>" else "<mfenced open=\"[\" close=\"]\">"}${variables.toList.toMathML(false)}</mfenced></mrow>"
+  def toMathML(fenced: Boolean) = s"<mrow>${ring.toMathML}${if (fenced) "<mfenced>" else "<mfenced open=\"[\" close=\"]\">"}${pp.variables.toList.toMathML(false)}</mfenced></mrow>"
 
   extension (ring: Ring[C]) def apply(s: T*) = {
     same(s*)
@@ -116,8 +116,6 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
   @targetName("fromPowerProduct") def apply(value: M): T = this(value, ring.one)
   def apply(m: M, c: C): T = this((m, c))
   def apply(s: (M, C)*): T
-
-  def variables = pp.variables
 
   extension (x: T) {
     def iterator: Iterator[(M, C)]
