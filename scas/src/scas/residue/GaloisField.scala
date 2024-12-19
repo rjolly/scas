@@ -6,12 +6,12 @@ import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
 import scas.base.ModInteger
 
-class GaloisField(str: String)(s: Variable*) extends AlgebraicNumber(ModInteger(str))(s*)
+class GaloisField(str: String)(variables: Variable*) extends AlgebraicNumber(ModInteger(str))(variables*)
 
 object GaloisField {
   def apply[S : Conversion[Variable]](str: String)(s: S*) = new Conv(str)(s.map(~_)*)
 
-  class Conv(str: String)(s: Variable*) extends GaloisField(str)(s*) with Field.Conv[Element[Int, Array[Int]]] {
+  class Conv(str: String)(variables: Variable*) extends GaloisField(str)(variables*) with Field.Conv[Element[Int, Array[Int]]] {
     given instance: Conv = this
   }
 }
