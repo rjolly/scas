@@ -15,7 +15,7 @@ trait PolynomialWithGB[T : ClassTag, C, N : Numeric : ClassTag] extends Polynomi
   def gcd(x: T, y: T) = {
     val (a, p) = contentAndPrimitivePart(x)
     val (b, q) = contentAndPrimitivePart(y)
-    given module: Module[T, C, N] = new Module(this)("c", 3)
+    given module: Module[T, C, N] = new Module(using this)("c", 3)
     val list = module.gb(
       Array(p, 1, 0),
       Array(q, 0, 1)
