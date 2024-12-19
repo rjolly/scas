@@ -1,9 +1,10 @@
 package scas.structure
 
+import scala.compiletime.deferred
 import scas.util.{Conversion, unary_~}
 
 trait Module[T, R] extends AbelianGroup[T] {
-  given ring: Ring[R]
+  given ring: Ring[R] = deferred
   extension (x: R) def multiplyLeft(y: T): T
   extension (x: T) def multiplyRight(y: R): T
   extension[U: Conversion[R]] (x: U) def *%(y: T) = (~x).multiplyLeft(y)
