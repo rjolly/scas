@@ -11,7 +11,6 @@ import scas.prettyprint.Show.given
 trait Residue[T : ClassTag, C, N] extends scas.structure.commutative.Residue[T, T] {
   given ring: () => PolynomialWithGB[T, C, N] = deferred
   var mods = List.empty[T]
-  def variables = ring.variables
   def generator(n: Int) = ring.generator(n)
   def generators = ring.generators
   given coef2poly[D: Conversion[C]]: (D => T) = ring.coef2poly
