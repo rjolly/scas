@@ -19,7 +19,7 @@ class BAParsers(using var structure: BooleanAlgebra) extends BooleanRingParsers[
   }
   def generator: Parser[BA] = Var.parser ^^ { generator(_) }
   def generator(a: Variable) = {
-    val variables = structure.variables
+    val variables = structure.ring.pp.variables
     if (variables.contains(a)) structure.generator(variables.indexOf(a))
     else {
       val s = variables ++ Seq(a)
