@@ -11,7 +11,7 @@ trait ResidueOverField[T, C, N] extends Residue[T, C, N] with Field[T] {
   given ring: () => PolynomialOverFieldWithGB[T, C, N] = deferred
   def sqrt[U: Conversion[T]](x: U): T = sqrt(~x)
   def sqrt(x: T) = {
-    val n = variables.indexOf(Variable.sqrt(x))
+    val n = ring.pp.variables.indexOf(Variable.sqrt(x))
     assert (n > -1)
     generator(n)
   }
