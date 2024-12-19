@@ -9,7 +9,7 @@ import Matrix.Element
 import Double.given
 
 trait Matrix extends Algebra[Element, Double] with Field[Element] {
-  given ring: Field[Double] = Double
+  override given ring: Field[Double] = Double
   def size: Int
   def fromInt(n: BigInteger) = one%* Double.fromInt(n)
   override def zero = MatrixUtils.createRealMatrix(size, size)
