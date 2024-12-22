@@ -1,14 +1,15 @@
 package scas.base
 
+import scala.compiletime.deferred
 import scas.structure.BooleanRing
 import scas.structure.commutative.Field
 
 type Boolean = scala.Boolean
 
 object Boolean extends Boolean.Impl with Field.Conv[Boolean] with BooleanRing.Conv[Boolean] {
-  given instance: Boolean.type = this
-  abstract class Impl extends Field[Boolean] with BooleanRing[Boolean] {
-    given instance: Boolean.Impl
+  override given instance: Boolean.type = this
+  trait Impl extends Field[Boolean] with BooleanRing[Boolean] {
+    given instance: Boolean.Impl = deferred
     val self = this
     def fromInt(n: BigInteger) = n.signum != 0
     override val zero = false
