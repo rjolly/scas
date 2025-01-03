@@ -1,4 +1,4 @@
 
 To run the test suite:
-  ./mill -i -D dottyVersion=3.6.3-RC2 scas.application.run
+  ./mill --mill-version 0.10.15 -i -D dottyVersion=3.6.3-RC2 scas.application.run
 
