@@ -20,7 +20,7 @@ object scas extends ScalaModule with PublishModule {
       ivy"net.sourceforge.jscl-meditor:rendering:1.1",
       ivy"org.scala-lang.modules:scala-parser-combinators_3:2.4.0"
     )
-    def test(args: String*) = run(Target.task(Args(args)))
+    def test(args: String*) = run(args: _*)
   }
   def publishVersion = "3.0"
 
