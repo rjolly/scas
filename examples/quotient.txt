@@ -9,7 +9,7 @@ val List(x) = r.generators
 import r.given
 
 val s = Quotient(Rational(x))
-import s.given
+import s.{ring => _, given}
 
 assert (x/(2*x) >< 1%%2)
 assert (s == Rational(x).quotient())
