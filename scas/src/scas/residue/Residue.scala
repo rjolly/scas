@@ -19,7 +19,7 @@ trait Residue[T : ClassTag, C, N] extends scas.structure.commutative.Residue[T, 
   }
   @targetName("fromCoefficient") def apply(x: C) = ring(x)
   def apply(x: T) = ring.remainder(x)(mods*)
-  extension (x: T) def unapply = x
+  def unapply(x: T) = Some(x)
   def fromRing(x: T) = x
   def characteristic = ring.characteristic
   def gb(dummy: Boolean, xs: T*) = ring.gb((xs ++ mods)*)
