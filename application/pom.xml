@@ -6,7 +6,7 @@
   <groupId>com.github.rjolly</groupId>
   <artifactId>scas.application_3</artifactId>
   <packaging>jar</packaging>
-  <version>3.0</version>
+  <version>3.1</version>
   <url>https://github.com/rjolly/scas</url>
   <description>Scala Algebra System - Application</description>
   <licenses>
@@ -34,7 +34,7 @@
     <dependency>
       <groupId>com.github.rjolly</groupId>
       <artifactId>scas_3</artifactId>
-      <version>3.0</version>
+      <version>3.1</version>
     </dependency>
     <dependency>
       <groupId>de.uni-mannheim.rz.krum</groupId>
