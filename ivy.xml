@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ivy-module version="2.0" xmlns:e="http://ant.apache.org/ivy/extra">
-    <info module="scas_3" organisation="com.github.rjolly" revision="3.0">
+    <info module="scas_3" organisation="com.github.rjolly" revision="3.1">
         <description homepage="https://github.com/rjolly/scas"/>
     </info>
     <configurations>
