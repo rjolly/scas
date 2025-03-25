@@ -1,6 +1,7 @@
 package scas.scripting
 
 import Parsers.{log => _, _}
+import scala.annotation.nowarn
 import scas.rendering.Graph
 import scas.variable.Variable
 import Function.{sinh, cosh, tanh, sin, cos, tan, asin, acos, atan, exp, log, sqrt, abs, pow, identity}
@@ -8,6 +9,7 @@ import Function.{sinh, cosh, tanh, sin, cos, tan, asin, acos, atan, exp, log, sq
 class Fn(var n: Variable*) extends FieldParsers[Double => Double] {
   given structure: Function.type = Function
 
+  @nowarn("msg=match may not be exhaustive")
   def function: Parser[Double => Double] = ("sinh" | "cosh" | "tanh" | "sin" | "cos" | "tan" | "asin" | "acos" | "atan" | "exp" | "log" | "sqrt" | "abs") ~ ("(" ~> expr) <~ ")" ^^ {
     case "sinh" ~ x => sinh(x)
     case "cosh" ~ x => cosh(x)
@@ -33,6 +35,7 @@ class Fn(var n: Variable*) extends FieldParsers[Double => Double] {
       case None => x
     }
   }
+  @nowarn("msg=match may not be exhaustive")
   def graph: Parser[Graph] = "graph" ~> ("(" ~> expr) ~ ("," ~> Var.parser) <~ ")" ^^ {
     case expr ~ variable if (contains(variable)) => Graph(expr)
   }

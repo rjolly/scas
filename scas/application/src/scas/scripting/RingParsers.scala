@@ -1,6 +1,7 @@
 package scas.scripting
 
 import Parsers._
+import scala.annotation.nowarn
 
 trait RingParsers[T] extends StructureParsers[T] {
   given structure: scas.structure.Ring[T]
@@ -17,6 +18,7 @@ trait RingParsers[T] extends StructureParsers[T] {
       case None => factor
     }
   }
+  @nowarn("msg=match may not be exhaustive")
   def unsignedTerm: Parser[T] = unsignedFactor ~ rep("*" ~ factor) ^^ {
     case factor ~ list => list.foldLeft(factor) {
       case (x, "*" ~ y) => x.convert * y.convert
@@ -28,6 +30,7 @@ trait RingParsers[T] extends StructureParsers[T] {
       case None => term
     }
   }
+  @nowarn("msg=match may not be exhaustive")
   def expr: Parser[T] = term ~ rep(("+" | "-") ~ unsignedTerm) ^^ {
     case term ~ list => list.foldLeft(term) {
       case (x, "+" ~ y) => x.convert + y.convert

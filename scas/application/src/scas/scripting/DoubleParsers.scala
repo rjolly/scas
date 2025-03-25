@@ -1,6 +1,7 @@
 package scas.scripting
 
 import Parsers.{log => _, _}
+import scala.annotation.nowarn
 import scas.adapter.math3.Double
 import Math.{sinh, cosh, tanh, sin, cos, tan, asin, acos, atan, exp, log, pow, PI}
 
@@ -10,6 +11,7 @@ object DoubleParsers extends FieldParsers[Double] {
   def constant: Parser[Double] = ("pi") ^^ {
     case "pi" => PI
   }
+  @nowarn("msg=match may not be exhaustive")
   def function: Parser[Double] = ("sinh" | "cosh" | "tanh" | "sin" | "cos" | "tan" | "asin" | "acos" | "atan" | "exp" | "log") ~ ("(" ~> expr) <~ ")" ^^ {
     case "sinh" ~ x => sinh(x)
     case "cosh" ~ x => cosh(x)

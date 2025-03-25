@@ -226,7 +226,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
 
     def map(f: (M, C) => (M, C)): T
 
-    def sort = this(x.toSeq.sortBy((s, _) => s)(pp.reverse)*)
+    def sort = this(x.toSeq.sortBy((s, _) => s)(using pp.reverse)*)
   }
 
   extension (c: C) def multiplyLeft(x: T) = x%* c

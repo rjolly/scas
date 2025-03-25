@@ -8,6 +8,7 @@ import BigInteger.int2bigInt
 object Int extends OrderedRingParsers[BigInteger] {
   given structure: BigInteger.Impl = BigInteger
   def number: Parser[BigInteger] = """\d+""".r ^^ { BigInteger(_) }
+  @nowarn("msg=match may not be exhaustive")
   def function1: Parser[BigInteger] = ("factorial") ~ ("(" ~> expr) <~ ")" ^^ {
     case "factorial" ~ x if (x > 0) => factorial(x)
   }
