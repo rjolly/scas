@@ -62,13 +62,13 @@ object Stream {
 
   def apply[A](s: A*): Stream[A] = if (!s.isEmpty) s.head #: apply(s.tail*) else Nil
 
-  def range[T](start: T, end: T, step: T)(using num: Integral[T]): Stream[T] = {
+  def range[T : Integral as num](start: T, end: T, step: T): Stream[T] = {
     import num._
     if (if (step < zero) start <= end else end <= start) Nil
     else start #: range(start + step, end, step)
   }
 
-  def range[T](start: T, end: T)(using num: Integral[T]): Stream[T] = range(start, end, num.one)
+  def range[T : Integral as num](start: T, end: T): Stream[T] = range(start, end, num.one)
 
   trait Sequential[+A] extends Stream[A] {
     override def filter(p: A => Boolean): Stream[A] = {
