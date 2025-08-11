@@ -15,4 +15,6 @@ object MathObject {
     override def toString = x.toString
     def toMathML = x.toMathML
   }
+  def apply(f: Double => Double) = Graph(f)
+  def apply(s: String) = s
 }
