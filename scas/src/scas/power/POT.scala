@@ -5,7 +5,7 @@ import scas.math.Numeric
 import scas.variable.Variable
 
 class POT[N : {Numeric as numeric, ClassTag}](factory: ArrayPowerProduct[N], name: String, dimension: Int) extends ArrayPowerProductWithDegree[N] {
-  val variables = factory.variables ++ (for (i <- 0 until dimension) yield Variable(name, Array(i)*))
+  val variables = factory.variables ++ (for (i <- 0 until dimension) yield Variable(name, 0, Array(i)*))
   def newInstance(variables: Variable*) = new POT(factory.newInstance(variables*), name, dimension)
 
   def compare(x: Array[N], y: Array[N]) = {

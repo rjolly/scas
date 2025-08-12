@@ -65,7 +65,7 @@ object Variable {
     }
   }
 
-  def apply(name: String, subscript: Int*): Variable = new Constant(name, 0, subscript*)
+  def apply(name: String): Variable = new Constant(name, 0)
   def apply(name: String, prime: Int, subscript: Int*): Variable = new Constant(name, prime, subscript*)
 
   def function[T : Show](name: String, parameter: T*): Variable = new Function(name, parameter*)
