@@ -5,12 +5,20 @@ import mill.api.*
 import scalalib.*
 import publish.*
 
+def scalaNightlyRepo = "https://repo.scala-lang.org/artifactory/maven-nightlies"
+object CustomJvmWorkerModule extends JvmWorkerModule, CoursierModule {
+  def repositories = Task { super.repositories() ++ Seq(scalaNightlyRepo)}
+}
+
 object scas extends ScalaModule with PublishModule {
+  def jvmWorker = ModuleRef(CustomJvmWorkerModule)
+  def repositories = Task { super.repositories() ++ Seq(scalaNightlyRepo)}
   def scalaVersion = sys.props("dottyVersion")
   def mvnDeps = Seq(
     mvn"org.scala-lang.modules:scala-parallel-collections_3:1.0.4"
   )
   object application extends ScalaModule {
+    def jvmWorker = ModuleRef(CustomJvmWorkerModule)
     def scalaVersion = sys.props("dottyVersion")
     def moduleDeps = Seq(scas)
     def mvnDeps = Seq(
