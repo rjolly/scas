@@ -4,7 +4,7 @@ import scala.reflect.ClassTag
 import scas.structure.{Ring, Module}
 import scas.prettyprint.Show.given
 
-class ArrayModule[R : ClassTag](using Ring[R])(val dimension: Int) extends Module[Array[R], R] {
+open class ArrayModule[R : ClassTag](using Ring[R])(val dimension: Int) extends Module[Array[R], R] {
   given instance: ArrayModule[R] = this
   def apply(x: Array[R]) = x
   def generator(n: Int) = (for i <- 0 until dimension yield if i == n then ring.one else ring.zero).toArray
