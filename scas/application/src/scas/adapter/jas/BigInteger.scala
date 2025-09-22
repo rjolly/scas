@@ -13,5 +13,5 @@ object BigInteger extends BigInteger.Impl with Ring.Conv[BigInteger] {
   given int2bigInt: (Int => BigInteger) = new BigInteger(_)
   given long2bigInt: (Long => BigInteger) = new BigInteger(_)
 
-  given bigInt2scas[U : Conversion[BigInteger]]: (U => scas.base.BigInteger) = x => (~x).`val`
+  given bigInt2scas: [U : Conversion[BigInteger]] => (U => scas.base.BigInteger) = x => (~x).`val`
 }

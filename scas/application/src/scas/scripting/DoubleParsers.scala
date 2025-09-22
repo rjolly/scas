@@ -1,6 +1,6 @@
 package scas.scripting
 
-import Parsers.{log => _, _}
+import Parsers.{log as _, *}
 import scala.annotation.nowarn
 import scas.adapter.math3.Double
 import Math.{sinh, cosh, tanh, sin, cos, tan, asin, acos, atan, exp, log, pow, PI}

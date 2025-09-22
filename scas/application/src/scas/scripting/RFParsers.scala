@@ -1,6 +1,6 @@
 package scas.scripting
 
-import Parsers._
+import Parsers.*
 import scas.quotient.RationalFunction
 import scas.structure.commutative.Quotient.Element
 import scas.polynomial.ufd.PolynomialOverUFD

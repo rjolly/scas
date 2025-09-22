@@ -1,6 +1,6 @@
 package scas.scripting
 
-import Parsers.{log => _, _}
+import Parsers.{log as _, *}
 import scala.annotation.nowarn
 import scas.rendering.Graph
 import scas.variable.Variable

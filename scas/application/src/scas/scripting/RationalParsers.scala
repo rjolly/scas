@@ -1,6 +1,6 @@
 package scas.scripting
 
-import Parsers._
+import Parsers.*
 import scas.base.Rational
 
 object RationalParsers extends OrderedFieldParsers[Rational] {

@@ -1,6 +1,6 @@
 package scas.scripting
 
-import Parsers._
+import Parsers.*
 import scala.annotation.nowarn
 import scas.polynomial.TreePolynomial.Element
 import scas.variable.Variable
