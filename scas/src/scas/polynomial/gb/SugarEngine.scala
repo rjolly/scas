@@ -15,7 +15,7 @@ class SugarEngine[T, C, M](fussy: Boolean)(using factory: PolynomialWithSugar[T,
 
   override def ordering = Ordering by { (pair: SugarPair[M]) => pair.skey }
 
-  override def natural = if (fussy) ordering else super.natural
+  override def natural = if fussy then ordering else super.natural
 
   extension (p1: SugarPair[M]) override def | (p2: SugarPair[M]) = super.|(p1)(p2) && (fussy >> (p1 < p2))
 

@@ -37,7 +37,7 @@ class Product[R1 : Ring as ring1, R2 : Ring as ring2] extends Ring[(R1, R2)] {
     }
     def signum = {
       val (a, b) = x
-      if (a.signum == 0) b.signum else a.signum
+      if a.signum == 0 then b.signum else a.signum
     }
   }
   override def abs(x: (R1, R2)) = {

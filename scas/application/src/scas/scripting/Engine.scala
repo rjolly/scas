@@ -35,7 +35,7 @@ class Engine(@BeanProperty val factory: ScriptEngineFactory) extends AbstractScr
   def eval(reader: Reader, context: ScriptContext): Object = {
     val writer = new StringWriter()
     var c = reader.read()
-    while(c != -1) {
+    while c != -1 do {
       writer.write(c)
       c = reader.read()
     }

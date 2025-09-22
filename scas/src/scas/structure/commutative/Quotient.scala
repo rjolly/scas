@@ -14,7 +14,7 @@ trait Quotient[T] extends Field[Element[T]] {
   def apply(x: Element[T]) = {
     val Element(n, d) = x
     val c = ring.gcd(n, d)
-    val gcd = if (d.signum == -c.signum) -c else c
+    val gcd = if d.signum == -c.signum then -c else c
     Element(n / gcd, d / gcd)
   }
   extension (x: Element[T]) {
@@ -41,7 +41,7 @@ trait Quotient[T] extends Field[Element[T]] {
       val Element(n, d) = x
       Element(-n, d)
     }
-    override def pow(b: BigInteger) = if (b.signum < 0) inverse(x) \ -b else {
+    override def pow(b: BigInteger) = if b.signum < 0 then inverse(x) \ -b else {
       val Element(n, d) = x
       Element(n \ b, d \ b)
     }
@@ -76,15 +76,15 @@ trait Quotient[T] extends Field[Element[T]] {
   extension (x: Element[T]) def toCode(level: Level) = {
     import Level.given
     val Element(n, d) = x
-    if (d.isOne) n.toCode(level) else {
+    if d.isOne then n.toCode(level) else {
       val s = n.toCode(Level.Multiplication) + "/" + d.toCode(Level.Power)
-      if (level > Level.Multiplication) fenced(s) else s
+      if level > Level.Multiplication then fenced(s) else s
     }
   }
   override def toString = s"$ring.quotient()"
   extension (x: Element[T]) def toMathML = {
     val Element(n, d) = x
-    if (d.isOne) n.toMathML else s"<apply><divide/>${n.toMathML}${d.toMathML}</apply>"
+    if d.isOne then n.toMathML else s"<apply><divide/>${n.toMathML}${d.toMathML}</apply>"
   }
 
   extension (ring: UniqueFactorizationDomain[T]) def quotient() = this

@@ -38,8 +38,8 @@ object BigInteger extends BigInteger.Impl with UniqueFactorizationDomain.Conv[Bi
     override def abs(x: BigInteger) = x.abs
     extension (x: BigInteger) override def signum = x.signum
     extension (x: BigInteger) def toCode(level: Level) = {
-      if (x.bitLength < 32) x.toString
-      else if (x.bitLength < 64) x.toString + "l"
+      if x.bitLength < 32 then x.toString
+      else if x.bitLength < 64 then x.toString + "l"
       else s"BigInteger(\"$x\")"
     }
     override def toString = "BigInteger"

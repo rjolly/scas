@@ -14,11 +14,11 @@ class Lexicographic[N : Numeric : ClassTag](val variables: Variable*) extends Po
     val l = m * (length + 1)
     var i = length + k
     var j = length + l
-    while (i > k) {
+    while i > k do {
       i -= 1
       j -= 1
-      if (x(i) < y(j)) return -1
-      if (x(i) > y(j)) return 1
+      if x(i) < y(j) then return -1
+      if x(i) > y(j) then return 1
     }
     0
   }
@@ -33,18 +33,18 @@ object Lexicographic {
       val l = m * (length + 1)
       var i = length + k
       var j = length + l
-      while (i > k) {
+      while i > k do {
         i -= 1
         j -= 1
-        if (x(i) < y(j)) return -1
-        if (x(i) > y(j)) return 1
+        if x(i) < y(j) then return -1
+        if x(i) > y(j) then return 1
       }
       0
     }
     override def multiply(x: Array[N], n: Int, y: Array[N], z: Array[N]) = {
       val k = n * (length + 1)
       var i = 0
-      while (i <= length) {
+      while i <= length do {
         z(i + k) = x(i + k) + y(i)
         i += 1
       }

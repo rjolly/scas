@@ -53,29 +53,29 @@ trait ArrayPolynomial[C, N] extends Polynomial[Element[C, N], C, Array[N]] {
       var j = 0
       var i0 = i
       var j0 = j
-      while (i < x_size && j < y_size) {
-        if (pp.compare(s, i, t, j) > 0) {
-          if (j > j0) { r.add(y, j0, j); j0 = j }
+      while i < x_size && j < y_size do {
+        if pp.compare(s, i, t, j) > 0 then {
+          if j > j0 then { r.add(y, j0, j); j0 = j }
           i += 1
-        } else if (pp.compare(s, i, t, j) < 0) {
-          if (i > i0) { r.add(x, i0, i); i0 = i }
+        } else if pp.compare(s, i, t, j) < 0 then {
+          if i > i0 then { r.add(x, i0, i); i0 = i }
           j += 1
         } else {
-          if (i > i0) { r.add(x, i0, i); i0 = i }
-          if (j > j0) { r.add(y, j0, j); j0 = j }
+          if i > i0 then { r.add(x, i0, i); i0 = i }
+          if j > j0 then { r.add(y, j0, j); j0 = j }
           val c = a(i) + b(j)
-          if (!c.isZero) r.add(s, i, c)
+          if !c.isZero then r.add(s, i, c)
           i += 1
           j += 1
           i0 = i
           j0 = j
         }
       }
-      if (i > i0) { r.add(x, i0, i); i0 = i }
-      if (j > j0) { r.add(y, j0, j); j0 = j }
+      if i > i0 then { r.add(x, i0, i); i0 = i }
+      if j > j0 then { r.add(y, j0, j); j0 = j }
       r.add(x, i)
       r.add(y, j)
-      if (r.size < x_size + y_size) r.pack else r
+      if r.size < x_size + y_size then r.pack else r
     }
 
     def iterator = new Iterator(x, 0)
@@ -86,10 +86,10 @@ trait ArrayPolynomial[C, N] extends Polynomial[Element[C, N], C, Array[N]] {
 
     @tailrec final def indexOf(m: Array[N], i: Int, j: Int): Int = {
       val n = (i + j) >> 1
-      if (n >= i) -1 else {
+      if n >= i then -1 else {
         val (s, _) = x(n)
-        if (s < m) x.indexOf(m, i, n)
-        else if (s > m) x.indexOf(m, n + 1, j)
+        if s < m then x.indexOf(m, i, n)
+        else if s > m then x.indexOf(m, n + 1, j)
         else n
       }
     }
@@ -114,7 +114,7 @@ trait ArrayPolynomial[C, N] extends Polynomial[Element[C, N], C, Array[N]] {
       val Element(s, a, _) = x
       val Element(t, b, size) = r
       var i = 0
-      while (i < x.size) {
+      while i < x.size do {
         val ac = a(i) * c
         assert (!ac.isZero)
         pp.multiply(s, i, m, t)
@@ -128,7 +128,7 @@ trait ArrayPolynomial[C, N] extends Polynomial[Element[C, N], C, Array[N]] {
     def map(f: (Array[N], C) => (Array[N], C)) = {
       val r = zero(x.size)
       var i = 0
-      while (i < x.size) {
+      while i < x.size do {
         val (s, a) = x(i)
         val (m, c) = f(s, a)
         assert (!c.isZero)
@@ -143,7 +143,7 @@ trait ArrayPolynomial[C, N] extends Polynomial[Element[C, N], C, Array[N]] {
     var i = n
     def hasNext = i < x.size
     def next = {
-      if (i >= x.size) scala.Iterator.empty.next else {
+      if i >= x.size then scala.Iterator.empty.next else {
         val (s, a) = x(i)
         i += 1
         (s, a)

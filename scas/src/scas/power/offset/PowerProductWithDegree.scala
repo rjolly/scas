@@ -7,7 +7,7 @@ trait PowerProductWithDegree[N : Numeric] extends ArrayPowerProductWithDegree[N]
   def multiply(x: Array[N], n: Int, y: Array[N], z: Array[N]) = {
     val k = n * (length + 1)
     var i = 0
-    while (i <= length) {
+    while i <= length do {
       z(i + k) = x(i + k) + y(i)
       i += 1
     }

@@ -7,7 +7,7 @@ class BooleanAlgebra(on: Boolean, recurse: Boolean, conj: Boolean, s: Variable*)
   def this(s: Variable*) = this(true, s*)
   given nf: NormalForm = new NormalFormWithImpl(conj)(using new BooleanAlgebra(recurse, false, !conj, s*))
   extension (x: BA) {
-    override def toCode(level: Level) = if (on) nf(x).toCode(level) else super.toCode(x)(level)
-    override def toMathML = if (on) nf(x).toMathML else super.toMathML(x)
+    override def toCode(level: Level) = if on then nf(x).toCode(level) else super.toCode(x)(level)
+    override def toMathML = if on then nf(x).toMathML else super.toMathML(x)
   }
 }

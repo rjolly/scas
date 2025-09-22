@@ -11,7 +11,7 @@ class PolyParsers(using var structure: PolynomialOverUFD[Poly, BigInteger, Array
   def generator: Parser[Poly] = Var.parser ^^ { generator(_) }
   def generator(a: Variable) = {
     val variables = structure.pp.variables
-    if (variables.contains(a)) structure.generator(variables.indexOf(a))
+    if variables.contains(a) then structure.generator(variables.indexOf(a))
     else {
       val s = variables ++ Seq(a)
       structure = Poly(s*)

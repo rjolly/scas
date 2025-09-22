@@ -14,7 +14,7 @@ class ModInteger(mod: BigInteger) extends Residue[Int, BigInteger] with Field[In
   val m = mod.intValue
   def apply(x: Long) = {
       val c = (x % m).toInt
-      if (c < 0) c + m else c
+      if c < 0 then c + m else c
   }
   extension (x: Int) {
     override def signum = java.lang.Integer.signum(x)

@@ -8,7 +8,7 @@ trait Monoid[T] extends SemiGroup[T] {
   extension (a: T) {
     def pow(b: BigInteger): T = {
       assert (b.signum >= 0)
-      if (b.isZero) one else if ((b % 2).isZero) {
+      if b.isZero then one else if (b % 2).isZero then {
         val c = a \ (b / 2)
         c * c
       } else {

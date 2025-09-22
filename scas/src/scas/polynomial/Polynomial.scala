@@ -20,7 +20,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
   def fromInt(n: BigInteger) = this(ring.fromInt(n))
   def generator(n: Int) = this(pp.generator(n))
   def generators = pp.generators.map(apply)
-  extension (x: T) def signum = if (x.isZero) 0 else x.lastCoefficient.signum
+  extension (x: T) def signum = if x.isZero then 0 else x.lastCoefficient.signum
   def characteristic = ring.characteristic
   extension (x: T) override def convert: T = x.convert(pp)
   extension (x: T) def convert(from: PowerProduct[M]) = x.map((s, a) => (s.convert(from), a)).sort
@@ -28,8 +28,8 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
   def equiv(x: T, y: T) = {
     val xs = x.iterator
     val ys = y.iterator
-    while (xs.hasNext && ys.hasNext) {
-      if (!equiv(xs.next, ys.next)) return false
+    while xs.hasNext && ys.hasNext do {
+      if !equiv(xs.next, ys.next) then return false
     }
     !xs.hasNext && !ys.hasNext
   }
@@ -38,11 +38,11 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
     val (t, b) = y
     s >< t && a >< b
   }
-  extension (x: T) def isUnit = if (x.degree > 0 || x.isZero) false else x.headCoefficient.isUnit
+  extension (x: T) def isUnit = if x.degree > 0 || x.isZero then false else x.headCoefficient.isUnit
   extension (x: T) {
     def multiply(y: T) = {
       var r = zero
-      for ((a, b) <- y.iterator) r = r.subtract(a, -b, x)
+      for (a, b) <- y.iterator do r = r.subtract(a, -b, x)
       r
     }
     @targetName("ppMultiplyRight") def %* (m: M) = x.map((s, a) => (s * m, a))
@@ -63,23 +63,23 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
     var s = ring.zero.show
     var n = 0
     var m = 0
-    val p = if (x.size == 1) level else Level.Addition
-    for ((a, b) <- reverseIterator(x)) {
+    val p = if x.size == 1 then level else Level.Addition
+    for (a, b) <- reverseIterator(x) do {
       val c = ring.abs(b)
       val g = b.signum < 0
-      val (t, u) = if (a.isOne) (c.toCode(p), 1) else if (c.isOne) (a.toCode(p, times), a.size) else (c.toCode(Level.Multiplication) + "*" + a.show, 1 + a.size)
-      s = if (n == 0) {
-        if (g) "-" + t else t
+      val (t, u) = if a.isOne then (c.toCode(p), 1) else if c.isOne then (a.toCode(p, times), a.size) else (c.toCode(Level.Multiplication) + "*" + a.show, 1 + a.size)
+      s = if n == 0 then {
+        if g then "-" + t else t
       } else {
-        if (g) s + "-" + t else s + plus + t
+        if g then s + "-" + t else s + plus + t
       }
-      m = if (g) u + 1 else u
+      m = if g then u + 1 else u
       n += 1
     }
-    if (n == 0) s else if (n == 1) {
-      if (m == 1) s else if (level > Level.Multiplication) fenced(s) else s
+    if n == 0 then s else if n == 1 then {
+      if m == 1 then s else if level > Level.Multiplication then fenced(s) else s
     } else {
-      if (level > Level.Addition) fenced(s) else s
+      if level > Level.Addition then fenced(s) else s
     }
   }
   override def toString = s"${ring}(${pp.variables.toList.show(false)})"
@@ -87,21 +87,21 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
   extension (x: T) def toMathML(plus: String, times: String): String = {
     var s = ring.zero.toMathML
     var n = 0
-    for ((a, b) <- reverseIterator(x)) {
+    for (a, b) <- reverseIterator(x) do {
       val c = ring.abs(b)
       val g = b.signum < 0
-      val t =  if (a.isOne) c.toMathML else if (c.isOne) a.toMathML(times) else s"<apply><times/>${c.toMathML}${a.toMathML}</apply>"
-      s = if (n == 0) {
-        if (g) s"<apply><minus/>$t</apply>" else t
+      val t =  if a.isOne then c.toMathML else if c.isOne then a.toMathML(times) else s"<apply><times/>${c.toMathML}${a.toMathML}</apply>"
+      s = if n == 0 then {
+        if g then s"<apply><minus/>$t</apply>" else t
       } else {
-        if (g) s"<apply><minus/>$s$t</apply>" else s"<apply><$plus/>$s$t</apply>"
+        if g then s"<apply><minus/>$s$t</apply>" else s"<apply><$plus/>$s$t</apply>"
       }
       n += 1
     }
     s
   }
   def toMathML = toMathML(false)
-  def toMathML(fenced: Boolean) = s"<mrow>${ring.toMathML}${if (fenced) "<mfenced>" else "<mfenced open=\"[\" close=\"]\">"}${pp.variables.toList.toMathML(false)}</mfenced></mrow>"
+  def toMathML(fenced: Boolean) = s"<mrow>${ring.toMathML}${if fenced then "<mfenced>" else "<mfenced open=\"[\" close=\"]\">"}${pp.variables.toList.toMathML(false)}</mfenced></mrow>"
 
   extension (ring: Ring[C]) def apply(s: T*) = {
     same(s*)
@@ -112,7 +112,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
     assert (s.toArray >< generators.toArray)
   }
 
-  def apply(value: C): T = if(value.isZero) zero else this(pp.one, value)
+  def apply(value: C): T = if value.isZero then zero else this(pp.one, value)
   @targetName("fromPowerProduct") def apply(value: M): T = this(value, ring.one)
   def apply(m: M, c: C): T = this((m, c))
   def apply(s: (M, C)*): T
@@ -151,9 +151,9 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
 
     def coefficient(m: M) = {
       val xs = x.iterator(m)
-      if (xs.hasNext) {
+      if xs.hasNext then {
         val (s, a) = xs.next
-        if (s >< m) a else ring.zero
+        if s >< m then a else ring.zero
       } else ring.zero
     }
 
@@ -167,7 +167,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
 
     @tailrec final def reduce(strict: Boolean, ys: T*): T = {
       val xs = x.iterator
-      if (xs.hasNext) {
+      if xs.hasNext then {
         val (s, a) = xs.next
         ys.find(_.factorOf(s, a, strict)) match {
           case Some(y) => {
@@ -185,11 +185,11 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
     }
 
     def reduce(strict: Boolean, tail: Boolean, ys: T*): T = {
-      if (tail) {
+      if tail then {
         val xs = x.iterator
-        if (xs.hasNext) {
+        if xs.hasNext then {
           val (s, a) = xs.next
-          if (xs.hasNext) {
+          if xs.hasNext then {
             val (s, a) = xs.next
             x.reduce(strict, s, ys*)
           } else x
@@ -199,7 +199,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
 
     @tailrec final def reduce(strict: Boolean, m: M, ys: T*): T = {
       val xs = x.iterator(m)
-      if (xs.hasNext) {
+      if xs.hasNext then {
         val (s, a) = xs.next
         ys.find(_.factorOf(s, a, strict)) match {
           case Some(y) => {
@@ -207,7 +207,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
             x.reduce(s / t, a, y, b, strict).reduce(strict, m, ys*)
           }
           case None => {
-            if (xs.hasNext) {
+            if xs.hasNext then {
               val (s, a) = xs.next
               x.reduce(strict, s, ys*)
             } else x

@@ -9,10 +9,10 @@ class DegreeLexicographic[N : Numeric : ClassTag](val variables: Variable*) exte
 
   def compare(x: Array[N], y: Array[N]) = {
     var i = length + 1
-    while (i > 0) {
+    while i > 0 do {
       i -= 1
-      if (x(i) < y(i)) return -1
-      if (x(i) > y(i)) return 1
+      if x(i) < y(i) then return -1
+      if x(i) > y(i) then return 1
     }
     0
   }

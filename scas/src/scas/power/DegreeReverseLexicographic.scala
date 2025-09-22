@@ -9,12 +9,12 @@ class DegreeReverseLexicographic[N : Numeric : ClassTag](val variables: Variable
   def newInstance(variables: Variable*) = new DegreeReverseLexicographic[N](variables*)
 
   def compare(x: Array[N], y: Array[N]) = {
-    if (x(length) < y(length)) return -1
-    if (x(length) > y(length)) return 1
+    if x(length) < y(length) then return -1
+    if x(length) > y(length) then return 1
     var i = 0
-    while (i < length) {
-      if (x(i) > y(i)) return -1
-      if (x(i) < y(i)) return 1
+    while i < length do {
+      if x(i) > y(i) then return -1
+      if x(i) < y(i) then return 1
       i += 1
     }
     0

@@ -8,7 +8,7 @@ trait UnivariatePolynomial[T : ClassTag, C, M] extends PolynomialWithModInverse[
   assert (pp.length == 1)
   def derivative(x: T) = x.map((a, b) => (a / pp.generator(0), b * ring.fromInt(a.degree)))
   override def gcd(x: T, y: T) = gcd1(x, y)
-  @tailrec final def gcd1(x: T, y: T): T = if (y.isZero) x else gcd1(y, x.reduce(y))
+  @tailrec final def gcd1(x: T, y: T): T = if y.isZero then x else gcd1(y, x.reduce(y))
   extension (x: T) {
     override def reduce(m: M, a: C, y: T, b: C, remainder: Boolean) = x.subtract(m, a / b, y)
     override def reduce(ys: T*) = super.reduce(x)(ys*)

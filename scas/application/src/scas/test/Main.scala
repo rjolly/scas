@@ -6,8 +6,8 @@ import scala.io.Source
 val manager = new javax.script.ScriptEngineManager
 
 @main def Main(names: String*) = {
-  val file = new File(if (names.length > 0) names(0) else "examples")
-  val list = if (file.isDirectory) file.listFiles.toSeq else Seq(file)
+  val file = new File(if names.length > 0 then names(0) else "examples")
+  val list = if file.isDirectory then file.listFiles.toSeq else Seq(file)
   val n = (list.map { file =>
     println(file.getName)
     try {
@@ -25,5 +25,5 @@ val manager = new javax.script.ScriptEngineManager
   }
   val m = list.length - n
   println("success : " + n + ", failure : " + m)
-  if (m > 0) throw new RuntimeException("tests failed")
+  if m > 0 then throw new RuntimeException("tests failed")
 }

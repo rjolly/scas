@@ -10,29 +10,29 @@ trait Stream[+A] {
 
   def force: Stream[A] =
     var these = this
-    while (!these.isEmpty) these = these.tail
+    while !these.isEmpty do these = these.tail
     this
 
   def filter(p: A => Boolean): Stream[A] = {
     var rest = this
-    while (!rest.isEmpty && !p(rest.head)) rest = rest.tail
-    if (!rest.isEmpty) {
+    while !rest.isEmpty && !p(rest.head) do rest = rest.tail
+    if !rest.isEmpty then {
       rest.head #: rest.tail.filter(p)
     } else Stream.Nil
   }
 
-  def take(n: Int): Stream[A] = if (!isEmpty && n > 0) {
+  def take(n: Int): Stream[A] = if !isEmpty && n > 0 then {
     head #: tail.take(n - 1)
   } else Stream.Nil
 
-  def takeWhile(p: A => Boolean): Stream[A] = if (!isEmpty && p(head)) {
+  def takeWhile(p: A => Boolean): Stream[A] = if !isEmpty && p(head) then {
     head #: tail.takeWhile(p)
   } else Stream.Nil
 
   def exists(p: A => Boolean): Boolean = {
     var these = this
-    while (!these.isEmpty) {
-      if (p(these.head)) return true
+    while !these.isEmpty do {
+      if p(these.head) then return true
       these = these.tail
     }
     false
@@ -60,11 +60,11 @@ object Stream {
     def #:(xs1: => Stream[A]): Stream[A] =
       Cons(x, Future(xs1))
 
-  def apply[A](s: A*): Stream[A] = if (!s.isEmpty) s.head #: apply(s.tail*) else Nil
+  def apply[A](s: A*): Stream[A] = if !s.isEmpty then s.head #: apply(s.tail*) else Nil
 
   def range[T : Integral as num](start: T, end: T, step: T): Stream[T] = {
     import num._
-    if (if (step < zero) start <= end else end <= start) Nil
+    if if step < zero then start <= end else end <= start then Nil
     else start #: range(start + step, end, step)
   }
 
@@ -73,17 +73,17 @@ object Stream {
   trait Sequential[+A] extends Stream[A] {
     override def filter(p: A => Boolean): Stream[A] = {
       var rest: Stream[A] = this
-      while (!rest.isEmpty && !p(rest.head)) rest = rest.tail
-      if (!rest.isEmpty) {
+      while !rest.isEmpty && !p(rest.head) do rest = rest.tail
+      if !rest.isEmpty then {
         rest.head #:: rest.tail.filter(p)
       } else Stream.Nil
     }
 
-    override def take(n: Int): Stream[A] = if (!isEmpty && n > 0) {
+    override def take(n: Int): Stream[A] = if !isEmpty && n > 0 then {
       head #:: tail.take(n - 1)
     } else Stream.Nil
 
-    override def takeWhile(p: A => Boolean): Stream[A] = if (!isEmpty && p(head)) {
+    override def takeWhile(p: A => Boolean): Stream[A] = if !isEmpty && p(head) then {
       head #:: tail.takeWhile(p)
     } else Stream.Nil
   }
@@ -95,7 +95,7 @@ object Stream {
       lazy val tail = tl
     }
 
-    def apply[A](s: A*): Stream[A] = if (!s.isEmpty) s.head #:: apply(s.tail*) else Nil
+    def apply[A](s: A*): Stream[A] = if !s.isEmpty then s.head #:: apply(s.tail*) else Nil
 
     def from(start: Int, step: Int): Stream[Int] = start #:: from(start + step, step)
 
@@ -110,7 +110,7 @@ object Stream {
     override def hasNext: Boolean = !stream.isEmpty
 
     override def next(): A =
-      if (stream.isEmpty) Iterator.empty.next()
+      if stream.isEmpty then Iterator.empty.next()
       else {
         val res = stream.head
         stream = stream.tail

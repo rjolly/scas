@@ -9,15 +9,15 @@ trait TreePolynomial[C, M] extends Polynomial[Element[C, M], C, M] {
   def modifiable(x: Element[C, M]) = new TreeMap(x)
   def apply(s: (M, C)*) = {
     val r = new TreeMap[M, C](pp.reverse)
-    for ((m, c) <- s) r.put(m, c)
+    for (m, c) <- s do r.put(m, c)
     unmodifiable(r)
   }
 
   extension (x: Element[C, M]) def add(y: Element[C, M]) = {
     val r = modifiable(x)
-    for ((t, b) <- y.asScala) {
+    for (t, b) <- y.asScala do {
       val c = r.getOrElse(t, ring.zero) + b
-      if (c.isZero) r.remove(t) else r.put(t, c)
+      if c.isZero then r.remove(t) else r.put(t, c)
     }
     unmodifiable(r)
   }
@@ -41,14 +41,14 @@ trait TreePolynomial[C, M] extends Polynomial[Element[C, M], C, M] {
 
     def getOrElse(m: M, c: C) = {
       val a = x.get(m)
-      if (a == null) c else a
+      if a == null then c else a
     }
 
     def map(f: (M, C) => (M, C)) = {
       val r = modifiable(zero)
-      for ((s, a) <- x.asScala) {
+      for (s, a) <- x.asScala do {
         val (m, c) = f(s, a)
-        if (!c.isZero) r.put(m, c)
+        if !c.isZero then r.put(m, c)
       }
       unmodifiable(r)
     }

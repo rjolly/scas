@@ -11,10 +11,10 @@ class Lexicographic[N : Numeric : ClassTag](val variables: Variable*) extends Ar
 
   def compare(x: Array[N], y: Array[N]) = {
     var i = length
-    while (i > 0) {
+    while i > 0 do {
       i -= 1
-      if (x(i) < y(i)) return -1
-      if (x(i) > y(i)) return 1
+      if x(i) < y(i) then return -1
+      if x(i) > y(i) then return 1
     }
     0
   }
@@ -28,17 +28,17 @@ object Lexicographic {
 
     override def compare(x: Array[N], y: Array[N]) = {
       var i = length
-      while (i > 0) {
+      while i > 0 do {
         i -= 1
-        if (x(i) < y(i)) return -1
-        if (x(i) > y(i)) return 1
+        if x(i) < y(i) then return -1
+        if x(i) > y(i) then return 1
       }
       0
     }
     extension (x: Array[N]) override def multiply(y: Array[N]) = {
       val r = empty
       var i = 0
-      while (i <= length) {
+      while i <= length do {
         r(i) = x(i) + y(i)
         i += 1
       }

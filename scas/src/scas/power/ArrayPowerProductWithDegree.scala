@@ -10,12 +10,12 @@ trait ArrayPowerProductWithDegree[N : {Numeric as numeric, ClassTag}] extends Ar
   val one = empty
   def generator(n: Int) = {
     val r = empty
-    for (i <- 0 to length) r(i) = numeric.fromInt(if (i == n || i == length) 1 else 0)
+    for i <- 0 to length do r(i) = numeric.fromInt(if i == n || i == length then 1 else 0)
     r
   }
   def gcd(x: Array[N], y: Array[N]): Array[N] = {
     val r = empty
-    for (i <- 0 until length) {
+    for i <- 0 until length do {
       r(i) = numeric.min(x(i), y(i))
       r(length) += r(i)
     }
@@ -23,7 +23,7 @@ trait ArrayPowerProductWithDegree[N : {Numeric as numeric, ClassTag}] extends Ar
   }
   def lcm(x: Array[N], y: Array[N]): Array[N] = {
     val r = empty
-    for (i <- 0 until length) {
+    for i <- 0 until length do {
       r(i) = numeric.max(x(i), y(i))
       r(length) += r(i)
     }
@@ -34,7 +34,7 @@ trait ArrayPowerProductWithDegree[N : {Numeric as numeric, ClassTag}] extends Ar
     def multiply(y: Array[N]) = {
       val r = empty
       var i = 0
-      while (i <= length) {
+      while i <= length do {
         r(i) = x(i) + y(i)
         i += 1
       }
@@ -42,7 +42,7 @@ trait ArrayPowerProductWithDegree[N : {Numeric as numeric, ClassTag}] extends Ar
     }
     def divide(y: Array[N]) = {
       val r = empty
-      for (i <- 0 to length) {
+      for i <- 0 to length do {
         assert (x(i) >= y(i))
         r(i) = x(i) - y(i)
       }
@@ -50,15 +50,15 @@ trait ArrayPowerProductWithDegree[N : {Numeric as numeric, ClassTag}] extends Ar
     }
     def factorOf(y: Array[N]) = {
       var i = 0
-      while (i < length) {
-        if (x(i) > y(i)) return false
+      while i < length do {
+        if x(i) > y(i) then return false
         i += 1
       }
       true
     }
     def projection(n: Int, m: Int) = {
       val r = empty
-      for (i <- 0 until length) if (i >= n && i < m) {
+      for i <- 0 until length do if i >= n && i < m then {
         r(i) = x(i)
         r(length) += x(i)
       }
@@ -66,9 +66,9 @@ trait ArrayPowerProductWithDegree[N : {Numeric as numeric, ClassTag}] extends Ar
     }
     def convert(from: PowerProduct[Array[N]]) = {
       val r = empty
-      val l = if (from == this) x.length - 1 else from.length
+      val l = if from == this then x.length - 1 else from.length
       val index = from.variables.map(a => variables.indexOf(a))
-      for (i <- 0 until l) if (x(i) > numeric.zero) {
+      for i <- 0 until l do if x(i) > numeric.zero then {
         val c = index(i)
         assert (c > -1)
         r(c) = x(i)

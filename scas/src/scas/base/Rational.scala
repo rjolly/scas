@@ -17,17 +17,17 @@ object Rational extends Rational.Impl with Field.Conv[Rational] {
     extension (x: Rational) override def toCode(level: Level) = {
       import Level.given
       val Rational(n, d) = x
-      if (d.isOne) n.toCode(level) else {
-        if (n.bitLength < 64 && d.bitLength < 64) {
+      if d.isOne then n.toCode(level) else {
+        if n.bitLength < 64 && d.bitLength < 64 then {
           val s = n.toCode(Level.Multiplication) + "%%" + d.toCode(Level.Power)
-          if (level > Level.Multiplication) fenced(s) else s
+          if level > Level.Multiplication then fenced(s) else s
         } else s"Rational(\"$n\", \"$d\")"
       }
     }
     override def toString = "Rational"
     extension (x: Rational) override def toMathML = {
       val Rational(n, d) = x
-      if (d.isOne) n.toMathML else s"""<cn type="rational">$n<sep/>$d</cn>"""
+      if d.isOne then n.toMathML else s"""<cn type="rational">$n<sep/>$d</cn>"""
     }
     def toMathML = "<rationals/>"
 

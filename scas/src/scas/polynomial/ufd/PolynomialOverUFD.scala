@@ -11,11 +11,11 @@ trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactoriz
   override def normalize(x: T) = primitivePart(x)
   extension (x: T) {
     def divideAndRemainder(y: T) = {
-      if (y.isZero) throw new ArithmeticException("Polynomial divide by zero")
-      else if (x.isZero) (zero, zero)
+      if y.isZero then throw new ArithmeticException("Polynomial divide by zero")
+      else if x.isZero then (zero, zero)
       else {
         val (s, a) = x.head
-        if (y.factorOf(s, a, true)) {
+        if y.factorOf(s, a, true) then {
           val (t, b) = y.head
           val c = this(s / t, a / b)
           val (q, r) = (x - c * y).divideAndRemainder(y)
@@ -30,9 +30,9 @@ trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactoriz
     }
     override def reduce(strict: Boolean, tail: Boolean, ys: T*) = super.reduce(x)(strict, tail, ys*)
     override def reduce(m: M, a: C, y: T, b: C, strict: Boolean) = {
-      if (strict) x.subtract(m, a / b, y) else {
+      if strict then x.subtract(m, a / b, y) else {
         val c = ring.gcd(a, b)
-        val gcd = if (b.signum == -c.signum) -c else c
+        val gcd = if b.signum == -c.signum then -c else c
         val (a0, b0) = (a / gcd, b / gcd)
         (x%* b0).subtract(m, a0, y)
       }
@@ -46,10 +46,10 @@ trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactoriz
       ring.gcd(l, a)
     }
     val d = ring.abs(c)
-    if (x.signum < 0) -d else d
+    if x.signum < 0 then -d else d
   }
   def contentAndPrimitivePart(x: T) = {
-    if (x.isZero) (ring.zero, zero) else {
+    if x.isZero then (ring.zero, zero) else {
       val c = content(x)
       (c, x%/ c)
     }

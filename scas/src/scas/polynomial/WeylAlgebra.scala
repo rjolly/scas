@@ -2,7 +2,7 @@ package scas.polynomial
 
 trait WeylAlgebra[T, C, M] extends SolvablePolynomial[T, C, M] {
   val n = pp.length >> 1
-  for (i <- 0 until n; j = i + n) {
+  for i <- 0 until n; j = i + n do {
     val xi = generator(i)
     val xj = generator(j)
     update(xj, xi, xi * xj + one)

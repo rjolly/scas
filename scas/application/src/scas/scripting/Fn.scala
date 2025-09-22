@@ -40,7 +40,7 @@ class Fn(var n: Variable*) extends FieldParsers[Double => Double] {
     case expr ~ variable if (contains(variable)) => Graph(expr)
   }
   def contains(variable: Variable) = {
-    if (n.isEmpty) n = List(variable)
+    if n.isEmpty then n = List(variable)
     n.contains(variable)
   }
 }

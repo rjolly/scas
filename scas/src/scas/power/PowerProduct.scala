@@ -14,7 +14,7 @@ trait PowerProduct[M] extends Monoid[M] {
   def newInstance(variables: Variable*): PowerProduct[M]
   def generator(variable: Variable): M = generator(variables.indexOf(variable))
   def generator(n: Int): M
-  def generators = (for (i <- 0 until length) yield generator(i)).toList
+  def generators = (for i <- 0 until length yield generator(i)).toList
   def apply(x: Int) = {
     assert (x == 1)
     one

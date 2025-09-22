@@ -14,25 +14,25 @@ trait GMSetting[T, C, M, P[M] <: Pair[M]](using factory: Polynomial[T, C, M]) ex
 
   override def make(index: Int): Unit = {
     val buffer = new ArrayBuffer[P[M]]
-    for (pair <- pairs) {
+    for pair <- pairs do {
       val p1 = apply(pair.i, index)
       val p2 = apply(pair.j, index)
-      if ((p1 | pair) && (p2 | pair)) buffer += pair
+      if (p1 | pair) && (p2 | pair) then buffer += pair
     }
-    for (i <- 0 until buffer.size) remove(buffer(i))
+    for i <- 0 until buffer.size do remove(buffer(i))
     var s = SortedSet.empty(using natural)
-    for (i <- 0 until index) {
+    for i <- 0 until index do {
       val pair = apply(i, index)
       s += pair
       add(pair)
     }
     buffer.clear
     buffer ++= s
-    for (i <- 0 until buffer.size) {
+    for i <- 0 until buffer.size do {
       val p1 = buffer(i)
-      for (j <- i + 1 until buffer.size) {
+      for j <- i + 1 until buffer.size do {
         val p2 = buffer(j)
-        if (p1.scm | p2.scm) remove(p2)
+        if p1.scm | p2.scm then remove(p2)
       }
     }
   }

@@ -16,11 +16,11 @@ trait Numeric[T] extends Ordering[T] {
   def zero = fromInt(0)
   def one = fromInt(1)
 
-  def abs(x: T) = if (x.signum < 0) -x else x
+  def abs(x: T) = if x.signum < 0 then -x else x
 
   extension (x: T) def signum =
-    if (x < zero) -1
-    else if (x > zero) 1
+    if x < zero then -1
+    else if x > zero then 1
     else 0
 }
 

@@ -45,7 +45,7 @@ trait SolvablePolynomial[T, C, M] extends Polynomial[T, C, M] {
     }
   }
   def select(list: List[Relation], relation: Relation): Relation = list match {
-    case head::tail => if (factorOf(head, relation)) head else select(tail, relation)
+    case head::tail => if factorOf(head, relation) then head else select(tail, relation)
     case _ => relation
   }
   def factorOf(x: Relation, y: Relation) = {
@@ -58,7 +58,7 @@ trait SolvablePolynomial[T, C, M] extends Polynomial[T, C, M] {
     val df = pp.dependencyOnVariables(f)
     (de(0), df(0))
   }
-  def toList = (for ((a, b) <- table.asScala; relation <- b) yield relation).toList
+  def toList = (for (a, b) <- table.asScala; relation <- b yield relation).toList
   override def toString = s"${super.toString}(${toList.show(false)})"
   override def toMathML = s"<msub>${super.toMathML}<mfenced>${toList.toMathML(false)}</mfenced></msub>"
 
@@ -80,26 +80,26 @@ trait SolvablePolynomial[T, C, M] extends Polynomial[T, C, M] {
   extension (e: M) def %*%(f: M): T = {
     val ep = pp.dependencyOnVariables(e)
     val fp = pp.dependencyOnVariables(f)
-    if (ep.length == 0 || fp.length == 0) this(e * f) else {
+    if ep.length == 0 || fp.length == 0 then this(e * f) else {
       val el = ep(ep.length-1)
       val fl = fp(0)
-      if (el <= fl) this(e * f) else {
+      if el <= fl then this(e * f) else {
         val e2 = e.projection(el)
         val f2 = f.projection(fl)
         val e1 = e / e2
         val f1 = f / f2
         val Relation(e3, f3, c3) = lookup(e2, f2)
         var cs = c3
-        if (!(f3.isOne)) {
+        if !(f3.isOne) then {
           cs = cs%* f3
           update(e2 / e3, f2, cs)
         }
-        if (!(e3.isOne)) {
+        if !(e3.isOne) then {
           cs = this(e3) * cs
           update(e2, f2, cs)
         }
-        if (!(f1.isOne)) cs = cs%* f1
-        if (!(e1.isOne)) cs = this(e1) * cs
+        if !(f1.isOne) then cs = cs%* f1
+        if !(e1.isOne) then cs = this(e1) * cs
         cs
       }
     }

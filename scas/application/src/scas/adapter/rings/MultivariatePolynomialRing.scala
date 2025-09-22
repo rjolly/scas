@@ -10,7 +10,7 @@ import java.util.Comparator
 trait MultivariatePolynomialRing[C : Ring](monomialOrder: Comparator[DegreeVector], variables: String*) extends Ring[MultivariatePolynomial[C]] {
   val ring: MultivariateRing[MultivariatePolynomial[C]] = MultivariateRing(MultivariatePolynomial.zero(variables.size, Ring[C].ring, monomialOrder))
   override def coder = Coder.mkMultivariateCoder(ring, Ring[C].coder, variables*)
-  def gens = (for (i <- 0 until ring.nVariables()) yield ring.variable(i)).toList
+  def gens = (for i <- 0 until ring.nVariables() yield ring.variable(i)).toList
 
   given coef2poly[D : Conversion[C]]: (D => MultivariatePolynomial[C]) = x => ring.factory().createConstant(~x)
 }

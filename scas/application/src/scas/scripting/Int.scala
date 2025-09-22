@@ -22,5 +22,5 @@ object Int extends OrderedRingParsers[BigInteger] {
 
   def factorial(x: BigInteger): BigInteger = factorial(BigInteger.one, x)
 
-  @tailrec final def factorial(res: BigInteger, x: BigInteger): BigInteger = if (x > 1) factorial(x * res, x - 1) else res
+  @tailrec final def factorial(res: BigInteger, x: BigInteger): BigInteger = if x > 1 then factorial(x * res, x - 1) else res
 }
