@@ -2,7 +2,7 @@ package scas.scripting
 
 import Factors.Element
 
-class NormalForm(conj: Boolean)(using val ring: BooleanAlgebra) extends Factors[BA, Int] {
+open class NormalForm(conj: Boolean)(using val ring: BooleanAlgebra) extends Factors[BA, Int] {
   def empty = Map.empty[BA, Int]
   override def apply(x: BA) = if x.isZero then zero else {
     val s = ring.gb(flip(x)).foldLeft(one)((l, a) => l * super.apply(flip(a)))
