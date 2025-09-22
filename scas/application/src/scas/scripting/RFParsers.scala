@@ -8,14 +8,15 @@ import scas.base.BigInteger
 
 type RF = Element[Poly]
 
-class RFParsers(using var structure: RationalFunction) extends FieldParsers[RF] {
-  def this(ring: PolynomialOverUFD[Poly, BigInteger, Array[Int]]) = this(using new RationalFunction(using ring))
-  val poly = new PolyParsers(using structure.ring)
+class RFParsers(var using_structure: RationalFunction) extends FieldParsers[RF] {
+  def this(ring: PolynomialOverUFD[Poly, BigInteger, Array[Int]]) = this(new RationalFunction(using ring))
+  override given structure: () => RationalFunction = using_structure
+  val poly = new PolyParsers(structure.ring)
 
   def base: Parser[RF] = poly.base ^^ {
     case x if (poly.structure == structure.ring) => structure(x)
     case x => {
-      structure = new RationalFunction(using poly.structure)
+      using_structure = new RationalFunction(using poly.structure)
       structure(x)
     }
   } | "(" ~> expr <~ ")"

@@ -5,7 +5,7 @@ import scala.annotation.nowarn
 import scas.base.Boolean
 
 object BooleanParsers extends BooleanRingParsers[Boolean] {
-  given structure: Boolean.Impl = Boolean
+  override given structure: () => Boolean.Impl = Boolean
   def boolean: Parser[Boolean] = ("true" | "false") ^^ { _.toBoolean }
   def base: Parser[Boolean] = boolean | "(" ~> expr <~ ")"
   @nowarn("msg=match may not be exhaustive")
