@@ -1,9 +1,10 @@
 package scas.group
 
+import scala.compiletime.deferred
 import scas.structure.{AbelianGroup, Group, Monoid}
 
 trait FromAbelian[T] extends Group[T] {
-  given group: AbelianGroup[T]
+  given group: AbelianGroup[T] = deferred
   override def one = group.zero
   extension (x: T) {
     def multiply(y: T) = group.add(x)(y)
@@ -18,7 +19,7 @@ trait FromAbelian[T] extends Group[T] {
 }
 
 object FromAbelian {
-  class Conv[T](using val group: AbelianGroup[T]) extends FromAbelian[T] with Monoid.Conv[T] {
+  class Conv[T](using AbelianGroup[T]) extends FromAbelian[T] with Monoid.Conv[T] {
     given instance: Conv[T] = this
   }
 }

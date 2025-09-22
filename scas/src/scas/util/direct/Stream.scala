@@ -63,7 +63,7 @@ object Stream {
   def apply[A](s: A*): Stream[A] = if !s.isEmpty then s.head #: apply(s.tail*) else Nil
 
   def range[T : Integral as num](start: T, end: T, step: T): Stream[T] = {
-    import num._
+    import num.*
     if if step < zero then start <= end else end <= start then Nil
     else start #: range(start + step, end, step)
   }

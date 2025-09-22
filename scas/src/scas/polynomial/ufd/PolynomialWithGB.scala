@@ -9,7 +9,7 @@ import scas.module.Array
 import scas.base.BigInteger
 import BigInteger.given
 
-trait PolynomialWithGB[T : ClassTag, C, N : Numeric : ClassTag] extends PolynomialOverUFD[T, C, Array[N]] {
+trait PolynomialWithGB[T : ClassTag, C, N : {Numeric, ClassTag}] extends PolynomialOverUFD[T, C, Array[N]] {
   given pp: ArrayPowerProduct[N] = deferred
   def newInstance(pp: ArrayPowerProduct[N]): PolynomialWithGB[T, C, N]
   def gcd(x: T, y: T) = {

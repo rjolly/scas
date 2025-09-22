@@ -1,7 +1,7 @@
 package scas.quotient
 
 import scas.structure.commutative.Field
-import scas.structure.commutative.Quotient.{Element => Quotient_Element}
+import scas.structure.commutative.Quotient.{Element as Quotient_Element}
 import scas.polynomial.tree.PolynomialWithSubresGCD
 import scas.polynomial.TreePolynomial.Element
 import scas.polynomial.ufd.PolynomialOverUFD

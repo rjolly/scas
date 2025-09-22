@@ -3,7 +3,7 @@ package scas.power
 import scala.reflect.ClassTag
 import scas.math.Numeric
 
-class ModifiedPOT[N : Numeric : ClassTag](factory: ArrayPowerProduct[N], name: String, dimension: Int) extends POT(factory, name, dimension) {
+class ModifiedPOT[N : {Numeric, ClassTag}](factory: ArrayPowerProduct[N], name: String, dimension: Int) extends POT(factory, name, dimension) {
   override def compare(x: Array[N], y: Array[N]) = {
     if x(length + 1) < y(length + 1) then return -1
     if x(length + 1) > y(length + 1) then return 1

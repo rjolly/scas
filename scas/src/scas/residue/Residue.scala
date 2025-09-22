@@ -13,7 +13,7 @@ trait Residue[T : ClassTag, C, N] extends scas.structure.commutative.Residue[T, 
   var mods = List.empty[T]
   def generator(n: Int) = ring.generator(n)
   def generators = ring.generators
-  given coef2poly[D: Conversion[C]]: (D => T) = ring.coef2poly
+  given coef2poly: [D: Conversion[C]] => (D => T) = ring.coef2poly
   def update(s: T*): Unit = {
     mods = gb(false, s*)
   }

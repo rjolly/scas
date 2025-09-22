@@ -4,7 +4,7 @@ import scala.reflect.ClassTag
 import scas.math.Numeric
 import scas.variable.Variable
 
-class DegreeLexicographic[N : Numeric : ClassTag](val variables: Variable*) extends ArrayPowerProductWithDegree[N] {
+class DegreeLexicographic[N : {Numeric, ClassTag}](val variables: Variable*) extends ArrayPowerProductWithDegree[N] {
   def newInstance(variables: Variable*) = new DegreeLexicographic[N](variables*)
 
   def compare(x: Array[N], y: Array[N]) = {

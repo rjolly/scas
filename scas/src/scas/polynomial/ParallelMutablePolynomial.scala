@@ -1,6 +1,6 @@
 package scas.polynomial
 
-import scala.collection.parallel.CollectionConverters._
+import scala.collection.parallel.CollectionConverters.*
 
 trait ParallelMutablePolynomial[T, C, M] extends Polynomial[T, C, M] {
   def unmodifiable(x: T): T

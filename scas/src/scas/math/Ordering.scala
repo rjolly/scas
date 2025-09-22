@@ -5,7 +5,7 @@ import scas.util.{Conversion, unary_~}
 trait Ordering[T] extends scala.math.Ordering[T] with PartialOrdering[T]
 
 object Ordering {
-  def by[T, S](f: T => S)(implicit ord: scala.math.Ordering[S]): Ordering[T] = new Ordering[T] {
+  def by[T, S : scala.math.Ordering as ord](f: T => S): Ordering[T] = new Ordering[T] {
     def compare(x: T, y: T) = ord.compare(f(x), f(y))
     override def lt(x: T, y: T): Boolean = ord.lt(f(x), f(y))
     override def gt(x: T, y: T): Boolean = ord.gt(f(x), f(y))

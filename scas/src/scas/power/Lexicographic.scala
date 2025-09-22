@@ -6,7 +6,7 @@ import scas.math.Numeric
 import scas.variable.Variable
 import scas.util.{Conversion, unary_~}
 
-class Lexicographic[N : Numeric : ClassTag](val variables: Variable*) extends ArrayPowerProductWithDegree[N] {
+class Lexicographic[N : {Numeric, ClassTag}](val variables: Variable*) extends ArrayPowerProductWithDegree[N] {
   def newInstance(variables: Variable*) = new Lexicographic[N](variables*)
 
   def compare(x: Array[N], y: Array[N]) = {
@@ -21,9 +21,9 @@ class Lexicographic[N : Numeric : ClassTag](val variables: Variable*) extends Ar
 }
 
 object Lexicographic {
-  def apply[N : Numeric : ClassTag, S : Conversion[Variable]](degree: N)(variables: S*) = new Conv[N](variables.map(~_)*)
+  def apply[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(variables: S*) = new Conv[N](variables.map(~_)*)
 
-  @nowarn("msg=New anonymous class definition will be duplicated at each inline site") inline def inlined[N : Numeric : ClassTag, S : Conversion[Variable]](degree: N)(variables: S*): Lexicographic[N] = new Lexicographic[N](variables.map(~_)*) {
+  @nowarn("msg=New anonymous class definition will be duplicated at each inline site") inline def inlined[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(variables: S*): Lexicographic[N] = new Lexicographic[N](variables.map(~_)*) {
     override def newInstance(variables: Variable*) = ???
 
     override def compare(x: Array[N], y: Array[N]) = {
@@ -46,7 +46,7 @@ object Lexicographic {
     }
   }
 
-  class Conv[N : Numeric : ClassTag](variables: Variable*) extends Lexicographic[N](variables*) with PowerProduct.Conv[Array[N]] {
+  class Conv[N : {Numeric, ClassTag}](variables: Variable*) extends Lexicographic[N](variables*) with PowerProduct.Conv[Array[N]] {
     given instance: Conv[N] = this
   }
 }

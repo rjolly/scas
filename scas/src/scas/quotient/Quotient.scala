@@ -10,7 +10,7 @@ trait Quotient[T, C, M] extends scas.structure.commutative.Quotient[T] {
   def generator(n: Int) = this(ring.generator(n))
   def generators = ring.generators.map(apply)
   def toMathML = ring.toMathML(true)
-  given coef2poly[D: Conversion[C]]: (D => T) = ring.coef2poly
+  given coef2poly: [D: Conversion[C]] => (D => T) = ring.coef2poly
 
   extension (ring: PolynomialOverUFD[T, C, M]) def quotient() = this
 }
