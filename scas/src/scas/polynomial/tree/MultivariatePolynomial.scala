@@ -1,6 +1,6 @@
 package scas.polynomial.tree
 
-import scas.power.{PowerProduct, Lexicographic}
+import scas.power.splitable.{PowerProduct, Lexicographic}
 import scas.structure.commutative.{UniqueFactorizationDomain, Field}
 import scas.variable.Variable
 import scas.util.{Conversion, unary_~}

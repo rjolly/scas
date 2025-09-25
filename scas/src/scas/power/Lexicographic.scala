@@ -6,7 +6,7 @@ import scas.math.Numeric
 import scas.variable.Variable
 import scas.util.{Conversion, unary_~}
 
-class Lexicographic[N : {Numeric, ClassTag}](val variables: Variable*) extends ArrayPowerProductWithDegree[N] {
+open class Lexicographic[N : {Numeric, ClassTag}](val variables: Variable*) extends ArrayPowerProductWithDegree[N] {
   def newInstance(variables: Variable*) = new Lexicographic[N](variables*)
 
   def compare(x: Array[N], y: Array[N]) = {

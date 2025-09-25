@@ -1,9 +1,11 @@
 package scas.polynomial.ufd
 
-import scas.power.PowerProduct
+import scala.compiletime.deferred
+import scas.power.splitable.PowerProduct
 import scas.structure.commutative.UniqueFactorizationDomain
 
 trait MultivariatePolynomial[T[C, M], C, M] extends PolynomialOverUFD[T[C, M], C, M] {
+  given pp: PowerProduct[M] = deferred
   val take = pp.take(1)
   val drop = pp.drop(1)
   def newInstance: [C] => (UniqueFactorizationDomain[C], PowerProduct[M]) => MultivariatePolynomial[T, C, M]
