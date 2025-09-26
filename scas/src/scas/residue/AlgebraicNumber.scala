@@ -11,7 +11,7 @@ open class AlgebraicNumber[C](var using_ring: PolynomialOverFieldWithGB[Element[
   def this(ring: Field[C])(variables: Variable*) = this(new scas.polynomial.tree.PolynomialOverFieldWithGB(using ring, new DegreeReverseLexicographic[Int](variables*)))
   override given ring: () => PolynomialOverFieldWithGB[Element[C, Array[Int]], C, Int] = using_ring
   def extend(variables: Variable*): Unit = {
-    using_ring = ring.newInstance((ring.pp.variables ++ variables)*)
+    using_ring = ring.extended(variables*)
     mods = mods.map(_.convert)
   }
 }
