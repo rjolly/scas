@@ -7,7 +7,6 @@ import scas.base.BigInteger
 import BigInteger.given
 
 class PowerProduct(val variables: Variable*)(tord: TermOrder) extends scas.power.PowerProduct[ExpVector] {
-  def newInstance(variables: Variable*) = new PowerProduct(variables*)(tord)
   val comp = tord.getDescendComparator
   val one = ExpVector.create(length)
   def generator(n: Int) = ExpVector.create(length, n, 1)

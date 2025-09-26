@@ -6,8 +6,6 @@ import scas.variable.Variable
 import scas.util.{Conversion, unary_~}
 
 open class DegreeReverseLexicographic[N : {Numeric, ClassTag}](val variables: Variable*) extends ArrayPowerProductWithDegree[N] {
-  def newInstance(variables: Variable*) = new DegreeReverseLexicographic[N](variables*)
-
   def compare(x: Array[N], y: Array[N]) = {
     if x(length) < y(length) then return -1
     if x(length) > y(length) then return 1
