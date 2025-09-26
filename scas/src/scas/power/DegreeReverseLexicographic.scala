@@ -5,7 +5,7 @@ import scas.math.Numeric
 import scas.variable.Variable
 import scas.util.{Conversion, unary_~}
 
-class DegreeReverseLexicographic[N : {Numeric, ClassTag}](val variables: Variable*) extends ArrayPowerProductWithDegree[N] {
+open class DegreeReverseLexicographic[N : {Numeric, ClassTag}](val variables: Variable*) extends ArrayPowerProductWithDegree[N] {
   def newInstance(variables: Variable*) = new DegreeReverseLexicographic[N](variables*)
 
   def compare(x: Array[N], y: Array[N]) = {

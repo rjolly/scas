@@ -1,6 +1,6 @@
 package scas.residue
 
-import scas.power.DegreeReverseLexicographic
+import scas.power.splitable.DegreeReverseLexicographic
 import scas.polynomial.TreePolynomial.Element
 import scas.polynomial.ufd.PolynomialOverFieldWithGB
 import scas.structure.commutative.Field
