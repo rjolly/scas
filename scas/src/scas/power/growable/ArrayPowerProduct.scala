@@ -1,4 +1,4 @@
-package scas.power.splitable
+package scas.power.growable
 
 import scas.math.Numeric
 import scas.variable.Variable
