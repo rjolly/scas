@@ -4,7 +4,7 @@ import scala.compiletime.deferred
 import scala.reflect.ClassTag
 import scas.math.Numeric
 import scas.structure.commutative.Field
-import scas.power.splitable.ArrayPowerProduct
+import scas.power.growable.ArrayPowerProduct
 import scas.module.Array
 import scas.variable.Variable
 import scas.base.BigInteger

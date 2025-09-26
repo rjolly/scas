@@ -1,6 +1,6 @@
 import scas.base.{BigInteger, Rational}
 import scas.polynomial.tree.PolynomialOverFieldWithGB
-import scas.power.splitable.DegreeReverseLexicographic
+import scas.power.growable.DegreeReverseLexicographic
 import scas.residue.Residue
 import BigInteger.given
 import Rational.given
