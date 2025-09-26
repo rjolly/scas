@@ -9,7 +9,6 @@ import scas.prettyprint.Show.given
 trait PowerProduct[M] extends Monoid[M] {
   def variables: Seq[Variable]
   def length = variables.length
-  def newInstance(variables: Variable*): PowerProduct[M]
   def generator(variable: Variable): M = generator(variables.indexOf(variable))
   def generator(n: Int): M
   def generators = (for i <- 0 until length yield generator(i)).toList

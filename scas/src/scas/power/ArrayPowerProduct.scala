@@ -5,7 +5,6 @@ import scas.variable.Variable
 
 trait ArrayPowerProduct[N : Numeric as numeric] extends PowerProduct[Array[N]] {
   def empty: Array[N]
-  def newInstance(variables: Variable*): ArrayPowerProduct[N]
   extension (x: Array[N]) def dependencyOnVariables = (for i <- 0 until length if (x(i) > numeric.zero) yield i).toArray
   extension (x: Array[N]) def toCode(level: Level, times: String) = {
     var s = "1"

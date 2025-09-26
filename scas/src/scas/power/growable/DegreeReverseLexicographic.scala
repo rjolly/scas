@@ -6,7 +6,7 @@ import scas.variable.Variable
 import scas.util.{Conversion, unary_~}
 
 class DegreeReverseLexicographic[N : {Numeric, ClassTag}](variables: Variable*) extends scas.power.DegreeReverseLexicographic[N](variables*) with ArrayPowerProduct[N] {
-  override def newInstance(variables: Variable*) = new DegreeReverseLexicographic[N](variables*)
+  def newInstance(variables: Variable*) = new DegreeReverseLexicographic[N](variables*)
 }
 
 object DegreeReverseLexicographic {
