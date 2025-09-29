@@ -6,17 +6,7 @@ import scas.math.Numeric
 import scas.variable.Variable
 import scas.util.{Conversion, unary_~}
 
-open class Lexicographic[N : {Numeric, ClassTag}](val variables: Variable*) extends ArrayPowerProductWithDegree[N] {
-  def compare(x: Array[N], y: Array[N]) = {
-    var i = length
-    while i > 0 do {
-      i -= 1
-      if x(i) < y(i) then return -1
-      if x(i) > y(i) then return 1
-    }
-    0
-  }
-}
+class Lexicographic[N : {Numeric, ClassTag}](val variables: Variable*) extends Lexicographic.Impl[N]
 
 object Lexicographic {
   def apply[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(variables: S*) = new Conv[N](variables.map(~_)*)
@@ -42,7 +32,19 @@ object Lexicographic {
     }
   }
 
-  class Conv[N : {Numeric, ClassTag}](variables: Variable*) extends Lexicographic[N](variables*) with PowerProduct.Conv[Array[N]] {
+  trait Impl[N : {Numeric, ClassTag}] extends ArrayPowerProductWithDegree[N] {
+    def compare(x: Array[N], y: Array[N]) = {
+      var i = length
+      while i > 0 do {
+        i -= 1
+        if x(i) < y(i) then return -1
+        if x(i) > y(i) then return 1
+      }
+      0
+    }
+  }
+
+  class Conv[N : {Numeric, ClassTag}](val variables: Variable*) extends Impl[N] with PowerProduct.Conv[Array[N]] {
     given instance: Conv[N] = this
   }
 }
