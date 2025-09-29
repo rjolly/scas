@@ -4,7 +4,7 @@ import scala.compiletime.deferred
 import scas.base.BigInteger
 
 trait Residue[T, R] extends UniqueFactorizationDomain[T] {
-  given ring: () => UniqueFactorizationDomain[R] = deferred
+  given ring: UniqueFactorizationDomain[R] = deferred
   def apply(x: R): T
   val self = this
   def unapply(x: T): Option[R]

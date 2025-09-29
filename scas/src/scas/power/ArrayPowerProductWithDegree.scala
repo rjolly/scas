@@ -7,7 +7,6 @@ import BigInteger.given
 
 trait ArrayPowerProductWithDegree[N : {Numeric as numeric, ClassTag}] extends ArrayPowerProduct[N] {
   def empty = new Array[N](length + 1)
-  val one = empty
   def generator(n: Int) = {
     val r = empty
     for i <- 0 to length do r(i) = numeric.fromInt(if i == n || i == length then 1 else 0)

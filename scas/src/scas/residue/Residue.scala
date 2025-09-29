@@ -9,7 +9,7 @@ import scas.module.ArrayModule
 import scas.prettyprint.Show.given
 
 trait Residue[T : ClassTag, C, N] extends scas.structure.commutative.Residue[T, T] {
-  given ring: () => PolynomialWithGB[T, C, N] = deferred
+  given ring: PolynomialWithGB[T, C, N] = deferred
   var mods = List.empty[T]
   def generator(n: Int) = ring.generator(n)
   def generators = ring.generators
@@ -38,5 +38,5 @@ trait Residue[T : ClassTag, C, N] extends scas.structure.commutative.Residue[T, 
 }
 
 object Residue {
-  def apply[T : ClassTag, C, N](ring: PolynomialOverFieldWithGB[T, C, N])(s: T*) = new ResidueOverField.Conv(ring)(s*)
+  def apply[T : ClassTag, C, N](ring: PolynomialOverFieldWithGB[T, C, N])(s: T*) = new ResidueOverField.Conv(using ring)(s*)
 }

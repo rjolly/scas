@@ -10,9 +10,8 @@ import scas.util.{Conversion, unary_~}
 import scas.base.{BigInteger, Boolean}
 import BigInteger.given
 
-open class BooleanAlgebra(using_ring: PolynomialWithGB[Element[Boolean, Array[Int]], Boolean, Int]) extends Residue[Element[Boolean, Array[Int]], Boolean, Int] with BooleanRing[Element[Boolean, Array[Int]]] {
-  def this(variables: Variable*) = this(new scas.polynomial.tree.PolynomialWithGB(using Boolean, new Lexicographic[Int](variables*)))
-  override given ring: () => PolynomialWithGB[Element[Boolean, Array[Int]], Boolean, Int] = using_ring
+open class BooleanAlgebra(using PolynomialWithGB[Element[Boolean, Array[Int]], Boolean, Int]) extends Residue[Element[Boolean, Array[Int]], Boolean, Int] with BooleanRing[Element[Boolean, Array[Int]]] {
+  def this(variables: Variable*) = this(using new scas.polynomial.tree.PolynomialWithGB(using Boolean, new Lexicographic[Int](variables*)))
   update(generators.map(x => x+x\2)*)
   extension (x: Element[Boolean, Array[Int]]) {
     override def toCode(level: Level) = ring.toCode(x)(level, " ^ ", " && ")

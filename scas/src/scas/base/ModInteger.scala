@@ -6,7 +6,7 @@ import BigInteger.given
 
 class ModInteger(mod: BigInteger) extends Residue[Int, BigInteger] with Field[Int] {
   assert (mod.isProbablePrime(100))
-  override given ring: () => BigInteger.type = BigInteger
+  override given ring: BigInteger.type = BigInteger
   def apply(x: BigInteger) = this(x.longValue)
   def unapply(x: Int) = Some(int2bigInt(x))
   def fromRing(x: BigInteger) = this(x)
