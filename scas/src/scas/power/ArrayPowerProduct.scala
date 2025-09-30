@@ -10,9 +10,9 @@ trait ArrayPowerProduct[N : Numeric as numeric] extends PowerProduct[Array[N]] {
   extension (x: Array[N]) def toCode(level: Level, times: String) = {
     var s = "1"
     var m = 0
-    for i <- 0 until length do if x(i) > numeric.zero then {
+    for i <- 0 until length do if x.get(i) > numeric.zero then {
       val a = variables(i)
-      val b = x(i)
+      val b = x.get(i)
       val t = if b >< numeric.one then a.toString else s"$a\\$b"
       s = if m == 0 then t else s + times + t
       m += 1
@@ -22,9 +22,9 @@ trait ArrayPowerProduct[N : Numeric as numeric] extends PowerProduct[Array[N]] {
   extension (x: Array[N]) def toMathML(times: String) = {
     var s = "<cn>1</cn>"
     var m = 0
-    for i <- 0 until length do if x(i) > numeric.zero then {
+    for i <- 0 until length do if x.get(i) > numeric.zero then {
       val a = variables(i)
-      val b = x(i)
+      val b = x.get(i)
       val t = if b >< numeric.one then a.toMathML else s"<apply><power/>${a.toMathML}<cn>$b</cn></apply>"
       s = if m == 0 then t else s"<apply><$times/>$s$t</apply>"
       m += 1
@@ -33,7 +33,8 @@ trait ArrayPowerProduct[N : Numeric as numeric] extends PowerProduct[Array[N]] {
   }
   extension (x: Array[N]) def size = {
     var m = 0
-    for i <- 0 until length do if x(i) > numeric.zero then m += 1
+    for i <- 0 until length do if x.get(i) > numeric.zero then m += 1
     m
   }
+  extension (x: Array[N]) inline def get(i: Int) = x(i)
 }

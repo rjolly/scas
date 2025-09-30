@@ -12,8 +12,8 @@ object DegreeLexicographic {
       var i = length + 1
       while i > 0 do {
         i -= 1
-        if x(i) < y(i) then return -1
-        if x(i) > y(i) then return 1
+        if x.get(i) < y.get(i) then return -1
+        if x.get(i) > y.get(i) then return 1
       }
       0
     }

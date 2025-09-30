@@ -15,7 +15,7 @@ trait ArrayPowerProductWithDegree[N : {Numeric as numeric, ClassTag}] extends Ar
   def gcd(x: Array[N], y: Array[N]): Array[N] = {
     val r = empty
     for i <- 0 until length do {
-      r(i) = numeric.min(x(i), y(i))
+      r(i) = numeric.min(x.get(i), y.get(i))
       r(length) += r(i)
     }
     r
@@ -23,18 +23,18 @@ trait ArrayPowerProductWithDegree[N : {Numeric as numeric, ClassTag}] extends Ar
   def lcm(x: Array[N], y: Array[N]): Array[N] = {
     val r = empty
     for i <- 0 until length do {
-      r(i) = numeric.max(x(i), y(i))
+      r(i) = numeric.max(x.get(i), y.get(i))
       r(length) += r(i)
     }
     r
   }
   extension (x: Array[N]) {
-    def degree = BigInteger.fromInt(x(length).toLong)
+    def degree = BigInteger.fromInt(x.get(length).toLong)
     def multiply(y: Array[N]) = {
       val r = empty
       var i = 0
       while i <= length do {
-        r(i) = x(i) + y(i)
+        r(i) = x.get(i) + y.get(i)
         i += 1
       }
       r
@@ -42,15 +42,15 @@ trait ArrayPowerProductWithDegree[N : {Numeric as numeric, ClassTag}] extends Ar
     def divide(y: Array[N]) = {
       val r = empty
       for i <- 0 to length do {
-        assert (x(i) >= y(i))
-        r(i) = x(i) - y(i)
+        assert (x.get(i) >= y.get(i))
+        r(i) = x.get(i) - y.get(i)
       }
       r
     }
     def factorOf(y: Array[N]) = {
       var i = 0
       while i < length do {
-        if x(i) > y(i) then return false
+        if x.get(i) > y.get(i) then return false
         i += 1
       }
       true
@@ -58,8 +58,8 @@ trait ArrayPowerProductWithDegree[N : {Numeric as numeric, ClassTag}] extends Ar
     def projection(n: Int, m: Int) = {
       val r = empty
       for i <- 0 until length do if i >= n && i < m then {
-        r(i) = x(i)
-        r(length) += x(i)
+        r(i) = x.get(i)
+        r(length) += x.get(i)
       }
       r
     }

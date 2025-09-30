@@ -37,8 +37,8 @@ object Lexicographic {
       var i = length
       while i > 0 do {
         i -= 1
-        if x(i) < y(i) then return -1
-        if x(i) > y(i) then return 1
+        if x.get(i) < y.get(i) then return -1
+        if x.get(i) > y.get(i) then return 1
       }
       0
     }

@@ -12,12 +12,12 @@ object DegreeReverseLexicographic {
 
   trait Impl[N : {Numeric, ClassTag}] extends ArrayPowerProductWithDegree[N] {
     def compare(x: Array[N], y: Array[N]) = {
-      if x(length) < y(length) then return -1
-      if x(length) > y(length) then return 1
+      if x.get(length) < y.get(length) then return -1
+      if x.get(length) > y.get(length) then return 1
       var i = 0
       while i < length do {
-        if x(i) > y(i) then return -1
-        if x(i) < y(i) then return 1
+        if x.get(i) > y.get(i) then return -1
+        if x.get(i) < y.get(i) then return 1
         i += 1
       }
       0
