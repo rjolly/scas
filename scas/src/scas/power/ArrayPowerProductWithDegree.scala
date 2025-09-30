@@ -2,17 +2,15 @@ package scas.power
 
 import scala.reflect.ClassTag
 import scas.math.Numeric
-import scas.base.BigInteger
-import BigInteger.given
 
 trait ArrayPowerProductWithDegree[N : {Numeric as numeric, ClassTag}] extends ArrayPowerProduct[N] {
-  def empty = new Array[N](length + 1)
+  override def empty = new Array[N](length + 1)
   def generator(n: Int) = {
     val r = empty
     for i <- 0 to length do r(i) = numeric.fromInt(if i == n || i == length then 1 else 0)
     r
   }
-  def gcd(x: Array[N], y: Array[N]): Array[N] = {
+  override def gcd(x: Array[N], y: Array[N]): Array[N] = {
     val r = empty
     for i <- 0 until length do {
       r(i) = numeric.min(x.get(i), y.get(i))
@@ -20,7 +18,7 @@ trait ArrayPowerProductWithDegree[N : {Numeric as numeric, ClassTag}] extends Ar
     }
     r
   }
-  def lcm(x: Array[N], y: Array[N]): Array[N] = {
+  override def lcm(x: Array[N], y: Array[N]): Array[N] = {
     val r = empty
     for i <- 0 until length do {
       r(i) = numeric.max(x.get(i), y.get(i))
@@ -29,7 +27,7 @@ trait ArrayPowerProductWithDegree[N : {Numeric as numeric, ClassTag}] extends Ar
     r
   }
   extension (x: Array[N]) {
-    def degree = BigInteger.fromInt(x.get(length).toLong)
+    inline override def deg = x.get(length)
     def multiply(y: Array[N]) = {
       val r = empty
       var i = 0
