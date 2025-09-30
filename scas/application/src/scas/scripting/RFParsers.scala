@@ -11,7 +11,7 @@ type RF = Element[Poly]
 class RFParsers(var using_structure: RationalFunction) extends FieldParsers[RF] {
   def this(ring: PolynomialOverUFD[Poly, BigInteger, Array[Int]]) = this(new RationalFunction(using ring))
   override given structure: () => RationalFunction = using_structure
-  val poly = new PolyParsers(structure.ring)
+  val poly = new PolyParsers(using structure.ring)
 
   def base: Parser[RF] = poly.base ^^ {
     case x if (poly.structure == structure.ring) => structure(x)
@@ -20,10 +20,6 @@ class RFParsers(var using_structure: RationalFunction) extends FieldParsers[RF] 
       structure(x)
     }
   } | "(" ~> expr <~ ")"
-
-  def reset: Unit = {
-    poly.reset
-  }
 }
 
 object RFParsers extends RFParsers(Poly())
