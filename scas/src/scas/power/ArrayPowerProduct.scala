@@ -1,11 +1,28 @@
 package scas.power
 
+import scala.reflect.ClassTag
 import scas.math.Numeric
 import scas.variable.Variable
+import scas.base.BigInteger
+import BigInteger.given
 
-trait ArrayPowerProduct[N : Numeric as numeric] extends PowerProduct[Array[N]] {
+trait ArrayPowerProduct[N : {Numeric as numeric, ClassTag}] extends PowerProduct[Array[N]] {
   def one = empty
-  def empty: Array[N]
+  def empty = new Array[N](length)
+  def gcd(x: Array[N], y: Array[N]): Array[N] = {
+    val r = empty
+    for i <- 0 until length do {
+      r(i) = numeric.min(x.get(i), y.get(i))
+    }
+    r
+  }
+  def lcm(x: Array[N], y: Array[N]): Array[N] = {
+    val r = empty
+    for i <- 0 until length do {
+      r(i) = numeric.max(x.get(i), y.get(i))
+    }
+    r
+  }
   extension (x: Array[N]) def dependencyOnVariables = (for i <- 0 until length if (x(i) > numeric.zero) yield i).toArray
   extension (x: Array[N]) def toCode(level: Level, times: String) = {
     var s = "1"
@@ -36,5 +53,13 @@ trait ArrayPowerProduct[N : Numeric as numeric] extends PowerProduct[Array[N]] {
     for i <- 0 until length do if x.get(i) > numeric.zero then m += 1
     m
   }
-  extension (x: Array[N]) inline def get(i: Int) = x(i)
+  extension (x: Array[N]) {
+    def degree = BigInteger.fromInt(deg.toLong)
+    def deg = {
+      var d = numeric.zero
+      for i <- 0 until length do d += x.get(i)
+      d
+    }
+    def get(i: Int) = x(i)
+  }
 }
