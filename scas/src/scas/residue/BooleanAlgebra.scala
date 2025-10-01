@@ -1,17 +1,17 @@
 package scas.residue
 
-import scas.power.Lexicographic
 import scas.structure.BooleanRing
 import scas.structure.commutative.UniqueFactorizationDomain
 import scas.polynomial.TreePolynomial.Element
-import scas.polynomial.ufd.PolynomialWithGB
+import scas.polynomial.ufd.growable.PolynomialWithGB
+import scas.power.growable.Lexicographic
 import scas.variable.Variable
 import scas.util.{Conversion, unary_~}
 import scas.base.{BigInteger, Boolean}
 import BigInteger.given
 
 open class BooleanAlgebra(using PolynomialWithGB[Element[Boolean, Array[Int]], Boolean, Int]) extends Residue[Element[Boolean, Array[Int]], Boolean, Int] with BooleanRing[Element[Boolean, Array[Int]]] {
-  def this(variables: Variable*) = this(using new scas.polynomial.tree.PolynomialWithGB(using Boolean, new Lexicographic[Int](variables*)))
+  def this(variables: Variable*) = this(using new scas.polynomial.tree.growable.PolynomialWithGB(using Boolean, new Lexicographic[Int](variables*)))
   update(generators.map(x => x+x\2)*)
   extension (x: Element[Boolean, Array[Int]]) {
     override def toCode(level: Level) = ring.toCode(x)(level, " ^ ", " && ")

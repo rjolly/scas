@@ -3,7 +3,7 @@ package scas.residue
 import scala.reflect.ClassTag
 import scala.compiletime.deferred
 import scas.structure.commutative.Field
-import scas.polynomial.ufd.PolynomialOverFieldWithGB
+import scas.polynomial.ufd.growable.PolynomialOverFieldWithGB
 import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
 
