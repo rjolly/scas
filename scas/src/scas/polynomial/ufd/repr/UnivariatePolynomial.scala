@@ -1,4 +1,4 @@
-package scas.polynomial.repr
+package scas.polynomial.ufd.repr
 
 import scala.reflect.ClassTag
 import scas.polynomial.PolynomialWithRepr
