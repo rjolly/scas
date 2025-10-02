@@ -13,10 +13,3 @@ trait ResidueOverField[T, C, N] extends Residue[T, C, N] with scas.residue.Resid
     this
   }
 }
-
-object ResidueOverField {
-  class Conv[T : ClassTag, C, N](using PolynomialOverFieldWithGB[T, C, N])(s: T*) extends ResidueOverField[T, C, N] with Field.Conv[T] {
-    given instance: Conv[T, C, N] = this
-    update(s*)
-  }
-}

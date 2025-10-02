@@ -2,7 +2,7 @@ package scas.residue.growable
 
 import scala.compiletime.deferred
 import scas.variable.Variable
-import scas.polynomial.ufd.growable.{PolynomialWithGB, PolynomialOverFieldWithGB}
+import scas.polynomial.ufd.growable.PolynomialWithGB
 
 trait Residue[T, C, N] extends scas.residue.Residue[T, C, N] {
   given ring: PolynomialWithGB[T, C, N] = deferred
@@ -15,8 +15,4 @@ trait Residue[T, C, N] extends scas.residue.Residue[T, C, N] {
     same(s*)
     this
   }
-}
-
-object Residue {
-  def apply[T : ClassTag, C, N](ring: PolynomialOverFieldWithGB[T, C, N])(s: T*) = new ResidueOverField.Conv(using ring)(s*)
 }

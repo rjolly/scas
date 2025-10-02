@@ -3,15 +3,15 @@ package scas.residue
 import scas.structure.BooleanRing
 import scas.structure.commutative.UniqueFactorizationDomain
 import scas.polynomial.TreePolynomial.Element
-import scas.polynomial.ufd.growable.PolynomialWithGB
-import scas.power.growable.Lexicographic
+import scas.polynomial.ufd.PolynomialWithGB
+import scas.power.Lexicographic
 import scas.variable.Variable
 import scas.util.{Conversion, unary_~}
 import scas.base.{BigInteger, Boolean}
 import BigInteger.given
 
 class BooleanAlgebra(using PolynomialWithGB[Element[Boolean, Array[Int]], Boolean, Int]) extends BooleanAlgebra.Impl {
-  def this(variables: Variable*) = this(using new scas.polynomial.tree.growable.PolynomialWithGB(using Boolean, new Lexicographic[Int](variables*)))
+  def this(variables: Variable*) = this(using new scas.polynomial.tree.PolynomialWithGB(using Boolean, new Lexicographic[Int](variables*)))
 }
 
 object BooleanAlgebra {

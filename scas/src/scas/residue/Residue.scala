@@ -3,9 +3,8 @@ package scas.residue
 import scala.annotation.targetName
 import scala.compiletime.deferred
 import scala.reflect.ClassTag
-import scas.variable.Variable
 import scas.util.Conversion
-import scas.polynomial.ufd.growable.{PolynomialWithGB, PolynomialOverFieldWithGB}
+import scas.polynomial.ufd.{PolynomialWithGB, PolynomialOverFieldWithGB}
 import scas.module.ArrayModule
 import scas.prettyprint.Show.given
 
@@ -15,10 +14,6 @@ trait Residue[T : ClassTag, C, N] extends scas.structure.commutative.Residue[T, 
   def generator(n: Int) = ring.generator(n)
   def generators = ring.generators
   given coef2poly: [D: Conversion[C]] => (D => T) = ring.coef2poly
-  def extend(variables: Variable*): Unit = {
-    ring.extend(variables*)
-    mods = mods.map(_.convert)
-  }
   def update(s: T*): Unit = {
     mods = gb(false, s*)
   }
