@@ -20,5 +20,3 @@ class PolyParsers(using PolynomialOverUFD[Poly, BigInteger, Array[Int]]) extends
   }
   def base: Parser[Poly] = Int.base ^^ { structure(_) } | generator | "(" ~> expr <~ ")"
 }
-
-object PolyParsers extends PolyParsers(false)

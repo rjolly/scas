@@ -7,8 +7,8 @@ import scas.variable.Variable
 
 type BA = Element[Boolean, Array[Int]]
 
-class BAParsers(using_structure: BooleanAlgebra) extends BooleanRingParsers[BA] {
-  def this(dummy: Boolean) = this(BooleanAlgebra())
+class BAParsers(using_structure: BooleanAlgebra)(b: BooleanParsers) extends BooleanRingParsers[BA] {
+  def this(b: BooleanParsers) = this(BooleanAlgebra())(b)
   override given structure: BooleanAlgebra = using_structure
   @nowarn("msg=match may not be exhaustive")
   def function: Parser[BA] = ("mod") ~ ("(" ~> expr) ~ rep("," ~> expr) <~ ")" ^^ {
@@ -27,7 +27,5 @@ class BAParsers(using_structure: BooleanAlgebra) extends BooleanRingParsers[BA] 
       structure.generator(variables.length)
     }
   }
-  def base: Parser[BA] = BooleanParsers.base ^^ { structure(_) } | function | generator | "(" ~> expr <~ ")"
+  def base: Parser[BA] = b.base ^^ { structure(_) } | function | generator | "(" ~> expr <~ ")"
 }
-
-object BAParsers extends BAParsers(false)
