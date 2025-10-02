@@ -15,7 +15,6 @@ class Engine(@BeanProperty val factory: ScriptEngineFactory) extends AbstractScr
     val cat = code + script
     Parsers(cat) match {
       case Right(result) => {
-        Parsers.reset
         code = ""
         result
       }
@@ -24,7 +23,6 @@ class Engine(@BeanProperty val factory: ScriptEngineFactory) extends AbstractScr
         null
       }
       case Left(msg) => {
-        Parsers.reset
         code = ""
         throw new ScriptException(msg)
       }

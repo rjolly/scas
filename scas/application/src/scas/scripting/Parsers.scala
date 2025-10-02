@@ -12,8 +12,4 @@ object Parsers extends scala.util.parsing.combinator.RegexParsers {
     }
     result
   }
-
-  def reset: Unit = {
-    BAParsers.reset
-  }
 }
