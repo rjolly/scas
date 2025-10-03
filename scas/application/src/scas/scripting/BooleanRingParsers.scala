@@ -8,7 +8,7 @@ trait BooleanRingParsers[T] extends RingParsers[T] {
   given structure: () => scas.structure.BooleanRing[T] = deferred
   override def term: Parser[T] = opt("!") ~ base ^^ {
     case option ~ base => option match {
-      case Some(sign) => !base
+      case Some(sign) => !base.convert
       case None => base
     }
   }
