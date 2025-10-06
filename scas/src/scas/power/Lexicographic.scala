@@ -24,7 +24,7 @@ object Lexicographic {
     extension (x: Array[N]) override def multiply(y: Array[N]) = {
       val r = empty
       var i = 0
-      while i <= length do {
+      while i < length do {
         r(i) = x(i) + y(i)
         i += 1
       }
@@ -32,7 +32,7 @@ object Lexicographic {
     }
   }
 
-  trait Impl[N : {Numeric, ClassTag}] extends ArrayPowerProductWithDegree[N] {
+  trait Impl[N : {Numeric, ClassTag}] extends ArrayPowerProduct[N] {
     def compare(x: Array[N], y: Array[N]) = {
       var i = length
       while i > 0 do {

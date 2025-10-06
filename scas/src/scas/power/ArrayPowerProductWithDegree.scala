@@ -5,7 +5,7 @@ import scas.math.Numeric
 
 trait ArrayPowerProductWithDegree[N : {Numeric as numeric, ClassTag}] extends ArrayPowerProduct[N] {
   override def empty = new Array[N](length + 1)
-  def generator(n: Int) = {
+  override def generator(n: Int) = {
     val r = empty
     for i <- 0 to length do r(i) = numeric.fromInt(if i == n || i == length then 1 else 0)
     r
@@ -28,7 +28,7 @@ trait ArrayPowerProductWithDegree[N : {Numeric as numeric, ClassTag}] extends Ar
   }
   extension (x: Array[N]) {
     inline override def deg = x.get(length)
-    def multiply(y: Array[N]) = {
+    override def multiply(y: Array[N]) = {
       val r = empty
       var i = 0
       while i <= length do {
@@ -37,7 +37,7 @@ trait ArrayPowerProductWithDegree[N : {Numeric as numeric, ClassTag}] extends Ar
       }
       r
     }
-    def divide(y: Array[N]) = {
+    override def divide(y: Array[N]) = {
       val r = empty
       for i <- 0 to length do {
         assert (x.get(i) >= y.get(i))
@@ -45,15 +45,7 @@ trait ArrayPowerProductWithDegree[N : {Numeric as numeric, ClassTag}] extends Ar
       }
       r
     }
-    def factorOf(y: Array[N]) = {
-      var i = 0
-      while i < length do {
-        if x.get(i) > y.get(i) then return false
-        i += 1
-      }
-      true
-    }
-    def projection(n: Int, m: Int) = {
+    override def projection(n: Int, m: Int) = {
       val r = empty
       for i <- 0 until length do if i >= n && i < m then {
         r(i) = x.get(i)
@@ -61,7 +53,7 @@ trait ArrayPowerProductWithDegree[N : {Numeric as numeric, ClassTag}] extends Ar
       }
       r
     }
-    def convert(from: PowerProduct[Array[N]]) = {
+    override def convert(from: PowerProduct[Array[N]]) = {
       val r = empty
       val l = if from == this then x.length - 1 else from.length
       val index = from.variables.map(a => variables.indexOf(a))
