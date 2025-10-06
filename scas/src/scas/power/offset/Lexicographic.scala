@@ -6,10 +6,10 @@ import scas.math.Numeric
 import scas.variable.Variable
 import scas.util.{Conversion, unary_~}
 
-class Lexicographic[N : {Numeric, ClassTag}](val variables: Variable*) extends PowerProductWithDegree[N] {
+class Lexicographic[N : {Numeric, ClassTag}](val variables: Variable*) extends PowerProduct[N] {
   def compare(x: Array[N], n: Int, y: Array[N], m: Int) = {
-    val k = n * (length + 1)
-    val l = m * (length + 1)
+    val k = n * length
+    val l = m * length
     var i = length + k
     var j = length + l
     while i > k do {
@@ -25,8 +25,8 @@ class Lexicographic[N : {Numeric, ClassTag}](val variables: Variable*) extends P
 object Lexicographic {
   @nowarn("msg=New anonymous class definition will be duplicated at each inline site") inline def inlined[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(variables: S*): Lexicographic[N] = new Lexicographic[N](variables.map(~_)*) {
     override def compare(x: Array[N], n: Int, y: Array[N], m: Int) = {
-      val k = n * (length + 1)
-      val l = m * (length + 1)
+      val k = n * length
+      val l = m * length
       var i = length + k
       var j = length + l
       while i > k do {
@@ -38,9 +38,9 @@ object Lexicographic {
       0
     }
     override def multiply(x: Array[N], n: Int, y: Array[N], z: Array[N]) = {
-      val k = n * (length + 1)
+      val k = n * length
       var i = 0
-      while i <= length do {
+      while i < length do {
         z(i + k) = x(i + k) + y(i)
         i += 1
       }
