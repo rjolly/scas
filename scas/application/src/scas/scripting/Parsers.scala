@@ -2,9 +2,7 @@ package scas.scripting
 
 object Parsers extends scala.util.parsing.combinator.RegexParsers {
   def obj: Parser[Object] = {
-    val rf = RFParsers(false)
-    val b = BooleanParsers(rf)
-    Fn().graph | (Int.obj ||| FactorParsers.obj ||| RationalParsers.obj ||| ComplexParsers.obj ||| DoubleParsers.obj ||| rf.obj ||| b.a.obj ||| b.obj)
+    Fn().graph | (Int.obj ||| FactorParsers.obj ||| RationalParsers.obj ||| ComplexParsers.obj ||| DoubleParsers.obj ||| RFParsers(false).obj ||| BAParsers().obj ||| BooleanParsers().obj)
   }
 
   def apply(input: String) = {

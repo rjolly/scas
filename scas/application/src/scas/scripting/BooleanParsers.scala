@@ -4,10 +4,8 @@ import Parsers.*
 import scala.annotation.nowarn
 import scas.base.Boolean
 
-class BooleanParsers(rf: RFParsers) extends BooleanRingParsers[Boolean] {
+class BooleanParsers extends BooleanRingParsers[Boolean] {
   override given structure: () => Boolean.Impl = Boolean
-  val a = BAParsers(this)
-
   def boolean: Parser[Boolean] = ("true" | "false") ^^ { _.toBoolean }
   def base: Parser[Boolean] = boolean | "(" ~> expr <~ ")"
   @nowarn("msg=match may not be exhaustive")
@@ -18,5 +16,5 @@ class BooleanParsers(rf: RFParsers) extends BooleanRingParsers[Boolean] {
       case (x, "<>" ~ y) => x <> y
     }
   }
-  override def impl: Parser[Boolean] = Int.comparison | FactorParsers.comparison | RationalParsers.comparison | ComplexParsers.comparison | DoubleParsers.comparison | rf.comparison | a.comparison | comparison
+  override def impl: Parser[Boolean] = Int.comparison | FactorParsers.comparison | RationalParsers.comparison | ComplexParsers.comparison | DoubleParsers.comparison | RFParsers(false).comparison | BAParsers().comparison | comparison
 }
