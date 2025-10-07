@@ -62,7 +62,7 @@ trait ArrayPowerProductWithDegree[N : {Numeric as numeric, ClassTag}] extends Ar
         assert (c > -1)
         r(c) = x(i)
       }
-      r(length) = x(l)
+      r(length) = if from == this then x(l) else numeric.fromInt(from.degree(x).intValue)
       r
     }
   }
