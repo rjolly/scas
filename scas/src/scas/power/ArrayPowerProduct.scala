@@ -65,14 +65,14 @@ trait ArrayPowerProduct[N : {Numeric as numeric, ClassTag}] extends PowerProduct
       val r = empty
       val l = if from == this then x.length else from.length
       val index = from.variables.map(a => variables.indexOf(a))
-      for i <- 0 until l do if x(i) > numeric.zero then {
+      for i <- 0 until l do if x.get(i) > numeric.zero then {
         val c = index(i)
         assert (c > -1)
-        r(c) = x(i)
+        r(c) = x.get(i)
       }
       r
     }
-    def dependencyOnVariables = (for i <- 0 until length if (x(i) > numeric.zero) yield i).toArray
+    def dependencyOnVariables = (for i <- 0 until length if (x.get(i) > numeric.zero) yield i).toArray
     def toCode(level: Level, times: String) = {
       var s = "1"
       var m = 0
