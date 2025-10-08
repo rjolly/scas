@@ -10,7 +10,7 @@ class DegreeReverseLexicographic[N : {Numeric, ClassTag}](val variables: Variabl
 object DegreeReverseLexicographic {
   def apply[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(variables: S*) = new DegreeReverseLexicographic[N](variables.map(~_)*)
 
-  trait Impl[N : {Numeric, ClassTag}] extends ArrayPowerProductWithDegree[N] {
+  trait Impl[N : {Numeric, ClassTag}] extends ArrayPowerProduct[N] {
     def compare(x: Array[N], y: Array[N]) = {
       if x.deg < y.deg then return -1
       if x.deg > y.deg then return 1

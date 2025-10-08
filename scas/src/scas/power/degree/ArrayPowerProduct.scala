@@ -1,9 +1,10 @@
-package scas.power
+package scas.power.degree
 
 import scala.reflect.ClassTag
 import scas.math.Numeric
+import scas.power.PowerProduct
 
-trait ArrayPowerProductWithDegree[N : {Numeric as numeric, ClassTag}] extends ArrayPowerProduct[N] {
+trait ArrayPowerProduct[N : {Numeric as numeric, ClassTag}] extends scas.power.ArrayPowerProduct[N] {
   override def empty = new Array[N](length + 1)
   override def generator(n: Int) = {
     val r = empty

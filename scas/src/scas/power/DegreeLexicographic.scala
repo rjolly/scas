@@ -7,7 +7,7 @@ import scas.variable.Variable
 class DegreeLexicographic[N : {Numeric, ClassTag}](val variables: Variable*) extends DegreeLexicographic.Impl[N]
 
 object DegreeLexicographic {
-  trait Impl[N : {Numeric, ClassTag}] extends ArrayPowerProductWithDegree[N] {
+  trait Impl[N : {Numeric, ClassTag}] extends ArrayPowerProduct[N] {
     def compare(x: Array[N], y: Array[N]) = {
       if x.deg < y.deg then return -1
       if x.deg > y.deg then return 1
