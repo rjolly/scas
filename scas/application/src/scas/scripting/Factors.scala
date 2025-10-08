@@ -1,12 +1,14 @@
 package scas.scripting
 
+import scala.compiletime.deferred
 import scas.structure.Ring
 import scas.math.Numeric
 import scas.base.BigInteger
 import BigInteger.given
 import Factors.Element
 
-abstract class Factors[T : Ring as ring, N : Numeric as numeric] extends Ring[Element[T, N]] {
+trait Factors[T, N : Numeric as numeric] extends Ring[Element[T, N]] {
+  given ring: Ring[T] = deferred
   def empty: Element[T, N]
   override val zero = empty + ((ring.zero, numeric.one))
   override val one = empty

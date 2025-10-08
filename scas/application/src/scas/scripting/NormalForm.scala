@@ -1,8 +1,9 @@
 package scas.scripting
 
+import scala.compiletime.deferred
 import Factors.Element
 
-class NormalForm(conj: Boolean)(using ring: BooleanAlgebra) extends NormalForm.Impl(conj) {
+class NormalForm(conj: Boolean)(using BooleanAlgebra) extends NormalForm.Impl(conj) {
   extension (x: Element[BA, Int]) {
     def isImpl = !conj && x.size == 2 && x.head._1.isNot && !x.last._1.isNot
     def isRevImpl = !conj && x.size == 2 && x.last._1.isNot && !x.head._1.isNot
@@ -20,7 +21,8 @@ class NormalForm(conj: Boolean)(using ring: BooleanAlgebra) extends NormalForm.I
 }
 
 object NormalForm {
-  class Impl(conj: Boolean)(using val ring: BooleanAlgebra) extends Factors[BA, Int] {
+  trait Impl(conj: Boolean) extends Factors[BA, Int] {
+    given ring: BooleanAlgebra = deferred
     def empty = Map.empty[BA, Int]
     override def apply(x: BA) = if x.isZero then zero else {
       val s = ring.gb(flip(x)).foldLeft(one)((l, a) => l * super.apply(flip(a)))
