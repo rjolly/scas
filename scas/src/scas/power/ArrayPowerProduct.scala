@@ -65,6 +65,17 @@ trait ArrayPowerProduct[N : {Numeric as numeric, ClassTag}] extends PowerProduct
       val r = empty
       val l = if from == this then x.length else from.length
       val index = from.variables.map(a => variables.indexOf(a))
+      for i <- 0 until l do if x(i) > numeric.zero then {
+        val c = index(i)
+        assert (c > -1)
+        r(c) = x(i)
+      }
+      r
+    }
+    def convert(from: ArrayPowerProduct[N]) = {
+      val r = empty
+      val l = if from == this then x.length else from.length
+      val index = from.variables.map(a => variables.indexOf(a))
       for i <- 0 until l do if from.get(x)(i) > numeric.zero then {
         val c = index(i)
         assert (c > -1)

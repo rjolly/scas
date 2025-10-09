@@ -54,7 +54,7 @@ trait ArrayPowerProduct[N : {Numeric as numeric, ClassTag}] extends scas.power.A
       }
       r
     }
-    override def convert(from: PowerProduct[Array[N]]) = {
+    override def convert(from: scas.power.ArrayPowerProduct[N]) = {
       val r = empty
       val l = if from == this then x.length - 1 else from.length
       val index = from.variables.map(a => variables.indexOf(a))
