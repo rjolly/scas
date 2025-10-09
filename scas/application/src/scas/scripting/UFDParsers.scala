@@ -9,9 +9,9 @@ trait UFDParsers[T] extends RingParsers[T] {
   @nowarn("msg=match may not be exhaustive")
   override def unsignedTerm: Parser[T] = unsignedFactor ~ rep(("*" | "/" | "%") ~ factor) ^^ {
     case factor ~ list => list.foldLeft(factor) {
-      case (x, "*" ~ y) => x.convert * y.convert
-      case (x, "/" ~ y) => x.convert / y.convert
-      case (x, "%" ~ y) => x.convert % y.convert
+      case (x, "*" ~ y) => x * y
+      case (x, "/" ~ y) => x / y
+      case (x, "%" ~ y) => x % y
     }
   }
 }

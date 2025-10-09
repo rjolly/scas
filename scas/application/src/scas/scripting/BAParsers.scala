@@ -12,7 +12,7 @@ class BAParsers(using_structure: BooleanAlgebra) extends BooleanRingParsers[BA] 
   override given structure: BooleanAlgebra = using_structure
   @nowarn("msg=match may not be exhaustive")
   def function: Parser[BA] = ("mod") ~ ("(" ~> expr) ~ rep("," ~> expr) <~ ")" ^^ {
-    case "mod" ~ expr ~ list => mod(expr.convert, list.map(_.convert)*)
+    case "mod" ~ expr ~ list => mod(expr, list*)
   }
   def mod(expr: BA, list: BA*) = {
     structure.update(list.map(!_)*)

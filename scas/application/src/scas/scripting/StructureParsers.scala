@@ -11,7 +11,7 @@ trait StructureParsers[T] {
   def obj: Parser[MathObject] = expr ^^ { MathObject(_) }
   @nowarn("msg=match may not be exhaustive")
   def comparison: Parser[Boolean] = expr ~ ("=" | "<>") ~ expr ^^ {
-    case x ~ "=" ~ y => x.convert >< y.convert
-    case x ~ "<>" ~ y => x.convert <> y.convert
+    case x ~ "=" ~ y => x >< y
+    case x ~ "<>" ~ y => x <> y
   }
 }
