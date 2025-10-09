@@ -58,10 +58,10 @@ trait ArrayPowerProduct[N : {Numeric as numeric, ClassTag}] extends scas.power.A
       val r = empty
       val l = if from == this then x.length - 1 else from.length
       val index = from.variables.map(a => variables.indexOf(a))
-      for i <- 0 until l do if x.get(i) > numeric.zero then {
+      for i <- 0 until l do if from.get(x)(i) > numeric.zero then {
         val c = index(i)
         assert (c > -1)
-        r(c) = x.get(i)
+        r(c) = from.get(x)(i)
       }
       r(length) = if from == this then x(l) else numeric.fromInt(from.degree(x).intValue)
       r

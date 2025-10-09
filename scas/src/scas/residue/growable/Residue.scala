@@ -8,7 +8,6 @@ trait Residue[T, C, N] extends scas.residue.Residue[T, C, N] {
   given ring: PolynomialWithGB[T, C, N] = deferred
   def extend(variables: Variable*): Unit = {
     ring.extend(variables*)
-    mods = mods.map(ring.convert(_))
   }
 
   extension (ring: PolynomialWithGB[T, C, N]) def apply(s: T*) = {
