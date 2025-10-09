@@ -6,7 +6,7 @@ import scas.math.Numeric
 import scas.variable.Variable
 import scas.util.{Conversion, unary_~}
 
-class Lexicographic[N : {Numeric, ClassTag}](val variables: Variable*) extends PowerProduct[N] {
+class Lexicographic[N : {Numeric, ClassTag}](val variables: Variable*) extends ArrayPowerProduct[N] {
   def compare(x: Array[N], n: Int, y: Array[N], m: Int) = {
     val k = n * length
     val l = m * length

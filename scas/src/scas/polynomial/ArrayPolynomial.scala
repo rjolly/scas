@@ -3,11 +3,11 @@ package scas.polynomial
 import scala.reflect.ClassTag
 import scala.annotation.tailrec
 import scala.compiletime.deferred
-import scas.power.offset.PowerProduct
+import scas.power.offset.ArrayPowerProduct
 import ArrayPolynomial.Element
 
 trait ArrayPolynomial[C, N] extends Polynomial[Element[C, N], C, Array[N]] {
-  given pp: PowerProduct[N] = deferred
+  given pp: ArrayPowerProduct[N] = deferred
   given ClassTag[N] = deferred
   given ClassTag[C] = deferred
   def length = pp.one.length
