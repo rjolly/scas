@@ -34,10 +34,6 @@ trait Residue[T, R] extends UniqueFactorizationDomain[T] {
       val self(a) = x: @unchecked
       ring.isUnit(a)
     }
-    override def convert = {
-      val self(a) = x: @unchecked
-      this(a.convert)
-    }
     override def divide(y: T) = {
       val self(a) = x: @unchecked
       val self(b) = y: @unchecked

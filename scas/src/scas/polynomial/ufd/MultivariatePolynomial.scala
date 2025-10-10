@@ -19,6 +19,7 @@ trait MultivariatePolynomial[T[C, M], C, M] extends PolynomialOverUFD[T[C, M], C
     val (b, q) = contentAndPrimitivePart(y)
     primitivePart(gcd1(p, q))%* ring.gcd(a, b)
   }
+  extension (x: T[C, M]) def convert(from: PowerProduct[M]) = x.map((s, a) => (s.convert(from), a)).sort
   extension (x: T[C, M]) def convertTo(using p: MultivariatePolynomial[T, C, M], s: MultivariatePolynomial[T, T[C, M], M]): T[T[C, M], M] = x.iterator.foldLeft(s.zero) { (l, r) =>
     val (m, c) = r
     val t = m.projection(0)

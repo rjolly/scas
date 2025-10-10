@@ -22,7 +22,6 @@ class PowerProduct(val variables: Variable*)(tord: TermOrder) extends scas.power
   extension (x: ExpVector) {
     def dependencyOnVariables = x.dependencyOnVariables
     def projection(n: Int, m: Int) = ???
-    def convert(from: scas.power.PowerProduct[ExpVector]) = ???
     def size = x.dependentVariables
     def toCode(level: Level, times: String) = x.toString(variables.map(_.toString).toArray)
     def toMathML(times: String) = ???

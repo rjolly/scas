@@ -15,7 +15,6 @@ trait Factors[T, N : Numeric as numeric] extends Ring[Element[T, N]] {
   def fromInt(n: BigInteger) = apply(ring.fromInt(n))
   def apply(x: T): Element[T, N] = if x.isOne then empty else if x.signum < 0 then apply(-x) + ((-ring.one, numeric.one)) else empty + ((x, numeric.one))
   extension (x: Element[T, N]) {
-    override def convert = x.map((a, b) => (a.convert, b))
     override def isZero = x.getOrElse(ring.zero, numeric.zero) >< numeric.one
     override def isOne = x.isEmpty
     def add(y: Element[T, N]) = {

@@ -29,8 +29,6 @@ trait PowerProduct[M] extends Monoid[M] {
     def dependencyOnVariables: Array[Int]
     def projection(n: Int): M = projection(n, n + 1)
     def projection(n: Int, m: Int): M
-    def convert(from: PowerProduct[M]): M
-    override def convert: M = x.convert(this)
     def size: Int
     def toCode(level: Level) = toCode(level, "*")
     def toCode(level: Level, times: String): String
