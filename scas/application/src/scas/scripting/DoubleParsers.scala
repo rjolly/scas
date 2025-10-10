@@ -6,7 +6,7 @@ import scas.adapter.math3.Double
 import Math.{sinh, cosh, tanh, sin, cos, tan, asin, acos, atan, exp, log, pow, PI}
 
 object DoubleParsers extends FieldParsers[Double] {
-  override given structure: () => Double.Impl = Double
+  override given structure: Double.Impl = Double
   def number: Parser[Double] = """(\d+(\.\d*)?|\d*\.\d+)([eE][+-]?\d+)?""".r ^^ { _.toDouble }
   def constant: Parser[Double] = ("pi") ^^ {
     case "pi" => PI

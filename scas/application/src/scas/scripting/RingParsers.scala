@@ -5,7 +5,7 @@ import scala.annotation.nowarn
 import scala.compiletime.deferred
 
 trait RingParsers[T] extends StructureParsers[T] {
-  given structure: () => scas.structure.Ring[T] = deferred
+  given structure: scas.structure.Ring[T] = deferred
   def base: Parser[T]
   def unsignedFactor: Parser[T] = base ~ opt(("**" | "^") ~> Int.unsignedFactor) ^^ {
     case x ~ option => option match {

@@ -7,7 +7,7 @@ import scas.variable.Variable
 import Function.{sinh, cosh, tanh, sin, cos, tan, asin, acos, atan, exp, log, sqrt, abs, pow, identity}
 
 class Fn(var n: Variable*) extends FieldParsers[Double => Double] {
-  override given structure: () => Function.type = Function
+  override given structure: Function.type = Function
 
   @nowarn("msg=match may not be exhaustive")
   def function: Parser[Double => Double] = ("sinh" | "cosh" | "tanh" | "sin" | "cos" | "tan" | "asin" | "acos" | "atan" | "exp" | "log" | "sqrt" | "abs") ~ ("(" ~> expr) <~ ")" ^^ {

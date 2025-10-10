@@ -8,7 +8,7 @@ import Rational.given
 import Complex.{sqrt, real, imag, conjugate, coef2poly, ring}
 
 object ComplexParsers extends FieldParsers[Complex] {
-  override given structure: () => Complex.Impl = Complex
+  override given structure: Complex.Impl = Complex
   def number: Parser[Complex] = RationalParsers.base ^^ { ring(_) }
   @nowarn("msg=match may not be exhaustive")
   def function: Parser[Complex] = (literal("sqrt") | literal("real") | literal("imag") | literal("conjugate")) ~ ("(" ~> expr) <~ ")" ^^ {
