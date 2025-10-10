@@ -7,7 +7,7 @@ import scas.base.BigInteger
 import BigInteger.given
 
 trait ArrayPowerProduct[N : {Numeric as numeric, ClassTag}] extends PowerProduct[Array[N]] {
-  def one = empty
+  val one = empty
   def empty = new Array[N](length)
   def generator(n: Int) = {
     val r = empty
