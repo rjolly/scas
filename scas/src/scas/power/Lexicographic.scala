@@ -21,14 +21,13 @@ object Lexicographic {
       }
       0
     }
-    extension (x: Array[N]) override def multiply(y: Array[N]) = {
-      val r = empty
+    override def multiply(x: Array[N], y: Array[N], z: Array[N]) = {
       var i = 0
       while i < length do {
-        r(i) = x(i) + y(i)
+        z(i) = x(i) + y(i)
         i += 1
       }
-      r
+      z
     }
   }
 

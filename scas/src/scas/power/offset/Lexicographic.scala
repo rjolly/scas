@@ -44,6 +44,7 @@ object Lexicographic {
         z(i + k) = x(i + k) + y(i)
         i += 1
       }
+      z
     }
   }
 }
