@@ -14,7 +14,7 @@ class PolynomialRing[C <: RingElem[C] : GenPolynomialRing] extends Ring[GenPolyn
 }
 
 object PolynomialRing {
-  open class Conv[C <: RingElem[C] : GenPolynomialRing] extends PolynomialRing[C] with Ring.Conv[GenPolynomial[C]] {
+  class Conv[C <: RingElem[C] : GenPolynomialRing] extends PolynomialRing[C] with Ring.Conv[GenPolynomial[C]] {
     given instance: Conv[C] = this
   }
 }
