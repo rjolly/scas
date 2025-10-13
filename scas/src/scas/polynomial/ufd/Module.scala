@@ -12,7 +12,7 @@ class Module[T : ClassTag, C, N : {Numeric, ClassTag}](using ring: PolynomialWit
   }
   def products(using s: PolynomialWithGB[T, C, N]) = {
     import s.pp
-    for i <- 0 until dimension; j <- i until dimension yield s.generator(pp.length + i) * s.generator(pp.length + j)
+    for i <- 0 until dimension; j <- i until dimension yield s.generator(pp.length - dimension + i) * s.generator(pp.length - dimension + j)
   }
   extension (x: Array[T]) def convertTo(using s: PolynomialWithGB[T, C, N]): T = {
     x.zipWithIndex.foldLeft(s.zero)((l, r) => {
@@ -24,9 +24,9 @@ class Module[T : ClassTag, C, N : {Numeric, ClassTag}](using ring: PolynomialWit
   extension (x: T) def convertFrom(s: PolynomialWithGB[T, C, N]): Array[T] = s.iterator(x).foldLeft(zero) { (l, r) =>
     import s.pp
     val (m, c) = r
-    val n = m.projection(pp.length, pp.length + dimension)
+    val n = m.projection(pp.length - dimension, pp.length)
     l + (for i <- 0 until dimension yield {
-      if n >< pp.generator(pp.length + i) then s(m / n, c).convert(pp) else ring.zero
+      if n >< pp.generator(pp.length - dimension + i) then s(m / n, c).convert(pp) else ring.zero
     }).toArray
   }
 }

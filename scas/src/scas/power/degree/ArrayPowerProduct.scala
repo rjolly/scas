@@ -8,7 +8,8 @@ trait ArrayPowerProduct[N : {Numeric as numeric, ClassTag}] extends scas.power.A
   override def len = length + 1
   override def generator(n: Int) = {
     val r = empty
-    for i <- 0 to length do r(i) = numeric.fromInt(if i == n || i == length then 1 else 0)
+    r(n) = numeric.fromInt(1)
+    r(length) = numeric.fromInt(1)
     r
   }
   override def gcd(x: Array[N], y: Array[N]): Array[N] = {

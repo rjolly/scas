@@ -12,7 +12,7 @@ trait ArrayPowerProduct[N : {Numeric as numeric, ClassTag}] extends PowerProduct
   def empty = new Array[N](len)
   def generator(n: Int) = generator(n, empty)
   def generator(n: Int, z: Array[N]) = {
-    for i <- 0 until length do z(i) = numeric.fromInt(if i == n then 1 else 0)
+    z(n) = numeric.fromInt(1)
     z
   }
   def gcd(x: Array[N], y: Array[N]) = gcd(x, y, empty)
