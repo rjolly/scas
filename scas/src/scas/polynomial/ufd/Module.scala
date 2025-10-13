@@ -26,7 +26,7 @@ class Module[T : ClassTag, C, N : {Numeric, ClassTag}](using ring: PolynomialWit
     val (m, c) = r
     val n = m.projection(pp.length - dimension, pp.length)
     l + (for i <- 0 until dimension yield {
-      if n >< pp.generator(pp.length - dimension + i) then s(m / n, c).convert(pp) else ring.zero
+      if n >< pp.generator(pp.length - dimension + i) then s(m / n, c).convert(ring.pp) else ring.zero
     }).toArray
   }
 }
