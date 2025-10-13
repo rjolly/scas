@@ -8,7 +8,8 @@ import BigInteger.given
 
 trait ArrayPowerProduct[N : {Numeric as numeric, ClassTag}] extends PowerProduct[Array[N]] {
   val one = empty
-  def empty = new Array[N](length)
+  def len = length
+  def empty = new Array[N](len)
   def generator(n: Int) = {
     val r = empty
     for i <- 0 until length do r(i) = numeric.fromInt(if i == n then 1 else 0)

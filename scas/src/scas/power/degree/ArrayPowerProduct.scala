@@ -5,7 +5,7 @@ import scas.math.Numeric
 import scas.power.PowerProduct
 
 trait ArrayPowerProduct[N : {Numeric as numeric, ClassTag}] extends scas.power.ArrayPowerProduct[N] {
-  override def empty = new Array[N](length + 1)
+  override def len = length + 1
   override def generator(n: Int) = {
     val r = empty
     for i <- 0 to length do r(i) = numeric.fromInt(if i == n || i == length then 1 else 0)
