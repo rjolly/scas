@@ -56,7 +56,7 @@ open class POT[N : {Numeric as numeric, ClassTag}](factory: ArrayPowerProduct[N]
       r
     }
     override def factorOf(y: Array[N]) = {
-      if !super.factorOf(x)(y) then return false
+      if !factory.factorOf(x)(y) then return false
       var i = 0
       while i < dimension do {
         if x(length + i) > y(length + i) then return false
@@ -64,7 +64,7 @@ open class POT[N : {Numeric as numeric, ClassTag}](factory: ArrayPowerProduct[N]
       }
       true
     }
-    override def dependencyOnVariables = super.dependencyOnVariables(x) ++ (for i <- 0 until dimension if (x(length + i) > numeric.zero) yield length + i).toArray
+    override def dependencyOnVariables = factory.dependencyOnVariables(x) ++ (for i <- 0 until dimension if (x(length + i) > numeric.zero) yield length + i).toArray
     override def projection(n: Int, m: Int) = {
       val r = super.projection(x)(n, m)
       for i <- 0 until dimension do if length + i >= n && length + i < m then {
@@ -73,13 +73,13 @@ open class POT[N : {Numeric as numeric, ClassTag}](factory: ArrayPowerProduct[N]
       r
     }
     override def size = {
-      var m = super.size(x)
+      var m = factory.size(x)
       for i <- 0 until dimension do if x(length + i) > numeric.zero then m += 1
       m
     }
     override def toCode(level: Level, times: String) = {
-      var s = super.toCode(x)(level, times)
-      var m = super.size(x)
+      var s = factory.toCode(x)(level, times)
+      var m = factory.size(x)
       for i <- 0 until dimension do if x(length + i) > numeric.zero then {
         val a = variables(length + i)
         val b = x(length + i)
@@ -90,8 +90,8 @@ open class POT[N : {Numeric as numeric, ClassTag}](factory: ArrayPowerProduct[N]
       s
     }
     override def toMathML(times: String) = {
-      var s = super.toMathML(x)(times)
-      var m = super.size(x)
+      var s = factory.toMathML(x)(times)
+      var m = factory.size(x)
       for i <- 0 until dimension do if x(length + i) > numeric.zero then {
         val a = variables(length + i)
         val b = x(length + i)
