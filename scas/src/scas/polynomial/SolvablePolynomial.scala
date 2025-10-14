@@ -24,7 +24,7 @@ trait SolvablePolynomial[T, C, M] extends Polynomial[T, C, M] {
   }
   val table = new TreeMap[Key, List[Relation]](Ordering[Key])
   def update(e: T, f: T, p: T): Unit = update(e.headPowerProduct, f.headPowerProduct, p)
-  def update(e: M, f: M, p: T) = {
+  @targetName("ppUpdate") def update(e: M, f: M, p: T): Unit = {
     val key = makeKey(e, f)
     val list = table.asScala.getOrElse(key, Nil)
     table.put(key, insert(list, Relation(e, f, p)))
