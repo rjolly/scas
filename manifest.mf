@@ -4,4 +4,4 @@ Implementation-Title: ScAS
 Implementation-Version: 0
 Specification-Vendor: com.github.rjolly
 Specification-Title: scas
-Specification-Version: 3.0
+Specification-Version: 3.1
