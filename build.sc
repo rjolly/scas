@@ -10,7 +10,10 @@ object scas extends ScalaModule with PublishModule {
   def mvnDeps = Seq(
     mvn"org.scala-lang.modules:scala-parallel-collections_3:1.0.4"
   )
-  object application extends ScalaModule {
+  object application extends ScalaModule with PublishModule {
+    def publishVersion = scas.publishVersion
+    def pomSettings = scas.pomSettings
+    override def artifactName = "scas.application"
     def scalaVersion = sys.props("dottyVersion")
     def moduleDeps = Seq(scas)
     def mvnDeps = Seq(
