@@ -1,12 +1,12 @@
 package scas.polynomial
 
-import java.util.{SortedMap, TreeMap, Collections}
+import scas.util.{SortedMap, TreeMap}
 import language.experimental.{captureChecking, separationChecking}
 import scala.jdk.CollectionConverters.MapHasAsScala
 import TreePolynomial.Element
 
 trait TreePolynomial[C, M] extends Polynomial[Element[C, M], C, M] {
-  def unmodifiable(x: Element[C, M]): Element[C, M] = Collections.unmodifiableSortedMap(x)
+  def unmodifiable(x: Element[C, M]): Element[C, M] = x
   def modifiable(x: Element[C, M]): Element[C, M] = new TreeMap(x)
   def apply(s: (M, C)*) = {
     val r = new TreeMap[M, C](pp.reverse)
