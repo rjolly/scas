@@ -1,5 +1,6 @@
 package scas.polynomial
 
+import language.experimental.{captureChecking, separationChecking}
 import scala.jdk.CollectionConverters.MapHasAsScala
 import TreePolynomial.Element
 
