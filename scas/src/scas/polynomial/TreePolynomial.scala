@@ -1,6 +1,7 @@
 package scas.polynomial
 
 import java.util.{SortedMap, TreeMap, Collections}
+import language.experimental.{captureChecking, separationChecking}
 import scala.jdk.CollectionConverters.MapHasAsScala
 import TreePolynomial.Element
 
