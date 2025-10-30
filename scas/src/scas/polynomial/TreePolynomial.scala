@@ -2,12 +2,11 @@ package scas.polynomial
 
 import scas.util.{SortedMap, TreeMap}
 import language.experimental.{captureChecking, separationChecking}
-import scala.jdk.CollectionConverters.MapHasAsScala
 import TreePolynomial.Element
 
 trait TreePolynomial[C, M] extends Polynomial[Element[C, M], C, M] {
-  def unmodifiable(x: Element[C, M]): Element[C, M] = x
-  def modifiable(x: Element[C, M]): Element[C, M] = new TreeMap(x)
+  def unmodifiable(consume x: Element[C, M]): Element[C, M] = x
+  def modifiable(x: Element[C, M]): Element[C, M]^ = new TreeMap(x)
   def apply(s: (M, C)*) = {
     val r = new TreeMap[M, C](pp.reverse)
     for (m, c) <- s do r.put(m, c)
@@ -28,7 +27,7 @@ trait TreePolynomial[C, M] extends Polynomial[Element[C, M], C, M] {
 
     def iterator = x.asScala.iterator
 
-    override def iterator(m: M) = x.tailMap(m).asScala.iterator
+    override def iterator(m: M) = x.tailMapAsScala(m).iterator
 
     override def toSeq = x.asScala.toSeq
 
@@ -53,7 +52,9 @@ trait TreePolynomial[C, M] extends Polynomial[Element[C, M], C, M] {
       }
       unmodifiable(r)
     }
+  }
 
+  extension (consume x: Element[C, M]) {
     override def sort = x
   }
 }
