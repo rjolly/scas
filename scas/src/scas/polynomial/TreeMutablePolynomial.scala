@@ -29,7 +29,7 @@ trait TreeMutablePolynomial[C, M] extends TreePolynomial[C, M] {
         if !ac.isZero then {
           val sm = s * m
           val cc = x.getOrElse(sm, ring.zero) - ac
-          if cc.isZero then x.remove(sm) else x.put(sm, cc)
+          if cc.isZero then x._remove(sm) else x._put(sm, cc)
         }
       }
       x
