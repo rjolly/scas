@@ -5,17 +5,17 @@ import TreePolynomial.Element
 
 trait TreeMutablePolynomial[C, M] extends TreePolynomial[C, M] {
   extension (x: Element[C, M]) {
-    override def subtract(y: Element[C, M]) = unmodifiable(super.subtract(modifiable(x))(y))
+    override def subtract(y: Element[C, M]) = super.subtract(modifiable(x))(y)
 
     override def multiply(y: Element[C, M]) = {
       var r = modifiable(zero)
       for (a, b) <- y.asScala do r = r.subtract(a, -b, x)
-      unmodifiable(r)
+      r
     }
 
-    override def reduce(ys: Element[C, M]*) = unmodifiable(super.reduce(modifiable(x))(ys*))
+    override def reduce(ys: Element[C, M]*) = super.reduce(modifiable(x))(ys*)
 
-    override def reduce(strict: Boolean, tail: Boolean, ys: Element[C, M]*) = unmodifiable(super.reduce(modifiable(x))(strict, tail, ys*))
+    override def reduce(strict: Boolean, tail: Boolean, ys: Element[C, M]*) = super.reduce(modifiable(x))(strict, tail, ys*)
   }
 
   extension (consume x: Element[C, M]^) {

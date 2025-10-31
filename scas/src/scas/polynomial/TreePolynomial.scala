@@ -5,12 +5,11 @@ import language.experimental.{captureChecking, separationChecking}
 import TreePolynomial.Element
 
 trait TreePolynomial[C, M] extends Polynomial[Element[C, M], C, M] {
-  def unmodifiable(consume x: Element[C, M]): Element[C, M] = x
   def modifiable(x: Element[C, M]): Element[C, M]^ = new TreeMap(x)
   def apply(s: (M, C)*) = {
     val r = new TreeMap[M, C](pp.reverse)
     for (m, c) <- s do r._put(m, c)
-    unmodifiable(r)
+    r
   }
 
   extension (x: Element[C, M]) def add(y: Element[C, M]) = {
@@ -19,7 +18,7 @@ trait TreePolynomial[C, M] extends Polynomial[Element[C, M], C, M] {
       val c = r.getOrElse(t, ring.zero) + b
       if c.isZero then r._remove(t) else r._put(t, c)
     }
-    unmodifiable(r)
+    r
   }
 
   extension (x: Element[C, M]) {
@@ -50,7 +49,7 @@ trait TreePolynomial[C, M] extends Polynomial[Element[C, M], C, M] {
         val (m, c) = f(s, a)
         if !c.isZero then r._put(m, c)
       }
-      unmodifiable(r)
+      r
     }
   }
 
