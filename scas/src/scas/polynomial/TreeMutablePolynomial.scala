@@ -9,17 +9,20 @@ trait TreeMutablePolynomial[C, M] extends TreePolynomial[C, M] {
 
     override def multiply(y: Element[C, M]) = {
       var r = modifiable(zero)
-      for (a, b) <- y.asScala do r = r.subtract(a, -b, x)
+      for (a, b) <- y.asScala do r = r._subtract(a, -b, x)
       r
     }
 
     override def reduce(ys: Element[C, M]*) = super.reduce(modifiable(x))(ys*)
 
     override def reduce(strict: Boolean, tail: Boolean, ys: Element[C, M]*) = super.reduce(modifiable(x))(strict, tail, ys*)
+
+    override def subtract(m: M, c: C, y:  Element[C, M]) = modifiable(x)._subtract(m, c, y)
+    override def multiplyRight(c: C) = modifiable(x)._multiplyRight(c)
   }
 
   extension (consume x: Element[C, M]^) {
-    override def subtract(m: M, c: C, y: Element[C, M]): Element[C, M]^{x} = {
+    def _subtract(m: M, c: C, y: Element[C, M]): Element[C, M]^{x} = {
       val ys = y.entrySet.iterator
       while ys.hasNext do {
         val sa = ys.next
@@ -35,7 +38,7 @@ trait TreeMutablePolynomial[C, M] extends TreePolynomial[C, M] {
       x
     }
 
-    override def multiplyRight(c: C) = {
+    def _multiplyRight(c: C) = {
       val xs = x.entrySet.iterator
       while xs.hasNext do {
         val sa = xs.next
