@@ -14,7 +14,7 @@ object scas extends ScalaModule with PublishModule {
     def scalaVersion = sys.props("dottyVersion")
     def moduleDeps = Seq(scas)
     def ivyDeps = Agg(
-      ivy"org.scala-lang::scala3-compiler:${scalaVersion()}",
+      ivy"org.scala-lang::scala3-repl:${scalaVersion()}",
       ivy"de.uni-mannheim.rz.krum:jas:2.7.200",
       ivy"org.apache.logging.log4j:log4j-core:2.24.3",
       ivy"org.apache.logging.log4j:log4j-api:2.24.3",
