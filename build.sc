@@ -1,14 +1,11 @@
-//| mill-version: 1.0.5
+//| mill-version: 0.10.15
 // build.sc
-import mill.*
-import mill.api.*
-import scalalib.*
-import publish.*
+import mill._, scalalib._, publish._
 
 object scas extends ScalaModule with PublishModule {
   def scalaVersion = sys.props("dottyVersion")
-  def mvnDeps = Seq(
-    mvn"org.scala-lang.modules:scala-parallel-collections_3:1.0.4"
+  def ivyDeps = Agg(
+    ivy"org.scala-lang.modules:scala-parallel-collections_3:1.0.4"
   )
   object application extends ScalaModule with PublishModule {
     def publishVersion = scas.publishVersion
@@ -16,17 +13,17 @@ object scas extends ScalaModule with PublishModule {
     override def artifactName = "scas.application"
     def scalaVersion = sys.props("dottyVersion")
     def moduleDeps = Seq(scas)
-    def mvnDeps = Seq(
-      mvn"org.scala-lang::scala3-compiler:${scalaVersion()}",
-      mvn"de.uni-mannheim.rz.krum:jas:2.7.200",
-      mvn"org.apache.logging.log4j:log4j-core:2.24.3",
-      mvn"org.apache.logging.log4j:log4j-api:2.24.3",
-      mvn"cc.redberry:rings:2.5.7",
-      mvn"org.apache.commons:commons-math3:3.6.1",
-      mvn"net.sourceforge.jscl-meditor:rendering:1.1",
-      mvn"org.scala-lang.modules:scala-parser-combinators_3:2.4.0"
+    def ivyDeps = Agg(
+      ivy"org.scala-lang::scala3-compiler:${scalaVersion()}",
+      ivy"de.uni-mannheim.rz.krum:jas:2.7.200",
+      ivy"org.apache.logging.log4j:log4j-core:2.24.3",
+      ivy"org.apache.logging.log4j:log4j-api:2.24.3",
+      ivy"cc.redberry:rings:2.5.7",
+      ivy"org.apache.commons:commons-math3:3.6.1",
+      ivy"net.sourceforge.jscl-meditor:rendering:1.1",
+      ivy"org.scala-lang.modules:scala-parser-combinators_3:2.4.0"
     )
-    def test(args: String*) = run(Task.Anon(Args(args)))
+    def test(args: String*) = run(args: _*)
   }
   def publishVersion = "3.1"
 
