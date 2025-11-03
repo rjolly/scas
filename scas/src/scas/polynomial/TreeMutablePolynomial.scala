@@ -15,7 +15,7 @@ trait TreeMutablePolynomial[C, M] extends TreePolynomial[C, M] {
 
     override def reduce(ys: Element[C, M]*) = unmodifiable(super.reduce(modifiable(x))(ys*))
 
-    override def reduce(remainder: Boolean, tail: Boolean, ys: Element[C, M]*) = unmodifiable(super.reduce(modifiable(x))(remainder, tail, ys*))
+    override def reduce(strict: Boolean, tail: Boolean, ys: Element[C, M]*) = unmodifiable(super.reduce(modifiable(x))(strict, tail, ys*))
 
     override def subtract(m: M, c: C, y: Element[C, M]) = {
       val ys = y.entrySet.iterator
