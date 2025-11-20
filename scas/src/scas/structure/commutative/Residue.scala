@@ -12,59 +12,59 @@ trait Residue[T, R] extends UniqueFactorizationDomain[T] {
   def fromRing(x: R): T
   extension (x: T) {
     def signum = {
-      val self(a) = x: @unchecked
+      val self(a) = x.runtimeChecked
       ring.signum(a)
     }
     def add(y: T) = {
-      val self(a) = x: @unchecked
-      val self(b) = y: @unchecked
+      val self(a) = x.runtimeChecked
+      val self(b) = y.runtimeChecked
       this(a + b)
     }
     def subtract(y: T) = {
-      val self(a) = x: @unchecked
-      val self(b) = y: @unchecked
+      val self(a) = x.runtimeChecked
+      val self(b) = y.runtimeChecked
       this(a - b)
     }
     def multiply(y: T) = {
-      val self(a) = x: @unchecked
-      val self(b) = y: @unchecked
+      val self(a) = x.runtimeChecked
+      val self(b) = y.runtimeChecked
       this(a * b)
     }
     def isUnit = {
-      val self(a) = x: @unchecked
+      val self(a) = x.runtimeChecked
       ring.isUnit(a)
     }
     override def divide(y: T) = {
-      val self(a) = x: @unchecked
-      val self(b) = y: @unchecked
+      val self(a) = x.runtimeChecked
+      val self(b) = y.runtimeChecked
       this(a / b)
     }
     override def remainder(y: T) = {
-      val self(a) = x: @unchecked
-      val self(b) = y: @unchecked
+      val self(a) = x.runtimeChecked
+      val self(b) = y.runtimeChecked
       this(a % b)
     }
     def divideAndRemainder(y: T) = (x / y, x % y)
   }
   def gcd(x: T, y: T) = {
-    val self(a) = x: @unchecked
-    val self(b) = y: @unchecked
+    val self(a) = x.runtimeChecked
+    val self(b) = y.runtimeChecked
     this(ring.gcd(a, b))
   }
   def equiv(x: T, y: T) = {
-    val self(a) = x: @unchecked
-    val self(b) = y: @unchecked
-    val self(c) = this(a): @unchecked
-    val self(d) = this(b): @unchecked
+    val self(a) = x.runtimeChecked
+    val self(b) = y.runtimeChecked
+    val self(c) = this(a).runtimeChecked
+    val self(d) = this(b).runtimeChecked
     c >< d
   }
   extension (x: T) {
     def toCode(level: Level) = {
-      val self(a) = x: @unchecked
+      val self(a) = x.runtimeChecked
       a.toCode(level)
     }
     def toMathML = {
-      val self(a) = x: @unchecked
+      val self(a) = x.runtimeChecked
       a.toMathML
     }
   }
