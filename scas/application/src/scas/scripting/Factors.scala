@@ -41,8 +41,8 @@ trait Factors[T, N : Numeric as numeric] extends Ring[Element[T, N]] {
     val xs = x.iterator
     val ys = y.iterator
     while xs.hasNext && ys.hasNext do {
-      val (a, b) = xs.next
-      val (c, d) = ys.next
+      val (a, b) = xs.next()
+      val (c, d) = ys.next()
       if a <> c then return false
       else if b <> d then return false
     }

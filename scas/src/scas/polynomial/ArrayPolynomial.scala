@@ -143,7 +143,7 @@ trait ArrayPolynomial[C, N] extends Polynomial[Element[C, N], C, Array[N]] {
     var i = n
     def hasNext = i < x.size
     def next = {
-      if i >= x.size then scala.Iterator.empty.next else {
+      if i >= x.size then scala.Iterator.empty.next() else {
         val (s, a) = x(i)
         i += 1
         (s, a)

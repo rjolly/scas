@@ -26,7 +26,7 @@ trait GMSetting[T, C, M, P[M] <: Pair[M]](using factory: Polynomial[T, C, M]) ex
       s += pair
       add(pair)
     }
-    buffer.clear
+    buffer.clear()
     buffer ++= s
     for i <- 0 until buffer.size do {
       val p1 = buffer(i)

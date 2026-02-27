@@ -27,7 +27,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
     val xs = x.iterator
     val ys = y.iterator
     while xs.hasNext && ys.hasNext do {
-      if !equiv(xs.next, ys.next) then return false
+      if !equiv(xs.next(), ys.next()) then return false
     }
     !xs.hasNext && !ys.hasNext
   }
@@ -150,7 +150,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
     def coefficient(m: M) = {
       val xs = x.iterator(m)
       if xs.hasNext then {
-        val (s, a) = xs.next
+        val (s, a) = xs.next()
         if s >< m then a else ring.zero
       } else ring.zero
     }
@@ -166,7 +166,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
     @tailrec final def reduce(strict: Boolean, ys: T*): T = {
       val xs = x.iterator
       if xs.hasNext then {
-        val (s, a) = xs.next
+        val (s, a) = xs.next()
         ys.find(_.factorOf(s, a, strict)) match {
           case Some(y) => {
             val (t, b) = y.head
@@ -186,9 +186,9 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
       if tail then {
         val xs = x.iterator
         if xs.hasNext then {
-          val (s, a) = xs.next
+          val (s, a) = xs.next()
           if xs.hasNext then {
-            val (s, a) = xs.next
+            val (s, a) = xs.next()
             x.reduce(strict, s, ys*)
           } else x
         } else x
@@ -198,7 +198,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
     @tailrec final def reduce(strict: Boolean, m: M, ys: T*): T = {
       val xs = x.iterator(m)
       if xs.hasNext then {
-        val (s, a) = xs.next
+        val (s, a) = xs.next()
         ys.find(_.factorOf(s, a, strict)) match {
           case Some(y) => {
             val (t, b) = y.head
@@ -206,7 +206,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
           }
           case None => {
             if xs.hasNext then {
-              val (s, a) = xs.next
+              val (s, a) = xs.next()
               x.reduce(strict, s, ys*)
             } else x
           }
