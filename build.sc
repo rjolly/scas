@@ -8,7 +8,7 @@ import publish.*
 object scas extends ScalaModule with PublishModule {
   def scalaVersion = sys.props("dottyVersion")
   def mvnDeps = Seq(
-    mvn"org.scala-lang.modules:scala-parallel-collections_3:1.0.4"
+    mvn"org.scala-lang.modules:scala-parallel-collections_3:1.2.0"
   )
   object application extends ScalaModule with PublishModule {
     def publishVersion = scas.publishVersion
