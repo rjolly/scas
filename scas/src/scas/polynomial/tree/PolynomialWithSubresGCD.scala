@@ -6,5 +6,5 @@ import scas.variable.Variable
 import scas.polynomial.TreePolynomial.Element
 
 class PolynomialWithSubresGCD[C](using UniqueFactorizationDomain[C])(val variables: Variable*) extends MultivariatePolynomial[C] with scas.polynomial.ufd.PolynomialWithSubresGCD[Element, C, Array[Int]] {
-  def newInstance = [C] => (ring: UniqueFactorizationDomain[C], pp: PowerProduct[Array[Int]]) => new PolynomialWithSubresGCD(using ring)(pp.variables*)
+  def newInstance = [C] => (ring, pp) => new PolynomialWithSubresGCD(using ring)(pp.variables*)
 }
