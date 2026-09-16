@@ -12,27 +12,27 @@ trait ArrayPowerProduct[N : {Numeric as numeric, ClassTag}] extends PowerProduct
   def empty = new Array[N](len)
   def generator(n: Int) = generator(n, empty)
   def generator(n: Int, z: Array[N]) = {
-    z(n) = numeric.fromInt(1)
+    z.set(n, numeric.fromInt(1))
     z
   }
   def gcd(x: Array[N], y: Array[N]) = gcd(x, y, empty)
   def gcd(x: Array[N], y: Array[N], z: Array[N]) = {
     for i <- 0 until length do {
-      z(i) = numeric.min(x.get(i), y.get(i))
+      z.set(i, numeric.min(x.get(i), y.get(i)))
     }
     z
   }
   def lcm(x: Array[N], y: Array[N]) = lcm(x, y, empty)
   def lcm(x: Array[N], y: Array[N], z: Array[N]) = {
     for i <- 0 until length do {
-      z(i) = numeric.max(x.get(i), y.get(i))
+      z.set(i, numeric.max(x.get(i), y.get(i)))
     }
     z
   }
   def multiply(x: Array[N], y: Array[N], z: Array[N]) = {
     var i = 0
     while i < length do {
-      z(i) = x.get(i) + y.get(i)
+      z.set(i, x.get(i) + y.get(i))
       i += 1
     }
     z
@@ -40,13 +40,13 @@ trait ArrayPowerProduct[N : {Numeric as numeric, ClassTag}] extends PowerProduct
   def divide(x: Array[N], y: Array[N], z: Array[N]) = {
     for i <- 0 until length do {
       assert (x.get(i) >= y.get(i))
-      z(i) = x.get(i) - y.get(i)
+      z.set(i, x.get(i) - y.get(i))
     }
     z
   }
   def projection(x: Array[N], n: Int, m: Int, z: Array[N]) = {
     for i <- 0 until length do if i >= n && i < m then {
-      z(i) = x.get(i)
+      z.set(i, x.get(i))
     }
     z
   }
@@ -55,7 +55,7 @@ trait ArrayPowerProduct[N : {Numeric as numeric, ClassTag}] extends PowerProduct
     for i <- 0 until from.length do if from.get(x)(i) > numeric.zero then {
       val c = index(i)
       assert (c > -1)
-      z(c) = from.get(x)(i)
+      z.set(c, from.get(x)(i))
     }
     z
   }
@@ -109,5 +109,6 @@ trait ArrayPowerProduct[N : {Numeric as numeric, ClassTag}] extends PowerProduct
       d
     }
     def get(i: Int) = x(i)
+    def set(i: Int, c: N) = x(i) = c
   }
 }
