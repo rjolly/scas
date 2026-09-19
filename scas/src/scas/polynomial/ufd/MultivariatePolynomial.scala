@@ -1,10 +1,11 @@
 package scas.polynomial.ufd
 
 import scala.compiletime.deferred
+import scas.polynomial.ConvertablePolynomial
 import scas.power.splitable.ArrayPowerProduct
 import scas.structure.commutative.UniqueFactorizationDomain
 
-trait MultivariatePolynomial[T[C, M], C, N] extends PolynomialOverUFD[T[C, Array[N]], C, Array[N]] {
+trait MultivariatePolynomial[T[C, M], C, N] extends PolynomialOverUFD[T[C, Array[N]], C, Array[N]] with ConvertablePolynomial[T[C, Array[N]], C, N] {
   given pp: ArrayPowerProduct[N] = deferred
   val take = pp.take(1)
   val drop = pp.drop(1)
@@ -19,7 +20,6 @@ trait MultivariatePolynomial[T[C, M], C, N] extends PolynomialOverUFD[T[C, Array
     val (b, q) = contentAndPrimitivePart(y)
     primitivePart(gcd1(p, q))%* ring.gcd(a, b)
   }
-  extension (x: T[C, Array[N]]) def convert(from: ArrayPowerProduct[N]) = x.map((s, a) => (s.convert(from), a)).sort
   extension (x: T[C, Array[N]]) def convertTo(using p: MultivariatePolynomial[T, C, N], s: MultivariatePolynomial[T, T[C, Array[N]], N]): T[T[C, Array[N]], Array[N]] = x.iterator.foldLeft(s.zero) { (l, r) =>
     val (m, c) = r
     val t = m.projection(0)

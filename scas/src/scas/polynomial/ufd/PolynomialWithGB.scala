@@ -1,17 +1,15 @@
 package scas.polynomial.ufd
 
-import scala.compiletime.deferred
 import scala.reflect.ClassTag
 import scas.math.Numeric
 import scas.power.{ArrayPowerProduct, POT, ModifiedPOT}
+import scas.polynomial.ConvertablePolynomial
 import scas.polynomial.gb.GBEngine
 import scas.module.Array
 import scas.base.BigInteger
 import BigInteger.given
 
-trait PolynomialWithGB[T : ClassTag, C, N : {Numeric, ClassTag}] extends PolynomialOverUFD[T, C, Array[N]] {
-  given pp: ArrayPowerProduct[N] = deferred
-  extension (x: T) def convert(from: ArrayPowerProduct[N]) = x.map((s, a) => (s.convert(from), a)).sort
+trait PolynomialWithGB[T : ClassTag, C, N : {Numeric, ClassTag}] extends PolynomialOverUFD[T, C, Array[N]] with ConvertablePolynomial[T, C, N] {
   def embedding(name: String, dimension: Int) = newInstance(new ModifiedPOT(pp, name, dimension))
   def newInstance(pp: POT[N]): PolynomialWithGB[T, C, N]
   def gcd(x: T, y: T) = {
