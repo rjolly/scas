@@ -1,15 +1,15 @@
 package scas.polynomial.tree
 
-import scas.power.splitable.{PowerProduct, Lexicographic}
+import scas.power.splitable.{ArrayPowerProduct, Lexicographic}
 import scas.structure.commutative.{UniqueFactorizationDomain, Field}
 import scas.variable.Variable
 import scas.util.{Conversion, unary_~}
 import scas.polynomial.TreePolynomial
 import TreePolynomial.Element
 
-trait MultivariatePolynomial[C] extends TreePolynomial[C, Array[Int]] with scas.polynomial.ufd.MultivariatePolynomial[Element, C, Array[Int]] with UniqueFactorizationDomain.Conv[Element[C, Array[Int]]] {
+trait MultivariatePolynomial[C] extends TreePolynomial[C, Array[Int]] with scas.polynomial.ufd.MultivariatePolynomial[Element, C, Int] with UniqueFactorizationDomain.Conv[Element[C, Array[Int]]] {
   def variables: Seq[Variable]
-  override given pp: PowerProduct[Array[Int]] = new Lexicographic[Int](variables*)
+  override given pp: ArrayPowerProduct[Int] = new Lexicographic[Int](variables*)
   given instance: MultivariatePolynomial[C] = this
 }
 

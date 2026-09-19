@@ -70,6 +70,7 @@ trait ArrayPowerProduct[N : {Numeric as numeric, ClassTag}] extends PowerProduct
       }
       true
     }
+    override def projection(n: Int) = super.projection(x)(n)
     def projection(n: Int, m: Int) = this.projection(x, n, m, empty)
     def convert(from: ArrayPowerProduct[N]): Array[N] = this.convert(x, from, empty)
     def dependencyOnVariables = (for i <- 0 until length if (x.get(i) > numeric.zero) yield i).toArray
