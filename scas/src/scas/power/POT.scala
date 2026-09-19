@@ -60,7 +60,7 @@ open class POT[N : {Numeric as numeric, ClassTag}](factory: ArrayPowerProduct[N]
     }
     z
   }
-  override def convert(x: Array[N], from: ArrayPowerProduct[N], z: Array[N]) = {
+  override def convert(x: Array[N], from: IndexedPowerProduct[Array, N], z: Array[N]) = {
     factory.convert(x, from, z)
     z
   }
