@@ -57,6 +57,7 @@ trait ArrayPowerProduct[N : {Numeric as numeric, ClassTag}] extends PowerProduct
       assert (c > -1)
       z.set(c, from.get(x)(i))
     }
+    assert (z.deg >< from.deg(x))
     z
   }
   extension (x: Array[N]) {

@@ -19,4 +19,6 @@ class DegreeLexicographic(val shift: Int)(val variables: Variable*) extends Powe
 
 object DegreeLexicographic {
   def apply[S : Conversion[Variable]](shift: Int)(variables: S*) = new DegreeLexicographic(shift)(variables.map(~_)*)
+
+  def binary[S : Conversion[Variable]](variables: S*) = new DegreeLexicographic(0)(variables.map(~_)*) with BinaryPowerProduct
 }
