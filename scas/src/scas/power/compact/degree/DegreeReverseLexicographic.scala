@@ -24,5 +24,7 @@ class DegreeReverseLexicographic(val shift: Int)(val variables: Variable*) exten
 object DegreeReverseLexicographic {
   def apply[S : Conversion[Variable]](shift: Int)(variables: S*) = new DegreeReverseLexicographic(shift)(variables.map(~_)*)
 
-  def binary[S : Conversion[Variable]](variables: S*) = new DegreeReverseLexicographic(0)(variables.map(~_)*) with BinaryPowerProduct
+  def binary[S : Conversion[Variable]](variables: S*): BinaryPowerProduct = new DegreeReverseLexicographic(0)(variables.map(~_)*) with BinaryPowerProduct {
+    def defining = new DegreeReverseLexicographic(1)(this.variables*)
+  }
 }

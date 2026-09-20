@@ -1,6 +1,7 @@
 package scas.power.compact
 
 trait BinaryPowerProduct extends PowerProduct {
+  def defining: PowerProduct
   override def multiply(x: Array[Int], y: Array[Int], z: Array[Int]) = {
     var i = 0
     while i < len do {

@@ -18,5 +18,7 @@ class Lexicographic(val shift: Int)(val variables: Variable*) extends PowerProdu
 object Lexicographic {
   def apply[S : Conversion[Variable]](shift: Int)(variables: S*) = new Lexicographic(shift)(variables.map(~_)*)
 
-  def binary[S : Conversion[Variable]](variables: S*) = new Lexicographic(0)(variables.map(~_)*) with BinaryPowerProduct
+  def binary[S : Conversion[Variable]](variables: S*): BinaryPowerProduct = new Lexicographic(0)(variables.map(~_)*) with BinaryPowerProduct {
+    def defining = new Lexicographic(1)(this.variables*)
+  }
 }
