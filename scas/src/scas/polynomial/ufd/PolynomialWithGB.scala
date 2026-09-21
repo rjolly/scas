@@ -12,7 +12,7 @@ import BigInteger.given
 trait PolynomialWithGB[T : ClassTag, C, N : {Numeric, ClassTag}] extends PolynomialOverUFD[T, C, Array[N]] with ConvertablePolynomial[T, C, N] {
   def embedding(name: String, dimension: Int) = newInstance(new ModifiedPOT(pp, name, dimension))
   def newInstance(pp: POT[N]): PolynomialWithGB[T, C, N]
-  def gcd(x: T, y: T) = {
+  def gcd(x: T, y: T) = if x.isZero then y else {
     val (a, p) = contentAndPrimitivePart(x)
     val (b, q) = contentAndPrimitivePart(y)
     given module: Module[T, C, N] = new Module(using this)("c", 3)
