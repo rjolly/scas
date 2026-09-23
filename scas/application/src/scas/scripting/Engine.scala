@@ -11,7 +11,7 @@ class Engine(@BeanProperty val factory: ScriptEngineFactory) extends AbstractScr
   var code = ""
 
   @throws(classOf[ScriptException])
-  def eval(script: String, context: ScriptContext): Object = {
+  def eval(script: String, context: ScriptContext): Object | Null = {
     val cat = code + script
     Parsers(cat) match {
       case Right(result) => {
@@ -30,7 +30,7 @@ class Engine(@BeanProperty val factory: ScriptEngineFactory) extends AbstractScr
   }
 
   @throws(classOf[ScriptException])
-  def eval(reader: Reader, context: ScriptContext): Object = {
+  def eval(reader: Reader, context: ScriptContext): Object | Null = {
     val writer = new StringWriter()
     var c = reader.read()
     while c != -1 do {
@@ -59,7 +59,7 @@ object Engine {
     @BeanProperty
     val languageVersion = "3.0"
 
-    def getMethodCallSyntax(obj: String, m: String, args: String*): String = null
+    def getMethodCallSyntax(obj: String, m: String, args: String*): String | Null = null
 
     @BeanProperty
     val mimeTypes: List[String] = Arrays.asList("text/plain")
@@ -67,9 +67,9 @@ object Engine {
     @BeanProperty
     val names: List[String] = Arrays.asList("scas")
 
-    def getOutputStatement(toDisplay: String): String = null
+    def getOutputStatement(toDisplay: String): String | Null = null
 
-    def getParameter(key: String): Object = key match {
+    def getParameter(key: String): Object | Null = key match {
       case ScriptEngine.ENGINE => engineName
       case ScriptEngine.ENGINE_VERSION => engineVersion
       case ScriptEngine.LANGUAGE => languageName
@@ -78,7 +78,7 @@ object Engine {
       case _ => null
     }
 
-    def getProgram(statements: String*): String = null
+    def getProgram(statements: String*): String | Null = null
 
     def getScriptEngine: ScriptEngine = new Engine(this)
   }
