@@ -19,22 +19,18 @@ trait PolynomialWithSugar[T, C, M] extends Polynomial[Element[T], C, M] {
     (factory.normalize(p), e)
   }
   extension (x: Element[T]) {
-    def iterator = {
+    def underlying = {
       val (p, _) = x
-      p.iterator
+      p
     }
-    def size = {
-      val (p, _) = x
-      p.size
+    def sugar = {
+      val (_, e) = x
+      e
     }
-    def head = {
-      val (p, _) = x
-      p.head
-    }
-    def last = {
-      val (p, _) = x
-      p.last
-    }
+    def iterator = x.underlying.iterator
+    def size = x.underlying.size
+    def head = x.underlying.head
+    def last = x.underlying.last
     def add(y: Element[T]) = {
       val (p, e) = x
       val (q, f) = y

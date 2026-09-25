@@ -28,10 +28,7 @@ class SugarEngine[T, C, M](fussy: Boolean)(using factory: scas.polynomial.Polyno
   }
 
   extension (i: Int) def degree = i.headPowerProduct.degree
-  extension (i: Int) def sugar = {
-    val (_, e) = polys(i)
-    e
-  }
+  extension (i: Int) def sugar = polys(i).sugar
 
   @targetName("sugarGB") def gb(xs: T*): List[T] = gb(xs.map(factory(_))*).map(_._1)
 }
