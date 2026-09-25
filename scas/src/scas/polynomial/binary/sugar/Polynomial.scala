@@ -3,7 +3,7 @@ package scas.polynomial.binary.sugar
 import scas.polynomial.{PolynomialWithSugar, PolynomialWithDefining}
 import Polynomial.Element
 
-class Polynomial[T](using factory: scas.polynomial.binary.Polynomial[T]) extends PolynomialWithSugar[scas.polynomial.binary.Polynomial.Element[T], Int, Array[Int]] with PolynomialWithDefining[Element[T], Int, Array[Int]] {
+class Polynomial[T, C](using factory: scas.polynomial.binary.Polynomial[T, C]) extends PolynomialWithSugar[scas.polynomial.binary.Polynomial.Element[T], C, Array[Int]] with PolynomialWithDefining[Element[T], C, Array[Int]] {
   extension (x: Element[T]) {
     def index = {
       val (p, _) = x

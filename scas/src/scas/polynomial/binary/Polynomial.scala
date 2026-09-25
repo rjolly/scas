@@ -1,16 +1,16 @@
 package scas.polynomial.binary
 
 import scala.annotation.targetName
-import PolynomialWithDefining.Element
+import scas.structure.Ring
 import scas.power.compact.PowerProduct
-import scas.polynomial.{BinaryPolynomial, PolynomialWithDefining, MutablePolynomial}
-import scas.base.{BigInteger, ModInteger}
-import BigInteger.given
+import scas.polynomial.{PolynomialWithDefining, MutablePolynomial}
+import scas.base.BigInteger.given
+import Polynomial.Element
 
-class Polynomial[T](using factory: BinaryPolynomial[T]) extends PolynomialWithDefining[Element[T], Int, Array[Int]] with MutablePolynomial[Element[T], Int, Array[Int]] {
-  override given ring: ModInteger = factory.ring
+class Polynomial[T, C](using factory: MutableBinaryPolynomial[T, C]) extends PolynomialWithDefining[Element[T], C, Array[Int]] with MutablePolynomial[Element[T], C, Array[Int]] {
+  override given ring: Ring[C] = factory.ring
   override given pp: PowerProduct = factory.pp.defining
-  def apply(s: (Array[Int], Int)*) = Right(factory(s*))
+  def apply(s: (Array[Int], C)*) = Right(factory(s*))
   @targetName("fromPolynomial") def apply(p: T) = Right(p)
   def unmodifiable(x: Element[T]) = x match {
     case Right(p) => Right(factory.unmodifiable(p))
@@ -53,7 +53,7 @@ class Polynomial[T](using factory: BinaryPolynomial[T]) extends PolynomialWithDe
       }
       case Left(_) => ???
     }
-    def map(f: (Array[Int], Int) => (Array[Int], Int)) = x match {
+    def map(f: (Array[Int], C) => (Array[Int], C)) = x match {
       case Right(p) => Right(p.map(f))
       case Left(_) => ???
     }
