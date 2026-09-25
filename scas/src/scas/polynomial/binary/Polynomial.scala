@@ -3,11 +3,11 @@ package scas.polynomial.binary
 import scala.annotation.targetName
 import PolynomialWithDefining.Element
 import scas.power.compact.PowerProduct
-import scas.polynomial.{BinaryPolynomial, MutablePolynomial}
+import scas.polynomial.{BinaryPolynomial, PolynomialWithDefining, MutablePolynomial}
 import scas.base.{BigInteger, ModInteger}
 import BigInteger.given
 
-class PolynomialWithDefining[T](using factory: BinaryPolynomial[T]) extends scas.polynomial.PolynomialWithDefining[Element[T], Int, Array[Int]] with MutablePolynomial[Element[T], Int, Array[Int]] {
+class Polynomial[T](using factory: BinaryPolynomial[T]) extends PolynomialWithDefining[Element[T], Int, Array[Int]] with MutablePolynomial[Element[T], Int, Array[Int]] {
   override given ring: ModInteger = factory.ring
   override given pp: PowerProduct = factory.pp.defining
   def apply(s: (Array[Int], Int)*) = Right(factory(s*))
@@ -60,6 +60,6 @@ class PolynomialWithDefining[T](using factory: BinaryPolynomial[T]) extends scas
   }
 }
 
-object PolynomialWithDefining {
+object Polynomial {
   type Element[T] = Either[Int, T]
 }

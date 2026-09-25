@@ -1,10 +1,10 @@
-package scas.polynomial.sugar
+package scas.polynomial
 
 import scas.base.BigInteger.{max, given}
 import scas.polynomial.PolynomialWithSugar
 import PolynomialWithSugar.Element
 
-class MutablePolynomial[T, C, M](using factory: scas.polynomial.MutablePolynomial[T, C, M]) extends PolynomialWithSugar[T, C, M] {
+class MutablePolynomialWithSugar[T, C, M](using factory: MutablePolynomial[T, C, M]) extends PolynomialWithSugar[T, C, M] {
   def unmodifiable(x: Element[T]) = {
     val (p, e) = x
     (factory.unmodifiable(p), e)
