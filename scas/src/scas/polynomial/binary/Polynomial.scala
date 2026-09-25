@@ -3,23 +3,15 @@ package scas.polynomial.binary
 import scala.annotation.targetName
 import scas.structure.Ring
 import scas.power.compact.PowerProduct
-import scas.polynomial.{PolynomialWithDefining, MutablePolynomial}
+import scas.polynomial.PolynomialWithDefining
 import scas.base.BigInteger.given
 import Polynomial.Element
 
-class Polynomial[T, C](using factory: MutableBinaryPolynomial[T, C]) extends PolynomialWithDefining[Element[T], C, Array[Int]] with MutablePolynomial[Element[T], C, Array[Int]] {
+class Polynomial[T, C](using factory: BinaryPolynomial[T, C]) extends PolynomialWithDefining[Element[T], C, Array[Int]] {
   override given ring: Ring[C] = factory.ring
   override given pp: PowerProduct = factory.pp.defining
   def apply(s: (Array[Int], C)*) = Right(factory(s*))
   @targetName("fromPolynomial") def apply(p: T) = Right(p)
-  def unmodifiable(x: Element[T]) = x match {
-    case Right(p) => Right(factory.unmodifiable(p))
-    case Left(_) => x
-  }
-  def modifiable(x: Element[T]) = x match {
-    case Right(p) => Right(factory.modifiable(p))
-    case Left(_) => x
-  }
   extension (x: Element[T]) {
     def index = x match {
       case Right(_) => ???
