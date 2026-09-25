@@ -1,14 +1,14 @@
 package scas.polynomial.gb
 
 import scala.annotation.targetName
-import scas.polynomial.{Polynomial, PolynomialWithSugar}
-import PolynomialWithSugar.Element
+import scas.polynomial.Polynomial
+import scas.polynomial.PolynomialWithSugar.Element
 import scas.base.{BigInteger, Boolean}
 import BigInteger.self.{max, given}
 import Boolean.self.given
 import scas.math.Ordering
 
-class SugarEngine[T, C, M](fussy: Boolean)(using factory: PolynomialWithSugar[T, C, M]) extends GMSetting[Element[T], C, M, SugarPair] {
+class SugarEngine[T, C, M](fussy: Boolean)(using factory: scas.polynomial.PolynomialWithSugar[T, C, M]) extends GMSetting[Element[T], C, M, SugarPair] {
   def this(fussy: Boolean)(factory: Polynomial[T, C, M]) = this(fussy)(using PolynomialWithSugar(using factory))
   def this(factory: Polynomial[T, C, M]) = this(false)(factory)
   import factory.pp

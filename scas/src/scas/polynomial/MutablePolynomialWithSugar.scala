@@ -1,10 +1,12 @@
 package scas.polynomial
 
+import scala.compiletime.deferred
 import scas.base.BigInteger.{max, given}
 import scas.polynomial.PolynomialWithSugar
 import PolynomialWithSugar.Element
 
-class MutablePolynomialWithSugar[T, C, M](using factory: MutablePolynomial[T, C, M]) extends PolynomialWithSugar[T, C, M] {
+trait MutablePolynomialWithSugar[T, C, M] extends PolynomialWithSugar[T, C, M] with MutablePolynomial[Element[T], C, M] {
+  given factory: MutablePolynomial[T, C, M] = deferred
   def unmodifiable(x: Element[T]) = {
     val (p, e) = x
     (factory.unmodifiable(p), e)

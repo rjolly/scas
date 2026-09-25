@@ -1,13 +1,15 @@
 package scas.polynomial
 
 import scala.annotation.targetName
+import scala.compiletime.deferred
 import scas.power.PowerProduct
 import scas.structure.Ring
 import PolynomialWithSugar.Element
 import scas.base.BigInteger
 import BigInteger.{max, given}
 
-class PolynomialWithSugar[T, C, M](using factory: Polynomial[T, C, M]) extends Polynomial[Element[T], C, M] {
+trait PolynomialWithSugar[T, C, M] extends Polynomial[Element[T], C, M] {
+  given factory: Polynomial[T, C, M] = deferred
   override given ring: Ring[C] = factory.ring
   override given pp: PowerProduct[M] = factory.pp
   def apply(s: (M, C)*) = this(factory(s*))

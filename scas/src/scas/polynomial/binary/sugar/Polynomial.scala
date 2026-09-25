@@ -1,9 +1,11 @@
 package scas.polynomial.binary.sugar
 
+import scala.compiletime.deferred
 import scas.polynomial.{PolynomialWithSugar, PolynomialWithDefining}
 import Polynomial.Element
 
-class Polynomial[T, C](using factory: scas.polynomial.binary.Polynomial[T, C]) extends PolynomialWithSugar[scas.polynomial.binary.Polynomial.Element[T], C, Array[Int]] with PolynomialWithDefining[Element[T], C, Array[Int]] {
+trait Polynomial[T, C] extends PolynomialWithSugar[scas.polynomial.binary.Polynomial.Element[T], C, Array[Int]] with PolynomialWithDefining[Element[T], C, Array[Int]] {
+  given scas.polynomial.binary.Polynomial[T, C] = deferred
   extension (x: Element[T]) {
     def index = {
       val (p, _) = x
