@@ -5,15 +5,15 @@ import scala.collection.mutable.ArrayBuffer
 import scas.polynomial.Polynomial
 import scas.math.Ordering
 
-trait GMSetting[T, C, M, P[M] <: Pair[M]](using factory: Polynomial[T, C, M]) extends Engine[T, C, M, P] {
+trait GMSetting[T, C, M, P <: Pair[M]](using factory: Polynomial[T, C, M]) extends Engine[T, C, M, P] {
   import factory.pp
 
-  override def b_criterion(pa: P[M]) = false
+  override def b_criterion(pa: P) = false
 
-  extension (p1: P[M]) def | (p2: P[M]) = (p1.scm | p2.scm) && (p1.scm < p2.scm)
+  extension (p1: P) def | (p2: P) = (p1.scm | p2.scm) && (p1.scm < p2.scm)
 
   override def make(index: Int): Unit = {
-    val buffer = new ArrayBuffer[P[M]]
+    val buffer = new ArrayBuffer[P]
     for pair <- pairs do {
       val p1 = apply(pair.i, index)
       val p2 = apply(pair.j, index)
@@ -37,5 +37,5 @@ trait GMSetting[T, C, M, P[M] <: Pair[M]](using factory: Polynomial[T, C, M]) ex
     }
   }
 
-  def natural: Ordering[P[M]] = Ordering by { pair => (pair.scm, pair.j, pair.i) }
+  def natural: Ordering[P] = Ordering by { pair => (pair.scm, pair.j, pair.i) }
 }

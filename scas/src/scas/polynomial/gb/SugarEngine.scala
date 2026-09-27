@@ -8,7 +8,7 @@ import BigInteger.self.{max, given}
 import Boolean.self.given
 import scas.math.Ordering
 
-class SugarEngine[T, C, M](fussy: Boolean)(using factory: scas.polynomial.PolynomialWithSugar[T, C, M]) extends GMSetting[Element[T], C, M, SugarPair] {
+class SugarEngine[T, C, M](fussy: Boolean)(using factory: scas.polynomial.PolynomialWithSugar[T, C, M]) extends GMSetting[Element[T], C, M, SugarPair[M]] {
   def this(fussy: Boolean)(factory: Polynomial[T, C, M]) = this(fussy)(using PolynomialWithSugar(using factory))
   def this(factory: Polynomial[T, C, M]) = this(false)(factory)
   import factory.pp

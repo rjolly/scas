@@ -7,11 +7,11 @@ import scas.math.Ordering
 import scas.prettyprint.Show.given
 import java.util.logging.Logger
 
-trait Engine[T, C, M, P[M] <: Pair[M]](using factory: Polynomial[T, C, M]) {
+trait Engine[T, C, M, P <: Pair[M]](using factory: Polynomial[T, C, M]) {
   import factory.{normalize, s_polynomial, pp}
   val logger = Logger.getLogger(getClass().getName());
 
-  def process(pa: P[M]): Unit = {
+  def process(pa: P): Unit = {
     if !b_criterion(pa) then {
       logger.config(pa.toString)
       val p = normalize(s_polynomial(polys(pa.i), polys(pa.j)).reduce(polys.toSeq*))
@@ -20,7 +20,7 @@ trait Engine[T, C, M, P[M] <: Pair[M]](using factory: Polynomial[T, C, M]) {
     }
     remove(pa)
   }
-  def b_criterion(pa: P[M]): Boolean = {
+  def b_criterion(pa: P): Boolean = {
     var k = 0
     while k < polys.size do {
       if (k.headPowerProduct | pa.scm) && considered(pa.i, k) && considered(pa.j, k) then return true
@@ -28,27 +28,27 @@ trait Engine[T, C, M, P[M] <: Pair[M]](using factory: Polynomial[T, C, M]) {
     }
     false
   }
-  def remove(pa: P[M]): Unit = {
+  def remove(pa: P): Unit = {
     pairs -= pa
     if pa.reduction then removed(pa.principal) = true
   }
-  def add(pa: P[M]): Unit = {
+  def add(pa: P): Unit = {
     pairs += pa
     if pa.coprime then remove(pa)
   }
 
-  def apply(i: Int, j: Int): P[M] = apply(i, j, i.headPowerProduct, j.headPowerProduct)
-  def apply(i: Int, j: Int, m: M, n: M): P[M] = apply(i, j, if m < n then m | n else n | m, if m < n then j else i, pp.coprime(m, n), pp.lcm(m, n))
-  def apply(i: Int, j: Int, reduction: Boolean, principal: Int, coprime: Boolean, scm: M): P[M]
+  def apply(i: Int, j: Int): P = apply(i, j, i.headPowerProduct, j.headPowerProduct)
+  def apply(i: Int, j: Int, m: M, n: M): P = apply(i, j, if m < n then m | n else n | m, if m < n then j else i, pp.coprime(m, n), pp.lcm(m, n))
+  def apply(i: Int, j: Int, reduction: Boolean, principal: Int, coprime: Boolean, scm: M): P
 
   def sorted(i: Int, j: Int) = if i > j then apply(j, i) else apply(i, j)
   def make(index: Int): Unit = for i <- 0 until index do add(apply(i, index))
   def considered(i: Int, j: Int) = !pairs.contains(sorted(i, j))
 
-  def ordering: Ordering[P[M]] = Ordering by { pair => (pair.scm, pair.j, pair.i) }
-  given Ordering[P[M]] = ordering
+  def ordering: Ordering[P] = Ordering by { pair => (pair.scm, pair.j, pair.i) }
+  given Ordering[P] = ordering
 
-  var pairs = SortedSet.empty[P[M]]
+  var pairs = SortedSet.empty[P]
   val removed = ListBuffer.empty[Boolean]
   val polys = ListBuffer.empty[T]
   var npairs = 0
