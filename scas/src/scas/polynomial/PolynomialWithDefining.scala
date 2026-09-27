@@ -1,6 +1,7 @@
 package scas.polynomial
 
 trait PolynomialWithDefining[T, C, M] extends Polynomial[T, C, M] {
+  def apply(d: Int): T
   override def normalize(x: T) = {
     if (x.defining) then x
     else super.normalize(x)

@@ -10,6 +10,7 @@ import Polynomial.Element
 class Polynomial[T, C](using factory: BinaryPolynomial[T, C]) extends PolynomialWithDefining[Element[T], C, Array[Int]] {
   override given ring: Ring[C] = factory.ring
   override given pp: PowerProduct = factory.pp.defining
+  def apply(d: Int) = Left(d)
   def apply(s: (Array[Int], C)*) = Right(factory(s*))
   @targetName("fromPolynomial") def apply(p: T) = Right(p)
   extension (x: Element[T]) {
