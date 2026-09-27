@@ -13,7 +13,7 @@ class SugarEngine[T, C, M](fussy: Boolean)(using factory: scas.polynomial.Polyno
   def this(factory: Polynomial[T, C, M]) = this(false)(factory)
   import factory.pp
 
-  override def ordering = Ordering by { (pair: SugarPair[M]) => pair.skey }
+  override def ordering = Ordering by { pair => (pair.s, pair.scm, pair.j, pair.i) }
 
   override def natural = if fussy then ordering else super.natural
 

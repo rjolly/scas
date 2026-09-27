@@ -37,5 +37,5 @@ trait GMSetting[T, C, M, P[M] <: Pair[M]](using factory: Polynomial[T, C, M]) ex
     }
   }
 
-  def natural = Ordering by { (pair: P[M]) => pair.key }
+  def natural: Ordering[P[M]] = Ordering by { pair => (pair.scm, pair.j, pair.i) }
 }

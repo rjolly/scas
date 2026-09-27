@@ -45,7 +45,7 @@ trait Engine[T, C, M, P[M] <: Pair[M]](using factory: Polynomial[T, C, M]) {
   def make(index: Int): Unit = for i <- 0 until index do add(apply(i, index))
   def considered(i: Int, j: Int) = !pairs.contains(sorted(i, j))
 
-  def ordering = Ordering by { (pair: P[M]) => pair.key }
+  def ordering: Ordering[P[M]] = Ordering by { pair => (pair.scm, pair.j, pair.i) }
   given Ordering[P[M]] = ordering
 
   var pairs = SortedSet.empty[P[M]]
