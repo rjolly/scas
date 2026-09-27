@@ -19,13 +19,7 @@ class SugarEngine[T, C, M](fussy: Boolean)(using factory: scas.polynomial.Polyno
 
   extension (p1: SugarPair[M]) override def | (p2: SugarPair[M]) = super.|(p1)(p2) && (fussy >> (p1 < p2))
 
-  override def apply(i: Int, j: Int) = {
-    val m = i.headPowerProduct
-    val n = j.headPowerProduct
-    val scm = pp.lcm(m, n)
-    val s = max(i.sugar - i.degree, j.sugar - j.degree)
-    new SugarPair(i, j, m, n, scm, s + scm.degree)
-  }
+  def apply(i: Int, j: Int, reduction: Boolean, principal: Int, coprime: Boolean, scm: M) = new SugarPair(i, j, reduction, principal, coprime, scm, max(i.sugar - i.degree, j.sugar - j.degree) + scm.degree)
 
   extension (i: Int) def degree = i.headPowerProduct.degree
   extension (i: Int) def sugar = polys(i).sugar

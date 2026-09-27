@@ -37,7 +37,10 @@ trait Engine[T, C, M, P[M] <: Pair[M]](using factory: Polynomial[T, C, M]) {
     if pa.coprime then remove(pa)
   }
 
-  def apply(i: Int, j: Int): P[M]
+  def apply(i: Int, j: Int): P[M] = apply(i, j, i.headPowerProduct, j.headPowerProduct)
+  def apply(i: Int, j: Int, m: M, n: M): P[M] = apply(i, j, if m < n then m | n else n | m, if m < n then j else i, pp.coprime(m, n), pp.lcm(m, n))
+  def apply(i: Int, j: Int, reduction: Boolean, principal: Int, coprime: Boolean, scm: M): P[M]
+
   def sorted(i: Int, j: Int) = if i > j then apply(j, i) else apply(i, j)
   def make(index: Int): Unit = for i <- 0 until index do add(apply(i, index))
   def considered(i: Int, j: Int) = !pairs.contains(sorted(i, j))
