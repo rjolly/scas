@@ -21,6 +21,8 @@ class SugarEngine[T, C, M](fussy: Boolean)(using factory: scas.polynomial.Polyno
 
   def apply(i: Int, j: Int, reduction: Boolean, principal: Int, coprime: Boolean, scm: M) = new SugarPair(i, j, reduction, principal, coprime, scm, max(i.sugar - i.degree, j.sugar - j.degree) + scm.degree)
 
+  extension (pair: SugarPair[M]) def show = "{" + pair.i + ", " + pair.j + "}, " + pair.s.show + ", " + pair.reduction
+
   extension (i: Int) def degree = i.headPowerProduct.degree
   extension (i: Int) def sugar = polys(i).sugar
 

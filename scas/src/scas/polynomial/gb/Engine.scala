@@ -13,7 +13,7 @@ trait Engine[T, C, M, P <: Pair[M]](using factory: Polynomial[T, C, M]) {
 
   def process(pa: P): Unit = {
     if !b_criterion(pa) then {
-      logger.config(pa.toString)
+      logger.config(pa.show)
       val p = normalize(s_polynomial(polys(pa.i), polys(pa.j)).reduce(polys.toSeq*))
       if !p.isZero then update(p)
       npairs += 1
@@ -40,6 +40,8 @@ trait Engine[T, C, M, P <: Pair[M]](using factory: Polynomial[T, C, M]) {
   def apply(i: Int, j: Int): P = apply(i, j, i.headPowerProduct, j.headPowerProduct)
   def apply(i: Int, j: Int, m: M, n: M): P = apply(i, j, if m < n then m | n else n | m, if m < n then j else i, pp.coprime(m, n), pp.lcm(m, n))
   def apply(i: Int, j: Int, reduction: Boolean, principal: Int, coprime: Boolean, scm: M): P
+
+  extension (pa: P) def show: String
 
   def sorted(i: Int, j: Int) = if i > j then apply(j, i) else apply(i, j)
   def make(index: Int): Unit = for i <- 0 until index do add(apply(i, index))

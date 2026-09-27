@@ -6,4 +6,6 @@ open class GBEngine[T, C, M](using factory: Polynomial[T, C, M]) extends Engine[
   import factory.pp
 
   def apply(i: Int, j: Int, reduction: Boolean, principal: Int, coprime: Boolean, scm: M) = new Pair(i, j, reduction, principal, coprime, scm)
+
+  extension (pair: Pair[M]) def show = "{" + pair.i + ", " + pair.j + "}, " + pair.scm.show + ", " + pair.reduction
 }
