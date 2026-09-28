@@ -6,7 +6,7 @@ import scas.polynomial.PolynomialWithDefining
 import scas.power.compact.BinaryPowerProduct
 import scas.base.BigInteger.given
 
-trait Polynomial[T, C] extends ConvertablePolynomial[T, C, Int] with PolynomialWithDefining[T, C, Array[Int]] {
+trait Polynomial[T, C] extends scas.polynomial.gb.Polynomial[T, C, Array[Int]] with ConvertablePolynomial[T, C, Int] with PolynomialWithDefining[T, C, Array[Int]] {
   given pp: BinaryPowerProduct = deferred
   def apply(d: Int) = apply((pp.generator(d), ring.zero))
   extension (x: T) {
@@ -17,4 +17,5 @@ trait Polynomial[T, C] extends ConvertablePolynomial[T, C, Int] with PolynomialW
       else pp.defining.convert(super.headPowerProduct(x))(pp)
     }
   }
+  override def sugar = new PolynomialWithSugar(using this)
 }

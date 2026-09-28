@@ -1,18 +1,15 @@
 package scas.polynomial.gb
 
-import scala.annotation.targetName
 import scas.power.PowerProduct
-import scas.polynomial.Polynomial
-import scas.polynomial.PolynomialWithSugar.Element
+import scas.polynomial.PolynomialWithSugar
 import scas.base.{BigInteger, Boolean}
 import BigInteger.self.{max, given}
 import Boolean.self.given
 import scas.math.Ordering
 import SugarEngine.Pair
 
-class SugarEngine[T, C, M : PowerProduct](fussy: Boolean)(using factory: scas.polynomial.PolynomialWithSugar[T, C, M]) extends GMEngine.Impl[Element[T], C, M, Pair[M]] {
-  def this(fussy: Boolean)(factory: Polynomial[T, C, M]) = this(fussy)(using factory.pp, PolynomialWithSugar(using factory))
-  def this(factory: Polynomial[T, C, M]) = this(false)(factory)
+class SugarEngine[T, C, M : PowerProduct](fussy: Boolean)(using factory: PolynomialWithSugar[T, C, M]) extends GMEngine.Impl[PolynomialWithSugar.Element[T], C, M, Pair[M]] {
+  def this(fussy: Boolean)(factory: PolynomialWithSugar[T, C, M]) = this(fussy)(using factory.pp, factory)
 
   override def ordering = Ordering by { pair => (pair.s, pair.scm, pair.j, pair.i) }
 
@@ -27,7 +24,6 @@ class SugarEngine[T, C, M : PowerProduct](fussy: Boolean)(using factory: scas.po
   extension (i: Int) def degree = i.headPowerProduct.degree
   extension (i: Int) def sugar = polys(i).sugar
 
-  @targetName("sugarGB") def gb(xs: T*): List[T] = gb(xs.map(factory(_))*).map(_._1)
 }
 
 object SugarEngine {
