@@ -3,13 +3,14 @@ package scas.polynomial.gb
 import scala.collection.immutable.SortedSet
 import scala.collection.mutable.ListBuffer
 import scas.polynomial.Polynomial
+import scas.power.PowerProduct
 import scas.math.Ordering
 import scas.prettyprint.Show.given
 import java.util.logging.Logger
 import GBEngine.{Impl, Pair}
 
-class GBEngine[T, C, M](using factory: Polynomial[T, C, M]) extends Impl[T, C, M, Pair[M]] {
-  import factory.pp
+class GBEngine[T, C, M : PowerProduct](using factory: Polynomial[T, C, M]) extends Impl[T, C, M, Pair[M]] {
+  def this(factory: Polynomial[T, C, M]) = this(using factory.pp, factory)
 
   def apply(i: Int, j: Int, reduction: Boolean, principal: Int, coprime: Boolean, scm: M) = new Pair(i, j, reduction, principal, coprime, scm)
 
@@ -19,8 +20,8 @@ class GBEngine[T, C, M](using factory: Polynomial[T, C, M]) extends Impl[T, C, M
 object GBEngine {
   class Pair[M](val i: Int, val j: Int, val reduction: Boolean, val principal: Int, val coprime: Boolean, val scm: M)
 
-  trait Impl[T, C, M, P <: Pair[M]](using factory: Polynomial[T, C, M]) {
-    import factory.{normalize, s_polynomial, pp}
+  trait Impl[T, C, M : PowerProduct as pp, P <: Pair[M]](using factory: Polynomial[T, C, M]) {
+    import factory.{normalize, s_polynomial}
     val logger = Logger.getLogger(getClass().getName());
 
     def process(pa: P): Unit = {

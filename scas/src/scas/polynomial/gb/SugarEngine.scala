@@ -1,6 +1,7 @@
 package scas.polynomial.gb
 
 import scala.annotation.targetName
+import scas.power.PowerProduct
 import scas.polynomial.Polynomial
 import scas.polynomial.PolynomialWithSugar.Element
 import scas.base.{BigInteger, Boolean}
@@ -9,10 +10,9 @@ import Boolean.self.given
 import scas.math.Ordering
 import SugarEngine.Pair
 
-class SugarEngine[T, C, M](fussy: Boolean)(using factory: scas.polynomial.PolynomialWithSugar[T, C, M]) extends GMEngine.Impl[Element[T], C, M, Pair[M]] {
-  def this(fussy: Boolean)(factory: Polynomial[T, C, M]) = this(fussy)(using PolynomialWithSugar(using factory))
+class SugarEngine[T, C, M : PowerProduct](fussy: Boolean)(using factory: scas.polynomial.PolynomialWithSugar[T, C, M]) extends GMEngine.Impl[Element[T], C, M, Pair[M]] {
+  def this(fussy: Boolean)(factory: Polynomial[T, C, M]) = this(fussy)(using factory.pp, PolynomialWithSugar(using factory))
   def this(factory: Polynomial[T, C, M]) = this(false)(factory)
-  import factory.pp
 
   override def ordering = Ordering by { pair => (pair.s, pair.scm, pair.j, pair.i) }
 
