@@ -2,11 +2,12 @@ package scas.polynomial
 
 import scala.annotation.targetName
 import scala.compiletime.deferred
+import scas.polynomial.gb.SugarEngine
 import scas.power.PowerProduct
 import scas.structure.Ring
-import PolynomialWithSugar.Element
 import scas.base.BigInteger
 import BigInteger.{max, given}
+import PolynomialWithSugar.Element
 
 trait PolynomialWithSugar[T, C, M] extends Polynomial[Element[T], C, M] {
   given factory: Polynomial[T, C, M] = deferred
@@ -49,6 +50,9 @@ trait PolynomialWithSugar[T, C, M] extends Polynomial[Element[T], C, M] {
       (p.map(f), e)
     }
   }
+  override def gb(xs: Element[T]*) = gb(false)(xs*)
+  def gb(fussy: Boolean)(xs: Element[T]*) = new SugarEngine(fussy)(this).gb(xs*)
+  @targetName("sugarGB") def gb(fussy: Boolean)(xs: T*): List[T] = gb(fussy)(xs.map(this(_))*).map(_.underlying)
 }
 
 object PolynomialWithSugar {

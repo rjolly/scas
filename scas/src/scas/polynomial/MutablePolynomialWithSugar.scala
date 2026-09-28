@@ -2,7 +2,6 @@ package scas.polynomial
 
 import scala.compiletime.deferred
 import scas.base.BigInteger.{max, given}
-import scas.polynomial.PolynomialWithSugar
 import PolynomialWithSugar.Element
 
 trait MutablePolynomialWithSugar[T, C, M] extends PolynomialWithSugar[T, C, M] with MutablePolynomial[Element[T], C, M] {
