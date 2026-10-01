@@ -9,7 +9,7 @@ trait ArrayPowerProduct[N : Numeric] extends scas.power.ArrayPowerProduct[N] {
   def multiply(x: Array[N], n: Int, y: Array[N], z: Array[N]) = {
     val k = n * length
     var i = 0
-    while i < length do {
+    while i < nbvars do {
       z(i + k) = x(i + k) + y(i)
       i += 1
     }

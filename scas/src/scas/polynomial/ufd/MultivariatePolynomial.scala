@@ -11,7 +11,7 @@ trait MultivariatePolynomial[T[C, M], C, N] extends PolynomialOverUFD[T[C, Array
   val drop = pp.drop(1)
   def newInstance: [C] => (UniqueFactorizationDomain[C], ArrayPowerProduct[N]) => MultivariatePolynomial[T, C, N]
   def gcd1(x: T[C, Array[N]], y: T[C, Array[N]]): T[C, Array[N]]
-  def gcd(x: T[C, Array[N]], y: T[C, Array[N]]) = if pp.length > 1 then {
+  def gcd(x: T[C, Array[N]], y: T[C, Array[N]]) = if pp.nbvars > 1 then {
     val p = newInstance(ring, drop)
     val s = newInstance(p, take)
     s.gcd(x.convertTo(using p, s), y.convertTo(using p, s)).convertFrom(s)

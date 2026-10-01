@@ -15,7 +15,7 @@ object DegreeReverseLexicographic {
       if x.deg < y.deg then return -1
       if x.deg > y.deg then return 1
       var i = 0
-      while i < length do {
+      while i < nbvars do {
         if x.get(i) > y.get(i) then return -1
         if x.get(i) < y.get(i) then return 1
         i += 1

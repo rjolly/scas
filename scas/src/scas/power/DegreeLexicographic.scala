@@ -11,7 +11,7 @@ object DegreeLexicographic {
     def compare(x: Array[N], y: Array[N]) = {
       if x.deg < y.deg then return -1
       if x.deg > y.deg then return 1
-      var i = length
+      var i = nbvars
       while i > 0 do {
         i -= 1
         if x.get(i) < y.get(i) then return -1
