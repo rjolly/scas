@@ -2,7 +2,7 @@ package scas.polynomial.ufd
 
 import scala.annotation.tailrec
 import scala.compiletime.deferred
-import scas.polynomial.Polynomial
+import scas.polynomial.gb.Polynomial
 import scas.structure.commutative.UniqueFactorizationDomain
 import scas.base.Boolean.given
 
