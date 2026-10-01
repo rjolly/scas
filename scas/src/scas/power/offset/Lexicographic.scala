@@ -10,8 +10,8 @@ class Lexicographic[N : {Numeric, ClassTag}](val variables: Variable*) extends A
   def compare(x: Array[N], n: Int, y: Array[N], m: Int) = {
     val k = n * length
     val l = m * length
-    var i = length + k
-    var j = length + l
+    var i = nbvars + k
+    var j = nbvars + l
     while i > k do {
       i -= 1
       j -= 1
@@ -27,8 +27,8 @@ object Lexicographic {
     override def compare(x: Array[N], n: Int, y: Array[N], m: Int) = {
       val k = n * length
       val l = m * length
-      var i = length + k
-      var j = length + l
+      var i = nbvars + k
+      var j = nbvars + l
       while i > k do {
         i -= 1
         j -= 1
@@ -40,7 +40,7 @@ object Lexicographic {
     override def multiply(x: Array[N], n: Int, y: Array[N], z: Array[N]) = {
       val k = n * length
       var i = 0
-      while i < length do {
+      while i < nbvars do {
         z(i + k) = x(i + k) + y(i)
         i += 1
       }

@@ -7,7 +7,7 @@ class DegreeReverseLexicographic(val shift: Int)(val variables: Variable*) exten
   def compare(x: Array[Int], y: Array[Int]) = {
     if x.deg < y.deg then return -1
     if x.deg > y.deg then return 1
-    var i = len
+    var i = length
     while i > 0 do {
       i -= 1
       if x(i) > y(i) then return -1
@@ -16,8 +16,8 @@ class DegreeReverseLexicographic(val shift: Int)(val variables: Variable*) exten
     0
   }
   extension (x: Array[Int]) {
-    override def get(i: Int) = super.get(x)(length - 1 - i)
-    override def set(i: Int, c: Int) = super.set(x)(length - 1 - i, c)
+    override def get(i: Int) = super.get(x)(nbvars - 1 - i)
+    override def set(i: Int, c: Int) = super.set(x)(nbvars - 1 - i, c)
   }
 }
 

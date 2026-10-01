@@ -8,10 +8,10 @@ import scas.prettyprint.Show.given
 
 trait PowerProduct[M] extends Monoid[M] {
   def variables: Seq[Variable]
-  def length = variables.length
+  def nbvars = variables.length
   def generator(variable: Variable): M = generator(variables.indexOf(variable))
   def generator(n: Int): M
-  def generators = (for i <- 0 until length yield generator(i)).toList
+  def generators = (for i <- 0 until nbvars yield generator(i)).toList
   def apply(x: Int) = {
     assert (x == 1)
     one

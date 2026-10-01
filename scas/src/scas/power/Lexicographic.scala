@@ -13,7 +13,7 @@ object Lexicographic {
 
   @nowarn("msg=New anonymous class definition will be duplicated at each inline site") inline def inlined[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(variables: S*): Lexicographic[N] = new Lexicographic[N](variables.map(~_)*) {
     override def compare(x: Array[N], y: Array[N]) = {
-      var i = length
+      var i = nbvars
       while i > 0 do {
         i -= 1
         if x(i) < y(i) then return -1
@@ -23,7 +23,7 @@ object Lexicographic {
     }
     override def multiply(x: Array[N], y: Array[N], z: Array[N]) = {
       var i = 0
-      while i < length do {
+      while i < nbvars do {
         z(i) = x(i) + y(i)
         i += 1
       }
@@ -33,7 +33,7 @@ object Lexicographic {
 
   trait Impl[N : {Numeric, ClassTag}] extends ArrayPowerProduct[N] {
     def compare(x: Array[N], y: Array[N]) = {
-      var i = length
+      var i = nbvars
       while i > 0 do {
         i -= 1
         if x.get(i) < y.get(i) then return -1

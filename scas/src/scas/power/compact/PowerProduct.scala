@@ -3,17 +3,17 @@ package scas.power.compact
 trait PowerProduct extends scas.power.ArrayPowerProduct[Int] {
   def shift: Int
   val mask = (1 << (1 << shift)) - 1
-  override def len = ((length - 1) >> (5 - shift)) + 1
+  override def length = ((nbvars - 1) >> (5 - shift)) + 1
   override def multiply(x: Array[Int], y: Array[Int], z: Array[Int]) = {
     var i = 0
-    while i < len do {
+    while i < length do {
       z(i) = x(i) + y(i)
       i += 1
     }
     z
   }
   override def divide(x: Array[Int], y: Array[Int], z: Array[Int]) = {
-    for i <- 0 until len do {
+    for i <- 0 until length do {
       assert (x(i) >= y(i))
       z(i) = x(i) - y(i)
     }
