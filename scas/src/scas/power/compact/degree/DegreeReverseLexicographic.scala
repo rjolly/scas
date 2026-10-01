@@ -3,21 +3,17 @@ package scas.power.compact.degree
 import scas.variable.Variable
 import scas.util.{Conversion, unary_~}
 
-class DegreeReverseLexicographic(val shift: Int)(val variables: Variable*) extends PowerProduct {
+class DegreeReverseLexicographic(val shift: Int)(val variables: Variable*) extends ReversePowerProduct {
   def compare(x: Array[Int], y: Array[Int]) = {
     if x.deg < y.deg then return -1
     if x.deg > y.deg then return 1
-    var i = length
+    var i = length - 1
     while i > 0 do {
       i -= 1
       if x(i) > y(i) then return -1
       if x(i) < y(i) then return 1
     }
     0
-  }
-  extension (x: Array[Int]) {
-    override def get(i: Int) = super.get(x)(nbvars - 1 - i)
-    override def set(i: Int, c: Int) = super.set(x)(nbvars - 1 - i, c)
   }
 }
 
