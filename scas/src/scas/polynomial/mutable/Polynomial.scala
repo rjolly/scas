@@ -1,6 +1,6 @@
-package scas.polynomial
+package scas.polynomial.mutable
 
-trait MutablePolynomial[T, C, M] extends Polynomial[T, C, M] {
+trait Polynomial[T, C, M] extends scas.polynomial.Polynomial[T, C, M] {
   def unmodifiable(x: T): T
   def modifiable(x: T): T
   extension (x:T) {

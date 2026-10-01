@@ -1,8 +1,8 @@
-package scas.polynomial
+package scas.polynomial.mutable
 
-import TreePolynomial.Element
+import scas.polynomial.TreePolynomial.Element
 
-trait TreeMutablePolynomial[C, M] extends TreePolynomial[C, M] with MutablePolynomial[Element[C, M], C, M] {
+trait TreePolynomial[C, M] extends scas.polynomial.TreePolynomial[C, M] with Polynomial[Element[C, M], C, M] {
   extension (x: Element[C, M]) {
     override def subtract(m: M, c: C, y: Element[C, M]) = {
       val ys = y.entrySet.iterator
