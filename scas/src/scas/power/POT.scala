@@ -10,29 +10,29 @@ open class POT[N : {Numeric as numeric, ClassTag}](factory: ArrayPowerProduct[N]
   def compare(x: Array[N], y: Array[N]) = {
     var i = 0
     while i < dimension do {
-      if x(factory.len + i) < y(factory.len + i) then return -1
-      if x(factory.len + i) > y(factory.len + i) then return 1
+      if x(factory.length + i) < y(factory.length + i) then return -1
+      if x(factory.length + i) > y(factory.length + i) then return 1
       i += 1
     }
     factory.compare(x, y)
   }
-  override def len = factory.len + dimension
+  override def length = factory.length + dimension
   override def generator(n: Int, z: Array[N]) = {
-    if n < factory.length then factory.generator(n, z)
-    else z(factory.len + n - factory.length) = numeric.fromInt(1)
+    if n < factory.nbvars then factory.generator(n, z)
+    else z(factory.length + n - factory.nbvars) = numeric.fromInt(1)
     z
   }
   override def gcd(x: Array[N], y: Array[N], z: Array[N]) = {
     factory.gcd(x, y, z)
     for i <- 0 until dimension do {
-      z(factory.len + i) = numeric.min(x(factory.len + i), y(factory.len + i))
+      z(factory.length + i) = numeric.min(x(factory.length + i), y(factory.length + i))
     }
     z
   }
   override def lcm(x: Array[N], y: Array[N], z: Array[N]) = {
     factory.lcm(x, y, z)
     for i <- 0 until dimension do {
-      z(factory.len + i) = numeric.max(x(factory.len + i), y(factory.len + i))
+      z(factory.length + i) = numeric.max(x(factory.length + i), y(factory.length + i))
     }
     z
   }
@@ -40,7 +40,7 @@ open class POT[N : {Numeric as numeric, ClassTag}](factory: ArrayPowerProduct[N]
     factory.multiply(x, y, z)
     var i = 0
     while i < dimension do {
-      z(factory.len + i) = x(factory.len + i) + y(factory.len + i)
+      z(factory.length + i) = x(factory.length + i) + y(factory.length + i)
       i += 1
     }
     z
@@ -48,15 +48,15 @@ open class POT[N : {Numeric as numeric, ClassTag}](factory: ArrayPowerProduct[N]
   override def divide(x: Array[N], y: Array[N], z: Array[N]) = {
     factory.divide(x, y, z)
     for i <- 0 until dimension do {
-      assert (x(factory.len + i) >= y(factory.len + i))
-      z(factory.len + i) = x(factory.len + i) - y(factory.len + i)
+      assert (x(factory.length + i) >= y(factory.length + i))
+      z(factory.length + i) = x(factory.length + i) - y(factory.length + i)
     }
     z
   }
   override def projection(x: Array[N], n: Int, m: Int, z: Array[N]) = {
     factory.projection(x, n, m, z)
-    for i <- 0 until dimension do if factory.length + i >= n && factory.length + i < m then {
-      z(factory.len + i) = x(factory.len + i)
+    for i <- 0 until dimension do if factory.nbvars + i >= n && factory.nbvars + i < m then {
+      z(factory.length + i) = x(factory.length + i)
     }
     z
   }
@@ -69,28 +69,28 @@ open class POT[N : {Numeric as numeric, ClassTag}](factory: ArrayPowerProduct[N]
       if !factory.factorOf(x)(y) then return false
       var i = 0
       while i < dimension do {
-        if x(factory.len + i) > y(factory.len + i) then return false
+        if x(factory.length + i) > y(factory.length + i) then return false
         i += 1
       }
       true
     }
-    override def dependencyOnVariables = factory.dependencyOnVariables(x) ++ (for i <- 0 until dimension if (x(factory.len + i) > numeric.zero) yield factory.length + i).toArray
+    override def dependencyOnVariables = factory.dependencyOnVariables(x) ++ (for i <- 0 until dimension if (x(factory.length + i) > numeric.zero) yield factory.nbvars + i).toArray
     override def size = {
       var m = factory.size(x)
-      for i <- 0 until dimension do if x(factory.len + i) > numeric.zero then m += 1
+      for i <- 0 until dimension do if x(factory.length + i) > numeric.zero then m += 1
       m
     }
     override def deg = {
       var d = factory.deg(x)
-      for i <- 0 until dimension do d += x(factory.len + i)
+      for i <- 0 until dimension do d += x(factory.length + i)
       d
     }
     override def toCode(level: Level, times: String) = {
       var s = factory.toCode(x)(level, times)
       var m = factory.size(x)
-      for i <- 0 until dimension do if x(factory.len + i) > numeric.zero then {
-        val a = variables(factory.length + i)
-        val b = x(factory.len + i)
+      for i <- 0 until dimension do if x(factory.length + i) > numeric.zero then {
+        val a = variables(factory.nbvars + i)
+        val b = x(factory.length + i)
         val t = if b >< numeric.one then a.toString else s"$a\\$b"
         s = if m == 0 then t else s + times + t
         m += 1
@@ -100,9 +100,9 @@ open class POT[N : {Numeric as numeric, ClassTag}](factory: ArrayPowerProduct[N]
     override def toMathML(times: String) = {
       var s = factory.toMathML(x)(times)
       var m = factory.size(x)
-      for i <- 0 until dimension do if x(factory.len + i) > numeric.zero then {
-        val a = variables(factory.length + i)
-        val b = x(factory.len + i)
+      for i <- 0 until dimension do if x(factory.length + i) > numeric.zero then {
+        val a = variables(factory.nbvars + i)
+        val b = x(factory.length + i)
         val t = if b >< numeric.one then a.toMathML else s"<apply><power/>${a.toMathML}<cn>$b</cn></apply>"
         s = if m == 0 then t else s"<apply><$times/>$s$t</apply>"
         m += 1

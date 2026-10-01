@@ -5,7 +5,7 @@ import scas.util.{Conversion, unary_~}
 
 class Lexicographic(val shift: Int)(val variables: Variable*) extends PowerProduct {
   def compare(x: Array[Int], y: Array[Int]) = {
-    var i = len
+    var i = length
     while i > 0 do {
       i -= 1
       if x(i) < y(i) then return -1

@@ -7,7 +7,7 @@ class DegreeLexicographic(val shift: Int)(val variables: Variable*) extends Powe
   def compare(x: Array[Int], y: Array[Int]) = {
     if x.deg < y.deg then return -1
     if x.deg > y.deg then return 1
-    var i = len
+    var i = length
     while i > 0 do {
       i -= 1
       if x(i) < y(i) then return -1

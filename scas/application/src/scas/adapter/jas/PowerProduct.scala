@@ -8,8 +8,8 @@ import BigInteger.given
 
 class PowerProduct(val variables: Variable*)(tord: TermOrder) extends scas.power.PowerProduct[ExpVector] {
   val comp = tord.getDescendComparator
-  val one = ExpVector.create(length)
-  def generator(n: Int) = ExpVector.create(length, n, 1)
+  val one = ExpVector.create(nbvars)
+  def generator(n: Int) = ExpVector.create(nbvars, n, 1)
   extension (x: ExpVector) def degree = BigInteger.fromInt(x.degree)
   def gcd(x: ExpVector, y: ExpVector) = x.gcd(y)
   def lcm(x: ExpVector, y: ExpVector) = x.lcm(y)
