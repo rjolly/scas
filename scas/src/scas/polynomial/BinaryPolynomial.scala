@@ -1,7 +1,12 @@
 package scas.polynomial
 
-trait PolynomialWithDefining[T, C, M] extends Polynomial[T, C, M] {
-  def apply(d: Int): T
+import scala.compiletime.deferred
+import scas.power.compact.BinaryPowerProduct
+import scas.base.BigInteger.given
+
+trait BinaryPolynomial[T, C] extends ConvertablePolynomial[T, C, Int] {
+  given pp: BinaryPowerProduct = deferred
+  def apply(d: Int): T = apply((pp.generator(d), ring.zero))
   override def normalize(x: T) = {
     if (x.defining) then x
     else super.normalize(x)
@@ -16,8 +21,12 @@ trait PolynomialWithDefining[T, C, M] extends Polynomial[T, C, M] {
     }
   }
   extension (x: T) {
-    def index: Int
-    def defining: Boolean
+    def index = super.headPowerProduct(x).dependencyOnVariables(0)
+    def defining = !x.isZero && x.headCoefficient.isZero
+    override def headPowerProduct = {
+      if x.defining then pp.defining.convert(super.headPowerProduct(x))(pp) \ 2
+      else pp.defining.convert(super.headPowerProduct(x))(pp)
+    }
     override def reduce(ys: T*) = {
       if x.defining then x
       else super.reduce(x)(ys.filterNot(_.defining)*)

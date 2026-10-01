@@ -12,7 +12,6 @@ import PolynomialWithSugar.Element
 trait PolynomialWithSugar[T, C, M] extends Polynomial[Element[T], C, M] {
   given factory: Polynomial[T, C, M] = deferred
   override given ring: Ring[C] = factory.ring
-  override given pp: PowerProduct[M] = factory.pp
   def apply(s: (M, C)*) = this(factory(s*))
   @targetName("fromPolynomial") def apply(p: T) = (p, p.degree)
   override def normalize(x: Element[T]) = {
