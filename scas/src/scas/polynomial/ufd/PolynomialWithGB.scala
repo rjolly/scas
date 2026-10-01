@@ -8,7 +8,7 @@ import scas.module.Array
 import scas.base.BigInteger
 import BigInteger.given
 
-trait PolynomialWithGB[T : ClassTag, C, N : {Numeric, ClassTag}] extends PolynomialOverUFD[T, C, Array[N]] with ConvertablePolynomial[T, C, N] {
+trait PolynomialWithGB[T : ClassTag, C, N : {Numeric, ClassTag}] extends PolynomialOverUFD[T, C, Array[N]] with scas.polynomial.gb.Polynomial[T, C, Array[N]] with ConvertablePolynomial[T, C, N] {
   def embedding(name: String, dimension: Int) = newInstance(new ModifiedPOT(pp, name, dimension))
   def newInstance(pp: POT[N]): PolynomialWithGB[T, C, N]
   def gcd(x: T, y: T) = if x.isZero then y else {
