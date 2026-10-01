@@ -1,8 +1,8 @@
-package scas.polynomial
+package scas.polynomial.mutable
 
 import scala.collection.parallel.CollectionConverters.*
 
-trait ParallelMutablePolynomial[T, C, M] extends MutablePolynomial[T, C, M] {
+trait ParallelPolynomial[T, C, M] extends Polynomial[T, C, M] {
   extension (x: T) override def multiply(y: T) = unmodifiable(y.toSeq.par.aggregate(() => modifiable(zero))({ (l, r) =>
     val (a, b) = r
     val k = l().subtract(a, -b, x)
