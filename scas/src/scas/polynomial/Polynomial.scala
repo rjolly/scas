@@ -53,7 +53,7 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
     val (n, b) = y.head
     val gcd = pp.gcd(m, n)
     val (m0, n0) = (m / gcd, n / gcd)
-    (x%* n0).reduce(m0, a, y, b, false)
+    (x%* n0).reduce(m0, a, y, b)
   }
   def gb(xs: T*) = new GBEngine(this).gb(xs*)
 
@@ -217,6 +217,8 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
     }
 
     def reduce(m: M, a: C, y: T, b: C, strict: Boolean) = (x%* b).subtract(m, a, y)
+
+    def reduce(m: M, a: C, y: T, b: C): T = reduce(m, a, y, b, false)
 
     def subtract(m: M, c: C, y: T) = x + y.multiply(m, -c)
 
