@@ -1,11 +1,11 @@
-import scas.polynomial.tree.PolynomialWithGB
-import scas.power.DegreeReverseLexicographic
+import scas.polynomial.tree.mutable.PolynomialWithGB
+import scas.power.degree.DegreeReverseLexicographic
 import scas.variable.Variable
 import scas.base.BigInteger
 import BigInteger.given
 
 val n = 4
-val r = PolynomialWithGB(using BigInteger, DegreeReverseLexicographic(0)((for (i <- 0 until n) yield Variable("a", 0, i))*))
+val r = PolynomialWithGB(using BigInteger, DegreeReverseLexicographic.inlined(0)((for (i <- 0 until n) yield Variable("a", 0, i))*))
 import r.given
 val a = (for (i <- 0 until n) yield {
   (0 until (if i < n - 1 then n else 1)).foldLeft(if i == n - 1 then r.one else r.zero) { (l, j) =>
