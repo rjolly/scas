@@ -16,6 +16,8 @@ trait Polynomial[T, C, M] extends scas.polynomial.Polynomial[T, C, M] {
 
     override def reduce(strict: Boolean, tail: Boolean, ys:T*) = unmodifiable(super.reduce(modifiable(x))(strict, tail, ys*))
 
+    override def reduce(m: M, a: C, y: T, b: C) = unmodifiable(super.reduce(modifiable(x))(m, a, y, b))
+
     override def subtract(m: M, c: C, y: T) = super.subtract(x)(m, c, y)
   }
 }
