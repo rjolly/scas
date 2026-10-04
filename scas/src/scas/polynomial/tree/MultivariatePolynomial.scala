@@ -6,14 +6,17 @@ import scas.variable.Variable
 import scas.util.{Conversion, unary_~}
 import scas.polynomial.TreePolynomial
 import TreePolynomial.Element
+import MultivariatePolynomial.Impl
 
-trait MultivariatePolynomial[C] extends TreePolynomial[C, Array[Int]] with scas.polynomial.ufd.MultivariatePolynomial[Element, C, Int] with UniqueFactorizationDomain.Conv[Element[C, Array[Int]]] {
-  def variables: Seq[Variable]
-  override given pp: ArrayPowerProduct[Int] = new Lexicographic[Int](variables*)
-  given instance: MultivariatePolynomial[C] = this
+abstract class MultivariatePolynomial[C : UniqueFactorizationDomain](variables: Variable*) extends Impl[C] {
+  override given pp: ArrayPowerProduct[Int] = new Lexicographic(variables*)
 }
 
 object MultivariatePolynomial {
+  trait Impl[C] extends TreePolynomial[C, Array[Int]] with scas.polynomial.ufd.MultivariatePolynomial[Element, C, Int] with UniqueFactorizationDomain.Conv[Element[C, Array[Int]]] {
+    given instance: Impl[C] = this
+  }
+
   def withSimpleGCD[C, S : Conversion[Variable]](ring: UniqueFactorizationDomain[C])(s: S*) = new PolynomialWithSimpleGCD(using ring)(s.map(~_)*)
   def withPrimitiveGCD[C, S : Conversion[Variable]](ring: UniqueFactorizationDomain[C])(s: S*) = new PolynomialWithPrimitiveGCD(using ring)(s.map(~_)*)
   def withSubresGCD[C, S : Conversion[Variable]](ring: UniqueFactorizationDomain[C])(s: S*) = new PolynomialWithSubresGCD(using ring)(s.map(~_)*)
