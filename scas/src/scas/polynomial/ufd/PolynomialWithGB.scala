@@ -2,7 +2,7 @@ package scas.polynomial.ufd
 
 import scala.reflect.ClassTag
 import scas.math.Numeric
-import scas.power.{ArrayPowerProduct, POT, ModifiedPOT}
+import scas.power.{POT, ModifiedPOT}
 import scas.polynomial.ConvertablePolynomial
 import scas.module.Array
 import scas.base.BigInteger
