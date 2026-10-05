@@ -1,14 +1,15 @@
 package scas.residue.growable
 
 import scas.polynomial.TreePolynomial.Element
-import scas.polynomial.ufd.growable.PolynomialOverFieldWithGB
+import scas.polynomial.ufd.growable.PolynomialWithModInverse
+import scas.polynomial.tree.growable.PolynomialOverFieldWithGB
 import scas.power.growable.DegreeReverseLexicographic
 import scas.structure.commutative.Field
 import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
 
-class AlgebraicNumber[C](using PolynomialOverFieldWithGB[Element[C, Array[Int]], C, Int]) extends ResidueOverField[Element[C, Array[Int]], C, Int] {
-  def this(ring: Field[C])(variables: Variable*) = this(using new scas.polynomial.tree.growable.PolynomialOverFieldWithGB(using ring, new DegreeReverseLexicographic[Int](variables*)))
+class AlgebraicNumber[C](using PolynomialWithModInverse[Element[C, Array[Int]], C, Array[Int]]) extends ResidueOverField[Element[C, Array[Int]], C, Array[Int]] {
+  def this(ring: Field[C])(variables: Variable*) = this(using new PolynomialOverFieldWithGB(using ring, new DegreeReverseLexicographic[Int](variables*)))
 }
 
 object AlgebraicNumber {
