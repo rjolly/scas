@@ -2,15 +2,15 @@ package scas.residue.growable
 
 import scala.compiletime.deferred
 import scas.variable.Variable
-import scas.polynomial.ufd.growable.PolynomialWithGB
+import scas.polynomial.ufd.growable.PolynomialOverUFD
 
-trait Residue[T, C, N] extends scas.residue.Residue[T, C, N] {
-  given ring: PolynomialWithGB[T, C, N] = deferred
+trait Residue[T, C, M] extends scas.residue.Residue[T, C, M] {
+  given ring: PolynomialOverUFD[T, C, M] = deferred
   def extend(variables: Variable*): Unit = {
     ring.extend(variables*)
   }
 
-  extension (ring: PolynomialWithGB[T, C, N]) def apply(s: T*) = {
+  extension (ring: PolynomialOverUFD[T, C, M]) def apply(s: T*) = {
     same(s*)
     this
   }

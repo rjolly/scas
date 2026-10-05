@@ -16,8 +16,4 @@ trait PolynomialOverFieldWithGB[T : ClassTag, C, N : {Numeric, ClassTag}] extend
     assert (p.isUnit)
     q / p
   }
-  extension (ring: Field[C]) override def apply(s: T*): PolynomialOverFieldWithGB[T, C, N] = {
-    same(s*)
-    this
-  }
 }
