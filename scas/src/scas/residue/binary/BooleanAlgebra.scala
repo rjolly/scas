@@ -1,7 +1,7 @@
 package scas.residue.binary
 
 import scas.polynomial.TreePolynomial.Element
-import scas.polynomial.binary.Polynomial
+import scas.polynomial.ufd.binary.Polynomial
 import scas.power.compact.Lexicographic
 import scas.variable.Variable
 import scas.base.{BigInteger, Boolean}
