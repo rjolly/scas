@@ -2,7 +2,11 @@ package scas.polynomial.ufd
 
 import scala.reflect.ClassTag
 import scala.annotation.tailrec
-import scas.structure.commutative.EuclidianDomain
+import scas.structure.commutative.{EuclidianDomain, Field}
+import scas.power.PowerProduct
+import scas.polynomial.PolynomialWithRepr
+import PolynomialWithRepr.Element
+import UnivariatePolynomial.Repr
 
 trait UnivariatePolynomial[T : ClassTag, C, M] extends PolynomialWithModInverse[T, C, M] with EuclidianDomain[T] {
   assert (pp.nbvars == 1)
@@ -15,9 +19,17 @@ trait UnivariatePolynomial[T : ClassTag, C, M] extends PolynomialWithModInverse[
   }
   extension (x: T) def modInverse(mods: T*) = {
     assert (mods.length == 1)
-    val s = new scas.polynomial.ufd.repr.UnivariatePolynomial(using this)(1)
+    val s = new Repr(using this)(1)
     val (p, e) = s.gcd(s(x, 0), s(mods(0)))
     assert (p.isUnit)
     e(0) / p
+  }
+}
+
+object UnivariatePolynomial {
+  class Repr[T : ClassTag, C, M](using UnivariatePolynomial[T, C, M])(val dimension: Int) extends PolynomialWithRepr[T, C, M] with UnivariatePolynomial[Element[T], C, M] {
+    override given factory: UnivariatePolynomial[T, C, M] = summon
+    override given ring: Field[C] = factory.ring
+    override given pp: PowerProduct[M] = factory.pp
   }
 }
