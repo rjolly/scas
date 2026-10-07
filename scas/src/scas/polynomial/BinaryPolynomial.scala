@@ -24,8 +24,8 @@ trait BinaryPolynomial[T, C] extends ConvertablePolynomial[T, C, Int] {
     def index = super.headPowerProduct(x).dependencyOnVariables(0)
     def defining = !x.isZero && x.headCoefficient.isZero
     override def headPowerProduct = {
-      if x.defining then pp.defining.convert(super.headPowerProduct(x))(pp) \ 2
-      else pp.defining.convert(super.headPowerProduct(x))(pp)
+      val m = pp.defining.convert(super.headPowerProduct(x))(pp)
+      if x.defining then pp.defining.\(m)(2) else m
     }
     override def reduce(ys: T*) = {
       if x.defining then x
