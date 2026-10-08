@@ -6,7 +6,7 @@ import scas.base.BigInteger.given
 
 trait BinaryPolynomial[T, C] extends ConvertablePolynomial[T, C, Int] {
   given pp: BinaryPowerProduct = deferred
-  def apply(d: Int): T = apply((pp.generator(d), ring.zero))
+  def apply(d: Int): T = this((pp.generator(d), ring.zero))
   override def normalize(x: T) = {
     if (x.defining) then x
     else super.normalize(x)
