@@ -9,7 +9,7 @@ import scas.prettyprint.Show.given
 import java.util.logging.Logger
 import GBEngine.{Impl, Pair}
 
-class GBEngine[T, C, M : PowerProduct](using factory: Polynomial[T, C, M]) extends Impl[T, C, M, Pair[M]] {
+open class GBEngine[T, C, M : PowerProduct](using factory: Polynomial[T, C, M]) extends Impl[T, C, M, Pair[M]] {
   def this(factory: Polynomial[T, C, M]) = this(using factory.pp, factory)
 
   def apply(i: Int, j: Int, reduction: Boolean, principal: Int, coprime: Boolean, scm: M) = new Pair(i, j, reduction, principal, coprime, scm)
@@ -18,7 +18,7 @@ class GBEngine[T, C, M : PowerProduct](using factory: Polynomial[T, C, M]) exten
 }
 
 object GBEngine {
-  class Pair[M](val i: Int, val j: Int, val reduction: Boolean, val principal: Int, val coprime: Boolean, val scm: M)
+  open class Pair[M](val i: Int, val j: Int, val reduction: Boolean, val principal: Int, val coprime: Boolean, val scm: M)
 
   trait Impl[T, C, M : PowerProduct as pp, P <: Pair[M]](using factory: Polynomial[T, C, M]) {
     import factory.{normalize, s_polynomial}
