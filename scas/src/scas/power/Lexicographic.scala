@@ -43,7 +43,7 @@ object Lexicographic {
     }
   }
 
-  class Conv[N : {Numeric, ClassTag}](val variables: Variable*) extends Impl[N] with PowerProduct.Conv[Array[N]] {
+  class Conv[N : {Numeric, ClassTag}](variables: Variable*) extends Lexicographic[N](variables*) with PowerProduct.Conv[Array[N]] {
     given instance: Conv[N] = this
   }
 }
