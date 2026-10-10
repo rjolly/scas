@@ -6,7 +6,7 @@ import scas.math.Numeric
 import scas.variable.Variable
 import scas.util.{Conversion, unary_~}
 
-class DegreeReverseLexicographic[N : {Numeric, ClassTag}](val variables: Variable*) extends scas.power.DegreeReverseLexicographic.Impl[N] with ArrayPowerProduct[N]
+class DegreeReverseLexicographic[N : {Numeric, ClassTag}](val variables: Variable*) extends ArrayPowerProduct[N] with scas.power.DegreeReverseLexicographic.Impl[N]
 
 object DegreeReverseLexicographic {
   @nowarn("msg=New anonymous class definition will be duplicated at each inline site") inline def inlined[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(variables: S*): DegreeReverseLexicographic[N] = new DegreeReverseLexicographic[N](variables.map(~_)*) {
