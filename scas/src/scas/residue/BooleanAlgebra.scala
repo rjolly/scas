@@ -21,9 +21,10 @@ object BooleanAlgebra {
   trait Impl extends Residue[Element[Boolean, Array[Int]], Boolean, Array[Int]] with BooleanRing[Element[Boolean, Array[Int]]] {
     init
     def init: Unit = {
-      update(generators.map(x => x+x\2)*)
+      update(generators.map(_.defining)*)
     }
     extension (x: Element[Boolean, Array[Int]]) {
+      def defining = x+x\2
       override def toCode(level: Level) = ring.toCode(x)(level, " ^ ", " && ")
       override def toMathML = ring.toMathML(x)("xor", "and")
     }
