@@ -1,6 +1,7 @@
 package scas.polynomial
 
 import scala.compiletime.deferred
+import scala.annotation.targetName
 import scas.power.compact.BinaryPowerProduct
 import scas.base.BigInteger.given
 
@@ -32,6 +33,8 @@ trait BinaryPolynomial[T, C] extends ConvertablePolynomial[T, C, Int] {
       val m = pp.defining.convert(super.headPowerProduct(x))(pp)
       if x.defining then pp.defining.\(m)(2) else m
     }
+    @targetName("coef") override def coefficient(y: T): T = this(x.coefficient(super.headPowerProduct(y)))
+    override def coefficient(m: Array[Int]) = super.coefficient(x)(m)
     override def reduce(ys: T*) = {
       if x.defining then x
       else super.reduce(x)(ys.filterNot(_.defining)*)
