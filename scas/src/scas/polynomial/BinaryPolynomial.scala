@@ -30,8 +30,8 @@ trait BinaryPolynomial[T, C] extends ConvertablePolynomial[T, C, Int] {
     def index = super.headPowerProduct(x).dependencyOnVariables(0)
     def defining = !x.isZero && x.headCoefficient.isZero
     override def headPowerProduct = {
-      val m = pp.defining.convert(super.headPowerProduct(x))(pp)
-      if x.defining then pp.defining.\(m)(2) else m
+      val m = pp.relaxed.convert(super.headPowerProduct(x))(pp)
+      if x.defining then pp.relaxed.\(m)(2) else m
     }
     @targetName("coef") override def coefficient(y: T): T = this(x.coefficient(super.headPowerProduct(y)))
     override def coefficient(m: Array[Int]) = super.coefficient(x)(m)

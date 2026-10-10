@@ -21,6 +21,6 @@ object Lexicographic {
   }
 
   def binary[S : Conversion[Variable]](variables: S*): BinaryPowerProduct = new Lexicographic(0)(variables.map(~_)*) with BinaryPowerProduct {
-    def defining = new Lexicographic(1)(this.variables*)
+    def relaxed = new Lexicographic(1)(this.variables*)
   }
 }

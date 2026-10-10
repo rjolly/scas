@@ -5,7 +5,7 @@ import scas.polynomial.BinaryPolynomial
 import Polynomial.WithSugar
 
 trait Polynomial[T, C] extends scas.polynomial.PolynomialWithGB[T, C, Array[Int]] with BinaryPolynomial[T, C] {
-  override def gb(xs: T*) = new GBEngine(using pp.defining, this).gb(xs*)
+  override def gb(xs: T*) = new GBEngine(using pp.relaxed, this).gb(xs*)
   override def sugar = new WithSugar(using this)
 }
 
