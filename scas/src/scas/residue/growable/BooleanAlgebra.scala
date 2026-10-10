@@ -16,7 +16,7 @@ object BooleanAlgebra {
   trait Impl extends Residue[Element[Boolean, Array[Int]], Boolean, Array[Int]] with scas.residue.BooleanAlgebra.Impl {
     override def extend(variables: Variable*): Unit = {
       super.extend(variables*)
-      update(generators.drop(ring.pp.variables.length - variables.length).map(x => x+x\2)*)
+      update(generators.drop(ring.pp.variables.length - variables.length).map(_.defining)*)
     }
   }
 }

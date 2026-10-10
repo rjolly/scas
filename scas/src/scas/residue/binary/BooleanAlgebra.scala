@@ -17,8 +17,8 @@ object BooleanAlgebra {
   def apply[S : Conversion[Variable]](s: S*) = new Conv(s.map(~_)*)
 
   trait Impl extends Residue[Element[Boolean, Array[Int]], Boolean] with scas.residue.BooleanAlgebra.Impl {
-    override def init: Unit = {
-      update((for (i <- 0 until ring.pp.variables.length) yield ring(i))*)
+    extension (x: Element[Boolean, Array[Int]]) {
+      override def defining = ring.defining(x)
     }
   }
 

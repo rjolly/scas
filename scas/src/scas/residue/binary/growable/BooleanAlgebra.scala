@@ -11,10 +11,5 @@ open class BooleanAlgebra(using Polynomial[Element[Boolean, Array[Int]], Boolean
 }
 
 object BooleanAlgebra {
-  trait Impl extends Residue[Element[Boolean, Array[Int]], Boolean] with scas.residue.binary.BooleanAlgebra.Impl with scas.residue.growable.BooleanAlgebra.Impl {
-    override def extend(variables: Variable*): Unit = {
-      ring.extend(variables*)
-      update((for (i <- ring.pp.variables.length until variables.length) yield ring(i))*)
-    }
-  }
+  trait Impl extends Residue[Element[Boolean, Array[Int]], Boolean] with scas.residue.binary.BooleanAlgebra.Impl with scas.residue.growable.BooleanAlgebra.Impl
 }
