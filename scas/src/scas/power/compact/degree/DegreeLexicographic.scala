@@ -21,6 +21,6 @@ object DegreeLexicographic {
   def apply[S : Conversion[Variable]](shift: Int)(variables: S*) = new DegreeLexicographic(shift)(variables.map(~_)*)
 
   def binary[S : Conversion[Variable]](variables: S*): BinaryPowerProduct = new DegreeLexicographic(0)(variables.map(~_)*) with BinaryPowerProduct {
-    def defining = new DegreeLexicographic(1)(this.variables*)
+    def relaxed = new DegreeLexicographic(1)(this.variables*)
   }
 }

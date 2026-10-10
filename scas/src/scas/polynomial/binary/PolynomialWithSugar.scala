@@ -9,5 +9,5 @@ import scas.polynomial.PolynomialWithSugar.Element
 trait PolynomialWithSugar[T, C] extends scas.polynomial.PolynomialWithSugar[T, C, Array[Int]] with BinaryPolynomial[Element[T], C] {
   given factory: Polynomial[T, C] = deferred
   override given pp: BinaryPowerProduct = factory.pp
-  override def gb(fussy: Boolean)(xs: Element[T]*) = new SugarEngine(fussy)(using pp.defining, this).gb(xs*)
+  override def gb(fussy: Boolean)(xs: Element[T]*) = new SugarEngine(fussy)(using pp.relaxed, this).gb(xs*)
 }
