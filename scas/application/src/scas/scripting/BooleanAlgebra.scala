@@ -18,7 +18,7 @@ class BooleanAlgebra(on: Boolean, recurse: Boolean, conj: Boolean, s: Variable*)
 }
 
 object BooleanAlgebra {
-  class WithNot(s: Variable*) extends scas.residue.growable.BooleanAlgebra(s*) {
+  class WithNot(s: Variable*) extends scas.residue.binary.growable.BooleanAlgebra(s*) {
     extension (x: BA) {
       def isNot = x.coefOne.isOne && !x.isOne
       override def toCode(level: Level) = if !x.isNot then super.toCode(x)(level) else s"!${super.toCode(!x)(Level.Power)}"
