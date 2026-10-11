@@ -86,7 +86,7 @@ trait ArrayPolynomial[C, N] extends Polynomial[Element[C, N], C, Array[N]] {
 
     @tailrec final def indexOf(m: Array[N], i: Int, j: Int): Int = {
       val n = (i + j) >> 1
-      if n >= i then -1 else {
+      if n == j then n else {
         val (s, _) = x(n)
         if s < m then x.indexOf(m, i, n)
         else if s > m then x.indexOf(m, n + 1, j)
