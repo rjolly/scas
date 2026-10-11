@@ -20,7 +20,7 @@ trait BinaryPowerProduct extends PowerProduct {
   extension (x: Array[Int]) {
     override def deg = {
       var d = 0
-      for i <- 0 until length do d += java.lang.Integer.bitCount(x.get(i))
+      for i <- 0 until length do d += java.lang.Integer.bitCount(x(i))
       d
     }
   }
