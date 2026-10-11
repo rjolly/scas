@@ -5,14 +5,15 @@ import scas.structure.commutative.UniqueFactorizationDomain
 import scas.polynomial.TreePolynomial.Element
 import scas.polynomial.ufd.PolynomialOverUFD
 import scas.polynomial.tree.PolynomialWithGB
-import scas.power.Lexicographic
+import scas.power.{ArrayPowerProduct, Lexicographic}
 import scas.variable.Variable
 import scas.util.{Conversion, unary_~}
 import scas.base.{BigInteger, Boolean}
 import BigInteger.given
 
 class BooleanAlgebra(using PolynomialOverUFD[Element[Boolean, Array[Int]], Boolean, Array[Int]]) extends BooleanAlgebra.Impl {
-  def this(variables: Variable*) = this(using new PolynomialWithGB(using Boolean, new Lexicographic[Int](variables*)))
+  def this(pp: ArrayPowerProduct[Int]) = this(using new PolynomialWithGB(using Boolean, pp))
+  def this(variables: Variable*) = this(new Lexicographic[Int](variables*))
 }
 
 object BooleanAlgebra {

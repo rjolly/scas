@@ -3,13 +3,14 @@ package scas.residue.growable
 import scas.polynomial.TreePolynomial.Element
 import scas.polynomial.ufd.growable.PolynomialOverUFD
 import scas.polynomial.tree.growable.PolynomialWithGB
-import scas.power.growable.Lexicographic
+import scas.power.growable.{ArrayPowerProduct, Lexicographic}
 import scas.variable.Variable
 import scas.base.{BigInteger, Boolean}
 import BigInteger.given
 
 open class BooleanAlgebra(using PolynomialOverUFD[Element[Boolean, Array[Int]], Boolean, Array[Int]]) extends BooleanAlgebra.Impl {
-  def this(variables: Variable*) = this(using new PolynomialWithGB(using Boolean, new Lexicographic[Int](variables*)))
+  def this(pp: ArrayPowerProduct[Int]) = this(using new PolynomialWithGB(using Boolean, pp))
+  def this(variables: Variable*) = this(new Lexicographic[Int](variables*))
 }
 
 object BooleanAlgebra {
