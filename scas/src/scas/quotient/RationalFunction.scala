@@ -8,17 +8,18 @@ import scas.polynomial.ufd.PolynomialOverUFD
 import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
 import scas.base.BigInteger
+import RationalFunction.Impl
 
-class RationalFunction(using PolynomialOverUFD[Element[BigInteger, Array[Int]], BigInteger, Array[Int]]) extends QuotientOverInteger[Element[BigInteger, Array[Int]], Array[Int]] {
-  def this(variables: Variable*) = this(using new PolynomialWithSubresGCD(using BigInteger)(variables*))
+class RationalFunction(using PolynomialOverUFD[Element[BigInteger, Array[Int]], BigInteger, Array[Int]]) extends Impl[Array[Int]] with Field.Conv[Quotient_Element[Element[BigInteger, Array[Int]]]] {
+  def this(variables: Variable*) = this(using new PolynomialWithSubresGCD(BigInteger)(variables*))
+  given instance: RationalFunction = this
 }
 
 object RationalFunction {
-  def apply[C, S : Conversion[Variable]](ring: Field[C])(s: S*) = new RationalFunctionOverField.Conv(ring)(s.map(~_)*)
-  def integral[S : Conversion[Variable]](s: S*) = new Conv(s.map(~_)*)
+  def apply[C, S : Conversion[Variable]](ring: Field[C])(s: S*) = new RationalFunctionOverField(ring)(s.map(~_)*)
+  def integral[S : Conversion[Variable]](s: S*) = new RationalFunction(s.map(~_)*)
 
-  class Conv(variables: Variable*) extends RationalFunction(variables*) with Field.Conv[Quotient_Element[Element[BigInteger, Array[Int]]]] {
-    given instance: Conv = this
+  trait Impl[M] extends QuotientOverInteger[Element[BigInteger, M], M] {
     extension[U: Conversion[BigInteger]] (a: U) {
       def %%[V: Conversion[BigInteger]](b: V) = this(ring(~a), ring(~b))
     }
