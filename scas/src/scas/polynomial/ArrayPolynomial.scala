@@ -10,7 +10,7 @@ trait ArrayPolynomial[C, N] extends Polynomial[Element[C, N], C, Array[N]] {
   given pp: ArrayPowerProduct[N] = deferred
   given ClassTag[N] = deferred
   given ClassTag[C] = deferred
-  def length = pp.one.length
+  def length = pp.length
   def zero(n: Int): Element[C, N] = Element(new Array[N](n * length), new Array[C](n), Array(0))
   def apply(s: (Array[N], C)*) = {
     val r = zero(s.size)
