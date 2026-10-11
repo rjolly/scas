@@ -8,17 +8,16 @@ import scas.polynomial.TreePolynomial
 import TreePolynomial.Element
 import MultivariatePolynomial.Impl
 
-abstract class MultivariatePolynomial[C : UniqueFactorizationDomain](variables: Variable*) extends Impl[C] {
-  override given pp: ArrayPowerProduct[Int] = new Lexicographic(variables*)
+abstract class MultivariatePolynomial[C](using UniqueFactorizationDomain[C], ArrayPowerProduct[Int]) extends Impl[C, Int] with UniqueFactorizationDomain.Conv[Element[C, Array[Int]]] {
+  def this(ring: UniqueFactorizationDomain[C])(variables: Variable*) = this(using ring, new Lexicographic[Int](variables*))
+  given instance: MultivariatePolynomial[C] = this
 }
 
 object MultivariatePolynomial {
-  trait Impl[C] extends TreePolynomial[C, Array[Int]] with scas.polynomial.ufd.MultivariatePolynomial[Element, C, Int] with UniqueFactorizationDomain.Conv[Element[C, Array[Int]]] {
-    given instance: Impl[C] = this
-  }
+  trait Impl[C, N] extends TreePolynomial[C, Array[N]] with scas.polynomial.ufd.MultivariatePolynomial[Element, C, N]
 
-  def withSimpleGCD[C, S : Conversion[Variable]](ring: UniqueFactorizationDomain[C])(s: S*) = new PolynomialWithSimpleGCD(using ring)(s.map(~_)*)
-  def withPrimitiveGCD[C, S : Conversion[Variable]](ring: UniqueFactorizationDomain[C])(s: S*) = new PolynomialWithPrimitiveGCD(using ring)(s.map(~_)*)
-  def withSubresGCD[C, S : Conversion[Variable]](ring: UniqueFactorizationDomain[C])(s: S*) = new PolynomialWithSubresGCD(using ring)(s.map(~_)*)
-  def apply[C, S : Conversion[Variable]](ring: Field[C])(s: S*) = new MultivariatePolynomialOverField(using ring)(s.map(~_)*)
+  def withSimpleGCD[C, S : Conversion[Variable]](ring: UniqueFactorizationDomain[C])(s: S*) = new PolynomialWithSimpleGCD(ring)(s.map(~_)*)
+  def withPrimitiveGCD[C, S : Conversion[Variable]](ring: UniqueFactorizationDomain[C])(s: S*) = new PolynomialWithPrimitiveGCD(ring)(s.map(~_)*)
+  def withSubresGCD[C, S : Conversion[Variable]](ring: UniqueFactorizationDomain[C])(s: S*) = new PolynomialWithSubresGCD(ring)(s.map(~_)*)
+  def apply[C, S : Conversion[Variable]](ring: Field[C])(s: S*) = new MultivariatePolynomialOverField(ring)(s.map(~_)*)
 }
