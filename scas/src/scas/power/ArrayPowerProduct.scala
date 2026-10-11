@@ -2,9 +2,7 @@ package scas.power
 
 import scala.reflect.ClassTag
 import scas.math.Numeric
-import scas.variable.Variable
-import scas.base.BigInteger
-import BigInteger.given
+import scas.base.BigInteger, BigInteger.given
 
 trait ArrayPowerProduct[N : {Numeric as numeric, ClassTag}] extends PowerProduct[Array[N]] {
   val one = empty
@@ -45,8 +43,8 @@ trait ArrayPowerProduct[N : {Numeric as numeric, ClassTag}] extends PowerProduct
     z
   }
   def projection(x: Array[N], n: Int, m: Int, z: Array[N]) = {
-    for i <- 0 until nbvars do if i >= n && i < m then {
-      z.set(i, x.get(i))
+    for i <- 0 until nbvars do {
+      if i >= n && i < m then z.set(i, x.get(i))
     }
     z
   }
