@@ -8,109 +8,86 @@ import scas.power.ArrayPowerProduct
 trait PowerProduct extends ArrayPowerProduct[Int] {
   override def empty = Array.empty[Int]
   override def generator(n: Int) = {
-    val z = ArrayBuffer.empty[Int]
-    val w = ArrayBuffer.empty[Int]
-    z += n
-    w += 1
-    z ++= w
-    z.toArray
+    val z = ArrayBuffer.empty[(Int, Int)]
+    z += ((n, 1))
+    toArray(z)
   }
   override def gcd(x: Array[Int], y: Array[Int]) = {
-    val z = ArrayBuffer.empty[Int]
-    val w = ArrayBuffer.empty[Int]
+    val z = ArrayBuffer.empty[(Int, Int)]
     for i <- 0 until x.size do {
       val j = y.indexOf(x(i))
       if j > -1 then {
-        z += x(i)
-        w += scala.math.min(x.get(i), y.get(j))
+        z += ((x(i), scala.math.min(x.get(i), y.get(j))))
       }
     }
-    z ++= w
-    z.toArray
+    toArray(z)
   }
   override def lcm(x: Array[Int], y: Array[Int]) = {
-      val z = ArrayBuffer.empty[Int]
-      val w = ArrayBuffer.empty[Int]
+      val z = ArrayBuffer.empty[(Int, Int)]
       var i = 0
       var j = 0
       while i < x.size && j < y.size do {
         if x(i) < y(j) then {
-          z += x(i)
-          w += x.get(i)
+          z += ((x(i), x.get(i)))
           i += 1
         } else if x(i) > y(j) then {
-          z += y(j)
-          w += y.get(j)
+          z += ((y(j), y.get(j)))
           j += 1
         } else {
-          z += x(i)
-          w += scala.math.max(x.get(i), y.get(j))
+          z += ((x(i), scala.math.max(x.get(i), y.get(j))))
           i += 1
           j += 1
         }
       }
       while i < x.size do {
-        z += x(i)
-        w += x.get(i)
+        z += ((x(i), x.get(i)))
         i += 1
       }
       while j < y.size do {
-        z += y(j)
-        w += y.get(j)
+        z += ((y(j), y.get(j)))
         j += 1
       }
-      z ++= w
-      z.toArray
+      toArray(z)
   }
   extension (x: Array[Int]) {
     override def multiply(y: Array[Int]) = {
-      val z = ArrayBuffer.empty[Int]
-      val w = ArrayBuffer.empty[Int]
+      val z = ArrayBuffer.empty[(Int, Int)]
       var i = 0
       var j = 0
       while i < x.size && j < y.size do {
         if x(i) < y(j) then {
-          z += x(i)
-          w += x.get(i)
+          z += ((x(i), x.get(i)))
           i += 1
         } else if x(i) > y(j) then {
-          z += y(j)
-          w += y.get(j)
+          z += ((y(j), y.get(j)))
           j += 1
         } else {
-          z += x(i)
-          w += x.get(i) + y.get(j)
+          z += ((x(i), x.get(i) + y.get(j)))
           i += 1
           j += 1
         }
       }
       while i < x.size do {
-        z += x(i)
-        w += x.get(i)
+        z += ((x(i), x.get(i)))
         i += 1
       }
       while j < y.size do {
-        z += y(j)
-        w += y.get(j)
+        z += ((y(j), y.get(j)))
         j += 1
       }
-      z ++= w
-      z.toArray
+      toArray(z)
     }
     override def divide(y: Array[Int]) = {
-      val z = ArrayBuffer.empty[Int]
-      val w = ArrayBuffer.empty[Int]
+      val z = ArrayBuffer.empty[(Int, Int)]
       for i <- 0 until x.size do {
         val j = y.indexOf(x(i))
         val c = if j > -1 then y.get(j) else 0
         assert (x.get(i) >= c)
         if x.get(i) > c then {
-          z += x(i)
-          w += x.get(i) - c
+          z += ((x(i), x.get(i) - c))
         }
       }
-      z ++= w
-      z.toArray
+      toArray(z)
     }
     override def factorOf(y: Array[Int]) = boundary {
       for i <- 0 until x.size do {
@@ -121,16 +98,13 @@ trait PowerProduct extends ArrayPowerProduct[Int] {
       true
     }
     override def projection(n: Int, m: Int) = {
-      val z = ArrayBuffer.empty[Int]
-      val w = ArrayBuffer.empty[Int]
+      val z = ArrayBuffer.empty[(Int, Int)]
       for i <- 0 until x.size do {
         if x(i) >= n && x(i) < m then {
-          z += x(i)
-          w += x.get(i)
+          z += ((x(i), x.get(i)))
         }
       }
-      z ++= w
-      z.toArray
+      toArray(z)
     }
     override def convert(from: ArrayPowerProduct[Int]): Array[Int] = {
       val z = ArrayBuffer.empty[(Int, Int)]
@@ -140,8 +114,7 @@ trait PowerProduct extends ArrayPowerProduct[Int] {
         assert (c > -1)
         z += ((c, x.get(i)))
       }
-      val w = z.sortBy((s, _) => s)
-      (w.map(_._1) ++ w.map(_._2)).toArray
+      toArray(z.sortBy((s, _) => s))
     }
     override def dependencyOnVariables = x
     override def toCode(level: Level, times: String) = {
@@ -190,4 +163,5 @@ trait PowerProduct extends ArrayPowerProduct[Int] {
     override def get(i: Int) = x(i + x.size)
     override def set(i: Int, c: Int) = ???
   }
+  def toArray(buffer: ArrayBuffer[(Int, Int)]) = (buffer.map(_._1) ++ buffer.map(_._2)).toArray
 }
