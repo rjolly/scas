@@ -3,27 +3,29 @@ package scas.power.sparse
 import scala.annotation.tailrec
 import scala.collection.mutable.ArrayBuffer
 import scala.util.boundary, boundary.break
+import scala.reflect.ClassTag
+import scas.math.Numeric
 import scas.power.ArrayPowerProduct
 
-trait PowerProduct extends ArrayPowerProduct[Int] {
-  override def empty = Array.empty[Int]
+trait PowerProduct[N : {Numeric as numeric, ClassTag}] extends ArrayPowerProduct[N] {
+  override def length = 0
   override def generator(n: Int) = {
-    val z = ArrayBuffer.empty[(Int, Int)]
-    z += ((n, 1))
+    val z = ArrayBuffer.empty[(N, N)]
+    z += ((numeric.fromInt(n), numeric.one))
     toArray(z)
   }
-  override def gcd(x: Array[Int], y: Array[Int]) = {
-    val z = ArrayBuffer.empty[(Int, Int)]
+  override def gcd(x: Array[N], y: Array[N]) = {
+    val z = ArrayBuffer.empty[(N, N)]
     for i <- 0 until x.size do {
       val j = y.indexOf(x(i))
       if j > -1 then {
-        z += ((x(i), scala.math.min(x.get(i), y.get(j))))
+        z += ((x(i), numeric.min(x.get(i), y.get(j))))
       }
     }
     toArray(z)
   }
-  override def lcm(x: Array[Int], y: Array[Int]) = {
-      val z = ArrayBuffer.empty[(Int, Int)]
+  override def lcm(x: Array[N], y: Array[N]) = {
+      val z = ArrayBuffer.empty[(N, N)]
       var i = 0
       var j = 0
       while i < x.size && j < y.size do {
@@ -34,7 +36,7 @@ trait PowerProduct extends ArrayPowerProduct[Int] {
           z += ((y(j), y.get(j)))
           j += 1
         } else {
-          z += ((x(i), scala.math.max(x.get(i), y.get(j))))
+          z += ((x(i), numeric.max(x.get(i), y.get(j))))
           i += 1
           j += 1
         }
@@ -49,9 +51,9 @@ trait PowerProduct extends ArrayPowerProduct[Int] {
       }
       toArray(z)
   }
-  extension (x: Array[Int]) {
-    override def multiply(y: Array[Int]) = {
-      val z = ArrayBuffer.empty[(Int, Int)]
+  extension (x: Array[N]) {
+    override def multiply(y: Array[N]) = {
+      val z = ArrayBuffer.empty[(N, N)]
       var i = 0
       var j = 0
       while i < x.size && j < y.size do {
@@ -77,11 +79,11 @@ trait PowerProduct extends ArrayPowerProduct[Int] {
       }
       toArray(z)
     }
-    override def divide(y: Array[Int]) = {
-      val z = ArrayBuffer.empty[(Int, Int)]
+    override def divide(y: Array[N]) = {
+      val z = ArrayBuffer.empty[(N, N)]
       for i <- 0 until x.size do {
         val j = y.indexOf(x(i))
-        val c = if j > -1 then y.get(j) else 0
+        val c = if j > -1 then y.get(j) else numeric.zero
         assert (x.get(i) >= c)
         if x.get(i) > c then {
           z += ((x(i), x.get(i) - c))
@@ -89,41 +91,41 @@ trait PowerProduct extends ArrayPowerProduct[Int] {
       }
       toArray(z)
     }
-    override def factorOf(y: Array[Int]) = boundary {
+    override def factorOf(y: Array[N]) = boundary {
       for i <- 0 until x.size do {
         val j = y.indexOf(x(i))
-        val c = if j > -1 then y.get(j) else 0
+        val c = if j > -1 then y.get(j) else numeric.zero
         if x.get(i) > c then break(false)
       }
       true
     }
     override def projection(n: Int, m: Int) = {
-      val z = ArrayBuffer.empty[(Int, Int)]
+      val z = ArrayBuffer.empty[(N, N)]
       for i <- 0 until x.size do {
-        if x(i) >= n && x(i) < m then {
+        if numeric.toInt(x(i)) >= n && numeric.toInt(x(i)) < m then {
           z += ((x(i), x.get(i)))
         }
       }
       toArray(z)
     }
-    override def convert(from: ArrayPowerProduct[Int]): Array[Int] = {
-      val z = ArrayBuffer.empty[(Int, Int)]
+    override def convert(from: ArrayPowerProduct[N]): Array[N] = {
+      val z = ArrayBuffer.empty[(N, N)]
       val index = from.variables.map(a => variables.indexOf(a))
       for i <- 0 until x.size do {
-        val c = index(x(i))
+        val c = index(numeric.toInt(x(i)))
         assert (c > -1)
-        z += ((c, x.get(i)))
+        z += ((numeric.fromInt(c), x.get(i)))
       }
       toArray(z.sortBy((s, _) => s))
     }
-    override def dependencyOnVariables = x
+    override def dependencyOnVariables = x.map(n => numeric.toInt(n))
     override def toCode(level: Level, times: String) = {
       var s = "1"
       var m = 0
       for i <- 0 until x.size do {
-        val a = variables(x(i))
+        val a = variables(numeric.toInt(x(i)))
         val b = x.get(i)
-        val t = if b == 1 then a.toString else s"$a\\$b"
+        val t = if b >< numeric.one then a.toString else s"$a\\$b"
         s = if m == 0 then t else s + times + t
         m += 1
       }
@@ -133,9 +135,9 @@ trait PowerProduct extends ArrayPowerProduct[Int] {
       var s = "<cn>1</cn>"
       var m = 0
       for i <- 0 until x.size do {
-        val a = variables(x(i))
+        val a = variables(numeric.toInt(x(i)))
         val b = x.get(i)
-        val t = if b == 1 then a.toMathML else s"<apply><power/>${a.toMathML}<cn>$b</cn></apply>"
+        val t = if b >< numeric.one then a.toMathML else s"<apply><power/>${a.toMathML}<cn>$b</cn></apply>"
         s = if m == 0 then t else s"<apply><$times/>$s$t</apply>"
         m += 1
       }
@@ -147,11 +149,11 @@ trait PowerProduct extends ArrayPowerProduct[Int] {
       for i <- 0 until x.size do d += x.get(i)
       d
     }
-    def indexOf(elem: Int): Int = {
+    def indexOf(elem: N): Int = {
       val n = x.indexOf(elem, 0, x.size)
       if n == x.size || x(n) > elem then -1 else n
     }
-    @tailrec final def indexOf(elem: Int, i: Int, j: Int): Int = {
+    @tailrec final def indexOf(elem: N, i: Int, j: Int): Int = {
       val n = (i + j) >> 1
       if n == j then n else {
         val s = x(n)
@@ -161,7 +163,7 @@ trait PowerProduct extends ArrayPowerProduct[Int] {
       }
     }
     override def get(i: Int) = x(i + x.size)
-    override def set(i: Int, c: Int) = ???
+    override def set(i: Int, c: N) = ???
   }
-  def toArray(buffer: ArrayBuffer[(Int, Int)]) = (buffer.map(_._1) ++ buffer.map(_._2)).toArray
+  def toArray(buffer: ArrayBuffer[(N, N)]) = (buffer.map(_._1) ++ buffer.map(_._2)).toArray
 }
