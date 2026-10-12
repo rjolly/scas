@@ -1,10 +1,10 @@
 import scas.base.{BigInteger, Rational}
-import scas.residue.growable.AlgebraicNumber
+import scas.residue.AlgebraicNumber
 import scas.variable.Variable
 import BigInteger.given
-import Rational.{ring => _, given}
+import Rational.given
 
-val r = AlgebraicNumber(Rational)(Variable.sqrt(BigInteger("2")))
+val r = AlgebraicNumber.growable(Rational)(Variable.sqrt(BigInteger("2")))
 import r.{sqrt, given}
 r.update(2-sqrt(2)\2)
 
