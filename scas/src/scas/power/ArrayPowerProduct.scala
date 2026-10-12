@@ -10,7 +10,7 @@ trait ArrayPowerProduct[N : {Numeric as numeric, ClassTag}] extends PowerProduct
   def empty = new Array[N](length)
   def generator(n: Int) = generator(n, empty)
   def generator(n: Int, z: Array[N]) = {
-    z.set(n, numeric.fromInt(1))
+    z.set(n, numeric.one)
     z
   }
   def gcd(x: Array[N], y: Array[N]) = gcd(x, y, empty)
