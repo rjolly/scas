@@ -1,10 +1,12 @@
 package scas.power.sparse
 
+import scala.reflect.ClassTag
+import scas.math.Numeric
 import scas.variable.Variable
 import scas.util.{Conversion, unary_~}
 
-class Lexicographic(val variables: Variable*) extends PowerProduct {
-  def compare(x: Array[Int], y: Array[Int]) = {
+class Lexicographic[N : {Numeric, ClassTag}](val variables: Variable*) extends PowerProduct[N] {
+  def compare(x: Array[N], y: Array[N]) = {
     var i = x.size
     var j = y.size
     while i > 0 && j > 0 do {
@@ -22,5 +24,5 @@ class Lexicographic(val variables: Variable*) extends PowerProduct {
 }
 
 object Lexicographic {
-  def apply[S : Conversion[Variable]](variables: S*) = new Lexicographic(variables.map(~_)*)
+  def apply[N : {Numeric, ClassTag}, S : Conversion[Variable]](variables: S*) = new Lexicographic[N](variables.map(~_)*)
 }
