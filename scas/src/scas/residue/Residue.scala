@@ -4,7 +4,7 @@ import scala.annotation.targetName
 import scala.compiletime.deferred
 import scala.reflect.ClassTag
 import scas.util.Conversion
-import scas.polynomial.ufd.{PolynomialOverUFD, PolynomialWithModInverse}
+import scas.polynomial.ufd.PolynomialOverUFD
 import scas.module.ArrayModule
 import scas.prettyprint.Show.given
 
@@ -35,8 +35,4 @@ trait Residue[T : ClassTag, C, M] extends scas.structure.commutative.Residue[T, 
     given ArrayModule[T] = ArrayModule(this)(mods.size)
     assert (s.toArray >< mods.toArray)
   }
-}
-
-object Residue {
-  def apply[T : ClassTag, C, M](ring: PolynomialWithModInverse[T, C, M])(s: T*) = new ResidueOverField.Conv(using ring)(s*)
 }
