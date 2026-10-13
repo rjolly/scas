@@ -1,19 +1,18 @@
 package scas.residue
 
-import scas.structure.BooleanRing
-import scas.structure.commutative.UniqueFactorizationDomain
+import scas.structure.{BooleanRing, Ring}
 import scas.polynomial.TreePolynomial.Element
-import scas.polynomial.ufd.PolynomialOverUFD
-import scas.polynomial.tree.PolynomialWithGB
-import scas.power.{ArrayPowerProduct, Lexicographic}
+import scas.polynomial.Polynomial
+import scas.polynomial.tree.mutable.PolynomialWithGB
+import scas.power.{PowerProduct, Lexicographic}
 import scas.variable.Variable
 import scas.util.{Conversion, unary_~}
 import scas.base.{BigInteger, Boolean}
 import BigInteger.given
 import BooleanAlgebra.Impl
 
-abstract class BooleanAlgebra(using PolynomialOverUFD[Element[Boolean, Array[Int]], Boolean, Array[Int]]) extends Impl[Array[Int]] with UniqueFactorizationDomain.Conv[Element[Boolean, Array[Int]]] with BooleanRing.Conv[Element[Boolean, Array[Int]]] {
-  def this(pp: ArrayPowerProduct[Int]) = this(using new PolynomialWithGB(using Boolean, pp))
+abstract class BooleanAlgebra(using Polynomial[Element[Boolean, Array[Int]], Boolean, Array[Int]]) extends Impl[Array[Int]] with Ring.Conv[Element[Boolean, Array[Int]]] with BooleanRing.Conv[Element[Boolean, Array[Int]]] {
+  def this(pp: PowerProduct[Array[Int]]) = this(using new PolynomialWithGB(using Boolean, pp))
   def this(variables: Variable*) = this(new Lexicographic[Int](variables*))
   def instance: BooleanAlgebra
 }

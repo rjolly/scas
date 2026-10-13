@@ -23,7 +23,6 @@ trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactoriz
         } else (zero, x)
       }
     }
-    def remainder(ys: T*): T = x.reduce(true, false, ys*)
     override def factorOf(s: M, a: C, strict: Boolean) = {
       val (t, b) = x.head
       (t | s) && (strict >> (b | a))
