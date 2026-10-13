@@ -1,14 +1,10 @@
 package scas.polynomial.tree.growable
 
-import scala.reflect.ClassTag
-import scas.math.Numeric
-import scas.power.POT
-import scas.power.growable.ArrayPowerProduct
-import scas.structure.commutative.UniqueFactorizationDomain
-import scas.polynomial.TreePolynomial
+import scas.power.growable.PowerProduct
+import scas.structure.Ring
+import scas.polynomial.{TreePolynomial, GrowablePolynomial}
 import TreePolynomial.Element
 
-class PolynomialWithGB[C : UniqueFactorizationDomain, N : {ArrayPowerProduct, Numeric, ClassTag}] extends TreePolynomial[C, Array[N]] with scas.polynomial.ufd.growable.PolynomialWithGB[Element[C, Array[N]], C, N] with UniqueFactorizationDomain.Conv[Element[C, Array[N]]] {
-  given instance: PolynomialWithGB[C, N] = this
-  def newInstance(pp: POT[N]) = new scas.polynomial.tree.PolynomialWithGB(using ring, pp)
+class PolynomialWithGB[C : Ring, M : PowerProduct] extends TreePolynomial[C, M] with GrowablePolynomial[Element[C, M], C, M] with scas.polynomial.PolynomialWithGB[Element[C, M], C, M] with Ring.Conv[Element[C, M]] {
+  given instance: PolynomialWithGB[C, M] = this
 }

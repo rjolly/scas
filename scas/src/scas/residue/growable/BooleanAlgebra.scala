@@ -1,7 +1,7 @@
 package scas.residue.growable
 
 import scas.polynomial.TreePolynomial.Element
-import scas.polynomial.ufd.growable.PolynomialOverUFD
+import scas.polynomial.GrowablePolynomial
 import scas.polynomial.tree.growable.PolynomialWithGB
 import scas.power.growable.{ArrayPowerProduct, Lexicographic}
 import scas.variable.Variable
@@ -9,7 +9,7 @@ import scas.base.{BigInteger, Boolean}
 import BigInteger.given
 import BooleanAlgebra.Impl
 
-open class BooleanAlgebra(using PolynomialOverUFD[Element[Boolean, Array[Int]], Boolean, Array[Int]]) extends Impl[Array[Int]] {
+open class BooleanAlgebra(using GrowablePolynomial[Element[Boolean, Array[Int]], Boolean, Array[Int]]) extends Impl[Array[Int]] {
   def this(pp: ArrayPowerProduct[Int]) = this(using new PolynomialWithGB(using Boolean, pp))
   def this(variables: Variable*) = this(new Lexicographic[Int](variables*))
 }

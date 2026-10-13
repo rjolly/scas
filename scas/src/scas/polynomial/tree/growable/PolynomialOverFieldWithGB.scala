@@ -6,7 +6,6 @@ import scas.power.POT
 import scas.power.growable.ArrayPowerProduct
 import scas.structure.commutative.{Field, UniqueFactorizationDomain}
 import scas.polynomial.TreePolynomial
-import scas.variable.Variable
 import TreePolynomial.Element
 
 class PolynomialOverFieldWithGB[C : Field, N : {ArrayPowerProduct, Numeric, ClassTag}] extends TreePolynomial[C, Array[N]] with scas.polynomial.ufd.growable.PolynomialOverFieldWithGB[Element[C, Array[N]], C, N] with UniqueFactorizationDomain.Conv[Element[C, Array[N]]] {
