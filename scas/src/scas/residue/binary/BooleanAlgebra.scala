@@ -16,12 +16,17 @@ abstract class BooleanAlgebra(using Polynomial[Element[Boolean, Array[Int]], Boo
 }
 
 object BooleanAlgebra {
+  def apply(pp: BinaryPowerProduct) = new Conv1(pp)
   def apply[S : Conversion[Variable]](s: S*) = new Conv(s.map(~_)*)
 
   trait Impl extends scas.residue.BooleanAlgebra.Impl[Array[Int]] with Residue[Element[Boolean, Array[Int]], Boolean] {
     extension (x: Element[Boolean, Array[Int]]) {
       override def defining = ring.defining(x)
     }
+  }
+
+  class Conv1(pp: BinaryPowerProduct) extends BooleanAlgebra(pp) {
+    given instance: BooleanAlgebra = this
   }
 
   class Conv(variables: Variable*) extends BooleanAlgebra(variables*) {
