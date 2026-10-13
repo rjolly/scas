@@ -6,6 +6,7 @@ import scas.polynomial.ufd.growable.PolynomialWithModInverse
 import scas.polynomial.tree.growable.PolynomialOverFieldWithGB
 import scas.power.growable.{ArrayPowerProduct, DegreeReverseLexicographic}
 import scas.structure.commutative.Field
+import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
 import AlgebraicNumber.Impl
 
@@ -16,6 +17,8 @@ abstract class AlgebraicNumber[C](using PolynomialWithModInverse[Element[C, Arra
 }
 
 object AlgebraicNumber {
+  def apply[C, S : Conversion[Variable]](ring: Field[C])(s: S*) = new Conv(ring)(s.map(~_)*)
+
   trait Impl[T, C, M] extends scas.residue.AlgebraicNumber.Impl[T, C, M] with Residue[T, C, M] {
     given ring: PolynomialWithModInverse[T, C, M] = deferred
 

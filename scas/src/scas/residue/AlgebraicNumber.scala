@@ -18,8 +18,8 @@ abstract class AlgebraicNumber[C](using PolynomialWithModInverse[Element[C, Arra
 
 object AlgebraicNumber {
   def apply[C](ring: PolynomialWithModInverse[Element[C, Array[Int]], C, Array[Int]])(s: Element[C, Array[Int]]*) = new Conv(using ring)(s*)
-  def galoisField[S : Conversion[Variable]](str: String)(s: S*) = new GaloisField(str)(s.map(~_)*)
-  def growable[C, S : Conversion[Variable]](ring: Field[C])(s: S*) = new scas.residue.growable.AlgebraicNumber.Conv(ring)(s.map(~_)*)
+  def galoisField = GaloisField
+  def growable = scas.residue.growable.AlgebraicNumber
 
   trait Impl[T, C, M] extends ResidueOverUFD[T, C, M] with Field[T] {
     given ring: PolynomialWithModInverse[T, C, M] = deferred

@@ -18,8 +18,9 @@ abstract class BooleanAlgebra(using Polynomial[Element[Boolean, Array[Int]], Boo
 }
 
 object BooleanAlgebra {
+  def apply(pp: PowerProduct[Array[Int]]) = new Conv1(pp)
   def apply[S : Conversion[Variable]](s: S*) = new Conv(s.map(~_)*)
-  def binary[S : Conversion[Variable]](s: S*) = new scas.residue.binary.BooleanAlgebra.Conv(s.map(~_)*)
+  def binary = scas.residue.binary.BooleanAlgebra
 
   trait Impl[M] extends Residue[Element[Boolean, M], Boolean, M] with BooleanRing[Element[Boolean, M]] {
     init
@@ -31,6 +32,10 @@ object BooleanAlgebra {
       override def toCode(level: Level) = ring.toCode(x)(level, " ^ ", " && ")
       override def toMathML = ring.toMathML(x)("xor", "and")
     }
+  }
+
+  class Conv1(pp: PowerProduct[Array[Int]]) extends BooleanAlgebra(pp) {
+    given instance: BooleanAlgebra = this
   }
 
   class Conv(variables: Variable*) extends BooleanAlgebra(variables*) {
