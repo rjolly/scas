@@ -114,7 +114,7 @@ object GBEngine {
     }
 
     def toList = {
-      logger.config("statistic = (" + npairs + ", " + npolys + ", " + polys.size + ")")
+      logger.config("statistics = (" + npairs + ", " + npolys + ", " + polys.size + ")")
       polys.toList
     }
   }
