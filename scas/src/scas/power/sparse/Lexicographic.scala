@@ -24,5 +24,5 @@ class Lexicographic[N : {Numeric, ClassTag}](val variables: Variable*) extends P
 }
 
 object Lexicographic {
-  def apply[N : {Numeric, ClassTag}, S : Conversion[Variable]](variables: S*) = new Lexicographic[N](variables.map(~_)*)
+  def apply[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(variables: S*) = new Lexicographic[N](variables.map(~_)*)
 }
