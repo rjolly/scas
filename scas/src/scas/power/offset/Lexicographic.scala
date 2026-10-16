@@ -23,6 +23,7 @@ class Lexicographic[N : {Numeric, ClassTag}](val variables: Variable*) extends A
 }
 
 object Lexicographic {
+  def degreeReverse = scas.power.offset.degree.DegreeReverseLexicographic
   @nowarn("msg=New anonymous class definition will be duplicated at each inline site") inline def inlined[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(variables: S*): Lexicographic[N] = new Lexicographic[N](variables.map(~_)*) {
     override def compare(x: Array[N], n: Int, y: Array[N], m: Int) = {
       val k = n * length
