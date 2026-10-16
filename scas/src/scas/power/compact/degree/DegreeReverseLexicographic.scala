@@ -3,7 +3,7 @@ package scas.power.compact.degree
 import scas.variable.Variable
 import scas.util.{Conversion, unary_~}
 
-class DegreeReverseLexicographic(val shift: Int)(val variables: Variable*) extends ReversePowerProduct {
+open class DegreeReverseLexicographic(val shift: Int)(val variables: Variable*) extends ReversePowerProduct {
   def compare(x: Array[Int], y: Array[Int]) = {
     if x.deg < y.deg then return -1
     if x.deg > y.deg then return 1
@@ -18,9 +18,6 @@ class DegreeReverseLexicographic(val shift: Int)(val variables: Variable*) exten
 }
 
 object DegreeReverseLexicographic {
+  def binary = scas.power.compact.degree.binary.DegreeReverseLexicographic
   def apply[S : Conversion[Variable]](shift: Int)(variables: S*) = new DegreeReverseLexicographic(shift)(variables.map(~_)*)
-
-  def binary[S : Conversion[Variable]](variables: S*): BinaryPowerProduct = new DegreeReverseLexicographic(0)(variables.map(~_)*) with BinaryPowerProduct {
-    def relaxed = new DegreeReverseLexicographic(1)(this.variables*)
-  }
 }

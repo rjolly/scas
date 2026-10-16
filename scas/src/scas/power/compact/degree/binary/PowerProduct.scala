@@ -1,6 +1,6 @@
-package scas.power.compact.degree
+package scas.power.compact.degree.binary
 
-trait BinaryPowerProduct extends PowerProduct with scas.power.compact.BinaryPowerProduct {
+trait PowerProduct extends scas.power.compact.degree.PowerProduct with scas.power.compact.binary.PowerProduct {
   override def multiply(x: Array[Int], y: Array[Int], z: Array[Int]) = {
     var i = 0
     while i < length - 1 do {

@@ -1,7 +1,7 @@
-package scas.power.compact
+package scas.power.compact.binary
 
-trait BinaryPowerProduct extends PowerProduct {
-  def relaxed: PowerProduct
+trait PowerProduct extends scas.power.compact.PowerProduct {
+  def relaxed: scas.power.compact.PowerProduct
   override def multiply(x: Array[Int], y: Array[Int], z: Array[Int]) = {
     var i = 0
     while i < length do {
