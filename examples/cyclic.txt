@@ -1,16 +1,17 @@
 import scas.polynomial.tree.mutable.PolynomialWithGBGCD
-import scas.power.degree.DegreeReverseLexicographic
+import scas.power.Lexicographic
 import scas.variable.Variable
 import scas.base.BigInteger
 import BigInteger.given
 
 val n = 4
-val r = PolynomialWithGBGCD(using BigInteger, DegreeReverseLexicographic.inlined(0)((for (i <- 0 until n) yield Variable("a", 0, i))*))
+val r = PolynomialWithGBGCD(using BigInteger, Lexicographic.degreeReverse.inlined(0)((for i <- 0 until n yield Variable("x", 0, i))*))
+val x = r.generators
 import r.given
-val a = (for (i <- 0 until n) yield {
+val a = (for i <- 0 until n yield {
   (0 until (if i < n - 1 then n else 1)).foldLeft(if i == n - 1 then r.one else r.zero) { (l, j) =>
     l + (0 to i).foldLeft(r.one) { (m, k) =>
-      m * r.generator((j + k) % n)
+      m * x((j + k) % n)
     }
   }
 }).toList
