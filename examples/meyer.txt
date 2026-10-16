@@ -1,0 +1,38 @@
+// Reference : Henning Meyer, my boolean problem ( http://groups.google.com/group/sci.math.symbolic/browse_frm/thread/318369ef90df4358/ )
+
+import scas.base.{BigInteger, Boolean}
+import scas.residue.BooleanAlgebra
+import scas.variable.Variable
+import BigInteger.given
+import Boolean.given
+
+val nlen = 2
+val len = 1 << (nlen - 1)
+val r = BooleanAlgebra((for (i <- 0 until nlen) yield Variable("n", 0, i))
+++(for (i <- 0 until len) yield Variable("a", 1, i))
+++(for (i <- 0 until len) yield Variable("b", 1, i))
+++(for (i <- 0 until len) yield Variable("m", 0, i))
+++(for (i <- 0 until len) yield Variable("a", 0, i))
+++(for (i <- 0 until len) yield Variable("b", 0, i))
+++(for (i <- 0 until len) yield Variable("t", 0, i))*)
+val n = r.generators.take(nlen)
+val a_ = r.generators.drop(nlen).take(len)
+val b_ = r.generators.drop(nlen + len).take(len)
+val m = r.generators.drop(nlen + 2 * len).take(len)
+val a = r.generators.drop(nlen + 3 * len).take(len)
+val b = r.generators.drop(nlen + 4 * len).take(len)
+val t = r.generators.drop(nlen + 5 * len).take(len)
+import r.given
+val ni = (for (i <- 0 until len) yield (0 until nlen).foldLeft(r.one) { (nc, j) =>
+  val c = 1 - ((i & (1 << j)) >> j)
+  nc * (n(j) + c)
+}).toList
+val eqs = (for (i <- 0 until len) yield t(i) + ((0 until len).foldLeft(r.zero) { (s, j) =>
+  if (i + j < a.length) s + a(i + j) * ni(j) else s
+} + b(i)) * m(i))++(for (i <- 0 until len) yield a_(i) + (a(i) + (0 until len).foldLeft(r.zero) { (s, j) =>
+  if (i - j >= 0) s + t(i - j) * ni(j) else s
+}))++(for (i <- 0 until len) yield b_(i) + (b(i) + t(i))).toList
+var time = System.currentTimeMillis();
+val g = r.gb(eqs*)
+time = System.currentTimeMillis() - time;
+println("time: " + time)
