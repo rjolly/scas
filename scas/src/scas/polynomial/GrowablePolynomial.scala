@@ -5,11 +5,11 @@ import scas.structure.Ring
 import scas.power.growable.PowerProduct
 import scas.variable.Variable
 
-trait GrowablePolynomial[T, C, M] extends Polynomial[T, C, M] {
+trait GrowablePolynomial[T, C, M] extends PolynomialWithGB[T, C, M] {
   given pp: PowerProduct[M] = deferred
   def extend(variables: Variable*): Unit = pp.extend(variables*)
 
-  extension (ring: Ring[C]) override def apply(s: T*) = {
+  extension (ring: Ring[C]) override def apply(s: T*): GrowablePolynomial[T, C, M] = {
     same(s*)
     this
   }
