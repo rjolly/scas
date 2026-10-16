@@ -1,6 +1,6 @@
-package scas.power.compact.offset
+package scas.power.compact.offset.binary
 
-trait BinaryPowerProduct extends PowerProduct with scas.power.compact.BinaryPowerProduct {
+trait PowerProduct extends scas.power.compact.offset.PowerProduct with scas.power.compact.binary.PowerProduct {
   override def multiply(x: Array[Int], n: Int, y: Array[Int], z: Array[Int]) = {
     val k = n * length
     var i = 0

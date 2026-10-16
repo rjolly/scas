@@ -1,6 +1,6 @@
-package scas.power.compact.offset.degree
+package scas.power.compact.offset.degree.binary
 
-trait BinaryPowerProduct extends PowerProduct with scas.power.compact.degree.BinaryPowerProduct {
+trait PowerProduct extends scas.power.compact.offset.degree.PowerProduct with scas.power.compact.degree.binary.PowerProduct {
   override def multiply(x: Array[Int], n: Int, y: Array[Int], z: Array[Int]) = {
     val k = n * length
     var i = 0

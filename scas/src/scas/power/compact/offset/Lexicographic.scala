@@ -3,7 +3,7 @@ package scas.power.compact.offset
 import scas.variable.Variable
 import scas.util.{Conversion, unary_~}
 
-class Lexicographic(val shift: Int)(val variables: Variable*) extends PowerProduct {
+open class Lexicographic(val shift: Int)(val variables: Variable*) extends PowerProduct {
   def compare(x: Array[Int], n: Int, y: Array[Int], m: Int) = {
     val k = n * length
     val l = m * length
@@ -20,9 +20,7 @@ class Lexicographic(val shift: Int)(val variables: Variable*) extends PowerProdu
 }
 
 object Lexicographic {
+  def binary = scas.power.compact.offset.binary.Lexicographic
   def apply[S : Conversion[Variable]](shift: Int)(variables: S*) = new Lexicographic(shift)(variables.map(~_)*)
 
-  def binary[S : Conversion[Variable]](variables: S*): BinaryPowerProduct = new Lexicographic(0)(variables.map(~_)*) with BinaryPowerProduct {
-    def relaxed = new Lexicographic(1)(this.variables*)
-  }
 }

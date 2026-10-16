@@ -3,7 +3,7 @@ package scas.power.compact.offset.degree
 import scas.variable.Variable
 import scas.util.{Conversion, unary_~}
 
-class DegreeLexicographic(val shift: Int)(val variables: Variable*) extends PowerProduct {
+open class DegreeLexicographic(val shift: Int)(val variables: Variable*) extends PowerProduct {
   def compare(x: Array[Int], n: Int, y: Array[Int], m: Int) = {
     if x.deg(n) < y.deg(m) then return -1
     if x.deg(n) > y.deg(m) then return 1
@@ -22,9 +22,6 @@ class DegreeLexicographic(val shift: Int)(val variables: Variable*) extends Powe
 }
 
 object DegreeLexicographic {
+  def binary = scas.power.compact.offset.degree.binary.DegreeLexicographic
   def apply[S : Conversion[Variable]](shift: Int)(variables: S*) = new DegreeLexicographic(shift)(variables.map(~_)*)
-
-  def binary[S : Conversion[Variable]](variables: S*): BinaryPowerProduct = new DegreeLexicographic(0)(variables.map(~_)*) with BinaryPowerProduct {
-    def relaxed = new DegreeLexicographic(1)(this.variables*)
-  }
 }
