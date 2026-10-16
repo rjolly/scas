@@ -21,7 +21,7 @@ object AlgebraicNumber {
   def galoisField = GaloisField
   def growable = scas.residue.growable.AlgebraicNumber
 
-  trait Impl[T, C, M] extends ResidueOverUFD[T, C, M] with Field[T] {
+  trait Impl[T, C, M] extends Residue[T, C, M] with Field[T] {
     given ring: PolynomialWithModInverse[T, C, M] = deferred
     def sqrt[U: Conversion[T]](x: U): T = sqrt(~x)
     def sqrt(x: T) = {
