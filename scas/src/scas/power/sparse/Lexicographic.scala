@@ -25,4 +25,5 @@ class Lexicographic[N : {Numeric, ClassTag}](val variables: Variable*) extends P
 
 object Lexicographic {
   def apply[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(variables: S*) = new Lexicographic[N](variables.map(~_)*)
+  def degreeReverse = scas.power.sparse.degree.DegreeReverseLexicographic
 }
