@@ -5,6 +5,6 @@ import scas.structure.Ring
 import scas.polynomial.{TreePolynomial, GrowablePolynomial}
 import TreePolynomial.Element
 
-class PolynomialWithGB[C : Ring, M : PowerProduct] extends TreePolynomial[C, M] with GrowablePolynomial[Element[C, M], C, M] with scas.polynomial.PolynomialWithGB[Element[C, M], C, M] with Ring.Conv[Element[C, M]] {
+class PolynomialWithGB[C : Ring, M : PowerProduct] extends TreePolynomial[C, M] with scas.polynomial.PolynomialWithGB[Element[C, M], C, M] with GrowablePolynomial[Element[C, M], C, M] with Ring.Conv[Element[C, M]] {
   given instance: PolynomialWithGB[C, M] = this
 }
