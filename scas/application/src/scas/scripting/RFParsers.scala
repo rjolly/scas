@@ -3,7 +3,7 @@ package scas.scripting
 import Parsers.*
 import scas.quotient.growable.RationalFunction
 import scas.structure.commutative.Quotient.Element
-import scas.polynomial.ufd.growable.PolynomialOverUFD
+import scas.polynomial.growable.ufd.PolynomialOverUFD
 import scas.base.BigInteger
 
 type RF = Element[Poly]

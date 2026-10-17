@@ -8,7 +8,7 @@ import scas.structure.commutative.{Field, UniqueFactorizationDomain}
 import scas.polynomial.TreePolynomial
 import TreePolynomial.Element
 
-class PolynomialOverFieldWithGB[C : Field, N : {ArrayPowerProduct, Numeric, ClassTag}] extends TreePolynomial[C, Array[N]] with scas.polynomial.ufd.growable.PolynomialOverFieldWithGB[Element[C, Array[N]], C, N] with UniqueFactorizationDomain.Conv[Element[C, Array[N]]] {
+class PolynomialOverFieldWithGB[C : Field, N : {ArrayPowerProduct, Numeric, ClassTag}] extends TreePolynomial[C, Array[N]] with scas.polynomial.growable.ufd.PolynomialOverFieldWithGB[Element[C, Array[N]], C, N] with UniqueFactorizationDomain.Conv[Element[C, Array[N]]] {
   given instance: PolynomialOverFieldWithGB[C, N] = this
   def newInstance(pp: POT[N]) = new scas.polynomial.tree.PolynomialOverFieldWithGB(using ring, pp)
 }
