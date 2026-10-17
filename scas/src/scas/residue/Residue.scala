@@ -15,15 +15,17 @@ trait Residue[T : ClassTag, C, M] extends scas.structure.Residue[T, T] {
   def generators = ring.generators
   given coef2poly: [D: Conversion[C]] => (D => T) = ring.coef2poly
   def update(s: T*): Unit = {
-    mods = gb(false, s*)
+    mods = gb(false, false)((mods ++ s)*)
   }
   @targetName("fromCoefficient") def apply(x: C) = ring(x)
   def apply(x: T) = ring.remainder(x)(mods*)
   def unapply(x: T) = Some(x)
   def fromRing(x: T) = x
   def characteristic = ring.characteristic
-  def gb(dummy: Boolean, xs: T*) = ring.gb((xs ++ mods)*)
-  def gb(xs: T*): List[T] = gb(false, xs*).filter(!_.isZero)
+  def gb(xs: T*): List[T] = gb(false, false, false)(xs*)
+  def gb(fussy: Boolean)(xs: T*): List[T] = gb(false, true, fussy)(xs*)
+  def gb(dummy: Boolean, sugar: Boolean, fussy: Boolean)(xs: T*): List[T] = gb(sugar, fussy)((mods ++ xs)*).filter(!_.isZero)
+  def gb(sugar: Boolean, fussy: Boolean)(xs: T*) = if sugar then ring.gb(fussy)(xs*) else ring.gb(xs*)
   override def toString = s"${ring}(${mods.show(false)})"
   def toMathML = s"<msub>${ring.toMathML}<mfenced>${mods.toMathML(false)}</mfenced></msub>"
 
