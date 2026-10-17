@@ -2,7 +2,7 @@ package scas.residue.growable
 
 import scala.compiletime.deferred
 import scas.polynomial.TreePolynomial.Element
-import scas.polynomial.ufd.growable.PolynomialWithModInverse
+import scas.polynomial.growable.ufd.PolynomialWithModInverse
 import scas.polynomial.tree.growable.PolynomialOverFieldWithGB
 import scas.power.growable.{ArrayPowerProduct, DegreeReverseLexicographic}
 import scas.structure.commutative.Field
