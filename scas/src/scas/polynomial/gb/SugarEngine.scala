@@ -21,8 +21,11 @@ class SugarEngine[T, C, M : PowerProduct](fussy: Boolean)(using factory: Polynom
 
   extension (pair: Pair[M]) def show = "{" + pair.i + ", " + pair.j + "}, " + pair.s.show + ", " + pair.reduction
 
-  extension (i: Int) def degree = i.headPowerProduct.degree
-  extension (i: Int) def sugar = polys(i).sugar
+  extension (i: Int) {
+    override def show = super.show(i) + ", " + i.sugar.show
+    def degree = i.headPowerProduct.degree
+    def sugar = polys(i).sugar
+  }
 }
 
 object SugarEngine {
