@@ -44,6 +44,7 @@ object GBEngine {
     def remove(pa: P): Unit = {
       pairs -= pa
       if pa.reduction then removed(pa.principal) = true
+      logger.fine("remove " + pa.show)
     }
     def add(pa: P): Unit = {
       pairs += pa
@@ -69,7 +70,10 @@ object GBEngine {
     var npairs = 0
     var npolys = 0
 
-    extension (i: Int) def headPowerProduct = polys(i).headPowerProduct
+    extension (i: Int) {
+      def show = i.headPowerProduct.show
+      def headPowerProduct = polys(i).headPowerProduct
+    }
 
     def gb(xs: T*) = {
       update(xs)
@@ -91,7 +95,7 @@ object GBEngine {
       polys += poly
       removed += false
       val index = polys.size - 1
-      logger.config("(" + index.headPowerProduct.show + ", " + index + ")")
+      logger.config("(" + index.show + ", " + index + ")")
       make(index)
       npolys += 1
     }
