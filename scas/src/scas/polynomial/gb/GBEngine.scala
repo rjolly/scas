@@ -33,6 +33,10 @@ object GBEngine {
       }
       remove(pa)
     }
+    extension (x: T) {
+      def reduce(ys: T*) = x.reduce(false, false, ys*)
+      def reduce(tail: Boolean, ys: T*) = x.reduce(false, tail, ys*)
+    }
     def b_criterion(pa: P): Boolean = {
       var k = 0
       while k < polys.size do {
@@ -43,12 +47,8 @@ object GBEngine {
     }
     def remove(pa: P): Unit = {
       pairs -= pa
-      if pa.reduction then removed(pa.principal) = true
+      if pa.reduction then removed += pa.principal
       logger.fine("remove " + pa.show)
-    }
-    def add(pa: P): Unit = {
-      pairs += pa
-      if pa.coprime then remove(pa)
     }
 
     def apply(i: Int, j: Int): P = apply(i, j, i.headPowerProduct, j.headPowerProduct)
@@ -58,14 +58,18 @@ object GBEngine {
     extension (pa: P) def show: String
 
     def sorted(i: Int, j: Int) = if i > j then apply(j, i) else apply(i, j)
-    def make(index: Int): Unit = for i <- 0 until index do add(apply(i, index))
+    def make(index: Int): Unit = for i <- 0 until index do {
+      val pa = apply(i, index)
+      pairs += pa
+      if pa.coprime then remove(pa)
+    }
     def considered(i: Int, j: Int) = !pairs.contains(sorted(i, j))
 
     def ordering: Ordering[P] = Ordering by { pair => (pair.scm, pair.j, pair.i) }
     given Ordering[P] = ordering
 
     var pairs = SortedSet.empty[P]
-    val removed = ListBuffer.empty[Boolean]
+    var removed = SortedSet.empty[Int]
     val polys = ListBuffer.empty[T]
     var npairs = 0
     var npolys = 0
@@ -93,7 +97,6 @@ object GBEngine {
 
     def update(poly: T): Unit = {
       polys += poly
-      removed += false
       val index = polys.size - 1
       logger.config("(" + index.show + ", " + index + ")")
       make(index)
@@ -107,12 +110,17 @@ object GBEngine {
 
     def reduce: Unit = {
       logger.config("reduce")
-      for i <- polys.size - 1 to 0 by -1 if removed(i) do {
-        removed.remove(i)
-        polys.remove(i)
+      var i = 0
+      var j = 0
+      while i < polys.size do {
+        if removed.contains(i + j) then {
+          removed -= i + j
+          polys.remove(i)
+          j += 1
+        } else i += 1
       }
       for i <- 0 until polys.size do {
-        polys(i) = normalize(polys(i).reduce(false, true, polys.toSeq*))
+        polys(i) = normalize(polys(i).reduce(true, polys.toSeq*))
         logger.config("(" + i.headPowerProduct.show + ")")
       }
     }
