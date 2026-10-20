@@ -51,15 +51,18 @@ object GBEngine {
       logger.fine("remove " + pa.show)
     }
 
-    def apply(i: Int, j: Int): P = apply(i, j, i.headPowerProduct, j.headPowerProduct)
-    def apply(i: Int, j: Int, m: M, n: M): P = apply(i, j, if m < n then m | n else n | m, if m < n then j else i, pp.coprime(m, n), pp.lcm(m, n))
+    def apply(i: Int, j: Int): P = this(i, j, i.headPowerProduct, j.headPowerProduct)
+    def apply(i: Int, j: Int, m: M, n: M): P = {
+      val sorted = m < n
+      this(i, j, if sorted then m | n else n | m, if sorted then j else i, pp.coprime(m, n), pp.lcm(m, n))
+    }
     def apply(i: Int, j: Int, reduction: Boolean, principal: Int, coprime: Boolean, scm: M): P
 
     extension (pa: P) def show: String
 
-    def sorted(i: Int, j: Int) = if i > j then apply(j, i) else apply(i, j)
+    def sorted(i: Int, j: Int) = if i > j then this(j, i) else this(i, j)
     def make(index: Int): Unit = for i <- 0 until index do {
-      val pa = apply(i, index)
+      val pa = this(i, index)
       pairs += pa
       if pa.coprime then remove(pa)
     }
