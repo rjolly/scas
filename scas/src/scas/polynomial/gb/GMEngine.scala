@@ -21,14 +21,14 @@ object GMEngine {
     override def make(index: Int): Unit = {
       val buffer = new ArrayBuffer[P]
       for pair <- pairs do {
-        val p1 = apply(pair.i, index)
-        val p2 = apply(pair.j, index)
+        val p1 = this(pair.i, index)
+        val p2 = this(pair.j, index)
         if (p1 | pair) && (p2 | pair) then buffer += pair
       }
       for i <- 0 until buffer.size do remove(buffer(i))
       var s = SortedSet.empty(using natural)
       for i <- 0 until index do {
-        val pair = apply(i, index)
+        val pair = this(i, index)
         s += pair
         pairs += pair
       }
@@ -51,8 +51,6 @@ object GMEngine {
         } else i += 1
       }
     }
-
-    override def apply(i: Int, j: Int) = super.apply(i, j)
 
     def natural: Ordering[P] = Ordering by { pair => (pair.scm, pair.j, pair.i) }
   }
