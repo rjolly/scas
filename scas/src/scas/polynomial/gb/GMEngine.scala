@@ -30,16 +30,25 @@ object GMEngine {
       for i <- 0 until index do {
         val pair = apply(i, index)
         s += pair
-        add(pair)
+        pairs += pair
       }
       buffer.clear()
       buffer ++= s
-      for i <- 0 until buffer.size do {
+      var i = 0
+      while i < buffer.size do {
         val p1 = buffer(i)
-        for j <- i + 1 until buffer.size do {
+        var j = i + 1
+        while j < buffer.size do {
           val p2 = buffer(j)
-          if p1.scm | p2.scm then remove(p2)
+          if p1.scm | p2.scm then {
+            buffer.remove(j)
+            remove(p2)
+          } else j += 1
         }
+        if p1.coprime then {
+          buffer.remove(i)
+          remove(p1)
+        } else i += 1
       }
     }
 
