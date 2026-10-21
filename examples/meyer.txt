@@ -33,6 +33,6 @@ val eqs = (for i <- 0 until len yield t(i) + ((0 until len).foldLeft(r.zero) { (
   if (i - j >= 0) s + t(i - j) * ni(j) else s
 }))++(for i <- 0 until len yield b_(i) + (b(i) + t(i))).toList
 var time = System.currentTimeMillis();
-val g = r.gb(eqs*)
+val g = r.gb(false, true)(eqs*)
 time = System.currentTimeMillis() - time;
 println("time: " + time)

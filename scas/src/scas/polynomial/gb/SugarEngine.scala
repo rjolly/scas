@@ -8,8 +8,8 @@ import Boolean.self.given
 import scas.math.Ordering
 import SugarEngine.Pair
 
-class SugarEngine[T, C, M : PowerProduct](fussy: Boolean)(using factory: PolynomialWithSugar[T, C, M]) extends GMEngine.Impl[PolynomialWithSugar.Element[T], C, M, Pair[M]] {
-  def this(fussy: Boolean)(factory: PolynomialWithSugar[T, C, M]) = this(fussy)(using factory.pp, factory)
+class SugarEngine[T, C, M : PowerProduct](fussy: Boolean, val tail: Boolean)(using factory: PolynomialWithSugar[T, C, M]) extends GMEngine.Impl[PolynomialWithSugar.Element[T], C, M, Pair[M]] {
+  def this(fussy: Boolean, tail: Boolean)(factory: PolynomialWithSugar[T, C, M]) = this(fussy, tail)(using factory.pp, factory)
 
   override def ordering = Ordering by { pair => (pair.s, pair.scm, pair.j, pair.i) }
 
