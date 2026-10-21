@@ -55,7 +55,8 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
     val (m0, n0) = (m / gcd, n / gcd)
     (x%* n0).reduce(m0, a, y, b)
   }
-  def gb(xs: T*) = new GBEngine(this).gb(xs*)
+  def gb(xs: T*): List[T] = gb(false)(xs*)
+  def gb(tail: Boolean)(xs: T*) = new GBEngine(tail)(this).gb(xs*)
 
   extension (x: T) def toCode(level: Level) = toCode(level, "+", "*")
   extension (x: T) def toCode(level: Level, plus: String, times: String): String = {

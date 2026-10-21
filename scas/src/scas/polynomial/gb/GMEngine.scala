@@ -8,8 +8,8 @@ import scas.math.Ordering
 import GMEngine.Impl
 import GBEngine.Pair
 
-class GMEngine[T, C, M : PowerProduct](using factory: Polynomial[T, C, M]) extends GBEngine[T, C, M] with Impl[T, C, M, Pair[M]] {
-  def this(factory: Polynomial[T, C, M]) = this(using factory.pp, factory)
+class GMEngine[T, C, M : PowerProduct](tail: Boolean)(using factory: Polynomial[T, C, M]) extends GBEngine[T, C, M](tail) with Impl[T, C, M, Pair[M]] {
+  def this(tail: Boolean)(factory: Polynomial[T, C, M]) = this(tail)(using factory.pp, factory)
 }
 
 object GMEngine {

@@ -49,9 +49,9 @@ trait PolynomialWithSugar[T, C, M] extends Polynomial[Element[T], C, M] {
       (p.map(f), e)
     }
   }
-  override def gb(xs: Element[T]*) = gb(false)(xs*)
-  def gb(fussy: Boolean)(xs: Element[T]*) = new SugarEngine(fussy)(this).gb(xs*)
-  @targetName("sugarGB") def gb(fussy: Boolean)(xs: T*): List[T] = gb(fussy)(xs.map(this(_))*).map(_.underlying)
+  override def gb(tail: Boolean)(xs: Element[T]*) = gb(false, tail)(xs*)
+  def gb(fussy: Boolean, tail: Boolean)(xs: Element[T]*) = new SugarEngine(fussy, tail)(this).gb(xs*)
+  @targetName("sugarGB") def gb(fussy: Boolean, tail: Boolean)(xs: T*): List[T] = gb(fussy, tail)(xs.map(this(_))*).map(_.underlying)
 }
 
 object PolynomialWithSugar {
