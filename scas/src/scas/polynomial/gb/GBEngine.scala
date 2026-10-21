@@ -9,8 +9,8 @@ import scas.prettyprint.Show.given
 import java.util.logging.Logger
 import GBEngine.{Impl, Pair}
 
-open class GBEngine[T, C, M : PowerProduct](using factory: Polynomial[T, C, M]) extends Impl[T, C, M, Pair[M]] {
-  def this(factory: Polynomial[T, C, M]) = this(using factory.pp, factory)
+open class GBEngine[T, C, M : PowerProduct](val tail: Boolean)(using factory: Polynomial[T, C, M]) extends Impl[T, C, M, Pair[M]] {
+  def this(tail: Boolean)(factory: Polynomial[T, C, M]) = this(tail)(using factory.pp, factory)
 
   def apply(i: Int, j: Int, reduction: Boolean, principal: Int, coprime: Boolean, scm: M) = new Pair(i, j, reduction, principal, coprime, scm)
 
@@ -22,6 +22,7 @@ object GBEngine {
 
   trait Impl[T, C, M : PowerProduct as pp, P <: Pair[M]](using factory: Polynomial[T, C, M]) {
     import factory.{normalize, s_polynomial}
+    def tail: Boolean
     val logger = Logger.getLogger(getClass().getName());
 
     def process(pa: P): Unit = {
@@ -34,7 +35,7 @@ object GBEngine {
       remove(pa)
     }
     extension (x: T) {
-      def reduce(ys: T*) = x.reduce(false, false, ys*)
+      def reduce(ys: T*) = if tail then x.reduce(false, false, ys*) else x.reduce(ys*)
       def reduce(tail: Boolean, ys: T*) = x.reduce(false, tail, ys*)
     }
     def b_criterion(pa: P): Boolean = {
