@@ -92,9 +92,7 @@ object GBEngine {
 
     def update(s: Seq[T]): Unit = {
       logger.config(s.toList.show)
-      s.foreach { p =>
-        if !p.isZero then update(p)
-      }
+      for p <- s do if !p.isZero then update(p)
       npairs = 0
       npolys = 0
     }
