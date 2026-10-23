@@ -1,7 +1,7 @@
 package scas.polynomial.gb
 
 import scala.collection.immutable.SortedSet
-import scala.collection.mutable.ListBuffer
+import scala.collection.mutable.ArrayBuffer
 import scas.polynomial.Polynomial
 import scas.power.PowerProduct
 import scas.math.Ordering
@@ -28,7 +28,7 @@ object GBEngine {
     def process(pa: P): Unit = {
       if !b_criterion(pa) then {
         logger.config(pa.show)
-        val p = normalize(s_polynomial(polys(pa.i), polys(pa.j)).reduce(polys.toSeq*))
+        val p = normalize(s_polynomial(pa.i.poly, pa.j.poly).reduce(polys.map(_._1).toSeq*))
         if !p.isZero then update(p)
         npairs += 1
       }
@@ -74,13 +74,14 @@ object GBEngine {
 
     var pairs = SortedSet.empty[P]
     var removed = SortedSet.empty[Int]
-    val polys = ListBuffer.empty[T]
+    val polys = ArrayBuffer.empty[(T, M)]
     var npairs = 0
     var npolys = 0
 
     extension (i: Int) {
       def show = i.headPowerProduct.show
-      def headPowerProduct = polys(i).headPowerProduct
+      def headPowerProduct = polys(i)._2
+      def poly = polys(i)._1
     }
 
     def gb(xs: T*) = {
@@ -98,7 +99,7 @@ object GBEngine {
     }
 
     def update(poly: T): Unit = {
-      polys += poly
+      polys += ((poly, poly.headPowerProduct))
       val index = polys.size - 1
       logger.config("(" + index.show + ", " + index + ")")
       make(index)
@@ -122,14 +123,14 @@ object GBEngine {
         } else i += 1
       }
       for i <- 0 until polys.size do {
-        polys(i) = normalize(polys(i).reduce(true, polys.toSeq*))
+        polys(i) = (normalize(i.poly.reduce(true, polys.map(_._1).toSeq*)), i.headPowerProduct)
         logger.config("(" + i.headPowerProduct.show + ")")
       }
     }
 
     def toList = {
       logger.config("statistics = (" + npairs + ", " + npolys + ", " + polys.size + ")")
-      polys.toList
+      polys.map(_._1).toList
     }
   }
 }
