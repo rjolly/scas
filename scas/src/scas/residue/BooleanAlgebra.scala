@@ -16,6 +16,7 @@ abstract class BooleanAlgebra(using PolynomialWithGB[Element[Array[Int]], Boolea
 }
 
 object BooleanAlgebra {
+  def apply(ring: PolynomialWithGB[Element[Array[Int]], Boolean, Array[Int]]) = new Conv2(ring)
   def apply(pp: PowerProduct[Array[Int]]) = new Conv1(pp)
   def apply[S : Conversion[Variable]](s: S*) = new Conv(s.map(~_)*)
   def binary = scas.residue.binary.BooleanAlgebra
@@ -30,6 +31,10 @@ object BooleanAlgebra {
       override def toCode(level: Level) = ring.toCode(x)(level, " ^ ", " && ")
       override def toMathML = ring.toMathML(x)("xor", "and")
     }
+  }
+
+  class Conv2(ring: PolynomialWithGB[Element[Array[Int]], Boolean, Array[Int]]) extends BooleanAlgebra(using ring) {
+    given instance: BooleanAlgebra = this
   }
 
   class Conv1(pp: PowerProduct[Array[Int]]) extends BooleanAlgebra(pp) {
