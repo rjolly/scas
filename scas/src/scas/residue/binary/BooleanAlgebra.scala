@@ -16,6 +16,7 @@ abstract class BooleanAlgebra(using Polynomial[Element[Array[Int]], Boolean]) ex
 }
 
 object BooleanAlgebra {
+  def apply(ring: Polynomial[Element[Array[Int]], Boolean]) = new Conv2(ring)
   def apply(pp: PowerProduct) = new Conv1(pp)
   def apply[S : Conversion[Variable]](s: S*) = new Conv(s.map(~_)*)
 
@@ -23,6 +24,10 @@ object BooleanAlgebra {
     extension (x: Element[Array[Int]]) {
       override def defining = ring.defining(x)
     }
+  }
+
+  class Conv2(ring: Polynomial[Element[Array[Int]], Boolean]) extends BooleanAlgebra(using ring) {
+    given instance: BooleanAlgebra = this
   }
 
   class Conv1(pp: PowerProduct) extends BooleanAlgebra(pp) {
