@@ -39,9 +39,10 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
   }
   extension (x: T) def isUnit = if x.degree > 0 || x.isZero then false else x.headCoefficient.isUnit
   extension (x: T) {
-    def multiply(y: T) = {
-      var r = zero
-      for (a, b) <- y.iterator do r = r.subtract(a, -b, x)
+    def multiply(y: T) = zero.multiplyAndAdd(y, x)
+    def multiplyAndAdd(y: T, z: T) = {
+      var r = x
+      for (a, b) <- y.iterator do r = r.subtract(a, -b, z)
       r
     }
     @targetName("ppMultiplyRight") def %* (m: M) = x.map((s, a) => (s * m, a))
