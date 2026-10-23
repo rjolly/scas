@@ -24,7 +24,7 @@ class SugarEngine[T, C, M : PowerProduct](fussy: Boolean, val tail: Boolean)(usi
   extension (i: Int) {
     override def show = super.show(i) + ", " + i.sugar.show
     def degree = i.headPowerProduct.degree
-    def sugar = polys(i).sugar
+    def sugar = i.poly.sugar
   }
 }
 
