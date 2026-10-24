@@ -1,0 +1,50 @@
+import java.util.Random
+import scala.collection.mutable.{ArrayBuffer, Queue}
+import scas.residue.BooleanAlgebra
+import scas.prettyprint.Show.given
+import scas.base.Boolean.given
+import scas.variable.Variable
+
+val n = 4
+val m = n
+val rnd = new Random()
+val p = Array.ofDim[Boolean](m + n)
+def prime(n: Int) = java.math.BigInteger.probablePrime(n, rnd).intValue()
+var o = prime(n) * prime(m)
+for i <- 0 until m + n do {
+  p(i) = (o & 1) > 0
+  o >>= 1
+}
+println(p.toList)
+type Element = BooleanAlgebra.Element[Array[Int]]
+val c = Array.ofDim[Element](m, m + n)
+val s = Array.ofDim[Element](m, m + n)
+
+val r = BooleanAlgebra((for i <- 0 until n yield Variable("a", 0, i))
+++(for i <- 0 until n yield Variable("b", 0, i))
+++(for j <- 0 until m; i <- 0 to j + n yield Variable("s", 0, j, i))
+++(for j <- 0 until m; i <- 0 to j + n if i > j yield Variable("c", 0, j, i))*)
+val q = Queue.from(r.generators)
+val a = for i <- 0 until n yield q.dequeue()
+val b = for i <- 0 until n yield q.dequeue()
+for j <- 0 until m ; i <- 0 to j + n do s(j)(i) = q.dequeue()
+for j <- 0 until m ; i <- 0 to j + n if i > j do c(j)(i) = q.dequeue()
+import r.given
+val eqs = ArrayBuffer.empty[Element]
+for j <- 0 until m do {
+  for i <- 0 until j + n do {
+    val aji = if j < 1 then r.zero else s(j - 1)(i)
+    val bji = if i < j then r.zero else a(i - j) * b(j)
+    val cji = if i > j then c(j)(i) else r.zero
+    eqs += s(j)(i) + aji + bji + cji
+    if i + 1 > j then eqs += c(j)(i + 1) + aji * bji + aji * cji + bji * cji
+  }
+  eqs += s(j)(j + n) + c(j)(j + n)
+}
+for i <- 0 until m + n do eqs += s(m - 1)(i) + r(p(i))
+
+var time = System.currentTimeMillis();
+val g = r.gb(false, true)(eqs.toSeq*)
+time = System.currentTimeMillis() - time;
+println(g.show)
+println("time: " + time)
