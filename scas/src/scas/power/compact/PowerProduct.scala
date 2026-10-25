@@ -3,7 +3,8 @@ package scas.power.compact
 trait PowerProduct extends scas.power.ArrayPowerProduct[Int] {
   def shift: Int
   val mask = (1 << (1 << shift)) - 1
-  override def length = ((nbvars - 1) >> (5 - shift)) + 1
+  inline def drift(n: Int) = n + n / ((1 << (5 - shift)) - 1)
+  override def length = (drift(nbvars - 1) >> (5 - shift)) + 1
   override def multiply(x: Array[Int], y: Array[Int], z: Array[Int]) = {
     var i = 0
     while i < length do {
@@ -21,13 +22,13 @@ trait PowerProduct extends scas.power.ArrayPowerProduct[Int] {
   }
   extension (x: Array[Int]) {
     override def get(i: Int) = {
-      val p = (i << shift) + ((i + (1 << shift)) >> 5)
+      val p = drift(i) << shift
       val q = p >> 5
       val r = p & 31
       (x(q) >> r) & mask
     }
     override def set(i: Int, c: Int) = {
-      val p = (i << shift) + ((i + (1 << shift)) >> 5)
+      val p = drift(i) << shift
       val q = p >> 5
       val r = p & 31
       x(q) |= (c & mask) << r
