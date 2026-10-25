@@ -1,8 +1,8 @@
 package scas.polynomial.growable.ufd
 
 import scala.compiletime.deferred
-import scas.power.growable.ArrayPowerProduct
+import scas.power.growable.PowerProduct
 
-trait PolynomialWithGB[T, C, N] extends PolynomialOverUFD[T, C, Array[N]] with scas.polynomial.ufd.PolynomialWithGB[T, C, N] {
-  given pp: ArrayPowerProduct[N] = deferred
+trait PolynomialWithGB[T, C, M] extends PolynomialOverUFD[T, C, M] with scas.polynomial.ufd.PolynomialWithGB[T, C, M] {
+  given pp: PowerProduct[M] = deferred
 }

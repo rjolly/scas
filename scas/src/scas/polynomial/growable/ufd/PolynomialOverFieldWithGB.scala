@@ -1,3 +1,3 @@
 package scas.polynomial.growable.ufd
 
-trait PolynomialOverFieldWithGB[T, C, N] extends PolynomialWithGB[T, C, N] with PolynomialWithModInverse[T, C, Array[N]] with scas.polynomial.ufd.PolynomialOverFieldWithGB[T, C, N]
+trait PolynomialOverFieldWithGB[T, C, M] extends PolynomialWithGB[T, C, M] with PolynomialWithModInverse[T, C, M] with scas.polynomial.ufd.PolynomialOverFieldWithGB[T, C, M]
