@@ -1,13 +1,11 @@
 package scas.polynomial.tree
 
-import scas.math.Numeric
-import scala.reflect.ClassTag
-import scas.power.{POT, ArrayPowerProduct}
+import scas.power.{POT, PowerProduct}
 import scas.structure.commutative.{Field, UniqueFactorizationDomain}
 import scas.polynomial.TreePolynomial
 import TreePolynomial.Element
 
-class PolynomialOverFieldWithGB[C : Field, N : {ArrayPowerProduct, Numeric, ClassTag}] extends TreePolynomial[C, Array[N]] with scas.polynomial.ufd.PolynomialOverFieldWithGB[Element[C, Array[N]], C, N] with UniqueFactorizationDomain.Conv[Element[C, Array[N]]] {
-  given instance: PolynomialOverFieldWithGB[C, N] = this
-  def newInstance(pp: POT[N]) = new PolynomialOverFieldWithGB(using ring, pp)
+class PolynomialOverFieldWithGB[C : Field, M : PowerProduct] extends TreePolynomial[C, M] with scas.polynomial.ufd.PolynomialOverFieldWithGB[Element[C, M], C, M] with UniqueFactorizationDomain.Conv[Element[C, M]] {
+  given instance: PolynomialOverFieldWithGB[C, M] = this
+  def newInstance(pp: POT[M]) = new PolynomialOverFieldWithGB(using ring, pp)
 }

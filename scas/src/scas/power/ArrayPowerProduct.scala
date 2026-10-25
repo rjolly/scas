@@ -72,7 +72,7 @@ trait ArrayPowerProduct[N : {Numeric as numeric, ClassTag}] extends PowerProduct
     override def projection(n: Int) = super.projection(x)(n)
     def projection(n: Int, m: Int) = this.projection(x, n, m, empty)
     def convert(from: ArrayPowerProduct[N]): Array[N] = this.convert(x, from, empty)
-    def dependencyOnVariables = (for i <- 0 until nbvars if (x.get(i) > numeric.zero) yield i).toArray
+    def dependencyOnVariables = (for i <- 0 until nbvars if x.get(i) > numeric.zero yield i).toArray
     def toCode(level: Level, times: String) = {
       var s = "1"
       var m = 0
@@ -99,7 +99,7 @@ trait ArrayPowerProduct[N : {Numeric as numeric, ClassTag}] extends PowerProduct
     }
     def size = {
       var m = 0
-      for i <- 0 until nbvars do if x.get(i) > numeric.zero then m += 1
+      for i <- 0 until nbvars if x.get(i) > numeric.zero do m += 1
       m
     }
     def degree = BigInteger.fromInt(deg.toLong)
