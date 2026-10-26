@@ -13,4 +13,6 @@ object POT {
   trait Impl[M] extends Combined[M, Array[Int]] {
     given factory2: ArrayPowerProduct[Int] = deferred
   }
+
+  type Element[M] = (M, Array[Int])
 }

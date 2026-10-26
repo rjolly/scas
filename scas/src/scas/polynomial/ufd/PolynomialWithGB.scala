@@ -6,10 +6,11 @@ import scas.polynomial.ConvertablePolynomial
 import scas.module.Array
 import scas.base.BigInteger
 import BigInteger.given
+import POT.Element
 
 trait PolynomialWithGB[T[C, M], C, M](using ClassTag[T[C, M]]) extends PolynomialOverUFD[T[C, M], C, M] with scas.polynomial.PolynomialWithGB[T[C, M], C, M] {
   def embedding(name: String, dimension: Int) = newInstance(new ModifiedPOT(pp)(name, dimension))
-  def newInstance(pp: POT[M]): PolynomialWithGB[T, C, (M, Array[Int])]
+  def newInstance(pp: POT[M]): PolynomialWithGB[T, C, Element[M]]
   def gcd(x: T[C, M], y: T[C, M]) = if x.isZero then y else {
     val (a, p) = contentAndPrimitivePart(x)
     val (b, q) = contentAndPrimitivePart(y)
