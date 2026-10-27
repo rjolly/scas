@@ -9,23 +9,23 @@ trait MultivariatePolynomial[T[C, M], C, N] extends PolynomialOverUFD[T[C, Array
   given pp: ArrayPowerProduct[N] = deferred
   val take = pp.take(1)
   val drop = pp.drop(1)
+  lazy val p = newInstance(ring, drop)
+  given s: MultivariatePolynomial[T, T[C, Array[N]], N] = newInstance(p, take)
   def newInstance: [C] => (UniqueFactorizationDomain[C], ArrayPowerProduct[N]) => MultivariatePolynomial[T, C, N]
   def gcd1(x: T[C, Array[N]], y: T[C, Array[N]]): T[C, Array[N]]
   def gcd(x: T[C, Array[N]], y: T[C, Array[N]]) = if pp.nbvars > 1 then {
-    val p = newInstance(ring, drop)
-    val s = newInstance(p, take)
-    s.gcd(x.convertTo(using p, s), y.convertTo(using p, s)).convertFrom(s)
+    s.gcd(x.convertTo, y.convertTo).convertFrom
   } else {
     val (a, p) = contentAndPrimitivePart(x)
     val (b, q) = contentAndPrimitivePart(y)
     primitivePart(gcd1(p, q))%* ring.gcd(a, b)
   }
-  extension (x: T[C, Array[N]]) def convertTo(using p: MultivariatePolynomial[T, C, N], s: MultivariatePolynomial[T, T[C, Array[N]], N]): T[T[C, Array[N]], Array[N]] = x.iterator.foldLeft(s.zero) { (l, r) =>
+  extension (x: T[C, Array[N]]) def convertTo: T[T[C, Array[N]], Array[N]] = x.iterator.foldLeft(s.zero) { (l, r) =>
     val (m, c) = r
     val t = m.projection(0)
     l + s(take.convert(t)(pp), p(drop.convert(m / t)(pp), c))
   }
-  extension (x: T[T[C, Array[N]], Array[N]]) def convertFrom(s: MultivariatePolynomial[T, T[C, Array[N]], N]): T[C, Array[N]] = s.iterator(x).foldLeft(zero) { (l, r) =>
+  extension (x: T[T[C, Array[N]], Array[N]]) def convertFrom: T[C, Array[N]] = x.iterator.foldLeft(zero) { (l, r) =>
     val (m, c) = r
     l + c.convert(drop)%* m.convert(take)
   }
