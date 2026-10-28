@@ -2,7 +2,7 @@ package scas.residue
 
 import scas.structure.{BooleanRing, Ring}
 import scas.polynomial.PolynomialWithGB
-import scas.power.{PowerProduct, Lexicographic}
+import scas.power.{PowerProduct, Lexicographic, DegreeReverseLexicographic}
 import scas.variable.Variable
 import scas.util.{Conversion, unary_~}
 import scas.base.{BigInteger, Boolean}
@@ -19,6 +19,7 @@ object BooleanAlgebra {
   def apply(ring: PolynomialWithGB[Element[Array[Int]], Boolean, Array[Int]]) = new Conv2(ring)
   def apply(pp: PowerProduct[Array[Int]]) = new Conv1(pp)
   def apply[S : Conversion[Variable]](s: S*) = new Conv(s.map(~_)*)
+  def degreeReverse[S : Conversion[Variable]](s: S*) = this(DegreeReverseLexicographic(0)(s*))
   def binary = scas.residue.binary.BooleanAlgebra
 
   trait Impl[M] extends Residue[Element[M], Boolean, M] with BooleanRing[Element[M]] {
