@@ -27,6 +27,10 @@ trait Residue[T : ClassTag, C, M] extends scas.structure.Residue[T, T] {
   def gb(fussy: Boolean, tail: Boolean)(xs: T*): List[T] = gb(false, true, fussy, tail)(xs*)
   def gb(dummy: Boolean, sugar: Boolean, fussy: Boolean, tail: Boolean)(xs: T*): List[T] = gb(sugar, fussy, tail)((mods ++ xs)*).filter(!_.isZero)
   def gb(sugar: Boolean, fussy: Boolean, tail: Boolean)(xs: T*) = if sugar then ring.gb(fussy, tail)(xs*) else ring.gb(tail)(xs*)
+  extension (xs: List[T]) {
+    def reduce(dummy: Boolean): List[T] = xs.reduce(xs*)
+    def reduce(ys: T*): List[T] = ring.reduce(xs)((mods ++ ys)*)
+  }
   override def toString = s"${ring}(${mods.show(false)})"
   def toMathML = s"<msub>${ring.toMathML}<mfenced>${mods.toMathML(false)}</mfenced></msub>"
 
