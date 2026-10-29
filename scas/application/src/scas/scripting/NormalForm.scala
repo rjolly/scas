@@ -25,7 +25,7 @@ object NormalForm {
     given ring: BooleanAlgebra = deferred
     def empty = Map.empty[BA, Int]
     override def apply(x: BA) = if x.isZero then zero else {
-      val s = ring.gb(flip(x)).foldLeft(one)((l, a) => l * super.apply(flip(a)))
+      val s = ring.gb(true)(flip(x)).reduce(false).foldLeft(one)((l, a) => l * super.apply(flip(a)))
       if s.contains(x) then super.apply(x) else s
     }
     def flip(x: BA) = if conj then !x else x
