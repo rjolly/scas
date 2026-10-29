@@ -36,7 +36,6 @@ object GBEngine {
     }
     extension (x: T) {
       def reduce(ys: T*) = if tail then x.reduce(false, false, ys*) else x.reduce(ys*)
-      def reduce(tail: Boolean, ys: T*) = x.reduce(false, tail, ys*)
     }
     def b_criterion(pa: P): Boolean = {
       var k = 0
@@ -87,7 +86,7 @@ object GBEngine {
     def gb(xs: T*) = {
       update(xs)
       process
-      reduce
+      remove
       toList
     }
 
@@ -111,8 +110,8 @@ object GBEngine {
       while !pairs.isEmpty do process(pairs.head)
     }
 
-    def reduce: Unit = {
-      logger.config("reduce")
+    def remove: Unit = {
+      logger.config("remove")
       var i = 0
       var j = 0
       while i < polys.size do {
@@ -121,10 +120,6 @@ object GBEngine {
           polys.remove(i)
           j += 1
         } else i += 1
-      }
-      for i <- 0 until polys.size do {
-        polys(i) = (normalize(i.poly.reduce(true, polys.map(_._1).toSeq*)), i.headPowerProduct)
-        logger.config("(" + i.headPowerProduct.show + ")")
       }
     }
 
