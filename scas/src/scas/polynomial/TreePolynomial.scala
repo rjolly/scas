@@ -48,8 +48,7 @@ trait TreePolynomial[C, M] extends Polynomial[Element[C, M], C, M] {
       val r = modifiable(zero)
       for (s, a) <- x.asScala do {
         val (m, c) = f(s, a)
-        val d = r.getOrElse(m, ring.zero) + c
-        if d.isZero then r.remove(m) else r.put(m, d)
+        if !c.isZero then r.put(m, c)
       }
       unmodifiable(r)
     }
