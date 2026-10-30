@@ -21,16 +21,19 @@ val s = Array.ofDim[Element](m, m + n)
 
 val r = BooleanAlgebra.binary((for i <- 0 until n yield Variable("a", 0, i))
 ++(for j <- 0 until m yield Variable("b", 0, j))
-++(for j <- 1 until m; i <- 1 to n yield Variable("c", 0, j, j + i))
-++(for j <- 0 until m; i <- 0 to n yield Variable("s", 0, j, j + i))*)
+++((for j <- 0 until m; i <- 0 to n yield if j > 0 && i > 0 then {
+  Array(Variable("c", 0, j, j + i), Variable("s", 0, j, j + i))
+} else Array(Variable("s", 0, j, j + i))).flatten)*)
 val q = Queue.from(r.generators)
 val a = for i <- 0 until n yield q.dequeue()
 val b = for j <- 0 until m yield q.dequeue()
-for j <- 1 until m ; i <- 1 to n do c(j)(j + i) = q.dequeue()
-for j <- 0 until m ; i <- 0 to n do s(j)(j + i) = q.dequeue()
+for j <- 0 until m ; i <- 0 to n do {
+  if j > 0 && i > 0 then c(j)(j + i) = q.dequeue()
+  s(j)(j + i) = q.dequeue()
+}
 import r.given
 import r.ring.pp
-r.mods = r.mods.filter(_.head._1 < c(1)(2).head._1)
+r.mods = r.mods.filter(_.head._1 < s(0)(0).head._1)
 val eqs = ArrayBuffer.empty[Element]
 for i <- 0 until m do eqs += s(i)(i) + r(p(i))
 for i <- 0 until n do eqs += s(m - 1)(m + i) + r(p(m + i))
@@ -45,7 +48,7 @@ for j <- 0 until m do {
 }
 
 var time = System.currentTimeMillis();
-val g = r.gb(true)(eqs.toSeq*).filter(_.head._1 < c(1)(2).head._1).reduce(false)
+val g = r.gb(true)(eqs.toSeq*).filter(_.head._1 < s(0)(0).head._1).reduce(false)
 time = System.currentTimeMillis() - time;
 println(g.show)
 println("time: " + time)
