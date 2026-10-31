@@ -3,7 +3,6 @@ package scas.polynomial
 import scala.annotation.targetName
 import scala.compiletime.deferred
 import scas.polynomial.gb.SugarEngine
-import scas.power.PowerProduct
 import scas.structure.Ring
 import scas.base.BigInteger
 import BigInteger.{max, given}
@@ -13,7 +12,7 @@ trait PolynomialWithSugar[T, C, M] extends Polynomial[Element[T], C, M] {
   given factory: PolynomialWithGB[T, C, M] = deferred
   override given ring: Ring[C] = factory.ring
   def apply(s: (M, C)*) = this(factory(s*))
-  @targetName("fromPolynomial") def apply(p: T) = (p, p.degree)
+  def apply(p: T) = (p, p.degree)
   override def normalize(x: Element[T]) = {
     val (p, e) = x
     (factory.normalize(p), e)
