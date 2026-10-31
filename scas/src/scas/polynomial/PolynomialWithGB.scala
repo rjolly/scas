@@ -4,8 +4,10 @@ import scas.power.PowerProduct
 import PolynomialWithGB.WithSugar
 
 trait PolynomialWithGB[T, C, M] extends Polynomial[T, C, M] {
-  def gb(fussy: Boolean, tail: Boolean)(xs: T*) = sugar.gb(fussy, tail)(xs*)
+  def suggb(fussy: Boolean, tail: Boolean)(xs: T*) = sugar.gb(fussy, tail)(xs*)
   def sugar: PolynomialWithSugar[T, C, M] = new WithSugar(using this)
+  def siggb(fussy: Boolean, tail: Boolean)(xs: T*) = signature(xs.size).gb(fussy, tail)(xs*)
+  def signature(dimension: Int) = new PolynomialWithSignature(dimension)(using this)
 }
 
 object PolynomialWithGB {
