@@ -1,5 +1,6 @@
 package scas.power
 
+import scas.power.sparse.Lexicographic
 import scas.variable.Variable
 import POT.Element
 
