@@ -1,14 +1,16 @@
 package scas.polynomial
 
 import scala.annotation.targetName
+import scala.compiletime.deferred
 import scas.polynomial.gb.SignatureEngine
 import scas.structure.Ring
 import scas.power.{PowerProduct, POT}
 import PolynomialWithSignature.Element
 
-class PolynomialWithSignature[T, C, M](dimension: Int)(using factory: PolynomialWithGB[T, C, M]) extends Polynomial[Element[T, M], C, M] {
+trait PolynomialWithSignature[T, C, M] extends Polynomial[Element[T, M], C, M] {
+  def dimension: Int
+  given factory: PolynomialWithGB[T, C, M] = deferred
   override given ring: Ring[C] = factory.ring
-  override given pp: PowerProduct[M] = factory.pp
   given module: POT[M] = new POT(pp)("e", dimension)
   import module.{max, pp2pot}
   def apply(p: T, n: Int) = (p, module.generator(pp.nbvars + n))
