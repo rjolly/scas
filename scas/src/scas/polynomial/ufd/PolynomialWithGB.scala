@@ -21,3 +21,9 @@ trait PolynomialWithGB[T[C, M], C, M](using ClassTag[T[C, M]]) extends Polynomia
     (p / v)%* ring.gcd(a, b)
   }
 }
+
+object PolynomialWithGB {
+  class Residue[T[C, M], C, M](using PolynomialWithGB[T, C, M], ClassTag[T[C, M]]) extends scas.residue.Residue[T[C, M], C, M] {
+    override given ring: PolynomialWithGB[T, C, M] = summon
+  }
+}
