@@ -5,7 +5,7 @@ import Boolean.given
 
 assert ((true ^ true) >< false)
 
-val r = BooleanAlgebra("x", "y")
+val r = BooleanAlgebra(0)("x", "y")
 val List(x, y) = r.generators
 import r.given
 

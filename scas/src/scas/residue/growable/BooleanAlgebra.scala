@@ -1,5 +1,7 @@
 package scas.residue.growable
 
+import scala.reflect.ClassTag
+import scas.math.Numeric
 import scas.polynomial.growable.PolynomialWithGB
 import scas.power.growable.{ArrayPowerProduct, Lexicographic}
 import scas.variable.Variable
@@ -8,9 +10,9 @@ import BigInteger.given
 import BooleanAlgebra.Impl
 import scas.residue.BooleanAlgebra.Element
 
-open class BooleanAlgebra(using PolynomialWithGB[Element[Array[Int]], Boolean, Array[Int]]) extends Impl[Array[Int]] {
-  def this(pp: ArrayPowerProduct[Int]) = this(using new scas.polynomial.tree.growable.PolynomialWithGB(using Boolean, pp))
-  def this(variables: Variable*) = this(new Lexicographic[Int](variables*))
+open class BooleanAlgebra[N : {Numeric, ClassTag}](using PolynomialWithGB[Element[Array[N]], Boolean, Array[N]]) extends Impl[Array[N]] {
+  def this(pp: ArrayPowerProduct[N]) = this(using summon, summon, new scas.polynomial.tree.growable.PolynomialWithGB(using Boolean, pp))
+  def this(variables: Variable*) = this(new Lexicographic[N](variables*))
 }
 
 object BooleanAlgebra {
