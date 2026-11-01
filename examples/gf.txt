@@ -2,7 +2,7 @@ import scas.residue.AlgebraicNumber
 import scas.base.BigInteger
 import BigInteger.given
 
-val r = AlgebraicNumber.galoisField("2")("alpha")
+val r = AlgebraicNumber.galoisField(0)("2")("alpha")
 val List(alpha) = r.generators
 import r.given
 r.update(1+alpha+alpha\2)

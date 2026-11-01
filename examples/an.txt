@@ -4,7 +4,7 @@ import scas.variable.Variable
 import BigInteger.given
 import Rational.given
 
-val r = AlgebraicNumber.growable(Rational)(Variable.sqrt(BigInteger("2")))
+val r = AlgebraicNumber.growable(0)(Rational)(Variable.sqrt(BigInteger("2")))
 import r.{sqrt, given}
 r.update(2-sqrt(2)\2)
 

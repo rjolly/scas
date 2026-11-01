@@ -14,14 +14,14 @@ import BooleanAlgebra.{Impl, Element}
 
 abstract class BooleanAlgebra[N : {Numeric, ClassTag}](using PolynomialWithGB[Element[Array[N]], Boolean, Array[N]]) extends Impl[Array[N]] with Ring.Conv[Element[Array[N]]] with BooleanRing.Conv[Element[Array[N]]] {
   def this(pp: PowerProduct[Array[N]]) = this(using summon, summon, new scas.polynomial.tree.mutable.PolynomialWithGB(using Boolean, pp))
-  def this(variables: Variable*) = this(new Lexicographic[N](variables*))
+  def this(degree: N)(variables: Variable*) = this(new Lexicographic[N](variables*))
   def instance: BooleanAlgebra[N]
 }
 
 object BooleanAlgebra {
   def apply[N : {Numeric, ClassTag}](ring: PolynomialWithGB[Element[Array[N]], Boolean, Array[N]]) = new Conv2(ring)
   def apply[N : {Numeric, ClassTag}](pp: PowerProduct[Array[N]]) = new Conv1(pp)
-  def apply[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(s: S*) = new Conv[N](s.map(~_)*)
+  def apply[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(s: S*) = new Conv(degree)(s.map(~_)*)
   inline def degreeReverse[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(s: S*) = this(DegreeReverseLexicographic.inlined(degree)(s*))
   def binary = scas.residue.binary.BooleanAlgebra
 
@@ -45,7 +45,7 @@ object BooleanAlgebra {
     given instance: BooleanAlgebra[N] = this
   }
 
-  class Conv[N : {Numeric, ClassTag}](variables: Variable*) extends BooleanAlgebra(variables*) {
+  class Conv[N : {Numeric, ClassTag}](degree: N)(variables: Variable*) extends BooleanAlgebra(degree)(variables*) {
     given instance: BooleanAlgebra[N] = this
   }
 

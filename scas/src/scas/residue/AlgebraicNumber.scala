@@ -1,6 +1,8 @@
 package scas.residue
 
 import scala.compiletime.deferred
+import scala.reflect.ClassTag
+import scas.math.Numeric
 import scas.polynomial.TreePolynomial.Element
 import scas.polynomial.ufd.PolynomialWithModInverse
 import scas.polynomial.tree.PolynomialOverFieldWithGB
@@ -10,14 +12,14 @@ import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
 import AlgebraicNumber.Impl
 
-abstract class AlgebraicNumber[C](using PolynomialWithModInverse[Element[C, Array[Int]], C, Array[Int]]) extends Impl[Element[C, Array[Int]], C, Array[Int]] with Field.Conv[Element[C, Array[Int]]] {
-  def this(ring: Field[C])(pp: ArrayPowerProduct[Int]) = this(using new PolynomialOverFieldWithGB(using ring, pp))
-  def this(ring: Field[C])(variables: Variable*) = this(ring)(new DegreeReverseLexicographic[Int](variables*))
-  def instance: AlgebraicNumber[C]
+abstract class AlgebraicNumber[C, N : {Numeric, ClassTag}](using PolynomialWithModInverse[Element[C, Array[N]], C, Array[N]]) extends Impl[Element[C, Array[N]], C, Array[N]] with Field.Conv[Element[C, Array[N]]] {
+  def this(ring: Field[C])(pp: ArrayPowerProduct[N]) = this(using summon, summon, new PolynomialOverFieldWithGB(using ring, pp))
+  def this(degree: N)(ring: Field[C])(variables: Variable*) = this(ring)(new DegreeReverseLexicographic[N](variables*))
+  def instance: AlgebraicNumber[C, N]
 }
 
 object AlgebraicNumber {
-  def apply[C](ring: PolynomialWithModInverse[Element[C, Array[Int]], C, Array[Int]])(s: Element[C, Array[Int]]*) = new Conv(using ring)(s*)
+  def apply[C, N : {Numeric, ClassTag}](ring: PolynomialWithModInverse[Element[C, Array[N]], C, Array[N]])(s: Element[C, Array[N]]*) = new Conv(using ring)(s*)
   def galoisField = GaloisField
   def growable = scas.residue.growable.AlgebraicNumber
 
@@ -37,8 +39,8 @@ object AlgebraicNumber {
     }
   }
 
-  class Conv[C](using PolynomialWithModInverse[Element[C, Array[Int]], C, Array[Int]])(s: Element[C, Array[Int]]*) extends AlgebraicNumber[C] {
-    given instance: AlgebraicNumber[C] = this
+  class Conv[C, N : {Numeric, ClassTag}](using PolynomialWithModInverse[Element[C, Array[N]], C, Array[N]])(s: Element[C, Array[N]]*) extends AlgebraicNumber[C, N] {
+    given instance: AlgebraicNumber[C, N] = this
     update(s*)
   }
 }

@@ -1,13 +1,15 @@
 package scas.residue
 
+import scala.reflect.ClassTag
+import scas.math.Numeric
 import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
 import scas.base.ModInteger
 
-class GaloisField(str: String)(variables: Variable*) extends AlgebraicNumber(ModInteger(str))(variables*) {
-  given instance: AlgebraicNumber[Int] = this
+class GaloisField[N : {Numeric, ClassTag}](degree: N)(str: String)(variables: Variable*) extends AlgebraicNumber(degree)(ModInteger(str))(variables*) {
+  given instance: AlgebraicNumber[Int, N] = this
 }
 
 object GaloisField {
-  def apply[S : Conversion[Variable]](str: String)(s: S*) = new GaloisField(str)(s.map(~_)*)
+  def apply[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(str: String)(s: S*) = new GaloisField(degree)(str)(s.map(~_)*)
 }
