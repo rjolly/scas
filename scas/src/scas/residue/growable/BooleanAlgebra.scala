@@ -12,7 +12,7 @@ import scas.residue.BooleanAlgebra.Element
 
 open class BooleanAlgebra[N : {Numeric, ClassTag}](using PolynomialWithGB[Element[Array[N]], Boolean, Array[N]]) extends Impl[Array[N]] {
   def this(pp: ArrayPowerProduct[N]) = this(using summon, summon, new scas.polynomial.tree.growable.PolynomialWithGB(using Boolean, pp))
-  def this(variables: Variable*) = this(new Lexicographic[N](variables*))
+  def this(degree: N)(variables: Variable*) = this(new Lexicographic[N](variables*))
 }
 
 object BooleanAlgebra {

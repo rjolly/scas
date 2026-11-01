@@ -10,7 +10,7 @@ import Complex.Impl
 
 type Complex = Element[Rational, Array[Int]]
 
-object Complex extends AlgebraicNumber(Rational)(Variable.sqrt(BigInteger("-1"))) with Impl {
+object Complex extends AlgebraicNumber(0)(Rational)(Variable.sqrt(BigInteger("-1"))) with Impl {
   given instance: Complex.type = this
   trait Impl extends AlgebraicNumber.Impl[Complex, Rational, Array[Int]] with StarUFD[Complex] {
     def real(x: Complex) = x.coefficient(one)
