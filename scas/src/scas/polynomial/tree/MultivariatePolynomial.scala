@@ -9,7 +9,7 @@ import TreePolynomial.Element
 import MultivariatePolynomial.Impl
 
 abstract class MultivariatePolynomial[C](using UniqueFactorizationDomain[C], ArrayPowerProduct[Int]) extends Impl[C, Int] with UniqueFactorizationDomain.Conv[Element[C, Array[Int]]] {
-  def this(ring: UniqueFactorizationDomain[C])(variables: Variable*) = this(using ring, new Lexicographic[Int](variables*))
+  def this(ring: UniqueFactorizationDomain[C])(variables: Variable*) = this(using ring, new Lexicographic(0)(variables*))
   given instance: MultivariatePolynomial[C] = this
 }
 

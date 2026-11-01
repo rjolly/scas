@@ -6,7 +6,7 @@ import scas.math.Numeric
 import scas.variable.Variable
 import scas.util.{Conversion, unary_~}
 
-class DegreeReverseLexicographic[N : {Numeric, ClassTag}](val variables: Variable*) extends ArrayPowerProduct[N] {
+class DegreeReverseLexicographic[N : {Numeric, ClassTag}](degree: N)(val variables: Variable*) extends ArrayPowerProduct[N] {
   def compare(x: Array[N], n: Int, y: Array[N], m: Int) = {
     if x.deg(n) < y.deg(m) then return -1
     if x.deg(n) > y.deg(m) then return 1
@@ -25,7 +25,7 @@ class DegreeReverseLexicographic[N : {Numeric, ClassTag}](val variables: Variabl
 }
 
 object DegreeReverseLexicographic {
-  @nowarn("msg=New anonymous class definition will be duplicated at each inline site") inline def inlined[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(variables: S*): DegreeReverseLexicographic[N] = new DegreeReverseLexicographic[N](variables.map(~_)*) {
+  @nowarn("msg=New anonymous class definition will be duplicated at each inline site") inline def inlined[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(variables: S*): DegreeReverseLexicographic[N] = new DegreeReverseLexicographic(degree)(variables.map(~_)*) {
     override def compare(x: Array[N], n: Int, y: Array[N], m: Int) = {
       if x.deg(n) < y.deg(m) then return -1
       if x.deg(n) > y.deg(m) then return 1

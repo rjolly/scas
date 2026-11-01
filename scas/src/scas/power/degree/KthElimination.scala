@@ -6,10 +6,10 @@ import scas.math.Numeric
 import scas.variable.Variable
 import scas.util.{Conversion, unary_~}
 
-class KthElimination[N : {Numeric, ClassTag}](k: Int)(val variables: Variable*) extends ArrayPowerProduct[N] with scas.power.KthElimination.Impl[N](k)
+class KthElimination[N : {Numeric, ClassTag}](degree: N)(k: Int)(val variables: Variable*) extends ArrayPowerProduct[N] with scas.power.KthElimination.Impl[N](k)
 
 object KthElimination {
-  @nowarn("msg=New anonymous class definition will be duplicated at each inline site") inline def inlined[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(k: Int)(variables: S*): KthElimination[N] = new KthElimination[N](k)(variables.map(~_)*) {
+  @nowarn("msg=New anonymous class definition will be duplicated at each inline site") inline def inlined[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(k: Int)(variables: S*): KthElimination[N] = new KthElimination(degree)(k)(variables.map(~_)*) {
     override def compare(x: Array[N], y: Array[N]) = {
       var i = nbvars
       while i > k do {

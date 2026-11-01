@@ -4,10 +4,10 @@ import scala.reflect.ClassTag
 import scas.math.Numeric
 import scas.variable.Variable
 
-class DegreeLexicographic[N : {Numeric, ClassTag}](val variables: Variable*) extends DegreeLexicographic.Impl[N]
+class DegreeLexicographic[N : {Numeric, ClassTag}](degree: N)(val variables: Variable*) extends DegreeLexicographic.Impl[N]
 
 object DegreeLexicographic {
-  trait Impl[N : {Numeric, ClassTag}] extends ArrayPowerProduct[N] {
+  trait Impl[N : Numeric] extends ArrayPowerProduct[N] {
     def compare(x: Array[N], y: Array[N]) = {
       if x.deg < y.deg then return -1
       if x.deg > y.deg then return 1

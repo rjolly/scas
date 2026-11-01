@@ -14,7 +14,7 @@ import BooleanAlgebra.{Impl, Element}
 
 abstract class BooleanAlgebra[N : {Numeric, ClassTag}](using PolynomialWithGB[Element[Array[N]], Boolean, Array[N]]) extends Impl[Array[N]] with Ring.Conv[Element[Array[N]]] with BooleanRing.Conv[Element[Array[N]]] {
   def this(pp: PowerProduct[Array[N]]) = this(using summon, summon, new scas.polynomial.tree.mutable.PolynomialWithGB(using Boolean, pp))
-  def this(degree: N)(variables: Variable*) = this(new Lexicographic[N](variables*))
+  def this(degree: N)(variables: Variable*) = this(new Lexicographic(degree)(variables*))
   def instance: BooleanAlgebra[N]
 }
 

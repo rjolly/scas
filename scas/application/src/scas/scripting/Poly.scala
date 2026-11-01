@@ -10,5 +10,5 @@ import BigInteger.given
 type Poly = Element[BigInteger, Array[Int]]
 
 object Poly {
-  def apply(variables: Variable*) = new PolynomialWithGBGCD(using BigInteger, new Lexicographic[Int](variables*))
+  def apply(variables: Variable*) = new PolynomialWithGBGCD(using BigInteger, new Lexicographic(0)(variables*))
 }
