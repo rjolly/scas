@@ -49,7 +49,6 @@ class PolynomialWithSignature[T, C, M](dimension: Int)(using factory: Polynomial
       (p.map(f), e)
     }
   }
-  override def gb(tail: Boolean)(xs: Element[T, M]*) = gb(false, tail)(xs*)
   def gb(fussy: Boolean, tail: Boolean)(xs: Element[T, M]*) = new SignatureEngine(fussy, tail)(this).gb(xs*)
   @targetName("signatureGB") def gb(fussy: Boolean, tail: Boolean)(xs: T*): List[T] = gb(fussy, tail)(xs.zipWithIndex.map((x, n) => this(x, n))*).map(_.underlying)
 }
