@@ -4,8 +4,7 @@ import scala.annotation.targetName
 import scala.compiletime.deferred
 import scas.polynomial.gb.SugarEngine
 import scas.structure.Ring
-import scas.base.BigInteger
-import BigInteger.{max, given}
+import scas.base.BigInteger, BigInteger.{max, given}
 import PolynomialWithSugar.Element
 
 trait PolynomialWithSugar[T, C, M] extends Polynomial[Element[T], C, M] {
