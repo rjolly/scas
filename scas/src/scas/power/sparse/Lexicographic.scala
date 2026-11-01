@@ -5,7 +5,7 @@ import scas.math.Numeric
 import scas.variable.Variable
 import scas.util.{Conversion, unary_~}
 
-class Lexicographic[N : {Numeric, ClassTag}](val variables: Variable*) extends PowerProduct[N] {
+class Lexicographic[N : {Numeric, ClassTag}](degree: N)(val variables: Variable*) extends PowerProduct[N] {
   def compare(x: Array[N], y: Array[N]) = {
     var i = x.size
     var j = y.size
@@ -24,6 +24,6 @@ class Lexicographic[N : {Numeric, ClassTag}](val variables: Variable*) extends P
 }
 
 object Lexicographic {
-  def apply[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(variables: S*) = new Lexicographic[N](variables.map(~_)*)
+  def apply[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(variables: S*) = new Lexicographic(degree)(variables.map(~_)*)
   def degreeReverse = scas.power.sparse.degree.DegreeReverseLexicographic
 }

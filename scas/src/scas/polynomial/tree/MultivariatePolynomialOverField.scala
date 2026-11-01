@@ -7,7 +7,7 @@ import scas.polynomial.TreePolynomial.Element
 import MultivariatePolynomialOverField.Impl
 
 class MultivariatePolynomialOverField[C](using Field[C], ArrayPowerProduct[Int]) extends Impl[C, Int] with UniqueFactorizationDomain.Conv[Element[C, Array[Int]]] {
-  def this(ring: Field[C])(variables: Variable*) = this(using ring, new Lexicographic(variables*))
+  def this(ring: Field[C])(variables: Variable*) = this(using ring, new Lexicographic(0)(variables*))
   def newInstance = [C] => (ring, pp) => new PolynomialWithSubresGCD(ring)(pp.variables*)
   given instance: MultivariatePolynomialOverField[C] = this
 }

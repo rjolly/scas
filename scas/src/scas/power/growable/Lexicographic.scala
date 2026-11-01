@@ -5,8 +5,8 @@ import scas.math.Numeric
 import scas.variable.Variable
 import scas.util.{Conversion, unary_~}
 
-class Lexicographic[N : {Numeric, ClassTag}](variables: Variable*) extends ArrayPowerProduct[N](variables*) with scas.power.Lexicographic.Impl[N]
+class Lexicographic[N : {Numeric, ClassTag}](degree: N)(variables: Variable*) extends ArrayPowerProduct(degree)(variables*) with scas.power.Lexicographic.Impl[N]
 
 object Lexicographic {
-  def apply[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(variables: S*) = new Lexicographic[N](variables.map(~_)*)
+  def apply[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(variables: S*) = new Lexicographic(degree)(variables.map(~_)*)
 }

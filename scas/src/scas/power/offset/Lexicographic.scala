@@ -6,7 +6,7 @@ import scas.math.Numeric
 import scas.variable.Variable
 import scas.util.{Conversion, unary_~}
 
-class Lexicographic[N : {Numeric, ClassTag}](val variables: Variable*) extends ArrayPowerProduct[N] {
+class Lexicographic[N : {Numeric, ClassTag}](degree: N)(val variables: Variable*) extends ArrayPowerProduct[N] {
   def compare(x: Array[N], n: Int, y: Array[N], m: Int) = {
     val k = n * length
     val l = m * length
@@ -24,7 +24,7 @@ class Lexicographic[N : {Numeric, ClassTag}](val variables: Variable*) extends A
 
 object Lexicographic {
   def degreeReverse = scas.power.offset.degree.DegreeReverseLexicographic
-  @nowarn("msg=New anonymous class definition will be duplicated at each inline site") inline def inlined[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(variables: S*): Lexicographic[N] = new Lexicographic[N](variables.map(~_)*) {
+  @nowarn("msg=New anonymous class definition will be duplicated at each inline site") inline def inlined[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(variables: S*): Lexicographic[N] = new Lexicographic(degree)(variables.map(~_)*) {
     override def compare(x: Array[N], n: Int, y: Array[N], m: Int) = {
       val k = n * length
       val l = m * length

@@ -3,7 +3,7 @@ package scas.power
 import scas.variable.Variable
 
 class ModifiedPOT[M : PowerProduct](using ArrayPowerProduct[Int]) extends POT[M] {
-  def this(factory: PowerProduct[M])(variables: Variable*) = this(using factory, new Lexicographic[Int](variables*))
+  def this(factory: PowerProduct[M])(variables: Variable*) = this(using factory, new Lexicographic(0)(variables*))
   def this(factory: PowerProduct[M])(name: String, dimension: Int) = this(factory)((for i <- 0 until dimension yield Variable(name, 0, i))*)
   override def compare(x: (M, Array[Int]), y: (M, Array[Int])) = {
     val (a, b) = x
