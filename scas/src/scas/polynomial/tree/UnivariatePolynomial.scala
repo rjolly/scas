@@ -1,5 +1,7 @@
 package scas.polynomial.tree
 
+import scala.reflect.ClassTag
+import scas.math.Numeric
 import scas.power.{PowerProduct, Lexicographic}
 import scas.structure.commutative.{UniqueFactorizationDomain, Field}
 import scas.variable.Variable
@@ -7,11 +9,11 @@ import scas.util.{Conversion, unary_~}
 import scas.polynomial.TreePolynomial
 import TreePolynomial.Element
 
-class UnivariatePolynomial[C](using Field[C])(variable: Variable) extends TreePolynomial[C, Array[Int]] with scas.polynomial.ufd.UnivariatePolynomial[Element[C, Array[Int]], C, Array[Int]] with UniqueFactorizationDomain.Conv[Element[C, Array[Int]]] {
-  override given pp: PowerProduct[Array[Int]] = Lexicographic.inlined(0)(variable)
-  given instance: UnivariatePolynomial[C] = this
+class UnivariatePolynomial[C, N : {Numeric, ClassTag}](degree: N)(using Field[C])(variable: Variable) extends TreePolynomial[C, Array[N]] with scas.polynomial.ufd.UnivariatePolynomial[Element[C, Array[N]], C, Array[N]] with UniqueFactorizationDomain.Conv[Element[C, Array[N]]] {
+  override given pp: PowerProduct[Array[N]] = Lexicographic.inlined(degree)(variable)
+  given instance: UnivariatePolynomial[C, N] = this
 }
 
 object UnivariatePolynomial {
-  def apply[C, S : Conversion[Variable]](ring: Field[C])(s: S) = new UnivariatePolynomial(using ring)(~s)
+  def apply[C, N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(ring: Field[C])(s: S) = new UnivariatePolynomial(degree)(using ring)(~s)
 }
