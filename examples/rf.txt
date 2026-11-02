@@ -3,7 +3,7 @@ import scas.quotient.RationalFunction
 import BigInteger.given
 import Rational.given
 
-val q = RationalFunction(Rational)("x")
+val q = RationalFunction(0)(Rational)("x")
 val List(x) = q.generators
 import q.given
 

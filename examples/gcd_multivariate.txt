@@ -2,7 +2,7 @@ import scas.base.BigInteger
 import scas.polynomial.tree.MultivariatePolynomial
 import BigInteger.given
 
-val r = MultivariatePolynomial.withSubresGCD(BigInteger)("x", "y", "z")
+val r = MultivariatePolynomial.withSubresGCD(0)(BigInteger)("x", "y", "z")
 val List(x, y, z) = r.generators
 import r.{gcd, given}
 

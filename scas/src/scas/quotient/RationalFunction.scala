@@ -1,5 +1,7 @@
 package scas.quotient
 
+import scala.reflect.ClassTag
+import scas.math.Numeric
 import scas.structure.commutative.Field
 import scas.structure.commutative.Quotient.{Element as Quotient_Element}
 import scas.polynomial.tree.PolynomialWithSubresGCD
@@ -9,14 +11,14 @@ import scas.variable.Variable
 import scas.base.BigInteger
 import RationalFunction.{Impl, Element}
 
-class RationalFunction(using PolynomialOverUFD[Element[Array[Int]], BigInteger, Array[Int]]) extends Impl[Array[Int]] with Field.Conv[Quotient_Element[Element[Array[Int]]]] {
-  def this(variables: Variable*) = this(using new PolynomialWithSubresGCD(BigInteger)(variables*))
-  given instance: RationalFunction = this
+class RationalFunction[N : {Numeric, ClassTag}](using PolynomialOverUFD[Element[Array[N]], BigInteger, Array[N]]) extends Impl[Array[N]] with Field.Conv[Quotient_Element[Element[Array[N]]]] {
+  def this(degree: N)(variables: Variable*) = this(using summon, summon, new PolynomialWithSubresGCD(degree)(BigInteger)(variables*))
+  given instance: RationalFunction[N] = this
 }
 
 object RationalFunction {
-  def apply[C, S : Conversion[Variable]](ring: Field[C])(s: S*) = new RationalFunctionOverField(ring)(s.map(~_)*)
-  def integral[S : Conversion[Variable]](s: S*) = new RationalFunction(s.map(~_)*)
+  def apply[C, N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(ring: Field[C])(s: S*) = new RationalFunctionOverField(degree)(ring)(s.map(~_)*)
+  def integral[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(s: S*) = new RationalFunction(degree)(s.map(~_)*)
 
   trait Impl[M] extends QuotientOverInteger[Element[M], M] {
     extension[U: Conversion[BigInteger]] (a: U) {
