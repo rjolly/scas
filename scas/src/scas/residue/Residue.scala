@@ -3,9 +3,14 @@ package scas.residue
 import scala.annotation.targetName
 import scala.compiletime.deferred
 import scala.reflect.ClassTag
-import scas.util.Conversion
+import scas.math.Numeric
+import scas.power.Lexicographic
+import scas.power.degree.DegreeReverseLexicographic
+import scas.structure.commutative.UniqueFactorizationDomain
+import scas.util.{Conversion, unary_~}
 import scas.polynomial.Polynomial
 import scas.module.ArrayModule
+import scas.variable.Variable
 import scas.prettyprint.Show.given
 
 trait Residue[T : ClassTag, C, M] extends scas.structure.Residue[T, T] {
@@ -41,4 +46,10 @@ trait Residue[T : ClassTag, C, M] extends scas.structure.Residue[T, T] {
     given ArrayModule[T] = ArrayModule(this)(mods.size)
     assert (s.toArray >< mods.toArray)
   }
+}
+
+object Residue {
+  def apply[C, N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(ring: UniqueFactorizationDomain[C])(s: S*) = new ResidueOverUFD(degree)(ring)(s.map(~_)*)
+  inline def inlined[C, N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(ring: UniqueFactorizationDomain[C])(s: S*) = new ResidueOverUFD(ring)(Lexicographic.inlined(degree)(s*))
+  inline def degreeReverse[C, N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(ring: UniqueFactorizationDomain[C])(s: S*) = new ResidueOverUFD(ring)(DegreeReverseLexicographic.inlined(degree)(s*))
 }
