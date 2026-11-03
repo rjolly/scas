@@ -1,6 +1,6 @@
 package scas.residue.binary
 
-import scas.structure.{BooleanRing, Ring}
+import scas.structure.BooleanRing
 import scas.polynomial.binary.Polynomial
 import scas.power.compact.binary.{PowerProduct, Lexicographic}
 import scas.power.compact.degree.DegreeReverseLexicographic
@@ -10,7 +10,7 @@ import scas.base.Boolean
 import BooleanAlgebra.Impl
 import scas.residue.BooleanAlgebra.Element
 
-abstract class BooleanAlgebra(using Polynomial[Element[Array[Int]], Boolean]) extends Impl with Ring.Conv[Element[Array[Int]]] with BooleanRing.Conv[Element[Array[Int]]] {
+abstract class BooleanAlgebra(using Polynomial[Element[Array[Int]], Boolean]) extends Impl with BooleanRing.Conv[Element[Array[Int]]] {
   def this(pp: PowerProduct) = this(using new scas.polynomial.tree.binary.mutable.Polynomial(using Boolean, pp))
   def this(variables: Variable*) = this(new Lexicographic(variables*))
   def instance: BooleanAlgebra
