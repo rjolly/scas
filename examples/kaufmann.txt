@@ -1,9 +1,8 @@
 // See https://danielakaufmann.at/talk/2026_albatross/slides.pdf
 
 import scala.collection.mutable.{ArrayBuffer, Queue}
-import scas.polynomial.tree.mutable.PolynomialWithGB
+import scas.residue.Residue
 import scas.polynomial.TreePolynomial
-import scas.power.Lexicographic
 import scas.variable.Variable
 import scas.prettyprint.Show.given
 import scas.base.BigInteger, BigInteger.self.given
@@ -14,11 +13,11 @@ type Element = TreePolynomial.Element[BigInteger, Array[Int]]
 val c = Array.ofDim[Element](m, m + n)
 val s = Array.ofDim[Element](m, m + n)
 
-val r = PolynomialWithGB(using BigInteger, Lexicographic.inlined(0)((for i <- 0 until n yield Variable("a", 0, i))
+val r = Residue.inlined(0)(BigInteger)((for i <- 0 until n yield Variable("a", 0, i))
 ++(for j <- 0 until m yield Variable("b", 0, j))
 ++((for j <- 0 until m; i <- 0 to n yield if j > 0 && i > 0 then {
   Array(Variable("c", 0, j, j + i), Variable("s", 0, j, j + i))
-} else Array(Variable("s", 0, j, j + i))).flatten)*))
+} else Array(Variable("s", 0, j, j + i))).flatten)*)
 val q = Queue.from(r.generators)
 val a = for i <- 0 until n yield q.dequeue()
 val b = for j <- 0 until m yield q.dequeue()
@@ -27,9 +26,10 @@ for j <- 0 until m ; i <- 0 to n do {
   s(j)(j + i) = q.dequeue()
 }
 import r.given
+import r.ring.pp
 val eqs = ArrayBuffer.empty[Element]
-for i <- 0 until n do eqs += a(i) - a(i)\2
-for j <- 0 until m do eqs += b(j) - b(j)\2
+r.update((for i <- 0 until n yield a(i) - a(i)\2)
+++(for j <- 0 until m yield b(j) - b(j)\2)*)
 for j <- 0 until m do {
   for i <- 0 to n do {
     val aji = if j > 0 && i < n then s(j - 1)(j + i) else r.zero
