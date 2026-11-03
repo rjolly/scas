@@ -3,7 +3,7 @@ package scas.residue
 import scala.reflect.ClassTag
 import scas.math.Numeric
 import scas.structure.{BooleanRing, Ring}
-import scas.polynomial.PolynomialWithGB
+import scas.polynomial.Polynomial
 import scas.power.{PowerProduct, Lexicographic}
 import scas.power.degree.DegreeReverseLexicographic
 import scas.variable.Variable
@@ -12,14 +12,14 @@ import scas.base.{BigInteger, Boolean}
 import BigInteger.given
 import BooleanAlgebra.{Impl, Element}
 
-abstract class BooleanAlgebra[N : {Numeric, ClassTag}](using PolynomialWithGB[Element[Array[N]], Boolean, Array[N]]) extends Impl[Array[N]] with Ring.Conv[Element[Array[N]]] with BooleanRing.Conv[Element[Array[N]]] {
-  def this(pp: PowerProduct[Array[N]]) = this(using summon, summon, new scas.polynomial.tree.mutable.PolynomialWithGB(using Boolean, pp))
+abstract class BooleanAlgebra[N : {Numeric, ClassTag}](using Polynomial[Element[Array[N]], Boolean, Array[N]]) extends Impl[Array[N]] with Ring.Conv[Element[Array[N]]] with BooleanRing.Conv[Element[Array[N]]] {
+  def this(pp: PowerProduct[Array[N]]) = this(using summon, summon, new scas.polynomial.tree.mutable.Polynomial(using Boolean, pp))
   def this(degree: N)(variables: Variable*) = this(new Lexicographic(degree)(variables*))
   def instance: BooleanAlgebra[N]
 }
 
 object BooleanAlgebra {
-  def apply[N : {Numeric, ClassTag}](ring: PolynomialWithGB[Element[Array[N]], Boolean, Array[N]]) = new Conv2(ring)
+  def apply[N : {Numeric, ClassTag}](ring: Polynomial[Element[Array[N]], Boolean, Array[N]]) = new Conv2(ring)
   def apply[N : {Numeric, ClassTag}](pp: PowerProduct[Array[N]]) = new Conv1(pp)
   def apply[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(s: S*) = new Conv(degree)(s.map(~_)*)
   inline def degreeReverse[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(s: S*) = this(DegreeReverseLexicographic.inlined(degree)(s*))
@@ -37,7 +37,7 @@ object BooleanAlgebra {
     }
   }
 
-  class Conv2[N : {Numeric, ClassTag}](ring: PolynomialWithGB[Element[Array[N]], Boolean, Array[N]]) extends BooleanAlgebra(using summon, summon, ring) {
+  class Conv2[N : {Numeric, ClassTag}](ring: Polynomial[Element[Array[N]], Boolean, Array[N]]) extends BooleanAlgebra(using summon, summon, ring) {
     given instance: BooleanAlgebra[N] = this
   }
 

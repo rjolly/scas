@@ -2,7 +2,7 @@ package scas.polynomial.binary.mutable
 
 import Polynomial.{WithSugar, WithSignature}
 
-trait Polynomial[T, C] extends scas.polynomial.binary.Polynomial[T, C] with scas.polynomial.mutable.PolynomialWithGB[T, C, Array[Int]] {
+trait Polynomial[T, C] extends scas.polynomial.binary.Polynomial[T, C] with scas.polynomial.mutable.Polynomial[T, C, Array[Int]] {
   override def sugar = new WithSugar(using this)
   override def signature(dimension: Int) = new WithSignature(dimension)(using this)
 }

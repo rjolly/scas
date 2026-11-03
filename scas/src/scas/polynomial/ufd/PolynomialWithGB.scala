@@ -6,7 +6,7 @@ import scas.module.Array
 import scas.base.BigInteger
 import BigInteger.given
 
-trait PolynomialWithGB[T[C, M], C, M](using ClassTag[T[C, M]]) extends PolynomialOverUFD[T[C, M], C, M] with scas.polynomial.PolynomialWithGB[T[C, M], C, M] {
+trait PolynomialWithGB[T[C, M], C, M](using ClassTag[T[C, M]]) extends PolynomialOverUFD[T[C, M], C, M] {
   given module: Module[T, C, M] = new Module(using this)("c", 3)
   def embedding(name: String, dimension: Int) = newInstance(new ModifiedPOT(pp)(name, dimension))
   def newInstance: [M] => (PowerProduct[M]) => PolynomialWithGB[T, C, M]

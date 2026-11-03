@@ -9,7 +9,7 @@ import PolynomialWithSignature.Element
 trait PolynomialWithSignature[T, C] extends scas.polynomial.PolynomialWithSignature[T, C, Array[Int]] with BinaryPolynomial[Element[T], C] {
   given factory: Polynomial[T, C] = deferred
   override given pp: PowerProduct = factory.pp
-  override def gb(fussy: Boolean, tail: Boolean)(xs: Element[T]*) = new SignatureEngine(fussy, tail)(using pp.relaxed, this).gb(xs*)
+  extension (xs: List[Element[T]]) override def gb(fussy: Boolean, tail: Boolean) = new SignatureEngine(fussy, tail)(using pp.relaxed, this).gb(xs*)
 }
 
 object PolynomialWithSignature {

@@ -1,11 +1,11 @@
-import scas.polynomial.tree.mutable.PolynomialWithGBGCD
+import scas.polynomial.tree.mutable.PolynomialWithGB
 import scas.power.Lexicographic
 import scas.variable.Variable
 import scas.base.BigInteger
 import BigInteger.given
 
 val n = 4
-val r = PolynomialWithGBGCD(using BigInteger, Lexicographic.degreeReverse.inlined(0)((for i <- 0 until n yield Variable("x", 0, i))*))
+val r = PolynomialWithGB(using BigInteger, Lexicographic.degreeReverse.inlined(0)((for i <- 0 until n yield Variable("x", 0, i))*))
 val x = r.generators
 import r.given
 val a = (for i <- 0 until n yield {
@@ -16,6 +16,6 @@ val a = (for i <- 0 until n yield {
   }
 }).toList
 var t = System.currentTimeMillis();
-val b = r.gb(a*)
+val b = a.gb
 t = System.currentTimeMillis() - t;
 println("t: " + t)

@@ -4,7 +4,7 @@ import scala.compiletime.deferred
 import scas.polynomial.PolynomialWithSignature.Element
 
 trait PolynomialWithSignature[T, C, M] extends scas.polynomial.PolynomialWithSignature[T, C, M] with Polynomial[Element[T, M], C, M] {
-  given factory: PolynomialWithGB[T, C, M] = deferred
+  given factory: Polynomial[T, C, M] = deferred
   import module.{max, pp2pot}
   def unmodifiable(x: Element[T, M]) = {
     val (p, e) = x
