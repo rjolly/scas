@@ -6,8 +6,8 @@ import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
 import scas.base.ModInteger
 
-class GaloisField[N : {Numeric, ClassTag}](degree: N)(str: String)(variables: Variable*) extends AlgebraicNumber(degree)(ModInteger(str))(variables*) {
-  given instance: AlgebraicNumber[Int, N] = this
+class GaloisField[N : {Numeric, ClassTag}](degree: N)(str: String)(variables: Variable*) extends AlgebraicNumber.Conv(degree)(ModInteger(str))(variables*) {
+  given instance: GaloisField[N] = this
 }
 
 object GaloisField {
