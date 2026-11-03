@@ -11,7 +11,8 @@ class Module[T[C, M], C, M](using ring: PolynomialWithGB[T, C, M])(name: String,
   given s: Residue[T, C, Element[M]] = new Residue(using ring.embedding(name, dimension))
   s.update((for i <- 0 until dimension; j <- i until dimension yield s.generator(nbvars + i) * s.generator(nbvars + j))*)
   given pp: PowerProduct[Element[M]] = s.ring.pp
-  def gb(xs: Array[T[C, M]]*) = s.gb(xs.map(_.convertTo)*).map(_.convertFrom)
+  extension (xs: List[Array[T[C, M]]]) def gb = xs.map(_.convertTo).gb.map(_.convertFrom)
+  def gb(xs: Array[T[C, M]]*) = xs.toList.gb
   extension (x: Array[T[C, M]]) def convertTo: T[C, Element[M]] = {
     x.zipWithIndex.foldLeft(s.zero) { (l, r) =>
       val (p, n) = r

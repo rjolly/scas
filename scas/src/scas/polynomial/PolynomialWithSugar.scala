@@ -8,7 +8,7 @@ import scas.base.BigInteger, BigInteger.{max, given}
 import PolynomialWithSugar.Element
 
 trait PolynomialWithSugar[T, C, M] extends Polynomial[Element[T], C, M] {
-  given factory: PolynomialWithGB[T, C, M] = deferred
+  given factory: Polynomial[T, C, M] = deferred
   override given ring: Ring[C] = factory.ring
   def apply(s: (M, C)*) = this(factory(s*))
   def apply(p: T) = (p, p.degree)
@@ -47,8 +47,8 @@ trait PolynomialWithSugar[T, C, M] extends Polynomial[Element[T], C, M] {
       (p.map(f), e)
     }
   }
-  def gb(fussy: Boolean, tail: Boolean)(xs: Element[T]*) = new SugarEngine(fussy, tail)(this).gb(xs*)
-  @targetName("sugarGB") def gb(fussy: Boolean, tail: Boolean)(xs: T*): List[T] = gb(fussy, tail)(xs.map(this(_))*).map(_.underlying)
+  extension (xs: List[Element[T]]) def gb(fussy: Boolean, tail: Boolean) = new SugarEngine(fussy, tail)(this).gb(xs*)
+  extension (xs: List[T]) @targetName("sugarGB") def gb(fussy: Boolean, tail: Boolean): List[T] = xs.map(this(_)).gb(fussy, tail).map(_.underlying)
 }
 
 object PolynomialWithSugar {

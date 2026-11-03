@@ -2,7 +2,7 @@ package scas.residue.growable
 
 import scala.reflect.ClassTag
 import scas.math.Numeric
-import scas.polynomial.growable.PolynomialWithGB
+import scas.polynomial.growable.Polynomial
 import scas.power.growable.{ArrayPowerProduct, Lexicographic}
 import scas.variable.Variable
 import scas.base.{BigInteger, Boolean}
@@ -10,8 +10,8 @@ import BigInteger.given
 import BooleanAlgebra.Impl
 import scas.residue.BooleanAlgebra.Element
 
-open class BooleanAlgebra[N : {Numeric, ClassTag}](using PolynomialWithGB[Element[Array[N]], Boolean, Array[N]]) extends Impl[Array[N]] {
-  def this(pp: ArrayPowerProduct[N]) = this(using summon, summon, new scas.polynomial.tree.growable.PolynomialWithGB(using Boolean, pp))
+open class BooleanAlgebra[N : {Numeric, ClassTag}](using Polynomial[Element[Array[N]], Boolean, Array[N]]) extends Impl[Array[N]] {
+  def this(pp: ArrayPowerProduct[N]) = this(using summon, summon, new scas.polynomial.tree.growable.Polynomial(using Boolean, pp))
   def this(degree: N)(variables: Variable*) = this(new Lexicographic(degree)(variables*))
 }
 

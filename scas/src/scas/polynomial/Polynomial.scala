@@ -6,6 +6,8 @@ import scala.reflect.ClassTag
 import scas.structure.{Ring, AlgebraOverRing}
 import scas.module.ArrayModule
 import scas.power.PowerProduct
+import scas.polynomial.gb.GBEngine
+import Polynomial.{WithSugar, WithSignature}
 import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
 import scas.base.BigInteger
@@ -232,11 +234,18 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
   }
 
   extension (xs: List[T]) {
+    def gb: List[T] = xs.gb(false)
+    def gb(tail: Boolean) = new GBEngine(tail)(this).gb(xs*)
+    def suggb(fussy: Boolean, tail: Boolean) = sugar.gb(xs)(fussy, tail)
+    def siggb(fussy: Boolean, tail: Boolean) = signature(xs.size).gb(xs)(fussy, tail)
     def reduce(dummy: Boolean): List[T] = xs.reduce(xs*)
     def reduce(ys: T*): List[T] = xs.map { x =>
       normalize(x.reduce(false, true, ys*))
     }
   }
+  def gb(xs: T*) = xs.toList.gb
+  def sugar: PolynomialWithSugar[T, C, M] = new WithSugar(using this)
+  def signature(dimension: Int): PolynomialWithSignature[T, C, M] = new WithSignature(dimension)(using this)
 
   extension (c: C) def multiplyLeft(x: T) = x%* c
 
@@ -246,4 +255,13 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
   }
 
   given coef2poly: [D: Conversion[C]] => (D => T) = x => this(~x)
+}
+
+object Polynomial {
+  class WithSugar[T, C, M](using Polynomial[T, C, M]) extends PolynomialWithSugar[T, C, M] {
+    override given pp: PowerProduct[M] = factory.pp
+  }
+  class WithSignature[T, C, M](val dimension: Int)(using Polynomial[T, C, M]) extends PolynomialWithSignature[T, C, M] {
+    override given pp: PowerProduct[M] = factory.pp
+  }
 }

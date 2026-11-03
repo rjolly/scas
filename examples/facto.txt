@@ -45,7 +45,7 @@ for j <- 0 until m do {
 }
 
 var time = System.currentTimeMillis();
-val g = r.gb(true)(eqs.toSeq*).filter(_.head._1 < c(1)(2).head._1).reduce(false)
+val g = eqs.toList.gb(true).filter(_.head._1 < c(1)(2).head._1).reduce(false)
 time = System.currentTimeMillis() - time;
 println(g.show)
 println("time: " + time)

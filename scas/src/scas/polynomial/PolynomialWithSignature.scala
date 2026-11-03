@@ -9,7 +9,7 @@ import PolynomialWithSignature.Element
 
 trait PolynomialWithSignature[T, C, M] extends Polynomial[Element[T, M], C, M] {
   def dimension: Int
-  given factory: PolynomialWithGB[T, C, M] = deferred
+  given factory: Polynomial[T, C, M] = deferred
   override given ring: Ring[C] = factory.ring
   given module: POT[M] = new POT(pp)("e", dimension)
   import module.{max, pp2pot}
@@ -51,8 +51,8 @@ trait PolynomialWithSignature[T, C, M] extends Polynomial[Element[T, M], C, M] {
       (p.map(f), e)
     }
   }
-  def gb(fussy: Boolean, tail: Boolean)(xs: Element[T, M]*) = new SignatureEngine(fussy, tail)(this).gb(xs*)
-  @targetName("signatureGB") def gb(fussy: Boolean, tail: Boolean)(xs: T*): List[T] = gb(fussy, tail)(xs.zipWithIndex.map((x, n) => this(x, n))*).map(_.underlying)
+  extension (xs: List[Element[T, M]]) def gb(fussy: Boolean, tail: Boolean) = new SignatureEngine(fussy, tail)(this).gb(xs*)
+  extension (xs: List[T]) @targetName("signatureGB") def gb(fussy: Boolean, tail: Boolean): List[T] = xs.zipWithIndex.map((x, n) => this(x, n)).gb(fussy, tail).map(_.underlying)
 }
 
 object PolynomialWithSignature {
