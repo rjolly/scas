@@ -10,16 +10,14 @@ import scas.power.degree.{ArrayPowerProduct, DegreeReverseLexicographic}
 import scas.structure.commutative.Field
 import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
-import AlgebraicNumber.Impl
+import AlgebraicNumber.Conv
 
-abstract class AlgebraicNumber[C, N : {Numeric, ClassTag}](using PolynomialWithModInverse[Element[C, Array[N]], C, Array[N]]) extends Impl[Element[C, Array[N]], C, Array[N]] with Field.Conv[Element[C, Array[N]]] {
-  def this(ring: Field[C])(pp: ArrayPowerProduct[N]) = this(using summon, summon, new PolynomialOverFieldWithGB(using ring, pp))
-  def this(degree: N)(ring: Field[C])(variables: Variable*) = this(ring)(new DegreeReverseLexicographic(degree)(variables*))
-  def instance: AlgebraicNumber[C, N]
+class AlgebraicNumber[C, N : {Numeric, ClassTag}](using PolynomialWithModInverse[Element[C, Array[N]], C, Array[N]])(s: Element[C, Array[N]]*) extends Conv[C, N] {
+  given instance: AlgebraicNumber[C, N] = this
+  update(s*)
 }
 
 object AlgebraicNumber {
-  def apply[C, N : {Numeric, ClassTag}](ring: PolynomialWithModInverse[Element[C, Array[N]], C, Array[N]])(s: Element[C, Array[N]]*) = new Conv(using ring)(s*)
   def galoisField = GaloisField
   def growable = scas.residue.growable.AlgebraicNumber
 
@@ -39,8 +37,9 @@ object AlgebraicNumber {
     }
   }
 
-  class Conv[C, N : {Numeric, ClassTag}](using PolynomialWithModInverse[Element[C, Array[N]], C, Array[N]])(s: Element[C, Array[N]]*) extends AlgebraicNumber[C, N] {
-    given instance: AlgebraicNumber[C, N] = this
-    update(s*)
+  abstract class Conv[C, N : {Numeric, ClassTag}](using PolynomialWithModInverse[Element[C, Array[N]], C, Array[N]]) extends Impl[Element[C, Array[N]], C, Array[N]] with Field.Conv[Element[C, Array[N]]] {
+    def this(ring: Field[C])(pp: ArrayPowerProduct[N]) = this(using summon, summon, new PolynomialOverFieldWithGB(using ring, pp))
+    def this(degree: N)(ring: Field[C])(variables: Variable*) = this(ring)(new DegreeReverseLexicographic(degree)(variables*))
+    def instance: Conv[C, N]
   }
 }

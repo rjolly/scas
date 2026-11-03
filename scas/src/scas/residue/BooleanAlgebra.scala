@@ -10,19 +10,17 @@ import scas.variable.Variable
 import scas.util.{Conversion, unary_~}
 import scas.base.{BigInteger, Boolean}
 import BigInteger.given
-import BooleanAlgebra.{Impl, Element}
+import BooleanAlgebra.{Conv, Element}
 
-abstract class BooleanAlgebra[N : {Numeric, ClassTag}](using Polynomial[Element[Array[N]], Boolean, Array[N]]) extends Impl[Array[N]] with BooleanRing.Conv[Element[Array[N]]] {
+class BooleanAlgebra[N : {Numeric, ClassTag}](using Polynomial[Element[Array[N]], Boolean, Array[N]]) extends Conv[N] {
   def this(pp: PowerProduct[Array[N]]) = this(using summon, summon, new scas.polynomial.tree.mutable.Polynomial(using Boolean, pp))
   def this(degree: N)(variables: Variable*) = this(new Lexicographic(degree)(variables*))
-  def instance: BooleanAlgebra[N]
+  given instance: BooleanAlgebra[N] = this
 }
 
 object BooleanAlgebra {
-  def apply[N : {Numeric, ClassTag}](ring: Polynomial[Element[Array[N]], Boolean, Array[N]]) = new Conv2(ring)
-  def apply[N : {Numeric, ClassTag}](pp: PowerProduct[Array[N]]) = new Conv1(pp)
-  def apply[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(s: S*) = new Conv(degree)(s.map(~_)*)
-  inline def degreeReverse[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(s: S*) = this(DegreeReverseLexicographic.inlined(degree)(s*))
+  def apply[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(s: S*) = new BooleanAlgebra(degree)(s.map(~_)*)
+  inline def degreeReverse[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(s: S*) = new BooleanAlgebra(DegreeReverseLexicographic.inlined(degree)(s*))
   def binary = scas.residue.binary.BooleanAlgebra
 
   trait Impl[M] extends Residue[Element[M], Boolean, M] with BooleanRing[Element[M]] {
@@ -37,16 +35,8 @@ object BooleanAlgebra {
     }
   }
 
-  class Conv2[N : {Numeric, ClassTag}](ring: Polynomial[Element[Array[N]], Boolean, Array[N]]) extends BooleanAlgebra(using summon, summon, ring) {
-    given instance: BooleanAlgebra[N] = this
-  }
-
-  class Conv1[N : {Numeric, ClassTag}](pp: PowerProduct[Array[N]]) extends BooleanAlgebra(pp) {
-    given instance: BooleanAlgebra[N] = this
-  }
-
-  class Conv[N : {Numeric, ClassTag}](degree: N)(variables: Variable*) extends BooleanAlgebra(degree)(variables*) {
-    given instance: BooleanAlgebra[N] = this
+  abstract class Conv[N : {Numeric, ClassTag}](using Polynomial[Element[Array[N]], Boolean, Array[N]]) extends Impl[Array[N]] with BooleanRing.Conv[Element[Array[N]]] {
+    def instance: Conv[N]
   }
 
   type Element[M] = scas.polynomial.TreePolynomial.Element[Boolean, M]
