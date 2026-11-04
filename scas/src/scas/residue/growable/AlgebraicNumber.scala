@@ -12,9 +12,7 @@ import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
 import AlgebraicNumber.Conv
 
-class AlgebraicNumber[C, N : {Numeric, ClassTag}](using PolynomialWithModInverse[Element[C, Array[N]], C, Array[N]]) extends Conv[C, N] {
-  def this(ring: Field[C])(pp: ArrayPowerProduct[N]) = this(using summon, summon, new PolynomialOverFieldWithGB(using ring, pp))
-  def this(degree: N)(ring: Field[C])(variables: Variable*) = this(ring)(new DegreeReverseLexicographic(degree)(variables*))
+class AlgebraicNumber[C, N : {Numeric, ClassTag}](degree: N)(ring: Field[C])(variables: Variable*) extends Conv(degree)(ring)(variables*) {
   given instance: AlgebraicNumber[C, N] = this
 }
 
@@ -31,6 +29,8 @@ object AlgebraicNumber {
   }
 
   abstract class Conv[C, N : {Numeric, ClassTag}](using PolynomialWithModInverse[Element[C, Array[N]], C, Array[N]]) extends Impl[Element[C, Array[N]], C, Array[N]] with Field.Conv[Element[C, Array[N]]] {
+    def this(ring: Field[C])(pp: ArrayPowerProduct[N]) = this(using summon, summon, new PolynomialOverFieldWithGB(using ring, pp))
+    def this(degree: N)(ring: Field[C])(variables: Variable*) = this(ring)(new DegreeReverseLexicographic(degree)(variables*))
     def instance: Conv[C, N]
   }
 }
