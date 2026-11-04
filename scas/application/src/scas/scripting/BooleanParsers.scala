@@ -16,5 +16,5 @@ class BooleanParsers extends BooleanRingParsers[Boolean] {
       case (x, "<>" ~ y) => x <> y
     }
   }
-  override def impl: Parser[Boolean] = Int.comparison | FactorParsers.comparison | RationalParsers.comparison | ComplexParsers.comparison | DoubleParsers.comparison | RFParsers(false).comparison | BAParsers(false).comparison | comparison
+  override def impl: Parser[Boolean] = Int.comparison | FactorParsers.comparison | RationalParsers.comparison | CNParsers(false).comparison | DoubleParsers.comparison | RFParsers(false).comparison | BAParsers(false).comparison | comparison
 }

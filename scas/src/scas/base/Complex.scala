@@ -5,7 +5,7 @@ import scas.polynomial.TreePolynomial.Element
 import scas.residue.AlgebraicNumber
 import scas.variable.Variable
 import BigInteger.given
-import Rational.{ring as _, given}
+import Rational.given
 import Complex.Impl
 
 type Complex = Element[Rational, Array[Int]]
@@ -13,8 +13,8 @@ type Complex = Element[Rational, Array[Int]]
 object Complex extends AlgebraicNumber.Conv(0)(Rational)(Variable.sqrt(BigInteger("-1"))) with Impl {
   given instance: Complex.type = this
   trait Impl extends AlgebraicNumber.Impl[Complex, Rational, Array[Int]] with StarUFD[Complex] {
-    def real(x: Complex) = x.coefficient(one)
-    def imag(x: Complex) = x.coefficient(generator(0))
+    def real(x: Complex) = ring.remainder(x)(sqrt(-1))
+    def imag(x: Complex) = ring.divide(x)(sqrt(-1))
     override def conjugate(x: Complex) = real(x) - sqrt(-1) * imag(x)
     override def toString = "Complex"
     override def toMathML = "<complexes/>"

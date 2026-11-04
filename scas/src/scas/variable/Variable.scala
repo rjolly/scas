@@ -65,9 +65,9 @@ object Variable {
     }
   }
 
-  def apply(name: String): Variable = new Constant(name, 0)
-  def apply(name: String, prime: Int, subscript: Int*): Variable = new Constant(name, prime, subscript*)
+  def apply(name: String) = new Constant(name, 0)
+  def apply(name: String, prime: Int, subscript: Int*) = new Constant(name, prime, subscript*)
 
-  def function[T : Show](name: String, parameter: T*): Variable = new Function(name, parameter*)
-  def sqrt[T : Show](x: T): Variable = new Sqrt(x)
+  def function[T : Show](name: String, parameter: T*) = new Function(name, parameter*)
+  def sqrt[T : Show](x: T) = new Sqrt(x)
 }
