@@ -12,16 +12,26 @@ trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactoriz
   extension (x: T) {
     def divideAndRemainder(y: T) = {
       if y.isZero then throw new ArithmeticException("Polynomial divide by zero")
-      else if x.isZero then (zero, zero)
+      else if x.isZero then (zero, x)
       else {
-        val (s, a) = x.head
+        val (s, _) = x.head
+        x.divideAndRemainder(s, y)
+      }
+    }
+    def divideAndRemainder(m: M, y: T): (T, T) = {
+      val xs = x.iterator(m)
+      if xs.hasNext then {
+        val (s, a) = xs.next()
         if y.factorOf(s, a, true) then {
           val (t, b) = y.head
           val c = this(s / t, a / b)
-          val (q, r) = (x - c * y).divideAndRemainder(y)
+          val (q, r) = (x - c * y).divideAndRemainder(s, y)
           (c + q, r)
+        } else if xs.hasNext then {
+          val (s, _) = xs.next()
+          x.divideAndRemainder(s, y)
         } else (zero, x)
-      }
+      } else (zero, x)
     }
     override def factorOf(s: M, a: C, strict: Boolean) = {
       val (t, b) = x.head
