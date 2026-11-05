@@ -4,8 +4,6 @@ import scas.prettyprint.Show
 
 abstract class Variable {
   def toMathML: String
-  override def hashCode = toString.hashCode
-  override def equals(that: Any) = toString.equals(that.toString)
   extension (name: String) def toMathML = Map(
     "Alpha"   -> "&#x00391;",
     "Beta"    -> "&#x00392;",
@@ -66,8 +64,6 @@ object Variable {
   }
 
   def apply(name: String) = new Constant(name, 0)
-  def apply(name: String, prime: Int, subscript: Int*) = new Constant(name, prime, subscript*)
-
-  def function[T : Show](name: String, parameter: T*) = new Function(name, parameter*)
-  def sqrt[T : Show](x: T) = new Sqrt(x)
+  def apply(name: String, prime: Int, subscript: Int*) = Constant(name, prime, subscript*)
+  def sqrt[T : Show](x: T) = Sqrt(x)
 }

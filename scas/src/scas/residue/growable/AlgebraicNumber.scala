@@ -9,6 +9,7 @@ import scas.polynomial.tree.growable.PolynomialOverFieldWithGB
 import scas.power.growable.{ArrayPowerProduct, DegreeReverseLexicographic}
 import scas.structure.commutative.Field
 import scas.util.{Conversion, unary_~}
+import scas.base.BigInteger.given
 import scas.variable.Variable
 import AlgebraicNumber.Conv
 
@@ -21,6 +22,18 @@ object AlgebraicNumber {
 
   trait Impl[T, C, M] extends scas.residue.AlgebraicNumber.Impl[T, C, M] with Residue[T, C, M] {
     given ring: PolynomialWithModInverse[T, C, M] = deferred
+
+    override def sqrt(x: T) = {
+      val variables = ring.pp.variables
+      val a = Variable.sqrt(x)
+      val n = variables.indexOf(a)
+      if n > -1 then generator(n) else {
+        extend(a)
+        val s = generator(variables.length)
+        update(x - s\2)
+        s
+      }
+    }
 
     extension (ring: PolynomialWithModInverse[T, C, M]) def apply(s: T*) = {
       same(s*)

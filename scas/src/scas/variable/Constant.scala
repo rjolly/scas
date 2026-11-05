@@ -1,6 +1,6 @@
 package scas.variable
 
-class Constant(name: String, prime: Int, subscript: Int*) extends Variable {
+case class Constant(name: String, prime: Int, subscript: Int*) extends Variable {
   override def toString = name + (for i <- 0 until prime yield "_").mkString + subscript.map("(" + _ + ")").mkString
   def toMathML = s"<ci>${bodyToMathML}</ci>"
   def bodyToMathML = if subscript.isEmpty then {
