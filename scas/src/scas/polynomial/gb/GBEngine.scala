@@ -84,34 +84,11 @@ object GBEngine {
     }
 
     def gb(xs: T*) = {
-      update(xs)
-      process
-      remove
-      toList
-    }
-
-    def update(s: Seq[T]): Unit = {
-      logger.config(s.toList.show)
-      for p <- s do if !p.isZero then update(p)
+      logger.config(xs.toList.show)
+      for p <- xs do if !p.isZero then update(p)
       npairs = 0
       npolys = 0
-    }
-
-    def update(poly: T): Unit = {
-      polys += ((poly, poly.headPowerProduct))
-      val index = polys.size - 1
-      logger.config("(" + index.show + ", " + index + ")")
-      make(index)
-      npolys += 1
-    }
-
-    def process: Unit = {
-      logger.config("process")
       while !pairs.isEmpty do process(pairs.head)
-    }
-
-    def remove: Unit = {
-      logger.config("remove")
       var i = 0
       var j = 0
       while i < polys.size do {
@@ -121,11 +98,16 @@ object GBEngine {
           j += 1
         } else i += 1
       }
-    }
-
-    def toList = {
       logger.config("stats = (" + npairs + ", " + npolys + ", " + polys.size + ")")
       polys.map(_._1).toList
+    }
+
+    def update(poly: T): Unit = {
+      polys += ((poly, poly.headPowerProduct))
+      val index = polys.size - 1
+      logger.config("(" + index.show + ", " + index + ")")
+      make(index)
+      npolys += 1
     }
   }
 }
