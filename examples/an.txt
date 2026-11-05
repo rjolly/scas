@@ -1,18 +1,13 @@
 import scas.base.{BigInteger, Rational}
 import scas.residue.AlgebraicNumber
-import scas.variable.Variable
 import BigInteger.given
 import Rational.given
 
-val r = AlgebraicNumber.growable(0)(Rational)(Variable.sqrt(BigInteger("2")))
+val r = AlgebraicNumber.growable(0)(Rational)()
 import r.{sqrt, given}
-r.update(2-sqrt(2)\2)
 
 assert (2 >< sqrt(2)\2)
 assert(1/(1-sqrt(2)) >< -(1+sqrt(2)))
-
-r.extend(Variable.sqrt(1-sqrt(2)))
-r.update(1-sqrt(2)-sqrt(1-sqrt(2))\2)
 
 assert (1-sqrt(2) >< sqrt(1-sqrt(2))\2)
 assert (1/(1-sqrt(1-sqrt(2))) >< 1%%2*sqrt(2)*(1+sqrt(1-sqrt(2))))
