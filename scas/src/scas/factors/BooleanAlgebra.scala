@@ -1,6 +1,7 @@
-package scas.scripting
+package scas.factors
 
 import scas.variable.Variable
+import scas.residue.BooleanAlgebra.Element
 
 class BooleanAlgebra(on: Boolean, recurse: Boolean, conj: Boolean, s: Variable*) extends BooleanAlgebra.WithNot(s*) {
   def this(conj: Boolean, s: Variable*) = this(true, true, conj, s*)
@@ -11,7 +12,7 @@ class BooleanAlgebra(on: Boolean, recurse: Boolean, conj: Boolean, s: Variable*)
   }
   given a: BooleanAlgebra = new BooleanAlgebra(recurse, false, !conj, s*)
   given nf: NormalForm = new NormalForm(conj)
-  extension (x: BA) {
+  extension (x: Element) {
     override def toCode(level: Level) = if on then nf(x).toCode(level) else super.toCode(x)(level)
     override def toMathML = if on then nf(x).toMathML else super.toMathML(x)
   }
@@ -19,7 +20,7 @@ class BooleanAlgebra(on: Boolean, recurse: Boolean, conj: Boolean, s: Variable*)
 
 object BooleanAlgebra {
   class WithNot(s: Variable*) extends scas.residue.growable.BooleanAlgebra(0)(s*) {
-    extension (x: BA) {
+    extension (x: Element) {
       def isNot = x.coefOne.isOne && !x.isOne
       override def toCode(level: Level) = if !x.isNot then super.toCode(x)(level) else s"!${super.toCode(!x)(Level.Power)}"
       override def toMathML = if !x.isNot then super.toMathML(x) else s"<apply><not/>${super.toMathML(!x)}</apply>"
