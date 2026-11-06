@@ -1,9 +1,9 @@
 package scas.polynomial.ufd
 
-import scala.annotation.tailrec
 import scala.compiletime.deferred
 import scas.polynomial.Polynomial
 import scas.structure.commutative.UniqueFactorizationDomain
+import scas.base.BigInteger.given
 import scas.base.Boolean.given
 
 trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactorizationDomain[T] {
@@ -48,6 +48,15 @@ trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactoriz
     }
     def divideRight(c: C) = x.map((s, a) => (s, a / c))
     def %/ (c: C) = x.divideRight(c)
+
+    def derivative(y: T): T = x.derivative(y, 0)
+    def derivative(y: T, n: Int): T = if x.isZero then zero else {
+      val (q, r) = x.divideAndRemainder(y)
+      r * fromInt(n) * y\n + q.derivative(y, n + 1)
+    }
+  }
+  def squarefree(x: T) = generators.foldLeft(x) { (l, r) =>
+    l / gcd(l, l.derivative(r))
   }
   def content(x: T) = {
     val c = x.iterator.foldLeft(ring.zero) { (l, r) =>
