@@ -4,15 +4,8 @@ import Parsers.*
 import scala.annotation.nowarn
 import scala.compiletime.deferred
 
-trait RingParsers[T] extends StructureParsers[T] {
+trait RingParsers[T] extends MonoidParsers[T] {
   given structure: scas.structure.Ring[T] = deferred
-  def base: Parser[T]
-  def unsignedFactor: Parser[T] = base ~ opt(("**" | "^") ~> Int.unsignedFactor) ^^ {
-    case x ~ option => option match {
-      case Some(exp) => x \ exp
-      case None => x
-    }
-  }
   def factor: Parser[T] = opt("-") ~ unsignedFactor ^^ {
     case option ~ factor => option match {
       case Some(sign) => -factor
@@ -32,7 +25,7 @@ trait RingParsers[T] extends StructureParsers[T] {
     }
   }
   @nowarn("msg=match may not be exhaustive")
-  def expr: Parser[T] = term ~ rep(("+" | "-") ~ unsignedTerm) ^^ {
+  override def expr: Parser[T] = term ~ rep(("+" | "-") ~ unsignedTerm) ^^ {
     case term ~ list => list.foldLeft(term) {
       case (x, "+" ~ y) => x + y
       case (x, "-" ~ y) => x - y
