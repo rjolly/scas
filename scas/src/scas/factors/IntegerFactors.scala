@@ -1,4 +1,4 @@
-package scas.scripting
+package scas.factors
 
 import scala.annotation.tailrec
 import scas.util.{Conversion, unary_~}
@@ -7,15 +7,15 @@ import scas.base.BigInteger
 import BigInteger.given
 import Factors.Element
 
-type FS = Element[BigInteger, Int]
+type IntegerFactors = Element[BigInteger, Int]
 
-object FS extends Factors[BigInteger, Int] {
+object IntegerFactors extends Factors[BigInteger, Int] {
   def empty = SortedMap.empty[BigInteger, Int]
 
   def apply[U: Conversion[BigInteger]](x: U) = super.apply(~x)
   override def apply(x: BigInteger) = if x.isZero then zero else factor(BigInteger.abs(x), one, primes)*this(BigInteger.signum(x))
 
-  @tailrec final def factor(x: BigInteger, map: FS, primes: LazyList[BigInteger]): FS = {
+  @tailrec final def factor(x: BigInteger, map: IntegerFactors, primes: LazyList[BigInteger]): IntegerFactors = {
     val y = primes.head
     if x >< 1 then map
     else if y * y > x then map + ((x, map.getOrElse(x, 0) + 1))

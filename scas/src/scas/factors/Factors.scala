@@ -1,4 +1,4 @@
-package scas.scripting
+package scas.factors
 
 import scala.compiletime.deferred
 import scas.structure.{Monoid, Ring}

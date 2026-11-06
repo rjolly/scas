@@ -1,10 +1,11 @@
-package scas.scripting
+package scas.factors
 
 import scala.compiletime.deferred
-import Factors.Element
+import scas.residue.BooleanAlgebra.Element
+import NormalForm.Impl
 
-class NormalForm(conj: Boolean)(using BooleanAlgebra) extends NormalForm.Impl(conj) {
-  extension (x: Element[BA, Int]) {
+class NormalForm(conj: Boolean)(using BooleanAlgebra) extends Impl(conj) {
+  extension (x: Factors.Element[Element, Int]) {
     def isImpl = !conj && x.size == 2 && x.head._1.isNot && !x.last._1.isNot
     def isRevImpl = !conj && x.size == 2 && x.last._1.isNot && !x.head._1.isNot
     override def toCode(level: Level) = if x.isImpl then {
@@ -21,15 +22,15 @@ class NormalForm(conj: Boolean)(using BooleanAlgebra) extends NormalForm.Impl(co
 }
 
 object NormalForm {
-  trait Impl(conj: Boolean) extends Factors[BA, Int] {
+  trait Impl(conj: Boolean) extends Factors[Element, Int] {
     given ring: BooleanAlgebra = deferred
-    def empty = Map.empty[BA, Int]
-    override def apply(x: BA) = if x.isZero then zero else {
+    def empty = Map.empty[Element, Int]
+    override def apply(x: Element) = if x.isZero then zero else {
       val s = List(flip(x)).gb(true).reduce(false).foldLeft(one)((l, a) => l * super.apply(flip(a)))
       if s.contains(x) then super.apply(x) else s
     }
-    def flip(x: BA) = if conj then !x else x
-    extension (x: Element[BA, Int]) {
+    def flip(x: Element) = if conj then !x else x
+    extension (x: Factors.Element[Element, Int]) {
       override def toCode(level: Level) = {
         val p = if x.size == 1 then level else if conj then Level.Multiplication else Level.Addition
         var s = ring.one.show
