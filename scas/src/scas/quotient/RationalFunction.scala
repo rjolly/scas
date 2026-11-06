@@ -3,7 +3,7 @@ package scas.quotient
 import scala.reflect.ClassTag
 import scas.math.Numeric
 import scas.structure.commutative.Field
-import scas.structure.commutative.Quotient.{Element as Quotient_Element}
+import scas.structure.commutative.Quotient
 import scas.polynomial.tree.PolynomialWithSubresGCD
 import scas.polynomial.ufd.PolynomialOverUFD
 import scas.util.{Conversion, unary_~}
@@ -11,7 +11,7 @@ import scas.variable.Variable
 import scas.base.BigInteger
 import RationalFunction.{Impl, Element}
 
-class RationalFunction[N : {Numeric, ClassTag}](using PolynomialOverUFD[Element[Array[N]], BigInteger, Array[N]]) extends Impl[Array[N]] with Field.Conv[Quotient_Element[Element[Array[N]]]] {
+class RationalFunction[N : {Numeric, ClassTag}](using PolynomialOverUFD[Element[Array[N]], BigInteger, Array[N]]) extends Impl[Array[N]] with Field.Conv[Quotient.Element[Element[Array[N]]]] {
   def this(degree: N)(variables: Variable*) = this(using summon, summon, new PolynomialWithSubresGCD(degree)(BigInteger)(variables*))
   given instance: RationalFunction[N] = this
 }
