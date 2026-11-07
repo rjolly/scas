@@ -3,7 +3,7 @@ package scas.scripting
 import Parsers.{log as _, *}
 import scala.annotation.nowarn
 import scas.adapter.math3.Double
-import Math.{sinh, cosh, tanh, sin, cos, tan, asin, acos, atan, exp, log, pow, PI}
+import Math.{sinh, cosh, tanh, sin, cos, tan, asin, acos, atan, exp, log, sqrt, pow, PI}
 
 object DoubleParsers extends FieldParsers[Double] {
   override given structure: Double.Impl = Double
@@ -12,7 +12,7 @@ object DoubleParsers extends FieldParsers[Double] {
     case "pi" => PI
   }
   @nowarn("msg=match may not be exhaustive")
-  def function: Parser[Double] = ("sinh" | "cosh" | "tanh" | "sin" | "cos" | "tan" | "asin" | "acos" | "atan" | "exp" | "log") ~ ("(" ~> expr) <~ ")" ^^ {
+  def function: Parser[Double] = ("sinh" | "cosh" | "tanh" | "sin" | "cos" | "tan" | "asin" | "acos" | "atan" | "exp" | "log" | "sqrt") ~ ("(" ~> expr) <~ ")" ^^ {
     case "sinh" ~ x => sinh(x)
     case "cosh" ~ x => cosh(x)
     case "tanh" ~ x => tanh(x)
@@ -24,6 +24,7 @@ object DoubleParsers extends FieldParsers[Double] {
     case "atan" ~ x => atan(x)
     case "exp" ~ x => exp(x)
     case "log" ~ x => log(x)
+    case "sqrt" ~ x => sqrt(x)
   }
   def base: Parser[Double] = number | constant | function | "(" ~> expr <~ ")"
   override def unsignedFactor: Parser[Double] = base ~ opt(("**" | "^") ~> factor) ^^ {

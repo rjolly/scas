@@ -29,7 +29,12 @@ object BigInteger extends BigInteger.Impl with UniqueFactorizationDomain.Conv[Bi
         val Array(q, r) = x.divideAndRemainder(y)
         (q, r)
       }
+      def isSquare = {
+        val Array(_, r) = x.sqrtAndRemainder()
+        r.isZero
+      }
     }
+    def sqrt(x: BigInteger) = x.sqrt()
     def characteristic = zero
     extension (x: BigInteger) def isUnit = abs(x).isOne
     extension (x: BigInteger) override def isZero = x.signum == 0

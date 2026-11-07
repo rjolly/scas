@@ -1,9 +1,9 @@
-package scas.structure.commutative.ordered
+package scas.structure.ordered
 
 import scala.compiletime.deferred
 
-trait Residue[T, R] extends scas.structure.commutative.Residue[T, R] with UniqueFactorizationDomain[T] {
-  given ring: UniqueFactorizationDomain[R] = deferred
+trait Residue[T, R] extends scas.structure.Residue[T, R] with Ring[T] {
+  given ring: Ring[R] = deferred
   def compare(x: T, y: T) = {
     val self(a) = x.runtimeChecked
     val self(b) = y.runtimeChecked

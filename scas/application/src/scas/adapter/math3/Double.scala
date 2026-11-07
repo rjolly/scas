@@ -18,7 +18,9 @@ object Double extends Double.Impl with Field.Conv[Double] {
       def subtract(y: Double) = x - y
       def multiply(y: Double) = x * y
       override def divide(y: Double) = x / y
+      def isSquare = x >= 0
     }
+    def sqrt(x: Double) = Math.sqrt(x)
     def inverse(x: Double) = 1 / x
     def equiv(x: Double, y: Double) = x == y
     extension (x: Double) def signum = Math.signum(x).toInt

@@ -16,6 +16,7 @@ object Function extends Field[Double => Double] {
     def multiply(y: Double => Double) = { a => x(a) * y(a) }
     override def divide(y: Double => Double) = { a => x(a) / y(a) }
     override def pow(b: BigInteger) = this.pow(x, { a => b.doubleValue() })
+    def isSquare = true
   }
   def inverse(x: Double => Double) = { a => 1 / x(a) }
   def identity = { (a: Double) => a }

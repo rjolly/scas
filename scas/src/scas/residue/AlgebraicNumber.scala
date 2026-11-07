@@ -8,7 +8,6 @@ import scas.polynomial.ufd.PolynomialWithModInverse
 import scas.polynomial.tree.PolynomialOverFieldWithGB
 import scas.power.degree.{ArrayPowerProduct, DegreeReverseLexicographic}
 import scas.structure.commutative.Field
-import scas.util.{Conversion, unary_~}
 import scas.variable.Variable
 import AlgebraicNumber.Conv
 
@@ -21,9 +20,9 @@ object AlgebraicNumber {
   def galoisField = GaloisField
   def growable = scas.residue.growable.AlgebraicNumber
 
-  trait Impl[T, C, M] extends Residue[T, C, M] with Field[T] {
+  trait Impl[T, C, M] extends ResidueOverUFD.Impl[T, C, M] with Field[T] {
     given ring: PolynomialWithModInverse[T, C, M] = deferred
-    def sqrt[U: Conversion[T]](x: U): T = sqrt(~x)
+    extension (x: T) def isSquare = true
     def sqrt(x: T) = {
       val n = ring.pp.variables.indexOf(Variable.sqrt(x))
       assert (n > -1)

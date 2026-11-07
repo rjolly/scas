@@ -1,6 +1,7 @@
 package scas.base
 
-import scas.structure.commutative.ordered.{Residue, Field}
+import scas.structure.ordered.Residue
+import scas.structure.commutative.ordered.Field
 import scas.module.ArrayModule
 import BigInteger.given
 
@@ -22,7 +23,9 @@ class ModInteger(mod: BigInteger) extends Residue[Int, BigInteger] with Field[In
     override def subtract(y: Int) = this(x.toLong - y)
     override def multiply(y: Int) = this(x.toLong * y)
     override def isZero = x.signum == 0
+    def isSquare = int2bigInt(x).isSquare
   }
+  def sqrt(x: Int) = this(ring.sqrt(x))
   extension (a: Int) override def pow(b: BigInteger) = int2bigInt(a).modPow(b, mod).intValue
   def inverse(x: Int) = int2bigInt(x).modInverse(mod).intValue
   override def toString = s"ModInteger(\"${mod}\")"

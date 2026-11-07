@@ -18,9 +18,9 @@ class ResidueOverUFD[C, N : {Numeric, ClassTag}](using Polynomial[Element[C, Arr
 }
 
 object ResidueOverUFD {
-  trait Impl[C, M] extends Residue[Element[C, M], C, M]
+  trait Impl[T, C, M] extends Residue[T, C, M]
 
-  abstract class Conv[C, N : {Numeric, ClassTag}](using Polynomial[Element[C, Array[N]], C, Array[N]]) extends Impl[C, Array[N]] with Ring.Conv[Element[C, Array[N]]] {
+  abstract class Conv[C, N : {Numeric, ClassTag}](using Polynomial[Element[C, Array[N]], C, Array[N]]) extends Impl[Element[C, Array[N]], C, Array[N]] with Ring.Conv[Element[C, Array[N]]] {
     def instance: Conv[C, N]
   }
 }

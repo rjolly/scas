@@ -8,6 +8,8 @@ trait UniqueFactorizationDomain[T] extends NotQuiteField[T] {
   def lcm(x: T, y: T) = (x * y) / gcd(x, y)
   def gcd[U: Conversion[T], V: Conversion[T]](x: U, y: V): T = gcd(~x, ~y)
   def lcm[U: Conversion[T], V: Conversion[T]](x: U, y: V): T = lcm(~x, ~y)
+  def sqrt[U: Conversion[T]](x: U): T = sqrt(~x)
+  def sqrt(x: T): T
   extension (x: T) {
     def divide(y: T) = {
       val (q, _) = x /%y
@@ -19,6 +21,7 @@ trait UniqueFactorizationDomain[T] extends NotQuiteField[T] {
     }
     def divideAndRemainder(y: T): (T, T)
     def factorOf(y: T) = (y % x).isZero
+    def isSquare: Boolean
     inline def % [U: Conversion[T]](y: U) = x.remainder(~y)
     inline def /%[U: Conversion[T]](y: U) = x.divideAndRemainder(~y)
     inline def | [U: Conversion[T]](y: U) = x.factorOf(~y)

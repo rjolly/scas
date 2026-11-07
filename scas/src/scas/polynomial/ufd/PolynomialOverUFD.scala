@@ -2,6 +2,7 @@ package scas.polynomial.ufd
 
 import scala.annotation.tailrec
 import scala.compiletime.deferred
+import scas.factors.Squarefree
 import scas.polynomial.Polynomial
 import scas.structure.commutative.UniqueFactorizationDomain
 import scas.base.BigInteger.given
@@ -9,6 +10,7 @@ import scas.base.Boolean.given
 
 trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactorizationDomain[T] {
   given ring: UniqueFactorizationDomain[C] = deferred
+  given factors: Squarefree.Impl[T, C, M] = new Squarefree(using this)
   override def normalize(x: T) = primitivePart(x)
   extension (x: T) {
     def divideAndRemainder(y: T) = {
@@ -49,14 +51,23 @@ trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactoriz
     def divideRight(c: C) = x.map((s, a) => (s, a / c))
     def %/ (c: C) = x.divideRight(c)
 
+    def isSquare = {
+      val (c, p) = contentAndPrimitivePart(x)
+      if c.isOne then factors(p, false).isSquare else c.isSquare && p.isSquare
+    }
     def derivative(y: T): T = x.derivative(y, 0)
     def derivative(y: T, n: Int): T = if x.isZero then zero else {
       val (q, r) = x.divideAndRemainder(y)
       r * fromInt(n) * y\n + q.derivative(y, n + 1)
     }
   }
+  def factorize(x: T) = factors(x)
   def squarefree(x: T) = generators.foldLeft(x) { (l, r) =>
     l / gcd(l, l.derivative(r))
+  }
+  def sqrt(x: T) = {
+    val (c, p) = contentAndPrimitivePart(x)
+    if c.isOne then factors(p, false).sqrt.expand else sqrt(p) * ring.sqrt(c)
   }
   def content(x: T) = {
     val c = x.iterator.foldLeft(ring.zero) { (l, r) =>
