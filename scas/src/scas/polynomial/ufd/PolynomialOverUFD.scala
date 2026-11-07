@@ -1,5 +1,6 @@
 package scas.polynomial.ufd
 
+import scala.annotation.tailrec
 import scala.compiletime.deferred
 import scas.polynomial.Polynomial
 import scas.structure.commutative.UniqueFactorizationDomain
@@ -15,23 +16,22 @@ trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactoriz
       else if x.isZero then (zero, x)
       else {
         val (s, _) = x.head
-        x.divideAndRemainder(s, y)
+        x.divideAndRemainder(s, zero, y)
       }
     }
-    def divideAndRemainder(m: M, y: T): (T, T) = {
+    @tailrec final def divideAndRemainder(m: M, q: T, y: T): (T, T) = {
       val xs = x.iterator(m)
       if xs.hasNext then {
         val (s, a) = xs.next()
         if y.factorOf(s, a, true) then {
           val (t, b) = y.head
           val c = this(s / t, a / b)
-          val (q, r) = (x - c * y).divideAndRemainder(s, y)
-          (c + q, r)
+          (x - c * y).divideAndRemainder(s, c + q, y)
         } else if xs.hasNext then {
           val (s, _) = xs.next()
-          x.divideAndRemainder(s, y)
-        } else (zero, x)
-      } else (zero, x)
+          x.divideAndRemainder(s, q, y)
+        } else (q, x)
+      } else (q, x)
     }
     override def factorOf(s: M, a: C, strict: Boolean) = {
       val (t, b) = x.head
