@@ -11,8 +11,10 @@ trait Factors[T, N : Numeric as numeric] extends Monoid[Element[T, N]] {
   given ring: Ring[T] = deferred
   def empty: Element[T, N]
   val zero = empty + ((ring.zero, numeric.one))
+  val minusOne = empty + ((-ring.one, numeric.one))
   override val one = empty
-  def apply(x: T): Element[T, N] = if x.isOne then empty else if x.signum < 0 then apply(-x) + ((-ring.one, numeric.one)) else empty + ((x, numeric.one))
+  def apply(x: T): Element[T, N] = if x.isZero then zero else if x.isOne then empty else if x.signum < 0 then this(-x) * minusOne else factor(x)
+  def factor(x: T) = empty + ((x, numeric.one))
   extension (x: Element[T, N]) {
     def isZero = x.getOrElse(ring.zero, numeric.zero) >< numeric.one
     override def isOne = x.isEmpty
