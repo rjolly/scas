@@ -23,6 +23,10 @@ class BooleanAlgebra[N : {Numeric, ClassTag}](degree: N)(on: Boolean, recurse: B
 
 object BooleanAlgebra {
   trait Impl[M] extends scas.residue.growable.BooleanAlgebra.Impl[M] {
+    def mod(x: Element[M], xs: Element[M]*) = {
+      update(xs.map(!_)*)
+      !this(!x)
+    }
     extension (x: Element[M]) {
       def isNot = x.coefOne.isOne && !x.isOne
       override def toCode(level: Level) = if !x.isNot then super.toCode(x)(level) else s"!${super.toCode(!x)(Level.Power)}"
