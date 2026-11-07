@@ -25,9 +25,9 @@ object NormalForm {
   trait Impl[M](conj: Boolean) extends Factors[Element[M], Int] {
     given ring: BooleanAlgebra.Impl[M] = deferred
     def empty = Map.empty[Element[M], Int]
-    override def apply(x: Element[M]) = if x.isZero then zero else {
-      val s = List(flip(x)).gb(true).reduce(false).foldLeft(one)((l, a) => l * super.apply(flip(a)))
-      if s.contains(x) then super.apply(x) else s
+    def apply(x: Element[M], dummy: Boolean) = {
+      val s = List(flip(x)).gb(true).reduce(false).foldLeft(one)((l, a) => l * fromRing(flip(a)))
+      if s.contains(x) then fromRing(x) else s
     }
     def flip(x: Element[M]) = if conj then !x else x
     extension (x: Factors.Element[Element[M], Int]) {

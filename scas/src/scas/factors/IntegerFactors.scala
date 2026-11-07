@@ -1,7 +1,6 @@
 package scas.factors
 
 import scala.annotation.tailrec
-import scas.util.{Conversion, unary_~}
 import scala.collection.immutable.SortedMap
 import scas.base.BigInteger
 import BigInteger.given
@@ -12,15 +11,13 @@ type IntegerFactors = Element[BigInteger, Int]
 object IntegerFactors extends Factors[BigInteger, Int] {
   def empty = SortedMap.empty[BigInteger, Int]
 
-  def apply[U: Conversion[BigInteger]](x: U) = super.apply(~x)
-  override def apply(x: BigInteger) = if x.isZero then zero else factor(BigInteger.abs(x), one, primes)*this(BigInteger.signum(x))
+  def apply(x: BigInteger, dummy: Boolean) = this(x, one, primes)
 
-  @tailrec final def factor(x: BigInteger, map: IntegerFactors, primes: LazyList[BigInteger]): IntegerFactors = {
+  @tailrec final def apply(x: BigInteger, map: IntegerFactors, primes: LazyList[BigInteger]): IntegerFactors = {
     val y = primes.head
-    if x >< 1 then map
-    else if y * y > x then map + ((x, map.getOrElse(x, 0) + 1))
-    else if y | x then factor(x / y, map + ((y, map.getOrElse(y, 0) + 1)), primes)
-    else factor(x, map, primes.tail)
+    if y * y > x then map * fromRing(x)
+    else if y | x then this(x / y, map * fromRing(y), primes)
+    else this(x, map, primes.tail)
   }
 
   def sieve(n: BigInteger): LazyList[BigInteger] = {

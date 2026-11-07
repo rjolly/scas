@@ -2,6 +2,7 @@ package scas.factors
 
 import scala.compiletime.deferred
 import scas.structure.{Monoid, Ring}
+import scas.util.{Conversion, unary_~}
 import scas.math.Numeric
 import scas.base.BigInteger
 import BigInteger.given
@@ -10,9 +11,12 @@ import Factors.Element
 trait Factors[T, N : Numeric as numeric] extends Monoid[Element[T, N]] {
   given ring: Ring[T] = deferred
   def empty: Element[T, N]
-  val zero = empty + ((ring.zero, numeric.one))
-  override val one = empty
-  def apply(x: T): Element[T, N] = if x.isOne then empty else if x.signum < 0 then apply(-x) + ((-ring.one, numeric.one)) else empty + ((x, numeric.one))
+  val zero = fromRing(ring.zero)
+  val minusOne = fromRing(-ring.one)
+  override val one = fromRing(ring.one)
+  def fromRing(x: T) = if x.isOne then empty else empty + ((x, numeric.one))
+  def apply(x: T): Element[T, N] = if x.isZero then zero else if x.signum < 0 then this(-x) * minusOne else this(x, false)
+  def apply(x: T, dummy: Boolean): Element[T, N]
   extension (x: Element[T, N]) {
     def isZero = x.getOrElse(ring.zero, numeric.zero) >< numeric.one
     override def isOne = x.isEmpty
@@ -61,8 +65,12 @@ trait Factors[T, N : Numeric as numeric] extends Monoid[Element[T, N]] {
     s
   }
   def toMathML = s"<apply><cartesianproduct/>${ring.toMathML}</apply>"
+
+  given ring2factors: [U: Conversion[T]] => (U => Element[T, N]) = x => this(~x)
 }
 
 object Factors {
+  trait Conv[T, N] extends Factors[T, N] with Monoid.Conv[Element[T, N]]
+
   type Element[T, N] = Map[T, N]
 }

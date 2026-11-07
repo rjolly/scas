@@ -226,7 +226,9 @@
 </xsl:template>
 
 <xsl:template match="m:apply[*[1][self::m:power]]">
-	<xsl:apply-templates select="*[2]"/>
+	<xsl:apply-templates select="*[2]">
+		<xsl:with-param name="p" select="2"/>
+	</xsl:apply-templates>
 	<xsl:text>\</xsl:text>
 	<xsl:apply-templates select="*[3]"/>
 </xsl:template>
