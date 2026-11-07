@@ -1,5 +1,6 @@
 package scas.factors
 
+import scala.annotation.tailrec
 import scala.compiletime.deferred
 import scas.polynomial.ufd.PolynomialOverUFD
 import scas.base.BigInteger.given
@@ -18,13 +19,13 @@ object Squarefree {
       val (c, p) = ring.contentAndPrimitivePart(x)
       if ring(c).isOne then this(p, false) else this(p) * fromRing(ring(c))
     }
-    def apply(x: T, dummy: Boolean) = this(x, ring.squarefree(x), 0)
-    def apply(x: T, y: T, n: Int): Element[T, Int] = {
-      if x.isOne then fromRing(y) \ n
-      else if y | x then this(x / y, y, n + 1)
+    def apply(x: T, dummy: Boolean) = this(x, ring.squarefree(x), one, 0)
+    @tailrec final def apply(x: T, y: T, map: Element[T, Int], n: Int): Element[T, Int] = {
+      if x.isOne then map * fromRing(y) \ n
+      else if y | x then this(x / y, y, map, n + 1)
       else {
         val c = ring.gcd(x, y)
-        fromRing(y / c) \ n * this(x, c, n)
+        this(x, c, map * fromRing(y / c) \ n, n)
       }
     }
   }
