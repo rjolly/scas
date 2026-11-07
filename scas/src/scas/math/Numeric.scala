@@ -25,11 +25,13 @@ trait Numeric[T] extends Ordering[T] {
 }
 
 object Numeric {
-  trait ByteIsIntegral extends Numeric[Byte]  {
+  trait ByteIsIntegral extends Integral[Byte]  {
     extension (x: Byte) {
       def + (y: Byte) = (x + y).toByte
       def - (y: Byte) = (x - y).toByte
       def * (y: Byte) = (x * y).toByte
+      def / (y: Byte) = (x / y).toByte
+      def % (y: Byte) = (x % y).toByte
       def unary_- = (-x).toByte
     }
     def fromInt(x: Int) = x.toByte
@@ -40,11 +42,13 @@ object Numeric {
     }
   }
   given ByteIsIntegral: ByteIsIntegral with Ordering.ByteOrdering
-  trait ShortIsIntegral extends Numeric[Short] {
+  trait ShortIsIntegral extends Integral[Short] {
     extension (x: Short) {
       def + (y: Short) = (x + y).toShort
       def - (y: Short) = (x - y).toShort
       def * (y: Short) = (x * y).toShort
+      def / (y: Short) = (x / y).toShort
+      def % (y: Short) = (x % y).toShort
       def unary_- = (-x).toShort
     }
     def fromInt(x: Int) = x.toShort
@@ -55,11 +59,13 @@ object Numeric {
     }
   }
   given ShortIsIntegral: ShortIsIntegral with Ordering.ShortOrdering
-  trait IntIsIntegral extends Numeric[Int] {
+  trait IntIsIntegral extends Integral[Int] {
     extension (x: Int) {
       def + (y: Int) = x + y
       def - (y: Int) = x - y
       def * (y: Int) = x * y
+      def / (y: Int) = x / y
+      def % (y: Int) = x % y
       def unary_- = -x
     }
     def fromInt(x: Int) = x
@@ -70,11 +76,13 @@ object Numeric {
     }
   }
   given IntIsIntegral: IntIsIntegral with Ordering.IntOrdering
-  trait LongIsIntegral extends Numeric[Long] {
+  trait LongIsIntegral extends Integral[Long] {
     extension (x: Long) {
       def + (y: Long) = x + y
       def - (y: Long) = x - y
       def * (y: Long) = x * y
+      def / (y: Long) = x / y
+      def % (y: Long) = x % y
       def unary_- = -x
     }
     def fromInt(x: Int) = x.toLong

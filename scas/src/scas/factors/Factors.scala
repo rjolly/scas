@@ -3,12 +3,12 @@ package scas.factors
 import scala.compiletime.deferred
 import scas.structure.{Monoid, Ring}
 import scas.util.{Conversion, unary_~}
-import scas.math.Numeric
+import scas.math.Integral
 import scas.base.BigInteger
 import BigInteger.given
 import Factors.Element
 
-trait Factors[T, N : Numeric as numeric] extends Monoid[Element[T, N]] {
+trait Factors[T, N : Integral as numeric] extends Monoid[Element[T, N]] {
   given ring: Ring[T] = deferred
   def empty: Element[T, N]
   val zero = fromRing(ring.zero)
@@ -23,6 +23,11 @@ trait Factors[T, N : Numeric as numeric] extends Monoid[Element[T, N]] {
     def expand = x.foldLeft(ring.one) { (l, r) =>
       val (a, b) = r
       l * a \ b.toLong
+    }
+    def sqrt = x.map((a, b) => (a, b / numeric.fromInt(2)))
+    def isSquare = x.foldLeft(true) { (l, r) =>
+      val (_, b) = r
+      l && b % numeric.fromInt(2) == 0
     }
     def multiply(y: Element[T, N]) = if x.isZero || y.isZero then zero else y.foldLeft(x)((l, r) => {
       val (a, b) = r
