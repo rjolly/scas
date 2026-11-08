@@ -24,6 +24,12 @@ object AlgebraicNumber {
     given ring: PolynomialWithModInverse[T, C, M] = deferred
     extension (x: T) def isSquare = true
     def sqrt(x: T) = {
+      if x.isZero then zero
+      else if x.isOne then one
+      else if x.signum < 0 then sqrt(-x) * sqrt(-one, false)
+      else if ring.isSquare(x) then ring.sqrt(x) else sqrt(x, false)
+    }
+    def sqrt(x: T, dummy: Boolean) = {
       val n = ring.pp.variables.indexOf(Variable.sqrt(x))
       assert (n > -1)
       generator(n)

@@ -24,7 +24,7 @@ object Squarefree {
       if x.isOne then map * fromRing(y) \ n
       else if y | x then this(x / y, y, map, n + 1)
       else {
-        val c = ring.gcd(x, y)
+        val c = ring.primitivePart(ring.gcd(x, y))
         this(x, c, map * fromRing(y / c) \ n, n)
       }
     }

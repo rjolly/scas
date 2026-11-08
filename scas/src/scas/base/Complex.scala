@@ -18,9 +18,9 @@ object Complex extends AlgebraicNumber.Conv(0)(Rational)() with Impl {
     override def toString = "Complex"
     override def toMathML = "<complexes/>"
     extension (x: Complex) def isMinusOne = x >< -1
-    override def sqrt(x: Complex) = {
+    override def sqrt(x: Complex, dummy: Boolean) = {
       assert (x.isMinusOne)
-      super.sqrt(x)
+      super.sqrt(x, dummy)
     }
   }
 }

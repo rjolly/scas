@@ -23,7 +23,7 @@ object AlgebraicNumber {
   trait Impl[T, C, M] extends scas.residue.AlgebraicNumber.Impl[T, C, M] with Residue[T, C, M] {
     given ring: PolynomialWithModInverse[T, C, M] = deferred
 
-    override def sqrt(x: T) = {
+    override def sqrt(x: T, dummy: Boolean) = {
       val variables = ring.pp.variables
       val a = Variable.sqrt(x)
       val n = variables.indexOf(a)

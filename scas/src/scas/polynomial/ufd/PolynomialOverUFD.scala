@@ -58,12 +58,14 @@ trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactoriz
     def derivative(y: T): T = x.derivative(y, 0)
     def derivative(y: T, n: Int): T = if x.isZero then zero else {
       val (q, r) = x.divideAndRemainder(y)
-      r * fromInt(n) * y\n + q.derivative(y, n + 1)
+      if n > 0 then r * fromInt(n) + y * q.derivative(y, n + 1)
+      else q.derivative(y, n + 1)
     }
   }
   def factorize(x: T) = factors(x)
   def squarefree(x: T) = generators.foldLeft(x) { (l, r) =>
-    l / gcd(l, l.derivative(r))
+    val a = l.derivative(r)
+    if a.isZero then l else l / primitivePart(gcd(l, a))
   }
   def sqrt(x: T) = {
     val (c, p) = contentAndPrimitivePart(x)
