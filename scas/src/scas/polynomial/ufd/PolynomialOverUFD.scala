@@ -55,11 +55,11 @@ trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactoriz
       val (c, p) = contentAndPrimitivePart(x)
       if c.isOne then factors(p, false).isSquare else c.isSquare && p.isSquare
     }
-    def derivative(y: T): T = x.derivative(y, 0)
-    def derivative(y: T, n: Int): T = if x.isZero then zero else {
+    def derivative(y: T): T = x.derivative(y, zero, 0)
+    @tailrec final def derivative(y: T, a: T, n: Int): T = if x.isZero then a else {
       val (q, r) = x.divideAndRemainder(y)
-      if n > 0 then r * fromInt(n) + y * q.derivative(y, n + 1)
-      else q.derivative(y, n + 1)
+      if n > 0 then q.derivative(y, r * fromInt(n) + y * a, n + 1)
+      else q.derivative(y, a, n + 1)
     }
   }
   def factorize(x: T) = factors(x)
