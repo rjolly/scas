@@ -5,7 +5,6 @@ import scas.polynomial.tree.growable.PolynomialWithGB
 import scas.polynomial.TreePolynomial.Element
 import scas.variable.Variable
 import scas.base.BigInteger
-import BigInteger.given
 
 type Poly = Element[BigInteger, Array[Int]]
 

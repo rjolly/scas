@@ -15,7 +15,7 @@ object Squarefree {
   trait Impl[T, C, M] extends Factors[T, Int] {
     given ring: PolynomialOverUFD[T, C, M] = deferred
     def empty = Map.empty[T, Int]
-    override def apply(x: T) = {
+    override def apply(x: T) = if x.isZero then zero else {
       val (c, p) = ring.contentAndPrimitivePart(x)
       if ring(c).isOne then this(p, false) else this(p) * fromRing(ring(c))
     }

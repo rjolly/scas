@@ -29,7 +29,7 @@ object BigInteger extends BigInteger.Impl with UniqueFactorizationDomain.Conv[Bi
         val Array(q, r) = x.divideAndRemainder(y)
         (q, r)
       }
-      def isSquare = {
+      def isSquare = if x.signum < 0 then false else {
         val Array(_, r) = x.sqrtAndRemainder()
         r.isZero
       }

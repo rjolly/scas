@@ -66,4 +66,5 @@ object Variable {
   def apply(name: String) = new Constant(name, 0)
   def apply(name: String, prime: Int, subscript: Int*) = Constant(name, prime, subscript*)
   def sqrt[T : Show](x: T) = Sqrt(x)
+  def solve[T : Show](equ: T, x: T, n: T) = Solve(equ, x, n)
 }

@@ -36,8 +36,11 @@ class Fn(var n: Variable*) extends FieldParsers[Double => Double] {
     }
   }
   @nowarn("msg=match may not be exhaustive")
-  def graph: Parser[Graph] = "graph" ~> ("(" ~> expr) ~ ("," ~> Var.parser) <~ ")" ^^ {
-    case expr ~ variable if (contains(variable)) => Graph(expr)
+  def graph: Parser[Graph] = "graph" ~> ("(" ~> expr) ~ opt("," ~> Var.parser) <~ ")" ^^ {
+    case expr ~ option => option match {
+      case Some(variable) if contains(variable) => Graph(expr)
+      case None => Graph(expr)
+    }
   }
   def contains(variable: Variable) = {
     if n.isEmpty then n = List(variable)
