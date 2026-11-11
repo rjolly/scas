@@ -51,15 +51,22 @@ trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactoriz
     def divideRight(c: C) = x.map((s, a) => (s, a / c))
     def %/ (c: C) = x.divideRight(c)
 
-    def isSquare = {
+    def isSquare = if x.isZero then true else {
       val (c, p) = contentAndPrimitivePart(x)
       if c.isOne then factors(p, false).isSquare else c.isSquare && p.isSquare
     }
-    def derivative(y: T): T = x.derivative(y, zero, 0)
-    @tailrec final def derivative(y: T, a: T, n: Int): T = if x.isZero then a else {
+    def coefficients(y: T): List[T] = coefficients(y, Nil)
+    @tailrec final def coefficients(y: T, a: List[T]): List[T] = if x.isZero then a else {
       val (q, r) = x.divideAndRemainder(y)
-      if n > 0 then q.derivative(y, r * fromInt(n) + y * a, n + 1)
-      else q.derivative(y, a, n + 1)
+      q.coefficients(y, r :: a)
+    }
+    def derivative(y: T) = x.coefficients(y).zipWithIndex.foldLeft(zero) { (l, r) =>
+      val (p, n) = r
+      l + (if n == 0 then zero else fromInt(n) * p * y \ (n - 1))
+    }
+    def substitute(y: T, z: T) = x.coefficients(y).zipWithIndex.foldLeft(zero) { (l, r) =>
+      val (p, n) = r
+      l + p * z \ n
     }
   }
   def factorize(x: T) = factors(x)
@@ -67,7 +74,7 @@ trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactoriz
     val a = l.derivative(r)
     if a.isZero then l else l / primitivePart(gcd(l, a))
   }
-  def sqrt(x: T) = {
+  def sqrt(x: T) = if x.isZero then zero else {
     val (c, p) = contentAndPrimitivePart(x)
     if c.isOne then factors(p, false).sqrt.expand else sqrt(p) * ring.sqrt(c)
   }

@@ -3,6 +3,7 @@ package scas.base
 import scas.structure.commutative.StarUFD
 import scas.polynomial.TreePolynomial.Element
 import scas.residue.growable.AlgebraicNumber
+import scas.variable.Variable
 import BigInteger.given
 import Rational.given
 import Complex.Impl
@@ -17,10 +18,11 @@ object Complex extends AlgebraicNumber.Conv(0)(Rational)() with Impl {
     override def conjugate(x: Complex) = real(x) - sqrt(-1) * imag(x)
     override def toString = "Complex"
     override def toMathML = "<complexes/>"
-    extension (x: Complex) def isMinusOne = x >< -1
-    override def sqrt(x: Complex, dummy: Boolean) = {
-      assert (x.isMinusOne)
-      super.sqrt(x, dummy)
-    }
+    override def sqrt(x: Complex) = if x.signum < 0 then super.sqrt(-one) * sqrt(-x) else super.sqrt(x)
+    sqrt(-1)
+  }
+  override def generator(a: Variable, c: Complex => Complex) = {
+    assert (variables.contains(a) || variables.length < 1)
+    super.generator(a, c)
   }
 }

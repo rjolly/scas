@@ -8,6 +8,7 @@ import scas.polynomial.ufd.PolynomialWithModInverse
 import scas.polynomial.tree.PolynomialOverFieldWithGB
 import scas.power.degree.{ArrayPowerProduct, DegreeReverseLexicographic}
 import scas.structure.commutative.Field
+import scas.base.BigInteger.given
 import scas.variable.Variable
 import AlgebraicNumber.Conv
 
@@ -22,18 +23,23 @@ object AlgebraicNumber {
 
   trait Impl[T, C, M] extends ResidueOverUFD.Impl[T, C, M] with Field[T] {
     given ring: PolynomialWithModInverse[T, C, M] = deferred
+    def variables = ring.pp.variables
+    def generator(a: Variable, c: T => T): T = {
+      assert (variables.contains(a))
+      generator(variables.indexOf(a))
+    }
     extension (x: T) def isSquare = true
-    def sqrt(x: T) = {
-      if x.isZero then zero
-      else if x.isOne then one
-      else if x.signum < 0 then sqrt(-x) * sqrt(-one, false)
-      else if ring.isSquare(x) then ring.sqrt(x) else sqrt(x, false)
+    def solve(equ: T, x: T, n: Int) = {
+      val s = ring.coefficients(equ)(x)
+      if s.length == 2 then -s(0) / s(1)
+      else if s.length == 3 then {
+        val a = s(1) / s(2)
+        val b = s(0) / s(2)
+        val d = a \ 2 - fromInt(4) * b
+        (if n % 2 == 0 then a - sqrt(d) else a + sqrt(d)) / fromInt(2)
+      } else generator(Variable.solve(equ, x, fromInt(n)), s => equ.substitute(x, s))
     }
-    def sqrt(x: T, dummy: Boolean) = {
-      val n = ring.pp.variables.indexOf(Variable.sqrt(x))
-      assert (n > -1)
-      generator(n)
-    }
+    def sqrt(x: T) = if ring.isSquare(x) then ring.sqrt(x) else generator(Variable.sqrt(x), s => x - s \ 2)
     def inverse(x: T) = x.modInverse(mods*)
 
     extension (ring: PolynomialWithModInverse[T, C, M]) def apply(s: T*) = {

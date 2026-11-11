@@ -7,6 +7,4 @@ import Complex.Impl
 
 class ComplexNumber extends AlgebraicNumber.Conv(0)(Rational)() with Impl {
   given instance: ComplexNumber = this
-  extension (x: Complex) override def isMinusOne = true
-  sqrt(-1)
 }
