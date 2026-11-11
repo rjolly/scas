@@ -4,9 +4,11 @@ import Parsers.*
 import scala.annotation.nowarn
 import scala.compiletime.deferred
 import scas.polynomial.growable.ufd.PolynomialOverUFD
+import scas.variable.Variable
 import scas.base.Rational
 
 class UPolyParsers(using PolynomialOverUFD[UPoly, Rational, Array[Int]]) extends UFDParsers[UPoly] {
+  def this(dummy: Boolean, variable: Variable) = this(using UPoly(variable))
   override given structure: PolynomialOverUFD[UPoly, Rational, Array[Int]] = summon
   def variables = structure.pp.variables
   var index = -1
