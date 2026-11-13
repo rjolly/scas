@@ -225,6 +225,14 @@
 	<xsl:if test="1 &lt; $p"><xsl:text>)</xsl:text></xsl:if>
 </xsl:template>
 
+<xsl:template match="m:apply[*[1][self::m:power] and *[3][self::m:cn[@type='rational']]]">
+	<xsl:text>pow(</xsl:text>
+	<xsl:apply-templates select="*[2]"/>
+	<xsl:text>, </xsl:text>
+	<xsl:apply-templates select="*[3]"/>
+	<xsl:text>)</xsl:text>
+</xsl:template>
+
 <xsl:template match="m:apply[*[1][self::m:power]]">
 	<xsl:apply-templates select="*[2]">
 		<xsl:with-param name="p" select="2"/>
