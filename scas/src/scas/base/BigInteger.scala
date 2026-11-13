@@ -1,6 +1,7 @@
 package scas.base
 
 import scala.compiletime.deferred
+import scas.factors.IntegerFactors
 import scas.structure.commutative.ordered.{UniqueFactorizationDomain, EuclidianDomain}
 import java.math.BigInteger.valueOf
 
@@ -8,6 +9,7 @@ type BigInteger = java.math.BigInteger
 
 object BigInteger extends BigInteger.Impl with UniqueFactorizationDomain.Conv[BigInteger] {
   override given instance: BigInteger.type = this
+  given factors: IntegerFactors.type = IntegerFactors
   trait Impl extends EuclidianDomain[BigInteger] {
     given instance: BigInteger.Impl = deferred
     val self = this
@@ -29,12 +31,23 @@ object BigInteger extends BigInteger.Impl with UniqueFactorizationDomain.Conv[Bi
         val Array(q, r) = x.divideAndRemainder(y)
         (q, r)
       }
-      def isSquare = if x.signum < 0 then false else {
+      override def isSquare = if x.signum < 0 then false else {
         val Array(_, r) = x.sqrtAndRemainder()
         r.isZero
       }
+      def isPower(n: Int) = if n == 2 then x.isSquare else {
+        if x.isZero then true else if x.signum < 0 then {
+          if n % 2 == 0 then false else (-x).isPower(n)
+        } else factors(x, false).isPower(n)
+      }
     }
-    def sqrt(x: BigInteger) = x.sqrt()
+    def factorize(x: BigInteger) = factors(x)
+    override def sqrt(x: BigInteger) = x.sqrt()
+    def nthrt(x: BigInteger, n: Int) = if n == 2 then sqrt(x) else {
+      if x.isZero then zero else if x.signum < 0 then {
+        if n % 2 == 0 then ??? else -nthrt(-x, n)
+      } else factors(x, false).nthrt(n).expand
+    }
     def characteristic = zero
     extension (x: BigInteger) def isUnit = abs(x).isOne
     extension (x: BigInteger) override def isZero = x.signum == 0

@@ -45,18 +45,18 @@ trait Quotient[T] extends Field[Element[T]] {
       val Element(n, d) = x
       Element(n \ b, d \ b)
     }
-    def isSquare = {
-      val Element(n, d) = x
-      n.isSquare && d.isSquare
+    def isPower(n: Int) = {
+      val Element(a, d) = x
+      a.isPower(n) && d.isPower(n)
     }
     def signum = {
       val Element(n, _) = x
       n.signum
     }
   }
-  def sqrt(x: Element[T]) = {
-    val Element(n, d) = x
-    Element(ring.sqrt(n), ring.sqrt(d))
+  def nthrt(x: Element[T], n: Int) = {
+    val Element(a, d) = x
+    Element(ring.nthrt(a, n), ring.nthrt(d, n))
   }
   def equiv(x: Element[T], y: Element[T]) = {
     val Element(a, b) = x

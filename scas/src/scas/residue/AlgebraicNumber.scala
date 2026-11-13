@@ -28,7 +28,7 @@ object AlgebraicNumber {
       assert (variables.contains(a))
       generator(variables.indexOf(a))
     }
-    extension (x: T) def isSquare = true
+    extension (x: T) def isPower(n: Int) = true
     def solve(equ: T, x: T, n: Int) = {
       val s = ring.coefficients(equ)(x)
       if s.length == 2 then -s(0) / s(1)
@@ -39,7 +39,7 @@ object AlgebraicNumber {
         (if n % 2 == 0 then a - sqrt(d) else a + sqrt(d)) / fromInt(2)
       } else generator(Variable.solve(equ, x, fromInt(n)), s => equ.substitute(x, s))
     }
-    def sqrt(x: T) = if ring.isSquare(x) then ring.sqrt(x) else generator(Variable.sqrt(x), s => x - s \ 2)
+    def nthrt(x: T, n: Int) = if ring.isPower(x)(n) then ring.nthrt(x, n) else generator(if n == 2 then Variable.sqrt(x) else Variable.nthrt(x, fromInt(n)), s => x - s \ n)
     def inverse(x: T) = x.modInverse(mods*)
 
     extension (ring: PolynomialWithModInverse[T, C, M]) def apply(s: T*) = {

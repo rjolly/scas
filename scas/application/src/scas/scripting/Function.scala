@@ -16,7 +16,7 @@ object Function extends Field[Double => Double] {
     def multiply(y: Double => Double) = { a => x(a) * y(a) }
     override def divide(y: Double => Double) = { a => x(a) / y(a) }
     override def pow(b: BigInteger) = this.pow(x, { a => b.doubleValue() })
-    def isSquare = true
+    def isPower(n: Int) = true
   }
   def inverse(x: Double => Double) = { a => 1 / x(a) }
   def identity = { (a: Double) => a }
@@ -31,7 +31,7 @@ object Function extends Field[Double => Double] {
   def tanh(x: Double => Double) = { (a: Double) => Math.tanh(x(a)) }
   def exp(x: Double => Double) = { (a: Double) => Math.exp(x(a)) }
   def log(x: Double => Double) = { (a: Double) => Math.log(x(a)) }
-  def sqrt(x: Double => Double) = { (a: Double) => Math.sqrt(x(a)) }
+  def nthrt(x: Double => Double, n: Int) = pow(x, (a: Double) => 1.0 / n)
   def pow(x: Double => Double, y: Double => Double) = { (a: Double) => Math.pow(x(a), y(a)) }
   def equiv(x: Double => Double, y: Double => Double) = x == y
   extension (x: Double => Double) def signum = 0

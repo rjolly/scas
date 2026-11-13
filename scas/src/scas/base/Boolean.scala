@@ -18,9 +18,9 @@ object Boolean extends Boolean.Impl with Field.Conv[Boolean] with BooleanRing.Co
       def add(y: Boolean) = x ^ y
       def subtract(y: Boolean) = x + y
       def multiply(y: Boolean) = x && y
-      def isSquare = true
+      def isPower(n: Int) = true
     }
-    def sqrt(x: Boolean) = x
+    def nthrt(x: Boolean, n: Int) = x
     def inverse(x: Boolean) = x
     val characteristic = BigInteger("2")
     def equiv(x: Boolean, y: Boolean) = x == y

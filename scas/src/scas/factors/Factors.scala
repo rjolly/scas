@@ -24,10 +24,10 @@ trait Factors[T, N : Integral as numeric] extends Monoid[Element[T, N]] {
       val (a, b) = r
       l * a \ b.toLong
     }
-    def sqrt = x.map((a, b) => (a, b / numeric.fromInt(2)))
-    def isSquare = x.foldLeft(true) { (l, r) =>
+    def nthrt(n: Int) = x.map((a, b) => (a, b / numeric.fromInt(n)))
+    def isPower(n: Int) = x.foldLeft(true) { (l, r) =>
       val (_, b) = r
-      l && b % numeric.fromInt(2) == 0
+      l && b % numeric.fromInt(n) == 0
     }
     def multiply(y: Element[T, N]) = if x.isZero || y.isZero then zero else y.foldLeft(x)((l, r) => {
       val (a, b) = r

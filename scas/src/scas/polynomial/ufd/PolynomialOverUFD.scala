@@ -51,9 +51,9 @@ trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactoriz
     def divideRight(c: C) = x.map((s, a) => (s, a / c))
     def %/ (c: C) = x.divideRight(c)
 
-    def isSquare = if x.isZero then true else {
+    def isPower(n: Int) = if x.isZero then true else {
       val (c, p) = contentAndPrimitivePart(x)
-      if c.isOne then factors(p, false).isSquare else c.isSquare && p.isSquare
+      if c.isOne then factors(p, false).isPower(n) else c.isPower(n) && p.isPower(n)
     }
     def coefficients(y: T): List[T] = coefficients(y, Nil)
     @tailrec final def coefficients(y: T, a: List[T]): List[T] = if x.isZero then a else {
@@ -74,9 +74,9 @@ trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactoriz
     val a = l.derivative(r)
     if a.isZero then l else l / primitivePart(gcd(l, a))
   }
-  def sqrt(x: T) = if x.isZero then zero else {
+  def nthrt(x: T, n: Int) = if x.isZero then zero else {
     val (c, p) = contentAndPrimitivePart(x)
-    if c.isOne then factors(p, false).sqrt.expand else sqrt(p) * ring.sqrt(c)
+    if c.isOne then factors(p, false).nthrt(n).expand else nthrt(p, n) * ring.nthrt(c, n)
   }
   def content(x: T) = {
     val c = x.iterator.foldLeft(ring.zero) { (l, r) =>
