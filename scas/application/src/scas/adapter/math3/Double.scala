@@ -20,9 +20,9 @@ object Double extends Double.Impl with Field.Conv[Double] {
       override def divide(y: Double) = x / y
       override def isSquare = x >= 0
       def isPower(n: Int) = if n % 2 == 0 then x.isSquare else true
+      def nthrt(n: Int) = if n == 2 then sqrt(x) else Math.pow(x, n)
     }
     override def sqrt(x: Double) = Math.sqrt(x)
-    def nthrt(x: Double, n: Int) = if n == 2 then sqrt(x) else Math.pow(x, n)
     def inverse(x: Double) = 1 / x
     def equiv(x: Double, y: Double) = x == y
     extension (x: Double) def signum = Math.signum(x).toInt

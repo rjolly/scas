@@ -10,8 +10,9 @@ val manager = new javax.script.ScriptEngineManager
   val list = if file.isDirectory then file.listFiles.toSeq else Seq(file)
   val n = (list.map { file =>
     println(file.getName)
+    val src = Source.fromFile(file)
     try {
-      manager.getEngineByName("scala").eval(Source.fromFile(file).mkString)
+      manager.getEngineByName("scala").eval(src.mkString)
       1
     } catch {
       case e : Exception => {
@@ -19,6 +20,8 @@ val manager = new javax.script.ScriptEngineManager
         println(file.getName + " failure")
         0
       }
+    } finally {
+      src.close
     }
   }).foldLeft(0) { (l, r) =>
     l + r

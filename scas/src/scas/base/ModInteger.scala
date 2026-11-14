@@ -24,8 +24,8 @@ class ModInteger(mod: BigInteger) extends Residue[Int, BigInteger] with Field[In
     override def multiply(y: Int) = this(x.toLong * y)
     override def isZero = x.signum == 0
     def isPower(n: Int) = int2bigInt(x).isPower(n)
+    def nthrt(n: Int) = this(int2bigInt(x).nthrt(n))
   }
-  def nthrt(x: Int, n: Int) = this(ring.nthrt(x, n))
   extension (a: Int) override def pow(b: BigInteger) = int2bigInt(a).modPow(b, mod).intValue
   def inverse(x: Int) = int2bigInt(x).modInverse(mod).intValue
   override def toString = s"ModInteger(\"${mod}\")"

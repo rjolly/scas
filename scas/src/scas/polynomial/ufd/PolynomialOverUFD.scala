@@ -55,6 +55,10 @@ trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactoriz
       val (c, p) = contentAndPrimitivePart(x)
       if c.isOne then factors(p, false).isPower(n) else c.isPower(n) && p.isPower(n)
     }
+    def nthrt(n: Int) = if x.isZero then zero else {
+      val (c, p) = contentAndPrimitivePart(x)
+      if c.isOne then factors(p, false).nthrt(n).expand else p.nthrt(n) * c.nthrt(n)
+    }
     def coefficients(y: T): List[T] = coefficients(y, Nil)
     @tailrec final def coefficients(y: T, a: List[T]): List[T] = if x.isZero then a else {
       val (q, r) = x.divideAndRemainder(y)
@@ -73,10 +77,6 @@ trait PolynomialOverUFD[T, C, M] extends Polynomial[T, C, M] with UniqueFactoriz
   def squarefree(x: T) = generators.foldLeft(x) { (l, r) =>
     val a = l.derivative(r)
     if a.isZero then l else l / primitivePart(gcd(l, a))
-  }
-  def nthrt(x: T, n: Int) = if x.isZero then zero else {
-    val (c, p) = contentAndPrimitivePart(x)
-    if c.isOne then factors(p, false).nthrt(n).expand else nthrt(p, n) * ring.nthrt(c, n)
   }
   def content(x: T) = {
     val c = x.iterator.foldLeft(ring.zero) { (l, r) =>

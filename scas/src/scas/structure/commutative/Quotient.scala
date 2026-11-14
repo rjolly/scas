@@ -49,14 +49,14 @@ trait Quotient[T] extends Field[Element[T]] {
       val Element(a, d) = x
       a.isPower(n) && d.isPower(n)
     }
+    def nthrt(n: Int) = {
+      val Element(a, d) = x
+      Element(a.nthrt(n), d.nthrt(n))
+    }
     def signum = {
       val Element(n, _) = x
       n.signum
     }
-  }
-  def nthrt(x: Element[T], n: Int) = {
-    val Element(a, d) = x
-    Element(ring.nthrt(a, n), ring.nthrt(d, n))
   }
   def equiv(x: Element[T], y: Element[T]) = {
     val Element(a, b) = x

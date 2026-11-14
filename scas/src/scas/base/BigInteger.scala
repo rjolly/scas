@@ -40,14 +40,14 @@ object BigInteger extends BigInteger.Impl with UniqueFactorizationDomain.Conv[Bi
           if n % 2 == 0 then false else (-x).isPower(n)
         } else factors(x, false).isPower(n)
       }
+      def nthrt(n: Int) = if n == 2 then sqrt(x) else {
+        if x.isZero then zero else if x.signum < 0 then {
+          if n % 2 == 0 then ??? else -(-x).nthrt(n)
+        } else factors(x, false).nthrt(n).expand
+      }
     }
     def factorize(x: BigInteger) = factors(x)
     override def sqrt(x: BigInteger) = x.sqrt()
-    def nthrt(x: BigInteger, n: Int) = if n == 2 then sqrt(x) else {
-      if x.isZero then zero else if x.signum < 0 then {
-        if n % 2 == 0 then ??? else -nthrt(-x, n)
-      } else factors(x, false).nthrt(n).expand
-    }
     def characteristic = zero
     extension (x: BigInteger) def isUnit = abs(x).isOne
     extension (x: BigInteger) override def isZero = x.signum == 0

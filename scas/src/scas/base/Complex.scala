@@ -18,7 +18,7 @@ object Complex extends AlgebraicNumber.Conv(0)(Rational)() with Impl {
     override def conjugate(x: Complex) = real(x) - sqrt(-1) * imag(x)
     override def toString = "Complex"
     override def toMathML = "<complexes/>"
-    override def nthrt(x: Complex, n: Int) = if x.signum < 0 && n == 2 then super.nthrt(-one, n) * nthrt(-x, n) else super.nthrt(x, n)
+    extension (x: Complex) override def nthrt(n: Int) = if x.signum < 0 && n == 2 then super.nthrt(-one)(n) * (-x).nthrt(n) else super.nthrt(x)(n)
     sqrt(-1)
   }
   override def generator(a: Variable, c: Complex => Complex) = {
