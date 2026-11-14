@@ -35,19 +35,19 @@ object AlgebraicNumber {
     def solve(equ: T, x: T, n: Int) = {
       val s = ring.coefficients(equ)(x)
       s.length - 1 match {
-        case 1 => linear(s(0) / s(1), n)
+        case 1 => linear(s(0) / s(1))
         case 2 => quadratic(s(1) / s(2), s(0) / s(2), n)
         case 3 => cubic(s(2) / s(3), s(1) / s(3), s(0) / s(3), n)
         case 4 => quartic(s(3) / s(4), s(2) / s(4), s(1) / s(4), s(0) / s(4), n)
         case _ => generator(Variable.solve(equ, x, fromInt(n)), s => equ.substitute(x, s))
       }
     }
-    def linear(a: T, n: Int) = -a
+    def linear(a: T) = -a
     def quadratic(a: T, b: T, n: Int) = {
       val d = a \ 2 - fromInt(4) * b
       n % 2 match {
-        case 0 => (a - sqrt(d)) / 2
-        case _ => (a + sqrt(d)) / 2
+        case 0 => -(a - sqrt(d)) / 2
+        case _ => -(a + sqrt(d)) / 2
       }
     }
     def cubic(a: T, b: T, c: T, n: Int) = {
