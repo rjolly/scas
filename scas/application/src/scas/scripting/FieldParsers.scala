@@ -5,9 +5,9 @@ import scala.compiletime.deferred
 
 trait FieldParsers[T] extends UFDParsers[T] {
   given structure: scas.structure.commutative.Field[T] = deferred
-  override def unsignedFactor: Parser[T] = base ~ opt(("**" | "^") ~> Int.factor) ^^ {
+  override def unsignedFactor: Parser[T] = base ~ opt(("**" | "^") ~> RationalParsers.factor) ^^ {
     case x ~ option => option match {
-      case Some(exp) => x \ exp
+      case Some(exp) => structure.pow(x, exp)
       case None => x
     }
   }

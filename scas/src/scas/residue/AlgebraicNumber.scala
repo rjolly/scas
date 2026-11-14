@@ -30,7 +30,7 @@ object AlgebraicNumber {
     }
     extension (x: T) {
       def isPower(n: Int) = true
-      def nthrt(n: Int) = if ring.isPower(x)(n) then ring.nthrt(x)(n) else generator(if n == 2 then Variable.sqrt(x) else Variable.nthrt(x, fromInt(n)), s => x - s \ n)
+      def nthrt(n: Int) = if ring.isPower(x)(n) then ring.nthrt(x)(n) else generator(if n == 2 then Variable.sqrt(x) else Variable.pow(x, inverse(n)), s => x - s \ n)
     }
     def solve(equ: T, x: T, n: Int) = {
       val s = ring.coefficients(equ)(x)
