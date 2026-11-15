@@ -10,7 +10,10 @@ trait PolynomialOverFieldWithGB[T[C, M], C, M](using ClassTag[T[C, M]]) extends 
   extension (x: T[C, M]) def modInverse(mods: T[C, M]*) = {
     val s = Seq(Array(x, 1, 0)) ++ mods.map(Array(_, 0, 0))
     val list = module.gb(s*)
-    val Array(p, q, _) = list.head
+    val Array(p, q, _) = list.filter { r =>
+      val Array(p, _, _) = r
+      !p.isZero
+    }.head
     assert (p.isUnit)
     q / p
   }
