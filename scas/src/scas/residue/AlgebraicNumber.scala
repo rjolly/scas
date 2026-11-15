@@ -29,9 +29,9 @@ object AlgebraicNumber {
       assert (variables.contains(a))
       generator(variables.indexOf(a))
     }
-    extension (x: T) {
-      def isPower(n: Int) = true
-      def nthrt(n: Int) = if ring.isPower(x)(n) then ring.nthrt(x)(n) else generator(if n == 2 then Variable.sqrt(x) else Variable.pow(x, inverse(n)), s => x - s \ n)
+    extension (x: T) def nthrt(n: Int, dummy: Boolean) = {
+      val (a, b) = ring.nthrt(x)(n, dummy)
+      if b.isOne then (a, b) else (a * generator(if n == 2 then Variable.sqrt(b) else Variable.pow(b, inverse(n)), s => b - s \ n), one)
     }
     def solve(equ: T, x: T, n: Int) = {
       val s = ring.coefficients(equ)(x)

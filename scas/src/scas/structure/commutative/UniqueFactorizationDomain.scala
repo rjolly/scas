@@ -29,8 +29,16 @@ trait UniqueFactorizationDomain[T] extends NotQuiteField[T] {
     def divideAndRemainder(y: T): (T, T)
     def factorOf(y: T) = (y % x).isZero
     def isSquare = x.isPower(2)
-    def isPower(n: Int): Boolean
-    def nthrt(n: Int): T
+    def isPower(n: Int) = {
+      val (_, b) = nthrt(n, false)
+      b.isOne
+    }
+    def nthrt(n: Int, dummy: Boolean): (T, T)
+    def nthrt(n: Int): T = {
+      val (a, b) = nthrt(n, false)
+      assert (b.isOne)
+      a
+    }
     inline def % [U: Conversion[T]](y: U) = x.remainder(~y)
     inline def /%[U: Conversion[T]](y: U) = x.divideAndRemainder(~y)
     inline def | [U: Conversion[T]](y: U) = x.factorOf(~y)

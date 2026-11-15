@@ -19,8 +19,9 @@ object Double extends Double.Impl with Field.Conv[Double] {
       def multiply(y: Double) = x * y
       override def divide(y: Double) = x / y
       override def isSquare = x >= 0
-      def isPower(n: Int) = if n % 2 == 0 then x.isSquare else true
-      def nthrt(n: Int) = if n == 2 then sqrt(x) else Math.pow(x, n)
+      override def isPower(n: Int) = if n % 2 == 0 then x.isSquare else true
+      override def nthrt(n: Int) = if n == 2 then sqrt(x) else super.nthrt(x)(n)
+      def nthrt(n: Int, dummy: Boolean) = if x.isPower(n) then (Math.pow(x, 1.0 / n), one) else (one, x)
     }
     override def sqrt(x: Double) = Math.sqrt(x)
     def inverse(x: Double) = 1 / x

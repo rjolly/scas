@@ -35,16 +35,17 @@ object BigInteger extends BigInteger.Impl with UniqueFactorizationDomain.Conv[Bi
         val Array(_, r) = x.sqrtAndRemainder()
         r.isZero
       }
-      def isPower(n: Int) = if n == 2 then x.isSquare else {
-        if x.isZero then true else if x.signum < 0 then {
-          if n % 2 == 0 then false else (-x).isPower(n)
-        } else factors(x, false).isPower(n)
+      override def isPower(n: Int) = if n == 2 then x.isSquare else super.isPower(x)(n)
+      def nthrt(n: Int, dummy: Boolean) = {
+        if x.isZero then (zero, one) else if x.signum < 0 then {
+          val (a, b) = (-x).nthrt(n, dummy)
+          if n % 2 == 0 then (a, -b) else (-a ,b)
+        } else {
+          val (a, b) = factors(x, false).nthrt(n, dummy)
+          (a.expand, b.expand)
+        }
       }
-      def nthrt(n: Int) = if n == 2 then sqrt(x) else {
-        if x.isZero then zero else if x.signum < 0 then {
-          if n % 2 == 0 then ??? else -(-x).nthrt(n)
-        } else factors(x, false).nthrt(n).expand
-      }
+      override def nthrt(n: Int) = if n == 2 then sqrt(x) else super.nthrt(x)(n)
     }
     def factorize(x: BigInteger) = factors(x)
     override def sqrt(x: BigInteger) = x.sqrt()
