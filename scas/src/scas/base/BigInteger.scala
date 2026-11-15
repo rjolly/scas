@@ -31,11 +31,6 @@ object BigInteger extends BigInteger.Impl with UniqueFactorizationDomain.Conv[Bi
         val Array(q, r) = x.divideAndRemainder(y)
         (q, r)
       }
-      override def isSquare = if x.signum < 0 then false else {
-        val Array(_, r) = x.sqrtAndRemainder()
-        r.isZero
-      }
-      override def isPower(n: Int) = if n == 2 then x.isSquare else super.isPower(x)(n)
       def nthrt(n: Int, dummy: Boolean) = {
         if x.isZero then (zero, one) else if x.signum < 0 then {
           val (a, b) = (-x).nthrt(n, dummy)
