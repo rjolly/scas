@@ -28,7 +28,7 @@ object scas extends ScalaModule with PublishModule {
     )
     def test(args: String*) = run(Task.Anon(Args(args)))
   }
-  def publishVersion = "3.1"
+  def publishVersion = "3.2"
 
   def pomSettings = PomSettings(
     description = "Scala Algebra System",
