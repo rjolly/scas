@@ -25,19 +25,6 @@ trait Polynomial[T : ClassTag, C, M] extends Ring[T] with AlgebraOverRing[T, C] 
   extension (x: T) def signum = if x.isZero then 0 else x.lastCoefficient.signum
   def characteristic = ring.characteristic
   extension (x: T) def subtract(y: T) = x.subtract(pp.one, ring.one, y)
-  def equiv(x: T, y: T) = {
-    val xs = x.iterator
-    val ys = y.iterator
-    while xs.hasNext && ys.hasNext do {
-      if !equiv(xs.next(), ys.next()) then return false
-    }
-    !xs.hasNext && !ys.hasNext
-  }
-  def equiv(x: (M, C), y: (M, C)) = {
-    val (s, a) = x
-    val (t, b) = y
-    s >< t && a >< b
-  }
   extension (x: T) def isUnit = if x.degree > 0 || x.isZero then false else x.headCoefficient.isUnit
   extension (x: T) {
     def multiply(y: T) = zero.multiplyAndAdd(y, x)

@@ -35,17 +35,6 @@ trait Factors[T, N : Integral as numeric] extends Monoid[Element[T, N]] {
     })
     def isUnit = x.isOne
   }
-  def equiv(x: Element[T, N], y: Element[T, N]) = {
-    val xs = x.iterator
-    val ys = y.iterator
-    while xs.hasNext && ys.hasNext do {
-      val (a, b) = xs.next()
-      val (c, d) = ys.next()
-      if a <> c then return false
-      else if b <> d then return false
-    }
-    !xs.hasNext && !ys.hasNext
-  }
   extension (x: Element[T, N]) def toCode(level: Level) = {
     var s = ring.one.show
     val p = if x.size == 1 then level else Level.Multiplication

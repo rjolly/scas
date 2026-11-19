@@ -22,7 +22,6 @@ object Boolean extends Boolean.Impl with Field.Conv[Boolean] with BooleanRing.Co
     }
     def inverse(x: Boolean) = x
     val characteristic = BigInteger("2")
-    def equiv(x: Boolean, y: Boolean) = x == y
     extension (x: Boolean) def signum = if x then 1 else 0
     extension (x: Boolean) def toCode(level: Level) = x.toString
     override def toString = "Boolean"

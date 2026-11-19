@@ -35,13 +35,6 @@ trait Residue[T, R] extends Ring[T] {
       ring.isUnit(a)
     }
   }
-  def equiv(x: T, y: T) = {
-    val self(a) = x.runtimeChecked
-    val self(b) = y.runtimeChecked
-    val self(c) = this(a).runtimeChecked
-    val self(d) = this(b).runtimeChecked
-    c >< d
-  }
   extension (x: T) {
     def toCode(level: Level) = {
       val self(a) = x.runtimeChecked

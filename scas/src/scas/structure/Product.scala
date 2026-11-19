@@ -45,11 +45,6 @@ class Product[R1 : Ring as ring1, R2 : Ring as ring2] extends Ring[(R1, R2)] {
     (ring1.abs(a), ring2.abs(b))
   }
   def characteristic = lcm(ring1.characteristic, ring2.characteristic)
-  def equiv(x: (R1, R2), y: (R1, R2)) = {
-    val (a, b) = x
-    val (c, d) = y
-    a >< c && b >< d
-  }
   extension (x: (R1, R2)) def toCode(level: Level) = {
     val (a, b) = x
     s"Product(${a.show}, ${b.show})"

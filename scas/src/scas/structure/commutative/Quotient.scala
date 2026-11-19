@@ -56,11 +56,6 @@ trait Quotient[T] extends Field[Element[T]] {
       n.signum
     }
   }
-  def equiv(x: Element[T], y: Element[T]) = {
-    val Element(a, b) = x
-    val Element(c, d) = y
-    a >< c && b >< d
-  }
   def inverse(x: Element[T]) = {
     val Element(n, d) = x
     Element(d, n)

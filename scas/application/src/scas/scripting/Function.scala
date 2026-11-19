@@ -32,7 +32,6 @@ object Function extends Field[Double => Double] {
   def exp(x: Double => Double) = { (a: Double) => Math.exp(x(a)) }
   def log(x: Double => Double) = { (a: Double) => Math.log(x(a)) }
   def pow(x: Double => Double, y: Double => Double) = { (a: Double) => Math.pow(x(a), y(a)) }
-  def equiv(x: Double => Double, y: Double => Double) = x == y
   extension (x: Double => Double) def signum = 0
   override def abs(x: Double => Double) = { a => Math.abs(a) }
   def characteristic = BigInteger("0")

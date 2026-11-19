@@ -21,7 +21,6 @@ trait Matrix extends Algebra[Element, Double] with Field[Element] {
     def multiply(y: Element) = x.multiply(y)
   }
   def inverse(x: Element) = MatrixUtils.inverse(x)
-  def equiv(x: Element, y: Element) = x == y
   extension (x: Element) def signum = if size > 0 then x.getEntry(0, 0).sign.toInt else 0
   extension (x: Double) def multiplyLeft(y: Element) = y%* x
   extension (x: Element) def multiplyRight(y: Double) = x.scalarMultiply(y)
