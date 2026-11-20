@@ -3,8 +3,8 @@ import scas.residue.BooleanAlgebra
 import scas.prettyprint.Show.given
 import scas.variable.Variable
 
-val n = 4
-val l = n << 1
+val l = 4
+val n = (l >> 1) + (l & 1)
 val m = l - 1
 type Element = BooleanAlgebra.Element[Array[Int]]
 val c = Array.ofDim[Element](m, m + n)
