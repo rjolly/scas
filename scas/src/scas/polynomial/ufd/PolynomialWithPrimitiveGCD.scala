@@ -2,6 +2,6 @@ package scas.polynomial.ufd
 
 import scala.annotation.tailrec
 
-trait PolynomialWithPrimitiveGCD[T[C, M], C, N] extends MultivariatePolynomial[T, C, N] {
-  @tailrec final def gcd1(x: T[C, Array[N]], y: T[C, Array[N]]): T[C, Array[N]] = if y.isZero then primitivePart(x) else gcd1(y, primitivePart(x.reduce(y)))
+trait PolynomialWithPrimitiveGCD[T[C], C, N] extends MultivariatePolynomial[T, C, N] {
+  @tailrec final def gcd1(x: T[C], y: T[C]): T[C] = if y.isZero then primitivePart(x) else gcd1(y, primitivePart(x.reduce(y)))
 }
