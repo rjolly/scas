@@ -6,24 +6,24 @@ import scas.power.PowerProduct
 import scas.power.POT.Element
 import PolynomialWithGB.Residue
 
-class Module[T[C, M], C, M](using ring: PolynomialWithGB[T, C, M])(name: String, dimension: Int)(using ClassTag[T[C, M]]) extends ArrayModule[T[C, M]](dimension) {
+class Module[T[M], C, M](using ring: PolynomialWithGB[T, C, M])(name: String, dimension: Int)(using ClassTag[T[M]]) extends ArrayModule[T[M]](dimension) {
   def nbvars = ring.pp.nbvars
   given s: Residue[T, C, Element[M]] = new Residue(using ring.embedding(name, dimension))
   s.update((for i <- 0 until dimension; j <- i until dimension yield s.generator(nbvars + i) * s.generator(nbvars + j))*)
   given pp: PowerProduct[Element[M]] = s.ring.pp
-  extension (xs: List[Array[T[C, M]]]) def gb = xs.map(_.convertTo).gb.map(_.convertFrom)
-  def gb(xs: Array[T[C, M]]*) = xs.toList.gb
-  extension (x: Array[T[C, M]]) def convertTo: T[C, Element[M]] = {
+  extension (xs: List[Array[T[M]]]) def gb = xs.map(_.convertTo).gb.map(_.convertFrom)
+  def gb(xs: Array[T[M]]*) = xs.toList.gb
+  extension (x: Array[T[M]]) def convertTo: T[Element[M]] = {
     x.zipWithIndex.foldLeft(s.zero) { (l, r) =>
       val (p, n) = r
       l + p.convert * s.generator(nbvars + n)
     }
   }
-  extension (x: T[C, M]) def convert = x.iterator.foldLeft(s.zero) { (l, r) =>
+  extension (x: T[M]) def convert = x.iterator.foldLeft(s.zero) { (l, r) =>
     val (m, c) = r
     l + s.ring((m, pp.one._2), c)
   }
-  extension (x: T[C, Element[M]]) def convertFrom: Array[T[C, M]] = s.ring.iterator(x).foldLeft(zero) { (l, r) =>
+  extension (x: T[Element[M]]) def convertFrom: Array[T[M]] = s.ring.iterator(x).foldLeft(zero) { (l, r) =>
     val (m, c) = r
     val n = m.projection(nbvars, nbvars + dimension)
     l + (for i <- 0 until dimension yield {

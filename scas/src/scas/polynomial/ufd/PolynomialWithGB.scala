@@ -6,11 +6,11 @@ import scas.module.Array
 import scas.base.BigInteger
 import BigInteger.given
 
-trait PolynomialWithGB[T[C, M], C, M](using ClassTag[T[C, M]]) extends PolynomialOverUFD[T[C, M], C, M] {
+trait PolynomialWithGB[T[M], C, M](using ClassTag[T[M]]) extends PolynomialOverUFD[T[M], C, M] {
   given module: Module[T, C, M] = new Module(using this)("c", 3)
   def embedding(name: String, dimension: Int) = newInstance(new ModifiedPOT(pp)(name, dimension))
   def newInstance: [M] => (PowerProduct[M]) => PolynomialWithGB[T, C, M]
-  def gcd(x: T[C, M], y: T[C, M]) = if x.isZero then y else {
+  def gcd(x: T[M], y: T[M]) = if x.isZero then y else {
     val (a, p) = contentAndPrimitivePart(x)
     val (b, q) = contentAndPrimitivePart(y)
     val list = module.gb(
@@ -23,7 +23,7 @@ trait PolynomialWithGB[T[C, M], C, M](using ClassTag[T[C, M]]) extends Polynomia
 }
 
 object PolynomialWithGB {
-  class Residue[T[C, M], C, M](using PolynomialWithGB[T, C, M], ClassTag[T[C, M]]) extends scas.residue.Residue[T[C, M], C, M] {
+  class Residue[T[M], C, M](using PolynomialWithGB[T, C, M], ClassTag[T[M]]) extends scas.residue.Residue[T[M], C, M] {
     override given ring: PolynomialWithGB[T, C, M] = summon
   }
 }
