@@ -21,6 +21,7 @@ class BooleanAlgebra[N : {Numeric, ClassTag}](using Polynomial[Element[Array[N]]
 object BooleanAlgebra {
   def apply[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(s: S*) = new BooleanAlgebra(degree)(s.map(~_)*)
   inline def degreeReverse[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(s: S*) = new BooleanAlgebra(DegreeReverseLexicographic.inlined(degree)(s*))
+  inline def sparseDegreeReverse[N : {Numeric, ClassTag}, S : Conversion[Variable]](degree: N)(s: S*) = new BooleanAlgebra(scas.power.sparse.Lexicographic.degreeReverse.inlined(degree)(s*))
   def binary = scas.residue.binary.BooleanAlgebra
 
   trait Impl[M] extends Residue[Element[M], Boolean, M] with BooleanRing[Element[M]] {
