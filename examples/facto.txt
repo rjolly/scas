@@ -10,7 +10,7 @@ val m = l - 1
 val rnd = new Random()
 val p = Array.ofDim[Boolean](m + n)
 def prime(n: Int) = java.math.BigInteger.probablePrime(n, rnd).intValue()
-var o = prime(n) * prime(n)
+var o = prime(l)
 for i <- 0 until m + n do {
   p(i) = (o & 1) > 0
   o >>= 1
