@@ -5,17 +5,19 @@ import scala.collection.mutable.ArrayBuffer
 import scala.util.boundary, boundary.break
 import scala.reflect.ClassTag
 import scas.math.Numeric
-import scas.power.ArrayPowerProduct
+import scas.base.BigInteger, BigInteger.given
 
-trait PowerProduct[N : {Numeric as numeric, ClassTag}] extends ArrayPowerProduct[N] {
-  override def length = 0
+trait PowerProduct[N : {Numeric as numeric, ClassTag}] extends scas.power.PowerProduct[Array[N]] {
+  val one = empty
+  def length = 0
+  def empty = new Array[N](length)
   def emptybuffer = ArrayBuffer.empty[(N, N)]
-  override def generator(n: Int) = generator(n, emptybuffer).array
+  def generator(n: Int) = generator(n, emptybuffer).array
   def generator(n: Int, buffer: ArrayBuffer[(N, N)]) = {
     buffer += ((numeric.fromInt(n), numeric.one))
     buffer
   }
-  override def gcd(x: Array[N], y: Array[N]) = gcd(x, y, emptybuffer).array
+  def gcd(x: Array[N], y: Array[N]) = gcd(x, y, emptybuffer).array
   def gcd(x: Array[N], y: Array[N], buffer: ArrayBuffer[(N, N)]) = {
     for i <- 0 until x.size do {
       val j = y.indexOf(x(i))
@@ -25,7 +27,7 @@ trait PowerProduct[N : {Numeric as numeric, ClassTag}] extends ArrayPowerProduct
     }
     buffer
   }
-  override def lcm(x: Array[N], y: Array[N]) = lcm(x, y, emptybuffer).array
+  def lcm(x: Array[N], y: Array[N]) = lcm(x, y, emptybuffer).array
   def lcm(x: Array[N], y: Array[N], buffer: ArrayBuffer[(N, N)]) = {
     var i = 0
     var j = 0
@@ -97,19 +99,10 @@ trait PowerProduct[N : {Numeric as numeric, ClassTag}] extends ArrayPowerProduct
     }
     buffer
   }
-  def convert(x: Array[N], from: ArrayPowerProduct[N], buffer: ArrayBuffer[(N, N)]) = {
-    val index = from.variables.map(a => variables.indexOf(a))
-    for i <- 0 until x.size do {
-      val c = index(numeric.toInt(x(i)))
-      assert (c > -1)
-      buffer += ((numeric.fromInt(c), x.get(i)))
-    }
-    buffer.sortBy((s, _) => s)
-  }
   extension (x: Array[N]) {
-    override def multiply(y: Array[N]) = this.multiply(x, y, emptybuffer).array
-    override def divide(y: Array[N]) = this.divide(x, y, emptybuffer).array
-    override def factorOf(y: Array[N]) = boundary {
+    def multiply(y: Array[N]) = this.multiply(x, y, emptybuffer).array
+    def divide(y: Array[N]) = this.divide(x, y, emptybuffer).array
+    def factorOf(y: Array[N]) = boundary {
       for i <- 0 until x.size do {
         val j = y.indexOf(x(i))
         val c = if j > -1 then y.get(j) else numeric.zero
@@ -117,10 +110,9 @@ trait PowerProduct[N : {Numeric as numeric, ClassTag}] extends ArrayPowerProduct
       }
       true
     }
-    override def projection(n: Int, m: Int) = this.projection(x, n, m, emptybuffer).array
-    override def convert(from: ArrayPowerProduct[N]): Array[N] = this.convert(x, from, emptybuffer).array
-    override def dependencyOnVariables = x.map(n => numeric.toInt(n))
-    override def toCode(level: Level, times: String) = {
+    def projection(n: Int, m: Int) = this.projection(x, n, m, emptybuffer).array
+    def dependencyOnVariables = x.map(n => numeric.toInt(n))
+    def toCode(level: Level, times: String) = {
       var s = "1"
       var m = 0
       for i <- 0 until x.size do {
@@ -132,7 +124,7 @@ trait PowerProduct[N : {Numeric as numeric, ClassTag}] extends ArrayPowerProduct
       }
       s
     }
-    override def toMathML(times: String) = {
+    def toMathML(times: String) = {
       var s = "<cn>1</cn>"
       var m = 0
       for i <- 0 until x.size do {
@@ -145,8 +137,9 @@ trait PowerProduct[N : {Numeric as numeric, ClassTag}] extends ArrayPowerProduct
       s
     }
     def middle = x.length >> 1
-    override def size = x.middle
-    override def deg = {
+    def size = x.middle
+    def degree = BigInteger.fromInt(deg.toLong)
+    def deg = {
       var d = numeric.zero
       for i <- 0 until x.size do d += x.get(i)
       d
@@ -164,8 +157,7 @@ trait PowerProduct[N : {Numeric as numeric, ClassTag}] extends ArrayPowerProduct
         else n
       }
     }
-    override def get(i: Int) = x(i + x.middle)
-    override def set(i: Int, c: N) = ???
+    def get(i: Int) = x(i + x.middle)
   }
   extension (buffer: ArrayBuffer[(N, N)]) {
     def array = (buffer.map(_._1) ++ buffer.map(_._2)).toArray

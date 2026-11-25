@@ -30,11 +30,6 @@ trait PowerProduct[N : Numeric as numeric] extends scas.power.sparse.PowerProduc
     super.projection(x, n, m, buffer)
     buffer.withdeg
   }
-  override def convert(x: Array[N], from: ArrayPowerProduct[N], buffer: ArrayBuffer[(N, N)]) = {
-    super.convert(x, from, buffer)
-    assert (buffer.array.deg == x.deg)
-    buffer.withdeg(x.deg)
-  }
   extension (x: Array[N]) {
     override def size = super.size(x) - 1
     override def deg = x.get(x.size)
