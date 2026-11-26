@@ -9,7 +9,6 @@ import scas.polynomial.tree.growable.PolynomialOverFieldWithGB
 import scas.power.growable.{ArrayPowerProduct, Lexicographic}
 import scas.structure.commutative.Field
 import scas.util.{Conversion, unary_~}
-import scas.base.BigInteger.given
 import scas.variable.Variable
 import AlgebraicNumber.Conv
 
