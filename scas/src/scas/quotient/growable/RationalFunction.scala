@@ -7,5 +7,6 @@ import scas.polynomial.ufd.growable.PolynomialOverUFD
 import scas.base.BigInteger
 
 class RationalFunction[N : {Numeric, ClassTag}](using PolynomialOverUFD[Element[Array[N]], BigInteger, Array[N]]) extends scas.quotient.RationalFunction.Impl[Array[N]] {
+  def this(ring: PolynomialOverUFD[Element[Array[N]], BigInteger, Array[N]]) = this(using summon, summon, ring)
   override given ring: PolynomialOverUFD[Element[Array[N]], BigInteger, Array[N]] = summon
 }
