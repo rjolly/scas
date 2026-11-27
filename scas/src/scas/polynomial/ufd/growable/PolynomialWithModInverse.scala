@@ -1,4 +1,4 @@
-package scas.polynomial.growable.ufd
+package scas.polynomial.ufd.growable
 
 import scas.structure.commutative.Field
 

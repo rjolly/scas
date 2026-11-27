@@ -4,7 +4,7 @@ import scala.compiletime.deferred
 import scala.reflect.ClassTag
 import scas.math.Numeric
 import scas.polynomial.TreePolynomial.Element
-import scas.polynomial.growable.ufd.PolynomialWithModInverse
+import scas.polynomial.ufd.growable.PolynomialWithModInverse
 import scas.polynomial.tree.growable.PolynomialOverFieldWithGB
 import scas.power.growable.{ArrayPowerProduct, Lexicographic}
 import scas.structure.commutative.Field

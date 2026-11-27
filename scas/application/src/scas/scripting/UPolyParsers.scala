@@ -3,7 +3,7 @@ package scas.scripting
 import Parsers.*
 import scala.annotation.nowarn
 import scala.compiletime.deferred
-import scas.polynomial.growable.ufd.PolynomialOverUFD
+import scas.polynomial.ufd.growable.PolynomialOverUFD
 import scas.base.Rational
 
 class UPolyParsers(using PolynomialOverUFD[UPoly, Rational, Array[Int]]) extends UFDParsers[UPoly] {

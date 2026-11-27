@@ -1,4 +1,4 @@
-package scas.polynomial.growable.ufd
+package scas.polynomial.ufd.growable
 
 import scas.polynomial.growable.Polynomial
 import scas.structure.commutative.UniqueFactorizationDomain

@@ -1,4 +1,4 @@
-package scas.polynomial.growable.ufd
+package scas.polynomial.ufd.growable
 
 import scala.compiletime.deferred
 import scas.power.growable.PowerProduct
