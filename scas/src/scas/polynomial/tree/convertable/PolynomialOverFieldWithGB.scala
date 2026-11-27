@@ -2,7 +2,7 @@ package scas.polynomial.tree.convertable
 
 import scala.reflect.ClassTag
 import scas.math.Numeric
-import scas.power.ArrayPowerProduct
+import scas.power.splitable.ArrayPowerProduct
 import scas.structure.commutative.{Field, UniqueFactorizationDomain}
 import scas.polynomial.TreePolynomial
 import scas.polynomial.tree.PolynomialWithGB.Element

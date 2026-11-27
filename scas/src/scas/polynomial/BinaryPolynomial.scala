@@ -5,7 +5,7 @@ import scala.annotation.targetName
 import scas.power.compact.binary.PowerProduct
 import scas.base.BigInteger.given
 
-trait BinaryPolynomial[T, C] extends ConvertablePolynomial[T, C, Int] {
+trait BinaryPolynomial[T, C] extends Polynomial[T, C, Array[Int]] {
   given pp: PowerProduct = deferred
   def apply(d: Int): T = this((pp.generator(d), ring.zero))
   override def normalize(x: T) = {

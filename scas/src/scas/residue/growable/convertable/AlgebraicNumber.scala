@@ -5,7 +5,7 @@ import scala.reflect.ClassTag
 import scas.math.Numeric
 import scas.polynomial.tree.PolynomialWithGB.Element
 import scas.polynomial.ufd.growable.convertable.PolynomialOverFieldWithGB
-import scas.power.growable.{ArrayPowerProduct, Lexicographic}
+import scas.power.growable.splitable.{ArrayPowerProduct, Lexicographic}
 import scas.structure.commutative.Field
 import scas.util.{Conversion, unary_~}
 import scas.variable.Variable

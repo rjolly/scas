@@ -2,7 +2,7 @@ package scas.polynomial.tree.growable.convertable
 
 import scala.reflect.ClassTag
 import scas.math.Numeric
-import scas.power.growable.ArrayPowerProduct
+import scas.power.growable.splitable.ArrayPowerProduct
 import scas.structure.commutative.{Field, UniqueFactorizationDomain}
 import scas.polynomial.TreePolynomial
 import scas.polynomial.tree.PolynomialWithGB.Element
@@ -11,5 +11,5 @@ class PolynomialOverFieldWithGB[C, N : {Numeric, ClassTag}](using Field[C], Arra
   def this(ring: Field[C], pp: ArrayPowerProduct[N]) = this(using summon, summon, ring, pp)
   given instance: PolynomialOverFieldWithGB[C, N] = this
   def newInstance = [M] => (pp) => new scas.polynomial.tree.PolynomialOverFieldWithGB(using ring, pp)
-  def newInstance(pp: scas.power.ArrayPowerProduct[N]) = new scas.polynomial.tree.convertable.PolynomialOverFieldWithGB(ring, pp)
+  def newInstance(pp: scas.power.splitable.ArrayPowerProduct[N]) = new scas.polynomial.tree.convertable.PolynomialOverFieldWithGB(ring, pp)
 }
