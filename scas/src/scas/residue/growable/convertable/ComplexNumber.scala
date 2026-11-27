@@ -1,4 +1,4 @@
-package scas.residue.growable
+package scas.residue.growable.convertable
 
 import scas.base.{BigInteger, Rational, Complex}
 import BigInteger.given

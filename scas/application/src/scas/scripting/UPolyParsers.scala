@@ -3,11 +3,11 @@ package scas.scripting
 import Parsers.*
 import scala.annotation.nowarn
 import scala.compiletime.deferred
-import scas.polynomial.ufd.growable.PolynomialOverUFD
+import scas.polynomial.ufd.growable.convertable.PolynomialOverUFD
 import scas.base.Rational
 
-class UPolyParsers(using PolynomialOverUFD[UPoly, Rational, Array[Int]]) extends UFDParsers[UPoly] {
-  override given structure: PolynomialOverUFD[UPoly, Rational, Array[Int]] = summon
+class UPolyParsers(using PolynomialOverUFD[UPoly, Rational, Int]) extends UFDParsers[UPoly] {
+  override given structure: PolynomialOverUFD[UPoly, Rational, Int] = summon
   def variables = structure.pp.variables
   var index = -1
   def generator: Parser[UPoly] = Var.parser ^^ {

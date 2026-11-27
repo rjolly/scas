@@ -2,7 +2,7 @@ package scas.scripting
 
 import Parsers.*
 import scala.annotation.nowarn
-import scas.residue.growable.ComplexNumber
+import scas.residue.growable.convertable.ComplexNumber
 import scas.base.Complex
 
 class CNParsers(dummy: Boolean) extends FieldParsers[Complex] {
